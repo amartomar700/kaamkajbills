@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Single ID Card Generator (Multi-Theme & QR) - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  /* Theme Selector Pills */
+  .theme-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .theme-btn {
+    padding: 8px 12px;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+  }
+  .theme-btn.active { border-color: var(--ink); background: #f8fafc; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+
+  /* Signature Pad */
+  .sig-wrap { background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px; }
+  #sigCanvas {
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    background: #fff;
+    cursor: crosshair;
+    touch-action: none;
+    width: 100%;
+    max-width: 240px;
+    height: 55px;
+    display: block;
+  }
+  .btn-sm { background: #64748b; color: #fff; border: none; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+
+  /* CR80 Standard Vertical ID Card (240px x 380px scaled nicely for preview) */
+  .cards-stage {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: #ffffff;
+    padding: 24px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    width: 100%;
+  }
+
+  .id-card {
+    width: 230px;
+    height: 365px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .card-top {
+    padding: 14px 10px 26px 10px;
+    text-align: center;
+    color: #ffffff;
+    clip-path: ellipse(125% 100% at 50% 0%);
+  }
+  .card-top h3 { margin: 0; font-size: 13.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.2; }
+  .card-top p { margin: 3px 0 0; font-size: 9px; opacity: 0.9; }
+
+  .photo-ring {
+    width: 86px;
+    height: 98px;
+    margin: -22px auto 6px auto;
+    border-radius: 8px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+    overflow: hidden;
+    background: #e2e8f0;
+    position: relative;
+    z-index: 2;
+  }
+  .photo-ring img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+
+  .card-body { padding: 2px 12px; text-align: center; flex: 1; }
+  .emp-name { margin: 2px 0; font-size: 14.5px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .emp-role {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .info-list { text-align: left; font-size: 9.5px; line-height: 1.55; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 6px; }
+  .info-list div { display: flex; justify-content: space-between; }
+  .info-list b { color: #0f172a; }
+
+  .card-bottom {
+    padding: 6px 12px 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid #f1f5f9;
+  }
+  .qr-box img { width: 42px; height: 42px; display: block; }
+  .auth-sig { text-align: center; font-size: 8px; font-weight: 700; color: #475569; }
+  .auth-sig img { max-height: 24px; max-width: 75px; display: block; margin: 0 auto 1px; }
+
+  /* Back Side Card */
+  .back-top { padding: 10px; text-align: center; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; }
+  .back-body { padding: 12px; font-size: 9.5px; color: #334155; line-height: 1.5; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .back-rules { padding-left: 14px; margin: 4px 0; }
+  .back-rules li { margin-bottom: 4px; }
+  .back-footer { padding: 8px 10px; text-align: center; color: #fff; font-size: 9px; font-weight: 700; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Multi-Theme ID Card Maker</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Select Card Color Theme</div>
+    <div class="theme-bar">
+      <button type="button" class="theme-btn active" onclick="setTheme('#0284c7', '#0369a1', this)"><span class="dot" style="background:#0284c7;"></span> Royal Blue</button>
+      <button type="button" class="theme-btn" onclick="setTheme('#0f172a', '#334155', this)"><span class="dot" style="background:#0f172a;"></span> Corporate Dark</button>
+      <button type="button" class="theme-btn" onclick="setTheme('#15803d', '#166534', this)"><span class="dot" style="background:#15803d;"></span> Emerald Green</button>
+      <button type="button" class="theme-btn" onclick="setTheme('#b91c1c', '#991b1b', this)"><span class="dot" style="background:#b91c1c;"></span> Crimson Red</button>
+      <button type="button" class="theme-btn" onclick="setTheme('#7c3aed', '#5b21b6', this)"><span class="dot" style="background:#7c3aed;"></span> Royal Purple</button>
+    </div>
+
+    <div class="section-badge">2. Organization / Company / School Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Company / Institute Name</label><input type="text" id="in_org" placeholder="उदा. Maruthi Technologies" oninput="renderCard()"></div>
+      <div class="field"><label>Tagline / Department</label><input type="text" id="in_tag" placeholder="उदा. Technical & Security Services" oninput="renderCard()"></div>
+    </div>
+
+    <div class="section-badge">3. Holder Personal & Photo Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Full Name (पूरा नाम)</label><input type="text" id="in_name" placeholder="उदा. Amar Singh Tomar" oninput="renderCard()"></div>
+      <div class="field"><label>Designation / Course / Role</label><input type="text" id="in_role" placeholder="उदा. Senior Technical Analyst" oninput="renderCard()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Employee / Roll No.</label><input type="text" id="in_id" placeholder="उदा. MT-101" oninput="renderCard()"></div>
+      <div class="field"><label>Blood Group</label><input type="text" id="in_bg" placeholder="उदा. B+" oninput="renderCard()"></div>
+      <div class="field"><label>Valid Upto</label><input type="text" id="in_val" placeholder="उदा. Dec 2028" oninput="renderCard()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Mobile / Emergency Contact</label><input type="text" id="in_mob" placeholder="उदा. +91 98XXXXXXXX" oninput="renderCard()"></div>
+      <div class="field"><label>Upload Passport Photo</label><input type="file" accept="image/*" onchange="loadPhoto(event)"></div>
+    </div>
+
+    <div class="section-badge">4. Back Side Info & Authorized Signature</div>
+    <div class="grid-2">
+      <div class="field"><label>Emergency Contact Person</label><input type="text" id="in_emg" placeholder="उदा. Munal / Vishal (98XXXXXXXX)" oninput="renderCard()"></div>
+      <div class="field"><label>Website / Helpline Email</label><input type="text" id="in_web" placeholder="उदा. www.kaamkajbills.in" oninput="renderCard()"></div>
+    </div>
+
+    <div class="field">
+      <label>Draw Authorized Signature (हस्ताक्षर):</label>
+      <div class="sig-wrap">
+        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download A4 PDF (Front + Back)</button>
+      <button type="button" class="btn btn-print" onclick="printCard()">🖨️ Direct Print Card</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE FRONT & BACK CARD PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live Front & Back Card Preview (CR80 Standard)</div>
+    <div class="cards-stage" id="printStage">
+      
+      <!-- FRONT CARD -->
+      <div class="id-card" id="frontCard">
+        <div class="card-top" id="cTop" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
+          <h3 id="out_org">MARUTHI TECHNOLOGIES</h3>
+          <p id="out_tag">Technical & Security Services</p>
+        </div>
+
+        <div class="photo-ring">
+          <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%23e2e8f0'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
+        </div>
+
+        <div class="card-body">
+          <div class="emp-name" id="out_name">AMAR SINGH TOMAR</div>
+          <div class="emp-role" id="out_role" style="background:#0284c7;">TECHNICAL ANALYST</div>
+
+          <div class="info-list">
+            <div><span>ID Number:</span><b id="out_id">MT-101</b></div>
+            <div><span>Blood Group:</span><b id="out_bg">B+</b></div>
+            <div><span>Mobile No:</span><b id="out_mob">+91 98XXXXXXXX</b></div>
+            <div><span>Valid Upto:</span><b id="out_val">Dec 2028</b></div>
+          </div>
+        </div>
+
+        <div class="card-bottom">
+          <div class="qr-box"><img id="out_qr" src="" alt="QR"></div>
+          <div class="auth-sig">
+            <img id="out_sig" style="display:none;" alt="Sign">
+            <div style="border-top:1px solid #64748b; padding-top:2px;">Authorized Signatory</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BACK CARD -->
+      <div class="id-card" id="backCard">
+        <div class="back-top" id="bTop" style="background:#0284c7;">TERMS & EMERGENCY INFO</div>
+        <div class="back-body">
+          <div>
+            <b>Instructions:</b>
+            <ul class="back-rules">
+              <li>This card is the property of the issuing organization and must be worn while on duty.</li>
+              <li>Non-transferable. Loss of card must be reported immediately.</li>
+              <li>If found, please return to the helpline below.</li>
+            </ul>
+            <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:6px;border-radius:6px;margin-top:6px;">
+              <b>Emergency Contact:</b><br>
+              <span id="out_emg">Munal / Vishal (98XXXXXXXX)</span>
+            </div>
+          </div>
+
+          <div style="text-align:center;font-size:8.5px;color:#64748b;">
+            Scan front QR code to verify holder credentials.
+          </div>
+        </div>
+        <div class="back-footer" id="bBot" style="background:#0369a1;">
+          <span id="out_web">www.kaamkajbills.in</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  let c1 = '#0284c7', c2 = '#0369a1';
+
+  function setTheme(primary, dark, btn) {
+    c1 = primary; c2 = dark;
+    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('cTop').style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
+    document.getElementById('out_role').style.background = c1;
+    document.getElementById('bTop').style.background = c1;
+    document.getElementById('bBot').style.background = c2;
+  }
+
+  function loadPhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => { document.getElementById('out_photo').src = ev.target.result; };
+    reader.readAsDataURL(file);
+  }
+
+  function renderCard() {
+    const org = document.getElementById('in_org').value.trim() || 'MARUTHI TECHNOLOGIES';
+    const tag = document.getElementById('in_tag').value.trim() || 'Technical & Security Services';
+    const name = document.getElementById('in_name').value.trim() || 'AMAR SINGH TOMAR';
+    const role = document.getElementById('in_role').value.trim() || 'TECHNICAL ANALYST';
+    const id = document.getElementById('in_id').value.trim() || 'MT-101';
+    const bg = document.getElementById('in_bg').value.trim() || 'B+';
+    const val = document.getElementById('in_val').value.trim() || 'Dec 2028';
+    const mob = document.getElementById('in_mob').value.trim() || '+91 98XXXXXXXX';
+    const emg = document.getElementById('in_emg').value.trim() || 'Munal / Vishal (98XXXXXXXX)';
+    const web = document.getElementById('in_web').value.trim() || 'www.kaamkajbills.in';
+
+    document.getElementById('out_org').innerText = org;
+    document.getElementById('out_tag').innerText = tag;
+    document.getElementById('out_name').innerText = name;
+    document.getElementById('out_role').innerText = role;
+    document.getElementById('out_id').innerText = id;
+    document.getElementById('out_bg').innerText = bg;
+    document.getElementById('out_val').innerText = val;
+    document.getElementById('out_mob').innerText = mob;
+    document.getElementById('out_emg').innerText = emg;
+    document.getElementById('out_web').innerText = web;
+
+    const qrData = encodeURIComponent(`Name: ${name} | ID: ${id} | Org: ${org} | Mob: ${mob}`);
+    document.getElementById('out_qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${qrData}`;
+  }
+
+  // Signature Pad
+  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
+  let draw = false;
+  function pos(e) {
+    const r = cvs.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  cvs.addEventListener('mousedown', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  cvs.addEventListener('touchstart', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
+  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
+
+  function downloadPDF() {
+    const stage = document.getElementById('printStage');
+    html2pdf().set({
+      margin: [10, 10, 10, 10],
+      filename: `IDCard_${document.getElementById('in_name').value.trim() || 'Holder'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(stage).save();
+  }
+
+  function printCard() {
+    const w = window.open('', '_blank', 'width=800,height=700');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print ID Card</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:20px;display:flex;gap:20px;justify-content:center}
+      .id-card{width:230px;height:365px;border-radius:12px;overflow:hidden;border:1.5px solid #cbd5e1;display:flex;flex-direction:column;justify-content:space-between;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .card-top{padding:14px 10px 26px;text-align:center;color:#fff;clip-path:ellipse(125% 100% at 50% 0%)}
+      .card-top h3{margin:0;font-size:13.5px;text-transform:uppercase}.card-top p{margin:3px 0 0;font-size:9px}
+      .photo-ring{width:86px;height:98px;margin:-22px auto 6px;border-radius:8px;border:3px solid #fff;overflow:hidden;position:relative;z-index:2}
+      .photo-ring img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+      .card-body{padding:2px 12px;text-align:center;flex:1}.emp-name{margin:2px 0;font-size:14.5px;font-weight:900}
+      .emp-role{display:inline-block;padding:2px 10px;border-radius:20px;font-size:9.5px;font-weight:800;color:#fff;margin-bottom:8px}
+      .info-list{text-align:left;font-size:9.5px;line-height:1.55;border-top:1px dashed #cbd5e1;padding-top:6px}
+      .info-list div{display:flex;justify-content:space-between}
+      .card-bottom{padding:6px 12px 8px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #f1f5f9}
+      .qr-box img{width:42px;height:42px}.auth-sig{text-align:center;font-size:8px;font-weight:700}.auth-sig img{max-height:24px;display:block;margin:0 auto 1px}
+      .back-top{padding:10px;text-align:center;color:#fff;font-size:11px;font-weight:800}.back-body{padding:12px;font-size:9.5px;line-height:1.5;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+      .back-rules{padding-left:14px;margin:4px 0}.back-footer{padding:8px 10px;text-align:center;color:#fff;font-size:9px;font-weight:700}
+    </style></head><body>${document.getElementById('printStage').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
+  }
+
+  window.onload = renderCard;
+</script>
+</body>
+</html>
