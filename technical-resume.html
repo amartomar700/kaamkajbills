@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Technical & Engineering Resume Builder - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #0284c7;
+    --accent-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--accent); border-color: var(--accent); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  textarea { resize: vertical; min-height: 62px; }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+  }
+
+  .section-badge {
+    background: var(--accent-soft);
+    color: #0369a1;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--accent);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 34% 66%;
+    min-height: 760px;
+  }
+
+  /* Left Dark Sidebar in CV */
+  .cv-side {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .side-photo {
+    width: 84px;
+    height: 98px;
+    margin: 0 auto;
+    border-radius: 8px;
+    border: 2.5px solid #38bdf8;
+    overflow: hidden;
+  }
+  .side-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+
+  .side-sec-title {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: #38bdf8;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    padding-bottom: 3px;
+    margin-bottom: 6px;
+  }
+  .side-text { font-size: 9.8px; line-height: 1.5; color: #cbd5e1; word-break: break-word; white-space: pre-line; }
+  .tech-tag {
+    display: inline-block;
+    background: rgba(56, 189, 248, 0.16);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #e0f2fe;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    margin: 2px 2px 2px 0;
+  }
+
+  /* Right Main Column in CV */
+  .cv-main {
+    padding: 22px 20px;
+    background: #ffffff;
+    color: #1e293b;
+  }
+  .cv-main-header { border-bottom: 2.5px solid #0284c7; padding-bottom: 10px; margin-bottom: 12px; }
+  .cv-main-header h1 { margin: 0; font-size: 20px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.4px; }
+  .cv-main-header .sub-role { font-size: 11.5px; font-weight: 800; color: #0284c7; margin-top: 3px; text-transform: uppercase; }
+
+  .main-sec { margin-bottom: 13px; }
+  .main-sec-title {
+    font-size: 11px;
+    font-weight: 900;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    background: #f1f5f9;
+    border-left: 3.5px solid #0284c7;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+  }
+  .main-text { font-size: 10.5px; line-height: 1.55; color: #334155; margin: 0; white-space: pre-line; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    #a4DocSheet { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Technical & Engineering Resume</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Engineer / Technical Profile & Photo</div>
+    <div class="grid-2">
+      <div class="field"><label>Full Name</label><input type="text" id="in_name" value="Amar Singh Tomar" oninput="renderCV()"></div>
+      <div class="field"><label>Technical Role / Specialization</label><input type="text" id="in_role" value="Network Engineer & Technical Systems Analyst" oninput="renderCV()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Mobile / WhatsApp</label><input type="text" id="in_mob" value="+91 98XXXXXXXX" oninput="renderCV()"></div>
+      <div class="field"><label>Email ID</label><input type="text" id="in_email" value="amar.tech@email.com" oninput="renderCV()"></div>
+      <div class="field"><label>Location</label><input type="text" id="in_city" value="Pune, Maharashtra" oninput="renderCV()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>GitHub / Portfolio / LinkedIn URL</label><input type="text" id="in_links" value="github.com/amartomar700" oninput="renderCV()"></div>
+      <div class="field"><label>Upload Profile Photo</label><input type="file" accept="image/*" onchange="loadPhoto(event)"></div>
+    </div>
+
+    <div class="section-badge">2. Technical Skills & Tools Stack</div>
+    <div class="grid-2">
+      <div class="field"><label>Core Tech / Networking / Hardware</label><input type="text" id="in_tech1" value="CCNA Routing & Switching, LAN/WAN, Hikvision/CP Plus IP CCTV, NVR/DVR, PoE, Biometric Access" oninput="renderCV()"></div>
+      <div class="field"><label>Software / Scripting / Automation</label><input type="text" id="in_tech2" value="Python, HTML/CSS/JS, PowerShell, Windows Batch, Google Apps Script, ABB e-Design" oninput="renderCV()"></div>
+    </div>
+
+    <div class="section-badge">3. Summary, Experience & Key Technical Projects</div>
+    <div class="field">
+      <label>Technical Summary</label>
+      <textarea id="in_summary" oninput="renderCV()">Results-driven Technical Analyst and Network Infrastructure Specialist with hands-on expertise in enterprise IP surveillance, structured LAN networking, electrical systems, and custom workflow automation tools.</textarea>
+    </div>
+
+    <div class="field">
+      <label>Work Experience</label>
+      <textarea id="in_exp" style="min-height:85px;" oninput="renderCV()">Technical Analyst & Proprietor — Maruthi Technologies, Pune (Present)
+• Designed and deployed end-to-end IP CCTV, biometric access control, and structured LAN setups for commercial & residential sites.
+• Built custom browser-based billing & operational utilities to streamline field workflows.</textarea>
+    </div>
+
+    <div class="field">
+      <label>Key Technical & Software Projects</label>
+      <textarea id="in_proj" style="min-height:85px;" oninput="renderCV()">• KaamKaj Bills Portal: Developed a 27-tool multi-language business invoicing, ID card, and receipt web suite.
+• VeyroCam RTSP Virtual Bridge: Engineered a Windows DirectShow utility to route Hikvision RTSP camera feeds as virtual webcams.
+• Enterprise IP Surveillance & Solar Integrations: Executed multi-site PoE network architectures and on-grid solar electrical audits.</textarea>
+    </div>
+
+    <div class="section-badge">4. Certifications & Education</div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Certifications & Training</label>
+        <textarea id="in_cert" oninput="renderCV()">• CCNA Enterprise Networking Training
+• CP Plus & Hikvision IP Surveillance Certified
+• Electrical Wiring & Solar Design Specialist</textarea>
+      </div>
+      <div class="field">
+        <label>Academic Education</label>
+        <textarea id="in_edu" oninput="renderCV()">• Diploma / Degree in Electronics & Technical Studies
+• Higher Secondary & Technical ITI Certification</textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download Technical Resume PDF</button>
+      <button type="button" class="btn btn-print" onclick="printCV()">🖨️ Direct Print Resume</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE TWO-COLUMN TECHNICAL RESUME PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live A4 Engineering & Technical Resume</div>
+    <div id="a4DocSheet">
+      
+      <!-- SIDEBAR -->
+      <div class="cv-side">
+        <div class="side-photo">
+          <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%231e293b'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
+        </div>
+
+        <div>
+          <div class="side-sec-title">Contact & Links</div>
+          <div class="side-text" id="out_contact"></div>
+        </div>
+
+        <div>
+          <div class="side-sec-title">Core Infrastructure</div>
+          <div id="out_tech1"></div>
+        </div>
+
+        <div>
+          <div class="side-sec-title">Code & Automation</div>
+          <div id="out_tech2"></div>
+        </div>
+
+        <div>
+          <div class="side-sec-title">Certifications</div>
+          <div class="side-text" id="out_cert"></div>
+        </div>
+      </div>
+
+      <!-- MAIN BODY -->
+      <div class="cv-main">
+        <div class="cv-main-header">
+          <h1 id="out_name">AMAR SINGH TOMAR</h1>
+          <div class="sub-role" id="out_role">NETWORK ENGINEER & TECHNICAL SYSTEMS ANALYST</div>
+        </div>
+
+        <div class="main-sec">
+          <div class="main-sec-title">Technical Profile</div>
+          <p class="main-text" id="out_summary"></p>
+        </div>
+
+        <div class="main-sec">
+          <div class="main-sec-title">Key Engineering & Software Projects</div>
+          <p class="main-text" id="out_proj"></p>
+        </div>
+
+        <div class="main-sec">
+          <div class="main-sec-title">Professional Experience</div>
+          <p class="main-text" id="out_exp"></p>
+        </div>
+
+        <div class="main-sec">
+          <div class="main-sec-title">Education</div>
+          <p class="main-text" id="out_edu"></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function loadPhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => { document.getElementById('out_photo').src = ev.target.result; };
+    reader.readAsDataURL(file);
+  }
+
+  function renderTags(str) {
+    return str.split(',').filter(s => s.trim()).map(s => `<span class="tech-tag">${s.trim()}</span>`).join('');
+  }
+
+  function renderCV() {
+    document.getElementById('out_name').innerText = document.getElementById('in_name').value.trim() || 'ENGINEER NAME';
+    document.getElementById('out_role').innerText = document.getElementById('in_role').value.trim() || 'TECHNICAL ROLE';
+
+    const mob = document.getElementById('in_mob').value.trim();
+    const email = document.getElementById('in_email').value.trim();
+    const city = document.getElementById('in_city').value.trim();
+    const links = document.getElementById('in_links').value.trim();
+    document.getElementById('out_contact').innerText = `📞 ${mob}\n✉️ ${email}\n📍 ${city}\n🔗 ${links}`;
+
+    document.getElementById('out_tech1').innerHTML = renderTags(document.getElementById('in_tech1').value);
+    document.getElementById('out_tech2').innerHTML = renderTags(document.getElementById('in_tech2').value);
+    document.getElementById('out_cert').innerText = document.getElementById('in_cert').value;
+
+    document.getElementById('out_summary').innerText = document.getElementById('in_summary').value;
+    document.getElementById('out_proj').innerText = document.getElementById('in_proj').value;
+    document.getElementById('out_exp').innerText = document.getElementById('in_exp').value;
+    document.getElementById('out_edu').innerText = document.getElementById('in_edu').value;
+  }
+
+  function downloadPDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:720px;margin:0 auto;border:none;box-shadow:none;display:grid;grid-template-columns:34% 66%;min-height:1020px;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [0, 0, 0, 0],
+      filename: `TechResume_${document.getElementById('in_name').value.trim() || 'Engineer'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 720, windowWidth: 720 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printCV() {
+    const w = window.open('', '_blank', 'width=850,height=950');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Technical Resume</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .sheet{display:grid;grid-template-columns:34% 66%;min-height:296mm}
+      .cv-side{background:#0f172a;color:#f8fafc;padding:20px 14px;display:flex;flex-direction:column;gap:14px}
+      .side-photo{width:84px;height:98px;margin:0 auto;border-radius:8px;border:2.5px solid #38bdf8;overflow:hidden}
+      .side-photo img{width:100%;height:100%;object-fit:cover}
+      .side-sec-title{font-size:10.5px;font-weight:800;color:#38bdf8;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.18);padding-bottom:3px;margin-bottom:6px}
+      .side-text{font-size:9.8px;line-height:1.5;color:#cbd5e1;white-space:pre-line}
+      .tech-tag{display:inline-block;background:rgba(56,189,248,0.16);border:1px solid rgba(56,189,248,0.4);color:#e0f2fe;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;margin:2px 2px 2px 0}
+      .cv-main{padding:22px 20px;background:#fff;color:#1e293b}
+      .cv-main-header{border-bottom:2.5px solid #0284c7;padding-bottom:10px;margin-bottom:12px}
+      .cv-main-header h1{margin:0;font-size:20px;text-transform:uppercase}.cv-main-header .sub-role{font-size:11.5px;font-weight:800;color:#0284c7;margin-top:3px;text-transform:uppercase}
+      .main-sec{margin-bottom:13px}.main-sec-title{font-size:11px;font-weight:900;text-transform:uppercase;background:#f1f5f9;border-left:3.5px solid #0284c7;padding:4px 8px;margin-bottom:6px}
+      .main-text{font-size:10.5px;line-height:1.55;margin:0;white-space:pre-line}
+    </style></head><body><div class="sheet">${document.getElementById('a4DocSheet').innerHTML}</div></body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  window.onload = renderCV;
+</script>
+</body>
+</html>
