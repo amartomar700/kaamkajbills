@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dairy Milk & Mandi Farmer Slip - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #15803d;
+    --primary-dark: #166534;
+    --primary-soft: #dcfce7;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --danger: #dc2626;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .toggle-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .toggle-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(21, 128, 61, 0.28);
+  }
+
+  /* Table Controls */
+  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+  .items-input-table th {
+    text-align: left;
+    padding: 8px 6px;
+    color: var(--ink-muted);
+    font-weight: 800;
+    background: #f0fdf4;
+    border-bottom: 2px solid var(--border);
+  }
+  .items-input-table td { padding: 6px 4px; }
+  .btn-del-row {
+    background: #fee2e2;
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    width: 32px;
+    height: 36px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-del-row:hover { background: var(--danger); color: #fff; }
+  .btn-add-row {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border: 1.5px dashed var(--primary);
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #15803d, #166534); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #0284c7, #0369a1); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 24px 20px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .slip-box {
+    border: 1.5px solid #0f172a;
+    border-radius: 8px;
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+  .doc-biz p { margin: 3px 0 0; font-size: 11px; color: #475569; }
+  .doc-type-badge {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
+
+  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
+  .meta-table td { padding: 4px 6px; border: 1px solid #cbd5e1; }
+  .meta-table td.lbl { background: #f8fafc; font-weight: 700; color: #334155; width: 22%; }
+  .meta-table td.val { font-weight: 600; color: #0f172a; width: 28%; }
+
+  .doc-items-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
+  .doc-items-table th { background: #dcfce7; color: #166534; padding: 6px; text-align: left; font-weight: 800; border: 1px solid #86efac; }
+  .doc-items-table td { padding: 5.5px 6px; border: 1px solid #cbd5e1; font-weight: 600; }
+  .t-right { text-align: right !important; }
+  .t-center { text-align: center !important; }
+
+  .summary-wrap { display: flex; justify-content: flex-end; margin: 10px 0; }
+  .summary-table { font-size: 11.5px; border-collapse: collapse; min-width: 240px; }
+  .summary-table td { padding: 4px 8px; }
+  .summary-table .total-row td { background: #dcfce7; border-top: 2px solid var(--primary); font-size: 14.5px; font-weight: 800; color: #14532d; }
+
+  .notes-box { background: #f8fafc; border-left: 3.5px solid var(--primary); padding: 7px 10px; font-size: 10.5px; color: #334155; margin: 10px 0; }
+  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px; font-size: 10.5px; }
+  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Dairy & Mandi Farmer Slip</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div style="margin-bottom: 10px;">
+      <label>1. Slip Mode Chunein (पर्ची चुनें):</label>
+      <div class="toggle-bar">
+        <button type="button" class="toggle-btn active" id="btnMandi" onclick="setMode('MANDI')">🌾 Mandi Fasal Bikri Parchi (मंडी आढ़त पर्ची)</button>
+        <button type="button" class="toggle-btn" id="btnDairy" onclick="setMode('DAIRY')">🥛 Dairy Milk Collection Slip (दूध संकलन पर्ची)</button>
+      </div>
+    </div>
+
+    <div class="section-badge">1. Mandi Adhat / Dairy Center Details</div>
+    <div class="grid-2">
+      <div class="field"><label id="lbl_biz">Adhat Firm / Dairy Kendra Name</label><input type="text" id="in_biz" placeholder="उदा. Kisan Krishi Adhat / Gramin Dudh Sankalan Kendra" oninput="renderDoc()"></div>
+      <div class="field"><label>Mandi / Village Address & Mobile</label><input type="text" id="in_addr" placeholder="उदा. APMC Market Yard | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">2. Kisan (Farmer) Details</div>
+    <div class="grid-3">
+      <div class="field"><label>Parchi / Slip No. (Auto)</label><input type="text" id="in_slip_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field" id="wrap_shift" style="display:none;">
+        <label>Milk Shift / Cattle</label>
+        <select id="in_shift" onchange="renderDoc()">
+          <option value="Morning (सुबह) - Buffalo">Morning - Buffalo (भैंस)</option>
+          <option value="Evening (शाम) - Buffalo">Evening - Buffalo (भैंस)</option>
+          <option value="Morning (सुबह) - Cow">Morning - Cow (गाय)</option>
+          <option value="Evening (शाम) - Cow">Evening - Cow (गाय)</option>
+        </select>
+      </div>
+      <div class="field" id="wrap_vehicle"><label>Gaadi / Tractor No. (Optional)</label><input type="text" id="in_vehicle" placeholder="उदा. MH-12-AB-4510" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Kisan Name (किसान का नाम)</label><input type="text" id="in_farmer" placeholder="उदा. Balasaheb Shinde" oninput="renderDoc()"></div>
+      <div class="field"><label>Village & Mobile / WhatsApp</label><input type="text" id="in_phone" placeholder="उदा. 9876543210 (Gram: Wadgaon)" oninput="renderDoc()"></div>
+    </div>
+
+    <!-- MANDI SECTION -->
+    <div id="mandiSection">
+      <div class="section-badge">3. Fasal / Produce Weight & Auction Rate (फसल तौल व भाव)</div>
+      <div style="overflow-x: auto;">
+        <table class="items-input-table">
+          <thead>
+            <tr>
+              <th style="width: 34%;">Fasal / Commodity (फसल)</th>
+              <th style="width: 14%;">Bori (नग)</th>
+              <th style="width: 18%;">Net Weight (Quintal)</th>
+              <th style="width: 24%;">Rate / Quintal (₹)</th>
+              <th style="width: 10%;"></th>
+            </tr>
+          </thead>
+          <tbody id="mandiInputsBody"></tbody>
+        </table>
+      </div>
+      <button type="button" class="btn-add-row" onclick="addMandiRow()">+ Nayi Fasal Jodein</button>
+
+      <div class="section-badge">4. Mandi Expenses / Deductions (खर्च व कटौती ₹)</div>
+      <div class="grid-3">
+        <div class="field"><label>Hammali / Tulai (हम्माली/तुलाई ₹)</label><input type="number" id="in_hammali" placeholder="250" oninput="renderDoc()"></div>
+        <div class="field"><label>Adhat / Mandi Fee (₹)</label><input type="number" id="in_adhat" placeholder="0" oninput="renderDoc()"></div>
+        <div class="field"><label>Advance / Transport Cut (₹)</label><input type="number" id="in_adv_cut" placeholder="0" oninput="renderDoc()"></div>
+      </div>
+    </div>
+
+    <!-- DAIRY SECTION -->
+    <div id="dairySection" style="display:none;">
+      <div class="section-badge">3. Milk Quantity, FAT, SNF & Rate</div>
+      <div class="grid-4">
+        <div class="field"><label>Milk Qty (Litres)</label><input type="number" step="any" id="d_qty" placeholder="25.5" oninput="calcDairy()"></div>
+        <div class="field"><label>FAT (%)</label><input type="number" step="any" id="d_fat" placeholder="6.5" oninput="calcDairy()"></div>
+        <div class="field"><label>SNF (%)</label><input type="number" step="any" id="d_snf" placeholder="8.8" oninput="calcDairy()"></div>
+        <div class="field"><label>Rate / Litre (₹)</label><input type="number" step="any" id="d_rate" placeholder="54.00" oninput="calcDairy()"></div>
+      </div>
+      <div class="grid-2">
+        <div class="field"><label>Pashu Aahar / Advance Cut (₹)</label><input type="number" id="d_ded" placeholder="0" oninput="calcDairy()"></div>
+        <div class="field"><label>Payment Mode</label>
+          <select id="d_mode" onchange="renderDoc()">
+            <option value="Bank Account Transfer">Bank Account Transfer</option>
+            <option value="CASH Paid">CASH Paid (नकद भुगतान)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="field"><label>Remarks / Payment Note</label><input type="text" id="in_notes" placeholder="उदा. तौल व हिसाब सही पाया गया। भुगतान बैंक खाते / नकद द्वारा किया गया।" oninput="renderDoc()"></div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Parchi</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live Kisan Parchi Preview</div>
+    <div id="a4DocSheet">
+      <div class="slip-box" id="slipPreviewContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mode = 'MANDI';
+  let crops = [
+    { name: 'Soybean (सोयाबीन)', bags: 15, qtl: 14.50, rate: 4650 }
+  ];
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('btnMandi').classList.toggle('active', m === 'MANDI');
+    document.getElementById('btnDairy').classList.toggle('active', m === 'DAIRY');
+    document.getElementById('mandiSection').style.display = m === 'MANDI' ? 'block' : 'none';
+    document.getElementById('dairySection').style.display = m === 'DAIRY' ? 'block' : 'none';
+    document.getElementById('wrap_shift').style.display = m === 'DAIRY' ? 'flex' : 'none';
+    document.getElementById('wrap_vehicle').style.display = m === 'MANDI' ? 'flex' : 'none';
+    document.getElementById('in_slip_no').value = (m === 'MANDI' ? 'MND-' : 'DRY-') + Math.floor(100000 + Math.random() * 899990);
+    renderDoc();
+  }
+
+  function renderMandiRows() {
+    document.getElementById('mandiInputsBody').innerHTML = crops.map((c, i) => `
+      <tr>
+        <td><input value="${c.name}" oninput="crops[${i}].name=this.value;renderDoc()"></td>
+        <td><input type="number" value="${c.bags}" oninput="crops[${i}].bags=parseFloat(this.value)||0;renderDoc()"></td>
+        <td><input type="number" step="any" value="${c.qtl}" oninput="crops[${i}].qtl=parseFloat(this.value)||0;renderDoc()"></td>
+        <td><input type="number" step="any" value="${c.rate}" oninput="crops[${i}].rate=parseFloat(this.value)||0;renderDoc()"></td>
+        <td class="t-center"><button type="button" class="btn-del-row" onclick="delCrop(${i})">✕</button></td>
+      </tr>
+    `).join('');
+  }
+  function addMandiRow() { crops.push({ name: '', bags: 0, qtl: 0, rate: 0 }); renderMandiRows(); renderDoc(); }
+  function delCrop(i) { if (crops.length > 1) { crops.splice(i, 1); renderMandiRows(); renderDoc(); } }
+  function calcDairy() { renderDoc(); }
+
+  function renderDoc() {
+    const biz = document.getElementById('in_biz').value.trim() || (mode === 'MANDI' ? 'KISAN KRISHI ADHAT COMPANY' : 'GRAMIN DUDH SANKALAN KENDRA');
+    const addr = document.getElementById('in_addr').value.trim() || 'APMC Market Yard | Mob: 98XXXXXXXX';
+    const slipNo = document.getElementById('in_slip_no').value.trim() || '-';
+    const dt = document.getElementById('in_date').value || '-';
+    const farmer = document.getElementById('in_farmer').value.trim() || '-';
+    const ph = document.getElementById('in_phone').value.trim() || '-';
+    const notes = document.getElementById('in_notes').value.trim() || 'तौल व हिसाब सही पाया गया। धन्यवाद!';
+
+    if (mode === 'MANDI') {
+      const veh = document.getElementById('in_vehicle').value.trim() || '-';
+      let gross = 0;
+      const rows = crops.map((c, i) => {
+        const amt = (c.qtl || 0) * (c.rate || 0);
+        gross += amt;
+        return `<tr>
+          <td class="t-center">${i+1}</td>
+          <td>${c.name || '-'}</td>
+          <td class="t-center">${c.bags}</td>
+          <td class="t-center">${c.qtl} Qtl</td>
+          <td class="t-right">₹${c.rate.toLocaleString('en-IN')}</td>
+          <td class="t-right">₹${amt.toLocaleString('en-IN', {minimumFractionDigits:2})}</td>
+        </tr>`;
+      }).join('');
+
+      const ham = parseFloat(document.getElementById('in_hammali').value) || 0;
+      const adh = parseFloat(document.getElementById('in_adhat').value) || 0;
+      const adv = parseFloat(document.getElementById('in_adv_cut').value) || 0;
+      const totDed = ham + adh + adv;
+      const net = Math.max(0, gross - totDed);
+
+      document.getElementById('slipPreviewContent').innerHTML = `
+        <div class="doc-header">
+          <div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div>
+          <div class="doc-type-badge">MANDI KISAN PARCHI</div>
+        </div>
+        <table class="meta-table">
+          <tr><td class="lbl">Parchi No:</td><td class="val"><b>${slipNo}</b></td><td class="lbl">Date:</td><td class="val">${dt}</td></tr>
+          <tr><td class="lbl">Kisan Name:</td><td class="val"><b>${farmer}</b></td><td class="lbl">Village/Mob:</td><td class="val">${ph}</td></tr>
+          <tr><td class="lbl">Vehicle No:</td><td class="val" colspan="3">${veh}</td></tr>
+        </table>
+        <table class="doc-items-table">
+          <thead><tr><th class="t-center">#</th><th>Fasal (Commodity)</th><th class="t-center">Bori</th><th class="t-center">Net Wt</th><th class="t-right">Rate/Qtl</th><th class="t-right">Amount</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="summary-wrap">
+          <table class="summary-table">
+            <tr><td>Gross Fasal Total:</td><td class="t-right">₹${gross.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
+            ${ham > 0 ? `<tr style="color:#dc2626;"><td>Hammali / Tulai:</td><td class="t-right">-₹${ham.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
+            ${adh > 0 ? `<tr style="color:#dc2626;"><td>Adhat / Mandi Fee:</td><td class="t-right">-₹${adh.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
+            ${adv > 0 ? `<tr style="color:#dc2626;"><td>Advance / Transport Cut:</td><td class="t-right">-₹${adv.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
+            <tr class="total-row"><td>Net Kisan Payable:</td><td class="t-right">₹${net.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
+          </table>
+        </div>
+        <div class="notes-box"><b>Note:</b> ${notes}</div>
+        <div class="footer-sig-row"><div style="font-size:10px;color:#64748b;">Kisan Signature / अंगूठा</div><div class="sig-block">Munim / Adhat Authorized Sign</div></div>
+      `;
+    } else {
+      const shift = document.getElementById('in_shift').value;
+      const qty = parseFloat(document.getElementById('d_qty').value) || 0;
+      const fat = document.getElementById('d_fat').value || '-';
+      const snf = document.getElementById('d_snf').value || '-';
+      const rate = parseFloat(document.getElementById('d_rate').value) || 0;
+      const gross = qty * rate;
+      const ded = parseFloat(document.getElementById('d_ded').value) || 0;
+      const net = Math.max(0, gross - ded);
+      const pMode = document.getElementById('d_mode').value;
+
+      document.getElementById('slipPreviewContent').innerHTML = `
+        <div class="doc-header">
+          <div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div>
+          <div class="doc-type-badge">MILK COLLECTION SLIP</div>
+        </div>
+        <table class="meta-table">
+          <tr><td class="lbl">Slip No:</td><td class="val"><b>${slipNo}</b></td><td class="lbl">Date:</td><td class="val">${dt}</td></tr>
+          <tr><td class="lbl">Farmer Name:</td><td class="val"><b>${farmer}</b></td><td class="lbl">Mobile:</td><td class="val">${ph}</td></tr>
+          <tr><td class="lbl">Shift / Cattle:</td><td class="val" colspan="3">${shift}</td></tr>
+        </table>
+        <table class="doc-items-table">
+          <thead><tr><th class="t-center">Milk Qty (Ltr)</th><th class="t-center">FAT (%)</th><th class="t-center">SNF (%)</th><th class="t-right">Rate / Ltr</th><th class="t-right">Gross Amount</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="t-center"><b>${qty} Ltr</b></td>
+              <td class="t-center">${fat}%</td>
+              <td class="t-center">${snf}%</td>
+              <td class="t-right">₹${rate.toFixed(2)}</td>
+              <td class="t-right">₹${gross.toLocaleString('en-IN', {minimumFractionDigits:2})}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="summary-wrap">
+          <table class="summary-table">
+            <tr><td>Gross Milk Value:</td><td class="t-right">₹${gross.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
+            ${ded > 0 ? `<tr style="color:#dc2626;"><td>Feed / Advance Cut:</td><td class="t-right">-₹${ded.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
+            <tr class="total-row"><td>Net Payable (${pMode}):</td><td class="t-right">₹${net.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
+          </table>
+        </div>
+        <div class="notes-box"><b>Note:</b> ${notes}</div>
+        <div class="footer-sig-row"><div style="font-size:10px;color:#64748b;">Member / Kisan Sign</div><div class="sig-block">Dairy Secretary / Operator Sign</div></div>
+      `;
+    }
+  }
+
+  function downloadA4PDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [6, 6, 6, 6],
+      filename: `KisanSlip_${document.getElementById('in_slip_no').value || 'Parchi'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDocDirect() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Kisan Parchi</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
+      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px}
+      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #15803d;padding-bottom:8px;margin-bottom:10px}
+      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
+      .doc-type-badge{background:#15803d;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
+      .meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
+      .meta-table td{padding:4px 6px;border:1px solid #cbd5e1}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
+      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+      .doc-items-table th{background:#dcfce7;color:#166534;padding:5px;text-align:left;border:1px solid #86efac}
+      .doc-items-table td{padding:5px;border:1px solid #cbd5e1}.t-right{text-align:right}.t-center{text-align:center}
+      .summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}.summary-table{font-size:11px;border-collapse:collapse;min-width:230px}
+      .summary-table td{padding:2px 6px}.total-row td{background:#dcfce7;border-top:2px solid #15803d;font-size:13.5px;font-weight:800;color:#14532d}
+      .notes-box{background:#f8fafc;border-left:3px solid #15803d;padding:6px 8px;font-size:10px;margin:8px 0}
+      .footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}
+      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const biz = document.getElementById('in_biz').value.trim() || 'Mandi / Dairy';
+    const farmer = document.getElementById('in_farmer').value.trim() || 'Kisan';
+    const slipNo = document.getElementById('in_slip_no').value;
+    const msg = `*🌾 ${mode === 'MANDI' ? 'MANDI KISAN PARCHI' : 'DAIRY MILK SLIP'} (${slipNo})*\n*Center:* ${biz}\n*Kisan:* ${farmer}\n*Date:* ${document.getElementById('in_date').value}\n\n_Generated via KaamKaj Bills._`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_slip_no').value = 'MND-' + Math.floor(100000 + Math.random() * 899990);
+    renderMandiRows();
+    renderDoc();
+  };
+</script>
+</body>
+</html>
