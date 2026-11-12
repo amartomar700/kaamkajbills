@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>Stationery, Xerox & Printing Shop Billing System - KaamKaj Bills</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pro Stationery & Xerox Bill - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --primary: #0284c7;
@@ -13,413 +14,189 @@
     --ink: #0f172a;
     --ink-muted: #475569;
     --border: #cbd5e1;
-    --bg: #f1f5f9;
+    --bg: #f8fafc;
     --surface: #ffffff;
-    --surface-alt: #f8fafc;
     --danger: #dc2626;
-    --danger-bg: #fee2e2;
     --success: #16a34a;
-    --success-bg: #dcfce7;
-    --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
   }
-
-  body.dark-mode {
+  [data-theme="dark"] {
     --primary: #38bdf8;
-    --primary-dark: #0284c7;
-    --primary-soft: rgba(56, 189, 248, 0.16);
+    --primary-dark: #0ea5e9;
+    --primary-soft: #0c4a6e;
     --ink: #f1f5f9;
     --ink-muted: #94a3b8;
     --border: #334155;
-    --bg: #0b1120;
+    --bg: #0f172a;
     --surface: #1e293b;
-    --surface-alt: #0f172a;
-    --danger: #f87171;
-    --danger-bg: rgba(248, 113, 113, 0.15);
-    --success: #4ade80;
-    --success-bg: rgba(74, 222, 128, 0.15);
-    --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  }
-
-  * {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+    --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
   }
 
   html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: var(--bg);
+    margin: 0 !important; padding: 0 !important; width: 100%; min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: var(--ink);
-    overflow-x: hidden;
-    transition: background 0.2s, color 0.2s;
+    background: linear-gradient(-45deg, var(--bg), #e2e8f0, var(--primary-soft), var(--bg));
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow-x: hidden !important;
   }
+  [data-theme="dark"] html, [data-theme="dark"] body {
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #0c4a6e, #0f172a);
+    background-size: 400% 400%;
+  }
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; }
 
-  /* Full-Screen Sticky Header */
+  /* Top Navigation */
   .top-nav {
-    background: #0f172a;
-    color: #ffffff;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-  }
-  .nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    background: var(--surface); color: var(--ink); padding: 12px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px solid #f59e0b; position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow); transition: all 0.3s;
   }
   .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
+    background: rgba(128,128,128,0.1); color: var(--ink); text-decoration: none;
+    padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 700;
+    border: 1px solid var(--border); transition: 0.2s;
   }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .btn-home:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
   .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
-  .btn-theme {
-    background: rgba(255,255,255,0.14);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 12px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
+  .theme-toggle {
+    background: var(--bg); border: 1px solid var(--border); color: var(--ink);
+    width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; font-size: 18px; transition: 0.2s;
   }
-  .btn-theme:hover { background: rgba(255,255,255,0.25); }
+  .theme-toggle:hover { background: var(--primary-soft); border-color: var(--primary); }
 
-  /* Full-Width Workspace */
+  /* Main Layout */
   .kb-wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 18px 24px 40px 24px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 24px;
-    align-items: start;
+    width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px;
+    display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: start;
   }
 
-  /* Control Card */
+  /* Control Box */
   .control-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; box-shadow: var(--shadow); transition: all 0.3s;
   }
 
-  /* Quick Action Strip */
-  .quick-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 14px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .q-pill {
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    color: var(--ink);
-    padding: 7px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.15s;
-  }
-  .q-pill:hover { border-color: var(--primary); color: var(--primary); }
-  .q-pill.danger:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-bg); }
-
-  /* Language Bar */
   .lang-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    padding: 10px 14px;
-    border-radius: 10px;
-    margin-bottom: 14px;
-    gap: 10px;
-    flex-wrap: wrap;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg); border: 1.5px solid var(--border); padding: 10px 14px;
+    border-radius: 10px; margin-bottom: 16px;
   }
-  .lang-bar span { font-size: 13px; font-weight: 800; color: var(--ink); }
+  .lang-bar span { font-size: 13px; font-weight: 700; color: var(--ink); }
   .lang-bar select {
-    width: auto;
-    min-width: 160px;
-    padding: 7px 10px;
-    font-weight: 700;
-    background: var(--surface);
-    border: 1.5px solid var(--primary);
-    color: var(--ink);
+    width: auto; min-width: 140px; padding: 6px 10px; font-weight: 700;
+    background: var(--surface); border: 1.5px solid var(--primary); color: var(--primary-dark);
+    border-radius: 6px;
   }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
   .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
   label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
 
   input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: var(--surface-alt);
-    transition: all 0.2s;
+    width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 13.5px; outline: none; color: var(--ink); background: var(--bg); transition: all 0.2s;
   }
   input:focus, select:focus {
-    border-color: var(--primary);
-    background: var(--surface);
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    border-color: var(--primary); background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
   }
 
-  .section-header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 18px 0 12px 0;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
   .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
+    background: var(--primary-soft); color: var(--primary); font-size: 11.5px; font-weight: 800;
+    padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;
+    margin: 18px 0 12px 0; text-transform: uppercase; border-left: 4px solid var(--primary);
   }
+  .section-badge:first-of-type { margin-top: 0; }
 
-  /* Mode Switcher */
   .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;
+    background: var(--bg); border: 1px solid var(--border); padding: 5px; border-radius: 10px;
   }
   .toggle-btn {
-    padding: 11px 10px;
-    border: none;
-    border-radius: 7px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
+    padding: 10px; border: none; border-radius: 7px; font-size: 12.5px; font-weight: 700;
+    cursor: pointer; background: transparent; color: var(--ink-muted); transition: 0.2s;
   }
-  .toggle-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
-  }
+  .toggle-btn.active { background: var(--primary); color: #ffffff; box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25); }
 
-  /* Custom Catalogue & Quick Chips */
-  .cat-search-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+  /* Catalog & Chips */
+  .catalog-manager {
+    background: var(--bg); border: 1px dashed var(--border); border-radius: 10px;
+    padding: 12px; margin-bottom: 12px; display: none;
   }
-  .cat-search-row input {
-    flex: 1;
-    min-width: 180px;
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-  .btn-manage-cat {
-    background: var(--primary-soft);
-    color: var(--primary);
-    border: 1px solid var(--primary);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .btn-manage-cat:hover {
-    background: var(--primary);
-    color: #ffffff;
-  }
-
-  .chip-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin-bottom: 14px;
-    max-height: 140px;
-    overflow-y: auto;
-    padding: 8px;
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-  }
+  .catalog-manager.active { display: block; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .chip-btn {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--ink);
-    padding: 6px 11px;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    background: var(--surface); border: 1px solid #93c5fd; color: var(--primary-dark);
+    padding: 6px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 700;
+    cursor: pointer; transition: 0.15s; display: flex; align-items: center; gap: 4px;
   }
-  .chip-btn:hover {
-    border-color: var(--primary);
-    background: var(--primary-soft);
-    color: var(--primary);
-  }
-  .chip-price {
-    color: var(--primary);
-    font-weight: 800;
-  }
+  .chip-btn:hover { background: var(--primary-soft); border-color: var(--primary); }
 
-  /* Items Input Table */
-  .table-scroll {
-    overflow-x: auto;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-  }
-  .items-input-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 520px; }
+  /* Table */
+  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12.5px; }
   .items-input-table th {
-    text-align: left;
-    padding: 9px 8px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: var(--surface-alt);
-    border-bottom: 1.5px solid var(--border);
+    text-align: left; padding: 8px 6px; color: var(--ink-muted); font-weight: 800;
+    background: var(--bg); border-bottom: 2px solid var(--border);
   }
-  .items-input-table td { padding: 6px 5px; border-bottom: 1px solid var(--border); }
-  .items-input-table input { padding: 8px 9px; font-size: 13px; }
-
+  .items-input-table td { padding: 6px 4px; }
   .btn-del-row {
-    background: var(--danger-bg);
-    color: var(--danger);
-    border: 1px solid transparent;
-    border-radius: 6px;
-    width: 32px;
-    height: 34px;
-    font-weight: bold;
-    cursor: pointer;
+    background: #fee2e2; color: var(--danger); border: 1px solid #fca5a5; border-radius: 6px;
+    width: 32px; height: 36px; font-weight: bold; cursor: pointer; transition: 0.2s;
   }
   .btn-del-row:hover { background: var(--danger); color: #fff; }
   .btn-add-row {
-    background: var(--primary-soft);
-    color: var(--primary);
-    border: 1.5px dashed var(--primary);
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 10px;
+    background: var(--primary-soft); color: var(--primary-dark); border: 1.5px dashed var(--primary);
+    padding: 10px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700;
+    cursor: pointer; margin-top: 8px; width: 100%; text-align: center; transition: 0.2s;
   }
-  .btn-add-row:hover { background: var(--primary); color: #fff; }
+  .btn-add-row:hover { background: var(--primary); color: white; border-style: solid; }
 
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
   .btn {
-    flex: 1;
-    min-width: 145px;
-    padding: 13px 14px;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    transition: 0.2s;
+    flex: 1; min-width: 140px; padding: 13px; border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 800; color: #fff; cursor: pointer; text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-  .btn:hover { opacity: 0.94; transform: translateY(-1px); }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn:hover { opacity: 0.95; transform: translateY(-2px); }
   .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
-  .btn-print { background: linear-gradient(135deg, #334155, #0f172a); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
   .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+  .btn-secondary { background: var(--bg); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--primary-soft); border-color: var(--primary); }
 
-  /* Right Sticky Preview Panel (Always White A4 Paper for Print Accuracy) */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-  }
+  /* Preview Panel */
+  .preview-panel { position: sticky; top: 80px; width: 100%; }
   .preview-label {
-    text-align: center;
-    font-size: 11.5px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
+    text-align: center; font-size: 11.5px; font-weight: 800; color: var(--ink-muted);
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px;
   }
   #a4DocSheet {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    width: 100%;
-    padding: 26px 24px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: var(--shadow);
-    border-radius: 10px;
-    box-sizing: border-box;
+    background: #ffffff !important; color: #0f172a !important; width: 100%;
+    padding: 24px 20px; border: 1px solid var(--border); box-shadow: var(--shadow);
+    border-radius: 12px; box-sizing: border-box;
   }
 
   .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 2.5px solid #0284c7;
-    padding-bottom: 12px;
-    margin-bottom: 14px;
-    flex-wrap: wrap;
-    gap: 8px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 2.5px solid #0284c7; padding-bottom: 12px; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
   }
   .doc-biz h2 { margin: 0; font-size: 19px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
   .doc-biz p { margin: 3px 0 0; font-size: 11.5px; color: #475569; }
   .doc-type-badge {
-    background: #0284c7;
-    color: #ffffff;
-    padding: 5px 14px;
-    font-size: 12px;
-    font-weight: 800;
-    border-radius: 6px;
-    text-transform: uppercase;
+    background: #0284c7; color: #ffffff; padding: 5px 14px; font-size: 12px;
+    font-weight: 800; border-radius: 6px; text-transform: uppercase;
   }
 
   .doc-meta { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11.5px; }
@@ -435,172 +212,117 @@
   .t-center { text-align: center !important; }
 
   .summary-wrap { display: flex; justify-content: flex-end; margin: 12px 0; }
-  .summary-table { font-size: 12px; border-collapse: collapse; min-width: 235px; color: #0f172a; }
-  .summary-table td { padding: 4px 8px; }
+  .summary-table { font-size: 12px; border-collapse: collapse; min-width: 230px; }
+  .summary-table td { padding: 4px 8px; color: #0f172a; }
   .summary-table .total-row td { background: #e0f2fe; border-top: 2px solid #0284c7; font-size: 15px; font-weight: 800; color: #0369a1; }
 
   .notes-box { background: #f8fafc; border-left: 3.5px solid #0284c7; padding: 8px 12px; font-size: 11px; color: #475569; margin: 10px 0; }
   .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 11px; }
   .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 5px; font-weight: 700; color: #334155; }
 
-  /* Custom Catalogue Modal */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.65);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 500;
-    padding: 16px;
+  /* PDF Specific (Prevents Cut-offs) */
+  .pdf-render-container {
+    width: 794px; /* A4 width at 96 DPI */
+    padding: 40px;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
   }
-  .modal-overlay.open { display: flex; }
-  .modal-card {
-    background: var(--surface);
-    color: var(--ink);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    width: 100%;
-    max-width: 540px;
-    padding: 20px;
-    box-shadow: 0 20px 45px rgba(0,0,0,0.28);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 10px;
-    margin-bottom: 14px;
-    border-bottom: 1px solid var(--border);
-  }
-  .modal-head h3 { margin: 0; font-size: 16px; font-weight: 800; }
-  .btn-close { background: none; border: none; font-size: 22px; color: var(--ink-muted); cursor: pointer; }
-  .cat-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 10px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    gap: 8px;
-  }
+  .no-break { page-break-inside: avoid !important; }
 
-  /* Responsive Breakpoints */
-  @media (max-width: 980px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 10px 30px 10px; gap: 18px; }
-    .preview-panel { position: static; }
-    .top-nav { padding: 10px 14px; }
+  /* Responsive */
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px; gap: 20px; }
+    .preview-panel { position: static; order: -1; } /* Preview on top for mobile, or remove order to put at bottom */
+    .top-nav { padding: 10px 12px; }
   }
   @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .actions { flex-direction: column; }
     .btn { width: 100%; }
   }
 
-  /* Clean Direct Print */
-  @media print {
-    @page { size: A4 portrait; margin: 0mm; }
-    body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-    .top-nav, .control-box, .preview-label, .modal-overlay { display: none !important; }
-    .kb-wrapper { display: block !important; padding: 0 !important; margin: 0 !important; }
-    .preview-panel { position: static !important; width: 100% !important; }
-    #a4DocSheet { border: none !important; box-shadow: none !important; padding: 12mm 14mm !important; width: 100% !important; }
+  /* Toast Notification */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px; background: var(--ink); color: var(--surface);
+    padding: 14px 24px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600;
+    transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    z-index: 9999; border-left: 4px solid var(--success);
   }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.error { border-left-color: var(--danger); }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Stationery &amp; Xerox</span>
-  </div>
-  <div class="nav-right">
-    <button type="button" class="btn-theme" id="btnThemeToggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-  </div>
+  <a href="#" class="btn-home">← Dashboard</a>
+  <span class="nav-title">KaamKaj Bills • Pro Stationery</span>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌓</button>
 </div>
 
 <div class="kb-wrapper">
   <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-
-    <div class="quick-actions">
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button type="button" class="q-pill" onclick="newSlip()">+ New Slip</button>
-        <button type="button" class="q-pill" onclick="saveShopProfile()">💾 Save Shop Info</button>
-      </div>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        <button type="button" class="q-pill" onclick="openCatModal()">⚙️ Custom Catalogue</button>
-        <button type="button" class="q-pill danger" onclick="clearSavedData()">🗑️ Clear Data</button>
-      </div>
-    </div>
-
+    
     <div class="lang-bar">
-      <span>🌐 <b id="ui_lang_lbl">Document Language / भाषा:</b></span>
+      <span>🌐 <b id="ui_lang_lbl">Document Language:</b></span>
       <select id="sel_lang" onchange="changeLanguage(this.value)">
         <option value="hi" selected>हिन्दी (Hindi)</option>
         <option value="en">English</option>
         <option value="mr">मराठी (Marathi)</option>
         <option value="gu">ગુજરાતી (Gujarati)</option>
-        <option value="bn">বাংলা (Bengali)</option>
-        <option value="ta">தமிழ் (Tamil)</option>
-        <option value="te">తెలుగు (Telugu)</option>
-        <option value="kn">ಕನ್ನಡ (Kannada)</option>
-        <option value="ml">മലയാളം (Malayalam)</option>
-        <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
-        <option value="or">ଓଡ଼ିଆ (Odia)</option>
       </select>
     </div>
 
     <div style="margin-bottom: 10px;">
-      <label id="lbl_mode">1. Slip Type (पर्ची का प्रकार):</label>
+      <label id="lbl_mode">1. Slip Type:</label>
       <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnModeCash" onclick="setDocMode('CASH_MEMO')">🧾 Cash Memo / Retail Bill</button>
-        <button type="button" class="toggle-btn" id="btnModeOrder" onclick="setDocMode('ORDER_SLIP')">🖨️ Printing / Binding Order Slip</button>
+        <button type="button" class="toggle-btn active" id="btnModeCash" onclick="setDocMode('CASH_MEMO')">🧾 Cash Memo</button>
+        <button type="button" class="toggle-btn" id="btnModeOrder" onclick="setDocMode('ORDER_SLIP')">🖨️ Order Slip</button>
       </div>
     </div>
 
-    <div class="section-header-row" style="margin-top:0;">
-      <div class="section-badge" id="sec_shop">1. Shop &amp; Printing Center Details</div>
-    </div>
+    <div class="section-badge">1. Shop Details</div>
     <div class="grid-2">
-      <div class="field"><label id="lbl_shop">Shop / Center Name</label><input type="text" id="in_biz_name" placeholder="उदा. Vidya Stationery & Digital Xerox" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_addr">Address &amp; Mobile No.</label><input type="text" id="in_biz_info" placeholder="उदा. College Road, City | Mob: 9800000000" oninput="renderDoc()"></div>
+      <div class="field"><label id="lbl_shop">Shop / Center Name</label><input type="text" id="in_biz_name" placeholder="उदा. Vidya Stationery" oninput="renderDoc()"></div>
+      <div class="field"><label id="lbl_addr">Address & Mobile</label><input type="text" id="in_biz_info" placeholder="उदा. College Road, Pune | 98XX" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-header-row">
-      <div class="section-badge" id="sec_cust">2. Customer &amp; Receipt Details</div>
-    </div>
+    <div class="section-badge">2. Customer Details</div>
     <div class="grid-3">
       <div class="field"><label id="lbl_docno">Bill / Order No.</label><input type="text" id="in_doc_no" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_date">Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label id="lbl_date">Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
       <div class="field">
         <label id="lbl_pay">Payment Mode</label>
         <select id="in_pay_mode" onchange="renderDoc()">
-          <option value="UPI / Online">UPI / PhonePe / GPay</option>
-          <option value="CASH (नकद)">CASH (नकद)</option>
-          <option value="Credit / Account">Credit / Office Account</option>
+          <option value="UPI / Online">UPI / Online</option>
+          <option value="CASH">CASH (नकद)</option>
+          <option value="Credit">Credit / Account</option>
         </select>
       </div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label id="lbl_cust">Customer / Student / Office Name</label><input type="text" id="in_cust_name" placeholder="उदा. Rohan Sharma / ABC Classes" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_phone">Customer Mobile / WhatsApp</label><input type="text" id="in_cust_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
+      <div class="field"><label id="lbl_cust">Customer Name</label><input type="text" id="in_cust_name" placeholder="उदा. Rohan Kulkarni" oninput="renderDoc()"></div>
+      <div class="field"><label id="lbl_phone">Customer Mobile</label><input type="text" id="in_cust_phone" placeholder="9876543210" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-header-row">
-      <div class="section-badge" id="sec_items">3. Xerox, Printing &amp; Stationery Catalogue</div>
-      <button type="button" class="btn-manage-cat" onclick="openCatModal()">+ Add / Edit Catalogue</button>
+    <div class="section-badge">3. Items & Custom Catalog</div>
+    <button type="button" class="btn btn-secondary" style="width:100%; margin-bottom:12px; font-size:12px;" onclick="toggleCatalogManager()">⚙️ Manage Custom Catalog (Add/Edit Items)</button>
+    
+    <div id="catalogManager" class="catalog-manager">
+      <div class="grid-3" style="align-items:end;">
+        <div class="field"><label>Item Name</label><input type="text" id="cat_name" placeholder="e.g., A4 Sheet"></div>
+        <div class="field"><label>Unit</label><input type="text" id="cat_unit" placeholder="e.g., Rim"></div>
+        <div class="field"><label>Rate (₹)</label><input type="number" id="cat_rate" min="0" placeholder="0"></div>
+      </div>
+      <button type="button" class="btn btn-secondary" style="width:100%; margin-top:8px;" onclick="addToCatalog()">+ Add to Catalog</button>
     </div>
 
-    <div class="cat-search-row">
-      <input type="text" id="catSearch" placeholder="🔍 Search catalogue items (e.g. Xerox, Spiral, Rim, Pen)..." oninput="renderCatalogueChips()">
-    </div>
-    <div class="chip-group" id="catalogueChipsBox"></div>
+    <div class="chip-group" id="quickChipsContainer"></div>
 
-    <div class="table-scroll">
+    <div style="overflow-x: auto;">
       <table class="items-input-table">
         <thead>
           <tr>
@@ -614,22 +336,20 @@
         <tbody id="itemsInputsBody"></tbody>
       </table>
     </div>
-    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Naya Item / Print Job Jodein</button>
+    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Naya Item Jodein</button>
 
-    <div class="section-header-row">
-      <div class="section-badge" id="sec_bill">4. Discount, Advance &amp; Notes</div>
-    </div>
+    <div class="section-badge">4. Totals & Notes</div>
     <div class="grid-3">
-      <div class="field"><label id="lbl_disc">Discount (₹)</label><input type="number" id="in_discount" min="0" step="any" placeholder="0" oninput="calcTotals()"></div>
-      <div class="field"><label id="lbl_adv">Advance Paid (₹)</label><input type="number" id="in_adv" min="0" step="any" placeholder="0" oninput="calcTotals()"></div>
-      <div class="field"><label id="lbl_deliv">Delivery Time (Optional)</label><input type="text" id="in_deliv" placeholder="उदा. Today 06:00 PM" oninput="renderDoc()"></div>
+      <div class="field"><label id="lbl_disc">Discount (₹)</label><input type="number" id="in_discount" min="0" placeholder="0" oninput="calcTotals()"></div>
+      <div class="field"><label id="lbl_adv">Advance Paid (₹)</label><input type="number" id="in_adv" min="0" placeholder="0" oninput="calcTotals()"></div>
+      <div class="field"><label id="lbl_deliv">Delivery Time</label><input type="text" id="in_deliv" placeholder="उदा. Today 06:00 PM" oninput="renderDoc()"></div>
     </div>
-    <div class="field"><label id="lbl_notes">Shop Note / Terms</label><input type="text" id="in_notes" placeholder="उदा. प्रिंटिंग व बाइंडिंग की जांच कर लें। धन्यवाद!" oninput="renderDoc()"></div>
+    <div class="field"><label id="lbl_notes">Shop Note / Terms</label><input type="text" id="in_notes" placeholder="उदा. प्रिंटिंग व बाइंडिंग की जांच कर लें।" oninput="renderDoc()"></div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" id="btn_pdf" onclick="downloadA4PDF()">📥 Download HD PDF</button>
-      <button type="button" class="btn btn-print" id="btn_print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Bill</button>
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download HD PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp</button>
     </div>
   </div>
 
@@ -639,8 +359,8 @@
     <div id="a4DocSheet">
       <div class="doc-header">
         <div class="doc-biz">
-          <h2 id="out_biz_name">VIDYA STATIONERY &amp; DIGITAL XEROX</h2>
-          <p id="out_biz_info">College Road, City | Mob: 9800000000</p>
+          <h2 id="out_biz_name">VIDYA STATIONERY</h2>
+          <p id="out_biz_info">College Road, City | Mob: 98XXXXXXXX</p>
         </div>
         <div class="doc-type-badge" id="out_badge">CASH MEMO</div>
       </div>
@@ -682,190 +402,73 @@
 
       <div class="footer-sig-row">
         <div style="font-size:10px; color:#64748b;">Customer Signature</div>
-        <div class="sig-block">Authorized Shop Sign &amp; Seal</div>
+        <div class="sig-block">Authorized Shop Sign & Seal</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Custom Catalogue Modal -->
-<div class="modal-overlay" id="catModal">
-  <div class="modal-card">
-    <div class="modal-head">
-      <h3>⚙️ Custom Stationery &amp; Printing Catalogue</h3>
-      <button type="button" class="btn-close" onclick="closeCatModal()">&times;</button>
-    </div>
-    <div class="grid-3" style="margin-bottom:10px;">
-      <div class="field" style="grid-column: span 3;">
-        <label>Item / Service Name*</label>
-        <input type="text" id="new_cat_name" placeholder="e.g. A3 Color Printout / Hardbound Thesis">
-      </div>
-      <div class="field">
-        <label>Default Qty</label>
-        <input type="number" id="new_cat_qty" min="1" value="1">
-      </div>
-      <div class="field">
-        <label>Unit</label>
-        <input type="text" id="new_cat_unit" placeholder="Pages / Nos / Rim" value="Nos">
-      </div>
-      <div class="field">
-        <label>Rate (₹)*</label>
-        <input type="number" id="new_cat_rate" min="0" step="any" placeholder="50">
-      </div>
-    </div>
-    <button type="button" class="btn btn-pdf" style="width:100%; margin-bottom:14px; padding:10px;" onclick="addCustomCatalogueItem()">+ Add Item to My Catalogue</button>
-    <div id="catManageList" style="border:1px solid var(--border); border-radius:10px; max-height:240px; overflow-y:auto;"></div>
-  </div>
-</div>
+<div id="toastContainer"></div>
 
 <script>
-  const STORAGE_KEYS = {
-    PROFILE: 'kkb_stn_profile_v1',
-    CATALOGUE: 'kkb_stn_cat_v1',
-    THEME: 'kkb_stn_theme_v1'
-  };
-
   let docMode = 'CASH_MEMO';
   let curLang = 'hi';
 
+  // --- Custom Catalog Management ---
+  let customCatalog = JSON.parse(localStorage.getItem('stationery_catalog')) || [
+    { name: 'A4 B&W Xerox', unit: 'Pages', rate: 2 },
+    { name: 'A4 Color Print', unit: 'Pages', rate: 10 },
+    { name: 'Spiral Binding', unit: 'Nos', rate: 40 },
+    { name: 'Lamination', unit: 'Nos', rate: 20 },
+    { name: 'A4 Paper Rim', unit: 'Rim', rate: 260 },
+    { name: 'Notebook / Register', unit: 'Nos', rate: 65 }
+  ];
+
+  function saveCatalog() {
+    localStorage.setItem('stationery_catalog', JSON.stringify(customCatalog));
+    renderCatalogChips();
+  }
+
+  function toggleCatalogManager() {
+    const el = document.getElementById('catalogManager');
+    el.classList.toggle('active');
+  }
+
+  function addToCatalog() {
+    const name = document.getElementById('cat_name').value.trim();
+    const unit = document.getElementById('cat_unit').value.trim();
+    const rate = Math.max(0, parseFloat(document.getElementById('cat_rate').value) || 0);
+    
+    if (!name || !unit) { showToast('Please enter Item Name and Unit', 'error'); return; }
+    
+    customCatalog.push({ name, unit, rate });
+    saveCatalog();
+    document.getElementById('cat_name').value = '';
+    document.getElementById('cat_unit').value = '';
+    document.getElementById('cat_rate').value = '';
+    showToast('Item added to Custom Catalog! ✅');
+  }
+
+  function renderCatalogChips() {
+    const wrap = document.getElementById('quickChipsContainer');
+    wrap.innerHTML = customCatalog.map(item => 
+      `<button type="button" class="chip-btn" onclick="quickAdd('${item.name}', 1, '${item.unit}', ${item.rate})">+ ${item.name} (₹${item.rate})</button>`
+    ).join('');
+  }
+
+  // --- Core Logic ---
   const I18N = {
     hi: { badgeCash: "स्टेशनरी व जेरोक्स बिल", badgeOrder: "प्रिंटिंग व बाइंडिंग ऑर्डर स्लिप", noteDef: "प्रिंटिंग व स्टेशनरी सामान की जांच कर लें। धन्यवाद!" },
     en: { badgeCash: "STATIONERY & XEROX BILL", badgeOrder: "PRINTING & BINDING ORDER SLIP", noteDef: "Please check items and prints at counter. Thank you!" },
     mr: { badgeCash: "स्टेशनरी व झेरॉक्स बिल", badgeOrder: "प्रिंटिंग आणि बाइंडिंग ऑर्डर पावती", noteDef: "कृपया प्रिंट आणि साहित्याची तपासणी करावी. धन्यवाद!" },
-    gu: { badgeCash: "સ્ટેશનરી અને ઝેરોક્ષ બિલ", badgeOrder: "પ્રિન્ટિંગ અને બાઈન્ડિંગ ઓર્ડર સ્લિપ", noteDef: "કૃપા કરીને સામાન અને પ્રિન્ટ તપાસી લો. આભાર!" },
-    bn: { badgeCash: "স্টেশনারি ও জেরক্স বিল", badgeOrder: "প্রিন্টিং ও বাইন্ডিং অর্ডার স্লিপ", noteDef: "দয়া করে জিনিসপত্র ও প্রিন্ট যাচাই করে নিন। ধন্যবাদ!" },
-    ta: { badgeCash: "ஸ்டேஷனரி & ஜெராக்ஸ் பில்", badgeOrder: "பிரிண்டிங் & பைண்டிங் ஆர்டர் சீட்டு", noteDef: "பொருட்கள் மற்றும் பிரின்ட்களை சரிபார்க்கவும். நன்றி!" },
-    te: { badgeCash: "స్టేషనరీ & జిరాక్స్ బిల్లు", badgeOrder: "ప్రింటింగ్ & బైండింగ్ ఆర్డర్ స్లిప్", noteDef: "దయచేసి వస్తువులు మరియు ప్రింట్లను తనిఖీ చేయండి. ధన్యవాదాలు!" },
-    kn: { badgeCash: "ಸ್ಟೇಷನರಿ ಮತ್ತು ಜೆರಾಕ್ಸ್ ಬಿಲ್", badgeOrder: "ಪ್ರಿಂಟಿಂಗ್ ಮತ್ತು ಬೈಂಡಿಂಗ್ ಆರ್ಡರ್ ಸ್ಲಿಪ್", noteDef: "ದಯವಿಟ್ಟು ವಸ್ತುಗಳು ಮತ್ತು ಪ್ರಿಂಟ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಿ. ಧನ್ಯವಾದಗಳು!" },
-    ml: { badgeCash: "സ്റ്റേഷനറി & സെറോക്സ് ബിൽ", badgeOrder: "പ്രിന്റിംഗ് & ബൈൻഡിംഗ് ഓർഡർ സ്ലിപ്പ്", noteDef: "സാധനങ്ങളും പ്രിന്റുകളും പരിശോധിക്കുക. നന്ദി!" },
-    pa: { badgeCash: "ਸਟੇਸ਼ਨਰੀ ਅਤੇ ਜ਼ੀਰੋਕਸ ਬਿੱਲ", badgeOrder: "ਪ੍ਰਿੰਟਿੰਗ ਅਤੇ ਬਾਈਂਡਿੰਗ ਆਰਡਰ ਪਰਚੀ", noteDef: "ਕਿਰਪਾ ਕਰਕੇ ਸਮਾਨ ਅਤੇ ਪ੍ਰਿੰਟ ਦੀ ਜਾਂਚ ਕਰ ਲਓ। ਧੰਨਵਾਦ!" },
-    or: { badgeCash: "ଷ୍ଟେସନାରୀ ଓ ଜେରକ୍ସ ବିଲ୍", badgeOrder: "ପ୍ରିଣ୍ଟିଂ ଓ ବାଇଣ୍ଡିଂ ଅର୍ଡର ସ୍ଲିପ୍", noteDef: "ଦୟାକରି ଜିନିଷ ଓ ପ୍ରିଣ୍ଟ ଯାଞ୍ଚ କରନ୍ତୁ। ଧନ୍ୟବାଦ!" }
+    gu: { badgeCash: "સ્ટેશનરી અને ઝેરોક્ષ બિલ", badgeOrder: "પ્રિન્ટિંગ અને બાઈન્ડિંગ ઓર્ડર સ્લિપ", noteDef: "કૃપા કરીને સામાન અને પ્રિન્ટ તપાસી લો. આભાર!" }
   };
 
-  const DEFAULT_CATALOGUE = [
-    { desc: 'A4 B&W Xerox / Photocopy', qty: 50, unit: 'Pages', rate: 2 },
-    { desc: 'A4 Color Laser Printout', qty: 10, unit: 'Pages', rate: 10 },
-    { desc: 'Spiral Binding with Cover', qty: 2, unit: 'Nos', rate: 40 },
-    { desc: 'A4 / ID Card Lamination', qty: 4, unit: 'Nos', rate: 20 },
-    { desc: 'A4 Copier Paper Rim (500 Sheets)', qty: 1, unit: 'Rim', rate: 260 },
-    { desc: 'Register / Spiral Notebook', qty: 5, unit: 'Nos', rate: 65 },
-    { desc: 'Ball Pen Box / Gel Pens', qty: 1, unit: 'Box', rate: 100 }
-  ];
-
-  let catalogue = [];
   let items = [
     { desc: 'A4 B&W Xerox / Photocopy', qty: 25, unit: 'Pages', rate: 2 },
     { desc: 'Spiral Binding with Cover', qty: 1, unit: 'Nos', rate: 40 }
   ];
 
-  function safeNum(val) {
-    const n = parseFloat(val);
-    return (isNaN(n) || n < 0) ? 0 : n;
-  }
-
-  function esc(str) {
-    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  /* Dark Mode */
-  function toggleDarkMode() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnThemeToggle').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem(STORAGE_KEYS.THEME, isDark ? 'dark' : 'light'); } catch (e) {}
-  }
-
-  /* Custom Catalogue Functions */
-  function loadCatalogue() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEYS.CATALOGUE);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          catalogue = parsed;
-          return;
-        }
-      }
-    } catch (e) {}
-    catalogue = JSON.parse(JSON.stringify(DEFAULT_CATALOGUE));
-  }
-
-  function saveCatalogue() {
-    try { localStorage.setItem(STORAGE_KEYS.CATALOGUE, JSON.stringify(catalogue)); } catch (e) {}
-  }
-
-  function renderCatalogueChips() {
-    const q = (document.getElementById('catSearch').value || '').trim().toLowerCase();
-    const box = document.getElementById('catalogueChipsBox');
-    const filtered = catalogue.filter(c => !q || c.desc.toLowerCase().includes(q) || c.unit.toLowerCase().includes(q));
-    if (filtered.length === 0) {
-      box.innerHTML = `<span style="font-size:12px; color:var(--ink-muted);">No matching items. Click "+ Add / Edit Catalogue" to create one.</span>`;
-      return;
-    }
-    box.innerHTML = filtered.map((c) => {
-      const realIdx = catalogue.indexOf(c);
-      return `<button type="button" class="chip-btn" onclick="quickAddFromCat(${realIdx})">+ ${esc(c.desc)} <span class="chip-price">₹${c.rate}</span></button>`;
-    }).join('');
-  }
-
-  function quickAddFromCat(idx) {
-    const c = catalogue[idx];
-    if (!c) return;
-    if (items.length === 1 && !items[0].desc.trim() && items[0].rate === 0) {
-      items[0] = { desc: c.desc, qty: safeNum(c.qty) || 1, unit: c.unit || 'Nos', rate: safeNum(c.rate) };
-    } else {
-      items.push({ desc: c.desc, qty: safeNum(c.qty) || 1, unit: c.unit || 'Nos', rate: safeNum(c.rate) });
-    }
-    renderInputRows();
-    calcTotals();
-  }
-
-  function openCatModal() {
-    renderCatManageList();
-    document.getElementById('catModal').classList.add('open');
-  }
-  function closeCatModal() {
-    document.getElementById('catModal').classList.remove('open');
-  }
-
-  function addCustomCatalogueItem() {
-    const name = document.getElementById('new_cat_name').value.trim();
-    const qty = Math.max(1, safeNum(document.getElementById('new_cat_qty').value) || 1);
-    const unit = document.getElementById('new_cat_unit').value.trim() || 'Nos';
-    const rate = safeNum(document.getElementById('new_cat_rate').value);
-    if (!name) {
-      alert('Please enter item or printing service name.');
-      return;
-    }
-    catalogue.unshift({ desc: name, qty, unit, rate });
-    saveCatalogue();
-    document.getElementById('new_cat_name').value = '';
-    document.getElementById('new_cat_rate').value = '';
-    renderCatManageList();
-    renderCatalogueChips();
-  }
-
-  function deleteCatalogueItem(idx) {
-    catalogue.splice(idx, 1);
-    saveCatalogue();
-    renderCatManageList();
-    renderCatalogueChips();
-  }
-
-  function renderCatManageList() {
-    const list = document.getElementById('catManageList');
-    if (catalogue.length === 0) {
-      list.innerHTML = '<div style="padding:12px; font-size:12.5px; color:var(--ink-muted);">Catalogue is empty. Add items above.</div>';
-      return;
-    }
-    list.innerHTML = catalogue.map((c, i) => `
-      <div class="cat-list-item">
-        <div><b>${esc(c.desc)}</b><br><span style="font-size:11px; color:var(--ink-muted);">Default: ${c.qty} ${esc(c.unit)} • ₹${c.rate}</span></div>
-        <button type="button" class="btn-del-row" onclick="deleteCatalogueItem(${i})">✕</button>
-      </div>
-    `).join('');
-  }
-
-  /* Language & Mode */
   function changeLanguage(l) { curLang = l; renderDoc(); }
 
   function setDocMode(mode) {
@@ -876,248 +479,196 @@
     renderDoc();
   }
 
-  /* Table Rows with Zero-Negative Enforcement */
+  function quickAdd(desc, qty, unit, rate) { 
+    items.push({ desc, qty: Math.max(0, qty), unit, rate: Math.max(0, rate) }); 
+    renderInputRows(); 
+    calcTotals(); 
+    showToast('Item added to bill');
+  }
+
   function renderInputRows() {
     document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
       <tr>
-        <td><input value="${esc(it.desc)}" placeholder="Item / Print description" oninput="items[${i}].desc=this.value;renderDoc()"></td>
-        <td><input type="number" min="0" step="any" value="${it.qty}" oninput="let v=parseFloat(this.value); if(v<0){v=0;this.value=0;} items[${i}].qty=isNaN(v)?0:v; calcTotals()"></td>
-        <td><input value="${esc(it.unit)}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
-        <td><input type="number" min="0" step="any" value="${it.rate}" oninput="let v=parseFloat(this.value); if(v<0){v=0;this.value=0;} items[${i}].rate=isNaN(v)?0:v; calcTotals()"></td>
+        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value; renderDoc()"></td>
+        <td><input type="number" step="any" min="0" value="${it.qty}" oninput="items[${i}].qty=Math.max(0, parseFloat(this.value)||0); calcTotals()"></td>
+        <td><input value="${it.unit}" oninput="items[${i}].unit=this.value; renderDoc()"></td>
+        <td><input type="number" step="any" min="0" value="${it.rate}" oninput="items[${i}].rate=Math.max(0, parseFloat(this.value)||0); calcTotals()"></td>
         <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
       </tr>
     `).join('');
   }
 
-  function addItemRow() {
-    items.push({ desc: '', qty: 1, unit: 'Nos', rate: 0 });
-    renderInputRows();
-    calcTotals();
+  function addItemRow() { 
+    items.push({ desc: '', qty: 1, unit: 'Nos', rate: 0 }); 
+    renderInputRows(); 
+    calcTotals(); 
   }
 
-  function delRow(i) {
-    if (items.length > 1) {
-      items.splice(i, 1);
-    } else {
-      items[0] = { desc: '', qty: 1, unit: 'Nos', rate: 0 };
+  function delRow(i) { 
+    if (items.length > 1) { 
+      items.splice(i, 1); 
+      renderInputRows(); 
+      calcTotals(); 
     }
-    renderInputRows();
-    calcTotals();
   }
 
+  // --- 100% Minus-Proof Calculation ---
   function calcTotals() {
-    const discEl = document.getElementById('in_discount');
-    const advEl = document.getElementById('in_adv');
-    if (parseFloat(discEl.value) < 0) discEl.value = 0;
-    if (parseFloat(advEl.value) < 0) advEl.value = 0;
-
-    const sub = items.reduce((s, it) => s + (safeNum(it.qty) * safeNum(it.rate)), 0);
-    let disc = safeNum(discEl.value);
-    if (disc > sub) {
-      disc = sub;
-      discEl.value = disc;
-    }
-
+    const sub = Math.max(0, items.reduce((s, it) => s + (Math.max(0, it.qty) * Math.max(0, it.rate)), 0));
+    const disc = Math.max(0, parseFloat(document.getElementById('in_discount').value) || 0);
     const tot = Math.max(0, sub - disc);
-    const adv = safeNum(advEl.value);
-    const bal = Math.max(0, tot - adv);
+    const adv = Math.max(0, parseFloat(document.getElementById('in_adv').value) || 0);
+    const bal = Math.max(0, tot - adv); // Balance can NEVER be negative
 
-    document.getElementById('out_sub').innerText = '₹' + sub.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('out_sub').innerText = '₹' + sub.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     document.getElementById('row_disc').style.display = disc > 0 ? 'table-row' : 'none';
-    document.getElementById('out_disc').innerText = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('out_tot').innerText = '₹' + tot.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('out_disc').innerText = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById('out_tot').innerText = '₹' + tot.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     document.getElementById('row_adv').style.display = adv > 0 ? 'table-row' : 'none';
     document.getElementById('row_bal').style.display = adv > 0 ? 'table-row' : 'none';
-    document.getElementById('out_adv').innerText = '-₹' + adv.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('out_bal').innerText = '₹' + bal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('out_adv').innerText = '-₹' + adv.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    document.getElementById('out_bal').innerText = '₹' + bal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
     renderDoc();
   }
 
   function renderDoc() {
     const L = I18N[curLang] || I18N.hi;
-    document.getElementById('out_biz_name').innerText = document.getElementById('in_biz_name').value.trim() || 'VIDYA STATIONERY & DIGITAL XEROX';
-    document.getElementById('out_biz_info').innerText = document.getElementById('in_biz_info').value.trim() || 'College Road, City | Mob: 9800000000';
+    document.getElementById('out_biz_name').innerText = document.getElementById('in_biz_name').value.trim() || 'VIDYA STATIONERY';
+    document.getElementById('out_biz_info').innerText = document.getElementById('in_biz_info').value.trim() || 'College Road, City | Mob: 98XXXXXXXX';
     document.getElementById('out_badge').innerText = docMode === 'CASH_MEMO' ? L.badgeCash : L.badgeOrder;
     document.getElementById('out_doc_no').innerText = document.getElementById('in_doc_no').value || '-';
     document.getElementById('out_date').innerText = document.getElementById('in_date').value || '-';
+    
     const cust = document.getElementById('in_cust_name').value.trim() || 'Walk-in Customer';
     const ph = document.getElementById('in_cust_phone').value.trim();
     document.getElementById('out_cust').innerText = ph ? `${cust} (${ph})` : cust;
+    
     const deliv = document.getElementById('in_deliv').value.trim();
     document.getElementById('row_deliv').style.display = deliv ? 'table-row' : 'none';
     document.getElementById('out_deliv').innerText = deliv;
+    
     document.getElementById('out_pay').innerText = document.getElementById('in_pay_mode').value;
     document.getElementById('out_notes').innerText = document.getElementById('in_notes').value.trim() || L.noteDef;
 
-    document.getElementById('out_tbody').innerHTML = items.map((it, i) => {
-      const q = safeNum(it.qty);
-      const r = safeNum(it.rate);
-      return `
-        <tr>
-          <td class="t-center">${i+1}</td>
-          <td>${esc(it.desc) || '-'}</td>
-          <td class="t-center">${q} ${esc(it.unit)}</td>
-          <td class="t-right">₹${r.toLocaleString('en-IN')}</td>
-          <td class="t-right">₹${(q * r).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-        </tr>
-      `;
-    }).join('');
+    document.getElementById('out_tbody').innerHTML = items.map((it, i) => `
+      <tr class="no-break">
+        <td class="t-center">${i+1}</td>
+        <td>${it.desc || '-'}</td>
+        <td class="t-center">${it.qty} ${it.unit}</td>
+        <td class="t-right">₹${it.rate.toLocaleString('en-IN')}</td>
+        <td class="t-right">₹${(it.qty * it.rate).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+      </tr>
+    `).join('');
   }
 
-  /* High-Quality Zero-Clipping A4 PDF Export */
+  // --- HD No-Cut PDF Generation ---
   function downloadA4PDF() {
-    const btn = document.getElementById('btn_pdf');
-    btn.disabled = true;
-    btn.innerText = '⏳ Generating HD PDF...';
-
-    const source = document.getElementById('a4DocSheet');
-    const clone = source.cloneNode(true);
-    clone.removeAttribute('id');
-
-    const PDF_WIDTH = 680;
-    clone.style.cssText = [
-      `width: ${PDF_WIDTH}px`,
-      `max-width: ${PDF_WIDTH}px`,
-      'margin: 0',
-      'padding: 26px 28px',
-      'background: #ffffff',
-      'color: #0f172a',
-      'border: 1.5px solid #cbd5e1',
-      'border-radius: 6px',
-      'box-shadow: none',
-      'box-sizing: border-box'
-    ].join(';');
-
+    showToast('Generating HD PDF... Please wait.');
+    
+    // Create a hidden container with exact A4 proportions
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:#ffffff; z-index:999999; overflow:auto; margin:0; padding:0;';
+    overlay.style.cssText = 'position:fixed; top:-9999px; left:0; width:100vw; height:100vh; background:#ffffff; z-index:-1;';
+    
     const staging = document.createElement('div');
-    staging.style.cssText = `position:relative; top:0; left:0; width:${PDF_WIDTH}px; margin:0; padding:0; background:#ffffff;`;
-    staging.appendChild(clone);
+    staging.className = 'pdf-render-container';
+    staging.innerHTML = document.getElementById('a4DocSheet').innerHTML;
+    
     overlay.appendChild(staging);
     document.body.appendChild(overlay);
 
-    const filename = `${(document.getElementById('in_doc_no').value.trim() || 'StationeryBill').replace(/[^a-zA-Z0-9-_]/g, '')}.pdf`;
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        html2pdf().set({
-          margin: [10, 12, 12, 12],
-          filename: filename,
-          image: { type: 'png', quality: 1.0 },
-          html2canvas: {
-            scale: 3,
-            useCORS: true,
-            letterRendering: true,
-            scrollX: 0,
-            scrollY: 0,
-            x: 0,
-            y: 0,
-            width: PDF_WIDTH,
-            windowWidth: PDF_WIDTH,
-            backgroundColor: '#ffffff'
-          },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
-        }).from(staging).save().then(() => {
-          overlay.remove();
-          btn.disabled = false;
-          btn.innerText = '📥 Download HD PDF';
-        }).catch(() => {
-          overlay.remove();
-          btn.disabled = false;
-          btn.innerText = '📥 Download HD PDF';
-        });
-      }, 150);
-    });
+    const cleanNo = (document.getElementById('in_doc_no').value || 'StationeryBill').replace(/[^a-zA-Z0-9-_]/g, '');
+    
+    // Wait a moment for rendering
+    setTimeout(() => {
+      html2pdf().set({
+        margin: [10, 10, 10, 10],
+        filename: `${cleanNo}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 3, // HD Quality
+          useCORS: true, 
+          scrollX: 0, 
+          scrollY: 0, 
+          width: 794, // A4 width at 96 DPI
+          windowWidth: 794,
+          backgroundColor: '#ffffff' 
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // PREVENTS CUTTING
+      }).from(staging).save().then(() => {
+        overlay.remove();
+        showToast('PDF Downloaded Successfully! ✅');
+      }).catch((err) => {
+        overlay.remove();
+        console.error(err);
+        showToast('PDF generation failed', 'error');
+      });
+    }, 500);
   }
 
   function printDocDirect() {
-    const origTitle = document.title;
-    document.title = (document.getElementById('in_doc_no').value.trim() || 'StationeryBill').replace(/[^a-zA-Z0-9-_]/g, '');
-    window.print();
-    setTimeout(() => { document.title = origTitle; }, 500);
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print</title><style>
+      *{box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{margin:0;padding:10mm}
+      .no-break { page-break-inside: avoid !important; }
+      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #0284c7;padding-bottom:8px;margin-bottom:10px}
+      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
+      .doc-type-badge{background:#0284c7;color:#fff;padding:4px 10px;font-size:11px;font-weight:800;border-radius:4px}
+      .doc-meta{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:11px}.doc-meta td{padding:3px}
+      .doc-meta .lbl{font-weight:700;color:#475569;width:25%}.doc-meta .val{border-bottom:1px dotted #cbd5e1;font-weight:600}
+      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+      .doc-items-table th{background:#0f172a;color:#fff;padding:5px;text-align:left}.doc-items-table td{padding:5px;border-bottom:1px solid #cbd5e1}
+      .t-right{text-align:right}.t-center{text-align:center}.summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}
+      .summary-table{font-size:11px;border-collapse:collapse;min-width:220px}.summary-table td{padding:2px 6px}
+      .total-row td{background:#e0f2fe;border-top:2px solid #0284c7;font-size:13.5px;font-weight:800;color:#0369a1}
+      .notes-box{background:#f8fafc;border-left:3px solid #0284c7;padding:6px 8px;font-size:10px;margin:8px 0}
+      .footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:10px}
+      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
   }
 
   function shareWhatsApp() {
     const biz = document.getElementById('in_biz_name').value.trim() || 'Stationery & Xerox';
     const cust = document.getElementById('in_cust_name').value.trim() || 'Customer';
     const ph = document.getElementById('in_cust_phone').value.trim().replace(/[^0-9]/g, '');
-    const lines = items.map((it, i) => `${i+1}. *${it.desc}* (${safeNum(it.qty)} ${it.unit}) = ₹${(safeNum(it.qty)*safeNum(it.rate)).toLocaleString('en-IN')}`).join('
-');
-    const msg = `*🖨️ STATIONERY / XEROX BILL (${document.getElementById('in_doc_no').value})*
-*Shop:* ${biz}
-*Customer:* ${cust}
-
-${lines}
-
-*Net Total:* ${document.getElementById('out_tot').innerText}`;
+    const lines = items.map((it, i) => `${i+1}. *${it.desc}* (${it.qty} ${it.unit}) = ₹${(it.qty*it.rate).toLocaleString('en-IN')}`).join('\n');
+    const msg = `*🖨️ STATIONERY / XEROX BILL (${document.getElementById('in_doc_no').value})*\n*Shop:* ${biz}\n*Customer:* ${cust}\n\n${lines}\n\n*Net Total:* ${document.getElementById('out_tot').innerText}`;
     window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
-  /* Local Storage Save/Reset */
-  function saveShopProfile() {
-    const info = {
-      name: document.getElementById('in_biz_name').value,
-      info: document.getElementById('in_biz_info').value,
-      notes: document.getElementById('in_notes').value,
-      lang: curLang
-    };
-    try {
-      localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(info));
-      alert('Shop details saved locally!');
-    } catch (e) {}
+  // --- Theme & Utilities ---
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('kaamkaj_theme', next);
   }
 
-  function loadShopProfile() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEYS.PROFILE);
-      if (!raw) return;
-      const d = JSON.parse(raw);
-      if (d.name !== undefined) document.getElementById('in_biz_name').value = d.name;
-      if (d.info !== undefined) document.getElementById('in_biz_info').value = d.info;
-      if (d.notes !== undefined) document.getElementById('in_notes').value = d.notes;
-      if (d.lang) {
-        curLang = d.lang;
-        document.getElementById('sel_lang').value = d.lang;
-      }
-    } catch (e) {}
+  function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type === 'error' ? 'error' : ''}`;
+    toast.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span> ${message}`;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 400);
+    }, 3000);
   }
 
-  function newSlip() {
-    document.getElementById('in_doc_no').value = (docMode === 'CASH_MEMO' ? 'STN-' : 'ORD-') + Math.floor(100000 + Math.random() * 899990);
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_cust_name').value = '';
-    document.getElementById('in_cust_phone').value = '';
-    document.getElementById('in_deliv').value = '';
-    document.getElementById('in_discount').value = '';
-    document.getElementById('in_adv').value = '';
-    items = [{ desc: '', qty: 1, unit: 'Nos', rate: 0 }];
-    renderInputRows();
-    calcTotals();
-  }
-
-  function clearSavedData() {
-    if (confirm('Reset saved shop info and custom catalogue back to default?')) {
-      Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
-      loadCatalogue();
-      renderCatalogueChips();
-      newSlip();
-      alert('Saved data cleared.');
-    }
-  }
-
+  // Initialize
   window.onload = () => {
-    try {
-      if (localStorage.getItem(STORAGE_KEYS.THEME) === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnThemeToggle').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
-
+    const savedTheme = localStorage.getItem('kaamkaj_theme');
+    if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+    
     document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
     document.getElementById('in_doc_no').value = 'STN-' + Math.floor(100000 + Math.random() * 899990);
-    loadShopProfile();
-    loadCatalogue();
-    renderCatalogueChips();
+    
+    renderCatalogChips();
     renderInputRows();
     calcTotals();
   };
