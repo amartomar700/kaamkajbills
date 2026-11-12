@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>House / Shop Rent Receipt Generator - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --success: #16a34a;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .toggle-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .toggle-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
+  }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 22px 18px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .slip-box {
+    border: 2px solid #0f172a;
+    border-radius: 8px;
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  .slip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  .slip-header h2 { margin: 0; font-size: 17px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .slip-header p { margin: 2px 0 0; font-size: 10.5px; color: #475569; }
+  .slip-badge {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .rent-body-text {
+    font-size: 12px;
+    line-height: 1.75;
+    color: #1e293b;
+    margin: 12px 0;
+  }
+  .u-val {
+    font-weight: 800;
+    color: #0f172a;
+    border-bottom: 1px dashed #64748b;
+    padding: 0 4px;
+  }
+
+  .breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 11.5px;
+  }
+  .breakdown-table td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+  }
+  .breakdown-table tr.tot-row td {
+    background: #f0fdf4;
+    color: #166534;
+    font-weight: 800;
+    font-size: 13px;
+    border-top: 2px solid #16a34a;
+  }
+  .t-right { text-align: right; }
+
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 18px;
+    font-size: 10.5px;
+  }
+  .stamp-box {
+    width: 72px;
+    height: 72px;
+    border: 1.5px dashed #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #64748b;
+    border-radius: 4px;
+  }
+  .sig-block {
+    width: 45%;
+    text-align: center;
+    border-top: 1.5px dashed #475569;
+    padding-top: 4px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  .cut-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 16px 0;
+    border-top: 2px dashed #94a3b8;
+  }
+  .cut-tag {
+    position: absolute;
+    top: -10px;
+    background: #ffffff;
+    padding: 0 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+  }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Rent Receipt Generator</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div style="margin-bottom: 10px;">
+      <label>1. A4 Page Layout (कितनी रसीद प्रिंट करनी हैं?):</label>
+      <div class="toggle-bar">
+        <button type="button" class="toggle-btn active" id="btnOne" onclick="setCopies(1)">📄 1 Receipt (Tenant Copy)</button>
+        <button type="button" class="toggle-btn" id="btnTwo" onclick="setCopies(2)">📑 2 Receipts (Tenant + Landlord)</button>
+      </div>
+    </div>
+
+    <div class="section-badge">1. Receipt & Property Details</div>
+    <div class="grid-3">
+      <div class="field"><label>Receipt No. (Auto)</label><input type="text" id="in_rec_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Receipt Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label>Rent Month / Period</label><input type="text" id="in_month" placeholder="उदा. October 2026" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="field"><label>Rented Property Address (मकान / दुकान का पता)</label><input type="text" id="in_prop_addr" placeholder="उदा. Flat No. 204, Sai Residency, Warje, Pune" oninput="renderDoc()"></div>
+
+    <div class="section-badge">2. Tenant & Landlord Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Tenant Name (किरायेदार का नाम)</label><input type="text" id="in_tenant" placeholder="उदा. Rahul Deshmukh" oninput="renderDoc()"></div>
+      <div class="field"><label>Tenant WhatsApp / Mobile</label><input type="text" id="in_tenant_ph" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Landlord Name (मकान मालिक का नाम)</label><input type="text" id="in_landlord" placeholder="उदा. Shri Suresh Patil" oninput="renderDoc()"></div>
+      <div class="field"><label>Landlord PAN (Optional for HRA)</label><input type="text" id="in_pan" placeholder="उदा. ABCDE1234F" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">3. Rent & Utility Breakdown (₹)</div>
+    <div class="grid-3">
+      <div class="field"><label>Monthly Rent (मासिक किराया ₹)</label><input type="number" id="in_rent" placeholder="12000" oninput="calcRent()"></div>
+      <div class="field"><label>Electricity / Water Bill (₹)</label><input type="number" id="in_elec" placeholder="0" oninput="calcRent()"></div>
+      <div class="field"><label>Maintenance / Other (₹)</label><input type="number" id="in_maint" placeholder="0" oninput="calcRent()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Payment Mode</label>
+        <select id="in_pay_mode" onchange="renderDoc()">
+          <option value="UPI / Online Transfer">UPI / Bank Transfer</option>
+          <option value="CASH (नकद)">CASH (नकद)</option>
+          <option value="Cheque">Cheque</option>
+        </select>
+      </div>
+      <div class="field"><label>Transaction Ref / Remarks</label><input type="text" id="in_ref" placeholder="उदा. UPI Ref: 62819XXXX" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Receipt</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live A4 Rent Receipt Preview</div>
+    <div id="a4DocSheet">
+      <div id="slipsContainer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let copyCount = 1;
+
+  function setCopies(n) {
+    copyCount = n;
+    document.getElementById('btnOne').classList.toggle('active', n === 1);
+    document.getElementById('btnTwo').classList.toggle('active', n === 2);
+    renderDoc();
+  }
+
+  function calcRent() { renderDoc(); }
+
+  function renderDoc() {
+    const recNo = document.getElementById('in_rec_no').value.trim() || '-';
+    const date = document.getElementById('in_date').value || '-';
+    const month = document.getElementById('in_month').value.trim() || 'Current Month';
+    const addr = document.getElementById('in_prop_addr').value.trim() || 'Property Address';
+    const tenant = document.getElementById('in_tenant').value.trim() || 'Tenant Name';
+    const landlord = document.getElementById('in_landlord').value.trim() || 'Landlord Name';
+    const pan = document.getElementById('in_pan').value.trim();
+    const mode = document.getElementById('in_pay_mode').value;
+    const ref = document.getElementById('in_ref').value.trim();
+
+    const rent = parseFloat(document.getElementById('in_rent').value) || 0;
+    const elec = parseFloat(document.getElementById('in_elec').value) || 0;
+    const maint = parseFloat(document.getElementById('in_maint').value) || 0;
+    const total = rent + elec + maint;
+
+    const buildSlip = (label, noSuffix) => `
+      <div class="slip-box">
+        <div class="slip-header">
+          <div>
+            <h2>HOUSE / SHOP RENT RECEIPT</h2>
+            <p>Receipt No: <b>${recNo}${noSuffix}</b> • Date: <b>${date}</b></p>
+          </div>
+          <div class="slip-badge">${label}</div>
+        </div>
+
+        <div class="rent-body-text">
+          Received with thanks from Shri/Smt. <span class="u-val">${tenant}</span> a sum of
+          <span class="u-val">₹${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+          via <b>${mode}</b> ${ref ? `(${ref})` : ''} towards rent & charges for the month/period of
+          <span class="u-val">${month}</span> for the premises situated at:
+          <span class="u-val">${addr}</span>.
+        </div>
+
+        <table class="breakdown-table">
+          <tr><td>Monthly House / Shop Rent</td><td class="t-right">₹${rent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>
+          ${elec > 0 ? `<tr><td>Electricity / Water Charges</td><td class="t-right">₹${elec.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>` : ''}
+          ${maint > 0 ? `<tr><td>Maintenance / Society Charges</td><td class="t-right">₹${maint.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>` : ''}
+          <tr class="tot-row"><td>Total Amount Received</td><td class="t-right">₹${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>
+        </table>
+
+        <div class="footer-row">
+          <div>
+            <div><b>Landlord:</b> ${landlord}</div>
+            ${pan ? `<div style="margin-top:3px;"><b>Landlord PAN:</b> ${pan}</div>` : ''}
+          </div>
+          <div class="stamp-box">Affix Revenue<br>Stamp<br>(If Cash > ₹5000)</div>
+          <div class="sig-block">
+            Landlord Signature<br>
+            <span style="font-size:9px; color:#64748b;">(मकान मालिक के हस्ताक्षर)</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    let html = buildSlip('TENANT COPY', '');
+    if (copyCount === 2) {
+      html += `<div class="cut-divider"><span class="cut-tag">✂️ CUT HERE</span></div>` + buildSlip('LANDLORD COPY', '-B');
+    }
+    document.getElementById('slipsContainer').innerHTML = html;
+  }
+
+  function downloadA4PDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:16px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [6, 6, 6, 6],
+      filename: `RentReceipt_${document.getElementById('in_rec_no').value || 'Slip'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDocDirect() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Rent Receipt</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
+      .slip-box{border:2px solid #0f172a;border-radius:8px;padding:14px 16px;margin-bottom:8px}
+      .slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0f172a;padding-bottom:6px;margin-bottom:10px}
+      .slip-header h2{margin:0;font-size:16px;font-weight:900}.slip-header p{margin:2px 0 0;font-size:10px;color:#475569}
+      .slip-badge{background:#0f172a;color:#fff;padding:3px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
+      .rent-body-text{font-size:11.5px;line-height:1.7;margin:10px 0}.u-val{font-weight:800;border-bottom:1px dashed #64748b;padding:0 4px}
+      .breakdown-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+      .breakdown-table td{padding:4px 8px;border:1px solid #cbd5e1;font-weight:600}
+      .breakdown-table tr.tot-row td{background:#f0fdf4;color:#166534;font-weight:800;font-size:12.5px;border-top:2px solid #16a34a}
+      .t-right{text-align:right}
+      .footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px;font-size:10px}
+      .stamp-box{width:68px;height:68px;border:1.5px dashed #64748b;display:flex;align-items:center;justify-content:center;text-align:center;font-size:8.5px;font-weight:700;color:#64748b}
+      .sig-block{width:42%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+      .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}
+      .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const tenant = document.getElementById('in_tenant').value.trim() || 'Tenant';
+    const month = document.getElementById('in_month').value.trim() || 'Current Month';
+    const rent = (parseFloat(document.getElementById('in_rent').value)||0) + (parseFloat(document.getElementById('in_elec').value)||0) + (parseFloat(document.getElementById('in_maint').value)||0);
+    const ph = document.getElementById('in_tenant_ph').value.trim().replace(/[^0-9]/g, '');
+    const msg = `*🏠 RENT RECEIPT (${document.getElementById('in_rec_no').value})*\n*Tenant:* ${tenant}\n*Period:* ${month}\n*Amount Paid:* ₹${rent.toLocaleString('en-IN')}\n\n_Generated via KaamKaj Bills._`;
+    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_rec_no').value = 'RNT-' + Math.floor(100000 + Math.random() * 899990);
+    renderDoc();
+  };
+</script>
+</body>
+</html>
