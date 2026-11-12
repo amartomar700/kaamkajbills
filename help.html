@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KaamKaj Bills Help</title>
+<style>
+:root{
+  --ink:#1b2440;--ink2:#4a5472;--line:#d9deea;--gold:#e9a40c;--gold-bg:#fff6dc;--bg:#f4f6fb;
+  --f:"Noto Sans Devanagari","Noto Sans Bengali","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Kannada","Noto Sans Malayalam","Noto Sans Gurmukhi","Noto Sans Gujarati","Noto Sans Oriya","Noto Naskh Arabic","Segoe UI",system-ui,sans-serif;
+}
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+* { box-sizing: border-box; font-family: var(--f); }
+
+.bot-main-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 640px;
+  height: 620px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+header {
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 3.5px solid var(--gold);
+  flex-shrink: 0;
+}
+header b { font-size: 15px; flex: 1; }
+header small { display: block; font-weight: 400; font-size: 11px; opacity: .8; }
+select { border: 0; border-radius: 8px; padding: 6px 8px; font-size: 12.5px; background: #fff; color: var(--ink); max-width: 130px; outline: none; }
+
+#log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.m { max-width: 86%; padding: 10px 12px; border-radius: 12px; font-size: 13.5px; line-height: 1.55; word-wrap: break-word; }
+.bot { background: #fff; border: 1px solid var(--line); align-self: flex-start; border-top-left-radius: 3px; }
+.me { background: var(--ink); color: #fff; align-self: flex-end; border-top-right-radius: 3px; }
+.m a { color: #8a5d00; font-weight: 700; }
+.go { display: inline-block; margin-top: 8px; background: var(--gold); color: #2a1d00 !important; text-decoration: none; padding: 7px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: none; cursor: pointer; }
+.hl { margin: 6px 0 0; color: var(--ink2); font-size: 12px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chips button { background: var(--gold-bg); border: 1.5px solid var(--gold); color: #5c3d00; border-radius: 16px; padding: 6px 11px; font-size: 12px; cursor: pointer; font-weight: 600; }
+
+form {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  flex-shrink: 0;
+}
+input { flex: 1; border: 1.5px solid var(--line); border-radius: 8px; padding: 10px; font-size: 13.5px; outline: none; min-width: 0; }
+input:focus { border-color: var(--gold); }
+form button { background: var(--gold); border: 0; border-radius: 8px; padding: 0 16px; font-weight: 800; color: #2a1d00; cursor: pointer; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="bot-main-container">
+  <header>
+    <b>KaamKaj Bills<small id="sub"></small></b>
+    <select id="lang" aria-label="Language"></select>
+  </header>
+  
+  <div id="log" aria-live="polite"></div>
+  
+  <form id="f">
+    <input id="q" autocomplete="off">
+    <button id="send" type="submit"></button>
+  </form>
+</div>
+
+<script>
+const EMAIL = 'kaamkajbills@gmail.com';
+const BASE  = 'https://sites.google.com/view/kaamkaj-bills/home/';
+const AI_ENDPOINT = '';
+
+// Format: [slug, Hindi Name, English Name, Hindi Desc, English Desc, Keywords]
+const T = [
+  ['salary-pay-slip','सैलरी / पे स्लिप','Salary pay slip','कर्मचारी की सैलरी स्लिप बनाकर PDF या प्रिंट के रूप में दे सकते हैं।','Create an employee salary pay slip and download or print it.','salary,pay slip,payslip,सैलरी,वेतन,तनख्वाह,पे स्लिप'],
+  ['technician-bills','टेक्नीशियन बिल व कोटेशन','Technician bills & quotation','इलेक्ट्रीशियन, प्लंबर, CCTV और AC तकनीशियन अपनी सर्विस व मटेरियल का कोटेशन या इनवॉइस बना सकते हैं।','Technicians such as electricians, CCTV installers, and plumbers can make quotations and service bills.','technician,electrician,plumber,cctv,ac,repair,service,तकनीशियन,टेक्नीशियन,मिस्त्री,मरम्मत,इलेक्ट्रीशियन,प्लंबर'],
+  ['kirana-shop-bill','किराना दुकान बिल','Kirana shop bill','किराना दुकान के ग्राहकों के लिए सामान का बिल बनाएं।','Make item-wise bills for your kirana shop customers.','kirana,grocery,shop,किराना,दुकान,राशन'],
+  ['cv-resume','CV / रिज्यूमे (क्रिएटिव व टेक्निकल)','CV / Resume (Creative & Technical)','नौकरी के लिए क्रिएटिव मिनिमलिस्ट या टेक्निकल/फील्ड स्टाफ रिज्यूमे बनाएं।','Build a creative minimalist or technical/field staff CV or resume for job applications.','cv,resume,biodata,iti,technical cv,रिज्यूमे,बायोडाटा,सीवी,नौकरी,job'],
+  ['paymet-slip-rasid','पेमेंट स्लिप / वाउचर रसीद','Payment receipt & voucher','पैसे मिलने की रसीद या भुगतान वाउचर (1 या 2 कॉपी A4 पर) बनाएं।','Make a payment receipt or payment voucher (1 or 2 slips on A4) for money received or paid.','payment,receipt,voucher,rasid,रसीद,पेमेंट,भुगतान,वाउचर'],
+  ['work-completion-handover-certificate','कार्य पूर्णता व हैंडओवर सर्टिफिकेट','Work completion & handover certificate','काम पूरा होने और साइट सौंपने का आधिकारिक सर्टिफिकेट बनाएं।','Create an official certificate confirming that work is complete and handed over.','completion,handover,work certificate,हैंडओवर,कार्य पूर्ण,सर्टिफिकेट'],
+  ['rent-receipt-generator','किराया रसीद (HRA सहित)','Rent receipt generator','मकान या दुकान के किराए की रसीद बनाएं (बिजली बिल और मेंटेनेंस विकल्प के साथ)।','Generate a rent receipt for a house or shop with electricity and maintenance breakdown.','rent,landlord,tenant,hra,किराया,किराये,भाड़ा,मकान,रूम'],
+  ['tailoring-measurement-job-slip','टेलरिंग नाप व कटिंग स्लिप','Tailoring measurement & cutting slip','ग्राहक का नाप, सिलाई जॉब स्लिप और कारीगर कटिंग पर्ची बनाएं।','Record customer measurements, tailoring job slips, and master cutting slips.','tailor,tailoring,boutique,measurement,cutting,नाप,दर्जी,टेलर,सिलाई,बुटीक'],
+  ['stationery-xerox-bill','स्टेशनरी व जेरोक्स दुकान बिल','Stationery & Xerox shop bill','फोटोकॉपी, प्रिंटआउट, बाइंडिंग और स्टेशनरी आइटम्स का कैश मेमो या ऑर्डर स्लिप बनाएं।','Create cash memos and binding/printing order slips for stationery and xerox shops.','stationery,xerox,photocopy,printout,binding,lamination,स्टेशनरी,जेरोक्स,फोटोकॉपी,बाइंडिंग'],
+  ['catering-rental-booking-slip','कैटरिंग / रेंटल बुकिंग स्लिप','Catering & rental booking slip','टेंट, लाइट-साउंड रेंटल और कैटरिंग/हलवाई ऑर्डर की बुकिंग स्लिप बनाएं।','Make booking slips for tent, lights & sound rentals and catering orders.','catering,tent,booking,halwai,rental,lights,sound,कैटरिंग,टेंट,हलवाई,बुकिंग,साउंड,लाइट,शादी'],
+  ['estimate-quotationinvoce','एस्टीमेट / कोटेशन / इनवॉइस / मटेरियल लिस्ट','Estimate, quotation, invoice & material list','GST/Non-GST एस्टीमेट, कोटेशन, टैक्स इनवॉइस या साइट मटेरियल लिस्ट बनाएं।','Create GST/Non-GST estimates, quotations, tax invoices, or site material lists.','estimate,quotation,quote,invoice,material list,gst,कोटेशन,इनवॉइस,एस्टीमेट,मटेरियल'],
+  ['security-services','सिक्योरिटी सर्विसेज़ व स्टाफ रोस्टर','Security services & staff advance','कर्मचारी एडवांस पर्ची और सिक्योरिटी गार्ड ड्यूटी रोस्टर स्लिप बनाएं।','Generate staff salary advance memos and security guard duty roster slips.','security,guard,roster,duty,staff advance,सिक्योरिटी,गार्ड,ड्यूटी,एडवांस'],
+  ['school','स्कूल / कोचिंग / ट्रेनिंग','School, coaching & training','फीस रसीद, कोर्स पूर्णता प्रमाण पत्र और छात्र एडमिशन स्लिप बनाएं।','Generate tuition fee receipts, course completion certificates, and student admission slips.','school,coaching,fee,admission,student,certificate,tuition,स्कूल,कोचिंग,फीस,एडमिशन,छात्र,प्रमाण'],
+  ['mandi','डेरी व मंडी किसान पर्ची','Dairy & Mandi farmer slip','दैनिक दूध संकलन (FAT/SNF) पर्ची और मंडी फसल बिक्री आढ़त पर्ची बनाएं।','Create daily milk collection slips (FAT/SNF) and mandi crop sale slips for farmers.','mandi,dairy,milk,fat,snf,मंडी,किसान,farmer,आढ़त,अनाज,दूध,डेरी'],
+  ['beauty-parlour-salon-bill','ब्यूटी पार्लर व सैलून बिल / बुकिंग','Beauty parlour & salon bill / booking','सैलून सर्विस बिल और ब्राइडल/पार्टी मेकअप बुकिंग स्लिप बनाएं।','Create beauty parlour service bills and bridal/party makeup appointment slips.','beauty,parlour,salon,makeup,bridal,facial,ब्यूटी,पार्लर,सैलून,मेकअप,ब्राइडल'],
+  ['mobile-electronics-repair','मोबाइल व इलेक्ट्रॉनिक्स रिपेयर जॉब शीट','Mobile & electronics repair job sheet','मोबाइल, लैपटॉप व इलेक्ट्रॉनिक्स रिपेयरिंग के लिए जमा टोकन और वारंटी डिलीवरी बिल बनाएं।','Generate repair intake tokens and warranty delivery bills for mobile & electronics shops.','mobile,laptop,repair,electronics,job sheet,imei,मोबाइल,लैपटॉप,रिपेयर,मरम्मत'],
+  ['hotel-lodge-guest-slip','होटल व लॉज गेस्ट चेक-इन / बिल','Hotel & lodge guest slip','होटल या गेस्ट हाउस के लिए चेक-इन रजिस्ट्रेशन स्लिप और चेक-आउट रूम बिल बनाएं।','Create guest check-in registration slips and final check-out room bills for hotels and lodges.','hotel,lodge,guest house,room,checkin,checkout,होटल,लॉज,कमरा,गेस्ट'],
+  ['id-card-maker','आईडी कार्ड मेकर (सिंगल व बल्क)','ID card maker (Single & Bulk)','QR कोड के साथ सिंगल या Excel से एक साथ सैकड़ों कर्मचारियों/छात्रों के ID कार्ड बनाएं।','Design single or bulk employee/student ID cards from Excel with live QR verification.','id card,identity card,badge,bulk id,qr card,आईडी कार्ड,पहचान पत्र'],
+  ['passport-photo-maker','पासपोर्ट साइज फोटो शीट मेकर','Passport size photo sheet maker','किसी भी फोटो को क्रॉप करके A4 या 4x6 पेपर पर 4 से 20+ पासपोर्ट फोटो की प्रिंट शीट बनाएं।','Crop any photo and generate a ready-to-print A4 or 4x6 passport photo sheet.','passport photo,photo sheet,stamp size,पासपोर्ट फोटो,फोटो शीट'],
+  ['support-custom-request','सपोर्ट व कस्टम पेज रिक्वेस्ट','Support & custom page request','अपनी दुकान या बिजनेस के लिए नया कस्टम टूल या पेज बनवाने के लिए रिक्वेस्ट भेजें।','Request a new custom tool or dedicated page for your business, or support the project.','support,donate,custom page,request,help,सपोर्ट,कस्टम,नया पेज']
+];
+
+const S = {
+ hi:['हिन्दी','नमस्ते! KaamKaj Bills के किसी भी टूल के बारे में पूछें।','अपना सवाल लिखें…','भेजें','अधिक जानकारी के लिए ईमेल करें:','पेज खोलें','प्रमुख विषय'],
+ en:['English','Hello! Ask me about any KaamKaj Bills tool.','Type your question…','Send','For more information, email:','Open page','Popular topics'],
+ mr:['मराठी','नमस्कार! KaamKaj Bills च्या कोणत्याही टूलबद्दल विचारा.','तुमचा प्रश्न लिहा…','पाठवा','अधिक माहितीसाठी ईमेल करा:','पेज उघडा','लोकप्रिय विषय'],
+ gu:['ગુજરાતી','નમસ્તે! KaamKaj Bills ના કોઈપણ ટૂલ વિશે પૂછો.','તમારો પ્રશ્ન લખો…','મોકલો','વધુ માહિતી માટે ઈમેલ કરો:','પેજ ખોલો','લોકપ્રિય વિષયો'],
+ bn:['বাংলা','নমস্কার! KaamKaj Bills-এর যেকোনো টুল সম্পর্কে জিজ্ঞাসা করুন।','আপনার প্রশ্ন লিখুন…','পাঠান','আরও তথ্যের জন্য ইমেল করুন:','পেজ খুলুন','জনপ্রিয় বিষয়'],
+ ta:['தமிழ்','வணக்கம்! KaamKaj Bills இன் எந்த கருவி பற்றியும் கேளுங்கள்.','உங்கள் கேள்வியை எழுதுங்கள்…','அனுப்பு','மேலும் தகவலுக்கு மின்னஞ்சல் செய்யுங்கள்:','பக்கத்தைத் திறக்கவும்','பிரபலமான தலைப்புகள்'],
+ te:['తెలుగు','నమస్కారం! KaamKaj Bills లోని ఏ టూల్ గురించైనా అడగండి.','మీ ప్రశ్న రాయండి…','పంపండి','మరింత సమాచారం కోసం ఈమెయిల్ చేయండి:','పేజీ తెరవండి','ప్రముఖ అంశాలు'],
+ kn:['ಕನ್ನಡ','ನಮಸ್ಕಾರ! KaamKaj Bills ನ ಯಾವುದೇ ಟೂಲ್ ಬಗ್ಗೆ ಕೇಳಿ.','ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ…','ಕಳುಹಿಸಿ','ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ಇಮೇಲ್ ಮಾಡಿ:','ಪುಟ ತೆರೆಯಿರಿ','ಜನಪ್ರಿಯ ವಿಷಯಗಳು'],
+ ml:['മലയാളം','നമസ്കാരം! KaamKaj Bills-ലെ ഏത് ടൂളിനെക്കുറിച്ചും ചോദിക്കൂ.','നിങ്ങളുടെ ചോദ്യം എഴുതുക…','അയയ്ക്കുക','കൂടുതൽ വിവരങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക:','പേജ് തുറക്കുക','പ്രധാന വിഷയങ്ങൾ'],
+ pa:['ਪੰਜਾਬੀ','ਸਤ ਸ੍ਰੀ ਅਕਾਲ! KaamKaj Bills ਦੇ ਕਿਸੇ ਵੀ ਟੂਲ ਬਾਰੇ ਪੁੱਛੋ।','ਆਪਣਾ ਸਵਾਲ ਲਿਖੋ…','ਭੇਜੋ','ਹੋਰ ਜਾਣਕਾਰੀ ਲਈ ਈਮੇਲ ਕਰੋ:','ਪੇਜ ਖੋਲ੍ਹੋ','ਪ੍ਰਮੁੱਖ ਵਿਸ਼ੇ'],
+ or:['ଓଡ଼ିଆ','ନମସ୍କାର! KaamKaj Bills ର ଯେକୌଣସି ଟୁଲ୍ ବିଷୟରେ ପଚାରନ୍ତୁ।','ଆପଣଙ୍କ ପ୍ରଶ୍ନ ଲେଖନ୍ତୁ…','ପଠାନ୍ତୁ','ଅଧିକ ସୂଚନା ପାଇଁ ଇମେଲ୍ କରନ୍ତୁ:','ପେଜ୍ ଖୋଲନ୍ତୁ','ଜନପ୍ରିୟ ବିଷୟ'],
+ ur:['اردو','السلام علیکم! KaamKaj Bills کے کسی بھی ٹول کے بارے میں پوچھیں۔','अपना सवाल लिखें…','بھیجیں','مزید معلومات کے لیے ای میل کریں:','صفحہ کھولیں','اہم موضوعات']
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let lang = 'hi';
+
+function openToolUrl(url){
+  try{
+    if(window.top && window.top.location){
+      window.top.location.href = url;
+    } else {
+      window.open(url, '_blank');
+    }
+  }catch(e){
+    window.open(url, '_blank');
+  }
+}
+
+function ui(){ return S[lang]; }
+function mail(){ return `${esc(ui()[4])} <a href="mailto:${EMAIL}">${EMAIL}</a>`; }
+function say(html, who){
+  const d = document.createElement('div');
+  d.className = 'm ' + who; d.innerHTML = html;
+  $('log').appendChild(d); $('log').scrollTop = $('log').scrollHeight;
+  return d;
+}
+function chips(list){
+  return '<div class="chips">' + list.map(i => `<button type="button" onclick="ask(${i})">${esc(T[i][1])} / ${esc(T[i][2])}</button>`).join('') + '</div>';
+}
+function answerHTML(i){
+  const [slug, hn, en, ha, ea] = T[i];
+  const body = lang === 'hi' ? esc(ha) : lang === 'en' ? esc(ea) : `${esc(ha)}<p class="hl">${esc(ea)}</p>`;
+  const targetUrl = `${BASE}${slug}?authuser=0`;
+  return `<b>${esc(lang === 'en' ? en : hn)}</b><br>${body}<br><button type="button" class="go" onclick="openToolUrl('${targetUrl}')">${esc(ui()[5])} ↗</button><p class="hl">${mail()}</p>`;
+}
+function match(q){
+  q = q.toLowerCase(); let best = -1, score = 0;
+  T.forEach((t, i) => {
+    const s = t[5].split(',').reduce((a, k) => a + (q.includes(k.toLowerCase()) ? k.length : 0), 0);
+    if (s > score){ score = s; best = i; }
+  });
+  return best;
+}
+async function ask(i){ say(esc(T[i][1] + ' / ' + T[i][2]), 'me'); say(answerHTML(i), 'bot'); }
+
+async function reply(q){
+  if (AI_ENDPOINT){
+    const wait = say('…', 'bot');
+    try {
+      const r = await fetch(AI_ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({question:q, lang, topics:T.map(t => ({slug:t[0], name:t[2], info:t[4]}))})});
+      const j = await r.json();
+      wait.innerHTML = esc(j.answer || '') + `<p class="hl">${mail()}</p>`;
+      return;
+    } catch(e){ wait.remove(); }
+  }
+  const i = match(q);
+  if (i >= 0) say(answerHTML(i), 'bot');
+  else say(`${mail()}${chips([10, 17, 18, 14, 15, 0, 6])}`, 'bot');
+}
+
+$('f').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = $('q').value.trim(); if (!q) return;
+  say(esc(q), 'me'); $('q').value = ''; reply(q);
+});
+
+function setLang(l){
+  lang = l; const u = ui();
+  document.documentElement.lang = l; document.documentElement.dir = l === 'ur' ? 'rtl' : 'ltr';
+  $('q').placeholder = u[2]; $('send').textContent = u[3]; $('sub').textContent = EMAIL;
+  $('log').innerHTML = '';
+  say(`${esc(u[1])}<p class="hl">${esc(u[6])}:</p>${chips([10, 17, 18, 14, 15, 19])}`, 'bot');
+}
+$('lang').innerHTML = Object.keys(S).map(k => `<option value="${k}">${S[k][0]}</option>`).join('');
+$('lang').addEventListener('change', e => setLang(e.target.value));
+const nav = (navigator.language || 'hi').slice(0, 2);
+$('lang').value = S[nav] ? nav : 'hi';
+setLang($('lang').value);
+</script>
+</body>
+</html>
