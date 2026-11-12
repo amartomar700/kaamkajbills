@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Experience & Relieving Certificate Generator - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-dark: #172554;
+    --primary-soft: #dbeafe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  textarea { resize: vertical; min-height: 68px; }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .toggle-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .toggle-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(30, 58, 138, 0.28);
+  }
+
+  /* Signature Pad */
+  .sig-wrap { background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px; }
+  #sigCanvas {
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    background: #fff;
+    cursor: crosshair;
+    touch-action: none;
+    width: 100%;
+    max-width: 240px;
+    height: 55px;
+    display: block;
+  }
+  .btn-sm { background: #64748b; color: #fff; border: none; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #1e3a8a, #172554); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 32px 28px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #0f172a;
+  }
+
+  /* Letterhead Header */
+  .lh-header {
+    border-bottom: 3px solid #1e3a8a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .lh-org h1 { margin: 0; font-size: 20px; font-weight: 900; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .lh-org p { margin: 3px 0 0; font-size: 11px; color: #475569; line-height: 1.4; }
+  .lh-badge {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    color: #1e3a8a;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .ref-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 22px;
+  }
+
+  .cert-heading {
+    text-align: center;
+    margin: 14px 0 22px 0;
+  }
+  .cert-heading span {
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 4px;
+    color: #0f172a;
+  }
+
+  .letter-body {
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #1e293b;
+    text-align: justify;
+  }
+  .letter-body p { margin: 0 0 14px 0; }
+
+  .resp-box {
+    background: #f8fafc;
+    border-left: 3.5px solid #1e3a8a;
+    padding: 10px 14px;
+    margin: 14px 0;
+    font-size: 11.5px;
+    line-height: 1.65;
+    white-space: pre-line;
+  }
+
+  .sig-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 38px;
+  }
+  .seal-circle {
+    width: 82px;
+    height: 82px;
+    border: 1.5px dashed #64748b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #64748b;
+  }
+  .auth-block {
+    text-align: left;
+    min-width: 190px;
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+  .auth-block img { max-height: 36px; display: block; margin-bottom: 4px; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    #a4DocSheet { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Experience & Relieving Certificate</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div style="margin-bottom: 10px;">
+      <label>1. Certificate Type Chunein:</label>
+      <div class="toggle-bar">
+        <button type="button" class="toggle-btn active" id="btnBoth" onclick="setType('BOTH')">📜 Experience + Relieving Letter</button>
+        <button type="button" class="toggle-btn" id="btnExpOnly" onclick="setType('EXP')">🏅 Experience Certificate Only</button>
+      </div>
+    </div>
+
+    <div class="section-badge">1. Company / Organization Letterhead Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Company / Firm Name</label><input type="text" id="in_org" value="Maruthi Technologies" oninput="renderDoc()"></div>
+      <div class="field"><label>Company Reg / GST / Website</label><input type="text" id="in_reg" value="Pune, Maharashtra | www.kaamkajbills.in" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Reference / Certificate No.</label><input type="text" id="in_ref" oninput="renderDoc()"></div>
+      <div class="field"><label>Issue Date (जारी करने की तिथि)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">2. Employee & Tenure Details</div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Salutation</label>
+        <select id="in_sal" onchange="renderDoc()">
+          <option value="Mr." selected>Mr. (श्री)</option>
+          <option value="Ms.">Ms. (सुश्री)</option>
+          <option value="Mrs.">Mrs. (श्रीमती)</option>
+        </select>
+      </div>
+      <div class="field"><label>Employee Full Name</label><input type="text" id="in_emp" value="Munal Kumar" oninput="renderDoc()"></div>
+      <div class="field"><label>Employee ID / Code</label><input type="text" id="in_emp_id" value="MT-EMP-04" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Designation / Role</label><input type="text" id="in_role" value="Senior Electrical & CCTV Technician" oninput="renderDoc()"></div>
+      <div class="field"><label>Date of Joining</label><input type="date" id="in_doj" value="2023-04-01" oninput="renderDoc()"></div>
+      <div class="field"><label>Last Working Date</label><input type="date" id="in_lwd" value="2026-10-31" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">3. Key Responsibilities & Conduct</div>
+    <div class="field">
+      <label>Key Roles & Responsibilities (मुख्य कार्य विवरण)</label>
+      <textarea id="in_resp" oninput="renderDoc()">• Installation, testing, and commissioning of IP CCTV surveillance systems, NVR/DVR setups, and LAN networks.
+• Execution of commercial & residential electrical wiring, switchboard panels, and site troubleshooting.
+• Maintaining client service logs and ensuring timely project handover.</textarea>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Authorized Signatory Name</label><input type="text" id="in_auth_name" value="Amar Singh Tomar" oninput="renderDoc()"></div>
+      <div class="field"><label>Signatory Designation</label><input type="text" id="in_auth_role" value="Proprietor / Authorized Signatory" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="field">
+      <label>Draw Digital Signature (Optional):</label>
+      <div class="sig-wrap">
+        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download Official PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDoc()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE A4 CERTIFICATE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live Official Letterhead Preview</div>
+    <div id="a4DocSheet">
+      <div class="lh-header">
+        <div class="lh-org">
+          <h1 id="out_org">MARUTHI TECHNOLOGIES</h1>
+          <p id="out_reg">Pune, Maharashtra | www.kaamkajbills.in</p>
+        </div>
+        <div class="lh-badge">OFFICIAL RECORD</div>
+      </div>
+
+      <div class="ref-row">
+        <div>Ref No: <span id="out_ref">EXP/2026/104</span></div>
+        <div>Date: <span id="out_date">-</span></div>
+      </div>
+
+      <div class="cert-heading">
+        <span id="out_title">EXPERIENCE & RELIEVING CERTIFICATE</span>
+      </div>
+
+      <div class="letter-body">
+        <p style="font-weight:800; text-align:center; letter-spacing:0.6px; margin-bottom:16px;">TO WHOMSOEVER IT MAY CONCERN</p>
+
+        <p>
+          This is to certify that <b id="out_emp_full">Mr. Munal Kumar</b> (Employee ID: <b id="out_emp_id">MT-EMP-04</b>) was employed with <b id="out_org_body">Maruthi Technologies</b> as <b id="out_role">Senior Electrical & CCTV Technician</b> from <b id="out_doj">01-04-2023</b> to <b id="out_lwd">31-10-2026</b>.
+        </p>
+
+        <div class="resp-box">
+          <b>Key Responsibilities Handled:</b><br>
+          <span id="out_resp"></span>
+        </div>
+
+        <p id="out_relieve_para">
+          He/She has been relieved from his/her duties with effect from the closing hours of <b id="out_lwd_2">31-10-2026</b> upon acceptance of resignation, and all dues have been settled in full and final.
+        </p>
+
+        <p>
+          During his/her tenure with us, we found <b id="out_emp_short">Mr. Munal Kumar</b> to be sincere, hardworking, and honest in discharging assigned responsibilities. We wish him/her all the very best in future professional endeavors.
+        </p>
+      </div>
+
+      <div class="sig-section">
+        <div class="seal-circle">COMPANY<br>OFFICIAL<br>STAMP</div>
+        <div class="auth-block">
+          <div>For <b id="out_org_sig">Maruthi Technologies</b>,</div>
+          <div style="min-height:38px; display:flex; align-items:flex-end;">
+            <img id="out_sig" style="display:none;" alt="Signature">
+          </div>
+          <div style="border-top:1.5px solid #0f172a; padding-top:4px;">
+            <b id="out_auth_name">Amar Singh Tomar</b><br>
+            <span style="font-size:10px; color:#475569;" id="out_auth_role">Proprietor / Authorized Signatory</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let certType = 'BOTH';
+
+  function setType(t) {
+    certType = t;
+    document.getElementById('btnBoth').classList.toggle('active', t === 'BOTH');
+    document.getElementById('btnExpOnly').classList.toggle('active', t === 'EXP');
+    document.getElementById('out_title').innerText = t === 'BOTH' ? 'EXPERIENCE & RELIEVING CERTIFICATE' : 'EXPERIENCE CERTIFICATE';
+    document.getElementById('out_relieve_para').style.display = t === 'BOTH' ? 'block' : 'none';
+  }
+
+  function fmtDate(dStr) {
+    if (!dStr) return '-';
+    const [y, m, d] = dStr.split('-');
+    return `${d}-${m}-${y}`;
+  }
+
+  function renderDoc() {
+    const org = document.getElementById('in_org').value.trim() || 'ORGANIZATION NAME';
+    const reg = document.getElementById('in_reg').value.trim() || 'Office Address & Contact';
+    const ref = document.getElementById('in_ref').value.trim() || '-';
+    const dt = fmtDate(document.getElementById('in_date').value);
+    const sal = document.getElementById('in_sal').value;
+    const emp = document.getElementById('in_emp').value.trim() || 'Employee Name';
+    const empId = document.getElementById('in_emp_id').value.trim() || '-';
+    const role = document.getElementById('in_role').value.trim() || 'Designation';
+    const doj = fmtDate(document.getElementById('in_doj').value);
+    const lwd = fmtDate(document.getElementById('in_lwd').value);
+
+    document.getElementById('out_org').innerText = org;
+    document.getElementById('out_org_body').innerText = org;
+    document.getElementById('out_org_sig').innerText = org;
+    document.getElementById('out_reg').innerText = reg;
+    document.getElementById('out_ref').innerText = ref;
+    document.getElementById('out_date').innerText = dt;
+
+    document.getElementById('out_emp_full').innerText = `${sal} ${emp}`;
+    document.getElementById('out_emp_short').innerText = `${sal} ${emp}`;
+    document.getElementById('out_emp_id').innerText = empId;
+    document.getElementById('out_role').innerText = role;
+    document.getElementById('out_doj').innerText = doj;
+    document.getElementById('out_lwd').innerText = lwd;
+    document.getElementById('out_lwd_2').innerText = lwd;
+
+    document.getElementById('out_resp').innerText = document.getElementById('in_resp').value;
+    document.getElementById('out_auth_name').innerText = document.getElementById('in_auth_name').value.trim() || 'Authorized Signatory';
+    document.getElementById('out_auth_role').innerText = document.getElementById('in_auth_role').value.trim() || 'Director / Manager';
+  }
+
+  // Signature Pad
+  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
+  let draw = false;
+  function pos(e) {
+    const r = cvs.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  cvs.addEventListener('mousedown', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  cvs.addEventListener('touchstart', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
+  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
+
+  function downloadPDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:30px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [8, 8, 8, 8],
+      filename: `Experience_Certificate_${document.getElementById('in_emp').value.trim() || 'Employee'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDoc() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Certificate</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:15mm;color:#0f172a}
+      .lh-header{border-bottom:3px solid #1e3a8a;padding-bottom:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start}
+      .lh-org h1{margin:0;font-size:20px;color:#1e3a8a;text-transform:uppercase}.lh-org p{margin:3px 0 0;font-size:11px;color:#475569}
+      .lh-badge{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a;padding:4px 10px;border-radius:4px;font-size:10px;font-weight:800}
+      .ref-row{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;margin-bottom:22px}
+      .cert-heading{text-align:center;margin:14px 0 22px}.cert-heading span{font-size:15px;font-weight:900;text-transform:uppercase;border-bottom:2px solid #0f172a;padding-bottom:4px}
+      .letter-body{font-size:12.5px;line-height:1.85;text-align:justify}.letter-body p{margin:0 0 14px}
+      .resp-box{background:#f8fafc;border-left:3.5px solid #1e3a8a;padding:10px 14px;margin:14px 0;font-size:11.5px;line-height:1.65;white-space:pre-line}
+      .sig-section{display:flex;justify-content:space-between;align-items:flex-end;margin-top:42px}
+      .seal-circle{width:82px;height:82px;border:1.5px dashed #64748b;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9px;font-weight:700;color:#64748b}
+      .auth-block{min-width:190px;font-size:11.5px;line-height:1.5}.auth-block img{max-height:36px;display:block;margin-bottom:4px}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const org = document.getElementById('in_org').value.trim() || 'Company';
+    const emp = document.getElementById('in_emp').value.trim() || 'Employee';
+    const role = document.getElementById('in_role').value.trim() || 'Role';
+    const msg = `*📜 EXPERIENCE CERTIFICATE ISSUED*\n*Company:* ${org}\n*Employee:* ${emp}\n*Designation:* ${role}\n*Ref No:* ${document.getElementById('in_ref').value}\n\n_Generated via KaamKaj Bills._`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_ref').value = 'EXP/2026/' + Math.floor(100 + Math.random() * 899);
+    renderDoc();
+  };
+</script>
+</body>
+</html>
