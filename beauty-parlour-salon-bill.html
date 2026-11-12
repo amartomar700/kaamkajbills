@@ -1,622 +1,2841 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Beauty Parlour & Salon Bill / Appointment Slip - KaamKaj Bills</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beauty Studio Billing & Appointment Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
-    --primary: #db2777;
-    --primary-dark: #be185d;
-    --primary-soft: #fce7f3;
-    --ink: #0f172a;
-    --ink-muted: #831843;
-    --border: #fbcfe8;
-    --bg: #fdf2f8;
-    --danger: #dc2626;
+    --primary: #d6336c;
+    --primary-hover: #be185d;
+    --primary-light: #fff0f5;
+    --secondary: #fce7f3;
+    --accent: #b76e79;
+    --accent-soft: #f5ebe0;
+    --bg: #fdf8fa;
+    --surface: #ffffff;
+    --text-main: #1e1b2e;
+    --text-muted: #64748b;
+    --border: #f3d5e0;
+    --border-strong: #e2b6c7;
+    --success: #0d9488;
+    --success-bg: #ccfbf1;
+    --warning: #d97706;
+    --warning-bg: #fef3c7;
+    --danger: #e11d48;
+    --danger-bg: #ffe4e6;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 2px 8px rgba(214, 51, 108, 0.05);
+    --shadow-md: 0 8px 24px rgba(30, 27, 46, 0.06);
+    --shadow-lg: 0 14px 36px rgba(214, 51, 108, 0.1);
   }
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
 
-  /* Top Navigation Bar */
-  .top-nav {
-    background: #0f172a;
-    color: #fff;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg);
+    color: var(--text-main);
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .app-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
     padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid var(--primary);
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
   }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .btn-nav-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--primary-light);
+    color: var(--primary);
     text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
     font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
   }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
 
-  /* PC Full-Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
+  .btn-nav-home:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .brand-title-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-studio-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .brand-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .header-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    display: inline-block;
+  }
+
+  /* Quick Action Toolbar */
+  .quick-toolbar {
+    max-width: 1520px;
+    margin: 16px auto 0;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn-tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .btn-tool:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+  }
+
+  .btn-tool.danger:hover {
+    border-color: var(--danger);
+    background: var(--danger-bg);
+    color: var(--danger);
+  }
+
+  /* Main Workspace */
+  .workspace {
+    max-width: 1520px;
+    margin: 16px auto 40px;
+    padding: 0 24px;
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 24px;
     align-items: start;
   }
 
-  /* Left Control Box */
-  .control-box {
-    background: #ffffff;
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(219, 39, 119, 0.06);
+  /* Cards & Sections */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow-sm);
   }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--primary-light);
+    gap: 10px;
+  }
 
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  .card-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-main);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-  input, select, textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
+  .card-title svg {
+    color: var(--primary);
+  }
+
+  .btn-collapse {
+    background: var(--primary-light);
+    border: none;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Mode Switcher */
+  .mode-switcher {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: var(--primary-light);
+    padding: 6px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+  }
+
+  .mode-btn {
+    padding: 12px 14px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
     font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: #fffafb;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     transition: all 0.2s;
   }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.14);
+
+  .mode-btn.active {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(214, 51, 108, 0.25);
   }
 
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
+  /* Form Elements */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .form-group label {
     font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="time"],
+  input[type="tel"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 13.5px;
+    color: var(--text-main);
+    background: #fffdfd;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(214, 51, 108, 0.12);
+  }
+
+  /* Logo Upload */
+  .logo-upload-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 12px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--primary-light);
+  }
+
+  .logo-thumb {
+    width: 48px;
+    height: 48px;
     border-radius: 8px;
+    background: #fff;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .logo-thumb img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .logo-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+  }
+
+  .logo-btn-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .btn-mini {
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 1px solid var(--primary);
+    background: #fff;
+    color: var(--primary);
+    cursor: pointer;
+  }
+
+  .btn-mini:hover {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* Service Catalogue & Filter */
+  .catalogue-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .catalogue-controls input {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .cat-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+
+  .cat-tab {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .cat-tab.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  .service-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    max-height: 135px;
+    overflow-y: auto;
+    padding: 8px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+
+  .service-chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: #fff1f2;
-    border: 1px solid #fecdd3;
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: #9f1239;
-    transition: all 0.2s;
-  }
-  .toggle-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(219, 39, 119, 0.28);
-  }
-
-  /* Quick Services Chip Picker */
-  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
-  .chip-btn {
-    background: #ffffff;
-    border: 1px solid #f472b6;
-    color: var(--primary-dark);
     padding: 5px 11px;
+    background: #fff;
+    border: 1px solid var(--border-strong);
     border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-main);
     cursor: pointer;
-    transition: 0.15s;
+    transition: all 0.15s;
   }
-  .chip-btn:hover { background: var(--primary-soft); }
 
-  /* Table Controls */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
-  .items-input-table th {
-    text-align: left;
-    padding: 8px 6px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: #fff1f2;
-    border-bottom: 2px solid var(--border);
-  }
-  .items-input-table td { padding: 6px 4px; }
-  .btn-del-row {
-    background: #fee2e2;
-    color: var(--danger);
-    border: 1px solid #fca5a5;
-    border-radius: 6px;
-    width: 32px;
-    height: 36px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .btn-del-row:hover { background: var(--danger); color: #fff; }
-  .btn-add-row {
-    background: var(--primary-soft);
+  .service-chip:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
     color: var(--primary);
-    border: 1.5px dashed #f472b6;
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
+  }
+
+  .service-chip span.price-tag {
+    color: var(--primary);
     font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
   }
 
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
+  /* Selected Services Table */
+  .service-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
   }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #db2777, #be185d); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
 
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
+  .edit-items-table {
     width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
   }
-  .preview-label {
-    text-align: center;
+
+  .edit-items-table th {
+    background: var(--primary-light);
+    color: var(--text-main);
     font-size: 11.5px;
-    font-weight: 800;
-    color: var(--ink-muted);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  #a4DocSheet {
-    background: #ffffff;
-    width: 100%;
-    padding: 24px 20px;
-    border: 1.5px solid var(--border);
-    box-shadow: 0 10px 30px rgba(219, 39, 119, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
+    padding: 9px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
   }
 
-  .doc-header {
+  .edit-items-table td {
+    padding: 7px 6px;
+    border-bottom: 1px solid var(--primary-light);
+    vertical-align: middle;
+  }
+
+  .edit-items-table input {
+    padding: 7px 9px;
+    font-size: 13px;
+  }
+
+  .line-amt-cell {
+    font-weight: 700;
+    color: var(--text-main);
+    text-align: right;
+    padding-right: 10px !important;
+    white-space: nowrap;
+  }
+
+  .btn-icon-del {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 1px solid #fecdd3;
+    background: var(--danger-bg);
+    color: var(--danger);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  .btn-icon-del:hover {
+    background: var(--danger);
+    color: #fff;
+  }
+
+  .table-footer-actions {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 2.5px solid var(--primary);
-    padding-bottom: 12px;
-    margin-bottom: 14px;
+    align-items: center;
+    margin-top: 10px;
     flex-wrap: wrap;
     gap: 8px;
   }
-  .doc-biz h2 { margin: 0; font-size: 19px; font-weight: 800; color: #831843; text-transform: uppercase; letter-spacing: 0.5px; }
-  .doc-biz p { margin: 3px 0 0; font-size: 11.5px; color: #64748b; }
-  .doc-type-badge {
+
+  .btn-add-service {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px dashed var(--primary);
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .btn-add-service:hover {
     background: var(--primary);
-    color: #ffffff;
-    padding: 5px 14px;
+    color: #fff;
+  }
+
+  /* Toggle Switches & Billing Controls */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+
+  .switch-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .switch-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+    cursor: pointer;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
     font-size: 11.5px;
     font-weight: 800;
-    border-radius: 6px;
     text-transform: uppercase;
   }
 
-  .doc-meta { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11.5px; }
-  .doc-meta td { padding: 4px 2px; vertical-align: top; }
-  .doc-meta td.lbl { font-weight: 700; color: #475569; width: 32%; }
-  .doc-meta td.val { border-bottom: 1px dotted #cbd5e1; color: #0f172a; font-weight: 600; width: 68%; }
+  .status-paid { background: var(--success-bg); color: var(--success); }
+  .status-partial { background: var(--warning-bg); color: var(--warning); }
+  .status-pending { background: var(--danger-bg); color: var(--danger); }
 
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 11.5px; }
-  .doc-items-table th { background: var(--primary-soft); color: #9d174d; padding: 7px 6px; text-align: left; font-weight: 800; border-top: 1px solid var(--border); border-bottom: 1.5px solid var(--border); }
-  .doc-items-table td { padding: 6px; border-bottom: 1px solid var(--primary-soft); font-weight: 600; }
-  .t-right { text-align: right !important; }
-  .t-center { text-align: center !important; }
+  /* Primary Action Bar */
+  .primary-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
 
-  .summary-wrap { display: flex; justify-content: flex-end; margin: 12px 0; }
-  .summary-table { font-size: 12px; border-collapse: collapse; min-width: 230px; }
-  .summary-table td { padding: 4px 8px; }
-  .summary-table .total-row td { background: var(--bg); border-top: 2px solid var(--primary); font-size: 14.5px; font-weight: 800; color: #9d174d; }
+  .btn-action {
+    padding: 13px 16px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.15s, opacity 0.15s;
+  }
 
-  .notes-box {
-    background: #fff1f2;
-    border-left: 3.5px solid var(--primary);
-    padding: 8px 12px;
-    font-size: 11px;
-    color: #881337;
-    margin: 10px 0;
+  .btn-action:hover {
+    opacity: 0.94;
+    transform: translateY(-1px);
+  }
+
+  .btn-action:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-pdf { background: var(--primary); }
+  .btn-print { background: var(--text-main); }
+  .btn-wa { background: #16a34a; }
+
+  /* Right Sticky Preview */
+  .preview-column {
+    position: sticky;
+    top: 76px;
+  }
+
+  .preview-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+
+  .preview-title {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+  }
+
+  .preview-viewport {
+    width: 100%;
+    overflow-x: auto;
+    background: #e2e8f0;
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+  }
+
+  /* A4 Sheet Styling (Shared between Live Preview, Print & PDF) */
+  .a4-document {
+    width: 100%;
+    max-width: 794px;
+    min-height: 1040px;
+    margin: 0 auto;
+    background: #ffffff;
+    color: #1e1b2e;
+    padding: 32px 36px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    border-top: 6px solid var(--primary);
+  }
+
+  .doc-top-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--primary-light);
+    margin-bottom: 18px;
+  }
+
+  .doc-brand-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .doc-logo-wrap {
+    width: 68px;
+    height: 68px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    flex-shrink: 0;
+  }
+
+  .doc-logo-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .doc-studio-info {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .doc-studio-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 25px;
+    font-weight: 700;
+    color: #831843;
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+
+  .doc-studio-sub {
+    font-size: 11.5px;
+    color: #475569;
     line-height: 1.45;
   }
 
-  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 11px; }
-  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed var(--primary); padding-top: 5px; font-weight: 700; color: #831843; }
-
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
-    .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
+  .doc-badge-col {
+    text-align: right;
+    flex-shrink: 0;
   }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .doc-meta td.lbl { width: 40%; }
-    .doc-meta td.val { width: 60%; }
+
+  .doc-type-pill {
+    display: inline-block;
+    background: var(--primary);
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 6px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .doc-number-box {
+    font-size: 12px;
+    color: #334155;
+    line-height: 1.5;
+  }
+
+  .doc-number-box strong {
+    color: #0f172a;
+    font-size: 13px;
+  }
+
+  /* Client & Event Grid on A4 */
+  .doc-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    background: #fdf8fa;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .doc-info-col h4 {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary);
+    margin-bottom: 6px;
+    font-weight: 800;
+  }
+
+  .doc-info-row {
+    display: flex;
+    margin-bottom: 4px;
+    gap: 6px;
+  }
+
+  .doc-info-lbl {
+    color: #64748b;
+    font-weight: 600;
+    min-width: 105px;
+    flex-shrink: 0;
+  }
+
+  .doc-info-val {
+    color: #0f172a;
+    font-weight: 700;
+    word-break: break-word;
+  }
+
+  /* A4 Services Table */
+  .doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .doc-table thead th {
+    background: #fce7f3;
+    color: #831843;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 10.5px;
+    letter-spacing: 0.4px;
+    padding: 9px 10px;
+    text-align: left;
+    border-top: 1.5px solid var(--border-strong);
+    border-bottom: 1.5px solid var(--border-strong);
+  }
+
+  .doc-table tbody td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #f3e8ee;
+    color: #1e293b;
+    vertical-align: top;
+    word-break: break-word;
+  }
+
+  .doc-table tbody tr:nth-child(even) {
+    background: #fffcfd;
+  }
+
+  .doc-table tbody tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .text-right { text-align: right !important; }
+  .text-center { text-align: center !important; }
+
+  /* A4 Bottom Summary & Payment */
+  .doc-bottom-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-top: 8px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .doc-payment-box {
+    flex: 1;
+    font-size: 11.5px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  .doc-payment-box h4 {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 6px;
+    font-weight: 800;
+  }
+
+  .doc-totals-table {
+    width: 270px;
+    border-collapse: collapse;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .doc-totals-table td {
+    padding: 5px 10px;
+    color: #334155;
+  }
+
+  .doc-totals-table tr.net-row td {
+    background: #fce7f3;
+    color: #831843;
+    font-weight: 800;
+    font-size: 14px;
+    border-top: 1.5px solid var(--primary);
+    border-bottom: 1.5px solid var(--primary);
+    padding: 8px 10px;
+  }
+
+  .doc-totals-table tr.due-row td {
+    font-weight: 800;
+    color: #be123c;
+    font-size: 13px;
+    padding-top: 7px;
+  }
+
+  /* A4 Footer */
+  .doc-footer {
+    margin-top: 24px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .doc-terms-box {
+    background: #fff1f2;
+    border-left: 3.5px solid var(--primary);
+    padding: 9px 12px;
+    font-size: 11px;
+    color: #4c0519;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 24px;
+    line-height: 1.45;
+  }
+
+  .doc-signatures {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 28px;
+    padding-top: 8px;
+  }
+
+  .doc-sig-col {
+    width: 200px;
+    text-align: center;
+    font-size: 11px;
+    color: #475569;
+  }
+
+  .doc-sig-line {
+    border-top: 1px dashed #94a3b8;
+    padding-top: 5px;
+    font-weight: 700;
+    color: #1e1b2e;
+  }
+
+  .doc-thankyou {
+    text-align: center;
+    margin-top: 18px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  /* Modals */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+
+  .modal-backdrop.open {
+    display: flex;
+  }
+
+  .modal-box {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 540px;
+    padding: 22px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-header h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+
+  .btn-close-modal {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-muted);
+  }
+
+  .wa-preview-text {
+    width: 100%;
+    min-height: 220px;
+    font-family: monospace;
+    font-size: 12.5px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-strong);
+    background: #f8fafc;
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+
+  /* Toast Notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--text-main);
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 2000;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: all 0.25s;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 1120px) {
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+    .preview-column {
+      position: static;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .app-header {
+      padding: 10px 14px;
+    }
+    .quick-toolbar, .workspace {
+      padding: 0 12px;
+    }
+    .grid-2, .grid-3, .grid-4, .mode-switcher, .primary-actions {
+      grid-template-columns: 1fr;
+    }
+    .a4-document {
+      padding: 20px 18px;
+      min-height: auto;
+    }
+    .doc-top-banner, .doc-info-grid, .doc-bottom-section, .doc-signatures {
+      grid-template-columns: 1fr;
+      flex-direction: column;
+    }
+    .doc-badge-col {
+      text-align: left;
+    }
+    .doc-totals-table {
+      width: 100%;
+    }
+  }
+
+  /* Dedicated Print Styles */
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+    body {
+      background: #ffffff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .app-header,
+    .quick-toolbar,
+    .controls-column,
+    .preview-topbar,
+    .modal-backdrop,
+    .toast {
+      display: none !important;
+    }
+    .workspace {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+    .preview-column {
+      position: static !important;
+      width: 100% !important;
+    }
+    .preview-viewport {
+      background: #ffffff !important;
+      padding: 0 !important;
+      border: none !important;
+      overflow: visible !important;
+    }
+    .a4-document {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: auto !important;
+      box-shadow: none !important;
+      border-top: 5px solid #d6336c !important;
+      padding: 8px 10px !important;
+      margin: 0 !important;
+    }
+    .doc-top-banner {
+      flex-direction: row !important;
+    }
+    .doc-info-grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+    }
+    .doc-bottom-section {
+      flex-direction: row !important;
+    }
+    .doc-totals-table {
+      width: 260px !important;
+    }
+    .doc-signatures {
+      flex-direction: row !important;
+    }
   }
 </style>
 </head>
 <body>
 
-<div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Beauty Parlour & Salon</span>
-  <span style="width: 60px;"></span>
-</div>
-
-<div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROL -->
-  <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Slip Ka Prakar Chunein (Select Type):</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnModeBill" onclick="setDocMode('BILL')">💄 Service Bill & Receipt (सर्विस बिल)</button>
-        <button type="button" class="toggle-btn" id="btnModeBooking" onclick="setDocMode('BOOKING')">👑 Bridal / Party Makeup Booking (बुकिंग पर्ची)</button>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <a href="index.html" class="btn-nav-home">← All Tools</a>
+      <div class="brand-title-wrap">
+        <div class="brand-studio-name" id="headerStudioName">Glow &amp; Grace Beauty Studio</div>
+        <div class="brand-sub">Beauty Parlour &amp; Salon Billing Management System</div>
       </div>
     </div>
-
-    <div class="section-badge">1. Parlour / Salon Details</div>
-    <div class="grid-2">
-      <div class="field"><label>Parlour / Studio Name</label><input type="text" id="in_biz_name" placeholder="उदा. Roop Beauty Parlour & Makeup Studio" oninput="renderDoc()"></div>
-      <div class="field"><label>Address, City & Contact Phone</label><input type="text" id="in_biz_info" placeholder="उदा. Main Market, Near City Center | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+    <div class="header-right">
+      <div class="header-pill" id="headerCurrentDate">📅 --</div>
+      <div class="header-pill"><span class="status-dot"></span> Auto-Save Ready</div>
     </div>
+  </header>
 
-    <div class="section-badge">2. Client & Appointment Details</div>
-    <div class="grid-3">
-      <div class="field"><label>Slip / Bill No. (Auto)</label><input type="text" id="in_doc_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_time_event">Time / Shift</label><input type="text" id="in_time_event" placeholder="उदा. 11:30 AM / Morning Slot" oninput="renderDoc()"></div>
+  <!-- Quick Action Bar -->
+  <div class="quick-toolbar">
+    <div class="toolbar-group">
+      <button type="button" class="btn-tool" id="btnNewBill">+ New Service Bill</button>
+      <button type="button" class="btn-tool" id="btnNewBridal">+ New Bridal Booking</button>
+      <button type="button" class="btn-tool" id="btnDuplicateDoc">📋 Duplicate Current</button>
     </div>
-
-    <div class="grid-2">
-      <div class="field"><label>Client Name (ग्राहक का नाम)</label><input type="text" id="in_client_name" placeholder="उदा. Priya Sharma" oninput="renderDoc()"></div>
-      <div class="field"><label>Client Mobile / WhatsApp</label><input type="text" id="in_client_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
-    </div>
-
-    <div class="field" id="field_event_loc" style="display: none;">
-      <label>Venue / Event Location (कार्यक्रम स्थल)</label>
-      <input type="text" id="in_event_loc" placeholder="उदा. Hotel Grand Palace / At Parlour Studio" oninput="renderDoc()">
-    </div>
-
-    <div class="section-badge">3. Services & Treatments (क्विक सर्विस जोड़ें)</div>
-    <div class="chip-group">
-      <button type="button" class="chip-btn" onclick="addQuickService('Eyebrow & Upper Lip Threading', 80)">+ Threading</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Hydra / Gold Facial', 1500)">+ Facial</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Hair Spa & Deep Conditioning', 800)">+ Hair Spa</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Hair Cut & Blow Dry', 350)">+ Hair Cut</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Full Arms & Legs Waxing', 600)">+ Waxing</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Manicure & Pedicure Care', 900)">+ Mani-Pedi</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Bridal / HD Party Makeup', 3500)">+ Makeup</button>
-      <button type="button" class="chip-btn" onclick="addQuickService('Hair Smoothening / Keratin', 4000)">+ Keratin</button>
-    </div>
-
-    <div style="overflow-x: auto;">
-      <table class="items-input-table">
-        <thead>
-          <tr>
-            <th style="width: 54%;">Service / Treatment Vivaran</th>
-            <th style="width: 16%;">Qty (पर्सन)</th>
-            <th style="width: 20%;">Rate (₹)</th>
-            <th style="width: 10%;"></th>
-          </tr>
-        </thead>
-        <tbody id="itemsInputsBody"></tbody>
-      </table>
-    </div>
-    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Nayi Service Jodein</button>
-
-    <div class="section-badge">4. Billing, Discount & Advance</div>
-    <div class="grid-3">
-      <div class="field"><label>Discount / Offer (₹)</label><input type="number" id="in_discount" placeholder="0" oninput="calcTotals()"></div>
-      <div class="field">
-        <label>Payment Mode</label>
-        <select id="in_pay_mode" onchange="renderDoc()">
-          <option value="UPI / Online">UPI / PhonePe / GPay</option>
-          <option value="CASH (नकद)">CASH (नकद)</option>
-          <option value="Card Payment">Card Swipe</option>
-        </select>
-      </div>
-      <div class="field"><label>Advance Received (₹)</label><input type="number" id="in_advance" placeholder="0" oninput="calcTotals()"></div>
-    </div>
-
-    <div class="field"><label>Special Instructions / Policy</label><input type="text" id="in_terms" placeholder="उदा. Please arrive 10 mins before slot. Advance is non-refundable on same-day cancellation." oninput="renderDoc()"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsAppDoc()">📲 WhatsApp Share</button>
+    <div class="toolbar-group">
+      <button type="button" class="btn-tool" id="btnSaveDraft">💾 Save Draft</button>
+      <button type="button" class="btn-tool" id="btnLoadDraft">📂 Restore Draft</button>
+      <button type="button" class="btn-tool" id="btnResetForm">↺ Reset Fields</button>
+      <button type="button" class="btn-tool danger" id="btnClearStorage">🗑️ Clear Saved Data</button>
     </div>
   </div>
 
-  <!-- RIGHT: PREVIEW AREA -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Salon Slip Preview</div>
-    <div id="a4DocSheet">
-      <div class="doc-header">
-        <div class="doc-biz">
-          <h2 id="out_biz_name">BEAUTY PARLOUR & SALON</h2>
-          <p id="out_biz_info">Address, City & Contact Details</p>
+  <!-- Main Two-Column Workspace -->
+  <main class="workspace">
+    <!-- Left Controls Column -->
+    <section class="controls-column">
+
+      <!-- Document Mode Selection -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">1. Document Mode</div>
+          <span class="status-badge status-pending" id="formStatusBadge">Pending</span>
         </div>
-        <div class="doc-type-badge" id="out_doc_badge">SALON BILL</div>
-      </div>
-
-      <table class="doc-meta">
-        <tr><td class="lbl" id="out_lbl_docno">Receipt No:</td><td class="val" id="out_doc_no">-</td></tr>
-        <tr><td class="lbl">Date & Time:</td><td class="val" id="out_date_time">-</td></tr>
-        <tr><td class="lbl">Client Name:</td><td class="val" id="out_client">-</td></tr>
-        <tr id="out_row_venue" style="display: none;"><td class="lbl">Event Venue:</td><td class="val" id="out_venue">-</td></tr>
-        <tr><td class="lbl">Payment Mode:</td><td class="val" id="out_mode">-</td></tr>
-      </table>
-
-      <table class="doc-items-table">
-        <thead>
-          <tr>
-            <th class="t-center" style="width: 8%;">#</th>
-            <th style="width: 54%;">Service / Treatment Description</th>
-            <th class="t-center" style="width: 14%;">Persons</th>
-            <th class="t-right" style="width: 24%;">Amount (₹)</th>
-          </tr>
-        </thead>
-        <tbody id="out_items_body"></tbody>
-      </table>
-
-      <div class="summary-wrap">
-        <table class="summary-table">
-          <tr><td>Subtotal:</td><td class="t-right" id="out_subtotal">₹0.00</td></tr>
-          <tr id="out_row_disc" style="display: none; color: #16a34a;"><td>Discount / Offer:</td><td class="t-right" id="out_discount">-₹0.00</td></tr>
-          <tr class="total-row"><td>Net Payable:</td><td class="t-right" id="out_grand_total">₹0.00</td></tr>
-          <tr id="out_row_adv" style="display: none;"><td>Advance Received:</td><td class="t-right" id="out_advance">-₹0.00</td></tr>
-          <tr id="out_row_bal" style="display: none; font-weight: 700; color: #b91c1c;"><td>Balance Due:</td><td class="t-right" id="out_balance">₹0.00</td></tr>
-        </table>
-      </div>
-
-      <div class="notes-box">
-        <b>Policy / Notes:</b> <span id="out_terms">Please arrive on appointment time. Services once availed are non-refundable.</span>
-      </div>
-
-      <div class="footer-sig-row">
-        <div style="font-size: 10px; color: #64748b;">Client Confirmation & Signature</div>
-        <div class="sig-block">
-          Beauty Expert / Stylist Sign<br>
-          <span style="font-size: 9px; color: #9d174d;" id="out_sig_org">(Authorised Signature)</span>
+        <div class="mode-switcher">
+          <button type="button" class="mode-btn active" id="modeBillBtn" data-mode="BILL">
+            💄 Service Bill &amp; Payment Receipt
+          </button>
+          <button type="button" class="mode-btn" id="modeBridalBtn" data-mode="BRIDAL">
+            👑 Bridal / Party Makeup Booking
+          </button>
         </div>
+      </div>
+
+      <!-- Business / Parlour Profile -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">2. Business / Parlour Profile</div>
+          <button type="button" class="btn-collapse" id="toggleBizBtn">Hide Details</button>
+        </div>
+        <div id="bizSectionBody">
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="bizName">Parlour / Studio Name *</label>
+              <input type="text" id="bizName" placeholder="e.g. Glow & Grace Beauty Studio">
+            </div>
+            <div class="form-group">
+              <label for="bizOwner">Owner / Lead Makeup Artist</label>
+              <input type="text" id="bizOwner" placeholder="e.g. Ananya Sharma">
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="bizAddress">Full Address</label>
+              <input type="text" id="bizAddress" placeholder="e.g. 2nd Floor, Rose Arcade, MG Road">
+            </div>
+            <div class="form-group">
+              <label for="bizCity">City &amp; Pincode</label>
+              <input type="text" id="bizCity" placeholder="e.g. Pune - 411001">
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="form-group">
+              <label for="bizPhone">Contact Number</label>
+              <input type="tel" id="bizPhone" placeholder="e.g. +91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label for="bizWhatsapp">WhatsApp Number</label>
+              <input type="tel" id="bizWhatsapp" placeholder="e.g. 9876543210">
+            </div>
+            <div class="form-group">
+              <label for="bizEmail">Email Address</label>
+              <input type="email" id="bizEmail" placeholder="e.g. studio@example.com">
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>Studio Logo (PNG/JPG/WEBP, Max 1MB)</label>
+            <div class="logo-upload-box">
+              <div class="logo-thumb" id="bizLogoThumb">
+                <span style="font-size: 11px; color: #94a3b8; font-weight: 700;">LOGO</span>
+              </div>
+              <div class="logo-actions">
+                <div class="logo-btn-row">
+                  <label for="bizLogoInput" class="btn-mini" style="margin:0;">Upload Logo</label>
+                  <input type="file" id="bizLogoInput" accept="image/png, image/jpeg, image/webp" style="display:none;">
+                  <button type="button" class="btn-mini" id="btnRemoveLogo" style="border-color:#cbd5e1; color:#64748b;">Remove</button>
+                </div>
+                <span style="color: var(--text-muted); font-size: 11px;">Saved locally in browser &amp; shown on A4 bill/PDF.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Client & Appointment Management -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">3. Client &amp; Appointment Details</div>
+        </div>
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="docNumber">Document Number</label>
+            <input type="text" id="docNumber">
+          </div>
+          <div class="form-group">
+            <label for="docDate">Document Date</label>
+            <input type="date" id="docDate">
+          </div>
+          <div class="form-group">
+            <label for="apptDate">Appointment Date</label>
+            <input type="date" id="apptDate">
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="apptTime">Appointment Time</label>
+            <input type="time" id="apptTime">
+          </div>
+          <div class="form-group">
+            <label for="clientName">Client Name *</label>
+            <input type="text" id="clientName" placeholder="e.g. Priya Verma">
+          </div>
+          <div class="form-group">
+            <label for="clientMobile">Client Mobile / WhatsApp</label>
+            <input type="tel" id="clientMobile" placeholder="e.g. 9876543210">
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="clientEmail">Client Email (Optional)</label>
+            <input type="email" id="clientEmail" placeholder="client@email.com">
+          </div>
+          <div class="form-group">
+            <label for="numPersons">Number of Persons</label>
+            <input type="number" id="numPersons" min="1" value="1">
+          </div>
+          <div class="form-group">
+            <label for="artistName">Makeup Artist / Staff</label>
+            <input type="text" id="artistName" placeholder="e.g. Sneha / Senior Stylist">
+          </div>
+        </div>
+
+        <!-- Bridal Specific Fields -->
+        <div id="bridalFieldsWrap" style="display: none; border-top: 1px dashed var(--border-strong); padding-top: 12px; margin-top: 4px;">
+          <div class="grid-3">
+            <div class="form-group">
+              <label for="weddingDate">Wedding Date</label>
+              <input type="date" id="weddingDate">
+            </div>
+            <div class="form-group">
+              <label for="eventType">Event Type</label>
+              <select id="eventType">
+                <option value="Bridal Wedding">Bridal Wedding</option>
+                <option value="Engagement / Ring Ceremony">Engagement / Ring Ceremony</option>
+                <option value="Reception">Reception</option>
+                <option value="Sangeet / Mehendi">Sangeet / Mehendi</option>
+                <option value="Party Makeup">Party Makeup</option>
+                <option value="Pre-Bridal Package">Pre-Bridal Package</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="makeupCategory">Makeup Category</label>
+              <select id="makeupCategory">
+                <option value="HD Bridal Makeup">HD Bridal Makeup</option>
+                <option value="Airbrush Bridal Makeup">Airbrush Bridal Makeup</option>
+                <option value="Waterproof Glam Makeup">Waterproof Glam Makeup</option>
+                <option value="Subtle / Natural Makeup">Subtle / Natural Makeup</option>
+                <option value="Party / Guest Makeup">Party / Guest Makeup</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="eventVenue">Venue / Location</label>
+              <input type="text" id="eventVenue" placeholder="e.g. Royal Orchid Banquet / In-Studio">
+            </div>
+            <div class="form-group">
+              <label for="bookingSlot">Booking Slot</label>
+              <select id="bookingSlot">
+                <option value="Morning Muhurat (5:00 AM - 10:00 AM)">Morning Muhurat (5:00 AM - 10:00 AM)</option>
+                <option value="Afternoon Slot (11:00 AM - 3:00 PM)">Afternoon Slot (11:00 AM - 3:00 PM)</option>
+                <option value="Evening Reception (4:00 PM - 8:00 PM)">Evening Reception (4:00 PM - 8:00 PM)</option>
+                <option value="Full Day On-Venue">Full Day On-Venue</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="specialReqs">Special Requirements (Draping, Hair Extensions, Lashes, etc.)</label>
+            <input type="text" id="specialReqs" placeholder="e.g. Saree draping + floral bun + false lashes included">
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Service Management -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">4. Services &amp; Treatments</div>
+          <button type="button" class="btn-collapse" id="btnManageCatalogue">⚙️ Edit Catalogue</button>
+        </div>
+
+        <div class="catalogue-controls">
+          <input type="text" id="serviceSearchInput" placeholder="Search services (e.g. Hydra Facial, Keratin, Bridal)...">
+        </div>
+
+        <div class="cat-tabs" id="categoryTabs"></div>
+        <div class="service-chips" id="serviceChipsContainer"></div>
+
+        <div class="service-table-wrap">
+          <table class="edit-items-table">
+            <thead>
+              <tr>
+                <th style="width: 46%;">Service / Treatment</th>
+                <th style="width: 14%;">Qty</th>
+                <th style="width: 18%;">Rate (₹)</th>
+                <th style="width: 16%; text-align:right;">Amount</th>
+                <th style="width: 6%;"></th>
+              </tr>
+            </thead>
+            <tbody id="selectedServicesBody"></tbody>
+          </table>
+        </div>
+
+        <div class="table-footer-actions">
+          <button type="button" class="btn-add-service" id="btnAddCustomService">+ Add Custom Service Row</button>
+          <span style="font-size: 12px; color: var(--text-muted);" id="itemCountLabel">0 Services Added</span>
+        </div>
+      </div>
+
+      <!-- Billing & Payment Management -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">5. Billing, Tax &amp; Payment Details</div>
+        </div>
+
+        <div class="toggle-row">
+          <label class="switch-label">
+            <input type="checkbox" id="toggleDiscount" checked> Enable Discount
+          </label>
+          <label class="switch-label">
+            <input type="checkbox" id="toggleExtraCharges"> Additional Charges (Travel/Kit)
+          </label>
+          <label class="switch-label">
+            <input type="checkbox" id="toggleGst"> Apply GST
+          </label>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group" id="discountFieldWrap">
+            <label for="discountAmount">Discount Amount (₹)</label>
+            <input type="number" id="discountAmount" min="0" step="1" value="0">
+          </div>
+          <div class="form-group" id="extraFieldWrap" style="display: none;">
+            <label for="extraCharges">Additional Charges (₹)</label>
+            <input type="number" id="extraCharges" min="0" step="1" value="0">
+          </div>
+          <div class="form-group" id="gstFieldWrap" style="display: none;">
+            <label for="gstPercent">GST Rate (%)</label>
+            <select id="gstPercent">
+              <option value="5">5% GST</option>
+              <option value="12">12% GST</option>
+              <option value="18" selected>18% GST</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label for="paymentMode">Payment Method</label>
+            <select id="paymentMode">
+              <option value="UPI">UPI</option>
+              <option value="PhonePe">PhonePe</option>
+              <option value="Google Pay">Google Pay</option>
+              <option value="Paytm">Paytm</option>
+              <option value="Cash">Cash</option>
+              <option value="Debit / Credit Card">Debit / Credit Card</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="advanceReceived">Amount / Advance Received (₹)</label>
+            <input type="number" id="advanceReceived" min="0" step="1" value="0">
+          </div>
+          <div class="form-group">
+            <label for="paymentDate">Payment Date</label>
+            <input type="date" id="paymentDate">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="paymentRef">Payment Reference / Transaction ID</label>
+            <input type="text" id="paymentRef" placeholder="e.g. UPI Ref 4319827361">
+          </div>
+          <div class="form-group">
+            <label for="thankYouMsg">Thank You Note</label>
+            <input type="text" id="thankYouMsg" value="Thank you for visiting! We look forward to pampering you again.">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="termsText">Terms &amp; Conditions</label>
+          <textarea id="termsText" rows="2">Please arrive 10 minutes prior to your scheduled appointment. Advance paid for bridal/party bookings is non-refundable on same-day cancellations.</textarea>
+        </div>
+
+        <!-- Primary Action Buttons -->
+        <div class="primary-actions">
+          <button type="button" class="btn-action btn-pdf" id="btnDownloadPdf">📥 Download A4 PDF</button>
+          <button type="button" class="btn-action btn-print" id="btnPrintDoc">🖨️ Direct Print</button>
+          <button type="button" class="btn-action btn-wa" id="btnWhatsappShare">📲 WhatsApp Share</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Right Live A4 Preview Column -->
+    <section class="preview-column">
+      <div class="preview-topbar">
+        <span class="preview-title">Live A4 Print-Ready Preview</span>
+        <span style="font-size: 11.5px; color: var(--primary); font-weight: 700;" id="previewDocTag">BTY Format</span>
+      </div>
+
+      <div class="preview-viewport">
+        <div id="a4DocumentSheet" class="a4-document">
+          <div>
+            <!-- A4 Header -->
+            <div class="doc-top-banner">
+              <div class="doc-brand-block">
+                <div class="doc-logo-wrap" id="docLogoContainer" style="display: none;">
+                  <img id="docLogoImg" src="" alt="Studio Logo">
+                </div>
+                <div class="doc-studio-info">
+                  <div class="doc-studio-name" id="docStudioName">Glow &amp; Grace Beauty Studio</div>
+                  <div class="doc-studio-sub" id="docStudioAddress">2nd Floor, Rose Arcade, MG Road, Pune</div>
+                  <div class="doc-studio-sub" id="docStudioContact">Phone: +91 98765 43210</div>
+                </div>
+              </div>
+              <div class="doc-badge-col">
+                <div class="doc-type-pill" id="docTypeBadge">SERVICE BILL &amp; RECEIPT</div>
+                <div class="doc-number-box">
+                  <div><span id="docNoLabel">Bill No:</span> <strong id="docNoVal">BTY-100001</strong></div>
+                  <div>Date: <strong id="docDateVal">--</strong></div>
+                  <div>Status: <strong id="docStatusVal">PENDING</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- A4 Client & Event Details -->
+            <div class="doc-info-grid">
+              <div class="doc-info-col">
+                <h4>Client Details</h4>
+                <div class="doc-info-row"><span class="doc-info-lbl">Client Name:</span><span class="doc-info-val" id="docClientName">-</span></div>
+                <div class="doc-info-row"><span class="doc-info-lbl">Mobile No:</span><span class="doc-info-val" id="docClientMobile">-</span></div>
+                <div class="doc-info-row" id="docRowEmail" style="display:none;"><span class="doc-info-lbl">Email:</span><span class="doc-info-val" id="docClientEmail">-</span></div>
+                <div class="doc-info-row"><span class="doc-info-lbl">Persons:</span><span class="doc-info-val" id="docPersonsVal">1</span></div>
+              </div>
+              <div class="doc-info-col">
+                <h4 id="docApptHeading">Appointment Details</h4>
+                <div class="doc-info-row"><span class="doc-info-lbl">Appt. Date:</span><span class="doc-info-val" id="docApptDate">-</span></div>
+                <div class="doc-info-row"><span class="doc-info-lbl">Time / Slot:</span><span class="doc-info-val" id="docApptTime">-</span></div>
+                <div class="doc-info-row" id="docRowArtist" style="display:none;"><span class="doc-info-lbl">Artist / Staff:</span><span class="doc-info-val" id="docArtistVal">-</span></div>
+                <div class="doc-info-row" id="docRowWedding" style="display:none;"><span class="doc-info-lbl">Wedding Date:</span><span class="doc-info-val" id="docWeddingVal">-</span></div>
+                <div class="doc-info-row" id="docRowEvent" style="display:none;"><span class="doc-info-lbl">Event &amp; Makeup:</span><span class="doc-info-val" id="docEventVal">-</span></div>
+                <div class="doc-info-row" id="docRowVenue" style="display:none;"><span class="doc-info-lbl">Event Venue:</span><span class="doc-info-val" id="docVenueVal">-</span></div>
+              </div>
+            </div>
+
+            <!-- A4 Services Table -->
+            <table class="doc-table">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width: 7%;">#</th>
+                  <th style="width: 49%;">Service / Treatment Description</th>
+                  <th class="text-center" style="width: 12%;">Qty</th>
+                  <th class="text-right" style="width: 16%;">Rate (₹)</th>
+                  <th class="text-right" style="width: 16%;">Amount (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="docServicesBody"></tbody>
+            </table>
+
+            <!-- A4 Totals & Payment Info -->
+            <div class="doc-bottom-section">
+              <div class="doc-payment-box">
+                <h4>Payment &amp; Booking Notes</h4>
+                <div class="doc-info-row"><span class="doc-info-lbl">Payment Mode:</span><span class="doc-info-val" id="docPayMode">UPI</span></div>
+                <div class="doc-info-row" id="docRowPayDate"><span class="doc-info-lbl">Payment Date:</span><span class="doc-info-val" id="docPayDate">-</span></div>
+                <div class="doc-info-row" id="docRowPayRef" style="display:none;"><span class="doc-info-lbl">Transaction ID:</span><span class="doc-info-val" id="docPayRef">-</span></div>
+                <div class="doc-info-row" id="docRowSpecialReq" style="display:none; margin-top:6px;"><span class="doc-info-lbl">Requirements:</span><span class="doc-info-val" id="docSpecialReqVal">-</span></div>
+              </div>
+
+              <table class="doc-totals-table">
+                <tr>
+                  <td>Subtotal:</td>
+                  <td class="text-right" id="docSubtotal">₹0.00</td>
+                </tr>
+                <tr id="docRowDiscount" style="display:none; color:#0d9488;">
+                  <td>Discount:</td>
+                  <td class="text-right" id="docDiscount">-₹0.00</td>
+                </tr>
+                <tr id="docRowExtra" style="display:none;">
+                  <td>Additional Charges:</td>
+                  <td class="text-right" id="docExtra">₹0.00</td>
+                </tr>
+                <tr id="docRowGst" style="display:none;">
+                  <td id="docGstLabel">GST (18%):</td>
+                  <td class="text-right" id="docGst">₹0.00</td>
+                </tr>
+                <tr class="net-row">
+                  <td>Net Payable:</td>
+                  <td class="text-right" id="docNetPayable">₹0.00</td>
+                </tr>
+                <tr>
+                  <td>Amount Received:</td>
+                  <td class="text-right" id="docReceived">₹0.00</td>
+                </tr>
+                <tr class="due-row">
+                  <td>Balance Due:</td>
+                  <td class="text-right" id="docBalanceDue">₹0.00</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- A4 Footer -->
+          <div class="doc-footer">
+            <div class="doc-terms-box">
+              <strong>Terms &amp; Conditions:</strong> <span id="docTermsVal"></span>
+            </div>
+            <div class="doc-signatures">
+              <div class="doc-sig-col">
+                <div class="doc-sig-line">Client Signature</div>
+              </div>
+              <div class="doc-sig-col">
+                <div class="doc-sig-line" id="docAuthSignLabel">Authorized Signatory</div>
+              </div>
+            </div>
+            <div class="doc-thankyou" id="docThankYouVal">Thank you for visiting!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Manage Service Catalogue -->
+  <div class="modal-backdrop" id="catalogueModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Manage Service Catalogue</h3>
+        <button type="button" class="btn-close-modal" id="closeCatalogueModal">&times;</button>
+      </div>
+      <div class="grid-3" style="margin-bottom: 12px;">
+        <div class="form-group">
+          <label for="newCatCategory">Category</label>
+          <select id="newCatCategory">
+            <option value="Facial & Skin Care">Facial &amp; Skin Care</option>
+            <option value="Hair Services">Hair Services</option>
+            <option value="Waxing & Threading">Waxing &amp; Threading</option>
+            <option value="Nail & Hand Care">Nail &amp; Hand Care</option>
+            <option value="Makeup Services">Makeup Services</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="newCatName">Service Name</label>
+          <input type="text" id="newCatName" placeholder="e.g. O3+ Bridal Facial">
+        </div>
+        <div class="form-group">
+          <label for="newCatRate">Default Rate (₹)</label>
+          <input type="number" id="newCatRate" min="0" placeholder="2500">
+        </div>
+      </div>
+      <button type="button" class="btn-action btn-pdf" id="btnAddCatalogueItem" style="width:100%; padding:10px; margin-bottom:14px;">+ Add to Catalogue</button>
+      <div id="catalogueManageList" style="max-height: 260px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px;"></div>
+    </div>
+  </div>
+
+  <!-- Modal: WhatsApp Preview & Share -->
+  <div class="modal-backdrop" id="whatsappModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Review WhatsApp Message</h3>
+        <button type="button" class="btn-close-modal" id="closeWhatsappModal">&times;</button>
+      </div>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Review or customize your message before opening WhatsApp:</p>
+      <textarea class="wa-preview-text" id="waMessagePreview"></textarea>
+      <div class="grid-2">
+        <button type="button" class="btn-tool" id="btnCopyWaText" style="justify-content:center; padding:11px;">📋 Copy Message</button>
+        <button type="button" class="btn-action btn-wa" id="btnLaunchWa" style="padding:11px;">📲 Open WhatsApp</button>
       </div>
     </div>
   </div>
-</div>
+
+  <div class="toast" id="toastMsg"></div>
 
 <script>
-  let docMode = 'BILL';
-  let items = [
-    { desc: 'Gold Facial & Glow Pack', qty: 1, rate: 1200 },
-    { desc: 'Eyebrow & Forehead Threading', qty: 1, rate: 80 }
+(function() {
+  'use strict';
+
+  const STORAGE_KEYS = {
+    PROFILE: 'bs_studio_profile_v1',
+    CATALOGUE: 'bs_service_catalogue_v1',
+    DRAFT: 'bs_current_draft_v1',
+    USED_NUMS: 'bs_used_doc_numbers_v1',
+    SETTINGS: 'bs_settings_v1'
+  };
+
+  const DEFAULT_CATALOGUE = [
+    // Facial & Skin Care
+    { id: 'f1', category: 'Facial & Skin Care', name: 'Gold Facial', rate: 1500 },
+    { id: 'f2', category: 'Facial & Skin Care', name: 'Hydra Facial', rate: 2500 },
+    { id: 'f3', category: 'Facial & Skin Care', name: 'Diamond Facial', rate: 1800 },
+    { id: 'f4', category: 'Facial & Skin Care', name: 'Cleanup', rate: 700 },
+    { id: 'f5', category: 'Facial & Skin Care', name: 'Skin Polishing', rate: 2200 },
+    { id: 'f6', category: 'Facial & Skin Care', name: 'Bleach', rate: 400 },
+    // Hair Services
+    { id: 'h1', category: 'Hair Services', name: 'Hair Cut', rate: 400 },
+    { id: 'h2', category: 'Hair Services', name: 'Hair Spa', rate: 1000 },
+    { id: 'h3', category: 'Hair Services', name: 'Hair Coloring', rate: 2500 },
+    { id: 'h4', category: 'Hair Services', name: 'Hair Smoothening', rate: 4500 },
+    { id: 'h5', category: 'Hair Services', name: 'Keratin Treatment', rate: 5000 },
+    { id: 'h6', category: 'Hair Services', name: 'Blow Dry', rate: 350 },
+    // Waxing & Threading
+    { id: 'w1', category: 'Waxing & Threading', name: 'Eyebrow Threading', rate: 60 },
+    { id: 'w2', category: 'Waxing & Threading', name: 'Upper Lip', rate: 40 },
+    { id: 'w3', category: 'Waxing & Threading', name: 'Full Face Threading', rate: 250 },
+    { id: 'w4', category: 'Waxing & Threading', name: 'Full Arms Waxing', rate: 500 },
+    { id: 'w5', category: 'Waxing & Threading', name: 'Full Legs Waxing', rate: 700 },
+    { id: 'w6', category: 'Waxing & Threading', name: 'Full Body Waxing', rate: 2200 },
+    // Nail & Hand Care
+    { id: 'n1', category: 'Nail & Hand Care', name: 'Manicure', rate: 600 },
+    { id: 'n2', category: 'Nail & Hand Care', name: 'Pedicure', rate: 800 },
+    { id: 'n3', category: 'Nail & Hand Care', name: 'Nail Art', rate: 900 },
+    { id: 'n4', category: 'Nail & Hand Care', name: 'Nail Extensions', rate: 1800 },
+    // Makeup Services
+    { id: 'm1', category: 'Makeup Services', name: 'Bridal Makeup', rate: 12000 },
+    { id: 'm2', category: 'Makeup Services', name: 'HD Makeup', rate: 8000 },
+    { id: 'm3', category: 'Makeup Services', name: 'Airbrush Makeup', rate: 15000 },
+    { id: 'm4', category: 'Makeup Services', name: 'Engagement Makeup', rate: 6500 },
+    { id: 'm5', category: 'Makeup Services', name: 'Party Makeup', rate: 2500 },
+    { id: 'm6', category: 'Makeup Services', name: 'Reception Makeup', rate: 7500 },
+    { id: 'm7', category: 'Makeup Services', name: 'Hairstyling', rate: 1000 }
   ];
 
-  function generateDocNumber() {
-    const prefix = docMode === 'BILL' ? 'BTY' : 'BRD';
-    return `${prefix}-${Math.floor(100000 + Math.random() * 899990)}`;
-  }
-
-  function setDocMode(mode) {
-    docMode = mode;
-    document.getElementById('btnModeBill').classList.toggle('active', mode === 'BILL');
-    document.getElementById('btnModeBooking').classList.toggle('active', mode === 'BOOKING');
-    const isBooking = mode === 'BOOKING';
-    document.getElementById('lbl_time_event').innerText = isBooking ? "Makeup Slot / Time" : "Appointment Time";
-    document.getElementById('field_event_loc').style.display = isBooking ? "block" : "none";
-    document.getElementById('out_row_venue').style.display = isBooking ? "table-row" : "none";
-    document.getElementById('in_doc_no').value = generateDocNumber();
-    renderDoc();
-  }
-
-  function addQuickService(name, price) {
-    if (items.length === 1 && items[0].desc === '' && items[0].rate === 0) items[0] = { desc: name, qty: 1, rate: price };
-    else items.push({ desc: name, qty: 1, rate: price });
-    renderInputRows();
-    calcTotals();
-  }
-
-  function renderInputRows() {
-    const tbody = document.getElementById('itemsInputsBody');
-    tbody.innerHTML = '';
-    items.forEach((it, idx) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><input type="text" placeholder="Service / package name" value="${it.desc}" oninput="items[${idx}].desc = this.value; renderDoc();"></td>
-        <td><input type="number" min="1" placeholder="1" value="${it.qty}" oninput="items[${idx}].qty = parseFloat(this.value) || 0; calcTotals();"></td>
-        <td><input type="number" step="any" placeholder="0" value="${it.rate}" oninput="items[${idx}].rate = parseFloat(this.value) || 0; calcTotals();"></td>
-        <td class="t-center"><button type="button" class="btn-del-row" onclick="deleteItemRow(${idx})">✕</button></td>
-      `;
-      tbody.appendChild(tr);
-    });
-  }
-
-  function addItemRow() { items.push({ desc: '', qty: 1, rate: 0 }); renderInputRows(); calcTotals(); }
-  function deleteItemRow(idx) {
-    if (items.length > 1) items.splice(idx, 1);
-    else items[0] = { desc: '', qty: 1, rate: 0 };
-    renderInputRows();
-    calcTotals();
-  }
-
-  function calcTotals() {
-    let subtotal = 0;
-    items.forEach(it => { subtotal += (it.qty * it.rate); });
-    const disc = parseFloat(document.getElementById('in_discount').value) || 0;
-    const netTotal = Math.max(0, subtotal - disc);
-    const advance = parseFloat(document.getElementById('in_advance').value) || 0;
-    const balance = Math.max(0, netTotal - advance);
-
-    document.getElementById('out_subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    const discRow = document.getElementById('out_row_disc');
-    if (disc > 0) {
-      discRow.style.display = 'table-row';
-      document.getElementById('out_discount').innerText = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    } else { discRow.style.display = 'none'; }
-
-    document.getElementById('out_grand_total').innerText = '₹' + netTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    const advRow = document.getElementById('out_row_adv');
-    const balRow = document.getElementById('out_row_bal');
-    if (advance > 0) {
-      advRow.style.display = 'table-row';
-      balRow.style.display = 'table-row';
-      document.getElementById('out_advance').innerText = '-₹' + advance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      document.getElementById('out_balance').innerText = '₹' + balance.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    } else { advRow.style.display = 'none'; balRow.style.display = 'none'; }
-    renderDoc();
-  }
-
-  function renderDoc() {
-    const bizName = document.getElementById('in_biz_name').value.trim() || 'BEAUTY PARLOUR & SALON';
-    const bizInfo = document.getElementById('in_biz_info').value.trim() || 'Address, City & Contact Details';
-    const docNo = document.getElementById('in_doc_no').value.trim() || '-';
-    const docDate = document.getElementById('in_date').value || '-';
-    const timeEvent = document.getElementById('in_time_event').value.trim();
-    const clientName = document.getElementById('in_client_name').value.trim() || '-';
-    const clientPhone = document.getElementById('in_client_phone').value.trim();
-
-    document.getElementById('out_biz_name').innerText = bizName;
-    document.getElementById('out_biz_info').innerText = bizInfo;
-    document.getElementById('out_doc_badge').innerText = docMode === 'BILL' ? 'SALON SERVICE BILL' : 'BRIDAL BOOKING SLIP';
-    document.getElementById('out_lbl_docno').innerText = docMode === 'BILL' ? 'Bill No:' : 'Booking No:';
-    document.getElementById('out_doc_no').innerText = docNo;
-    document.getElementById('out_date_time').innerText = timeEvent ? `${docDate} (${timeEvent})` : docDate;
-    document.getElementById('out_client').innerText = clientPhone ? `${clientName} (Mob: ${clientPhone})` : clientName;
-    document.getElementById('out_venue').innerText = document.getElementById('in_event_loc').value.trim() || '-';
-    document.getElementById('out_mode').innerText = document.getElementById('in_pay_mode').value;
-    document.getElementById('out_terms').innerText = document.getElementById('in_terms').value.trim() || 'Please arrive on time. Services availed are non-refundable.';
-    document.getElementById('out_sig_org').innerText = `(${bizName})`;
-
-    const tbody = document.getElementById('out_items_body');
-    tbody.innerHTML = '';
-    let count = 1;
-    items.forEach(it => {
-      const lineAmt = it.qty * it.rate;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td class="t-center">${count++}</td><td>${it.desc || '-'}</td><td class="t-center">${it.qty}</td><td class="t-right">₹${lineAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>`;
-      tbody.appendChild(tr);
-    });
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `Beauty_${document.getElementById('in_doc_no').value.trim() || 'SalonSlip'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Salon Slip</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #db2777;padding-bottom:8px;margin-bottom:10px}
-      .doc-biz h2{margin:0;font-size:17px;font-weight:800;color:#831843;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#64748b}
-      .doc-type-badge{background:#db2777;color:#fff;padding:4px 10px;font-size:11px;font-weight:800;border-radius:4px}
-      .doc-meta{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:11px}.doc-meta td{padding:3px 2px}
-      .doc-meta td.lbl{font-weight:700;color:#475569;width:28%}.doc-meta td.val{border-bottom:1px dotted #cbd5e1;font-weight:600}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-      .doc-items-table th{background:#fdf2f8;color:#9d174d;padding:5px 4px;text-align:left;font-weight:700;border-top:1px solid #fbcfe8;border-bottom:1.5px solid #fbcfe8}
-      .doc-items-table td{padding:5px 4px;border-bottom:1px solid #fce7f3;font-weight:600}
-      .t-right{text-align:right}.t-center{text-align:center}.summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}
-      .summary-table{font-size:11px;border-collapse:collapse;min-width:220px}.summary-table td{padding:2px 6px}
-      .summary-table .total-row td{background:#fdf2f8;border-top:2px solid #db2777;font-size:13.5px;font-weight:800;color:#9d174d}
-      .notes-box{background:#fff1f2;border-left:3px solid #db2777;padding:5px 8px;font-size:10px;color:#881337;margin:8px 0}
-      .footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:10px}
-      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #db2777;padding-top:4px;font-weight:700;color:#831843}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsAppDoc() {
-    const biz = document.getElementById('in_biz_name').value.trim() || 'Our Parlour';
-    const client = document.getElementById('in_client_name').value.trim() || 'Client';
-    const docNo = document.getElementById('in_doc_no').value.trim() || '-';
-    const total = document.getElementById('out_grand_total').innerText;
-    const phone = document.getElementById('in_client_phone').value.trim().replace(/[^0-9]/g, '');
-    let itemLines = '';
-    items.forEach((it, i) => { if (it.desc) itemLines += `${i+1}. *${it.desc}* - ${it.qty} × ₹${it.rate}\n`; });
-    const msg = `*💄 ${docMode === 'BILL' ? 'SALON SERVICE BILL' : 'BRIDAL BOOKING SLIP'} (${docNo})*\n*From:* ${biz}\n\n*Dear ${client},*\nHere are your service details:\n\n${itemLines}-------------------------\n*Total Amount:* ${total}\n\n_Generated via KaamKaj Bills._`;
-    window.open(phone ? `https://wa.me/91${phone}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = function() {
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_doc_no').value = generateDocNumber();
-    renderInputRows();
-    calcTotals();
+  const state = {
+    mode: 'BILL',
+    logoDataUrl: '',
+    activeCategory: 'ALL',
+    catalogue: [],
+    items: [
+      { desc: 'Gold Facial', qty: 1, rate: 1500 },
+      { desc: 'Eyebrow Threading', qty: 1, rate: 60 }
+    ]
   };
+
+  // DOM Helper
+  const $ = (id) => document.getElementById(id);
+
+  function showToast(message) {
+    const toast = $('toastMsg');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+
+  function formatINR(num) {
+    const val = Math.max(0, Number(num) || 0);
+    return '₹' + val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function todayISO() {
+    const d = new Date();
+    const offset = d.getTimezoneOffset();
+    const local = new Date(d.getTime() - offset * 60000);
+    return local.toISOString().split('T')[0];
+  }
+
+  function formatDisplayDate(isoStr) {
+    if (!isoStr) return '-';
+    const parts = isoStr.split('-');
+    if (parts.length !== 3) return isoStr;
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+
+  function formatDisplayTime(time24) {
+    if (!time24) return '';
+    const [hStr, mStr] = time24.split(':');
+    let h = parseInt(hStr, 10);
+    if (isNaN(h)) return time24;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return `${h}:${mStr} ${ampm}`;
+  }
+
+  function generateUniqueDocNumber(mode) {
+    const prefix = mode === 'BILL' ? 'BTY' : 'BRD';
+    let used = [];
+    try {
+      used = JSON.parse(localStorage.getItem(STORAGE_KEYS.USED_NUMS) || '[]');
+    } catch (e) {}
+
+    let candidate = '';
+    let attempts = 0;
+    do {
+      const rand = Math.floor(100000 + Math.random() * 900000);
+      candidate = `${prefix}-${rand}`;
+      attempts++;
+    } while (used.includes(candidate) && attempts < 50);
+
+    used.push(candidate);
+    if (used.length > 200) used = used.slice(-200);
+    try {
+      localStorage.setItem(STORAGE_KEYS.USED_NUMS, JSON.stringify(used));
+    } catch (e) {}
+    return candidate;
+  }
+
+  // Calculation Engine (Pure logic separated from DOM)
+  function computeTotals() {
+    let subtotal = 0;
+    state.items.forEach(item => {
+      const q = Math.max(0, parseFloat(item.qty) || 0);
+      const r = Math.max(0, parseFloat(item.rate) || 0);
+      subtotal += q * r;
+    });
+
+    const discountEnabled = $('toggleDiscount').checked;
+    let discount = discountEnabled ? Math.max(0, parseFloat($('discountAmount').value) || 0) : 0;
+    if (discount > subtotal) {
+      discount = subtotal;
+    }
+
+    const extraEnabled = $('toggleExtraCharges').checked;
+    const extraCharges = extraEnabled ? Math.max(0, parseFloat($('extraCharges').value) || 0) : 0;
+
+    const taxableBase = Math.max(0, subtotal - discount + extraCharges);
+    const gstEnabled = $('toggleGst').checked;
+    const gstRate = gstEnabled ? (parseFloat($('gstPercent').value) || 0) : 0;
+    const gstAmount = gstEnabled ? (taxableBase * gstRate) / 100 : 0;
+
+    const netPayable = Math.max(0, taxableBase + gstAmount);
+    const advanceReceived = Math.max(0, parseFloat($('advanceReceived').value) || 0);
+    const balanceDue = Math.max(0, netPayable - advanceReceived);
+
+    let status = 'Pending';
+    if (netPayable > 0 && balanceDue === 0) {
+      status = 'Paid';
+    } else if (advanceReceived > 0 && balanceDue > 0) {
+      status = 'Partially Paid';
+    } else if (netPayable === 0 && subtotal > 0) {
+      status = 'Paid';
+    }
+
+    return {
+      subtotal,
+      discountEnabled,
+      discount,
+      extraEnabled,
+      extraCharges,
+      gstEnabled,
+      gstRate,
+      gstAmount,
+      netPayable,
+      advanceReceived,
+      balanceDue,
+      status
+    };
+  }
+
+  // Render Service Catalogue Chips & Tabs
+  function renderCatalogueUI() {
+    const categories = ['ALL', 'Facial & Skin Care', 'Hair Services', 'Waxing & Threading', 'Nail & Hand Care', 'Makeup Services'];
+    const tabsWrap = $('categoryTabs');
+    tabsWrap.innerHTML = '';
+
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cat-tab' + (state.activeCategory === cat ? ' active' : '');
+      btn.textContent = cat === 'ALL' ? 'All Services' : cat;
+      btn.addEventListener('click', () => {
+        state.activeCategory = cat;
+        renderCatalogueUI();
+      });
+      tabsWrap.appendChild(btn);
+    });
+
+    const searchTerm = ($('serviceSearchInput').value || '').trim().toLowerCase();
+    const container = $('serviceChipsContainer');
+    container.innerHTML = '';
+
+    const filtered = state.catalogue.filter(svc => {
+      const matchCat = state.activeCategory === 'ALL' || svc.category === state.activeCategory;
+      const matchSearch = !searchTerm || svc.name.toLowerCase().includes(searchTerm) || svc.category.toLowerCase().includes(searchTerm);
+      return matchCat && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      const empty = document.createElement('span');
+      empty.style.cssText = 'font-size:12px; color:#64748b; padding:4px;';
+      empty.textContent = 'No matching services found.';
+      container.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(svc => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'service-chip';
+
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = '+ ' + svc.name;
+
+      const priceSpan = document.createElement('span');
+      priceSpan.className = 'price-tag';
+      priceSpan.textContent = '₹' + svc.rate.toLocaleString('en-IN');
+
+      chip.appendChild(nameSpan);
+      chip.appendChild(priceSpan);
+
+      chip.addEventListener('click', () => {
+        addServiceToBill(svc.name, svc.rate);
+      });
+      container.appendChild(chip);
+    });
+  }
+
+  function addServiceToBill(name, rate) {
+    const existingIdx = state.items.findIndex(it => it.desc.trim().toLowerCase() === name.trim().toLowerCase() && it.rate === rate);
+    if (existingIdx !== -1) {
+      state.items[existingIdx].qty += 1;
+    } else if (state.items.length === 1 && !state.items[0].desc.trim() && state.items[0].rate === 0) {
+      state.items[0] = { desc: name, qty: 1, rate: rate };
+    } else {
+      state.items.push({ desc: name, qty: 1, rate: rate });
+    }
+    renderSelectedServicesTable();
+    updatePreviewAndTotals();
+    autoSaveDraft();
+  }
+
+  // Safe DOM construction for Selected Services Input Table
+  function renderSelectedServicesTable() {
+    const tbody = $('selectedServicesBody');
+    tbody.innerHTML = '';
+
+    state.items.forEach((item, idx) => {
+      const tr = document.createElement('tr');
+
+      // Description Input
+      const tdDesc = document.createElement('td');
+      const inpDesc = document.createElement('input');
+      inpDesc.type = 'text';
+      inpDesc.placeholder = 'Service or treatment name';
+      inpDesc.value = item.desc;
+      inpDesc.addEventListener('input', (e) => {
+        state.items[idx].desc = e.target.value;
+        updatePreviewAndTotals();
+        autoSaveDraft();
+      });
+      tdDesc.appendChild(inpDesc);
+
+      // Quantity Input
+      const tdQty = document.createElement('td');
+      const inpQty = document.createElement('input');
+      inpQty.type = 'number';
+      inpQty.min = '1';
+      inpQty.step = '1';
+      inpQty.value = item.qty;
+      inpQty.addEventListener('input', (e) => {
+        let val = parseFloat(e.target.value);
+        if (isNaN(val) || val < 0) val = 0;
+        state.items[idx].qty = val;
+        tdAmt.textContent = formatINR(val * state.items[idx].rate);
+        updatePreviewAndTotals();
+        autoSaveDraft();
+      });
+      tdQty.appendChild(inpQty);
+
+      // Rate Input
+      const tdRate = document.createElement('td');
+      const inpRate = document.createElement('input');
+      inpRate.type = 'number';
+      inpRate.min = '0';
+      inpRate.step = 'any';
+      inpRate.value = item.rate;
+      inpRate.addEventListener('input', (e) => {
+        let val = parseFloat(e.target.value);
+        if (isNaN(val) || val < 0) val = 0;
+        state.items[idx].rate = val;
+        tdAmt.textContent = formatINR(state.items[idx].qty * val);
+        updatePreviewAndTotals();
+        autoSaveDraft();
+      });
+      tdRate.appendChild(inpRate);
+
+      // Amount Cell
+      const tdAmt = document.createElement('td');
+      tdAmt.className = 'line-amt-cell';
+      tdAmt.textContent = formatINR((item.qty || 0) * (item.rate || 0));
+
+      // Delete Button
+      const tdDel = document.createElement('td');
+      tdDel.className = 'text-center';
+      const btnDel = document.createElement('button');
+      btnDel.type = 'button';
+      btnDel.className = 'btn-icon-del';
+      btnDel.title = 'Remove Service';
+      btnDel.textContent = '✕';
+      btnDel.addEventListener('click', () => {
+        if (state.items.length > 1) {
+          state.items.splice(idx, 1);
+        } else {
+          state.items[0] = { desc: '', qty: 1, rate: 0 };
+        }
+        renderSelectedServicesTable();
+        updatePreviewAndTotals();
+        autoSaveDraft();
+      });
+      tdDel.appendChild(btnDel);
+
+      tr.appendChild(tdDesc);
+      tr.appendChild(tdQty);
+      tr.appendChild(tdRate);
+      tr.appendChild(tdAmt);
+      tr.appendChild(tdDel);
+      tbody.appendChild(tr);
+    });
+
+    $('itemCountLabel').textContent = `${state.items.length} Service${state.items.length === 1 ? '' : 's'} Listed`;
+  }
+
+  // Update Live A4 Document Preview
+  function updatePreviewAndTotals() {
+    const totals = computeTotals();
+
+    // Sync discount cap visually if user typed higher than subtotal
+    const rawDisc = parseFloat($('discountAmount').value);
+    if (!isNaN(rawDisc) && rawDisc > totals.subtotal && totals.subtotal > 0) {
+      $('discountAmount').value = totals.subtotal;
+    }
+
+    // Status Badges
+    const formBadge = $('formStatusBadge');
+    formBadge.textContent = totals.status;
+    formBadge.className = 'status-badge ' + (
+      totals.status === 'Paid' ? 'status-paid' :
+      totals.status === 'Partially Paid' ? 'status-partial' : 'status-pending'
+    );
+    $('docStatusVal').textContent = totals.status.toUpperCase();
+
+    // Business Info
+    const studioName = $('bizName').value.trim() || 'Glow & Grace Beauty Studio';
+    $('headerStudioName').textContent = studioName;
+    $('docStudioName').textContent = studioName;
+
+    const owner = $('bizOwner').value.trim();
+    const addr = $('bizAddress').value.trim();
+    const city = $('bizCity').value.trim();
+    const fullAddr = [addr, city].filter(Boolean).join(', ');
+    $('docStudioAddress').textContent = fullAddr || 'Studio Address, City';
+
+    const phone = $('bizPhone').value.trim();
+    const wa = $('bizWhatsapp').value.trim();
+    const email = $('bizEmail').value.trim();
+    const contactParts = [];
+    if (owner) contactParts.push(`Artist: ${owner}`);
+    if (phone) contactParts.push(`Ph: ${phone}`);
+    if (wa && wa !== phone) contactParts.push(`WA: ${wa}`);
+    if (email) contactParts.push(email);
+    $('docStudioContact').textContent = contactParts.join(' | ') || 'Contact Details';
+
+    // Logo
+    if (state.logoDataUrl) {
+      $('docLogoContainer').style.display = 'flex';
+      $('docLogoImg').src = state.logoDataUrl;
+    } else {
+      $('docLogoContainer').style.display = 'none';
+      $('docLogoImg').src = '';
+    }
+
+    // Mode & Header Meta
+    const isBridal = state.mode === 'BRIDAL';
+    $('docTypeBadge').textContent = isBridal ? 'BRIDAL / PARTY BOOKING SLIP' : 'SERVICE BILL & PAYMENT RECEIPT';
+    $('docNoLabel').textContent = isBridal ? 'Booking No:' : 'Bill No:';
+    $('docNoVal').textContent = $('docNumber').value.trim() || '-';
+    $('docDateVal').textContent = formatDisplayDate($('docDate').value);
+    $('previewDocTag').textContent = isBridal ? 'BRIDAL SLIP (BRD)' : 'SERVICE BILL (BTY)';
+
+    // Client Info
+    $('docClientName').textContent = $('clientName').value.trim() || 'Walk-in Client';
+    $('docClientMobile').textContent = $('clientMobile').value.trim() || '-';
+    const cEmail = $('clientEmail').value.trim();
+    $('docRowEmail').style.display = cEmail ? 'flex' : 'none';
+    $('docClientEmail').textContent = cEmail;
+    $('docPersonsVal').textContent = Math.max(1, parseInt($('numPersons').value, 10) || 1);
+
+    // Appointment & Event Info
+    $('docApptHeading').textContent = isBridal ? 'Bridal / Event Schedule' : 'Appointment Details';
+    $('docApptDate').textContent = formatDisplayDate($('apptDate').value);
+    const timeFormatted = formatDisplayTime($('apptTime').value);
+    const slotVal = isBridal ? $('bookingSlot').value : '';
+    $('docApptTime').textContent = [timeFormatted, slotVal].filter(Boolean).join(' • ') || '-';
+
+    const artist = $('artistName').value.trim();
+    $('docRowArtist').style.display = artist ? 'flex' : 'none';
+    $('docArtistVal').textContent = artist;
+
+    if (isBridal) {
+      const wedDate = $('weddingDate').value;
+      $('docRowWedding').style.display = wedDate ? 'flex' : 'none';
+      $('docWeddingVal').textContent = formatDisplayDate(wedDate);
+
+      const evType = $('eventType').value;
+      const mkCat = $('makeupCategory').value;
+      $('docRowEvent').style.display = 'flex';
+      $('docEventVal').textContent = `${evType} (${mkCat})`;
+
+      const venue = $('eventVenue').value.trim();
+      $('docRowVenue').style.display = venue ? 'flex' : 'none';
+      $('docVenueVal').textContent = venue;
+
+      const reqs = $('specialReqs').value.trim();
+      $('docRowSpecialReq').style.display = reqs ? 'flex' : 'none';
+      $('docSpecialReqVal').textContent = reqs;
+    } else {
+      $('docRowWedding').style.display = 'none';
+      $('docRowEvent').style.display = 'none';
+      $('docRowVenue').style.display = 'none';
+      $('docRowSpecialReq').style.display = 'none';
+    }
+
+    // Services Table Rows (Safe DOM)
+    const docBody = $('docServicesBody');
+    docBody.innerHTML = '';
+    state.items.forEach((it, index) => {
+      const tr = document.createElement('tr');
+      const qty = Math.max(0, parseFloat(it.qty) || 0);
+      const rate = Math.max(0, parseFloat(it.rate) || 0);
+      const lineTotal = qty * rate;
+
+      const tdIdx = document.createElement('td');
+      tdIdx.className = 'text-center';
+      tdIdx.textContent = String(index + 1);
+
+      const tdName = document.createElement('td');
+      tdName.textContent = it.desc.trim() || 'Beauty Service';
+
+      const tdQty = document.createElement('td');
+      tdQty.className = 'text-center';
+      tdQty.textContent = String(qty);
+
+      const tdRate = document.createElement('td');
+      tdRate.className = 'text-right';
+      tdRate.textContent = rate.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      const tdAmt = document.createElement('td');
+      tdAmt.className = 'text-right';
+      tdAmt.style.fontWeight = '700';
+      tdAmt.textContent = lineTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      tr.appendChild(tdIdx);
+      tr.appendChild(tdName);
+      tr.appendChild(tdQty);
+      tr.appendChild(tdRate);
+      tr.appendChild(tdAmt);
+      docBody.appendChild(tr);
+    });
+
+    // Summary Totals
+    $('docSubtotal').textContent = formatINR(totals.subtotal);
+
+    $('docRowDiscount').style.display = (totals.discountEnabled && totals.discount > 0) ? 'table-row' : 'none';
+    $('docDiscount').textContent = '-' + formatINR(totals.discount);
+
+    $('docRowExtra').style.display = (totals.extraEnabled && totals.extraCharges > 0) ? 'table-row' : 'none';
+    $('docExtra').textContent = formatINR(totals.extraCharges);
+
+    $('docRowGst').style.display = totals.gstEnabled ? 'table-row' : 'none';
+    $('docGstLabel').textContent = `GST (${totals.gstRate}%):`;
+    $('docGst').textContent = formatINR(totals.gstAmount);
+
+    $('docNetPayable').textContent = formatINR(totals.netPayable);
+    $('docReceived').textContent = formatINR(totals.advanceReceived);
+    $('docBalanceDue').textContent = formatINR(totals.balanceDue);
+
+    // Payment Box
+    $('docPayMode').textContent = $('paymentMode').value;
+    $('docPayDate').textContent = formatDisplayDate($('paymentDate').value);
+    const refVal = $('paymentRef').value.trim();
+    $('docRowPayRef').style.display = refVal ? 'flex' : 'none';
+    $('docPayRef').textContent = refVal;
+
+    // Terms, Signature & Thank You
+    $('docTermsVal').textContent = $('termsText').value.trim() || 'Services once availed are non-refundable.';
+    $('docAuthSignLabel').textContent = `For ${studioName}`;
+    $('docThankYouVal').textContent = $('thankYouMsg').value.trim() || 'Thank you for visiting!';
+  }
+
+  // Switch Mode
+  function setDocumentMode(newMode, preserveDocNumber = false) {
+    state.mode = newMode;
+    $('modeBillBtn').classList.toggle('active', newMode === 'BILL');
+    $('modeBridalBtn').classList.toggle('active', newMode === 'BRIDAL');
+    $('bridalFieldsWrap').style.display = newMode === 'BRIDAL' ? 'block' : 'none';
+
+    if (!preserveDocNumber) {
+      $('docNumber').value = generateUniqueDocNumber(newMode);
+    }
+    updatePreviewAndTotals();
+    autoSaveDraft();
+  }
+
+  // Logo Upload Handler with Validation & Compression
+  function handleLogoUpload(file) {
+    if (!file) return;
+    const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      showToast('Please upload a PNG, JPG, or WEBP image.');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      showToast('Image too large. Please choose a logo under 2MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const maxDim = 260;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        state.logoDataUrl = canvas.toDataURL('image/png', 0.9);
+        renderLogoThumbnail();
+        saveBusinessProfile();
+        updatePreviewAndTotals();
+        showToast('Studio logo uploaded & saved.');
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function renderLogoThumbnail() {
+    const thumb = $('bizLogoThumb');
+    thumb.innerHTML = '';
+    if (state.logoDataUrl) {
+      const img = document.createElement('img');
+      img.src = state.logoDataUrl;
+      img.alt = 'Logo';
+      thumb.appendChild(img);
+    } else {
+      const span = document.createElement('span');
+      span.style.cssText = 'font-size:11px; color:#94a3b8; font-weight:700;';
+      span.textContent = 'LOGO';
+      thumb.appendChild(span);
+    }
+  }
+
+  // Local Storage Operations
+  function saveBusinessProfile() {
+    const profile = {
+      bizName: $('bizName').value,
+      bizOwner: $('bizOwner').value,
+      bizAddress: $('bizAddress').value,
+      bizCity: $('bizCity').value,
+      bizPhone: $('bizPhone').value,
+      bizWhatsapp: $('bizWhatsapp').value,
+      bizEmail: $('bizEmail').value,
+      termsText: $('termsText').value,
+      thankYouMsg: $('thankYouMsg').value,
+      logoDataUrl: state.logoDataUrl
+    };
+    try {
+      localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(profile));
+    } catch (e) {
+      // Fallback without logo if quota exceeded
+      profile.logoDataUrl = '';
+      try {
+        localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(profile));
+        showToast('Profile saved (logo skipped due to storage limit).');
+      } catch (err) {}
+    }
+  }
+
+  function loadBusinessProfile() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.PROFILE);
+      if (!raw) return;
+      const p = JSON.parse(raw);
+      if (p.bizName !== undefined) $('bizName').value = p.bizName;
+      if (p.bizOwner !== undefined) $('bizOwner').value = p.bizOwner;
+      if (p.bizAddress !== undefined) $('bizAddress').value = p.bizAddress;
+      if (p.bizCity !== undefined) $('bizCity').value = p.bizCity;
+      if (p.bizPhone !== undefined) $('bizPhone').value = p.bizPhone;
+      if (p.bizWhatsapp !== undefined) $('bizWhatsapp').value = p.bizWhatsapp;
+      if (p.bizEmail !== undefined) $('bizEmail').value = p.bizEmail;
+      if (p.termsText !== undefined) $('termsText').value = p.termsText;
+      if (p.thankYouMsg !== undefined) $('thankYouMsg').value = p.thankYouMsg;
+      if (p.logoDataUrl) {
+        state.logoDataUrl = p.logoDataUrl;
+        renderLogoThumbnail();
+      }
+    } catch (e) {}
+  }
+
+  function loadCatalogue() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.CATALOGUE);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          state.catalogue = parsed;
+          return;
+        }
+      }
+    } catch (e) {}
+    state.catalogue = JSON.parse(JSON.stringify(DEFAULT_CATALOGUE));
+  }
+
+  function saveCatalogue() {
+    try {
+      localStorage.setItem(STORAGE_KEYS.CATALOGUE, JSON.stringify(state.catalogue));
+    } catch (e) {}
+  }
+
+  function buildDraftObject() {
+    return {
+      mode: state.mode,
+      docNumber: $('docNumber').value,
+      docDate: $('docDate').value,
+      apptDate: $('apptDate').value,
+      apptTime: $('apptTime').value,
+      clientName: $('clientName').value,
+      clientMobile: $('clientMobile').value,
+      clientEmail: $('clientEmail').value,
+      numPersons: $('numPersons').value,
+      artistName: $('artistName').value,
+      weddingDate: $('weddingDate').value,
+      eventType: $('eventType').value,
+      makeupCategory: $('makeupCategory').value,
+      eventVenue: $('eventVenue').value,
+      bookingSlot: $('bookingSlot').value,
+      specialReqs: $('specialReqs').value,
+      items: state.items,
+      toggleDiscount: $('toggleDiscount').checked,
+      discountAmount: $('discountAmount').value,
+      toggleExtraCharges: $('toggleExtraCharges').checked,
+      extraCharges: $('extraCharges').value,
+      toggleGst: $('toggleGst').checked,
+      gstPercent: $('gstPercent').value,
+      paymentMode: $('paymentMode').value,
+      advanceReceived: $('advanceReceived').value,
+      paymentDate: $('paymentDate').value,
+      paymentRef: $('paymentRef').value
+    };
+  }
+
+  function autoSaveDraft() {
+    try {
+      localStorage.setItem(STORAGE_KEYS.DRAFT, JSON.stringify(buildDraftObject()));
+    } catch (e) {}
+  }
+
+  function restoreDraft(showAlert = true) {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.DRAFT);
+      if (!raw) {
+        if (showAlert) showToast('No saved draft found.');
+        return false;
+      }
+      const d = JSON.parse(raw);
+      if (d.docNumber) $('docNumber').value = d.docNumber;
+      if (d.docDate) $('docDate').value = d.docDate;
+      if (d.apptDate) $('apptDate').value = d.apptDate;
+      if (d.apptTime) $('apptTime').value = d.apptTime;
+      if (d.clientName !== undefined) $('clientName').value = d.clientName;
+      if (d.clientMobile !== undefined) $('clientMobile').value = d.clientMobile;
+      if (d.clientEmail !== undefined) $('clientEmail').value = d.clientEmail;
+      if (d.numPersons !== undefined) $('numPersons').value = d.numPersons;
+      if (d.artistName !== undefined) $('artistName').value = d.artistName;
+      if (d.weddingDate !== undefined) $('weddingDate').value = d.weddingDate;
+      if (d.eventType) $('eventType').value = d.eventType;
+      if (d.makeupCategory) $('makeupCategory').value = d.makeupCategory;
+      if (d.eventVenue !== undefined) $('eventVenue').value = d.eventVenue;
+      if (d.bookingSlot) $('bookingSlot').value = d.bookingSlot;
+      if (d.specialReqs !== undefined) $('specialReqs').value = d.specialReqs;
+
+      if (Array.isArray(d.items) && d.items.length > 0) {
+        state.items = d.items;
+      }
+      $('toggleDiscount').checked = !!d.toggleDiscount;
+      $('discountAmount').value = d.discountAmount || 0;
+      $('discountFieldWrap').style.display = $('toggleDiscount').checked ? 'flex' : 'none';
+
+      $('toggleExtraCharges').checked = !!d.toggleExtraCharges;
+      $('extraCharges').value = d.extraCharges || 0;
+      $('extraFieldWrap').style.display = $('toggleExtraCharges').checked ? 'flex' : 'none';
+
+      $('toggleGst').checked = !!d.toggleGst;
+      if (d.gstPercent) $('gstPercent').value = d.gstPercent;
+      $('gstFieldWrap').style.display = $('toggleGst').checked ? 'flex' : 'none';
+
+      if (d.paymentMode) $('paymentMode').value = d.paymentMode;
+      $('advanceReceived').value = d.advanceReceived || 0;
+      if (d.paymentDate) $('paymentDate').value = d.paymentDate;
+      if (d.paymentRef !== undefined) $('paymentRef').value = d.paymentRef;
+
+      setDocumentMode(d.mode || 'BILL', true);
+      renderSelectedServicesTable();
+      updatePreviewAndTotals();
+      if (showAlert) showToast('Draft restored successfully.');
+      return true;
+    } catch (e) {
+      if (showAlert) showToast('Could not restore draft.');
+      return false;
+    }
+  }
+
+  function resetBillFields(targetMode = state.mode) {
+    const today = todayISO();
+    $('docDate').value = today;
+    $('apptDate').value = today;
+    $('apptTime').value = '11:00';
+    $('clientName').value = '';
+    $('clientMobile').value = '';
+    $('clientEmail').value = '';
+    $('numPersons').value = '1';
+    $('artistName').value = '';
+    $('weddingDate').value = '';
+    $('eventVenue').value = '';
+    $('specialReqs').value = '';
+
+    state.items = [{ desc: '', qty: 1, rate: 0 }];
+    $('discountAmount').value = '0';
+    $('extraCharges').value = '0';
+    $('advanceReceived').value = '0';
+    $('paymentDate').value = today;
+    $('paymentRef').value = '';
+
+    setDocumentMode(targetMode, false);
+    renderSelectedServicesTable();
+    updatePreviewAndTotals();
+    autoSaveDraft();
+  }
+
+  // Catalogue Modal Management
+  function renderCatalogueManageList() {
+    const listWrap = $('catalogueManageList');
+    listWrap.innerHTML = '';
+
+    state.catalogue.forEach((svc, idx) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 8px; border-bottom:1px solid #f3d5e0; font-size:12.5px;';
+
+      const info = document.createElement('div');
+      const strong = document.createElement('strong');
+      strong.textContent = svc.name;
+      const small = document.createElement('div');
+      small.style.cssText = 'font-size:11px; color:#64748b;';
+      small.textContent = `${svc.category} • ₹${svc.rate}`;
+      info.appendChild(strong);
+      info.appendChild(small);
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'btn-icon-del';
+      delBtn.textContent = '✕';
+      delBtn.addEventListener('click', () => {
+        state.catalogue.splice(idx, 1);
+        saveCatalogue();
+        renderCatalogueManageList();
+        renderCatalogueUI();
+      });
+
+      row.appendChild(info);
+      row.appendChild(delBtn);
+      listWrap.appendChild(row);
+    });
+  }
+
+  // Dedicated Off-Screen A4 PDF Export
+  function generateA4PDF() {
+    const btn = $('btnDownloadPdf');
+    if (typeof html2pdf === 'undefined') {
+      showToast('PDF library still loading. Please try again in a second.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Generating A4 PDF...';
+
+    const sourceSheet = $('a4DocumentSheet');
+    const clone = sourceSheet.cloneNode(true);
+
+    // Force exact desktop A4 portrait layout regardless of mobile/tablet viewport
+    clone.style.width = '760px';
+    clone.style.maxWidth = '760px';
+    clone.style.minHeight = '1060px';
+    clone.style.margin = '0';
+    clone.style.padding = '28px 32px';
+    clone.style.boxShadow = 'none';
+    clone.style.background = '#ffffff';
+
+    const banner = clone.querySelector('.doc-top-banner');
+    if (banner) banner.style.flexDirection = 'row';
+    const badgeCol = clone.querySelector('.doc-badge-col');
+    if (badgeCol) badgeCol.style.textAlign = 'right';
+    const infoGrid = clone.querySelector('.doc-info-grid');
+    if (infoGrid) infoGrid.style.gridTemplateColumns = '1fr 1fr';
+    const bottomSec = clone.querySelector('.doc-bottom-section');
+    if (bottomSec) bottomSec.style.flexDirection = 'row';
+    const totalsTbl = clone.querySelector('.doc-totals-table');
+    if (totalsTbl) totalsTbl.style.width = '265px';
+    const sigRow = clone.querySelector('.doc-signatures');
+    if (sigRow) sigRow.style.flexDirection = 'row';
+
+    const staging = document.createElement('div');
+    staging.style.cssText = 'position:fixed; left:-9999px; top:0; width:760px; background:#ffffff; z-index:-1;';
+    staging.appendChild(clone);
+    document.body.appendChild(staging);
+
+    const rawDocNo = ($('docNumber').value.trim() || 'Document').replace(/[^a-zA-Z0-9-_]/g, '');
+    const prefixWord = state.mode === 'BRIDAL' ? 'Bridal' : 'Beauty';
+    const filename = `${prefixWord}_${rawDocNo}.pdf`;
+
+    const opt = {
+      margin: [8, 8, 12, 8],
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        width: 760,
+        windowWidth: 760,
+        backgroundColor: '#ffffff'
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf()
+      .set(opt)
+      .from(clone)
+      .toPdf()
+      .get('pdf')
+      .then((pdf) => {
+        const totalPages = pdf.internal.getNumberOfPages();
+        if (totalPages > 1) {
+          for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i);
+            pdf.setFontSize(8.5);
+            pdf.setTextColor(120, 120, 120);
+            pdf.text(`Page ${i} of ${totalPages}`, pdf.internal.pageSize.getWidth() - 28, pdf.internal.pageSize.getHeight() - 5);
+          }
+        }
+      })
+      .save()
+      .then(() => {
+        staging.remove();
+        btn.disabled = false;
+        btn.textContent = '📥 Download A4 PDF';
+        showToast(`Downloaded ${filename}`);
+      })
+      .catch(() => {
+        staging.remove();
+        btn.disabled = false;
+        btn.textContent = '📥 Download A4 PDF';
+        showToast('PDF export encountered an error. Please try Print -> Save as PDF.');
+      });
+  }
+
+  // WhatsApp Message Builder
+  function buildWhatsAppMessage() {
+    const totals = computeTotals();
+    const isBridal = state.mode === 'BRIDAL';
+    const studio = $('bizName').value.trim() || 'Glow & Grace Beauty Studio';
+    const client = $('clientName').value.trim() || 'Valued Client';
+    const docNo = $('docNumber').value.trim() || '-';
+    const apptDate = formatDisplayDate($('apptDate').value);
+    const apptTime = formatDisplayTime($('apptTime').value);
+
+    let msg = `*${isBridal ? '👑 BRIDAL / PARTY MAKEUP BOOKING' : '💄 SALON SERVICE BILL'}*
+`;
+    msg += `*${studio}*
+`;
+    msg += `--------------------------------
+`;
+    msg += `*${isBridal ? 'Booking No' : 'Bill No'}:* ${docNo}
+`;
+    msg += `*Client:* ${client}
+`;
+    msg += `*Appointment:* ${apptDate}${apptTime ? ' at ' + apptTime : ''}
+`;
+    if (isBridal) {
+      if ($('weddingDate').value) msg += `*Wedding Date:* ${formatDisplayDate($('weddingDate').value)}
+`;
+      if ($('eventVenue').value.trim()) msg += `*Venue:* ${$('eventVenue').value.trim()}
+`;
+    }
+    msg += `
+*Selected Services:*
+`;
+    state.items.forEach((it, i) => {
+      if (it.desc.trim()) {
+        const amt = (it.qty || 0) * (it.rate || 0);
+        msg += `${i + 1}. ${it.desc.trim()} (${it.qty} × ₹${it.rate}) = *₹${amt.toLocaleString('en-IN')}*
+`;
+      }
+    });
+    msg += `--------------------------------
+`;
+    msg += `*Subtotal:* ${formatINR(totals.subtotal)}
+`;
+    if (totals.discountEnabled && totals.discount > 0) {
+      msg += `*Discount:* -${formatINR(totals.discount)}
+`;
+    }
+    if (totals.extraEnabled && totals.extraCharges > 0) {
+      msg += `*Additional Charges:* ${formatINR(totals.extraCharges)}
+`;
+    }
+    if (totals.gstEnabled) {
+      msg += `*GST (${totals.gstRate}%):* ${formatINR(totals.gstAmount)}
+`;
+    }
+    msg += `*Net Payable:* ${formatINR(totals.netPayable)}
+`;
+    msg += `*Amount Received:* ${formatINR(totals.advanceReceived)} (${$('paymentMode').value})
+`;
+    msg += `*Balance Due:* ${formatINR(totals.balanceDue)}
+`;
+    msg += `*Payment Status:* ${totals.status}
+
+`;
+    msg += `_${$('thankYouMsg').value.trim() || 'Thank you for choosing us!'}_`;
+    return msg;
+  }
+
+  function openWhatsAppModal() {
+    $('waMessagePreview').value = buildWhatsAppMessage();
+    $('whatsappModal').classList.add('open');
+  }
+
+  function launchWhatsApp() {
+    const text = $('waMessagePreview').value;
+    const rawPhone = ($('clientMobile').value || '').replace(/\D/g, '');
+    let waUrl = '';
+    if (rawPhone.length === 10) {
+      waUrl = `https://wa.me/91${rawPhone}?text=${encodeURIComponent(text)}`;
+    } else if (rawPhone.length > 10) {
+      waUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent(text)}`;
+    } else {
+      waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    }
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+    $('whatsappModal').classList.remove('open');
+  }
+
+  // Bind Events
+  function bindEvents() {
+    // Mode Switch
+    $('modeBillBtn').addEventListener('click', () => setDocumentMode('BILL'));
+    $('modeBridalBtn').addEventListener('click', () => setDocumentMode('BRIDAL'));
+
+    // Quick Toolbar
+    $('btnNewBill').addEventListener('click', () => {
+      resetBillFields('BILL');
+      showToast('Started new Service Bill.');
+    });
+    $('btnNewBridal').addEventListener('click', () => {
+      resetBillFields('BRIDAL');
+      showToast('Started new Bridal Booking Slip.');
+    });
+    $('btnDuplicateDoc').addEventListener('click', () => {
+      $('docNumber').value = generateUniqueDocNumber(state.mode);
+      $('docDate').value = todayISO();
+      updatePreviewAndTotals();
+      autoSaveDraft();
+      showToast('Duplicated with a new document number.');
+    });
+    $('btnSaveDraft').addEventListener('click', () => {
+      saveBusinessProfile();
+      autoSaveDraft();
+      showToast('Draft & Studio Profile saved locally.');
+    });
+    $('btnLoadDraft').addEventListener('click', () => restoreDraft(true));
+    $('btnResetForm').addEventListener('click', () => {
+      if (confirm('Reset current bill and client fields? Your Business Profile will remain saved.')) {
+        resetBillFields(state.mode);
+        showToast('Bill fields cleared.');
+      }
+    });
+    $('btnClearStorage').addEventListener('click', () => {
+      if (confirm('Delete all locally saved studio profile, logo, custom catalogue, and drafts?')) {
+        Object.values(STORAGE_KEYS).forEach(k => localStorage.removeItem(k));
+        state.logoDataUrl = '';
+        renderLogoThumbnail();
+        loadCatalogue();
+        renderCatalogueUI();
+        resetBillFields('BILL');
+        showToast('All local data cleared.');
+      }
+    });
+
+    // Business Profile Collapse
+    $('toggleBizBtn').addEventListener('click', () => {
+      const body = $('bizSectionBody');
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? 'block' : 'none';
+      $('toggleBizBtn').textContent = isHidden ? 'Hide Details' : 'Show Details';
+    });
+
+    // Business Inputs -> Save Profile + Render
+    ['bizName', 'bizOwner', 'bizAddress', 'bizCity', 'bizPhone', 'bizWhatsapp', 'bizEmail', 'termsText', 'thankYouMsg'].forEach(id => {
+      $(id).addEventListener('input', () => {
+        saveBusinessProfile();
+        updatePreviewAndTotals();
+      });
+    });
+
+    // Logo Upload & Remove
+    $('bizLogoInput').addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleLogoUpload(e.target.files[0]);
+      }
+    });
+    $('btnRemoveLogo').addEventListener('click', () => {
+      state.logoDataUrl = '';
+      $('bizLogoInput').value = '';
+      renderLogoThumbnail();
+      saveBusinessProfile();
+      updatePreviewAndTotals();
+      showToast('Logo removed.');
+    });
+
+    // Client, Appointment & Payment Inputs -> Render + Draft
+    [
+      'docNumber', 'docDate', 'apptDate', 'apptTime', 'clientName', 'clientMobile',
+      'clientEmail', 'numPersons', 'artistName', 'weddingDate', 'eventType',
+      'makeupCategory', 'eventVenue', 'bookingSlot', 'specialReqs',
+      'discountAmount', 'extraCharges', 'gstPercent', 'paymentMode',
+      'advanceReceived', 'paymentDate', 'paymentRef'
+    ].forEach(id => {
+      $(id).addEventListener('input', () => {
+        updatePreviewAndTotals();
+        autoSaveDraft();
+      });
+      $(id).addEventListener('change', () => {
+        updatePreviewAndTotals();
+        autoSaveDraft();
+      });
+    });
+
+    // Toggles
+    $('toggleDiscount').addEventListener('change', (e) => {
+      $('discountFieldWrap').style.display = e.target.checked ? 'flex' : 'none';
+      updatePreviewAndTotals();
+      autoSaveDraft();
+    });
+    $('toggleExtraCharges').addEventListener('change', (e) => {
+      $('extraFieldWrap').style.display = e.target.checked ? 'flex' : 'none';
+      updatePreviewAndTotals();
+      autoSaveDraft();
+    });
+    $('toggleGst').addEventListener('change', (e) => {
+      $('gstFieldWrap').style.display = e.target.checked ? 'flex' : 'none';
+      updatePreviewAndTotals();
+      autoSaveDraft();
+    });
+
+    // Service Search & Add Custom Row
+    $('serviceSearchInput').addEventListener('input', renderCatalogueUI);
+    $('btnAddCustomService').addEventListener('click', () => {
+      state.items.push({ desc: '', qty: 1, rate: 0 });
+      renderSelectedServicesTable();
+      updatePreviewAndTotals();
+    });
+
+    // Catalogue Modal
+    $('btnManageCatalogue').addEventListener('click', () => {
+      renderCatalogueManageList();
+      $('catalogueModal').classList.add('open');
+    });
+    $('closeCatalogueModal').addEventListener('click', () => $('catalogueModal').classList.remove('open'));
+    $('btnAddCatalogueItem').addEventListener('click', () => {
+      const cat = $('newCatCategory').value;
+      const name = $('newCatName').value.trim();
+      const rate = Math.max(0, parseFloat($('newCatRate').value) || 0);
+      if (!name) {
+        showToast('Enter a service name.');
+        return;
+      }
+      state.catalogue.unshift({ id: 'c_' + Date.now(), category: cat, name, rate });
+      saveCatalogue();
+      $('newCatName').value = '';
+      $('newCatRate').value = '';
+      renderCatalogueManageList();
+      renderCatalogueUI();
+      showToast('Added to service catalogue.');
+    });
+
+    // Primary Actions
+    $('btnDownloadPdf').addEventListener('click', generateA4PDF);
+    $('btnPrintDoc').addEventListener('click', () => {
+      window.print();
+    });
+    $('btnWhatsappShare').addEventListener('click', openWhatsAppModal);
+
+    // WhatsApp Modal
+    $('closeWhatsappModal').addEventListener('click', () => $('whatsappModal').classList.remove('open'));
+    $('btnCopyWaText').addEventListener('click', () => {
+      navigator.clipboard.writeText($('waMessagePreview').value).then(() => {
+        showToast('WhatsApp message copied!');
+      }).catch(() => {
+        $('waMessagePreview').select();
+        document.execCommand('copy');
+        showToast('Message copied!');
+      });
+    });
+    $('btnLaunchWa').addEventListener('click', launchWhatsApp);
+  }
+
+  // Initialize App
+  function init() {
+    const now = new Date();
+    $('headerCurrentDate').textContent = '📅 ' + now.toLocaleDateString('en-IN', {
+      weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'
+    });
+
+    const today = todayISO();
+    $('docDate').value = today;
+    $('apptDate').value = today;
+    $('apptTime').value = '11:00';
+    $('paymentDate').value = today;
+
+    loadBusinessProfile();
+    loadCatalogue();
+    renderCatalogueUI();
+    bindEvents();
+
+    const hadDraft = restoreDraft(false);
+    if (!hadDraft) {
+      $('docNumber').value = generateUniqueDocNumber('BILL');
+      renderSelectedServicesTable();
+      updatePreviewAndTotals();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
 </script>
 </body>
 </html>
