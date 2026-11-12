@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Business Quotation & Work Proposal Letter - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #0284c7;
+    --accent-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --danger: #dc2626;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--primary);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--accent); border-color: var(--accent); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  textarea { resize: vertical; min-height: 68px; }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+  }
+
+  .section-badge {
+    background: var(--accent-soft);
+    color: #0369a1;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--accent);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  /* Commercial Scope Input Table */
+  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+  .items-input-table th {
+    text-align: left;
+    padding: 8px 6px;
+    color: var(--ink-muted);
+    font-weight: 800;
+    background: #f0f9ff;
+    border-bottom: 2px solid var(--border);
+  }
+  .items-input-table td { padding: 6px 4px; }
+  .btn-del-row {
+    background: #fee2e2;
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    width: 30px;
+    height: 36px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-del-row:hover { background: var(--danger); color: #fff; }
+  .btn-add-row {
+    background: var(--accent-soft);
+    color: #0369a1;
+    border: 1.5px dashed var(--accent);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+
+  /* Signature Pad */
+  .sig-wrap { background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px; }
+  #sigCanvas {
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    background: #fff;
+    cursor: crosshair;
+    touch-action: none;
+    width: 100%;
+    max-width: 240px;
+    height: 55px;
+    display: block;
+  }
+  .btn-sm { background: #64748b; color: #fff; border: none; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 28px 26px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #0f172a;
+  }
+
+  /* Letterhead */
+  .lh-header {
+    border-bottom: 3px solid #0284c7;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .lh-org h1 { margin: 0; font-size: 19px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.4px; }
+  .lh-org p { margin: 3px 0 0; font-size: 10.5px; color: #475569; line-height: 1.4; }
+  .lh-badge {
+    background: #0284c7;
+    color: #ffffff;
+    padding: 5px 11px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .ref-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 14px;
+  }
+
+  .to-box {
+    font-size: 11.5px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #1e293b;
+  }
+
+  .sub-bar {
+    background: #f1f5f9;
+    border-left: 3.5px solid #0284c7;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 12px;
+  }
+
+  .letter-intro {
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: #334155;
+    margin-bottom: 10px;
+    white-space: pre-line;
+  }
+
+  .prop-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 11px;
+  }
+  .prop-table th {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 6px 6px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .prop-table td {
+    padding: 6px 6px;
+    border-bottom: 1px solid #cbd5e1;
+    font-weight: 600;
+  }
+  .prop-table tr:nth-child(even) td { background: #f8fafc; }
+  .t-right { text-align: right !important; }
+  .t-center { text-align: center !important; }
+
+  .tot-strip {
+    display: flex;
+    justify-content: flex-end;
+    margin: 8px 0 12px 0;
+  }
+  .tot-table { font-size: 11.5px; border-collapse: collapse; min-width: 230px; }
+  .tot-table td { padding: 3px 8px; }
+  .tot-table tr.grand td {
+    background: #e0f2fe;
+    border-top: 2px solid #0284c7;
+    font-weight: 900;
+    color: #0369a1;
+    font-size: 13.5px;
+  }
+
+  .terms-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 10.5px;
+    line-height: 1.55;
+    color: #334155;
+    margin-bottom: 16px;
+    white-space: pre-line;
+  }
+
+  .sig-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+    font-size: 11px;
+  }
+  .auth-block img { max-height: 34px; display: block; margin-bottom: 3px; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    #a4DocSheet { padding: 18px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Business Proposal & Quotation Letter</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Sender Company / Agency Letterhead</div>
+    <div class="grid-2">
+      <div class="field"><label>Your Company / Firm Name</label><input type="text" id="in_org" value="Maruthi Technologies" oninput="renderDoc()"></div>
+      <div class="field"><label>Address, Contact & GSTIN</label><input type="text" id="in_org_info" value="Vadgaon Budruk, Pune | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Proposal / Ref No.</label><input type="text" id="in_ref" oninput="renderDoc()"></div>
+      <div class="field"><label>Proposal Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label>Offer Validity</label><input type="text" id="in_valid" value="15 Days from Issue Date" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">2. Client / Recipient Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Client / Authority Name</label><input type="text" id="in_client" value="Mr. Vikas Shinde" oninput="renderDoc()"></div>
+      <div class="field"><label>Client Organization & Address</label><input type="text" id="in_client_addr" value="Shinde Commercial Complex, Pune" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="field">
+      <label>Proposal Subject Line (विषय)</label>
+      <input type="text" id="in_subj" value="Techno-Commercial Proposal for IP CCTV Surveillance & Structured LAN Networking" oninput="renderDoc()">
+    </div>
+
+    <div class="field">
+      <label>Executive Summary / Cover Note</label>
+      <textarea id="in_intro" oninput="renderDoc()">Dear Sir/Madam,&#10;Thank you for the opportunity to submit our proposal. Based on our site survey and technical discussion, we are pleased to offer our best turnkey solution along with commercial pricing below:</textarea>
+    </div>
+
+    <div class="section-badge">3. Scope of Work & Commercial BOQ (₹)</div>
+    <div style="overflow-x: auto;">
+      <table class="items-input-table">
+        <thead>
+          <tr>
+            <th style="width: 50%;">Deliverable / Item Description</th>
+            <th style="width: 14%;">Qty</th>
+            <th style="width: 14%;">Unit</th>
+            <th style="width: 16%;">Rate (₹)</th>
+            <th style="width: 6%;"></th>
+          </tr>
+        </thead>
+        <tbody id="itemsInputsBody"></tbody>
+      </table>
+    </div>
+    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Add Deliverable / Line Item</button>
+
+    <div class="section-badge">4. GST, Payment Terms & Signatory</div>
+    <div class="grid-3">
+      <div class="field">
+        <label>GST Rate (%)</label>
+        <select id="in_gst" onchange="renderDoc()">
+          <option value="18" selected>18% GST Extra</option>
+          <option value="12">12% GST Extra</option>
+          <option value="5">5% GST Extra</option>
+          <option value="0">0% (Exempt / Included)</option>
+        </select>
+      </div>
+      <div class="field"><label>Authorized Signatory Name</label><input type="text" id="in_auth" value="Amar Singh Tomar" oninput="renderDoc()"></div>
+      <div class="field"><label>Designation</label><input type="text" id="in_desig" value="Proprietor / Technical Lead" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="field">
+      <label>Commercial Terms, Timeline & Warranty</label>
+      <textarea id="in_terms" oninput="renderDoc()">• Payment Terms: 50% Advance with Purchase Order, 40% upon material delivery, and 10% after commissioning.&#10;• Completion Timeline: Within 5–7 working days from PO confirmation.&#10;• Warranty: 2 Years manufacturer warranty on hardware & 1 Year free on-site service support.</textarea>
+    </div>
+
+    <div class="field">
+      <label>Draw Digital Signature (Optional):</label>
+      <div class="sig-wrap">
+        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download Proposal PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDoc()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Summary</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE A4 PROPOSAL PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live A4 Business Proposal Letter Preview</div>
+    <div id="a4DocSheet">
+      <div class="lh-header">
+        <div class="lh-org">
+          <h1 id="out_org">MARUTHI TECHNOLOGIES</h1>
+          <p id="out_org_info">Vadgaon Budruk, Pune | Mob: 98XXXXXXXX</p>
+        </div>
+        <div class="lh-badge">BUSINESS PROPOSAL</div>
+      </div>
+
+      <div class="ref-row">
+        <div>Ref: <span id="out_ref">PROP/2026/101</span></div>
+        <div>Date: <span id="out_date">-</span> &nbsp;|&nbsp; Validity: <span id="out_valid">15 Days</span></div>
+      </div>
+
+      <div class="to-box">
+        <b>To,</b><br>
+        <b id="out_client">Mr. Vikas Shinde</b><br>
+        <span id="out_client_addr">Shinde Commercial Complex, Pune</span>
+      </div>
+
+      <div class="sub-bar">
+        Subject: <span id="out_subj">Techno-Commercial Proposal</span>
+      </div>
+
+      <div class="letter-intro" id="out_intro"></div>
+
+      <table class="prop-table">
+        <thead>
+          <tr>
+            <th class="t-center" style="width:7%">#</th>
+            <th style="width:51%">Scope of Work / Item Specification</th>
+            <th class="t-center" style="width:12%">Qty</th>
+            <th class="t-right" style="width:14%">Rate</th>
+            <th class="t-right" style="width:16%">Amount</th>
+          </tr>
+        </thead>
+        <tbody id="out_tbody"></tbody>
+      </table>
+
+      <div class="tot-strip">
+        <table class="tot-table">
+          <tr><td>Basic Total:</td><td class="t-right" id="out_sub">₹0.00</td></tr>
+          <tr id="row_gst"><td id="out_gst_lbl">GST (18%):</td><td class="t-right" id="out_gst">₹0.00</td></tr>
+          <tr class="grand"><td>Total Proposal Value:</td><td class="t-right" id="out_tot">₹0.00</td></tr>
+        </table>
+      </div>
+
+      <div class="terms-box">
+        <b>Terms, Delivery & Warranty:</b><br>
+        <span id="out_terms"></span>
+      </div>
+
+      <div class="sig-footer">
+        <div style="width:45%; border-top:1px dashed #64748b; padding-top:4px; color:#475569; font-size:10px;">
+          Client Acceptance Signature & Stamp
+        </div>
+        <div class="auth-block" style="text-align:left; min-width:190px;">
+          <div>Yours faithfully,<br>For <b id="out_org_sig">Maruthi Technologies</b></div>
+          <div style="min-height:36px; display:flex; align-items:flex-end;">
+            <img id="out_sig" style="display:none;" alt="Signature">
+          </div>
+          <div style="border-top:1.5px solid #0f172a; padding-top:3px;">
+            <b id="out_auth">Amar Singh Tomar</b><br>
+            <span style="font-size:9.5px; color:#475569;" id="out_desig">Proprietor / Technical Lead</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let items = [
+    { desc: '4MP IP Bullet & Dome Cameras (Hikvision / CP Plus)', qty: 8, unit: 'Nos', rate: 3200 },
+    { desc: '8-Channel 4K NVR with 2TB Surveillance HDD', qty: 1, unit: 'Set', rate: 11500 },
+    { desc: '8-Port Gigabit PoE Switch & Rack Enclosure', qty: 1, unit: 'Nos', rate: 4800 },
+    { desc: 'Cat6 Armored Cabling, PVC Conduit & Installation', qty: 1, unit: 'Job', rate: 7500 }
+  ];
+
+  function renderInputRows() {
+    document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
+      <tr>
+        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
+        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;renderDoc()"></td>
+        <td><input value="${it.unit}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
+        <td><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;renderDoc()"></td>
+        <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
+      </tr>
+    `).join('');
+  }
+  function addItemRow() { items.push({ desc: '', qty: 1, unit: 'Nos', rate: 0 }); renderInputRows(); renderDoc(); }
+  function delRow(i) { if (items.length > 1) { items.splice(i, 1); renderInputRows(); renderDoc(); } }
+
+  function renderDoc() {
+    const org = document.getElementById('in_org').value.trim() || 'YOUR COMPANY NAME';
+    document.getElementById('out_org').innerText = org;
+    document.getElementById('out_org_sig').innerText = org;
+    document.getElementById('out_org_info').innerText = document.getElementById('in_org_info').value.trim() || 'Office Address & Contact';
+    document.getElementById('out_ref').innerText = document.getElementById('in_ref').value.trim() || '-';
+    document.getElementById('out_date').innerText = document.getElementById('in_date').value || '-';
+    document.getElementById('out_valid').innerText = document.getElementById('in_valid').value.trim() || '15 Days';
+
+    document.getElementById('out_client').innerText = document.getElementById('in_client').value.trim() || 'Client Name';
+    document.getElementById('out_client_addr').innerText = document.getElementById('in_client_addr').value.trim() || '-';
+    document.getElementById('out_subj').innerText = document.getElementById('in_subj').value.trim() || '-';
+    document.getElementById('out_intro').innerText = document.getElementById('in_intro').value;
+    document.getElementById('out_terms').innerText = document.getElementById('in_terms').value;
+    document.getElementById('out_auth').innerText = document.getElementById('in_auth').value.trim() || 'Authorized Signatory';
+    document.getElementById('out_desig').innerText = document.getElementById('in_desig').value.trim() || 'Director';
+
+    let sub = 0;
+    document.getElementById('out_tbody').innerHTML = items.map((it, i) => {
+      const amt = (it.qty || 0) * (it.rate || 0);
+      sub += amt;
+      return `
+        <tr>
+          <td class="t-center">${i+1}</td>
+          <td>${it.desc || '-'}</td>
+          <td class="t-center">${it.qty} ${it.unit}</td>
+          <td class="t-right">₹${(it.rate||0).toLocaleString('en-IN')}</td>
+          <td class="t-right">₹${amt.toLocaleString('en-IN', {minimumFractionDigits:2})}</td>
+        </tr>
+      `;
+    }).join('');
+
+    const gstPct = parseFloat(document.getElementById('in_gst').value) || 0;
+    const tax = (sub * gstPct) / 100;
+    const grand = Math.round(sub + tax);
+
+    document.getElementById('out_sub').innerText = '₹' + sub.toLocaleString('en-IN', {minimumFractionDigits:2});
+    document.getElementById('row_gst').style.display = gstPct > 0 ? 'table-row' : 'none';
+    document.getElementById('out_gst_lbl').innerText = `GST (${gstPct}%):`;
+    document.getElementById('out_gst').innerText = '₹' + tax.toLocaleString('en-IN', {minimumFractionDigits:2});
+    document.getElementById('out_tot').innerText = '₹' + grand.toLocaleString('en-IN', {minimumFractionDigits:2});
+  }
+
+  // Signature Pad
+  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
+  let draw = false;
+  function pos(e) {
+    const r = cvs.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  cvs.addEventListener('mousedown', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  cvs.addEventListener('touchstart', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
+  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
+
+  function downloadPDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:26px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [8, 8, 8, 8],
+      filename: `Proposal_${document.getElementById('in_client').value.trim() || 'Client'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDoc() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Proposal</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:12mm;color:#0f172a}
+      .lh-header{border-bottom:3px solid #0284c7;padding-bottom:12px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:flex-start}
+      .lh-org h1{margin:0;font-size:19px;text-transform:uppercase}.lh-org p{margin:3px 0 0;font-size:10.5px;color:#475569}
+      .lh-badge{background:#0284c7;color:#fff;padding:5px 11px;border-radius:4px;font-size:10px;font-weight:800}
+      .ref-row{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-bottom:14px}
+      .to-box{font-size:11.5px;line-height:1.5;margin-bottom:12px}
+      .sub-bar{background:#f1f5f9;border-left:3.5px solid #0284c7;padding:6px 10px;font-size:11.5px;font-weight:800;margin-bottom:12px}
+      .letter-intro{font-size:11.5px;line-height:1.65;margin-bottom:10px;white-space:pre-line}
+      .prop-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px}
+      .prop-table th{background:#0f172a;color:#fff;padding:6px;text-align:left}.prop-table td{padding:6px;border-bottom:1px solid #cbd5e1}
+      .t-right{text-align:right}.t-center{text-align:center}.tot-strip{display:flex;justify-content:flex-end;margin:8px 0 12px}
+      .tot-table{font-size:11.5px;border-collapse:collapse;min-width:230px}.tot-table td{padding:3px 8px}
+      .tot-table tr.grand td{background:#e0f2fe;border-top:2px solid #0284c7;font-weight:900;color:#0369a1;font-size:13.5px}
+      .terms-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:8px 12px;font-size:10.5px;line-height:1.55;margin-bottom:16px;white-space:pre-line}
+      .sig-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:11px}
+      .auth-block img{max-height:34px;display:block;margin-bottom:3px}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const org = document.getElementById('in_org').value.trim() || 'Company';
+    const client = document.getElementById('in_client').value.trim() || 'Client';
+    const tot = document.getElementById('out_tot').innerText;
+    const msg = `*📑 BUSINESS PROPOSAL (${document.getElementById('in_ref').value})*\n*From:* ${org}\n*To:* ${client}\n*Subject:* ${document.getElementById('in_subj').value}\n*Total Proposal Value:* ${tot}\n\n_Generated via KaamKaj Bills._`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_ref').value = 'PROP/2026/' + Math.floor(100 + Math.random() * 899);
+    renderInputRows();
+    renderDoc();
+  };
+</script>
+</body>
+</html>
