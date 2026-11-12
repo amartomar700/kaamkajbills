@@ -2467,7 +2467,7 @@
     });
   }
 
-  // Dedicated Off-Screen A4 PDF Export
+  // Dedicated In-Viewport Overlay A4 PDF Export (Prevents html2canvas left:-9999px horizontal shift/clipping)
   function generateA4PDF() {
     const btn = $('btnDownloadPdf');
     if (typeof html2pdf === 'undefined') {
@@ -2480,15 +2480,20 @@
 
     const sourceSheet = $('a4DocumentSheet');
     const clone = sourceSheet.cloneNode(true);
+    clone.removeAttribute('id');
 
-    // Force exact desktop A4 portrait layout regardless of mobile/tablet viewport
-    clone.style.width = '760px';
-    clone.style.maxWidth = '760px';
-    clone.style.minHeight = '1060px';
-    clone.style.margin = '0';
-    clone.style.padding = '28px 32px';
-    clone.style.boxShadow = 'none';
-    clone.style.background = '#ffffff';
+    // Exact A4 inner content width for 210mm page with 10mm left/right margins (190mm ≈ 718px)
+    clone.style.cssText = [
+      'width: 718px',
+      'max-width: 718px',
+      'min-height: 1015px',
+      'margin: 0 auto',
+      'padding: 24px 28px',
+      'box-shadow: none',
+      'background: #ffffff',
+      'border-top: 6px solid #d6336c',
+      'box-sizing: border-box'
+    ].join(';');
 
     const banner = clone.querySelector('.doc-top-banner');
     if (banner) banner.style.flexDirection = 'row';
@@ -2499,64 +2504,77 @@
     const bottomSec = clone.querySelector('.doc-bottom-section');
     if (bottomSec) bottomSec.style.flexDirection = 'row';
     const totalsTbl = clone.querySelector('.doc-totals-table');
-    if (totalsTbl) totalsTbl.style.width = '265px';
+    if (totalsTbl) totalsTbl.style.width = '260px';
     const sigRow = clone.querySelector('.doc-signatures');
     if (sigRow) sigRow.style.flexDirection = 'row';
 
+    // Keep staging inside viewport at left:0, top:0 behind a clean modal backdrop so html2canvas never clips left side
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed; inset:0; background:rgba(255,255,255,0.96); z-index:99999; overflow:auto; display:flex; justify-content:center; align-items:flex-start; padding:0;';
     const staging = document.createElement('div');
-    staging.style.cssText = 'position:fixed; left:-9999px; top:0; width:760px; background:#ffffff; z-index:-1;';
+    staging.style.cssText = 'width:718px; margin:0; padding:0; background:#ffffff;';
     staging.appendChild(clone);
-    document.body.appendChild(staging);
+    overlay.appendChild(staging);
+    document.body.appendChild(overlay);
 
     const rawDocNo = ($('docNumber').value.trim() || 'Document').replace(/[^a-zA-Z0-9-_]/g, '');
     const prefixWord = state.mode === 'BRIDAL' ? 'Bridal' : 'Beauty';
     const filename = `${prefixWord}_${rawDocNo}.pdf`;
 
     const opt = {
-      margin: [8, 8, 12, 8],
+      margin: [8, 10, 10, 10],
       filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
         scale: 2,
         useCORS: true,
         logging: false,
-        width: 760,
-        windowWidth: 760,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0,
+        width: 718,
+        windowWidth: 800,
         backgroundColor: '#ffffff'
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
 
-    html2pdf()
-      .set(opt)
-      .from(clone)
-      .toPdf()
-      .get('pdf')
-      .then((pdf) => {
-        const totalPages = pdf.internal.getNumberOfPages();
-        if (totalPages > 1) {
-          for (let i = 1; i <= totalPages; i++) {
-            pdf.setPage(i);
-            pdf.setFontSize(8.5);
-            pdf.setTextColor(120, 120, 120);
-            pdf.text(`Page ${i} of ${totalPages}`, pdf.internal.pageSize.getWidth() - 28, pdf.internal.pageSize.getHeight() - 5);
-          }
-        }
-      })
-      .save()
-      .then(() => {
-        staging.remove();
-        btn.disabled = false;
-        btn.textContent = '📥 Download A4 PDF';
-        showToast(`Downloaded ${filename}`);
-      })
-      .catch(() => {
-        staging.remove();
-        btn.disabled = false;
-        btn.textContent = '📥 Download A4 PDF';
-        showToast('PDF export encountered an error. Please try Print -> Save as PDF.');
-      });
+    // Wait one animation frame for fonts/layout to settle before capture
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        html2pdf()
+          .set(opt)
+          .from(staging)
+          .toPdf()
+          .get('pdf')
+          .then((pdf) => {
+            const totalPages = pdf.internal.getNumberOfPages();
+            if (totalPages > 1) {
+              for (let i = 1; i <= totalPages; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(8.5);
+                pdf.setTextColor(120, 120, 120);
+                pdf.text(`Page ${i} of ${totalPages}`, pdf.internal.pageSize.getWidth() - 28, pdf.internal.pageSize.getHeight() - 5);
+              }
+            }
+          })
+          .save()
+          .then(() => {
+            overlay.remove();
+            btn.disabled = false;
+            btn.textContent = '📥 Download A4 PDF';
+            showToast(`Downloaded ${filename}`);
+          })
+          .catch(() => {
+            overlay.remove();
+            btn.disabled = false;
+            btn.textContent = '📥 Download A4 PDF';
+            showToast('PDF export encountered an error. Please try Print -> Save as PDF.');
+          });
+      }, 120);
+    });
   }
 
   // WhatsApp Message Builder
