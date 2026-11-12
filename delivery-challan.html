@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Delivery Challan & Gate Pass Generator - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #d97706;
+    --primary-dark: #b45309;
+    --primary-soft: #fef3c7;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --danger: #dc2626;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .toggle-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .toggle-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.28);
+  }
+
+  /* Items Input Table */
+  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+  .items-input-table th {
+    text-align: left;
+    padding: 8px 6px;
+    color: var(--ink-muted);
+    font-weight: 800;
+    background: #fffbeb;
+    border-bottom: 2px solid var(--border);
+  }
+  .items-input-table td { padding: 6px 4px; }
+  .btn-del-row {
+    background: #fee2e2;
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    width: 30px;
+    height: 36px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-del-row:hover { background: var(--danger); color: #fff; }
+  .btn-add-row {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border: 1.5px dashed var(--primary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #d97706, #b45309); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 24px 20px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #0f172a;
+  }
+
+  .slip-box {
+    border: 2px solid #0f172a;
+    border-radius: 8px;
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid var(--primary);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .doc-biz p { margin: 3px 0 0; font-size: 10.5px; color: #475569; line-height: 1.4; }
+  .doc-badge {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
+  .meta-table td { padding: 4.5px 6px; border: 1px solid #cbd5e1; vertical-align: top; }
+  .meta-table td.lbl { background: #f8fafc; font-weight: 700; color: #334155; width: 22%; }
+  .meta-table td.val { font-weight: 600; color: #0f172a; width: 28%; }
+
+  .doc-items-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
+  .doc-items-table th { background: #fef3c7; color: #92400e; padding: 6px; text-align: left; font-weight: 800; border: 1px solid #fcd34d; }
+  .doc-items-table td { padding: 5.5px 6px; border: 1px solid #cbd5e1; font-weight: 600; }
+  .t-center { text-align: center !important; }
+  .t-right { text-align: right !important; }
+
+  .notes-box { background: #f8fafc; border-left: 3.5px solid var(--primary); padding: 7px 10px; font-size: 10.5px; color: #334155; margin: 10px 0; line-height: 1.45; }
+
+  .sig-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 28px;
+    text-align: center;
+    font-size: 10px;
+  }
+  .sig-col {
+    border-top: 1.5px dashed #475569;
+    padding-top: 4px;
+    font-weight: 700;
+    color: #334155;
+  }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .toggle-bar, .grid-2, .grid-3, .sig-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Delivery Challan & Gate Pass</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div style="margin-bottom: 10px;">
+      <label>1. Document Type Chunein:</label>
+      <div class="toggle-bar">
+        <button type="button" class="toggle-btn active" id="btnChallan" onclick="setMode('CHALLAN')">🚚 Material Delivery Challan</button>
+        <button type="button" class="toggle-btn" id="btnGatePass" onclick="setMode('GATEPASS')">🚧 Outward / Returnable Gate Pass</button>
+      </div>
+    </div>
+
+    <div class="section-badge">1. Consignor / Dispatching Firm Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Sender Firm / Company Name</label><input type="text" id="in_org" value="Maruthi Technologies" oninput="renderDoc()"></div>
+      <div class="field"><label>Dispatch Address, GSTIN & Contact</label><input type="text" id="in_org_addr" value="Vadgaon Budruk, Pune | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">2. Challan / Gate Pass & Transport Info</div>
+    <div class="grid-3">
+      <div class="field"><label>Challan / Pass No.</label><input type="text" id="in_dc_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Dispatch Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field">
+        <label>Movement / Supply Type</label>
+        <select id="in_reason" onchange="renderDoc()">
+          <option value="Site Installation / Supply">Site Installation / Supply</option>
+          <option value="Job Work / Repairing">Job Work / Repairing</option>
+          <option value="Returnable Tools / Equipment">Returnable Tools / Equipment</option>
+          <option value="Stock Transfer (Branch)">Stock Transfer (Branch)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Consignee / Receiver Name</label><input type="text" id="in_rec_name" value="Mr. Vikas Shinde (Site Office)" oninput="renderDoc()"></div>
+      <div class="field"><label>Delivery Site Address & Phone</label><input type="text" id="in_rec_addr" value="Shinde Commercial Complex, Pune | 98XXXXXXXX" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Vehicle / Tempo No.</label><input type="text" id="in_veh" placeholder="उदा. MH-12-PQ-7821 / Porter" oninput="renderDoc()"></div>
+      <div class="field"><label>Driver / Carrier Name</label><input type="text" id="in_drv" placeholder="उदा. Vishal (Mob: 98XXXXXXXX)" oninput="renderDoc()"></div>
+      <div class="field"><label>PO / E-Way Bill Ref (Optional)</label><input type="text" id="in_po" placeholder="उदा. PO-2026-44" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">3. Dispatched Material / Goods List</div>
+    <div style="overflow-x: auto;">
+      <table class="items-input-table">
+        <thead>
+          <tr>
+            <th style="width: 48%;">Material / Equipment Description</th>
+            <th style="width: 14%;">Qty</th>
+            <th style="width: 14%;">Unit</th>
+            <th style="width: 18%;">Approx Value (₹)</th>
+            <th style="width: 6%;"></th>
+          </tr>
+        </thead>
+        <tbody id="itemsInputsBody"></tbody>
+      </table>
+    </div>
+    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Add Material / Box Item</button>
+
+    <div class="field" style="margin-top: 10px;">
+      <label>Receiver Declaration / Transit Remarks</label>
+      <input type="text" id="in_notes" value="Goods dispatched in good & sound condition. Please verify quantity and sign duplicate copy upon receipt." oninput="renderDoc()">
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDoc()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Dispatch Note</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE A4 CHALLAN PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live Delivery Challan / Gate Pass Preview</div>
+    <div id="a4DocSheet">
+      <div class="slip-box">
+        <div class="doc-header">
+          <div class="doc-biz">
+            <h2 id="out_org">MARUTHI TECHNOLOGIES</h2>
+            <p id="out_org_addr">Vadgaon Budruk, Pune | Mob: 98XXXXXXXX</p>
+          </div>
+          <div class="doc-badge" id="out_badge">DELIVERY CHALLAN</div>
+        </div>
+
+        <table class="meta-table">
+          <tr>
+            <td class="lbl">Challan / Pass No:</td><td class="val"><b id="out_dc_no">DC-2026-101</b></td>
+            <td class="lbl">Dispatch Date:</td><td class="val" id="out_date">-</td>
+          </tr>
+          <tr>
+            <td class="lbl">Consignee (To):</td><td class="val"><b id="out_rec_name">-</b></td>
+            <td class="lbl">Supply Type:</td><td class="val" id="out_reason">-</td>
+          </tr>
+          <tr>
+            <td class="lbl">Delivery Address:</td><td class="val" colspan="3" id="out_rec_addr">-</td>
+          </tr>
+          <tr>
+            <td class="lbl">Vehicle / Carrier:</td><td class="val" id="out_veh">-</td>
+            <td class="lbl">Driver / PO Ref:</td><td class="val" id="out_drv_po">-</td>
+          </tr>
+        </table>
+
+        <table class="doc-items-table">
+          <thead>
+            <tr>
+              <th class="t-center" style="width:7%">#</th>
+              <th style="width:51%">Material / Goods Description</th>
+              <th class="t-center" style="width:12%">Qty</th>
+              <th class="t-center" style="width:12%">Unit</th>
+              <th class="t-right" style="width:18%">Est. Value (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="out_tbody"></tbody>
+          <tfoot>
+            <tr style="background:#fffbeb; font-weight:800;">
+              <td colspan="2" class="t-right">Total Packages / Qty:</td>
+              <td class="t-center" id="out_tot_qty">0</td>
+              <td></td>
+              <td class="t-right" id="out_tot_val">₹0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="notes-box">
+          <b>Note:</b> <span id="out_notes"></span><br>
+          <span style="font-size:9.5px; color:#64748b;">(Not a Tax Invoice — For Material Movement / Gate Verification Only)</span>
+        </div>
+
+        <div class="sig-grid">
+          <div class="sig-col">Prepared & Dispatched By</div>
+          <div class="sig-col">Security Gate / Driver Sign</div>
+          <div class="sig-col">Receiver Signature & Stamp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let docMode = 'CHALLAN';
+  let items = [
+    { desc: 'Hikvision 4MP IP Dome & Bullet Cameras (Box Packed)', qty: 8, unit: 'Nos', val: 25600 },
+    { desc: 'D-Link Cat6 305m Cable Bundle & PVC Conduit Pipes', qty: 2, unit: 'Box', val: 8400 },
+    { desc: '8-Port Gigabit PoE Switch & Wall Mount Rack', qty: 1, unit: 'Set', val: 5200 }
+  ];
+
+  function setMode(m) {
+    docMode = m;
+    document.getElementById('btnChallan').classList.toggle('active', m === 'CHALLAN');
+    document.getElementById('btnGatePass').classList.toggle('active', m === 'GATEPASS');
+    document.getElementById('out_badge').innerText = m === 'CHALLAN' ? 'DELIVERY CHALLAN' : 'OUTWARD GATE PASS';
+    document.getElementById('in_dc_no').value = (m === 'CHALLAN' ? 'DC-' : 'GP-') + Math.floor(100000 + Math.random() * 899990);
+    renderDoc();
+  }
+
+  function renderInputRows() {
+    document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
+      <tr>
+        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
+        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;renderDoc()"></td>
+        <td><input value="${it.unit}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
+        <td><input type="number" step="any" value="${it.val}" oninput="items[${i}].val=parseFloat(this.value)||0;renderDoc()"></td>
+        <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
+      </tr>
+    `).join('');
+  }
+  function addItemRow() { items.push({ desc: '', qty: 1, unit: 'Nos', val: 0 }); renderInputRows(); renderDoc(); }
+  function delRow(i) { if (items.length > 1) { items.splice(i, 1); renderInputRows(); renderDoc(); } }
+
+  function renderDoc() {
+    document.getElementById('out_org').innerText = document.getElementById('in_org').value.trim() || 'YOUR FIRM NAME';
+    document.getElementById('out_org_addr').innerText = document.getElementById('in_org_addr').value.trim() || 'Office Address & Mobile';
+    document.getElementById('out_dc_no').innerText = document.getElementById('in_dc_no').value.trim() || '-';
+    document.getElementById('out_date').innerText = document.getElementById('in_date').value || '-';
+    document.getElementById('out_reason').innerText = document.getElementById('in_reason').value;
+    document.getElementById('out_rec_name').innerText = document.getElementById('in_rec_name').value.trim() || '-';
+    document.getElementById('out_rec_addr').innerText = document.getElementById('in_rec_addr').value.trim() || '-';
+    document.getElementById('out_veh').innerText = document.getElementById('in_veh').value.trim() || 'Hand Delivery / Local';
+
+    const drv = document.getElementById('in_drv').value.trim();
+    const po = document.getElementById('in_po').value.trim();
+    document.getElementById('out_drv_po').innerText = [drv, po ? `PO: ${po}` : ''].filter(Boolean).join(' | ') || '-';
+    document.getElementById('out_notes').innerText = document.getElementById('in_notes').value.trim();
+
+    let totQty = 0, totVal = 0;
+    document.getElementById('out_tbody').innerHTML = items.map((it, i) => {
+      totQty += (parseFloat(it.qty) || 0);
+      totVal += (parseFloat(it.val) || 0);
+      return `
+        <tr>
+          <td class="t-center">${i+1}</td>
+          <td>${it.desc || '-'}</td>
+          <td class="t-center"><b>${it.qty}</b></td>
+          <td class="t-center">${it.unit}</td>
+          <td class="t-right">${it.val > 0 ? '₹' + it.val.toLocaleString('en-IN') : '-'}</td>
+        </tr>
+      `;
+    }).join('');
+
+    document.getElementById('out_tot_qty').innerText = totQty;
+    document.getElementById('out_tot_val').innerText = totVal > 0 ? '₹' + totVal.toLocaleString('en-IN', {minimumFractionDigits:2}) : '-';
+  }
+
+  function downloadPDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:20px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [8, 8, 8, 8],
+      filename: `${docMode}_${document.getElementById('in_dc_no').value || 'Slip'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDoc() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Delivery Challan</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:10mm;color:#0f172a}
+      .slip-box{border:2px solid #0f172a;border-radius:8px;padding:16px}
+      .doc-header{display:flex;justify-content:space-between;border-bottom:2.5px solid #d97706;padding-bottom:8px;margin-bottom:10px}
+      .doc-biz h2{margin:0;font-size:18px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
+      .doc-badge{background:#d97706;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
+      .meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
+      .meta-table td{padding:4px 6px;border:1px solid #cbd5e1}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
+      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+      .doc-items-table th{background:#fef3c7;color:#92400e;padding:5px;text-align:left;border:1px solid #fcd34d}
+      .doc-items-table td{padding:5px;border:1px solid #cbd5e1}.t-center{text-align:center}.t-right{text-align:right}
+      .notes-box{background:#f8fafc;border-left:3.5px solid #d97706;padding:6px 8px;font-size:10px;margin:8px 0}
+      .sig-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:28px;text-align:center;font-size:10px}
+      .sig-col{border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const org = document.getElementById('in_org').value.trim() || 'Sender';
+    const rec = document.getElementById('in_rec_name').value.trim() || 'Receiver';
+    const veh = document.getElementById('in_veh').value.trim() || 'Local';
+    const msg = `*🚚 ${docMode === 'CHALLAN' ? 'DELIVERY CHALLAN' : 'GATE PASS'} (${document.getElementById('in_dc_no').value})*\n*From:* ${org}\n*To:* ${rec}\n*Vehicle:* ${veh}\n*Total Items:* ${document.getElementById('out_tot_qty').innerText}\n\n_Generated via KaamKaj Bills._`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_dc_no').value = 'DC-' + Math.floor(100000 + Math.random() * 899990);
+    renderInputRows();
+    renderDoc();
+  };
+</script>
+</body>
+</html>
