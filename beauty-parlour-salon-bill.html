@@ -2936,9 +2936,77 @@
     $('btnPrintDoc').addEventListener('click', () => {
       const origTitle = document.title;
       const rawDocNo = ($('docNumber').value.trim() || 'Slip').replace(/[^a-zA-Z0-9-_]/g, '');
-      document.title = rawDocNo;
-      window.print();
-      setTimeout(() => { document.title = origTitle; }, 500);
+      const docHTML = $('a4DocumentSheet').outerHTML;
+
+      let styles = '';
+      document.querySelectorAll('style, link[rel="stylesheet"]').forEach(el => {
+        styles += el.outerHTML;
+      });
+
+      const printFrame = document.createElement('iframe');
+      printFrame.style.cssText = 'position:fixed; right:0; bottom:0; width:0; height:0; border:0; visibility:hidden;';
+      document.body.appendChild(printFrame);
+
+      const frameDoc = printFrame.contentWindow || printFrame.contentDocument;
+      const doc = frameDoc.document || frameDoc;
+
+      doc.open();
+      doc.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>${rawDocNo}</title>
+          ${styles}
+          <style>
+            @page { size: A4 portrait; margin: 0mm; }
+            html, body {
+              background: #ffffff !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              width: 100% !important;
+              overflow: visible !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .a4-document {
+              width: 100% !important;
+              min-width: 0 !important;
+              max-width: 100% !important;
+              min-height: auto !important;
+              box-shadow: none !important;
+              border-top: 5px solid #d6336c !important;
+              padding: 12mm 14mm !important;
+              margin: 0 !important;
+            }
+            .doc-top-banner { flex-direction: row !important; }
+            .doc-info-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; }
+            .doc-bottom-section { flex-direction: row !important; }
+            .doc-totals-table { width: 260px !important; }
+            .doc-signatures { flex-direction: row !important; }
+          </style>
+        </head>
+        <body>
+          ${docHTML}
+          <script>
+            window.onload = function() {
+              setTimeout(function() {
+                window.focus();
+                window.print();
+              }, 250);
+            };
+          <\/script>
+        </body>
+        </html>
+      `);
+      doc.close();
+
+      setTimeout(() => {
+        if (printFrame && printFrame.parentNode) {
+          printFrame.parentNode.removeChild(printFrame);
+        }
+        document.title = origTitle;
+      }, 3000);
     });
     $('btnWhatsappShare').addEventListener('click', openWhatsAppModal);
 
