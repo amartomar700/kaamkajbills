@@ -6,7 +6,7 @@
 <title>Beauty Studio Billing & Appointment Management System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
@@ -43,7 +43,7 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg);
     color: var(--text-main);
     line-height: 1.5;
@@ -184,6 +184,78 @@
     border-color: var(--danger);
     background: var(--danger-bg);
     color: var(--danger);
+  }
+
+  /* KPI Summary Strip */
+  .kpi-strip {
+    max-width: 1520px;
+    margin: 14px auto 0;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 13px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .kpi-lbl {
+    font-size: 10.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #9a6b84;
+  }
+  .kpi-val {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #17203a;
+    margin-top: 2px;
+    word-break: break-word;
+  }
+  .kpi-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .dark-summary-bar {
+    background: #17203a;
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    font-size: 12px;
+  }
+  .dark-summary-bar .ds-val {
+    font-size: 15px;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+  .doc-monogram {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    background: var(--primary);
+    color: #ffffff;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 32px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  @media (max-width: 900px) {
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); padding: 0 12px; }
+    .dark-summary-bar { grid-template-columns: repeat(2, 1fr); }
   }
 
   /* Main Workspace */
@@ -727,7 +799,7 @@
   }
 
   .doc-studio-name {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Fraunces', Georgia, serif;
     font-size: 25px;
     font-weight: 700;
     color: #831843;
@@ -1181,6 +1253,30 @@
     </div>
   </div>
 
+  <!-- Live Dashboard Summary Strip -->
+  <section class="kpi-strip">
+    <div class="kpi-card">
+      <div class="kpi-lbl">Active Document</div>
+      <div class="kpi-val" id="kpiDocNo">BTY-100001</div>
+      <div class="kpi-sub" id="kpiDocMode">Service Bill &amp; Receipt</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Net Payable</div>
+      <div class="kpi-val" id="kpiNetPayable" style="color: var(--primary);">₹0.00</div>
+      <div class="kpi-sub">Live calculated total</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Amount Received</div>
+      <div class="kpi-val" id="kpiAdvance">₹0.00</div>
+      <div class="kpi-sub" id="kpiPayMethod">UPI</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Balance Due</div>
+      <div class="kpi-val" id="kpiBalance">₹0.00</div>
+      <div class="kpi-sub" id="kpiStatus">Pending</div>
+    </div>
+  </section>
+
   <!-- Main Two-Column Workspace -->
   <main class="workspace">
     <!-- Left Controls Column -->
@@ -1270,7 +1366,10 @@
         <div class="grid-3">
           <div class="form-group">
             <label for="docNumber">Document Number</label>
-            <input type="text" id="docNumber">
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="docNumber">
+              <button type="button" class="btn-tool" id="btnRegenDocNo" title="Generate New Number" style="padding:0 10px; flex-shrink:0;">↻</button>
+            </div>
           </div>
           <div class="form-group">
             <label for="docDate">Document Date</label>
@@ -1422,8 +1521,11 @@
             <input type="number" id="discountAmount" min="0" step="1" value="0">
           </div>
           <div class="form-group" id="extraFieldWrap" style="display: none;">
-            <label for="extraCharges">Additional Charges (₹)</label>
-            <input type="number" id="extraCharges" min="0" step="1" value="0">
+            <label for="extraCharges">Extra Charges (₹)</label>
+            <div style="display:flex; gap:6px;">
+              <input type="text" id="extraLabel" value="Travel / Kit" placeholder="Label" style="width:52%;">
+              <input type="number" id="extraCharges" min="0" step="1" value="0" style="width:48%;">
+            </div>
           </div>
           <div class="form-group" id="gstFieldWrap" style="display: none;">
             <label for="gstPercent">GST Rate (%)</label>
@@ -1475,6 +1577,14 @@
           <textarea id="termsText" rows="2">Please arrive 10 minutes prior to your scheduled appointment. Advance paid for bridal/party bookings is non-refundable on same-day cancellations.</textarea>
         </div>
 
+        <!-- Live Dark Billing Bar -->
+        <div class="dark-summary-bar">
+          <div><div style="opacity:0.75; font-size:11px;">Subtotal</div><div class="ds-val" id="barSubtotal">₹0.00</div></div>
+          <div><div style="opacity:0.75; font-size:11px;">Tax / GST</div><div class="ds-val" id="barTax">₹0.00</div></div>
+          <div><div style="opacity:0.75; font-size:11px;">Net Payable</div><div class="ds-val" id="barNet" style="color:#ffb7d4;">₹0.00</div></div>
+          <div><div style="opacity:0.75; font-size:11px;">Balance Due</div><div class="ds-val" id="barBalance">₹0.00</div></div>
+        </div>
+
         <!-- Primary Action Buttons -->
         <div class="primary-actions">
           <button type="button" class="btn-action btn-pdf" id="btnDownloadPdf">📥 Download A4 PDF</button>
@@ -1498,6 +1608,7 @@
             <!-- A4 Header -->
             <div class="doc-top-banner">
               <div class="doc-brand-block">
+                <div class="doc-monogram" id="docMonogramBox">G</div>
                 <div class="doc-logo-wrap" id="docLogoContainer" style="display: none;">
                   <img id="docLogoImg" src="" alt="Studio Logo">
                 </div>
@@ -1571,7 +1682,7 @@
                   <td class="text-right" id="docDiscount">-₹0.00</td>
                 </tr>
                 <tr id="docRowExtra" style="display:none;">
-                  <td>Additional Charges:</td>
+                  <td id="docExtraLabel">Additional Charges:</td>
                   <td class="text-right" id="docExtra">₹0.00</td>
                 </tr>
                 <tr id="docRowGst" style="display:none;">
@@ -2043,13 +2154,17 @@
     if (email) contactParts.push(email);
     $('docStudioContact').textContent = contactParts.join(' | ') || 'Contact Details';
 
-    // Logo
+    // Logo or Studio Monogram
+    const monogramChar = (studioName || 'G').trim().charAt(0).toUpperCase();
+    $('docMonogramBox').textContent = monogramChar;
     if (state.logoDataUrl) {
       $('docLogoContainer').style.display = 'flex';
       $('docLogoImg').src = state.logoDataUrl;
+      $('docMonogramBox').style.display = 'none';
     } else {
       $('docLogoContainer').style.display = 'none';
       $('docLogoImg').src = '';
+      $('docMonogramBox').style.display = 'flex';
     }
 
     // Mode & Header Meta
@@ -2153,9 +2268,26 @@
     $('docGstLabel').textContent = `GST (${totals.gstRate}%):`;
     $('docGst').textContent = formatINR(totals.gstAmount);
 
+    const extraLbl = ($('extraLabel') && $('extraLabel').value.trim()) || 'Additional Charges';
+    $('docExtraLabel').textContent = extraLbl + ':';
+
     $('docNetPayable').textContent = formatINR(totals.netPayable);
     $('docReceived').textContent = formatINR(totals.advanceReceived);
     $('docBalanceDue').textContent = formatINR(totals.balanceDue);
+
+    // Sync KPI Strip & Dark Summary Bar
+    $('kpiDocNo').textContent = $('docNumber').value.trim() || '-';
+    $('kpiDocMode').textContent = isBridal ? 'Bridal / Party Booking' : 'Service Bill & Receipt';
+    $('kpiNetPayable').textContent = formatINR(totals.netPayable);
+    $('kpiAdvance').textContent = formatINR(totals.advanceReceived);
+    $('kpiPayMethod').textContent = $('paymentMode').value;
+    $('kpiBalance').textContent = formatINR(totals.balanceDue);
+    $('kpiStatus').textContent = totals.status;
+
+    $('barSubtotal').textContent = formatINR(totals.subtotal);
+    $('barTax').textContent = formatINR(totals.gstAmount);
+    $('barNet').textContent = formatINR(totals.netPayable);
+    $('barBalance').textContent = formatINR(totals.balanceDue);
 
     // Payment Box
     $('docPayMode').textContent = $('paymentMode').value;
@@ -2679,6 +2811,12 @@
       resetBillFields('BRIDAL');
       showToast('Started new Bridal Booking Slip.');
     });
+    $('btnRegenDocNo').addEventListener('click', () => {
+      $('docNumber').value = generateUniqueDocNumber(state.mode);
+      updatePreviewAndTotals();
+      autoSaveDraft();
+      showToast('New document number generated.');
+    });
     $('btnDuplicateDoc').addEventListener('click', () => {
       $('docNumber').value = generateUniqueDocNumber(state.mode);
       $('docDate').value = todayISO();
@@ -2746,7 +2884,7 @@
       'docNumber', 'docDate', 'apptDate', 'apptTime', 'clientName', 'clientMobile',
       'clientEmail', 'numPersons', 'artistName', 'weddingDate', 'eventType',
       'makeupCategory', 'eventVenue', 'bookingSlot', 'specialReqs',
-      'discountAmount', 'extraCharges', 'gstPercent', 'paymentMode',
+      'discountAmount', 'extraLabel', 'extraCharges', 'gstPercent', 'paymentMode',
       'advanceReceived', 'paymentDate', 'paymentRef'
     ].forEach(id => {
       $(id).addEventListener('input', () => {
