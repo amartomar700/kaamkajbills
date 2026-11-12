@@ -220,20 +220,10 @@
   .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 11px; }
   .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 5px; font-weight: 700; color: #334155; }
 
-  /* PDF Specific (Prevents Cut-offs) */
-  .pdf-render-container {
-    width: 794px; /* A4 width at 96 DPI */
-    padding: 40px;
-    background: #ffffff !important;
-    color: #0f172a !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-  }
-  .no-break { page-break-inside: avoid !important; }
-
   /* Responsive */
   @media (max-width: 960px) {
     .kb-wrapper { grid-template-columns: 1fr; padding: 12px; gap: 20px; }
-    .preview-panel { position: static; order: -1; } /* Preview on top for mobile, or remove order to put at bottom */
+    .preview-panel { position: static; }
     .top-nav { padding: 10px 12px; }
   }
   @media (max-width: 600px) {
@@ -267,7 +257,7 @@
   <div class="control-box">
     
     <div class="lang-bar">
-      <span>🌐 <b id="ui_lang_lbl">Document Language:</b></span>
+      <span>🌐 <b>Document Language:</b></span>
       <select id="sel_lang" onchange="changeLanguage(this.value)">
         <option value="hi" selected>हिन्दी (Hindi)</option>
         <option value="en">English</option>
@@ -277,7 +267,7 @@
     </div>
 
     <div style="margin-bottom: 10px;">
-      <label id="lbl_mode">1. Slip Type:</label>
+      <label>1. Slip Type:</label>
       <div class="toggle-bar">
         <button type="button" class="toggle-btn active" id="btnModeCash" onclick="setDocMode('CASH_MEMO')">🧾 Cash Memo</button>
         <button type="button" class="toggle-btn" id="btnModeOrder" onclick="setDocMode('ORDER_SLIP')">🖨️ Order Slip</button>
@@ -286,16 +276,16 @@
 
     <div class="section-badge">1. Shop Details</div>
     <div class="grid-2">
-      <div class="field"><label id="lbl_shop">Shop / Center Name</label><input type="text" id="in_biz_name" placeholder="उदा. Vidya Stationery" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_addr">Address & Mobile</label><input type="text" id="in_biz_info" placeholder="उदा. College Road, Pune | 98XX" oninput="renderDoc()"></div>
+      <div class="field"><label>Shop / Center Name</label><input type="text" id="in_biz_name" placeholder="उदा. Vidya Stationery" oninput="renderDoc()"></div>
+      <div class="field"><label>Address & Mobile</label><input type="text" id="in_biz_info" placeholder="उदा. College Road, Pune | 98XX" oninput="renderDoc()"></div>
     </div>
 
     <div class="section-badge">2. Customer Details</div>
     <div class="grid-3">
-      <div class="field"><label id="lbl_docno">Bill / Order No.</label><input type="text" id="in_doc_no" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_date">Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label>Bill / Order No.</label><input type="text" id="in_doc_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
       <div class="field">
-        <label id="lbl_pay">Payment Mode</label>
+        <label>Payment Mode</label>
         <select id="in_pay_mode" onchange="renderDoc()">
           <option value="UPI / Online">UPI / Online</option>
           <option value="CASH">CASH (नकद)</option>
@@ -304,8 +294,8 @@
       </div>
     </div>
     <div class="grid-2">
-      <div class="field"><label id="lbl_cust">Customer Name</label><input type="text" id="in_cust_name" placeholder="उदा. Rohan Kulkarni" oninput="renderDoc()"></div>
-      <div class="field"><label id="lbl_phone">Customer Mobile</label><input type="text" id="in_cust_phone" placeholder="9876543210" oninput="renderDoc()"></div>
+      <div class="field"><label>Customer Name</label><input type="text" id="in_cust_name" placeholder="उदा. Rohan Kulkarni" oninput="renderDoc()"></div>
+      <div class="field"><label>Customer Mobile</label><input type="text" id="in_cust_phone" placeholder="9876543210" oninput="renderDoc()"></div>
     </div>
 
     <div class="section-badge">3. Items & Custom Catalog</div>
@@ -340,11 +330,11 @@
 
     <div class="section-badge">4. Totals & Notes</div>
     <div class="grid-3">
-      <div class="field"><label id="lbl_disc">Discount (₹)</label><input type="number" id="in_discount" min="0" placeholder="0" oninput="calcTotals()"></div>
-      <div class="field"><label id="lbl_adv">Advance Paid (₹)</label><input type="number" id="in_adv" min="0" placeholder="0" oninput="calcTotals()"></div>
-      <div class="field"><label id="lbl_deliv">Delivery Time</label><input type="text" id="in_deliv" placeholder="उदा. Today 06:00 PM" oninput="renderDoc()"></div>
+      <div class="field"><label>Discount (₹)</label><input type="number" id="in_discount" min="0" placeholder="0" oninput="calcTotals()"></div>
+      <div class="field"><label>Advance Paid (₹)</label><input type="number" id="in_adv" min="0" placeholder="0" oninput="calcTotals()"></div>
+      <div class="field"><label>Delivery Time</label><input type="text" id="in_deliv" placeholder="उदा. Today 06:00 PM" oninput="renderDoc()"></div>
     </div>
-    <div class="field"><label id="lbl_notes">Shop Note / Terms</label><input type="text" id="in_notes" placeholder="उदा. प्रिंटिंग व बाइंडिंग की जांच कर लें।" oninput="renderDoc()"></div>
+    <div class="field"><label>Shop Note / Terms</label><input type="text" id="in_notes" placeholder="उदा. प्रिंटिंग व बाइंडिंग की जांच कर लें।" oninput="renderDoc()"></div>
 
     <div class="actions">
       <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download HD PDF</button>
@@ -518,7 +508,7 @@
     const disc = Math.max(0, parseFloat(document.getElementById('in_discount').value) || 0);
     const tot = Math.max(0, sub - disc);
     const adv = Math.max(0, parseFloat(document.getElementById('in_adv').value) || 0);
-    const bal = Math.max(0, tot - adv); // Balance can NEVER be negative
+    const bal = Math.max(0, tot - adv);
 
     document.getElementById('out_sub').innerText = '₹' + sub.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     document.getElementById('row_disc').style.display = disc > 0 ? 'table-row' : 'none';
@@ -562,49 +552,67 @@
     `).join('');
   }
 
-  // --- HD No-Cut PDF Generation ---
+  // --- 🛠️ ULTIMATE NO-CUT PDF GENERATION FIX ---
   function downloadA4PDF() {
     showToast('Generating HD PDF... Please wait.');
     
-    // Create a hidden container with exact A4 proportions
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed; top:-9999px; left:0; width:100vw; height:100vh; background:#ffffff; z-index:-1;';
+    const orig = document.getElementById('a4DocSheet');
+    const clone = orig.cloneNode(true);
     
-    const staging = document.createElement('div');
-    staging.className = 'pdf-render-container';
-    staging.innerHTML = document.getElementById('a4DocSheet').innerHTML;
-    
-    overlay.appendChild(staging);
-    document.body.appendChild(overlay);
+    // CRITICAL FIX: Exact A4 dimensions in mm to prevent right/bottom cutoff
+    clone.style.cssText = `
+      width: 210mm !important; 
+      min-height: 297mm;
+      margin: 0 auto; 
+      padding: 15mm !important; 
+      background: #ffffff !important; 
+      border: none !important; 
+      box-shadow: none !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    `;
+
+    // Force prevent page breaks inside crucial elements
+    const noBreakElements = clone.querySelectorAll('table, tr, .summary-wrap, .notes-box, .doc-header');
+    noBreakElements.forEach(el => {
+      el.style.pageBreakInside = 'avoid';
+      el.style.breakInside = 'avoid';
+    });
+
+    const wrap = document.createElement('div');
+    // Position off-screen to render fully without viewport clipping
+    wrap.style.cssText = 'position: fixed; top: -9999px; left: 0; width: 210mm; z-index: -1; background: #ffffff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
 
     const cleanNo = (document.getElementById('in_doc_no').value || 'StationeryBill').replace(/[^a-zA-Z0-9-_]/g, '');
     
-    // Wait a moment for rendering
     setTimeout(() => {
       html2pdf().set({
-        margin: [10, 10, 10, 10],
+        margin: 0, // Margins handled by the 15mm padding in clone
         filename: `${cleanNo}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-          scale: 3, // HD Quality
+          scale: 2, // Scale 2 is perfect HD. Scale 3 causes cropping on many devices.
           useCORS: true, 
+          letterRendering: true,
           scrollX: 0, 
-          scrollY: 0, 
-          width: 794, // A4 width at 96 DPI
-          windowWidth: 794,
-          backgroundColor: '#ffffff' 
+          scrollY: 0,
+          width: 794, // Exactly 210mm in pixels at 96 DPI
+          windowWidth: 794
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // PREVENTS CUTTING
-      }).from(staging).save().then(() => {
-        overlay.remove();
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Prevents cutting across pages
+      }).from(clone).save().then(() => {
+        wrap.remove();
         showToast('PDF Downloaded Successfully! ✅');
       }).catch((err) => {
-        overlay.remove();
+        wrap.remove();
         console.error(err);
         showToast('PDF generation failed', 'error');
       });
-    }, 500);
+    }, 300);
   }
 
   function printDocDirect() {
