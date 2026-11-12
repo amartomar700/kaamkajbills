@@ -142,7 +142,7 @@
 
   /* Quick Action Toolbar */
   .quick-toolbar {
-    max-width: 1520px;
+    max-width: 1120px;
     margin: 16px auto 0;
     padding: 0 24px;
     display: flex;
@@ -188,7 +188,7 @@
 
   /* KPI Summary Strip */
   .kpi-strip {
-    max-width: 1520px;
+    max-width: 1120px;
     margin: 14px auto 0;
     padding: 0 24px;
     display: grid;
@@ -258,15 +258,18 @@
     .dark-summary-bar { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* Main Workspace */
+  /* Main Workspace - Single Vertical Column Layout */
   .workspace {
-    max-width: 1520px;
+    max-width: 1120px;
     margin: 16px auto 40px;
     padding: 0 24px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 24px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .controls-column {
+    width: 100%;
   }
 
   /* Cards & Sections */
@@ -706,22 +709,22 @@
   .btn-print { background: var(--text-main); }
   .btn-wa { background: #16a34a; }
 
-  /* Right Sticky Preview */
+  /* Bottom Full-Width Live A4 Preview Column */
   .preview-column {
-    position: sticky;
-    top: 76px;
+    width: 100%;
+    position: static;
   }
 
   .preview-topbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     padding: 0 4px;
   }
 
   .preview-title {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.6px;
@@ -732,15 +735,17 @@
     width: 100%;
     overflow-x: auto;
     background: #e2e8f0;
-    padding: 16px;
+    padding: 24px 16px;
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
   }
 
   /* A4 Sheet Styling (Shared between Live Preview, Print & PDF) */
   .a4-document {
-    width: 100%;
-    max-width: 794px;
+    width: 794px;
+    max-width: 100%;
     min-height: 1040px;
     margin: 0 auto;
     background: #ffffff;
@@ -752,6 +757,7 @@
     justify-content: space-between;
     position: relative;
     border-top: 6px solid var(--primary);
+    flex-shrink: 0;
   }
 
   .doc-top-banner {
@@ -1119,12 +1125,13 @@
   }
 
   /* Responsive Breakpoints */
-  @media (max-width: 1120px) {
-    .workspace {
-      grid-template-columns: 1fr;
+  @media (max-width: 840px) {
+    .preview-viewport {
+      justify-content: flex-start;
+      padding: 12px;
     }
-    .preview-column {
-      position: static;
+    .a4-document {
+      min-width: 680px;
     }
   }
 
@@ -1137,20 +1144,6 @@
     }
     .grid-2, .grid-3, .grid-4, .mode-switcher, .primary-actions {
       grid-template-columns: 1fr;
-    }
-    .a4-document {
-      padding: 20px 18px;
-      min-height: auto;
-    }
-    .doc-top-banner, .doc-info-grid, .doc-bottom-section, .doc-signatures {
-      grid-template-columns: 1fr;
-      flex-direction: column;
-    }
-    .doc-badge-col {
-      text-align: left;
-    }
-    .doc-totals-table {
-      width: 100%;
     }
   }
 
@@ -1171,6 +1164,7 @@
     }
     .app-header,
     .quick-toolbar,
+    .kpi-strip,
     .controls-column,
     .preview-topbar,
     .modal-backdrop,
@@ -1192,9 +1186,11 @@
       padding: 0 !important;
       border: none !important;
       overflow: visible !important;
+      display: block !important;
     }
     .a4-document {
       width: 100% !important;
+      min-width: 0 !important;
       max-width: 100% !important;
       min-height: auto !important;
       box-shadow: none !important;
@@ -1277,9 +1273,9 @@
     </div>
   </section>
 
-  <!-- Main Two-Column Workspace -->
+  <!-- Main Single-Column Stacked Workspace -->
   <main class="workspace">
-    <!-- Left Controls Column -->
+    <!-- Top Form Controls Section (Full Width) -->
     <section class="controls-column">
 
       <!-- Document Mode Selection -->
@@ -1322,17 +1318,17 @@
             </div>
             <div class="form-group">
               <label for="bizCity">City &amp; Pincode</label>
-              <input type="text" id="bizCity" placeholder="e.g. Pune - 411001">
+              <input type="text" id="bizCity" placeholder="e.g. New Delhi - 110001">
             </div>
           </div>
           <div class="grid-3">
             <div class="form-group">
               <label for="bizPhone">Contact Number</label>
-              <input type="tel" id="bizPhone" placeholder="e.g. +91 98765 43210">
+              <input type="tel" id="bizPhone" placeholder="e.g. +91 98000 00000">
             </div>
             <div class="form-group">
               <label for="bizWhatsapp">WhatsApp Number</label>
-              <input type="tel" id="bizWhatsapp" placeholder="e.g. 9876543210">
+              <input type="tel" id="bizWhatsapp" placeholder="e.g. 9800000000">
             </div>
             <div class="form-group">
               <label for="bizEmail">Email Address</label>
@@ -1595,8 +1591,8 @@
 
     </section>
 
-    <!-- Right Live A4 Preview Column -->
-    <section class="preview-column">
+    <!-- Bottom Full-Width Live A4 Preview Section -->
+    <section class="preview-column" id="livePreviewSection">
       <div class="preview-topbar">
         <span class="preview-title">Live A4 Print-Ready Preview</span>
         <span style="font-size: 11.5px; color: var(--primary); font-weight: 700;" id="previewDocTag">BTY Format</span>
@@ -1614,8 +1610,8 @@
                 </div>
                 <div class="doc-studio-info">
                   <div class="doc-studio-name" id="docStudioName">Glow &amp; Grace Beauty Studio</div>
-                  <div class="doc-studio-sub" id="docStudioAddress">2nd Floor, Rose Arcade, MG Road, Pune</div>
-                  <div class="doc-studio-sub" id="docStudioContact">Phone: +91 98765 43210</div>
+                  <div class="doc-studio-sub" id="docStudioAddress">2nd Floor, Rose Arcade, MG Road</div>
+                  <div class="doc-studio-sub" id="docStudioContact">Phone: +91 98000 00000</div>
                 </div>
               </div>
               <div class="doc-badge-col">
@@ -2394,7 +2390,6 @@
     try {
       localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(profile));
     } catch (e) {
-      // Fallback without logo if quota exceeded
       profile.logoDataUrl = '';
       try {
         localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(profile));
@@ -2614,10 +2609,10 @@
     const clone = sourceSheet.cloneNode(true);
     clone.removeAttribute('id');
 
-    // Exact 680px width fits cleanly inside 210mm A4 with 12mm side margins without 1px right clipping
     const PDF_WIDTH = 680;
     clone.style.cssText = [
       `width: ${PDF_WIDTH}px`,
+      `min-width: ${PDF_WIDTH}px`,
       `max-width: ${PDF_WIDTH}px`,
       'min-height: 960px',
       'margin: 0',
@@ -2664,7 +2659,6 @@
       sigRow.style.flexDirection = 'row';
     }
 
-    // Pin staging at top-left (0,0) with display:block so html2canvas captures exact [0..680px] with zero offset
     const overlay = document.createElement('div');
     overlay.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:#ffffff; z-index:99999; overflow:auto; margin:0; padding:0;';
     const staging = document.createElement('div');
@@ -2742,59 +2736,38 @@
     const apptDate = formatDisplayDate($('apptDate').value);
     const apptTime = formatDisplayTime($('apptTime').value);
 
-    let msg = `*${isBridal ? '👑 BRIDAL / PARTY MAKEUP BOOKING' : '💄 SALON SERVICE BILL'}*
-`;
-    msg += `*${studio}*
-`;
-    msg += `--------------------------------
-`;
-    msg += `*${isBridal ? 'Booking No' : 'Bill No'}:* ${docNo}
-`;
-    msg += `*Client:* ${client}
-`;
-    msg += `*Appointment:* ${apptDate}${apptTime ? ' at ' + apptTime : ''}
-`;
+    let msg = `*${isBridal ? '👑 BRIDAL / PARTY MAKEUP BOOKING' : '💄 SALON SERVICE BILL'}*\n`;
+    msg += `*${studio}*\n`;
+    msg += `--------------------------------\n`;
+    msg += `*${isBridal ? 'Booking No' : 'Bill No'}:* ${docNo}\n`;
+    msg += `*Client:* ${client}\n`;
+    msg += `*Appointment:* ${apptDate}${apptTime ? ' at ' + apptTime : ''}\n`;
     if (isBridal) {
-      if ($('weddingDate').value) msg += `*Wedding Date:* ${formatDisplayDate($('weddingDate').value)}
-`;
-      if ($('eventVenue').value.trim()) msg += `*Venue:* ${$('eventVenue').value.trim()}
-`;
+      if ($('weddingDate').value) msg += `*Wedding Date:* ${formatDisplayDate($('weddingDate').value)}\n`;
+      if ($('eventVenue').value.trim()) msg += `*Venue:* ${$('eventVenue').value.trim()}\n`;
     }
-    msg += `
-*Selected Services:*
-`;
+    msg += `\n*Selected Services:*\n`;
     state.items.forEach((it, i) => {
       if (it.desc.trim()) {
         const amt = (it.qty || 0) * (it.rate || 0);
-        msg += `${i + 1}. ${it.desc.trim()} (${it.qty} × ₹${it.rate}) = *₹${amt.toLocaleString('en-IN')}*
-`;
+        msg += `${i + 1}. ${it.desc.trim()} (${it.qty} × ₹${it.rate}) = *₹${amt.toLocaleString('en-IN')}*\n`;
       }
     });
-    msg += `--------------------------------
-`;
-    msg += `*Subtotal:* ${formatINR(totals.subtotal)}
-`;
+    msg += `--------------------------------\n`;
+    msg += `*Subtotal:* ${formatINR(totals.subtotal)}\n`;
     if (totals.discountEnabled && totals.discount > 0) {
-      msg += `*Discount:* -${formatINR(totals.discount)}
-`;
+      msg += `*Discount:* -${formatINR(totals.discount)}\n`;
     }
     if (totals.extraEnabled && totals.extraCharges > 0) {
-      msg += `*Additional Charges:* ${formatINR(totals.extraCharges)}
-`;
+      msg += `*Additional Charges:* ${formatINR(totals.extraCharges)}\n`;
     }
     if (totals.gstEnabled) {
-      msg += `*GST (${totals.gstRate}%):* ${formatINR(totals.gstAmount)}
-`;
+      msg += `*GST (${totals.gstRate}%):* ${formatINR(totals.gstAmount)}\n`;
     }
-    msg += `*Net Payable:* ${formatINR(totals.netPayable)}
-`;
-    msg += `*Amount Received:* ${formatINR(totals.advanceReceived)} (${$('paymentMode').value})
-`;
-    msg += `*Balance Due:* ${formatINR(totals.balanceDue)}
-`;
-    msg += `*Payment Status:* ${totals.status}
-
-`;
+    msg += `*Net Payable:* ${formatINR(totals.netPayable)}\n`;
+    msg += `*Amount Received:* ${formatINR(totals.advanceReceived)} (${$('paymentMode').value})\n`;
+    msg += `*Balance Due:* ${formatINR(totals.balanceDue)}\n`;
+    msg += `*Payment Status:* ${totals.status}\n\n`;
     msg += `_${$('thankYouMsg').value.trim() || 'Thank you for choosing us!'}_`;
     return msg;
   }
@@ -2821,11 +2794,9 @@
 
   // Bind Events
   function bindEvents() {
-    // Mode Switch
     $('modeBillBtn').addEventListener('click', () => setDocumentMode('BILL'));
     $('modeBridalBtn').addEventListener('click', () => setDocumentMode('BRIDAL'));
 
-    // Quick Toolbar
     $('btnNewBill').addEventListener('click', () => {
       resetBillFields('BILL');
       showToast('Started new Service Bill.');
@@ -2871,7 +2842,6 @@
       }
     });
 
-    // Business Profile Collapse
     $('toggleBizBtn').addEventListener('click', () => {
       const body = $('bizSectionBody');
       const isHidden = body.style.display === 'none';
@@ -2879,7 +2849,6 @@
       $('toggleBizBtn').textContent = isHidden ? 'Hide Details' : 'Show Details';
     });
 
-    // Business Inputs -> Save Profile + Render
     ['bizName', 'bizOwner', 'bizAddress', 'bizCity', 'bizPhone', 'bizWhatsapp', 'bizEmail', 'termsText', 'thankYouMsg'].forEach(id => {
       $(id).addEventListener('input', () => {
         saveBusinessProfile();
@@ -2887,7 +2856,6 @@
       });
     });
 
-    // Logo Upload & Remove
     $('bizLogoInput').addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         handleLogoUpload(e.target.files[0]);
@@ -2902,7 +2870,6 @@
       showToast('Logo removed.');
     });
 
-    // Client, Appointment & Payment Inputs -> Render + Draft
     [
       'docNumber', 'docDate', 'apptDate', 'apptTime', 'clientName', 'clientMobile',
       'clientEmail', 'numPersons', 'artistName', 'weddingDate', 'eventType',
@@ -2920,7 +2887,6 @@
       });
     });
 
-    // Toggles
     $('toggleDiscount').addEventListener('change', (e) => {
       $('discountFieldWrap').style.display = e.target.checked ? 'flex' : 'none';
       updatePreviewAndTotals();
@@ -2937,7 +2903,6 @@
       autoSaveDraft();
     });
 
-    // Service Search & Add Custom Row
     $('serviceSearchInput').addEventListener('input', renderCatalogueUI);
     $('btnAddCustomService').addEventListener('click', () => {
       state.items.push({ desc: '', qty: 1, rate: 0 });
@@ -2945,7 +2910,6 @@
       updatePreviewAndTotals();
     });
 
-    // Catalogue Modal
     $('btnManageCatalogue').addEventListener('click', () => {
       renderCatalogueManageList();
       $('catalogueModal').classList.add('open');
@@ -2968,7 +2932,6 @@
       showToast('Added to service catalogue.');
     });
 
-    // Primary Actions
     $('btnDownloadPdf').addEventListener('click', generateA4PDF);
     $('btnPrintDoc').addEventListener('click', () => {
       const origTitle = document.title;
@@ -2979,7 +2942,6 @@
     });
     $('btnWhatsappShare').addEventListener('click', openWhatsAppModal);
 
-    // WhatsApp Modal
     $('closeWhatsappModal').addEventListener('click', () => $('whatsappModal').classList.remove('open'));
     $('btnCopyWaText').addEventListener('click', () => {
       navigator.clipboard.writeText($('waMessagePreview').value).then(() => {
