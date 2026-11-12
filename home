@@ -1,0 +1,858 @@
+<style>
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  }
+
+  /* Chat Bot Styling */
+  :root {
+    --kb-ink: #0f172a;
+    --kb-ink2: #475569;
+    --kb-line: #cbd5e1;
+    --kb-gold: #0284c7;
+    --kb-gold-bg: #f0f9ff;
+    --kb-bg: #f8fafc;
+  }
+  .bot-card-wrapper {
+    background: #ffffff;
+    border: 1.5px solid var(--kb-line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 28px 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  .bot-header {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #0284c7;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .bot-header b {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  .bot-header small {
+    font-weight: 400;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .bot-lang-select {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 12px;
+    background: #ffffff;
+    color: #0f172a;
+    outline: none;
+    font-weight: 600;
+  }
+  #bot-log {
+    height: 320px;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f8fafc;
+  }
+  .bm {
+    max-width: 86%;
+    padding: 9px 12px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+  .bot-msg {
+    background: #ffffff;
+    border: 1px solid var(--kb-line);
+    align-self: flex-start;
+    border-top-left-radius: 2px;
+    color: #0f172a;
+  }
+  .user-msg {
+    background: #0284c7;
+    color: #ffffff;
+    align-self: flex-end;
+    border-top-right-radius: 2px;
+  }
+  .bm a {
+    color: #0284c7;
+    font-weight: 700;
+  }
+  .b-go {
+    display: inline-block;
+    margin-top: 8px;
+    background: #0284c7;
+    color: #ffffff !important;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .b-go:hover {
+    background: #0369a1;
+  }
+  .b-hl {
+    margin: 6px 0 0;
+    color: var(--kb-ink2);
+    font-size: 12px;
+  }
+  .b-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .b-chips button {
+    background: #f0f9ff;
+    border: 1.2px solid #0284c7;
+    color: #0369a1;
+    border-radius: 14px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .bot-form {
+    display: flex;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #ffffff;
+    border-top: 1px solid var(--kb-line);
+  }
+  .bot-input {
+    flex: 1;
+    border: 1.5px solid var(--kb-line);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 13.5px;
+    outline: none;
+    min-width: 0;
+  }
+  .bot-input:focus {
+    border-color: #0284c7;
+  }
+  .bot-btn {
+    background: #0284c7;
+    border: 0;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 13px;
+  }
+</style>
+
+<!-- ================= MAIN CONTAINER ================= -->
+<section style="width: 100%; max-width: 960px; margin: 0 auto; padding: 12px 8px; color: #1e293b; line-height: 1.5;">
+
+  <!-- Language Selector Bar (Top Homepage) -->
+  <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <span style="font-size: 16px;">🌐</span>
+      <span style="font-size: 12.5px; font-weight: 700; color: #0369a1;" id="lbl_choose_lang">अपनी भाषा चुनें (Choose Language):</span>
+    </div>
+    <select id="homeLangSelect" onchange="changeHomeLanguage(this.value)" style="padding: 5px 10px; border: 1.5px solid #0284c7; border-radius: 6px; font-size: 12.5px; font-weight: 600; color: #0f172a; outline: none; background: #f0f9ff; cursor: pointer;">
+      <option value="hi" selected>हिन्दी (Hindi)</option>
+      <option value="en">English</option>
+      <option value="mr">मराठी (Marathi)</option>
+      <option value="gu">ગુજરાતી (Gujarati)</option>
+      <option value="bn">বাংলা (Bengali)</option>
+      <option value="ta">தமிழ் (Tamil)</option>
+      <option value="te">తెలుగు (Telugu)</option>
+    </select>
+  </div>
+
+  <!-- Hero / Introduction Box -->
+  <div style="background: linear-gradient(135deg, #0284c7, #0f172a); color: #ffffff; padding: 24px 16px; border-radius: 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <h1 style="margin: 0 0 8px 0; font-size: 24px; font-weight: 800; letter-spacing: 0.5px;">KaamKaj Bills</h1>
+    <p id="hero_subtitle" style="margin: 0 0 12px 0; font-size: 14.5px; color: #bae6fd; font-weight: 500;">आपके व्यापार और काम-काज का ऑल-इन-वन डिजिटल मुंशी</p>
+    <div id="hero_desc" style="max-width: 720px; margin: 0 auto; font-size: 13px; color: #f1f5f9; line-height: 1.6;">
+      यहाँ सभी तरह के <b>बिल, पे-स्लिप, रसीद, वाउचर, कोटेशन, बायोडाटा और ऑफिशियल बिजनेस फॉर्म</b> बिना किसी भारी ऐप या सॉफ्टवेयर के सीधे अपने मोबाइल व डेस्कटॉप ब्राउज़र पर मुफ्त में तैयार करें।
+    </div>
+  </div>
+
+  <!-- Key Services Grid -->
+  <h2 id="sec_services_title" style="font-size: 18px; color: #0f172a; border-left: 4px solid #0284c7; padding-left: 8px; margin: 24px 0 14px 0;">हमारी मुख्य सेवाएं (All-In-One Paperwork Solutions)</h2>
+  
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
+    
+    <!-- 1. Salary Pay Slip -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">📄</div>
+      <h3 id="srv1_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Salary Pay Slip</h3>
+      <p id="srv1_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        कर्मचारियों की मासिक वेतन पर्ची। Basic, HRA, Overtime, PF, ESIC व Advance की ऑटो-गणना और तुरंत PDF डाउनलोड।
+      </p>
+    </div>
+
+    <!-- 2. Technician Bills -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🔧</div>
+      <h3 id="srv2_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Technician Bills</h3>
+      <p id="srv2_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        इलेक्ट्रीशियन, प्लंबर, CCTV और सर्विस फील्ड के लिए मटेरियल खर्च, लेबर और विजिटिंग चार्ज का पारदर्शी बिल।
+      </p>
+    </div>
+
+    <!-- 3. Kirana Shop Bill -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🛒</div>
+      <h3 id="srv3_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Kirana Shop Bill</h3>
+      <p id="srv3_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        किराना और जनरल स्टोर्स के लिए तेज कैश मेमो। आइटम-वाइज रेट, डिस्काउंट और ग्राहकों के लिए साफ पर्ची।
+      </p>
+    </div>
+
+    <!-- 4. CV / Resume -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">👤</div>
+      <h3 id="srv4_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">CV / Resume Generator</h3>
+      <p id="srv4_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        नौकरी व इंटरव्यू के लिए साफ और आकर्षक बायोडाटा। एजुकेशन, वर्क एक्सपीरियंस और स्किल्स की प्रोफेशनल PDF।
+      </p>
+    </div>
+
+    <!-- 5. Payment Slip / Rasid -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">📥</div>
+      <h3 id="srv5_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Payment Slip / Rasid</h3>
+      <p id="srv5_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        पैसा मिला या भुगतान किया—A4 पोर्ट्रेट में 1 या 2 स्लिप प्रति पेज, शब्दों में ऑटो-रकम और डायरेक्ट प्रिंट।
+      </p>
+    </div>
+
+    <!-- 6. Work Completion Certificate -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">📜</div>
+      <h3 id="srv6_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Work Completion Certificate</h3>
+      <p id="srv6_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        ठेकेदारों और सर्विस प्रोवाइडर्स के लिए काम खत्म होने पर क्लाइंट से संतुष्टि हस्ताक्षर और ऑफिशियल प्रमाण पत्र।
+      </p>
+    </div>
+
+    <!-- 7. Rent Receipt Generator -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🏠</div>
+      <h3 id="srv7_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Rent Receipt Generator</h3>
+      <p id="srv7_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        मकान/दुकान नंबर, लैंडलॉर्ड पैन (HRA टैक्स छूट), ₹1 रेवेन्यू स्टैंप बॉक्स और बिजली बिल व मेंटेनेंस टिक ऑप्शन।
+      </p>
+    </div>
+
+    <!-- 8. Tailoring Measurement & Job Slip -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">✂️</div>
+      <h3 id="srv8_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Tailoring Measurement & Job Slip</h3>
+      <p id="srv8_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        पैंट, शर्ट, कुर्ता, सूट/ब्लाउज का संपूर्ण नाप (चेस्ट, कमर, लंबाई), सिलाई चार्ज, डिलीवरी तारीख और कटिंग पर्ची।
+      </p>
+    </div>
+
+    <!-- 9. Catering & Rental Booking Slip -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🎪</div>
+      <h3 id="srv9_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Catering & Rental Booking</h3>
+      <p id="srv9_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        टेंट हाउस, साउंड सिस्टम रेंटल और हलवाई-कैटरिंग मेन्यू के लिए आइटम-वाइज दर, एडवांस और बकाया पर्ची।
+      </p>
+    </div>
+
+    <!-- 10. Estimate / Quotation / Invoice -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">📑</div>
+      <h3 id="srv10_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Estimate / Quotation / Invoice</h3>
+      <p id="srv10_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        काम शुरू करने से पहले पक्का कोटेशन भेजें और काम पूरा होने पर तुरंत उसे फाइनल इनवॉइस में बदल कर डाउनलोड करें।
+      </p>
+    </div>
+
+    <!-- 11. Security Services -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🛡️</div>
+      <h3 id="srv11_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Security Services & Roster</h3>
+      <p id="srv11_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        गार्ड शिफ्ट ड्यूटी रोस्टर, पोस्ट तैनाती, स्टाफ एडवांस वाउचर और वेतन कटौती की पावती पर्ची।
+      </p>
+    </div>
+
+    <!-- 12. School -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🎓</div>
+      <h3 id="srv12_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">School & Tuition Center</h3>
+      <p id="srv12_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        मासिक ट्यूशन फीस रसीद, वोकेशनल कोर्स पूर्णता प्रमाण पत्र (Certificate), और नए छात्र की एडमिशन स्लिप।
+      </p>
+    </div>
+
+    <!-- 13. Mandi -->
+    <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="font-size: 22px; margin-bottom: 4px;">🌾</div>
+      <h3 id="srv13_title" style="margin: 0 0 6px 0; font-size: 15px; color: #0284c7;">Mandi & Dairy Services</h3>
+      <p id="srv13_desc" style="margin: 0; font-size: 12.5px; color: #475569;">
+        अनाज व सब्जी मंडी आढ़त का हम्माली व कटौती सहित किसान कच्चा पर्चा और रोजाना दूध संकलन (FAT/SNF) पर्ची।
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Why Choose Section -->
+  <h2 id="sec_why_title" style="font-size: 18px; color: #0f172a; border-left: 4px solid #16a34a; padding-left: 8px; margin: 26px 0 14px 0;">KaamKaj Bills का उपयोग क्यों करें?</h2>
+
+  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px;">
+    <ul id="why_list" style="margin: 0; padding-left: 18px; font-size: 13px; color: #334155;">
+      <li style="margin-bottom: 6px;"><b>No App Required:</b> कोई ऐप डाउनलोड करने का झंझट नहीं। फोन मेमोरी भरे बिना किसी भी ब्राउज़र में तुरंत खुलता है।</li>
+      <li style="margin-bottom: 6px;"><b>100% Client-Side Privacy:</b> आपका डेटा किसी सर्वर पर स्टोर नहीं होता—सब कुछ आपके अपने फोन या कंप्यूटर में सुरक्षित रहता है।</li>
+      <li style="margin-bottom: 6px;"><b>Zero-Crop PDF & Print:</b> खास A4 पोर्ट्रेट तकनीक, जिससे प्रिंट या पीडीएफ डाउनलोड में बायां या निचला हिस्सा कभी नहीं कटता।</li>
+      <li style="margin-bottom: 0;"><b>1 or 2 Slips Per Page:</b> कागज की बचत के लिए एक ही A4 पेज पर ग्राहक कॉपी और काउंटर कॉपी दोनों एक साथ प्रिंट करें।</li>
+    </ul>
+  </div>
+
+  <!-- Bottom CTA Quote -->
+  <div style="text-align: center; margin-top: 20px; padding: 12px; background: #f0fdf4; border: 1px dashed #86efac; border-radius: 8px;">
+    <p id="footer_quote" style="margin: 0; font-size: 13px; font-weight: 700; color: #166534;">
+      "कागज़ी हिसाब-किताब और पुरानी डायरी छोड़िए, KaamKaj Bills अपनाइए और अपने काम-काज को बनाइए स्मार्ट और डिजिटल!"
+    </p>
+  </div>
+
+  <!-- ================= KAAMKAJ BILLS AI HELP BOT ================= -->
+  <div class="bot-card-wrapper">
+    <div class="bot-header">
+      <b>💬 KaamKaj Bills Help Desk <small id="bot-sub">kaamkajbills@gmail.com</small></b>
+      <select id="bot-lang" class="bot-lang-select" aria-label="Language"></select>
+    </div>
+    <div id="bot-log" aria-live="polite"></div>
+    <form id="bot-f" class="bot-form">
+      <input id="bot-q" class="bot-input" autocomplete="off" placeholder="अपना सवाल लिखें…">
+      <button id="bot-send" class="bot-btn" type="submit">भेजें</button>
+    </form>
+  </div>
+
+  <!-- ================= INLINE FOOTER ================= -->
+  <footer style="background: #0f172a; color: #94a3b8; padding: 26px 16px 14px 16px; border-radius: 10px; border-top: 3px solid #0284c7; margin-top: 20px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; border-bottom: 1px solid #1e293b; padding-bottom: 20px;">
+      
+      <!-- Footer Col 1 -->
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 20px;">💼</span>
+          <span style="font-size: 18px; font-weight: 800; color: #ffffff;">KaamKaj Bills</span>
+        </div>
+        <p style="font-size: 12px; font-weight: 700; color: #38bdf8; margin: 4px 0 8px 0;">डिजिटल मुंशी • All-In-One Paperwork</p>
+        <p style="font-size: 12px; line-height: 1.5; color: #94a3b8; margin: 0 0 10px 0;">
+          छोटे व्यापारियों, ठेकेदारों और सर्विस प्रोवाइडर्स के लिए 100% सुरक्षित और ऑफलाइन कार्यशील समाधान।
+        </p>
+        <span style="display: inline-block; background: #1e293b; color: #34d399; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 4px; border: 1px solid #334155;">
+          🔒 100% Client-Side Privacy
+        </span>
+      </div>
+
+      <!-- Footer Col 2 -->
+      <div>
+        <h4 style="font-size: 12.5px; font-weight: 800; color: #f8fafc; text-transform: uppercase; margin: 0 0 10px 0;">Key Tools</h4>
+        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #cbd5e1;">
+          <div>• Payment Slip & Voucher</div>
+          <div>• Salary Pay Slip Generator</div>
+          <div>• Rent Receipt Generator</div>
+          <div>• Work Completion Certificate</div>
+        </div>
+      </div>
+
+      <!-- Footer Col 3 -->
+      <div>
+        <h4 style="font-size: 12.5px; font-weight: 800; color: #f8fafc; text-transform: uppercase; margin: 0 0 10px 0;">Platform Features</h4>
+        <div style="display: flex; flex-direction: column; gap: 5px; font-size: 11.5px; color: #94a3b8;">
+          <div>⚡ Instant A4 Portrait Print</div>
+          <div>📥 Zero-Crop PDF Downloads</div>
+          <div>🌐 Multi-Language Support</div>
+          <div>₹ Auto Amount-in-Words</div>
+          <div>📱 Mobile & Desktop Friendly</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copy -->
+    <div style="margin-top: 14px; font-size: 11px; text-align: center; color: #64748b;">
+      © 2026 KaamKaj Bills (डिजिटल मुंशी). All rights reserved. • Made for Local Businesses & Contractors
+    </div>
+  </footer>
+
+</section>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+  /* 1. RELIABLE REDIRECTION HELPER FOR GOOGLE SITES IFRAME */
+  function openBotPage(targetUrl) {
+    try {
+      if (window.top && window.top.location) {
+        window.top.location.href = targetUrl;
+      } else {
+        window.open(targetUrl, '_blank');
+      }
+    } catch (e) {
+      window.open(targetUrl, '_blank');
+    }
+  }
+
+  /* 2. HOMEPAGE TRANSLATIONS LOGIC */
+  const homeTranslations = {
+    hi: {
+      choose_lang: "अपनी भाषा चुनें (Choose Language):",
+      subtitle: "आपके व्यापार और काम-काज का ऑल-इन-वन डिजिटल मुंशी",
+      desc: "यहाँ सभी तरह के <b>बिल, पे-स्लिप, रसीद, वाउचर, कोटेशन, बायोडाटा और ऑफिशियल बिजनेस फॉर्म</b> बिना किसी भारी ऐप या सॉफ्टवेयर के सीधे अपने मोबाइल व डेस्कटॉप ब्राउज़र पर मुफ्त में तैयार करें।",
+      services_title: "हमारी मुख्य सेवाएं (All-In-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "कर्मचारियों की मासिक वेतन पर्ची। Basic, HRA, Overtime, PF, ESIC व Advance की ऑटो-गणना और तुरंत PDF डाउनलोड।",
+      srv2_title: "Technician Bills",
+      srv2_desc: "इलेक्ट्रीशियन, प्लंबर, CCTV और सर्विस फील्ड के लिए मटेरियल खर्च, लेबर और विजिटिंग चार्ज का पारदर्शी बिल।",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "किराना और जनरल स्टोर्स के लिए तेज कैश मेमो। आइटम-वाइज रेट, डिस्काउंट और ग्राहकों के लिए साफ पर्ची।",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "नौकरी व इंटरव्यू के लिए साफ और आकर्षक बायोडाटा। एजुकेशन, वर्क एक्सपीरियंस और स्किल्स की प्रोफेशनल PDF।",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "पैसा मिला या भुगतान किया—A4 पोर्ट्रेट में 1 या 2 स्लिप प्रति पेज, शब्दों में ऑटो-रकम और डायरेक्ट प्रिंट।",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "ठेकेदारों और सर्विस प्रोवाइडर्स के लिए काम खत्म होने पर क्लाइंट से संतुष्टि हस्ताक्षर और ऑफिशियल प्रमाण पत्र।",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "मकान/दुकान नंबर, लैंडलॉर्ड पैन (HRA टैक्स छूट), ₹1 रेवेन्यू स्टैंप बॉक्स और बिजली बिल व मेंटेनेंस टिक ऑप्शन।",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "पैंट, शर्ट, कुर्ता, सूट/ब्लाउज का संपूर्ण नाप (चेस्ट, कमर, लंबाई), सिलाई चार्ज, डिलीवरी तारीख और कटिंग पर्ची।",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "टेंट हाउस, साउंड सिस्टम रेंटल और हलवाई-कैटरिंग मेन्यू के लिए आइटम-वाइज दर, एडवांस और बकाया पर्ची।",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "काम शुरू करने से पहले पक्का कोटेशन भेजें और काम पूरा होने पर तुरंत उसे फाइनल इनवॉइस में बदल कर डाउनलोड करें।",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "गार्ड शिफ्ट ड्यूटी रोस्टर, पोस्ट तैनाती, स्टाफ एडवांस वाउचर और वेतन कटौती की पावती पर्ची।",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "मासिक ट्यूशन फीस रसीद, वोकेशनल कोर्स पूर्णता प्रमाण पत्र (Certificate), और नए छात्र की एडमिशन स्लिप।",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "अनाज व सब्जी मंडी आढ़त का हम्माली व कटौती सहित किसान कच्चा पर्चा और रोजाना दूध संकलन (FAT/SNF) पर्ची।",
+      why_title: "KaamKaj Bills का उपयोग क्यों करें?",
+      why_items: [
+        "<b>No App Required:</b> कोई ऐप डाउनलोड करने का झंझट नहीं। फोन मेमोरी भरे बिना किसी भी ब्राउज़र में तुरंत खुलता है।",
+        "<b>100% Client-Side Privacy:</b> आपका डेटा किसी सर्वर पर स्टोर नहीं होता—सब कुछ आपके अपने फोन या कंप्यूटर में सुरक्षित रहता है।",
+        "<b>Zero-Crop PDF & Print:</b> खास A4 पोर्ट्रेट तकनीक, जिससे प्रिंट या पीडीएफ डाउनलोड में बायां या निचला हिस्सा कभी नहीं कटता।",
+        "<b>1 or 2 Slips Per Page:</b> कागज की बचत के लिए एक ही A4 पेज पर ग्राहक कॉपी और काउंटर कॉपी दोनों एक साथ प्रिंट करें।"
+      ],
+      quote: '"कागज़ी हिसाब-किताब और पुरानी डायरी छोड़िए, KaamKaj Bills अपनाइए और अपने काम-काज को बनाइए स्मार्ट और डिजिटल!"'
+    },
+    en: {
+      choose_lang: "Choose Language / अपनी भाषा चुनें:",
+      subtitle: "Your All-in-One Digital Billing & Documentation Assistant",
+      desc: "Generate all types of <b>Bills, Payslips, Receipts, Quotations, Resumes, and Official Business Paperwork</b> directly in your browser without any app downloads or installations.",
+      services_title: "Our Key Services (All-in-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "Staff monthly payslip. Auto-calculations for Basic, HRA, Overtime, PF, ESIC, and Advance with instant PDF download.",
+      srv2_title: "Technician Bills",
+      srv2_desc: "Itemized billing for electricians, plumbers, CCTV installers, and field technicians with materials and labor.",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "Fast receipt-style invoicing for grocery stores and local retail shops. Itemized rates and totals.",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "Clean, professional biodata and resume for job applications and interviews with instant PDF export.",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "Money received or paid vouchers with 1 or 2 slips per A4 page, automatic amount-in-words, and clean print layout.",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "Formal sign-off certificate for contractors, electricians, and technicians ensuring client satisfaction.",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "HRA tax claim ready with House/Flat No, Landlord PAN, ₹1 revenue stamp area, plus electricity/maintenance options.",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "Complete garment measurement record (chest, waist, length, sleeves), delivery dates, and workshop cutting slips.",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "Itemized booking slip for tent houses, sound rentals, and catering/halwai menus with advance and balance calculations.",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "Send professional estimates and quotations before starting work, then convert them into final tax/non-tax invoices.",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "Guard shift deployment rosters, post tracking, and staff salary advance vouchers with deduction approvals.",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "Monthly tuition fee receipts, vocational course completion certificates, and new student admission slips.",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "Daily milk collection slips with FAT/SNF calculators, alongside grain and vegetable mandi commission sale memos.",
+      why_title: "Why Use KaamKaj Bills?",
+      why_items: [
+        "<b>No App Required:</b> Runs ultra-fast directly inside mobile or desktop browsers without wasting device storage.",
+        "<b>100% Client-Side Privacy:</b> Your business entries are never uploaded or stored on external servers.",
+        "<b>Zero-Crop PDF & Print:</b> Optimized A4 Portrait rendering ensuring clean prints without clipping or side-crops.",
+        "<b>1 or 2 Slips Per Page:</b> Save printing paper by printing customer and counter copies side-by-side."
+      ],
+      quote: '"Leave behind messy paper diaries—switch to KaamKaj Bills and digitize your business today!"'
+    },
+    mr: {
+      choose_lang: "तुमची भाषा निवडा (Choose Language):",
+      subtitle: "तुमच्या व्यवसायाचा ऑल-इन-वन डिजिटल मुनशी",
+      desc: "येथे सर्व प्रकारच्या <b>पावत्या, पगार स्लिप, कोटेशन, बायोडाटा आणि ऑफिशियल बिझनेस फॉर्म्स</b> कोणत्याही ॲपशिवाय थेट मोबाईल व कॉम्प्युटर ब्राउझरवर मोफत तयार करा.",
+      services_title: "आमच्या मुख्य सेवा (All-In-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "कर्मचाऱ्यांची मासिक वेतन पावती. Basic, HRA, Overtime, PF आणि Advance ची सोपी गणना व PDF डाऊनलोड.",
+      srv2_title: "Technician Bills",
+      srv2_desc: "इलेक्ट्रिशियन, प्लंबर, CCTV आणि तंत्रज्ञांसाठी मटेरियल आणि लेबर चार्जचा पारदर्शक आणि स्वच्छ हिशोब.",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "किराणा दुकाने आणि रिटेल शॉप्ससाठी सोपे व जलद बिलिंग. ग्राहकांना स्वच्छ बिल द्या आणि विश्वास वाढवा.",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "नोकरी व मुलाखतीसाठी आकर्षक आणि व्यावसायिक बायोडाटा. कामाचा अनुभव आणि कौशल्यांची परिपूर्ण PDF.",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "पैसे मिळाले किंवा दिले—A4 पोर्ट्रेटमध्ये १ किंवा २ स्लिप्स, शब्दांत ऑटो-रक्कम आणि थेट प्रिंट/PDF.",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "कंत्राटदार आणि तंत्रज्ञांसाठी काम पूर्ण झाल्यावर ग्राहकाची स्वाक्षरी आणि अधिकृत हँडओव्हर प्रमाणपत्र.",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "घर/दुकान क्रमांक, घरमालक पॅन (HRA क्लेम), ₹१ रेव्हेन्यू तिकीट बॉक्स, आणि वीज बिल व मेंटेनन्स पर्याय.",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "पँट, शर्ट, कुर्ता, ड्रेसचे संपूर्ण माप, शिलाई आकार, डिलिव्हरी तारीख आणि कारागीर कटिंग पावती.",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "मंडप, साऊंड सिस्टीम भाडे आणि केटरिंग/हलवाई मेनू ऑर्डरसाठी वस्तूंची यादी, ॲडव्हान्स व शिल्लक हिशोब.",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "काम सुरू करण्यापूर्वी पक्के कोटेशन पाठवा आणि काम पूर्ण झाल्यावर लगेच फायनल इनव्हॉइस बनवा.",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "सुरक्षा रक्षक शिफ्ट ड्युटी रोस्टर, पोस्ट तैनाती आणि कर्मचारी पगार ॲडव्हान्स स्लिप.",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "ट्युशन व अकॅडमी फी पावती, व्यावसायिक कोर्स पूर्णता प्रमाणपत्र, आणि नवीन विद्यार्थ्यांची प्रवेश पावती.",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "कृषी उत्पन्न बाजार समिती (मंडी) हमाली कपातीसह शेतकरी कच्ची पावती आणि दैनंदिन दूध संकलन (FAT/SNF) स्लिप.",
+      why_title: "KaamKaj Bills का वापरावे?",
+      why_items: [
+        "<b>No App Required:</b> कोणतेही ॲप डाऊनलोड करण्याचा त्रास नाही. फोनची मेमरी भरत नाही.",
+        "<b>100% Client-Side Privacy:</b> तुमचा व्यावसायिक डेटा कोणत्याही सर्व्हरवर सेव्ह होत नाही.",
+        "<b>Zero-Crop PDF & Print:</b> A4 पोर्ट्रेट तंत्रज्ञान ज्यामुळे प्रिंट किंवा पीडीएफ डाऊनलोडमध्ये कोणतीही बाजू कट होत नाही.",
+        "<b>1 or 2 Slips Per Page:</b> कागदाची बचत करण्यासाठी एकाच A4 पानावर ग्राहक आणि ऑफिस कॉपी दोन्ही प्रिंट करा."
+      ],
+      quote: '"कागदी हिशोब आणि जुनी डायरी सोडा, KaamKaj Bills वापरा आणि व्यवसाय स्मार्ट बनवा!"'
+    },
+    gu: {
+      choose_lang: "તમારી ભાષા પસંદ કરો (Choose Language):",
+      subtitle: "તમારા વેપાર અને કામકાજનો ઓલ-ઇન-વન ડિજિટલ મુનશી",
+      desc: "અહીં તમામ પ્રકારના <b>બિલ, પગાર સ્લિપ, પહોંચ, કોટેશન, બાયોડેટા અને ઓફિશિયલ બિઝનેસ ફોર્મ</b> કોઈપણ એપ વગર સીધા બ્રાઉઝર પર ઝડપથી બનાવો.",
+      services_title: "અમારી મુખ્ય સેવાઓ (All-In-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "કર્મચારીઓની માસિક પગાર સ્લિપ. Basic, HRA, OT, PF અને Advance ગણતરી સાથે PDF ડાઉનલોડ.",
+      srv2_title: "Technician Bills",
+      srv2_desc: "ઇલેક્ટ્રિશિયન, પ્લમ્બર, CCTV ટેકનિશિયન માટે મટિરિયલ અને લેબર ચાર્જનો પારદર્શક હિસાબ.",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "કરિયાણાની દુકાનો અને રિટેલ સ્ટોર્સ માટે સરળ બિલિંગ. ગ્રાહકોને સ્પષ્ટ બિલ આપો.",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "નોકરી અને ઇન્ટરવ્યુ માટે આકર્ષક બાયોડેટા અને રિઝ્યુમ. વ્યાવસાયિક PDF ડાઉનલોડ.",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "નાણાં મળ્યા કે ચૂકવ્યા—A4 પોટ્રેટમાં ૧ કે ૨ સ્લિપ, શબ્દોમાં રકમ સાથે ડાયરેક્ટ પ્રિન્ટ.",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "કોન્ટ્રાક્ટરો અને ટેકનિશિયનો માટે કામ પૂરું થયા પછી ગ્રાહકની સહી સાથેનું હેન્ડઓવર સર્ટિફિકેટ.",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "મકાન/દુકાન નંબર, મકાનમાલિક પાન (HRA ક્લેમ), ₹૧ રેવેન્યુ સ્ટેમ્પ બોક્સ અને વીજળી બિલ ટિક વિકલ્પ.",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "પેન્ટ, શર્ટ, કુર્તા, બ્લાઉઝનું સંપૂર્ણ માપ, સિલાઈ ચાર્જ, ડિલિવરી તારીખ અને કારીગર કટિંગ સ્લિપ.",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "મંડપ, સાઉન્ડ સિસ્ટમ રેન્ટલ અને કેટરિંગ ઓર્ડર માટે વસ્તુઓની યાદી, એડવાન્સ અને બાકી હિસાબ.",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "કામ શરૂ કરતા પહેલા કોટેશન મોકલો અને કામ પૂરું થયા પછી ફાઇનલ ઇનવોઇસ બનાવો.",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "સિક્યોરિટી ગાર્ડ શિફ્ટ ડ્યુટી રોસ્ટર, પોસ્ટ ફાળવણી અને સ્ટાફ પગાર એડવાન્સ સ્લિપ.",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "ટ્યુશન ફી રસીદ, વોકેશનલ કોર્સ પૂર્ણતા સર્ટિફિકેટ અને વિદ્યાર્થી એડમિશન સ્લિપ.",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "અનાજ-શાકભાજી માર્કેટ યાર્ડ મજૂરી કપાત સાથે ખેડૂત કાચી પહોંચ અને રોજિંદુ દૂધ સંકલન (FAT/SNF) સ્લિપ.",
+      why_title: "KaamKaj Bills શા માટે વાપરવું?",
+      why_items: [
+        "<b>No App Required:</b> એપ ડાઉનલોડ કર્યા વગર કોઈપણ બ્રાઉઝરમાં તરત જ ખુલે છે.",
+        "<b>100% Client-Side Privacy:</b> તમારો ડેટા તમારા ઉપકરણમાં જ સુરક્ષિત રહે છે.",
+        "<b>Zero-Crop PDF & Print:</b> ખાસ A4 પોટ્રેટ ડિઝાઇન જેથી પ્રિન્ટ કે પીડીએફમાં ડાબી બાજુ ક્યારેય કપાતી નથી.",
+        "<b>1 or 2 Slips Per Page:</b> કાગળની બચત માટે એક જ પેજ પર ગ્રાહક અને ઓફિસ કોપી બંને પ્રિન્ટ કરો."
+      ],
+      quote: '"જૂની ડાયરી અને કાગળનો હિસાબ છોડો, KaamKaj Bills અપનાવો અને સ્માર્ટ બનો!"'
+    },
+    bn: {
+      choose_lang: "আপনার ভাষা নির্বাচন করুন (Choose Language):",
+      subtitle: "আপনার ব্যবসা ও কাজের অল-ইন-ওয়ান ডিজিটাল সহকারী",
+      desc: "এখানে সমস্ত ধরণের <b>বিল, বেতন স্লিপ, রসিদ, কোটেশন, বায়োডাটা এবং অফিশিয়াল নথি</b> কোনো অ্যাপ ছাড়াই সহজে তৈরি করুন।",
+      services_title: "আমাদের প্রধান সেবাসমূহ (All-In-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "কর্মীদের মাসিক স্যালারি স্লিপ। Basic, HRA, Overtime, PF ও Advance হিসাব সহ দ্রুত PDF ডাউনলোড।",
+      srv2_title: "Technician Bills",
+      srv2_desc: "ইলেকট্রিশিয়ান, প্লাম্বার, সিসিটিভি ও টেকনিশিয়ানদের জন্য উপযুক্ত আইটেমাইজড বিলিং সমাধান।",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "মুদি দোকান ও রিটেইল স্টোরের জন্য সহজ ক্যাশ মেমো ও পরিষ্কার বিলিং ব্যবস্থা।",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "চাকরি ও ইন্টারভিউয়ের জন্য পেশাদার জীবনবৃত্তান্ত (CV) তৈরি ও সরাসরি PDF ডাউনলোড।",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "টাকা জমা বা খরচের ভাউচার—A4 ফরম্যাটে ১ বা ২টি স্লিপ, স্বয়ংক্রিয় কথায় লেখা টাকা।",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "কন্ট্রাক্টর এবং টেকনিশিয়ানদের জন্য কাজ শেষের সন্তুষ্টি স্বাক্ষর ও অফিশিয়াল হ্যান্ডওভার সার্টিফিকেট।",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "বাড়ি/দোকান নম্বর, ল্যান্ডলর্ড প্যান (HRA ক্লেম), ১ টাকার রেভিনিউ স্ট্যাম্প এবং বিদ্যুৎ বিলের হিসাব।",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "প্যান্ট, শার্ট, কুর্তা, ব্লাউজের সম্পূর্ণ মাপ, সেলাই খরচ, ডেলিভারি তারিখ ও কাটিং মাস্টার স্লিপ।",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "ডেকোরেটর, সাউন্ড সিস্টেম এবং ক্যাটারিং/হালুইকর মেনু বুকিংয়ের অগ্রিম ও বকেয়া হিসাব।",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "কাজ শুরুর আগে এস্টিমেট/কোটেশন পাঠান এবং কাজ শেষে ফাইনাল ইনভয়েস তৈরি করুন।",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "সিকিউরিটি গার্ড ডিউটি রোস্টার, পোস্ট ট্র্যাকিং এবং কর্মী বেতন অগ্রিম মেমো।",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "টিউশন ফি রসিদ, ট্রেনিং কোর্স সমাপ্তি সার্টিফিকেট এবং ছাত্র ভর্তি রশিদ।",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "শস্য-সবজি মান্ডি আড়তের কুলি খরচ বাদ দিয়ে চাষির বিক্রির স্লিপ এবং দৈনিক দুধ সংগ্রহ (FAT/SNF) হিসাব।",
+      why_title: "কেন KaamKaj Bills ব্যবহার করবেন?",
+      why_items: [
+        "<b>No App Required:</b> কোনো ভারী অ্যাপ ছাড়া সরাসরি ব্রাউজারে দ্রুত কাজ করে।",
+        "<b>100% Client-Side Privacy:</b> আপনার ব্যবসার তথ্য সুরক্ষিত থাকে এবং কোনো সার্ভারে জমা হয় না।",
+        "<b>Zero-Crop PDF & Print:</b> নিখুঁত A4 পোট্রেট যার ফলে প্রিন্ট বা PDF ডাউনলোড কখনো কেটে যায় না।",
+        "<b>1 or 2 Slips Per Page:</b> কাগজের খরচ বাঁচাতে একই পাতায় গ্রাহক কপি এবং অফিস কপি এক সাথে প্রিন্ট করুন।"
+      ],
+      quote: '"কাগজের ডায়েরি ছাড়ুন, KaamKaj Bills ব্যবহার করে ব্যবসাকে ডিজিটাল বানান!"'
+    },
+    ta: {
+      choose_lang: "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும் (Choose Language):",
+      subtitle: "உங்கள் வணிகத்திற்கான ஆல்-இன்-ஒன் டிஜிட்டல் உதவியாளர்",
+      desc: "இங்கே அனைத்து வகையான <b>பில்கள், சம்பள சீட்டுகள், ரசீதுகள், மதிப்பீடுகள், சுயவிவரம் மற்றும் வணிக ஆவணங்களை</b> எந்தவொரு செயலியும் இல்லாமல் உடனடியாக உருவாக்கலாம்.",
+      services_title: "எங்கள் முக்கிய சேவைகள் (All-In-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "பணியாளர்களுக்கான சம்பள சீட்டு. Basic, HRA, Overtime, PF கணக்கீடுகளுடன் PDF பதிவிறக்கம்.",
+      srv2_title: "Technician Bills",
+      srv2_desc: "எலக்ட்ரீஷியன்கள், பிளம்பர்கள் மற்றும் தொழில்நுட்ப வல்லுநர்களுக்கான பொருட்கள் மற்றும் கூலி பில்லிங்.",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "மளிகைக் கடைகள் மற்றும் சில்லறை விற்பனை நிலையங்களுக்கான விரைவான மற்றும் தெளிவான பில்லிங்.",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "வேலை விண்ணப்பங்களுக்கான தொழில்முறை சுயவிவரம் (CV) மற்றும் விரைவான PDF பதிவிறக்கம்.",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "பணம் பெற்றது அல்லது செலுத்தியதற்கான வவுச்சர்—A4 அளவில் 1 அல்லது 2 சீட்டுகள், தானியங்கி சொற்கள்.",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "ஒப்பந்தக்காரர்கள் மற்றும் தொழில்நுட்ப வல்லுநர்களுக்கான பணி நிறைவு மற்றும் ஒப்படைப்பு சான்றிதழ்.",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "வீடு/கடை எண், வீட்டு உரிமையாளர் பான் (HRA வரி தள்ளுபடி), ₹1 ரெவென்யூ ஸ்டாம்ப் மற்றும் மின் கட்டண வசதி.",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "சட்டை, பேன்ட், சுடிதார் முழு உடல் அளவு குறிப்பு, தையல் கூலி, விநியோக தேதி மற்றும் கட்டிங் சீட்டு.",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "பந்தல், ஒலி அமைப்பு வாடகை மற்றும் சமையல் கேடரிங் முன்பதிவு, அட்வான்ஸ் மற்றும் மீதித் தொகை சீட்டு.",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "பணி தொடங்கும் முன் மதிப்பீடு (Quotation) மற்றும் பணி முடிந்ததும் இறுதி விலைப்பட்டியல் (Invoice) தயாரிப்பு.",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "பாதுகாப்பு காவலர் ஷிப்ட் பணி ஒதுக்கீட்டு பட்டியல் மற்றும் ஊழியர் சம்பள முன்பண வவுச்சர்.",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "கல்விக் கட்டண ரசீது, பயிற்சி நிறைவு சான்றிதழ் மற்றும் மாணவர் சேர்க்கை சீட்டு.",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "காய்கறி/தானிய சந்தை விவசாயி விற்பனை பற்றுச்சீட்டு மற்றும் தினசரி பால் சேகரிப்பு (FAT/SNF) கணக்கீடு.",
+      why_title: "KaamKaj Bills ஐ ஏன் பயன்படுத்த வேண்டும்?",
+      why_items: [
+        "<b>No App Required:</b> மெமரியை வீணடிக்காமல் எந்தவொரு உலாவியிலும் (Browser) நேரடியாக இயங்கும்.",
+        "<b>100% Client-Side Privacy:</b> உங்கள் வணிக தகவல்கள் முற்றிலும் உங்கள் சாதனத்திலேயே பாதுகாப்பாக இருக்கும்.",
+        "<b>Zero-Crop PDF & Print:</b> பக்கவாட்டில் வெட்டுப்படாமல் அச்சுக்கு ஏற்ற துல்லியமான A4 போர்ட்ரெய்ட் வடிவம்.",
+        "<b>1 or 2 Slips Per Page:</b> காகிதத்தை மிச்சப்படுத்த ஒரே தாளில் வாடிக்கையாளர் மற்றும் கடை நகல் அச்சிடும் வசதி."
+      ],
+      quote: '"பழைய காகிதக் கணக்குகளை விட்டுவிட்டு, KaamKaj Bills மூலம் உங்கள் வணிகத்தை டிஜிட்டல் ஆக்குங்கள்!"'
+    },
+    te: {
+      choose_lang: "మీ భాషను ఎంచుకోండి (Choose Language):",
+      subtitle: "మీ వ్యాపారానికి ఆల్ ఇన్ వన్ డిజిటల్ అసిస్టెంట్",
+      desc: "ఇక్కడ అన్ని రకాల <b>బిల్లులు, జీతం స్లిప్పులు, రసీదులు, కొటేషన్లు, రెజ్యూమ్ మరియు అధికారిక వ్యాపార పత్రాలు</b> ఎటువంటి యాప్ లేకుండా నేరుగా తయారు చేసుకోవచ్చు.",
+      services_title: "మా ముఖ్య సేవలు (All-In-One Paperwork Solutions)",
+      srv1_title: "Salary Pay Slip",
+      srv1_desc: "ఉద్యోగుల జీతం స్లిప్పులు. Basic, HRA, Overtime, PF మరియు Advance లెక్కింపులతో PDF డౌన్‌లోడ్.",
+      srv2_title: "Technician Bills",
+      srv2_desc: "ఎలక్ట్రీషియన్లు, ప్లంబర్లు మరియు సర్వీస్ టెక్నీషియన్ల కోసం మెటీరియల్ మరియు లేబర్ ఛార్జీల బిల్లులు.",
+      srv3_title: "Kirana Shop Bill",
+      srv3_desc: "కిరాణా దుకాణాలు మరియు రిటైల్ వ్యాపారుల కోసం సులభమైన మరియు స్పష్టమైన ఇన్వాయిస్ బిల్లింగ్.",
+      srv4_title: "CV / Resume Generator",
+      srv4_desc: "ఉద్యోగ ఇంటర్వ్యూల కోసం ప్రొఫెషనల్ బయోడేటా మరియు రెజ్యూమ్ తక్షణ PDF ఫార్మాట్‌లో.",
+      srv5_title: "Payment Slip / Rasid",
+      srv5_desc: "నగదు చెల్లింపు లేదా స్వీకరణ వోచర్—A4 పోర్ట్రెయిట్‌లో 1 లేదా 2 స్లిప్పులు, అక్షరాల్లో ఆటో-మొత్తం.",
+      srv6_title: "Work Completion Certificate",
+      srv6_desc: "కాంట్రాక్టర్లు మరియు టెక్నీషియన్ల కోసం పని పూర్తయినట్లు క్లయింట్ సంతకంతో కూడిన హ్యాండోవర్ సర్టిఫికెట్.",
+      srv7_title: "Rent Receipt Generator",
+      srv7_desc: "ఇంటి/దుకాణం నంబర్, యజమాని పాన్ (HRA క్లెయిమ్), ₹1 రెవెన్యూ స్టాంప్ మరియు కరెంట్ బిల్లు ఎంపికలు.",
+      srv8_title: "Tailoring Measurement & Job Slip",
+      srv8_desc: "దుస్తుల పూర్తి కొలతలు (ఛాతీ, నడుము, పొడవు), కుట్టు కూలి, డెలివరీ తేదీ మరియు కట్టింగ్ స్లిప్.",
+      srv9_title: "Catering & Rental Booking",
+      srv9_desc: "టెంట్ హౌస్, సౌండ్ సిస్టమ్ మరియు కేటరింగ్ ఆర్డర్ల కోసం ఐటమ్-వైజ్ అడ్వాన్స్ మరియు బ్యాలెన్స్ బిల్లు.",
+      srv10_title: "Estimate / Quotation / Invoice",
+      srv10_desc: "పని ప్రారంభానికి ముందు కొటేషన్ పంపండి మరియు పని పూర్తయ్యాక ఫైనల్ ఇన్వాయిస్‌గా మార్చుకోండి.",
+      srv11_title: "Security Services & Roster",
+      srv11_desc: "సెక్యూరిటీ గార్డ్ షిఫ్ట్ డ్యూటీ రోస్టర్, పోస్ట్ ట్రాకింగ్ మరియు సిబ్బంది జీతం అడ్వాన్స్ వోచర్.",
+      srv12_title: "School & Tuition Center",
+      srv12_desc: "ట్యూషన్ ఫీజు రసీదు, ఒకేషనల్ కోర్స్ కంప్లీషన్ సర్టిఫికేట్ మరియు విద్యార్థి అడ్మిషన్ రసీదు.",
+      srv13_title: "Mandi & Dairy Services",
+      srv13_desc: "వ్యవసాయ మార్కెట్ యార్డ్ హమాలీ తగ్గింపులతో కూడిన రైతు అమ్మకం రసీదు మరియు రోజువారీ పాల సేకరణ (FAT/SNF) స్లిప్.",
+      why_title: "KaamKaj Bills ఎందుకు ఉపయోగించాలి?",
+      why_items: [
+        "<b>No App Required:</b> ఎటువంటి యాప్ డౌన్‌లోడ్ చేయకుండా ఏ బ్రౌజర్‌లోనైనా నేరుగా వేగంగా పనిచేస్తుంది.",
+        "<b>100% Client-Side Privacy:</b> మీ వ్యాపార సమాచారం ఏ సర్వర్‌లోనూ సేవ్ కాకుండా మీ వద్దే సురక్షితంగా ఉంటుంది.",
+        "<b>Zero-Crop PDF & Print:</b> ప్రింట్ లేదా పిడిఎఫ్ డౌన్‌లోడ్‌లో ఎలాంటి అంచులు కట్ కాకుండా స్పష్టమైన A4 లేఅవుట్.",
+        "<b>1 or 2 Slips Per Page:</b> కాగితాన్ని ఆదా చేయడానికి ఒకే A4 పేజీపై కస్టమర్ కాపీ మరియు ఆఫీస్ కాపీ రెండు ప్రింట్ చేయవచ్చు."
+      ],
+      quote: '"పాత డైరీల లెక్కలు వీడండి, KaamKaj Bills తో మీ వ్యాపారాన్ని డిజిటల్ చేయండి!"'
+    }
+  };
+
+  function changeHomeLanguage(lang) {
+    const data = homeTranslations[lang] || homeTranslations['hi'];
+
+    document.getElementById('lbl_choose_lang').innerText = data.choose_lang;
+    document.getElementById('hero_subtitle').innerText = data.subtitle;
+    document.getElementById('hero_desc').innerHTML = data.desc;
+    document.getElementById('sec_services_title').innerText = data.services_title;
+
+    for (let i = 1; i <= 13; i++) {
+      if (document.getElementById(`srv${i}_title`)) {
+        document.getElementById(`srv${i}_title`).innerText = data[`srv${i}_title`];
+        document.getElementById(`srv${i}_desc`).innerText = data[`srv${i}_desc`];
+      }
+    }
+
+    document.getElementById('sec_why_title').innerText = data.why_title;
+
+    const list = document.getElementById('why_list');
+    list.innerHTML = '';
+    data.why_items.forEach((item, idx) => {
+      const li = document.createElement('li');
+      li.style.marginBottom = idx === data.why_items.length - 1 ? '0' : '8px';
+      li.innerHTML = item;
+      list.appendChild(li);
+    });
+
+    document.getElementById('footer_quote').innerText = data.quote;
+  }
+
+  /* 3. CHAT BOT INTEGRATED LOGIC (WITH WORKING JS REDIRECT) */
+  const EMAIL = 'kaamkajbills@gmail.com';
+  const BASE  = 'https://sites.google.com/view/kaamkaj-bills/home/';
+  const AI_ENDPOINT = '';
+
+  const T = [
+    ['salary-pay-slip','सैलरी / पे स्लिप','Salary pay slip','कर्मचारी की सैलरी स्लिप बनाकर PDF या प्रिंट के रूप में दे सकते हैं।','Create an employee salary pay slip and download or print it.','salary,pay slip,payslip,सैलरी,वेतन,तनख्वाह,पे स्लिप'],
+    ['technician-bills','टेक्नीशियन बिल','Technician bills','इलेक्ट्रीशियन, प्लंबर और अन्य तकनीशियन अपनी सर्विस का बिल बना सकते हैं।','Technicians such as electricians and plumbers can make service bills.','technician,electrician,plumber,repair,service,तकनीशियन,टेक्नीशियन,मिस्त्री,मरम्मत,इलेक्ट्रीशियन,प्लंबर'],
+    ['kirana-shop-bill','किराना दुकान बिल','Kirana shop bill','किराना दुकान के ग्राहकों के लिए सामान का बिल बनाएं।','Make item-wise bills for your kirana shop customers.','kirana,grocery,shop,किराना,दुकान,राशन'],
+    ['cv-resume','CV / रिज्यूमे','CV / Resume','नौकरी के लिए अपना CV या रिज्यूमे बनाएं।','Build your CV or resume for job applications.','cv,resume,biodata,रिज्यूमे,बायोडाटा,सीवी,नौकरी,job'],
+    ['paymet-slip-rasid','पेमेंट स्लिप / रसीद','Payment slip / receipt','पैसे मिलने की पेमेंट स्लिप या रसीद बनाएं।','Make a payment slip or receipt for money received.','payment,receipt,rasid,रसीद,पेमेंट,भुगतान'],
+    ['work-completion-handover-certificate','कार्य पूर्णता व हैंडओवर सर्टिफिकेट','Work completion & handover certificate','काम पूरा होने और सौंपने का सर्टिफिकेट बनाएं।','Create a certificate confirming that work is complete and handed over.','completion,handover,work certificate,हैंडओवर,कार्य पूर्ण,सर्टिफिकेट'],
+    ['rent-receipt-generator','किराया रसीद','Rent receipt','मकान या दुकान के किराए की रसीद बनाएं।','Generate a rent receipt for a house or shop.','rent,landlord,किराया,किराये,भाड़ा,मकान'],
+    ['tailoring-measurement-job-slip','टेलरिंग नाप व जॉब स्लिप','Tailoring measurement & job slip','ग्राहक का नाप और सिलाई का जॉब स्लिप बनाएं।','Record customer measurements and make a tailoring job slip.','tailor,tailoring,measurement,नाप,दर्जी,टेलर,सिलाई'],
+    ['catering-rental-booking-slip','कैटरिंग / रेंटल बुकिंग स्लिप','Catering & rental booking slip','टेंट, लाइट-साउंड रेंटल और कैटरिंग/हलवाई ऑर्डर की बुकिंग स्लिप बनाएं। अग्रिम और बकाया अपने आप निकलता है, और PDF/प्रिंट में 1 या 2 कॉपी मिलती हैं।','Make booking slips for tent, lights & sound rentals and catering orders. Advance and balance are calculated automatically, with PDF/print in 1 or 2 copies.','catering,tent,booking,halwai,rental,lights,sound,कैटरिंग,टेंट,हलवाई,बुकिंग,साउंड,लाइट,शादी'],
+    ['estimate-quotationinvoce','एस्टीमेट / कोटेशन / इनवॉइस','Estimate, quotation & invoice','ग्राहक को देने के लिए एस्टीमेट, कोटेशन या इनवॉइस बनाएं।','Create an estimate, quotation or invoice for your customer.','estimate,quotation,quote,invoice,कोटेशन,इनवॉइस,एस्टीमेट'],
+    ['security-services','सिक्योरिटी सर्विसेज़','Security services','सिक्योरिटी सर्विस देने वालों के लिए बिल और स्लिप।','Bills and slips for security service providers.','security,guard,सिक्योरिटी,गार्ड'],
+    ['school','स्कूल / कोचिंग / ट्रेनिंग','School, coaching & training','फीस रसीद, कोर्स पूर्णता या अनुभव प्रमाण पत्र और एडमिशन स्लिप, हिंदी और English दोनों में।','Fee receipts, course-completion or experience certificates and admission slips in Hindi and English.','school,coaching,fee,admission,student,certificate,स्कूल,कोचिंग,फीस,एडमिशन,छात्र,प्रमाण'],
+    ['mandi','मंडी','Mandi','मंडी के लेन-देन के लिए बिल और पर्चियाँ।','Bills and slips for mandi trading.','mandi,मंडी,किसान,farmer,आढ़त,अनाज']
+  ];
+
+  const S = {
+    hi:['हिन्दी','नमस्ते! KaamKaj Bills के किसी भी टूल के बारे में पूछें।','अपना सवाल लिखें…','भेजें','अधिक जानकारी के लिए ईमेल करें:','पेज खोलें','प्रमुख विषय'],
+    en:['English','Hello! Ask me about any KaamKaj Bills tool.','Type your question…','Send','For more information, email:','Open page','Popular topics'],
+    mr:['मराठी','नमस्कार! KaamKaj Bills च्या कोणत्याही टूलबद्दल विचारा.','तुमचा प्रश्न लिहा…','पाठवा','अधिक माहितीसाठी ईमेल करा:','पेज उघडा','लोकप्रिय विषय'],
+    gu:['ગુજરાતી','નમસ્તે! KaamKaj Bills ના કોઈપણ ટૂલ વિશે પૂછો.','તમારો પ્રશ્ન લખો…','મોકલો','વધુ માહિતી માટે ઈમેલ કરો:','પેજ ખોલો','લોકપ્રિય વિષયો'],
+    bn:['বাংলা','নমস্কার! KaamKaj Bills-এর যেকোনো টুল সম্পর্কে জিজ্ঞাসা করুন।','আপনার প্রশ্ন লিখুন…','পাঠান','আরও তথ্যের জন্য ইমেল করুন:','পেজ খুলুন','জনপ্রিয় বিষয়'],
+    ta:['தமிழ்','வணக்கம்! KaamKaj Bills இன் எந்த கருவி பற்றியும் கேளுங்கள்.','உங்கள் கேள்வியை எழுதுங்கள்…','அனுப்பு','மேலும் தகவலுக்கு மின்னஞ்சல் செய்யுங்கள்:','பக்கத்தைத் திறக்கவும்','பிரபலமான தலைப்புகள்'],
+    te:['తెలుగు','నమస్కారం! KaamKaj Bills లోని ఏ టూల్ గురించైనా అడగండి.','మీ ప్రశ్న రాయండి…','పంపండి','మరింత సమాచారం కోసం ఈమెయిల్ చేయండి:','పేజీ తెరవండి','ప్రముఖ అంశాలు'],
+    kn:['ಕನ್ನಡ','ನಮಸ್ಕಾರ! KaamKaj Bills ನ ಯಾವುದೇ ಟೂಲ್ ಬಗ್ಗೆ ಕೇಳಿ.','ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಬರೆಯಿರಿ…','ಕಳುಹಿಸಿ','ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ ಇಮೇಲ್ ಮಾಡಿ:','ಪುಟ ತೆರೆಯಿರಿ','ಜನಪ್ರಿಯ ವಿಷಯಗಳು'],
+    ml:['മലയാളം','നമസ്കാരം! KaamKaj Bills-ലെ ഏത് ടൂളിനെക്കുറിച്ചும் ചോദിക്കൂ.','നിങ്ങളുടെ ചോദ്യം എഴുതുക…','അയയ്ക്കുക','കൂടുതൽ വിവരങ്ങൾക്ക് ഇമെയിൽ ചെയ്യുക:','പേജ് തുറക്കുക','പ്രധാന വിഷയങ്ങൾ'],
+    pa:['ਪੰਜਾਬੀ','ਸਤ ਸ੍ਰੀ ਅਕਾਲ! KaamKaj Bills ਦੇ ਕਿਸੇ ਵੀ ਟੂਲ ਬਾਰੇ ਪੁੱਛੋ।','ਆਪਣਾ ਸਵਾਲ ਲਿਖੋ…','ਭੇਜੋ','ਹੋਰ ਜਾਣਕਾਰੀ ਲਈ ਈਮੇਲ ਕਰੋ:','ਪੇਜ ਖੋਲ੍ਹੋ','ਪ੍ਰਮੁੱਖ ਵਿਸ਼ੇ'],
+    or:['ଓଡ଼ିଆ','ନମସ୍କାର! KaamKaj Bills ର ଯେକୌଣସି ଟୁଲ୍ ବିଷୟରେ ପଚାରନ୍ତୁ।','ଆପଣଙ୍କ ପ୍ରଶ୍ନ ଲେଖନ୍ତુ…','ପଠାନ୍ତୁ','ଅଧିକ ସୂଚନା ପାଇଁ ଇମେଲ୍ କରନ୍ତୁ:','ପେଜ୍ ଖୋଲନ୍ତୁ','ଜନପ୍ରିୟ ବିଷୟ'],
+    ur:['اردو','السلام علیکم! KaamKaj Bills کے کسی بھی ٹول کے بارے में پوچھیں۔','اپنا سوال لکھیں…','بھیجیں','مزید معلومات کے لیے ای میل کریں:','صفحہ کھولیں','اہم موضوعات']
+  };
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let botLang = 'hi';
+
+  function bUi(){ return S[botLang]; }
+  function bMail(){ return `${esc(bUi()[4])} <a href="mailto:${EMAIL}">${EMAIL}</a>`; }
+  
+  function say(html, who){
+    const d = document.createElement('div');
+    d.className = 'bm ' + (who === 'me' ? 'user-msg' : 'bot-msg');
+    d.innerHTML = html;
+    $('bot-log').appendChild(d);
+    $('bot-log').scrollTop = $('bot-log').scrollHeight;
+    return d;
+  }
+
+  function bChips(list){
+    return '<div class="b-chips">' + list.map(i => `<button type="button" onclick="bAsk(${i})">${esc(T[i][1])} / ${esc(T[i][2])}</button>`).join('') + '</div>';
+  }
+
+  function answerHTML(i){
+    const [slug, hn, en, ha, ea] = T[i];
+    const body = botLang === 'hi' ? esc(ha) : botLang === 'en' ? esc(ea) : `${esc(ha)}<p class="b-hl">${esc(ea)}</p>`;
+    const fullUrl = `${BASE}${slug}?authuser=0`;
+    // Reliable JavaScript redirection on button click
+    return `<b>${esc(botLang === 'en' ? en : hn)}</b><br>${body}<br><button type="button" class="b-go" onclick="openBotPage('${fullUrl}')">${esc(bUi()[5])} ↗</button><p class="b-hl">${bMail()}</p>`;
+  }
+
+  function match(q){
+    q = q.toLowerCase();
+    let best = -1, score = 0;
+    T.forEach((t, i) => {
+      const s = t[5].split(',').reduce((a, k) => a + (q.includes(k.toLowerCase()) ? k.length : 0), 0);
+      if (s > score){ score = s; best = i; }
+    });
+    return best;
+  }
+
+  async function bAsk(i){
+    say(esc(T[i][1] + ' / ' + T[i][2]), 'me');
+    say(answerHTML(i), 'bot');
+  }
+
+  async function reply(q){
+    if (AI_ENDPOINT){
+      const wait = say('…', 'bot');
+      try {
+        const r = await fetch(AI_ENDPOINT, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({question:q, lang: botLang, topics:T.map(t => ({slug:t[0], name:t[2], info:t[4]}))})
+        });
+        const j = await r.json();
+        wait.innerHTML = esc(j.answer || '') + `<p class="b-hl">${bMail()}</p>`;
+        return;
+      } catch(e){ wait.remove(); }
+    }
+    const i = match(q);
+    if (i >= 0) say(answerHTML(i), 'bot');
+    else say(`${bMail()}${bChips([8, 11, 9, 0, 6, 4])}`, 'bot');
+  }
+
+  $('bot-f').addEventListener('submit', e => {
+    e.preventDefault();
+    const q = $('bot-q').value.trim();
+    if (!q) return;
+    say(esc(q), 'me');
+    $('bot-q').value = '';
+    reply(q);
+  });
+
+  function setBotLang(l){
+    botLang = l;
+    const u = bUi();
+    $('bot-q').placeholder = u[2];
+    $('bot-send').textContent = u[3];
+    $('bot-sub').textContent = EMAIL;
+    $('bot-log').innerHTML = '';
+    say(`${esc(u[1])}<p class="b-hl">${esc(u[6])}:</p>${bChips([8, 11, 9, 0, 6, 4])}`, 'bot');
+  }
+
+  $('bot-lang').innerHTML = Object.keys(S).map(k => `<option value="${k}">${S[k][0]}</option>`).join('');
+  $('bot-lang').addEventListener('change', e => setBotLang(e.target.value));
+
+  const navLang = (navigator.language || 'hi').slice(0, 2);
+  $('bot-lang').value = S[navLang] ? navLang : 'hi';
+  setBotLang($('bot-lang').value);
+</script>
