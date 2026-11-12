@@ -2599,7 +2599,7 @@
     });
   }
 
-  // Dedicated In-Viewport Overlay A4 PDF Export (Prevents html2canvas left:-9999px horizontal shift/clipping)
+  // Exact A4 Width-Locked PDF Export (Zero left/right clipping across Desktop & Mobile)
   function generateA4PDF() {
     const btn = $('btnDownloadPdf');
     if (typeof html2pdf === 'undefined') {
@@ -2614,37 +2614,61 @@
     const clone = sourceSheet.cloneNode(true);
     clone.removeAttribute('id');
 
-    // Exact A4 inner content width for 210mm page with 10mm left/right margins (190mm ≈ 718px)
+    // Exact 680px width fits cleanly inside 210mm A4 with 12mm side margins without 1px right clipping
+    const PDF_WIDTH = 680;
     clone.style.cssText = [
-      'width: 718px',
-      'max-width: 718px',
-      'min-height: 1015px',
-      'margin: 0 auto',
-      'padding: 24px 28px',
+      `width: ${PDF_WIDTH}px`,
+      `max-width: ${PDF_WIDTH}px`,
+      'min-height: 960px',
+      'margin: 0',
+      'padding: 22px 24px',
       'box-shadow: none',
       'background: #ffffff',
       'border-top: 6px solid #d6336c',
-      'box-sizing: border-box'
+      'box-sizing: border-box',
+      'overflow: hidden'
     ].join(';');
 
     const banner = clone.querySelector('.doc-top-banner');
-    if (banner) banner.style.flexDirection = 'row';
+    if (banner) {
+      banner.style.flexDirection = 'row';
+      banner.style.gap = '12px';
+    }
     const badgeCol = clone.querySelector('.doc-badge-col');
-    if (badgeCol) badgeCol.style.textAlign = 'right';
+    if (badgeCol) {
+      badgeCol.style.textAlign = 'right';
+      badgeCol.style.maxWidth = '235px';
+    }
+    const typePill = clone.querySelector('.doc-type-pill');
+    if (typePill) {
+      typePill.style.fontSize = '10.5px';
+      typePill.style.padding = '5px 10px';
+    }
     const infoGrid = clone.querySelector('.doc-info-grid');
-    if (infoGrid) infoGrid.style.gridTemplateColumns = '1fr 1fr';
+    if (infoGrid) {
+      infoGrid.style.gridTemplateColumns = '1fr 1fr';
+      infoGrid.style.gap = '12px';
+      infoGrid.style.padding = '12px 14px';
+    }
     const bottomSec = clone.querySelector('.doc-bottom-section');
-    if (bottomSec) bottomSec.style.flexDirection = 'row';
+    if (bottomSec) {
+      bottomSec.style.flexDirection = 'row';
+      bottomSec.style.gap = '16px';
+    }
     const totalsTbl = clone.querySelector('.doc-totals-table');
-    if (totalsTbl) totalsTbl.style.width = '260px';
+    if (totalsTbl) {
+      totalsTbl.style.width = '245px';
+    }
     const sigRow = clone.querySelector('.doc-signatures');
-    if (sigRow) sigRow.style.flexDirection = 'row';
+    if (sigRow) {
+      sigRow.style.flexDirection = 'row';
+    }
 
-    // Keep staging inside viewport at left:0, top:0 behind a clean modal backdrop so html2canvas never clips left side
+    // Pin staging at top-left (0,0) with display:block so html2canvas captures exact [0..680px] with zero offset
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed; inset:0; background:rgba(255,255,255,0.96); z-index:99999; overflow:auto; display:flex; justify-content:center; align-items:flex-start; padding:0;';
+    overlay.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:#ffffff; z-index:99999; overflow:auto; margin:0; padding:0;';
     const staging = document.createElement('div');
-    staging.style.cssText = 'width:718px; margin:0; padding:0; background:#ffffff;';
+    staging.style.cssText = `position:relative; top:0; left:0; width:${PDF_WIDTH}px; margin:0; padding:0; background:#ffffff;`;
     staging.appendChild(clone);
     overlay.appendChild(staging);
     document.body.appendChild(overlay);
@@ -2654,7 +2678,7 @@
     const filename = `${prefixWord}_${rawDocNo}.pdf`;
 
     const opt = {
-      margin: [8, 10, 10, 10],
+      margin: [10, 12, 12, 12],
       filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
@@ -2665,15 +2689,14 @@
         scrollY: 0,
         x: 0,
         y: 0,
-        width: 718,
-        windowWidth: 800,
+        width: PDF_WIDTH,
+        windowWidth: PDF_WIDTH,
         backgroundColor: '#ffffff'
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
 
-    // Wait one animation frame for fonts/layout to settle before capture
     requestAnimationFrame(() => {
       setTimeout(() => {
         html2pdf()
@@ -2705,7 +2728,7 @@
             btn.textContent = '📥 Download A4 PDF';
             showToast('PDF export encountered an error. Please try Print -> Save as PDF.');
           });
-      }, 120);
+      }, 150);
     });
   }
 
