@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Multi-Trade Technician Bill & Quotation - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+  /* --- Theme Variables --- */
   :root {
     --primary: #0284c7;
     --primary-dark: #0369a1;
@@ -18,284 +18,392 @@
     --surface: #ffffff;
     --success: #16a34a;
     --danger: #dc2626;
-    --glass: rgba(255, 255, 255, 0.8);
   }
+  
   [data-theme="dark"] {
-    --ink: #f8fafc;
+    --primary: #38bdf8;
+    --primary-dark: #0ea5e9;
+    --primary-soft: #0c4a6e;
+    --ink: #f1f5f9;
     --ink-muted: #94a3b8;
     --border: #334155;
     --bg: #0f172a;
     --surface: #1e293b;
-    --primary-soft: #1e293b;
-    --glass: rgba(30, 41, 59, 0.8);
   }
 
+  /* --- Animated Background --- */
   html, body {
-    margin: 0 !important; padding: 0 !important; width: 100%; min-height: 100vh;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    min-height: 100vh;
     color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    /* Animated Gradient Background */
     background: linear-gradient(-45deg, var(--bg), #e2e8f0, var(--primary-soft), var(--bg));
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
-    overflow-x: hidden !important;
   }
+  
+  [data-theme="dark"] html, [data-theme="dark"] body {
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #0c4a6e, #0f172a);
+    background-size: 400% 400%;
+  }
+
   @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
+
   ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
 
   /* Top Navigation Bar */
   .top-nav {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--surface);
     color: var(--ink);
-    padding: 12px 20px;
+    padding: 10px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 3px solid #f59e0b;
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 50;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: background 0.3s, color 0.3s;
   }
   .btn-home {
-    background: var(--surface); color: var(--ink); text-decoration: none; padding: 8px 14px;
-    border-radius: 8px; font-size: 12px; font-weight: 700; border: 1px solid var(--border); transition: 0.2s;
+    background: rgba(128,128,128,0.1);
+    color: var(--ink);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--border);
+    transition: 0.2s;
   }
-  .btn-home:hover { background: var(--primary); color: white; border-color: var(--primary); }
-  .nav-title { font-size: 14px; font-weight: 800; letter-spacing: 0.3px; }
+  .btn-home:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .nav-title { font-size: 13.5px; font-weight: 800; letter-spacing: 0.3px; }
+  
   .theme-toggle {
-    background: var(--surface); border: 1px solid var(--border); color: var(--ink);
-    width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center;
-    justify-content: center; cursor: pointer; transition: 0.2s; font-size: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
   }
   .theme-toggle:hover { background: var(--primary-soft); border-color: var(--primary); }
 
-  .kb-wrapper { max-width: 900px; margin: 20px auto; padding: 0 12px; width: 100%; }
+  .kb-wrapper { max-width: 880px; margin: 14px auto; padding: 0 8px; width: 100%; }
 
   /* Control Panel */
   .control-box {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 24px 20px; margin-bottom: 24px; box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    transition: background 0.3s, border-color 0.3s;
   }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
   label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
 
   input, select, textarea {
-    width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px;
-    font-size: 13.5px; outline: none; color: var(--ink); background: var(--bg); transition: all 0.2s;
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: var(--bg);
+    transition: all 0.2s;
   }
   input:focus, select:focus, textarea:focus {
-    border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    border-color: var(--primary);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
   }
 
   .section-badge {
-    background: var(--primary-soft); color: var(--primary-dark); font-size: 11.5px; font-weight: 800;
-    padding: 8px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;
-    margin: 20px 0 12px 0; text-transform: uppercase; border-left: 4px solid var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
   }
   .section-badge:first-of-type { margin-top: 0; }
 
-  /* Theme Selector */
-  .theme-selector {
-    display: flex; gap: 12px; margin-bottom: 16px; padding: 12px 16px;
-    background: var(--bg); border-radius: 10px; border: 1px solid var(--border); align-items: center;
-  }
-  .theme-label { font-size: 11px; font-weight: 700; color: var(--ink-muted); margin-right: 8px; text-transform: uppercase; }
-  .theme-dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; }
-  .theme-dot:hover { transform: scale(1.1); }
-  .theme-dot.active { border-color: var(--ink); box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--ink); }
-  .dot-blue { background: #0284c7; }
-  .dot-emerald { background: #16a34a; }
-  .dot-midnight { background: #0f172a; }
-  .dot-sunset { background: #ea580c; }
-
   /* Trade Selector Pills */
-  .trade-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px; }
+  .trade-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
   .trade-btn {
-    padding: 10px 6px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--bg);
-    color: var(--ink-muted); font-size: 11.5px; font-weight: 700; cursor: pointer; text-align: center; transition: all 0.2s;
+    padding: 9px 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink-muted);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
   }
   .trade-btn:hover { border-color: var(--primary); color: var(--primary); }
   .trade-btn.active {
-    background: var(--primary); border-color: var(--primary); color: #ffffff;
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
   }
 
   /* Mode Switcher */
   .toggle-bar {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 16px;
-    background: var(--bg); border: 1px solid var(--border); padding: 5px; border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
   }
   .toggle-btn {
-    padding: 10px 8px; border: none; border-radius: 7px; font-size: 12px; font-weight: 700;
-    cursor: pointer; background: transparent; color: var(--ink-muted); transition: all 0.2s;
+    padding: 9px 8px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: all 0.2s;
   }
-  .toggle-btn.active { background: var(--ink); color: #ffffff; box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2); }
+  .toggle-btn.active {
+    background: var(--ink);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(15, 23, 42, 0.2);
+  }
 
   /* Quick Chips */
-  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px 0; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px 0; }
   .chip-btn {
-    background: var(--surface); border: 1px solid #93c5fd; color: var(--primary-dark);
-    padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.15s;
+    background: var(--surface);
+    border: 1px solid #93c5fd;
+    color: var(--primary-dark);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
   }
-  .chip-btn:hover { background: var(--primary-soft); border-color: var(--primary); }
+  .chip-btn:hover { background: var(--primary-soft); }
 
   /* Items Table */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12.5px; }
+  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
   .items-input-table th {
-    text-align: left; padding: 8px 6px; color: var(--ink-muted); font-weight: 800;
-    background: var(--bg); border-bottom: 2px solid var(--border);
+    text-align: left;
+    padding: 8px 6px;
+    color: var(--ink-muted);
+    font-weight: 800;
+    background: var(--bg);
+    border-bottom: 2px solid var(--border);
   }
   .items-input-table td { padding: 6px 4px; }
   .btn-del-row {
-    background: #fee2e2; color: var(--danger); border: 1px solid #fca5a5; border-radius: 6px;
-    width: 32px; height: 36px; font-weight: bold; cursor: pointer; transition: 0.2s;
+    background: #fee2e2;
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    width: 32px;
+    height: 36px;
+    font-weight: bold;
+    cursor: pointer;
   }
-  .btn-del-row:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+  .btn-del-row:hover { background: var(--danger); color: #fff; }
   .btn-add-row {
-    background: var(--primary-soft); color: var(--primary-dark); border: 1.5px dashed var(--primary);
-    padding: 10px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer;
-    margin-top: 10px; transition: 0.2s; width: 100%; text-align: center;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border: 1.5px dashed var(--primary);
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
   }
-  .btn-add-row:hover { background: var(--primary); color: white; border-style: solid; }
 
   /* Signature Pad */
   .sig-box-wrap {
-    background: var(--bg); border: 1.5px dashed var(--border); border-radius: 10px;
-    padding: 16px; margin-top: 16px;
+    background: var(--bg);
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 10px;
   }
   #sigCanvas {
-    border: 1px solid var(--border); border-radius: 8px; background: #ffffff;
-    cursor: crosshair; touch-action: none; width: 100%; max-width: 300px; height: 65px;
-    display: block; margin-top: 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #ffffff; /* Always white for signature */
+    cursor: crosshair;
+    touch-action: none;
+    width: 100%;
+    max-width: 280px;
+    height: 65px;
+    display: block;
+    margin-top: 8px;
   }
   .btn-clear-sig {
-    background: var(--ink-muted); color: #fff; border: none; padding: 6px 12px;
-    border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 8px;
+    background: var(--ink-muted);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
   }
 
   /* Actions */
-  .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
-    flex: 1; min-width: 140px; padding: 14px; border: none; border-radius: 10px;
-    font-size: 14px; font-weight: 800; color: #fff; cursor: pointer; text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex: 1;
+    min-width: 150px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
   }
-  .btn:hover { opacity: 0.95; transform: translateY(-2px); }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
   .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
   .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
   .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
 
-  /* Preview Sheet */
+  /* Preview Sheet (Always stays white for accurate print preview) */
   .preview-label {
-    text-align: center; font-size: 11.5px; font-weight: 800; color: var(--ink-muted);
-    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
   }
   .preview-container { width: 100%; overflow-x: hidden; padding: 0 0 24px 0; }
   #a4DocSheet {
-    background: var(--surface); width: 100%; max-width: 750px; margin: 0 auto;
-    padding: 28px 24px; border: 1px solid var(--border); box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
-    border-radius: 12px; box-sizing: border-box;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
   }
 
   .doc-header {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    border-bottom: 2.5px solid var(--ink); padding-bottom: 14px; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  .doc-biz h2 { margin: 0; font-size: 20px; font-weight: 800; color: var(--ink); text-transform: uppercase; }
-  .doc-biz p { margin: 4px 0 0; font-size: 12px; color: var(--ink-muted); }
+  .doc-biz h2 { margin: 0; font-size: 19px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+  .doc-biz p { margin: 3px 0 0; font-size: 11.5px; color: #475569; }
   .doc-type-badge {
-    background: var(--ink); color: #ffffff; padding: 6px 16px; font-size: 12px;
-    font-weight: 800; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 6px;
+    text-transform: uppercase;
   }
 
-  .doc-meta { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 12px; }
-  .doc-meta td { padding: 5px 2px; vertical-align: top; }
-  .doc-meta td.lbl { font-weight: 700; color: var(--ink-muted); width: 28%; }
-  .doc-meta td.val { border-bottom: 1px dotted var(--border); color: var(--ink); font-weight: 600; width: 72%; }
+  .doc-meta { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11.5px; }
+  .doc-meta td { padding: 4px 2px; vertical-align: top; }
+  .doc-meta td.lbl { font-weight: 700; color: #475569; width: 28%; }
+  .doc-meta td.val { border-bottom: 1px dotted #cbd5e1; color: #0f172a; font-weight: 600; width: 72%; }
 
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
-  .doc-items-table th { background: var(--ink); color: #ffffff; padding: 8px 6px; text-align: left; font-weight: 700; }
-  .doc-items-table td { padding: 7px 6px; border-bottom: 1px solid var(--border); font-weight: 600; }
-  .doc-items-table tr:nth-child(even) td { background: var(--bg); }
+  .doc-items-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 11.5px; }
+  .doc-items-table th { background: #0f172a; color: #ffffff; padding: 7px 6px; text-align: left; font-weight: 700; }
+  .doc-items-table td { padding: 6px; border-bottom: 1px solid #cbd5e1; font-weight: 600; color: #0f172a; }
+  .doc-items-table tr:nth-child(even) td { background: #f8fafc; }
   .t-right { text-align: right !important; }
   .t-center { text-align: center !important; }
 
-  .summary-wrap { display: flex; justify-content: flex-end; margin: 16px 0; }
-  .summary-table { font-size: 12px; border-collapse: collapse; min-width: 240px; }
-  .summary-table td { padding: 5px 8px; }
-  .summary-table .total-row td {
-    background: #dcfce7; border-top: 2px solid var(--success); font-size: 15px;
-    font-weight: 800; color: #15803d;
-  }
+  .summary-wrap { display: flex; justify-content: flex-end; margin: 12px 0; }
+  .summary-table { font-size: 11.5px; border-collapse: collapse; min-width: 230px; }
+  .summary-table td { padding: 4px 8px; color: #0f172a; }
+  .summary-table .total-row td { background: #f0fdf4; border-top: 2px solid #16a34a; font-size: 14.5px; font-weight: 800; color: #166534; }
 
-  .notes-box {
-    background: var(--bg); border-left: 3.5px solid var(--primary); padding: 10px 14px;
-    font-size: 11.5px; color: var(--ink-muted); margin: 12px 0; line-height: 1.5; border-radius: 0 6px 6px 0;
-  }
-  .bank-box {
-    background: var(--primary-soft); border: 1px dashed var(--primary); border-radius: 8px;
-    padding: 10px 14px; font-size: 11.5px; color: var(--primary-dark); margin: 12px 0; line-height: 1.5;
-  }
+  .notes-box { background: #f8fafc; border-left: 3.5px solid #0284c7; padding: 8px 12px; font-size: 11px; color: #475569; margin: 10px 0; line-height: 1.45; }
+  .bank-box { background: #f0f9ff; border: 1px dashed #7dd3fc; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #0369a1; margin: 8px 0; line-height: 1.45; }
 
-  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 32px; font-size: 11px; }
-  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed var(--ink-muted); padding-top: 6px; font-weight: 700; color: var(--ink); }
-  .out-sig-img { max-height: 40px; max-width: 140px; display: block; margin: 0 auto 4px auto; }
-  .amount-words {
-    margin-top: 12px; font-size: 11.5px; font-style: italic; color: var(--primary-dark); font-weight: 700;
-    background: var(--primary-soft); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--primary);
-  }
+  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px; font-size: 11px; }
+  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 5px; font-weight: 700; color: #334155; }
+  .out-sig-img { max-height: 36px; max-width: 120px; display: block; margin: 0 auto 3px auto; }
 
-  @media (max-width: 700px) {
+  @media (max-width: 600px) {
     .trade-grid { grid-template-columns: repeat(2, 1fr); }
     .toggle-bar { grid-template-columns: 1fr; }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .kb-wrapper { margin: 12px auto; padding: 0 8px; }
-    .control-box { padding: 16px 14px; }
   }
-
-  /* PDF Specific Styles (CRITICAL FOR NO CUT-OFF) */
-  .pdf-render-container {
-    width: 210mm; min-height: 297mm; padding: 15mm; margin: 0 auto;
-    background: #ffffff !important; color: #0f172a !important;
-    font-family: 'Plus Jakarta Sans', sans-serif !important; box-sizing: border-box;
-  }
-  .pdf-render-container .no-break { page-break-inside: avoid !important; }
-  .pdf-render-container table { border-collapse: collapse; width: 100%; }
-  .pdf-render-container th, .pdf-render-container td { border: 1px solid #e2e8f0; padding: 8px; font-size: 12px; }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <a href="#" class="btn-home">← Dashboard</a>
-  <span class="nav-title">KaamKaj Bills • Multi-Trade</span>
-  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">🌓</button>
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Multi-Trade Technician</span>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Theme">🌓</button>
 </div>
 
 <div class="kb-wrapper">
   <div class="control-box">
     
-    <!-- Document Theme Selector -->
-    <div class="theme-selector">
-      <span class="theme-label">PDF Theme:</span>
-      <div class="theme-dot dot-blue active" onclick="setDocTheme('blue', this)" title="Royal Blue"></div>
-      <div class="theme-dot dot-emerald" onclick="setDocTheme('emerald', this)" title="Emerald Green"></div>
-      <div class="theme-dot dot-midnight" onclick="setDocTheme('midnight', this)" title="Midnight Black"></div>
-      <div class="theme-dot dot-sunset" onclick="setDocTheme('sunset', this)" title="Sunset Orange"></div>
-      <span style="margin-left:auto; font-size:11px; color:var(--ink-muted); font-weight:700;" id="themeName">Royal Blue</span>
-    </div>
-
-    <div style="margin-bottom: 14px;">
+    <div style="margin-bottom: 12px;">
       <label>1. Apna Kaam / Trade Chunein:</label>
       <div class="trade-grid">
         <button type="button" class="trade-btn active" onclick="setTrade('ELECTRICAL', this)">⚡ Electrical</button>
@@ -309,32 +417,34 @@
       </div>
     </div>
 
-    <div style="margin-bottom: 12px;">
+    <div style="margin-bottom: 10px;">
       <label>2. Document Type:</label>
       <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnModeQuote" onclick="setDocMode('QUOTATION')">📑 Quotation</button>
-        <button type="button" class="toggle-btn" id="btnModeBill" onclick="setDocMode('SERVICE_BILL')">🧾 Service Bill</button>
-        <button type="button" class="toggle-btn" id="btnModeMat" onclick="setDocMode('MATERIAL_LIST')">📦 Material List</button>
+        <button type="button" class="toggle-btn active" id="btnModeQuote" onclick="setDocMode('QUOTATION')">📑 Quotation / Estimate</button>
+        <button type="button" class="toggle-btn" id="btnModeBill" onclick="setDocMode('SERVICE_BILL')">🧾 Service & Repair Bill</button>
+        <button type="button" class="toggle-btn" id="btnModeMat" onclick="setDocMode('MATERIAL_LIST')">📦 Site Material List</button>
       </div>
     </div>
 
     <div class="section-badge">1. Contractor / Firm Details</div>
     <div class="grid-2">
-      <div class="field"><label>Firm / Technician Name</label><input type="text" id="in_biz_name" placeholder="उदा. Maruthi Technologies" oninput="autoSave()"></div>
-      <div class="field"><label>Address, Contact & GST</label><input type="text" id="in_biz_info" placeholder="उदा. Pune, Maharashtra | Mob: 98XXXXXXXX" oninput="autoSave()"></div>
+      <div class="field"><label>Firm / Technician Name</label><input type="text" id="in_biz_name" placeholder="उदा. Maruthi Technologies / Kalyani Electrical" oninput="renderDoc()"></div>
+      <div class="field"><label>Address, Contact & GST/License</label><input type="text" id="in_biz_info" placeholder="उदा. Pune, Maharashtra | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
     </div>
 
     <div class="section-badge">2. Client & Site Details</div>
     <div class="grid-3">
-      <div class="field"><label>Doc / Quote No.</label><input type="text" id="in_doc_no" oninput="autoSave()"></div>
-      <div class="field"><label>Date (तारीख)</label><input type="date" id="in_date" oninput="autoSave()"></div>
-      <div class="field"><label>Validity / Warranty</label><input type="text" id="in_validity" placeholder="उदा. 15 Days / 1 Yr" oninput="autoSave()"></div>
+      <div class="field"><label>Doc / Quote No. (Auto)</label><input type="text" id="in_doc_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label>Validity / Warranty</label><input type="text" id="in_validity" placeholder="उदा. 15 Days / 1 Yr Service Warranty" oninput="renderDoc()"></div>
     </div>
+
     <div class="grid-2">
-      <div class="field"><label>Client / Customer Name</label><input type="text" id="in_client_name" placeholder="उदा. Vikas Shinde" oninput="autoSave()"></div>
-      <div class="field"><label>Client Mobile / WhatsApp</label><input type="text" id="in_client_phone" placeholder="उदा. 9876543210" oninput="autoSave()"></div>
+      <div class="field"><label>Client / Customer Name</label><input type="text" id="in_client_name" placeholder="उदा. Vikas Shinde" oninput="renderDoc()"></div>
+      <div class="field"><label>Client Mobile / WhatsApp</label><input type="text" id="in_client_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
     </div>
-    <div class="field"><label>Work Site Address</label><input type="text" id="in_client_address" placeholder="उदा. Flat 302, Sai Residency, Warje, Pune" oninput="autoSave()"></div>
+
+    <div class="field"><label>Work Site Address</label><input type="text" id="in_client_address" placeholder="उदा. Flat 302, Sai Residency, Warje, Pune" oninput="renderDoc()"></div>
 
     <div class="section-badge">3. Work, Material & Labour Items</div>
     <div class="chip-group" id="quickChipsContainer"></div>
@@ -343,10 +453,10 @@
       <table class="items-input-table">
         <thead>
           <tr>
-            <th style="width: 45%;">Work / Material Description</th>
-            <th style="width: 15%;">Qty</th>
-            <th style="width: 15%;">Unit</th>
-            <th style="width: 19%;" id="th_rate">Rate (₹)</th>
+            <th style="width: 48%;">Work / Material Description</th>
+            <th style="width: 14%;">Qty</th>
+            <th style="width: 14%;">Unit</th>
+            <th style="width: 18%;" id="th_rate">Rate (₹)</th>
             <th style="width: 6%;"></th>
           </tr>
         </thead>
@@ -370,30 +480,31 @@
         </div>
         <div class="field"><label>Advance Received (₹)</label><input type="number" id="in_advance" placeholder="0" oninput="calcTotals()"></div>
       </div>
+
       <div class="grid-2">
-        <div class="field"><label>UPI ID (GPay / PhonePe)</label><input type="text" id="in_upi_id" placeholder="उदा. business@ybl" oninput="autoSave()"></div>
-        <div class="field"><label>Bank Details (Optional)</label><input type="text" id="in_bank_acc" placeholder="उदा. Bank Name & A/c No." oninput="autoSave()"></div>
+        <div class="field"><label>UPI ID (GPay / PhonePe)</label><input type="text" id="in_upi_id" placeholder="उदा. amartomar1982@ybl" oninput="renderDoc()"></div>
+        <div class="field"><label>Bank Details (Optional)</label><input type="text" id="in_bank_acc" placeholder="उदा. Bank Name & A/c No." oninput="renderDoc()"></div>
       </div>
     </div>
 
-    <div class="field"><label>Terms & Conditions</label><input type="text" id="in_terms" placeholder="उदा. 50% advance with work order. Balance upon completion." oninput="autoSave()"></div>
+    <div class="field"><label>Terms & Conditions</label><input type="text" id="in_terms" placeholder="उदा. 50% advance with work order. Balance upon completion." oninput="renderDoc()"></div>
 
-    <!-- Digital Signature -->
+    <!-- Optional Digital Signature -->
     <div class="sig-box-wrap">
-      <label style="display:flex; align-items:center; gap:8px; cursor:pointer; text-transform:none; font-size:12.5px; color:var(--ink); font-weight:600;">
+      <label style="display:flex; align-items:center; gap:8px; cursor:pointer; text-transform:none; font-size:12.5px; color:var(--ink);">
         <input type="checkbox" id="chk_sig" style="width:16px; height:16px;" onchange="toggleSig()">
-        <span>Digital Signature (हस्ताक्षर जोड़ें)</span>
+        <span>Tick to Draw Digital Signature (हस्ताक्षर जोड़ें)</span>
       </label>
       <div id="sigPadWrap" style="display:none;">
-        <canvas id="sigCanvas"></canvas>
+        <canvas id="sigCanvas" width="280" height="65"></canvas>
         <button type="button" class="btn-clear-sig" onclick="clearSig()">Clear Signature</button>
       </div>
     </div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download HD PDF</button>
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
       <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
     </div>
   </div>
 
@@ -431,8 +542,6 @@
           <tr id="row_bal" style="display:none; color:#dc2626; font-weight:700;"><td>Balance Due:</td><td class="t-right" id="out_bal">₹0.00</td></tr>
         </table>
       </div>
-      
-      <div class="amount-words" id="out_amount_words">Zero Rupees Only</div>
 
       <div class="bank-box" id="out_bank_box" style="display:none;">
         <b>Payment / UPI Details:</b> <span id="out_bank_txt">-</span>
@@ -455,10 +564,24 @@
 </div>
 
 <script>
+  // --- Theme Toggle Logic ---
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('kaamkaj_theme', next);
+  }
+  
+  // Load saved theme on startup
+  const savedTheme = localStorage.getItem('kaamkaj_theme');
+  if (savedTheme) {
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }
+
+  // --- Original Logic Preserved Exactly As Provided ---
   let curTrade = 'ELECTRICAL';
   let docMode = 'QUOTATION';
-  let docTheme = 'blue';
-  let items = [];
 
   const TRADE_PRESETS = {
     ELECTRICAL: [
@@ -497,6 +620,8 @@
     ]
   };
 
+  let items = structuredClone(TRADE_PRESETS.ELECTRICAL);
+
   function genDocNo() {
     const p = docMode === 'QUOTATION' ? 'QTN' : (docMode === 'SERVICE_BILL' ? 'SRV' : 'MAT');
     return `${p}-${Math.floor(100000 + Math.random() * 899990)}`;
@@ -506,17 +631,16 @@
     curTrade = trade;
     document.querySelectorAll('.trade-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    items = JSON.parse(JSON.stringify(TRADE_PRESETS[trade]));
+    items = structuredClone(TRADE_PRESETS[trade]);
     renderQuickChips();
     renderInputRows();
     calcTotals();
-    autoSave();
   }
 
   function renderQuickChips() {
     const wrap = document.getElementById('quickChipsContainer');
     wrap.innerHTML = TRADE_PRESETS[curTrade].map(p => 
-      `<button type="button" class="chip-btn" onclick="quickAdd('${p.desc.replace(/'/g, "\\'")}', '${p.unit}', ${p.rate})">+ ${p.desc.slice(0, 28)}...</button>`
+      `<button type="button" class="chip-btn" onclick="quickAdd('${p.desc}', '${p.unit}', ${p.rate})">+ ${p.desc.slice(0, 26)}...</button>`
     ).join('');
   }
 
@@ -524,7 +648,6 @@
     items.push({ desc, qty: 1, unit, rate });
     renderInputRows();
     calcTotals();
-    autoSave();
   }
 
   function setDocMode(mode) {
@@ -539,17 +662,16 @@
     document.getElementById('in_doc_no').value = genDocNo();
     renderInputRows();
     renderDoc();
-    autoSave();
   }
 
   function renderInputRows() {
     const isMat = docMode === 'MATERIAL_LIST';
     document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
       <tr>
-        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value; renderDoc(); autoSave()"></td>
-        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0; calcTotals()"></td>
-        <td><input value="${it.unit}" oninput="items[${i}].unit=this.value; renderDoc(); autoSave()"></td>
-        <td style="${isMat ? 'display:none' : ''}"><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0; calcTotals()"></td>
+        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
+        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;calcTotals()"></td>
+        <td><input value="${it.unit}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
+        <td style="${isMat ? 'display:none' : ''}"><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;calcTotals()"></td>
         <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
       </tr>
     `).join('');
@@ -559,11 +681,10 @@
     items.push({ desc: '', qty: 1, unit: 'Nos', rate: 0 });
     renderInputRows();
     calcTotals();
-    autoSave();
   }
 
   function delRow(i) {
-    if (items.length > 1) { items.splice(i, 1); renderInputRows(); calcTotals(); autoSave(); }
+    if (items.length > 1) { items.splice(i, 1); renderInputRows(); calcTotals(); }
   }
 
   function calcTotals() {
@@ -588,8 +709,7 @@
     document.getElementById('row_bal').style.display = adv > 0 ? 'table-row' : 'none';
     document.getElementById('out_adv').innerText = '-₹' + adv.toLocaleString('en-IN', { minimumFractionDigits: 2 });
     document.getElementById('out_bal').innerText = '₹' + bal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    
-    document.getElementById('out_amount_words').innerText = numToWords(tot) + ' Rupees Only';
+
     renderDoc();
   }
 
@@ -620,8 +740,6 @@
     } else { bankBox.style.display = 'none'; }
 
     document.getElementById('out_sum_wrap').style.display = isMat ? 'none' : 'flex';
-    document.getElementById('out_amount_words').style.display = isMat ? 'none' : 'block';
-    
     document.getElementById('out_thead').innerHTML = isMat
       ? `<th class="t-center" style="width:10%">#</th><th style="width:65%">Material Description</th><th class="t-center" style="width:25%">Qty</th>`
       : `<th class="t-center" style="width:8%">#</th><th style="width:50%">Work / Material Description</th><th class="t-center" style="width:12%">Qty</th><th class="t-right" style="width:14%">Rate</th><th class="t-right" style="width:16%">Amount</th>`;
@@ -632,176 +750,65 @@
     ).join('');
   }
 
-  // --- Advanced PDF Builder (No Cut-off, HD Quality) ---
-  function buildPDFHTML() {
-    const isMat = docMode === 'MATERIAL_LIST';
-    const biz = document.getElementById('in_biz_name').value.trim() || 'TECHNICAL & ENGINEERING SERVICES';
-    const info = document.getElementById('in_biz_info').value.trim() || 'City, State | Mob: 98XXXXXXXX';
-    const client = document.getElementById('in_client_name').value.trim() || '-';
-    const phone = document.getElementById('in_client_phone').value.trim();
-    const docNo = document.getElementById('in_doc_no').value || '-';
-    const date = document.getElementById('in_date').value || '-';
-    const validity = document.getElementById('in_validity').value || '-';
-    const address = document.getElementById('in_client_address').value || '-';
-    const terms = document.getElementById('in_terms').value || '50% advance with work order. Balance upon completion.';
-    const upi = document.getElementById('in_upi_id').value.trim();
-    const bank = document.getElementById('in_bank_acc').value.trim();
-    
-    const sub = items.reduce((s, it) => s + (it.qty * it.rate), 0);
-    const disc = parseFloat(document.getElementById('in_discount').value) || 0;
-    const taxable = Math.max(0, sub - disc);
-    const gst = parseFloat(document.getElementById('in_gst_rate').value) || 0;
-    const taxAmt = (taxable * gst) / 100;
-    const tot = Math.round(taxable + taxAmt);
-    const adv = parseFloat(document.getElementById('in_advance').value) || 0;
-    const bal = Math.max(0, tot - adv);
-
-    const qrUrl = upi ? `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=${encodeURIComponent(upi)}&cu=INR` : '';
-    const sigImg = signed ? cvs.toDataURL() : '';
-
-    const themeColors = {
-      blue: { primary: '#0284c7', bg: '#e0f2fe', text: '#0369a1' },
-      emerald: { primary: '#16a34a', bg: '#dcfce7', text: '#15803d' },
-      midnight: { primary: '#0f172a', bg: '#f1f5f9', text: '#0f172a' },
-      sunset: { primary: '#ea580c', bg: '#ffedd5', text: '#c2410c' }
-    };
-    const t = themeColors[docTheme] || themeColors.blue;
-
-    let itemsHtml = items.map((it, i) => isMat
-      ? `<tr class="no-break"><td class="t-center">${i+1}</td><td>${escHtml(it.desc) || '-'}</td><td class="t-center"><b>${it.qty} ${escHtml(it.unit)}</b></td></tr>`
-      : `<tr class="no-break"><td class="t-center">${i+1}</td><td>${escHtml(it.desc) || '-'}</td><td class="t-center">${it.qty} ${escHtml(it.unit)}</td><td class="t-right">₹${it.rate.toLocaleString('en-IN')}</td><td class="t-right">₹${(it.qty*it.rate).toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>`
-    ).join('');
-
-    return `
-      <div class="pdf-render-container" style="--doc-p: ${t.primary}; --doc-bg: ${t.bg}; --doc-t: ${t.text};">
-        <div class="doc-header no-break" style="border-bottom-color: var(--doc-p);">
-          <div class="doc-biz">
-            <h2 style="color: var(--doc-p);">${escHtml(biz)}</h2>
-            <p>${escHtml(info)}</p>
-          </div>
-          <div class="doc-type-badge" style="background: var(--doc-p);">${docMode.replace('_', ' ')}</div>
-        </div>
-
-        <table class="doc-meta no-break">
-          <tr><td class="lbl">Reference No:</td><td class="val">${escHtml(docNo)}</td></tr>
-          <tr><td class="lbl">Date:</td><td class="val">${escHtml(date)}</td></tr>
-          <tr><td class="lbl">Validity / Warranty:</td><td class="val">${escHtml(validity)}</td></tr>
-          <tr><td class="lbl">Client Name:</td><td class="val">${escHtml(phone ? client + ' (' + phone + ')' : client)}</td></tr>
-          <tr><td class="lbl">Site Location:</td><td class="val">${escHtml(address)}</td></tr>
-        </table>
-
-        <table class="doc-items-table">
-          <thead>
-            <tr style="background: var(--doc-p); color: #fff;">
-              ${isMat 
-                ? `<th class="t-center" style="width:10%">#</th><th style="width:65%">Material Description</th><th class="t-center" style="width:25%">Qty</th>`
-                : `<th class="t-center" style="width:8%">#</th><th style="width:50%">Work / Material Description</th><th class="t-center" style="width:12%">Qty</th><th class="t-right" style="width:14%">Rate</th><th class="t-right" style="width:16%">Amount</th>`
-              }
-            </tr>
-          </thead>
-          <tbody>${itemsHtml}</tbody>
-        </table>
-
-        ${!isMat ? `
-        <div class="no-break" style="display:flex; justify-content:space-between; align-items:flex-start; gap:24px; margin-top: 16px;">
-          <div style="flex:1;">
-            ${upi ? `<div style="display:flex; align-items:center; gap:12px; background: var(--doc-bg); border:1px solid var(--doc-p); padding:10px; border-radius:8px; margin-bottom:12px; max-width:260px;">
-              <img src="${qrUrl}" style="width:60px; height:60px; border-radius:4px;">
-              <div><b style="color: var(--doc-t); font-size:12px;">Scan to Pay via UPI</b><br><span style="font-size:11px; color:#475569;">${escHtml(upi)}</span></div>
-            </div>` : ''}
-            ${bank ? `<div style="background: var(--doc-bg); border:1px dashed var(--doc-p); padding:8px 12px; border-radius:6px; font-size:11px; color: var(--doc-t); margin-bottom:12px;"><b>Bank Details:</b> ${escHtml(bank)}</div>` : ''}
-            <div class="notes-box" style="border-left-color: var(--doc-p);">
-              <b>Terms & Notes:</b> ${escHtml(terms)}
-            </div>
-          </div>
-          <table class="summary-table" style="min-width:220px;">
-            <tr><td>Subtotal:</td><td class="t-right">₹${sub.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-            ${disc > 0 ? `<tr style="color:#16a34a;"><td>Discount:</td><td class="t-right">-₹${disc.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            ${gst > 0 ? `<tr style="color: var(--doc-p);"><td>GST (${gst}%):</td><td class="t-right">+₹${taxAmt.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            <tr class="total-row" style="border-top:2px solid var(--doc-p);"><td style="color: var(--doc-t);">Grand Total:</td><td class="t-right" style="color: var(--doc-t);">₹${tot.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-            ${adv > 0 ? `<tr><td>Advance Paid:</td><td class="t-right">-₹${adv.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            ${adv > 0 ? `<tr style="color:#dc2626; font-weight:700;"><td>Balance Due:</td><td class="t-right">₹${bal.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-          </table>
-        </div>
-        <div class="no-break" style="margin-top:12px; font-size:11.5px; font-style:italic; color: var(--doc-t); font-weight:700; background: var(--doc-bg); padding:8px 12px; border-radius:6px; border-left:3px solid var(--doc-p);">
-          Amount in words: ${numToWords(tot)} Rupees Only
-        </div>
-        ` : ''}
-
-        <div class="footer-sig-row no-break" style="margin-top: 30px;">
-          <div style="font-size:10px; color:#64748b;">Client Signature</div>
-          <div class="sig-block">
-            ${sigImg ? `<img src="${sigImg}" style="max-height:40px; max-width:150px; display:block; margin:0 auto 4px auto;">` : ''}
-            Authorized Signatory<br>
-            <span style="font-size:9px; color:#64748b;">(${escHtml(biz)})</span>
-          </div>
-        </div>
-      </div>
-    `;
+  // Signature Canvas
+  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
+  let draw = false, signed = false;
+  function toggleSig() {
+    const on = document.getElementById('chk_sig').checked;
+    document.getElementById('sigPadWrap').style.display = on ? 'block' : 'none';
+    document.getElementById('out_sig_img').style.display = (on && signed) ? 'block' : 'none';
   }
+  function pos(e) {
+    const r = cvs.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  cvs.addEventListener('mousedown', e => { draw = true; signed = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig_img'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  cvs.addEventListener('touchstart', e => { draw = true; signed = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
+  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig_img'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); signed = false; document.getElementById('out_sig_img').style.display = 'none'; }
 
   function downloadA4PDF() {
-    if (!document.getElementById('in_client_name').value.trim()) {
-      showToast('Please enter Client Name first', 'error');
-      document.getElementById('in_client_name').focus();
-      return;
-    }
-    showToast('Generating HD PDF... Please wait.');
-    
-    const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed; top:-9999px; left:0; width:100vw; height:100vh; background:#ffffff; z-index:-1;';
-    
-    const staging = document.createElement('div');
-    staging.innerHTML = buildPDFHTML();
-    overlay.appendChild(staging);
-    document.body.appendChild(overlay);
-
-    const cleanNo = (document.getElementById('in_doc_no').value || 'TechBill').replace(/[^a-zA-Z0-9-_]/g, '');
-    
-    setTimeout(() => {
-      html2pdf().set({
-        margin: [10, 10, 10, 10],
-        filename: `${cleanNo}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-          scale: 3, useCORS: true, scrollX: 0, scrollY: 0, width: 794, windowWidth: 794, backgroundColor: '#ffffff' 
-        },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-      }).from(staging).save().then(() => {
-        overlay.remove();
-        showToast('PDF Downloaded Successfully! ✅');
-      }).catch((err) => {
-        overlay.remove();
-        console.error(err);
-        showToast('PDF generation failed', 'error');
-      });
-    }, 600);
+    const orig = document.getElementById('a4DocSheet');
+    const clone = orig.cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [6, 6, 6, 6],
+      filename: `${document.getElementById('in_doc_no').value || 'TechBill'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
   }
 
   function printDocDirect() {
     const w = window.open('', '_blank', 'width=850,height=900');
     w.document.write(`<!DOCTYPE html><html><head><title>Print</title><style>
-      *{box-sizing:border-box;font-family:'Plus Jakarta Sans',sans-serif}body{margin:0;padding:10mm}
-      .no-break { page-break-inside: avoid !important; }
-      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #0f172a;padding-bottom:10px;margin-bottom:12px}
-      .doc-biz h2{margin:0;font-size:18px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:11px;color:#475569}
-      .doc-type-badge{background:#0f172a;color:#fff;padding:5px 12px;font-size:11px;font-weight:800;border-radius:4px}
-      .doc-meta{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11.5px}.doc-meta td{padding:4px}
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
+      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #0f172a;padding-bottom:8px;margin-bottom:10px}
+      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
+      .doc-type-badge{background:#0f172a;color:#fff;padding:4px 10px;font-size:11px;font-weight:800;border-radius:4px}
+      .doc-meta{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:11px}.doc-meta td{padding:3px}
       .doc-meta .lbl{font-weight:700;color:#475569;width:25%}.doc-meta .val{border-bottom:1px dotted #cbd5e1;font-weight:600}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11.5px}
-      .doc-items-table th{background:#0f172a;color:#fff;padding:6px;text-align:left}.doc-items-table td{padding:6px;border-bottom:1px solid #cbd5e1}
-      .t-right{text-align:right}.t-center{text-align:center}.summary-wrap{display:flex;justify-content:flex-end;margin:10px 0}
-      .summary-table{font-size:11.5px;border-collapse:collapse;min-width:220px}.summary-table td{padding:3px 6px}
-      .total-row td{background:#dcfce7;border-top:2px solid #16a34a;font-size:14px;font-weight:800;color:#15803d}
-      .notes-box{background:#f8fafc;border-left:3px solid #0284c7;padding:8px 10px;font-size:11px;margin:10px 0}
-      .bank-box{background:#e0f2fe;border:1px dashed #0284c7;padding:8px 10px;font-size:11px;margin:8px 0}
-      .footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:11px}
-      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:700}
-      .out-sig-img{max-height:36px;display:block;margin:0 auto 3px}
-      .amount-words{margin-top:10px;font-size:11.5px;font-style:italic;color:#0369a1;font-weight:700;background:#e0f2fe;padding:8px 12px;border-radius:6px;border-left:3px solid #0284c7}
-    </style></head><body>${buildPDFHTML()}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
+      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+      .doc-items-table th{background:#0f172a;color:#fff;padding:5px;text-align:left}.doc-items-table td{padding:5px;border-bottom:1px solid #cbd5e1}
+      .t-right{text-align:right}.t-center{text-align:center}.summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}
+      .summary-table{font-size:11px;border-collapse:collapse;min-width:220px}.summary-table td{padding:2px 6px}
+      .total-row td{background:#f0fdf4;border-top:2px solid #16a34a;font-size:13.5px;font-weight:800;color:#166534}
+      .notes-box{background:#f8fafc;border-left:3px solid #0284c7;padding:6px 8px;font-size:10px;margin:8px 0}
+      .bank-box{background:#f0f9ff;border:1px dashed #bae6fd;padding:6px 8px;font-size:10px;margin:6px 0}
+      .footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:10px}
+      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+      .out-sig-img{max-height:34px;display:block;margin:0 auto 2px}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
   }
 
   function shareWhatsApp() {
@@ -813,159 +820,9 @@
     window.open(phone ? `https://wa.me/91${phone}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
-  // --- Amount in Words (Indian Format) ---
-  function numToWords(n) {
-    if (n === 0) return "Zero";
-    const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
-    function convert(num) {
-      if (num < 20) return ones[num];
-      if (num < 100) return tens[Math.floor(num / 10)] + (num % 10 !== 0 ? " " + ones[num % 10] : "");
-      if (num < 1000) return ones[Math.floor(num / 100)] + " Hundred" + (num % 100 !== 0 ? " and " + convert(num % 100) : "");
-      if (num < 100000) return convert(Math.floor(num / 1000)) + " Thousand" + (num % 1000 !== 0 ? " " + convert(num % 1000) : "");
-      if (num < 10000000) return convert(Math.floor(num / 100000)) + " Lakh" + (num % 100000 !== 0 ? " " + convert(num % 100000) : "");
-      return convert(Math.floor(num / 10000000)) + " Crore" + (num % 10000000 !== 0 ? " " + convert(num % 10000000) : "");
-    }
-    return convert(Math.floor(n));
-  }
-
-  function escHtml(str) {
-    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  // --- Auto Save System ---
-  function autoSave() {
-    const data = {
-      curTrade, docMode, docTheme,
-      in_biz_name: document.getElementById('in_biz_name').value,
-      in_biz_info: document.getElementById('in_biz_info').value,
-      in_doc_no: document.getElementById('in_doc_no').value,
-      in_date: document.getElementById('in_date').value,
-      in_validity: document.getElementById('in_validity').value,
-      in_client_name: document.getElementById('in_client_name').value,
-      in_client_phone: document.getElementById('in_client_phone').value,
-      in_client_address: document.getElementById('in_client_address').value,
-      in_discount: document.getElementById('in_discount').value,
-      in_gst_rate: document.getElementById('in_gst_rate').value,
-      in_advance: document.getElementById('in_advance').value,
-      in_upi_id: document.getElementById('in_upi_id').value,
-      in_bank_acc: document.getElementById('in_bank_acc').value,
-      in_terms: document.getElementById('in_terms').value,
-      items: items
-    };
-    try { localStorage.setItem('kaamkaj_multitrade_v3', JSON.stringify(data)); } catch (e) {}
-  }
-
-  function loadData() {
-    const raw = localStorage.getItem('kaamkaj_multitrade_v3');
-    if (!raw) return;
-    try {
-      const d = JSON.parse(raw);
-      if (d.docTheme) setDocTheme(d.docTheme, document.querySelector(`.theme-dot.dot-${d.docTheme}`));
-      if (d.curTrade) {
-        curTrade = d.curTrade;
-        const btn = Array.from(document.querySelectorAll('.trade-btn')).find(b => b.getAttribute('onclick').includes(`'${d.curTrade}'`));
-        if (btn) setTrade(d.curTrade, btn);
-      }
-      if (d.docMode) {
-        docMode = d.docMode;
-        document.getElementById('btnModeQuote').classList.toggle('active', docMode === 'QUOTATION');
-        document.getElementById('btnModeBill').classList.toggle('active', docMode === 'SERVICE_BILL');
-        document.getElementById('btnModeMat').classList.toggle('active', docMode === 'MATERIAL_LIST');
-        document.getElementById('finControls').style.display = docMode === 'MATERIAL_LIST' ? 'none' : 'block';
-        document.getElementById('th_rate').style.display = docMode === 'MATERIAL_LIST' ? 'none' : 'table-cell';
-      }
-      ['in_biz_name', 'in_biz_info', 'in_doc_no', 'in_date', 'in_validity', 'in_client_name', 'in_client_phone', 'in_client_address', 'in_discount', 'in_gst_rate', 'in_advance', 'in_upi_id', 'in_bank_acc', 'in_terms'].forEach(k => {
-        if (d[k] !== undefined) document.getElementById(k).value = d[k];
-      });
-      if (d.items) items = d.items;
-      renderInputRows();
-      calcTotals();
-    } catch(e) { console.error(e); }
-  }
-
-  // --- Theme Management ---
-  function toggleTheme() {
-    const html = document.documentElement;
-    const current = html.getAttribute('data-theme');
-    const next = current === 'light' ? 'dark' : 'light';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('kaamkaj_ui_theme', next);
-  }
-
-  function setDocTheme(theme, el) {
-    docTheme = theme;
-    document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
-    el.classList.add('active');
-    const names = { blue: 'Royal Blue', emerald: 'Emerald Green', midnight: 'Midnight Black', sunset: 'Sunset Orange' };
-    document.getElementById('themeName').innerText = names[theme];
-    autoSave();
-  }
-
-  // Load saved UI theme
-  const savedUiTheme = localStorage.getItem('kaamkaj_ui_theme');
-  if (savedUiTheme) document.documentElement.setAttribute('data-theme', savedUiTheme);
-
-  // --- Signature Canvas (HD Resolution) ---
-  const cvs = document.getElementById('sigCanvas');
-  // Set internal resolution higher than CSS display size for HD output
-  cvs.width = 560; 
-  cvs.height = 130;
-  const ctx = cvs.getContext('2d');
-  ctx.lineWidth = 3;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#0f172a';
-  
-  let draw = false, signed = false;
-  function toggleSig() {
-    const on = document.getElementById('chk_sig').checked;
-    document.getElementById('sigPadWrap').style.display = on ? 'block' : 'none';
-    document.getElementById('out_sig_img').style.display = (on && signed) ? 'block' : 'none';
-  }
-  function pos(e) {
-    const r = cvs.getBoundingClientRect();
-    const scaleX = cvs.width / r.width;
-    const scaleY = cvs.height / r.height;
-    const t = e.touches ? e.touches[0] : e;
-    return { x: (t.clientX - r.left) * scaleX, y: (t.clientY - r.top) * scaleY };
-  }
-  cvs.addEventListener('mousedown', e => { draw = true; signed = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
-  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
-  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig_img'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
-  cvs.addEventListener('touchstart', e => { draw = true; signed = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
-  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
-  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig_img'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
-  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); signed = false; document.getElementById('out_sig_img').style.display = 'none'; }
-
-  // --- Toast Notification ---
-  function showToast(message, type = 'success') {
-    let container = document.getElementById('toastContainer');
-    if (!container) {
-      container = document.createElement('div');
-      container.id = 'toastContainer';
-      container.style.cssText = 'position:fixed; bottom:24px; right:24px; z-index:99999;';
-      document.body.appendChild(container);
-    }
-    const toast = document.createElement('div');
-    toast.style.cssText = `background:#0f172a; color:#fff; padding:14px 24px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.2); display:flex; align-items:center; gap:10px; font-size:14px; font-weight:600; margin-top:10px; border-left:4px solid ${type === 'error' ? '#ef4444' : '#10b981'}; animation: slideIn 0.3s ease;`;
-    toast.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span> ${message}`;
-    container.appendChild(toast);
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(20px)';
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  }
-
-  // Initialize
   window.onload = () => {
     document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
     document.getElementById('in_doc_no').value = genDocNo();
-    loadData();
-    if (items.length === 0) {
-      items = JSON.parse(JSON.stringify(TRADE_PRESETS.ELECTRICAL));
-    }
     renderQuickChips();
     renderInputRows();
     calcTotals();
