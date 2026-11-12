@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Employee Salary / Pay Slip Generator - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --success: #16a34a;
+    --danger: #dc2626;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .badge-deduct {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left-color: var(--danger);
+  }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 24px 20px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .slip-border {
+    border: 1.5px solid #0f172a;
+    padding: 16px;
+    border-radius: 6px;
+  }
+
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+  .doc-biz p { margin: 3px 0 0; font-size: 11px; color: #475569; }
+  .doc-type-badge {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .emp-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
+  .emp-table td { padding: 4px 6px; border: 1px solid #cbd5e1; }
+  .emp-table td.lbl { background: #f8fafc; font-weight: 700; color: #334155; width: 22%; }
+  .emp-table td.val { font-weight: 600; color: #0f172a; width: 28%; }
+
+  /* Earnings vs Deductions Split Table */
+  .sal-matrix { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11.5px; }
+  .sal-matrix th {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 700;
+    border: 1px solid #0f172a;
+  }
+  .sal-matrix td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+  }
+  .t-right { text-align: right !important; }
+
+  .net-pay-box {
+    background: #f0fdf4;
+    border: 1.5px solid #86efac;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .net-lbl { font-size: 12px; font-weight: 800; color: #166534; text-transform: uppercase; }
+  .net-val { font-size: 18px; font-weight: 900; color: #166534; }
+  .words-line { font-size: 10.5px; color: #475569; margin-bottom: 10px; font-style: italic; }
+
+  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 28px; font-size: 10.5px; }
+  .sig-block { width: 42%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Salary Pay Slip</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Company / Organization Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Company / Firm Name</label><input type="text" id="in_comp_name" placeholder="उदा. Maruthi Technologies Pvt. Ltd." oninput="renderSlip()"></div>
+      <div class="field"><label>Branch / Office Address</label><input type="text" id="in_comp_addr" placeholder="उदा. Vadgaon Budruk, Pune, Maharashtra" oninput="renderSlip()"></div>
+    </div>
+
+    <div class="section-badge">2. Employee & Pay Period Details</div>
+    <div class="grid-3">
+      <div class="field"><label>Salary Month & Year</label><input type="text" id="in_pay_month" placeholder="उदा. October 2026" oninput="renderSlip()"></div>
+      <div class="field"><label>Employee ID / Code</label><input type="text" id="in_emp_id" placeholder="उदा. EMP-102" oninput="renderSlip()"></div>
+      <div class="field"><label>Pay Date (तारीख)</label><input type="date" id="in_pay_date" oninput="renderSlip()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Employee Full Name</label><input type="text" id="in_emp_name" placeholder="उदा. Munal / Vishal" oninput="renderSlip()"></div>
+      <div class="field"><label>Designation / Department</label><input type="text" id="in_emp_role" placeholder="उदा. Senior Field Technician" oninput="renderSlip()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Paid Days / Attendance</label><input type="text" id="in_paid_days" placeholder="उदा. 30 / 31 Days" oninput="renderSlip()"></div>
+      <div class="field"><label>Bank A/c or UPI ID</label><input type="text" id="in_bank_info" placeholder="उदा. HDFC XXXX4512 / UPI" oninput="renderSlip()"></div>
+      <div class="field"><label>Employee WhatsApp No.</label><input type="text" id="in_emp_phone" placeholder="उदा. 9876543210" oninput="renderSlip()"></div>
+    </div>
+
+    <div class="section-badge">3. Earnings (वेतन व भत्ते ₹)</div>
+    <div class="grid-3">
+      <div class="field"><label>Basic Salary (मूल वेतन ₹)</label><input type="number" id="in_basic" placeholder="15000" oninput="calcSalary()"></div>
+      <div class="field"><label>HRA / House Rent (₹)</label><input type="number" id="in_hra" placeholder="4000" oninput="calcSalary()"></div>
+      <div class="field"><label>Conveyance / Travel (₹)</label><input type="number" id="in_conv" placeholder="1500" oninput="calcSalary()"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Overtime / Site Allowance (₹)</label><input type="number" id="in_ot" placeholder="1000" oninput="calcSalary()"></div>
+      <div class="field"><label>Bonus / Incentive (₹)</label><input type="number" id="in_bonus" placeholder="0" oninput="calcSalary()"></div>
+    </div>
+
+    <div class="section-badge badge-deduct">4. Deductions (कटौती ₹)</div>
+    <div class="grid-3">
+      <div class="field"><label>PF / ESIC Deduction (₹)</label><input type="number" id="in_pf" placeholder="0" oninput="calcSalary()"></div>
+      <div class="field"><label>Salary Advance Cut (₹)</label><input type="number" id="in_adv_cut" placeholder="0" oninput="calcSalary()"></div>
+      <div class="field"><label>Professional Tax / Other (₹)</label><input type="number" id="in_ptax" placeholder="0" oninput="calcSalary()"></div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Slip</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live A4 Salary Slip Preview</div>
+    <div id="a4DocSheet">
+      <div class="slip-border">
+        <div class="doc-header">
+          <div class="doc-biz">
+            <h2 id="out_comp_name">MARUTHI TECHNOLOGIES</h2>
+            <p id="out_comp_addr">Pune, Maharashtra</p>
+          </div>
+          <div class="doc-type-badge" id="out_month_badge">PAY SLIP: OCT 2026</div>
+        </div>
+
+        <table class="emp-table">
+          <tr>
+            <td class="lbl">Employee Name:</td><td class="val" id="out_emp_name">-</td>
+            <td class="lbl">Employee ID:</td><td class="val" id="out_emp_id">-</td>
+          </tr>
+          <tr>
+            <td class="lbl">Designation:</td><td class="val" id="out_emp_role">-</td>
+            <td class="lbl">Pay Date:</td><td class="val" id="out_pay_date">-</td>
+          </tr>
+          <tr>
+            <td class="lbl">Paid Days:</td><td class="val" id="out_paid_days">-</td>
+            <td class="lbl">Bank / Mode:</td><td class="val" id="out_bank_info">-</td>
+          </tr>
+        </table>
+
+        <table class="sal-matrix">
+          <thead>
+            <tr>
+              <th style="width:34%;">Earnings</th>
+              <th class="t-right" style="width:16%;">Amount (₹)</th>
+              <th style="width:34%;">Deductions</th>
+              <th class="t-right" style="width:16%;">Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Basic Salary</td><td class="t-right" id="out_basic">0.00</td>
+              <td>PF / ESIC</td><td class="t-right" id="out_pf">0.00</td>
+            </tr>
+            <tr>
+              <td>House Rent Allowance (HRA)</td><td class="t-right" id="out_hra">0.00</td>
+              <td>Salary Advance Recovery</td><td class="t-right" id="out_adv_cut">0.00</td>
+            </tr>
+            <tr>
+              <td>Conveyance / Travel</td><td class="t-right" id="out_conv">0.00</td>
+              <td>Professional Tax / Other</td><td class="t-right" id="out_ptax">0.00</td>
+            </tr>
+            <tr>
+              <td>Overtime / Site Allowance</td><td class="t-right" id="out_ot">0.00</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Bonus / Incentive</td><td class="t-right" id="out_bonus">0.00</td>
+              <td></td><td></td>
+            </tr>
+            <tr style="background:#f8fafc; font-weight:800;">
+              <td>Gross Earnings (A)</td><td class="t-right" id="out_gross">₹0.00</td>
+              <td>Total Deductions (B)</td><td class="t-right" id="out_tot_ded">₹0.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="net-pay-box">
+          <span class="net-lbl">Net Salary Payable (A - B):</span>
+          <span class="net-val" id="out_net_pay">₹0.00</span>
+        </div>
+
+        <div class="words-line">
+          * This is a computer-generated salary slip for the period mentioned above.
+        </div>
+
+        <div class="footer-sig-row">
+          <div class="sig-block">Employee Signature</div>
+          <div class="sig-block">Employer / Authorized Signatory</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function fmt(v) { return (parseFloat(v) || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 }); }
+
+  function calcSalary() {
+    const basic = parseFloat(document.getElementById('in_basic').value) || 0;
+    const hra = parseFloat(document.getElementById('in_hra').value) || 0;
+    const conv = parseFloat(document.getElementById('in_conv').value) || 0;
+    const ot = parseFloat(document.getElementById('in_ot').value) || 0;
+    const bonus = parseFloat(document.getElementById('in_bonus').value) || 0;
+
+    const pf = parseFloat(document.getElementById('in_pf').value) || 0;
+    const adv = parseFloat(document.getElementById('in_adv_cut').value) || 0;
+    const ptax = parseFloat(document.getElementById('in_ptax').value) || 0;
+
+    const gross = basic + hra + conv + ot + bonus;
+    const ded = pf + adv + ptax;
+    const net = Math.max(0, gross - ded);
+
+    document.getElementById('out_basic').innerText = fmt(basic);
+    document.getElementById('out_hra').innerText = fmt(hra);
+    document.getElementById('out_conv').innerText = fmt(conv);
+    document.getElementById('out_ot').innerText = fmt(ot);
+    document.getElementById('out_bonus').innerText = fmt(bonus);
+
+    document.getElementById('out_pf').innerText = fmt(pf);
+    document.getElementById('out_adv_cut').innerText = fmt(adv);
+    document.getElementById('out_ptax').innerText = fmt(ptax);
+
+    document.getElementById('out_gross').innerText = '₹' + fmt(gross);
+    document.getElementById('out_tot_ded').innerText = '₹' + fmt(ded);
+    document.getElementById('out_net_pay').innerText = '₹' + fmt(net);
+
+    renderSlip();
+  }
+
+  function renderSlip() {
+    document.getElementById('out_comp_name').innerText = document.getElementById('in_comp_name').value.trim() || 'COMPANY / ORGANIZATION NAME';
+    document.getElementById('out_comp_addr').innerText = document.getElementById('in_comp_addr').value.trim() || 'Office Address, City';
+    const m = document.getElementById('in_pay_month').value.trim() || 'CURRENT MONTH';
+    document.getElementById('out_month_badge').innerText = `PAY SLIP: ${m}`;
+
+    document.getElementById('out_emp_name').innerText = document.getElementById('in_emp_name').value.trim() || '-';
+    document.getElementById('out_emp_id').innerText = document.getElementById('in_emp_id').value.trim() || '-';
+    document.getElementById('out_emp_role').innerText = document.getElementById('in_emp_role').value.trim() || '-';
+    document.getElementById('out_pay_date').innerText = document.getElementById('in_pay_date').value || '-';
+    document.getElementById('out_paid_days').innerText = document.getElementById('in_paid_days').value.trim() || '-';
+    document.getElementById('out_bank_info').innerText = document.getElementById('in_bank_info').value.trim() || '-';
+  }
+
+  function downloadA4PDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    const emp = document.getElementById('in_emp_name').value.trim() || 'Employee';
+    html2pdf().set({
+      margin: [6, 6, 6, 6],
+      filename: `PaySlip_${emp}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDocDirect() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Pay Slip</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
+      .slip-border{border:1.5px solid #0f172a;padding:16px;border-radius:6px}
+      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #0f172a;padding-bottom:8px;margin-bottom:10px}
+      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
+      .doc-type-badge{background:#0f172a;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
+      .emp-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
+      .emp-table td{padding:4px 6px;border:1px solid #cbd5e1}.emp-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
+      .sal-matrix{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px}
+      .sal-matrix th{background:#0f172a;color:#fff;padding:6px;text-align:left;border:1px solid #0f172a}
+      .sal-matrix td{padding:5px 6px;border:1px solid #cbd5e1}.t-right{text-align:right}
+      .net-pay-box{background:#f0fdf4;border:1.5px solid #86efac;padding:8px 12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+      .net-lbl{font-size:11px;font-weight:800;color:#166534}.net-val{font-size:16px;font-weight:900;color:#166534}
+      .words-line{font-size:10px;color:#475569;font-style:italic}
+      .footer-sig-row{display:flex;justify-content:space-between;margin-top:26px;font-size:10px}
+      .sig-block{width:42%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const comp = document.getElementById('in_comp_name').value.trim() || 'Company';
+    const emp = document.getElementById('in_emp_name').value.trim() || 'Employee';
+    const month = document.getElementById('in_pay_month').value.trim() || 'Current Month';
+    const net = document.getElementById('out_net_pay').innerText;
+    const ph = document.getElementById('in_emp_phone').value.trim().replace(/[^0-9]/g, '');
+    const msg = `*💵 SALARY PAY SLIP (${month})*\n*Company:* ${comp}\n*Employee:* ${emp}\n*Net Payable:* ${net}\n\n_Generated via KaamKaj Bills._`;
+    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_pay_date').value = new Date().toISOString().split('T')[0];
+    calcSalary();
+  };
+</script>
+</body>
+</html>
