@@ -2,747 +2,359 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>KaamKaj Bills - Payment Receipt & Voucher (A4 Portrait)</title>
-
-<!-- html2pdf.js bundle -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>KaamKaj Bills | Payment Receipt & Voucher</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    background: #f1f5f9;
-    color: #1e293b;
-    overflow-x: hidden !important;
-    scrollbar-width: none !important; /* Firefox */
-    -ms-overflow-style: none !important; /* IE/Edge */
-  }
-  ::-webkit-scrollbar {
-    display: none !important; /* Chrome, Safari, Android */
-    width: 0 !important;
-    height: 0 !important;
-  }
-
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  body { padding: 12px 8px; }
-  .kb-wrapper { max-width: 820px; margin: 0 auto; width: 100%; }
-
-  /* Control Panel */
-  .control-box {
-    background: #ffffff;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; }
-
-  input, select, textarea {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 13.5px;
-    outline: none;
-    color: #0f172a;
-    background: #fff;
-  }
-  input:focus, select:focus, textarea:focus { border-color: #0284c7; }
-
-  .section-badge {
-    background: #e0f2fe;
-    color: #0369a1;
-    font-size: 12.5px;
-    font-weight: 800;
-    padding: 5px 12px;
-    border-radius: 6px;
-    display: inline-block;
-    margin: 14px 0 10px 0;
-    text-transform: uppercase;
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
-    padding: 6px;
-    border-radius: 8px;
-  }
-  .toggle-btn {
-    flex: 1;
-    padding: 9px 12px;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: #475569;
-    transition: all 0.2s;
-  }
-  .toggle-btn.active {
-    background: #0284c7;
-    color: #ffffff;
-    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
-  }
-
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-  .btn {
-    flex: 1;
-    min-width: 150px;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-  }
-  .btn-pdf { background: #0284c7; }
-  .btn-print { background: #0f172a; }
-  .btn:hover { opacity: 0.92; }
-
-  /* ==================== SCREEN PREVIEW WRAPPER ==================== */
-  .preview-container {
-    width: 100%;
-    overflow-x: auto;
-    padding: 4px 0 24px 0;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  #a4PrintPage {
-    background: #ffffff;
-    width: 700px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-    border-radius: 6px;
-    box-sizing: border-box;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 16px 18px;
-    background: #ffffff;
-    box-sizing: border-box;
-    width: 100%;
-  }
-
-  .slip-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #0f172a;
-    padding-bottom: 8px;
-    margin-bottom: 12px;
-  }
-  .slip-org h2 { margin: 0; font-size: 17px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .slip-org p { margin: 2px 0 0 0; font-size: 11px; color: #475569; }
-
-  .slip-badge {
-    background: #0f172a;
-    color: #ffffff;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 800;
-    border-radius: 4px;
-    text-transform: uppercase;
-  }
-
-  .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11.5px; }
-  .slip-table td { padding: 5px 4px; vertical-align: top; }
-  .slip-table td.lbl { font-weight: 700; color: #334155; width: 23%; }
-  .slip-table td.val { border-bottom: 1px dotted #94a3b8; color: #0f172a; font-weight: 600; }
-
-  .amount-highlight {
-    background: #f0fdf4;
-    border: 1.2px solid #86efac;
-    padding: 8px 12px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 0;
-  }
-  .amt-text { font-size: 11px; font-weight: 700; color: #166534; }
-  .amt-number { font-size: 17px; font-weight: 800; color: #166534; }
-
-  .words-row {
-    font-size: 11.5px;
-    color: #334155;
-    margin-bottom: 16px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 6px;
-  }
-
-  .signature-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-top: 28px;
-    font-size: 11px;
-  }
-  .sig-box {
-    width: 38%;
-    text-align: center;
-    border-top: 1.5px dashed #475569;
-    padding-top: 4px;
-    font-weight: 700;
-    color: #334155;
-  }
-
-  .cut-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 20px 0;
-    border-top: 2px dashed #94a3b8;
-  }
-  .cut-tag {
-    position: absolute;
-    top: -11px;
-    background: #ffffff;
-    padding: 0 10px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #64748b;
-  }
-
-  @media (max-width: 600px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  }
+:root{--navy:#10213b;--blue:#2563eb;--blue2:#1d4ed8;--ink:#172033;--muted:#64748b;--line:#dbe3ef;--bg:#f3f6fb;--white:#fff;--green:#15803d;--shadow:0 14px 40px rgba(15,23,42,.08)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select{font:inherit}
+.app{max-width:1320px;margin:auto;padding:26px 22px 48px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand-mark{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#2563eb,#0f172a);display:grid;place-items:center;color:#fff;font-weight:900;font-size:18px;box-shadow:0 8px 20px #2563eb40}
+.brand h1{font-size:20px;margin:0;font-weight:850;letter-spacing:-.5px}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.top-tag{background:#e8efff;color:#1d4ed8;border:1px solid #cbd9ff;padding:8px 12px;border-radius:99px;font-size:12px;font-weight:750}
+.hero{background:linear-gradient(120deg,#10213b,#1d3b68 65%,#2563eb);color:white;border-radius:20px;padding:24px 26px;margin-bottom:22px;box-shadow:var(--shadow)}
+.hero h2{margin:0 0 7px;font-size:23px;letter-spacing:-.5px}.hero p{margin:0;color:#dbeafe;font-size:13px;line-height:1.6}
+.layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);gap:22px;align-items:start}
+.panel{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.panel-head{padding:18px 20px;border-bottom:1px solid #edf1f7;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panel-head h3{margin:0;font-size:15px}.panel-head p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.panel-body{padding:20px}
+.section{margin-bottom:20px}.section:last-child{margin-bottom:0}
+.section-title{display:flex;align-items:center;gap:9px;margin:0 0 13px;font-size:12px;text-transform:uppercase;letter-spacing:.65px;color:#334155;font-weight:850}
+.step{width:23px;height:23px;border-radius:7px;background:#eaf0ff;color:#1d4ed8;display:grid;place-items:center;font-size:11px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.field{min-width:0}.field label{display:block;font-size:11px;font-weight:750;color:#475569;margin:0 0 6px}
+.field input,.field select{width:100%;height:42px;border:1px solid #d5deea;border-radius:10px;padding:0 11px;background:#fff;color:#172033;outline:none;font-size:13px;transition:.18s}
+.field input:focus,.field select:focus{border-color:#3b82f6;box-shadow:0 0 0 3px #3b82f61c}
+.field input::placeholder{color:#a0aaba}
+.segment{display:flex;gap:5px;background:#f1f5f9;border:1px solid #e2e8f0;padding:5px;border-radius:12px}
+.segment button{flex:1;border:0;background:transparent;color:#526176;padding:10px 9px;border-radius:8px;font-size:12px;font-weight:750;cursor:pointer;transition:.18s}
+.segment button.active{background:#fff;color:#1d4ed8;box-shadow:0 2px 7px #0f172a12}
+.divider{border:0;border-top:1px dashed #d8e0eb;margin:19px 0}
+.secondary-btn{border:1px solid #d8e1ee;background:#f8fafc;color:#334155;padding:8px 11px;border-radius:9px;font-size:11px;font-weight:750;cursor:pointer}
+.secondary-btn:hover{background:#eef4ff;border-color:#b9ccff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.btn{border:0;border-radius:11px;padding:12px 16px;font-size:13px;font-weight:800;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;gap:8px;transition:.18s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.04)}
+.btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;box-shadow:0 7px 16px #2563eb30;flex:1}
+.btn-dark{background:#10213b;color:white;flex:1}
+.btn-light{background:#eef2f7;color:#334155}
+.preview-panel{position:sticky;top:18px}
+.preview-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.live{display:flex;align-items:center;gap:6px;color:#15803d;font-size:10px;font-weight:800}
+.live:before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px #dcfce7}
+.preview-wrap{padding:18px;background:#edf2f8;overflow:auto}
+#a4PrintPage{width:700px;max-width:none;margin:0 auto;background:#fff;padding:22px;box-shadow:0 5px 20px #0f172a12}
+.slip-box{border:1.5px solid #172033;border-radius:7px;padding:17px 18px;background:#fff;color:#172033;break-inside:avoid}
+.slip-header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:2px solid #172033;padding-bottom:10px;margin-bottom:12px}
+.slip-org h2{font-size:17px;line-height:1.25;margin:0;font-weight:900;text-transform:uppercase;overflow-wrap:anywhere}
+.slip-org p{font-size:10.5px;color:#475569;margin:4px 0 0;overflow-wrap:anywhere}
+.slip-badge{background:#10213b;color:white;padding:6px 9px;border-radius:4px;font-size:9px;font-weight:850;text-align:center;max-width:185px}
+.slip-table{width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:10px;table-layout:fixed}
+.slip-table td{padding:6px 4px;vertical-align:top;overflow-wrap:anywhere}
+.slip-table td.lbl{font-weight:800;color:#334155;width:22%}
+.slip-table td.val{border-bottom:1px dotted #94a3b8;font-weight:650;color:#111827}
+.amount-highlight{background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center;gap:12px;margin:10px 0}
+.amt-text{font-size:10px;font-weight:850;color:#166534}.amt-number{font-size:18px;font-weight:900;color:#166534;white-space:nowrap}
+.words-row{font-size:10.5px;color:#334155;border-bottom:1px solid #e2e8f0;padding:0 0 8px;margin-bottom:16px;overflow-wrap:anywhere}
+.signature-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:28px;font-size:10px;gap:25px}
+.sig-box{width:38%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:750;color:#334155}
+.cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:22px 0;border-top:2px dashed #94a3b8}
+.cut-tag{position:absolute;top:-9px;background:white;padding:0 10px;font-size:9px;font-weight:800;color:#64748b}
+.footer-note{text-align:center;color:#94a3b8;font-size:10px;margin-top:14px}
+.hidden{display:none!important}
+.toast{position:fixed;right:20px;bottom:20px;background:#10213b;color:#fff;padding:12px 16px;border-radius:11px;box-shadow:var(--shadow);font-size:12px;font-weight:700;opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s;z-index:99}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.preview-panel{position:static}.preview-wrap{padding:12px}}
+@media(max-width:620px){.app{padding:15px 10px 30px}.topbar{align-items:flex-start}.top-tag{font-size:10px}.hero{padding:20px;border-radius:15px}.hero h2{font-size:19px}.panel-body{padding:15px}.panel-head{padding:15px}.g2,.g3{grid-template-columns:1fr}.segment{flex-direction:column}.actions{flex-direction:column}.btn{width:100%}.preview-wrap{padding:8px}#a4PrintPage{transform-origin:top left}}
+@page{size:A4 portrait;margin:7mm}
+@media print{
+ body{background:#fff!important}.app,.topbar,.hero,.panel-head,.panel-body{display:none!important}
+ .preview-panel{display:block!important;position:static!important;border:0!important;box-shadow:none!important}
+ .preview-wrap{display:block!important;padding:0!important;background:#fff!important;overflow:visible!important}
+ #a4PrintPage{width:100%!important;margin:0!important;padding:0!important;box-shadow:none!important}
+ .slip-box{border-radius:0!important}
+ .cut-divider{margin:16px 0!important}
+}
 </style>
 </head>
 <body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">KK</div><div><h1>KaamKaj Bills</h1><p>Payment documentation made simple</p></div></div>
+    <div class="top-tag">RECEIPT & VOUCHER STUDIO</div>
+  </header>
+  <section class="hero"><h2>Payment Receipt & Voucher Generator</h2><p>अपनी payment details भरें और तुरंत professional receipt या payment voucher तैयार करें। PDF डाउनलोड करें या सीधे A4 पेपर पर प्रिंट करें।</p></section>
 
-<div class="kb-wrapper">
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-head"><div><h3>Document Details</h3><p>नीचे जानकारी भरते ही preview अपने-आप अपडेट होगा</p></div><span class="live">LIVE FORM</span></div>
+      <div class="panel-body">
+        <section class="section">
+          <h4 class="section-title"><span class="step">01</span> Page & document type</h4>
+          <div class="field"><label>A4 PAGE LAYOUT</label><div class="segment">
+            <button type="button" id="btnPageOne" class="active" onclick="setPageMode(1)">▤ 1 Slip · A4 Half</button>
+            <button type="button" id="btnPageTwo" onclick="setPageMode(2)">▤ 2 Slips · A4 Full</button>
+          </div></div>
+          <div class="field" style="margin-top:13px"><label>DOCUMENT TYPE</label><div class="segment">
+            <button type="button" id="btnModeReceipt" class="active" onclick="setVoucherType('RECEIPT')">↓ Payment Receipt · पैसा मिला</button>
+            <button type="button" id="btnModeVoucher" onclick="setVoucherType('VOUCHER')">↑ Payment Voucher · पैसा दिया</button>
+          </div></div>
+        </section>
 
-  <!-- FORM CONTROL -->
-  <div class="control-box">
-    
-    <!-- 1. Layout Selection -->
-    <div style="margin-bottom: 12px;">
-      <label>1. A4 Page Layout (Kitni Slip Print Karni Hai?):</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnPageOne" onclick="setPageMode(1)">
-          📄 1 Slip Only (A4 Half)
-        </button>
-        <button type="button" class="toggle-btn" id="btnPageTwo" onclick="setPageMode(2)">
-          📑 2 Slips Ek Sath (A4 Full Portrait)
-        </button>
-      </div>
-    </div>
-
-    <!-- 2. Type of Slip -->
-    <div style="margin-bottom: 12px;">
-      <label>2. Slip Ka Prakar (Paisa Mila Ya Diya):</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnModeReceipt" onclick="setVoucherType('RECEIPT')">
-          📥 Payment Receipt (रसीद - पैसा मिला)
-        </button>
-        <button type="button" class="toggle-btn" id="btnModeVoucher" onclick="setVoucherType('VOUCHER')">
-          📤 Payment Voucher (भुगतान पर्ची - पैसा दिया)
-        </button>
-      </div>
-    </div>
-
-    <!-- Business Common Header -->
-    <div class="section-badge">Business / Shop Details</div>
-    <div class="grid-2">
-      <div class="field">
-        <label>Business / Dukan Ka Naam</label>
-        <input type="text" id="in_biz_name" placeholder="eg. Bharat Trading Co. / Shree Enterprises" oninput="renderAll()">
-      </div>
-      <div class="field">
-        <label>Address / Contact Phone</label>
-        <input type="text" id="in_biz_info" placeholder="eg. Main Market, Commercial Center | Mob: 98XXXXXXXX" oninput="renderAll()">
-      </div>
-    </div>
-
-    <!-- SLIP 1 DETAILS -->
-    <div class="section-badge">Slip 1 Details</div>
-    <div class="grid-3">
-      <div class="field">
-        <label>Slip No. (Auto)</label>
-        <input type="text" id="s1_no" oninput="renderAll()">
-      </div>
-      <div class="field">
-        <label>Date (तारीख)</label>
-        <input type="date" id="s1_date" oninput="renderAll()">
-      </div>
-      <div class="field">
-        <label>Payment Mode</label>
-        <select id="s1_mode" onchange="renderAll()">
-          <option value="CASH (नकद)">CASH (नकद)</option>
-          <option value="UPI / Online">UPI / Online</option>
-          <option value="Bank Transfer / NEFT">Bank Transfer / NEFT</option>
-          <option value="Cheque (चेक)">Cheque (चेक)</option>
-        </select>
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="field">
-        <label id="lbl_s1_party">Client / Party Name</label>
-        <input type="text" id="s1_party" placeholder="Party ka naam..." oninput="renderAll()">
-      </div>
-      <div class="field">
-        <label>Contact / Address (वैकल्पिक)</label>
-        <input type="text" id="s1_party_info" placeholder="Location ya phone..." oninput="renderAll()">
-      </div>
-    </div>
-    <div class="grid-2">
-      <div class="field">
-        <label>Total Amount (₹)</label>
-        <input type="number" id="s1_amt" placeholder="eg. 5000" oninput="handleAmountChange(1)">
-      </div>
-      <div class="field">
-        <label>Amount in Words (Auto)</label>
-        <input type="text" id="s1_words" placeholder="Number likhte hi auto aayega..." oninput="renderAll()">
-      </div>
-    </div>
-    <div class="field">
-      <label id="lbl_s1_purpose">Kis Kaam Ke Liye (Purpose / Description)</label>
-      <input type="text" id="s1_purpose" placeholder="eg. Material supply bill / Service charges / Advance" oninput="renderAll()">
-    </div>
-
-    <!-- SLIP 2 DETAILS -->
-    <div id="slip2ControlBlock" style="display: none; margin-top: 14px; padding-top: 14px; border-top: 1.5px dashed #cbd5e1;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <span class="section-badge" style="margin: 0; background: #fef3c7; color: #92400e;">Slip 2 Details (Niche Wali Slip)</span>
-        <button type="button" onclick="copySlip1ToSlip2()" style="background: #f1f5f9; border: 1.5px solid #cbd5e1; padding: 5px 12px; font-size: 11.5px; font-weight: 700; border-radius: 6px; cursor: pointer; color: #0f172a;">
-          📋 Slip 1 Ka Data Copy Karein
-        </button>
-      </div>
-
-      <div class="grid-3">
-        <div class="field">
-          <label>Slip 2 No. (Auto)</label>
-          <input type="text" id="s2_no" oninput="renderAll()">
-        </div>
-        <div class="field">
-          <label>Date (तारीख)</label>
-          <input type="date" id="s2_date" oninput="renderAll()">
-        </div>
-        <div class="field">
-          <label>Payment Mode</label>
-          <select id="s2_mode" onchange="renderAll()">
-            <option value="CASH (नकद)">CASH (नकद)</option>
-            <option value="UPI / Online">UPI / Online</option>
-            <option value="Bank Transfer / NEFT">Bank Transfer / NEFT</option>
-            <option value="Cheque (चेक)">Cheque (चेक)</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label id="lbl_s2_party">Client / Party Name</label>
-          <input type="text" id="s2_party" placeholder="Party 2 ka naam..." oninput="renderAll()">
-        </div>
-        <div class="field">
-          <label>Contact / Address</label>
-          <input type="text" id="s2_party_info" placeholder="Location..." oninput="renderAll()">
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Total Amount (₹)</label>
-          <input type="number" id="s2_amt" placeholder="eg. 5000" oninput="handleAmountChange(2)">
-        </div>
-        <div class="field">
-          <label>Amount in Words (Auto)</label>
-          <input type="text" id="s2_words" placeholder="Number likhte hi auto aayega..." oninput="renderAll()">
-        </div>
-      </div>
-      <div class="field">
-        <label id="lbl_s2_purpose">Kis Kaam Ke Liye (Purpose)</label>
-        <input type="text" id="s2_purpose" placeholder="eg. Bill settlement / Material / Labour charges" oninput="renderAll()">
-      </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 Portrait PDF</button>
-      <button type="button" class="btn btn-print" onclick="printA4Portrait()">🖨️ Direct Print (A4 Portrait)</button>
-    </div>
-
-  </div>
-
-  <!-- ================= PREVIEW AREA ================= -->
-  <div class="preview-container">
-    <div id="a4PrintPage">
-      
-      <!-- SLIP 1 BOX -->
-      <div class="slip-box" id="paper_slip_1">
-        <div class="slip-header">
-          <div class="slip-org">
-            <h2 class="view_biz_name">BUSINESS / FIRM NAME</h2>
-            <p class="view_biz_info">Address, City & Contact Details</p>
+        <hr class="divider">
+        <section class="section">
+          <h4 class="section-title"><span class="step">02</span> Business / shop details</h4>
+          <div class="grid g2">
+            <div class="field"><label>BUSINESS / SHOP NAME</label><input id="in_biz_name" type="text" placeholder="जैसे: Shree Enterprises"></div>
+            <div class="field"><label>ADDRESS / CONTACT</label><input id="in_biz_info" type="text" placeholder="Address, City | Mobile"></div>
           </div>
-          <div class="slip-badge view_voucher_badge">MONEY RECEIPT (भुगतान रसीद)</div>
-        </div>
+        </section>
 
-        <table class="slip-table">
-          <tr>
-            <td class="lbl">Receipt / Slip No:</td>
-            <td class="val" id="out_s1_no">-</td>
-            <td class="lbl">Date (तारीख):</td>
-            <td class="val" id="out_s1_date">-</td>
-          </tr>
-          <tr>
-            <td class="lbl out_party_lbl">Received From:</td>
-            <td class="val" id="out_s1_party" colspan="3">-</td>
-          </tr>
-          <tr>
-            <td class="lbl">Contact / Address:</td>
-            <td class="val" id="out_s1_info" colspan="3">-</td>
-          </tr>
-          <tr>
-            <td class="lbl">Payment Mode:</td>
-            <td class="val" id="out_s1_mode">-</td>
-            <td class="lbl">Against Work / Bill:</td>
-            <td class="val" id="out_s1_purpose">-</td>
-          </tr>
-        </table>
-
-        <div class="amount-highlight">
-          <span class="amt-text out_amt_tag">TOTAL RECEIVED AMOUNT (प्राप्त राशि):</span>
-          <span class="amt-number" id="out_s1_amt">₹0.00</span>
-        </div>
-
-        <div class="words-row">
-          <b>In Words (शब्दों में):</b> <span id="out_s1_words">Zero Rupees Only</span>
-        </div>
-
-        <div class="signature-row">
-          <div class="sig-box out_sig_left">Party / Payee Signature</div>
-          <div class="sig-box out_sig_right">Authorized Signature & Seal</div>
-        </div>
-      </div>
-
-      <!-- CUTTING DIVIDER -->
-      <div class="cut-divider" id="cutDividerBox" style="display: none;">
-        <span class="cut-tag">✂️ CUT HERE (यहाँ से काटें)</span>
-      </div>
-
-      <!-- SLIP 2 BOX -->
-      <div class="slip-box" id="paper_slip_2" style="display: none;">
-        <div class="slip-header">
-          <div class="slip-org">
-            <h2 class="view_biz_name">BUSINESS / FIRM NAME</h2>
-            <p class="view_biz_info">Address, City & Contact Details</p>
+        <hr class="divider">
+        <section class="section">
+          <h4 class="section-title"><span class="step">03</span> Slip 1 details</h4>
+          <div class="grid g3">
+            <div class="field"><label>SLIP NUMBER</label><input id="s1_no" type="text"></div>
+            <div class="field"><label>DATE</label><input id="s1_date" type="date"></div>
+            <div class="field"><label>PAYMENT MODE</label><select id="s1_mode"><option>CASH (नकद)</option><option>UPI / Online</option><option>Bank Transfer / NEFT</option><option>Cheque (चेक)</option></select></div>
           </div>
-          <div class="slip-badge view_voucher_badge">MONEY RECEIPT (भुगतान रसीद)</div>
-        </div>
+          <div class="grid g2" style="margin-top:12px">
+            <div class="field"><label id="lbl_s1_party">CLIENT / PARTY NAME</label><input id="s1_party" type="text" placeholder="Party का नाम"></div>
+            <div class="field"><label>CONTACT / ADDRESS (OPTIONAL)</label><input id="s1_party_info" type="text" placeholder="Location या phone"></div>
+          </div>
+          <div class="grid g2" style="margin-top:12px">
+            <div class="field"><label>AMOUNT (₹)</label><input id="s1_amt" type="number" min="0" step="0.01" placeholder="जैसे: 5000"></div>
+            <div class="field"><label>AMOUNT IN WORDS (AUTO)</label><input id="s1_words" type="text" placeholder="Automatic amount in words"></div>
+          </div>
+          <div class="field" style="margin-top:12px"><label id="lbl_s1_purpose">PURPOSE / BILL REFERENCE</label><input id="s1_purpose" type="text" placeholder="Material supply / Service charges / Advance"></div>
+        </section>
 
-        <table class="slip-table">
-          <tr>
-            <td class="lbl">Receipt / Slip No:</td>
-            <td class="val" id="out_s2_no">-</td>
-            <td class="lbl">Date (तारीख):</td>
-            <td class="val" id="out_s2_date">-</td>
-          </tr>
-          <tr>
-            <td class="lbl out_party_lbl">Received From:</td>
-            <td class="val" id="out_s2_party" colspan="3">-</td>
-          </tr>
-          <tr>
-            <td class="lbl">Contact / Address:</td>
-            <td class="val" id="out_s2_info" colspan="3">-</td>
-          </tr>
-          <tr>
-            <td class="lbl">Payment Mode:</td>
-            <td class="val" id="out_s2_mode">-</td>
-            <td class="lbl">Against Work / Bill:</td>
-            <td class="val" id="out_s2_purpose">-</td>
-          </tr>
-        </table>
+        <section id="slip2ControlBlock" class="section hidden">
+          <hr class="divider">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px">
+            <h4 class="section-title" style="margin:0"><span class="step">04</span> Slip 2 details</h4>
+            <button class="secondary-btn" type="button" onclick="copySlip1ToSlip2()">↳ Copy Slip 1 Data</button>
+          </div>
+          <div class="grid g3">
+            <div class="field"><label>SLIP NUMBER</label><input id="s2_no" type="text"></div>
+            <div class="field"><label>DATE</label><input id="s2_date" type="date"></div>
+            <div class="field"><label>PAYMENT MODE</label><select id="s2_mode"><option>CASH (नकद)</option><option>UPI / Online</option><option>Bank Transfer / NEFT</option><option>Cheque (चेक)</option></select></div>
+          </div>
+          <div class="grid g2" style="margin-top:12px">
+            <div class="field"><label id="lbl_s2_party">CLIENT / PARTY NAME</label><input id="s2_party" type="text" placeholder="Party का नाम"></div>
+            <div class="field"><label>CONTACT / ADDRESS</label><input id="s2_party_info" type="text" placeholder="Location या phone"></div>
+          </div>
+          <div class="grid g2" style="margin-top:12px">
+            <div class="field"><label>AMOUNT (₹)</label><input id="s2_amt" type="number" min="0" step="0.01" placeholder="जैसे: 5000"></div>
+            <div class="field"><label>AMOUNT IN WORDS (AUTO)</label><input id="s2_words" type="text" placeholder="Automatic amount in words"></div>
+          </div>
+          <div class="field" style="margin-top:12px"><label id="lbl_s2_purpose">PURPOSE / BILL REFERENCE</label><input id="s2_purpose" type="text" placeholder="Bill settlement / Material / Labour charges"></div>
+        </section>
 
-        <div class="amount-highlight">
-          <span class="amt-text out_amt_tag">TOTAL RECEIVED AMOUNT (प्राप्त राशि):</span>
-          <span class="amt-number" id="out_s2_amt">₹0.00</span>
-        </div>
-
-        <div class="words-row">
-          <b>In Words (शब्दों में):</b> <span id="out_s2_words">Zero Rupees Only</span>
-        </div>
-
-        <div class="signature-row">
-          <div class="sig-box out_sig_left">Party / Payee Signature</div>
-          <div class="sig-box out_sig_right">Authorized Signature & Seal</div>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" onclick="downloadA4PDF()">↓ Download A4 PDF</button>
+          <button type="button" class="btn btn-dark" onclick="printA4Portrait()">▣ Print A4</button>
+          <button type="button" class="btn btn-light" onclick="resetForm()">Reset</button>
         </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-
+    <section class="panel preview-panel">
+      <div class="panel-head"><div class="preview-head"><div><h3>Live Preview</h3><p>Print-ready A4 portrait document</p></div></div><span class="live">LIVE</span></div>
+      <div class="preview-wrap">
+        <div id="a4PrintPage">
+          <div class="slip-box" id="paper_slip_1">
+            <div class="slip-header"><div class="slip-org"><h2 class="view_biz_name">BUSINESS / FIRM NAME</h2><p class="view_biz_info">Address, City & Contact Details</p></div><div class="slip-badge view_voucher_badge">MONEY RECEIPT (भुगतान रसीद)</div></div>
+            <table class="slip-table">
+              <tr><td class="lbl">Receipt / Slip No:</td><td class="val" id="out_s1_no">-</td><td class="lbl">Date (तारीख):</td><td class="val" id="out_s1_date">-</td></tr>
+              <tr><td class="lbl out_party_lbl">Received From:</td><td class="val" id="out_s1_party" colspan="3">-</td></tr>
+              <tr><td class="lbl">Contact / Address:</td><td class="val" id="out_s1_info" colspan="3">-</td></tr>
+              <tr><td class="lbl">Payment Mode:</td><td class="val" id="out_s1_mode">-</td><td class="lbl">Against Work / Bill:</td><td class="val" id="out_s1_purpose">-</td></tr>
+            </table>
+            <div class="amount-highlight"><span class="amt-text out_amt_tag">TOTAL RECEIVED AMOUNT (प्राप्त राशि):</span><span class="amt-number" id="out_s1_amt">₹0.00</span></div>
+            <div class="words-row"><b>In Words (शब्दों में):</b> <span id="out_s1_words">Zero Rupees Only</span></div>
+            <div class="signature-row"><div class="sig-box out_sig_left">Party / Payee Signature</div><div class="sig-box out_sig_right">Authorized Signature & Seal</div></div>
+          </div>
+          <div class="cut-divider hidden" id="cutDividerBox"><span class="cut-tag">✂ CUT HERE · यहाँ से काटें</span></div>
+          <div class="slip-box hidden" id="paper_slip_2">
+            <div class="slip-header"><div class="slip-org"><h2 class="view_biz_name">BUSINESS / FIRM NAME</h2><p class="view_biz_info">Address, City & Contact Details</p></div><div class="slip-badge view_voucher_badge">MONEY RECEIPT (भुगतान रसीद)</div></div>
+            <table class="slip-table">
+              <tr><td class="lbl">Receipt / Slip No:</td><td class="val" id="out_s2_no">-</td><td class="lbl">Date (तारीख):</td><td class="val" id="out_s2_date">-</td></tr>
+              <tr><td class="lbl out_party_lbl">Received From:</td><td class="val" id="out_s2_party" colspan="3">-</td></tr>
+              <tr><td class="lbl">Contact / Address:</td><td class="val" id="out_s2_info" colspan="3">-</td></tr>
+              <tr><td class="lbl">Payment Mode:</td><td class="val" id="out_s2_mode">-</td><td class="lbl">Against Work / Bill:</td><td class="val" id="out_s2_purpose">-</td></tr>
+            </table>
+            <div class="amount-highlight"><span class="amt-text out_amt_tag">TOTAL RECEIVED AMOUNT (प्राप्त राशि):</span><span class="amt-number" id="out_s2_amt">₹0.00</span></div>
+            <div class="words-row"><b>In Words (शब्दों में):</b> <span id="out_s2_words">Zero Rupees Only</span></div>
+            <div class="signature-row"><div class="sig-box out_sig_left">Party / Payee Signature</div><div class="sig-box out_sig_right">Authorized Signature & Seal</div></div>
+          </div>
+          <div class="footer-note">Generated with KaamKaj Bills</div>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-  let slipCount = 1;
-  let voucherMode = 'RECEIPT';
+'use strict';
+let slipCount = 1;
+let voucherMode = 'RECEIPT';
+const $ = id => document.getElementById(id);
+const todayISO = () => { const d=new Date(); const local=new Date(d.getTime()-d.getTimezoneOffset()*60000); return local.toISOString().slice(0,10); };
 
-  function numberToWordsINR(amount) {
-    const num = Math.floor(Math.abs(Number(amount)));
-    if (isNaN(num) || num === 0) return 'Zero Rupees Only';
-
-    const single = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
-    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
-    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
-
-    function convertTwoDigits(n) {
-      if (n === 0) return '';
-      if (n < 10) return single[n];
-      if (n < 20) return teens[n - 10];
-      return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + single[n % 10] : '');
-    }
-
-    function convertThreeDigits(n) {
-      const hundred = Math.floor(n / 100);
-      const rest = n % 100;
-      let res = '';
-      if (hundred > 0) res += single[hundred] + ' Hundred';
-      if (rest > 0) {
-        if (res !== '') res += ' ';
-        res += convertTwoDigits(rest);
-      }
-      return res;
-    }
-
-    let words = '';
-    const crore = Math.floor(num / 10000000);
-    const lakh = Math.floor((num % 10000000) / 100000);
-    const thousand = Math.floor((num % 100000) / 1000);
-    const remainder = num % 1000;
-
-    if (crore > 0) words += convertTwoDigits(crore) + ' Crore ';
-    if (lakh > 0) words += convertTwoDigits(lakh) + ' Lakh ';
-    if (thousand > 0) words += convertTwoDigits(thousand) + ' Thousand ';
-    if (remainder > 0) words += convertThreeDigits(remainder);
-
-    return words.trim() + ' Rupees Only';
-  }
-
-  function generateSlipNumber(offset = 0) {
-    const prefix = voucherMode === 'RECEIPT' ? 'REC' : 'VOUCH';
-    const num = Math.floor(100000 + Math.random() * 899990) + offset;
-    return `${prefix}-${num}`;
-  }
-
-  function setPageMode(count) {
-    slipCount = count;
-    document.getElementById('btnPageOne').classList.toggle('active', count === 1);
-    document.getElementById('btnPageTwo').classList.toggle('active', count === 2);
-    
-    document.getElementById('slip2ControlBlock').style.display = count === 2 ? 'block' : 'none';
-    document.getElementById('cutDividerBox').style.display = count === 2 ? 'flex' : 'none';
-    document.getElementById('paper_slip_2').style.display = count === 2 ? 'block' : 'none';
-
-    renderAll();
-  }
-
-  function setVoucherType(mode) {
-    voucherMode = mode;
-    document.getElementById('btnModeReceipt').classList.toggle('active', mode === 'RECEIPT');
-    document.getElementById('btnModeVoucher').classList.toggle('active', mode === 'VOUCHER');
-
-    const isRec = mode === 'RECEIPT';
-    document.getElementById('lbl_s1_party').innerText = isRec ? "Client / Party Name (किससे पैसा मिला)" : "Paid To (किसको भुगतान किया)";
-    document.getElementById('lbl_s1_purpose').innerText = isRec ? "Kis Kaam Ka Payment Hai (Purpose / Bill Reference)" : "Bhugtan Ka Karan (Payment Purpose)";
-    
-    document.getElementById('lbl_s2_party').innerText = isRec ? "Client / Party Name (Slip 2)" : "Paid To (Slip 2)";
-    document.getElementById('lbl_s2_purpose').innerText = isRec ? "Kis Kaam Ka Payment Hai (Slip 2)" : "Bhugtan Ka Karan (Slip 2)";
-
-    document.getElementById('s1_no').value = generateSlipNumber(0);
-    document.getElementById('s2_no').value = generateSlipNumber(1);
-
-    renderAll();
-  }
-
-  function handleAmountChange(slipIndex) {
-    const amt = document.getElementById(`s${slipIndex}_amt`).value;
-    if (amt && !isNaN(amt) && Number(amt) > 0) {
-      document.getElementById(`s${slipIndex}_words`).value = numberToWordsINR(amt);
-    } else {
-      document.getElementById(`s${slipIndex}_words`).value = '';
-    }
-    renderAll();
-  }
-
-  function copySlip1ToSlip2() {
-    document.getElementById('s2_date').value = document.getElementById('s1_date').value;
-    document.getElementById('s2_mode').value = document.getElementById('s1_mode').value;
-    document.getElementById('s2_party').value = document.getElementById('s1_party').value;
-    document.getElementById('s2_party_info').value = document.getElementById('s1_party_info').value;
-    document.getElementById('s2_amt').value = document.getElementById('s1_amt').value;
-    document.getElementById('s2_words').value = document.getElementById('s1_words').value;
-    document.getElementById('s2_purpose').value = document.getElementById('s1_purpose').value;
-    renderAll();
-  }
-
-  function renderAll() {
-    const bizName = document.getElementById('in_biz_name').value.trim() || 'BUSINESS / FIRM NAME';
-    const bizInfo = document.getElementById('in_biz_info').value.trim() || 'Address, City & Contact Details';
-
-    document.querySelectorAll('.view_biz_name').forEach(el => el.innerText = bizName);
-    document.querySelectorAll('.view_biz_info').forEach(el => el.innerText = bizInfo);
-
-    const isRec = voucherMode === 'RECEIPT';
-    const badgeText = isRec ? "MONEY RECEIPT (भुगतान रसीद)" : "PAYMENT VOUCHER (भुगतान पर्ची)";
-    const partyLblText = isRec ? "Received From (ग्राहक का नाम):" : "Paid To (भुगतान पाने वाले का नाम):";
-    const amtTagText = isRec ? "TOTAL RECEIVED AMOUNT (प्राप्त राशि):" : "AMOUNT PAID (भुगतान की गई राशि):";
-    const sigLeftText = isRec ? "Client / Payer Signature" : "Receiver Signature (हस्ताक्षर)";
-    const sigRightText = isRec ? "Receiver's Signature & Seal" : "Authorized By / Manager";
-
-    document.querySelectorAll('.view_voucher_badge').forEach(el => el.innerText = badgeText);
-    document.querySelectorAll('.out_party_lbl').forEach(el => el.innerText = partyLblText);
-    document.querySelectorAll('.out_amt_tag').forEach(el => el.innerText = amtTagText);
-    document.querySelectorAll('.out_sig_left').forEach(el => el.innerText = sigLeftText);
-    document.querySelectorAll('.out_sig_right').forEach(el => el.innerText = sigRightText);
-
-    // Slip 1
-    document.getElementById('out_s1_no').innerText = document.getElementById('s1_no').value.trim() || '-';
-    document.getElementById('out_s1_date').innerText = document.getElementById('s1_date').value || '-';
-    document.getElementById('out_s1_mode').innerText = document.getElementById('s1_mode').value;
-    document.getElementById('out_s1_party').innerText = document.getElementById('s1_party').value.trim() || '-';
-    document.getElementById('out_s1_info').innerText = document.getElementById('s1_party_info').value.trim() || '-';
-    const amt1 = parseFloat(document.getElementById('s1_amt').value) || 0;
-    document.getElementById('out_s1_amt').innerText = '₹' + amt1.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('out_s1_words').innerText = document.getElementById('s1_words').value.trim() || (amt1 > 0 ? numberToWordsINR(amt1) : '-');
-    document.getElementById('out_s1_purpose').innerText = document.getElementById('s1_purpose').value.trim() || '-';
-
-    // Slip 2
-    if (slipCount === 2) {
-      document.getElementById('out_s2_no').innerText = document.getElementById('s2_no').value.trim() || '-';
-      document.getElementById('out_s2_date').innerText = document.getElementById('s2_date').value || '-';
-      document.getElementById('out_s2_mode').innerText = document.getElementById('s2_mode').value;
-      document.getElementById('out_s2_party').innerText = document.getElementById('s2_party').value.trim() || '-';
-      document.getElementById('out_s2_info').innerText = document.getElementById('s2_party_info').value.trim() || '-';
-      const amt2 = parseFloat(document.getElementById('s2_amt').value) || 0;
-      document.getElementById('out_s2_amt').innerText = '₹' + amt2.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      document.getElementById('out_s2_words').innerText = document.getElementById('s2_words').value.trim() || (amt2 > 0 ? numberToWordsINR(amt2) : '-');
-      document.getElementById('out_s2_purpose').innerText = document.getElementById('s2_purpose').value.trim() || '-';
-    }
-  }
-
-  function downloadA4PDF() {
-    const original = document.getElementById('a4PrintPage');
-    const sNo = document.getElementById('s1_no').value.trim() || 'A4_Slip';
-
-    const clone = original.cloneNode(true);
-    clone.style.width = '700px';
-    clone.style.margin = '0 auto';
-    clone.style.padding = '16px';
-    clone.style.background = '#ffffff';
-    clone.style.boxSizing = 'border-box';
-    clone.style.border = 'none';
-    clone.style.boxShadow = 'none';
-
-    const wrap = document.createElement('div');
-    wrap.style.position = 'fixed';
-    wrap.style.top = '0';
-    wrap.style.left = '0';
-    wrap.style.width = '740px';
-    wrap.style.zIndex = '999999';
-    wrap.style.background = '#ffffff';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-
-    const opt = {
-      margin: [8, 8, 8, 8],
-      filename: `${voucherMode}_${sNo}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        scrollX: 0,
-        scrollY: 0,
-        x: 0,
-        y: 0,
-        width: 740,
-        windowWidth: 740
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf().set(opt).from(clone).save().then(() => {
-      document.body.removeChild(wrap);
-    }).catch(() => {
-      if (document.body.contains(wrap)) document.body.removeChild(wrap);
-    });
-  }
-
-  function printA4Portrait() {
-    const content = document.getElementById('a4PrintPage').innerHTML;
-    const printWindow = window.open('', '_blank', 'width=850,height=900');
-    
-    printWindow.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Print A4 Slip</title>
-        <style>
-          * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-          body { background: #ffffff; margin: 0; padding: 6mm 10mm; color: #1e293b; }
-          .slip-box { border: 1.5px solid #0f172a; border-radius: 8px; padding: 14px 18px; background: #ffffff; margin-bottom: 8px; }
-          .slip-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 8px; margin-bottom: 10px; }
-          .slip-org h2 { margin: 0; font-size: 17px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-          .slip-org p { margin: 2px 0 0 0; font-size: 11px; color: #475569; }
-          .slip-badge { background: #0f172a; color: #ffffff; padding: 4px 10px; font-size: 11px; font-weight: 800; border-radius: 4px; text-transform: uppercase; }
-          .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11.5px; }
-          .slip-table td { padding: 4px 4px; vertical-align: top; }
-          .slip-table td.lbl { font-weight: 700; color: #334155; width: 23%; }
-          .slip-table td.val { border-bottom: 1px dotted #94a3b8; color: #0f172a; font-weight: 600; }
-          .amount-highlight { background: #f0fdf4; border: 1.2px solid #86efac; padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin: 8px 0; }
-          .amt-text { font-size: 11px; font-weight: 700; color: #166534; }
-          .amt-number { font-size: 17px; font-weight: 800; color: #166534; }
-          .words-row { font-size: 11.5px; color: #334155; margin-bottom: 14px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
-          .signature-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px; font-size: 11px; }
-          .sig-box { width: 38%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-          .cut-divider { display: flex; align-items: center; justify-content: center; position: relative; margin: 18px 0; border-top: 2px dashed #94a3b8; }
-          .cut-tag { position: absolute; top: -11px; background: #ffffff; padding: 0 10px; font-size: 11px; font-weight: 700; color: #64748b; }
-          @page { size: A4 portrait; margin: 6mm; }
-        </style>
-      </head>
-      <body>
-        <div>${content}</div>
-      </body>
-      </html>
-    `);
-
-    printWindow.document.close();
-    printWindow.focus();
-    
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 400);
-  }
-
-  window.onload = function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('s1_date').value = today;
-    document.getElementById('s2_date').value = today;
-    document.getElementById('s1_no').value = generateSlipNumber(0);
-    document.getElementById('s2_no').value = generateSlipNumber(1);
-    renderAll();
+function numberToWordsINR(value){
+  const amount=Math.floor(Math.abs(Number(value)||0));
+  if(!Number.isSafeInteger(amount)) return 'Amount too large';
+  if(amount===0) return 'Zero Rupees Only';
+  const one=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine'];
+  const teen=['Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const ten=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  const two=n=>n<10?one[n]:n<20?teen[n-10]:ten[Math.floor(n/10)]+(n%10?' '+one[n%10]:'');
+  const three=n=>(n>=100?one[Math.floor(n/100)]+' Hundred'+(n%100?' ':''):'')+(n%100?two(n%100):'');
+  let n=amount, parts=[];
+  const crore=Math.floor(n/10000000); n%=10000000;
+  const lakh=Math.floor(n/100000); n%=100000;
+  const thousand=Math.floor(n/1000); n%=1000;
+  if(crore) parts.push(two(crore)+' Crore');
+  if(lakh) parts.push(two(lakh)+' Lakh');
+  if(thousand) parts.push(two(thousand)+' Thousand');
+  if(n) parts.push(three(n));
+  return parts.join(' ')+' Rupees Only';
+}
+function generateSlipNumber(offset=0){
+  const prefix=voucherMode==='RECEIPT'?'REC':'VOUCH';
+  const date=todayISO().replaceAll('-','');
+  const key=`kk_${prefix}_${date}`;
+  let seq=Number(localStorage.getItem(key)||0)+1+offset;
+  localStorage.setItem(key,String(seq));
+  return `${prefix}-${date}-${String(seq).padStart(3,'0')}`;
+}
+function setPageMode(count){
+  slipCount=count;
+  $('btnPageOne').classList.toggle('active',count===1);
+  $('btnPageTwo').classList.toggle('active',count===2);
+  $('slip2ControlBlock').classList.toggle('hidden',count!==2);
+  $('cutDividerBox').classList.toggle('hidden',count!==2);
+  $('paper_slip_2').classList.toggle('hidden',count!==2);
+  renderAll();
+}
+function setVoucherType(mode){
+  voucherMode=mode;
+  $('btnModeReceipt').classList.toggle('active',mode==='RECEIPT');
+  $('btnModeVoucher').classList.toggle('active',mode==='VOUCHER');
+  const receipt=mode==='RECEIPT';
+  $('lbl_s1_party').textContent=receipt?'CLIENT / PARTY NAME · किससे पैसा मिला':'PAID TO · किसको भुगतान किया';
+  $('lbl_s2_party').textContent=receipt?'CLIENT / PARTY NAME · Slip 2':'PAID TO · Slip 2';
+  $('lbl_s1_purpose').textContent=receipt?'PURPOSE / BILL REFERENCE':'PAYMENT PURPOSE · भुगतान का कारण';
+  $('lbl_s2_purpose').textContent=receipt?'PURPOSE / BILL REFERENCE · Slip 2':'PAYMENT PURPOSE · Slip 2';
+  $('s1_no').value=generateSlipNumber();
+  $('s2_no').value=generateSlipNumber();
+  renderAll();
+}
+function handleAmountChange(index){
+  const input=$(`s${index}_amt`);
+  const amount=Number(input.value);
+  $(`s${index}_words`).value=input.value!==''&&Number.isFinite(amount)&&amount>=0?numberToWordsINR(amount):'';
+  renderAll();
+}
+function copySlip1ToSlip2(){
+  ['date','mode','party','party_info','amt','words','purpose'].forEach(k=>$(`s2_${k}`).value=$(`s1_${k}`).value);
+  renderAll(); showToast('Slip 1 details copied to Slip 2');
+}
+function setText(id,value){$(id).textContent=value??'-';}
+function formatINR(value){
+  const amount=Number(value)||0;
+  return '₹'+amount.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function renderSlip(i){
+  const amount=Number($(`s${i}_amt`).value)||0;
+  setText(`out_s${i}_no`,$(`s${i}_no`).value.trim()||'-');
+  setText(`out_s${i}_date`,$(`s${i}_date`).value||'-');
+  setText(`out_s${i}_mode`,$(`s${i}_mode`).value);
+  setText(`out_s${i}_party`,$(`s${i}_party`).value.trim()||'-');
+  setText(`out_s${i}_info`,$(`s${i}_party_info`).value.trim()||'-');
+  setText(`out_s${i}_amt`,formatINR(amount));
+  setText(`out_s${i}_words`,$(`s${i}_words`).value.trim()||(amount>0?numberToWordsINR(amount):'-'));
+  setText(`out_s${i}_purpose`,$(`s${i}_purpose`).value.trim()||'-');
+}
+function renderAll(){
+  const bizName=$('in_biz_name').value.trim()||'BUSINESS / FIRM NAME';
+  const bizInfo=$('in_biz_info').value.trim()||'Address, City & Contact Details';
+  document.querySelectorAll('.view_biz_name').forEach(el=>el.textContent=bizName);
+  document.querySelectorAll('.view_biz_info').forEach(el=>el.textContent=bizInfo);
+  const receipt=voucherMode==='RECEIPT';
+  const labels={
+    badge:receipt?'MONEY RECEIPT (भुगतान रसीद)':'PAYMENT VOUCHER (भुगतान पर्ची)',
+    party:receipt?'Received From (ग्राहक का नाम):':'Paid To (भुगतान पाने वाले का नाम):',
+    amount:receipt?'TOTAL RECEIVED AMOUNT (प्राप्त राशि):':'AMOUNT PAID (भुगतान की गई राशि):',
+    left:receipt?'Client / Payer Signature':'Receiver Signature (हस्ताक्षर)',
+    right:receipt?"Receiver's Signature & Seal":'Authorized By / Manager'
   };
+  document.querySelectorAll('.view_voucher_badge').forEach(el=>el.textContent=labels.badge);
+  document.querySelectorAll('.out_party_lbl').forEach(el=>el.textContent=labels.party);
+  document.querySelectorAll('.out_amt_tag').forEach(el=>el.textContent=labels.amount);
+  document.querySelectorAll('.out_sig_left').forEach(el=>el.textContent=labels.left);
+  document.querySelectorAll('.out_sig_right').forEach(el=>el.textContent=labels.right);
+  renderSlip(1); if(slipCount===2) renderSlip(2);
+}
+function showToast(message){
+  const toast=$('toast');toast.textContent=message;toast.classList.add('show');
+  clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove('show'),2600);
+}
+async function downloadA4PDF(){
+  if(typeof html2pdf==='undefined'){showToast('PDF library load नहीं हुई। Internet connection जाँचें।');return;}
+  renderAll();
+  const page=$('a4PrintPage');
+  const slipNo=$('s1_no').value.trim()||'A4_Slip';
+  const filename=`${voucherMode}_${slipNo.replace(/[^a-z0-9_-]/gi,'_')}.pdf`;
+  const options={margin:[7,7,7,7],filename,image:{type:'jpeg',quality:.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff',scrollX:0,scrollY:0},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},pagebreak:{mode:['css','legacy']}};
+  try{
+    showToast('PDF तैयार हो रहा है…');
+    await html2pdf().set(options).from(page).save();
+    showToast('PDF डाउनलोड हो गया');
+  }catch(error){console.error(error);showToast('PDF नहीं बन पाया। दोबारा प्रयास करें।');}
+}
+function printA4Portrait(){
+  renderAll();
+  const page=$('a4PrintPage');
+  const win=window.open('','_blank','width=900,height=1000');
+  if(!win){showToast('Print window blocked. Browser में pop-ups allow करें।');return;}
+  const styles=[...document.querySelectorAll('style')].map(s=>s.innerHTML).join('\n');
+  win.document.open();
+  win.document.write(`<!DOCTYPE html><html lang="hi"><head><meta charset="UTF-8"><title>Payment ${voucherMode}</title><style>${styles}
+  body{margin:0;background:#fff}.app{display:block;padding:0}.preview-wrap{padding:0;background:#fff;overflow:visible}#a4PrintPage{width:100%;padding:0;box-shadow:none;margin:0}.footer-note{display:none}
+  @page{size:A4 portrait;margin:7mm}
+  </style></head><body><div class="preview-wrap">${page.outerHTML}</div></body></html>`);
+  win.document.close();
+  win.onload=()=>{win.focus();setTimeout(()=>{win.print();win.close();},350);};
+}
+function resetForm(){
+  if(!confirm('सभी भरी हुई जानकारी साफ़ करें?')) return;
+  ['in_biz_name','in_biz_info','s1_party','s1_party_info','s1_amt','s1_words','s1_purpose','s2_party','s2_party_info','s2_amt','s2_words','s2_purpose'].forEach(id=>$(id).value='');
+  $('s1_date').value=todayISO();$('s2_date').value=todayISO();
+  $('s1_mode').selectedIndex=0;$('s2_mode').selectedIndex=0;
+  $('s1_no').value=generateSlipNumber();$('s2_no').value=generateSlipNumber();
+  setPageMode(1);setVoucherType('RECEIPT');renderAll();showToast('Form reset हो गया');
+}
+function init(){
+  $('s1_date').value=todayISO();$('s2_date').value=todayISO();
+  $('s1_no').value=generateSlipNumber();$('s2_no').value=generateSlipNumber();
+  document.querySelectorAll('input,select').forEach(el=>{
+    el.addEventListener('input',()=>{if(el.id==='s1_amt')return;renderAll();});
+    el.addEventListener('change',renderAll);
+  });
+  $('s1_amt').addEventListener('input',()=>handleAmountChange(1));
+  $('s2_amt').addEventListener('input',()=>handleAmountChange(2));
+  renderAll();
+}
+init();
 </script>
-
 </body>
 </html>
