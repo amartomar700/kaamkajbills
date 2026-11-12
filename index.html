@@ -14,7 +14,6 @@
     --card: #ffffff;
     --line: #e2e8f0;
     --gold: #f59e0b;
-    --gold-bg: #fef3c7;
     --green: #16a34a;
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
   }
@@ -29,7 +28,7 @@
     overflow-x: hidden !important;
   }
 
-  /* ================= TOP NAVBAR ================= */
+  /* NAVBAR */
   .navbar {
     background: var(--ink);
     color: #ffffff;
@@ -49,11 +48,7 @@
     flex-wrap: wrap;
     gap: 10px;
   }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .brand { display: flex; align-items: center; gap: 10px; }
   .brand-logo {
     width: 38px;
     height: 38px;
@@ -66,14 +61,10 @@
     font-size: 20px;
     font-weight: 900;
   }
-  .brand-text h1 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: 0.3px; }
+  .brand-text h1 { margin: 0; font-size: 19px; font-weight: 800; }
   .brand-text span { font-size: 11px; color: #cbd5e1; display: block; }
 
-  .nav-links {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
+  .nav-links { display: flex; gap: 10px; align-items: center; }
   .nav-btn {
     background: rgba(255,255,255,0.1);
     color: #ffffff;
@@ -84,17 +75,15 @@
     font-weight: 700;
     cursor: pointer;
     text-decoration: none;
-    transition: 0.2s;
   }
   .nav-btn:hover { background: var(--primary); border-color: var(--primary); }
   .nav-btn-gold { background: var(--gold); color: var(--ink); border: none; }
-  .nav-btn-gold:hover { background: #fbbf24; }
 
-  /* ================= HERO & SEARCH SECTION ================= */
+  /* HERO */
   .hero {
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     color: #ffffff;
-    padding: 36px 16px 42px 16px;
+    padding: 32px 16px 38px 16px;
     text-align: center;
   }
   .hero-inner { max-width: 760px; margin: 0 auto; }
@@ -107,45 +96,26 @@
     font-weight: 700;
     padding: 4px 12px;
     border-radius: 50px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  .hero h2 { margin: 0 0 10px 0; font-size: 26px; font-weight: 800; line-height: 1.3; }
-  .hero p { margin: 0 0 22px 0; font-size: 14px; color: #e2e8f0; line-height: 1.5; }
+  .hero h2 { margin: 0 0 8px 0; font-size: 24px; font-weight: 800; }
+  .hero p { margin: 0 0 20px 0; font-size: 13.5px; color: #e2e8f0; }
 
-  .search-box {
-    max-width: 560px;
-    margin: 0 auto;
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
+  .search-box { max-width: 560px; margin: 0 auto; position: relative; display: flex; align-items: center; }
   .search-box input {
     width: 100%;
-    padding: 13px 16px 13px 42px;
+    padding: 12px 16px 12px 42px;
     border-radius: 10px;
     border: 2px solid transparent;
     font-size: 14px;
     outline: none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   }
   .search-box input:focus { border-color: var(--gold); }
-  .search-icon {
-    position: absolute;
-    left: 14px;
-    font-size: 18px;
-    color: #64748b;
-  }
+  .search-icon { position: absolute; left: 14px; font-size: 18px; color: #64748b; }
 
-  /* ================= CATEGORY TABS ================= */
+  /* CATEGORY TABS */
   .container { max-width: 1140px; margin: 0 auto; padding: 20px 14px 60px 14px; }
-  .cat-bar {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-    scrollbar-width: none;
-  }
+  .cat-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 18px; scrollbar-width: none; }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-pill {
     background: #ffffff;
@@ -157,22 +127,11 @@
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
-    transition: all 0.2s;
   }
-  .cat-pill:hover { border-color: var(--primary); color: var(--primary); }
-  .cat-pill.active {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25);
-  }
+  .cat-pill.active { background: var(--primary); border-color: var(--primary); color: #ffffff; }
 
-  /* ================= TOOLS GRID ================= */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-    gap: 16px;
-  }
+  /* TOOLS GRID */
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
   .tool-card {
     background: var(--card);
     border: 1.5px solid var(--line);
@@ -181,14 +140,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    transition: 0.2s;
   }
-  .tool-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--primary);
-    box-shadow: 0 10px 22px rgba(2, 132, 199, 0.1);
-  }
+  .tool-card:hover { transform: translateY(-3px); border-color: var(--primary); }
   .tool-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
   .tool-icon {
     width: 44px;
@@ -202,25 +157,11 @@
     font-size: 22px;
     flex-shrink: 0;
   }
-  .tool-title-wrap h3 { margin: 0; font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+  .tool-title-wrap h3 { margin: 0; font-size: 15px; font-weight: 800; color: var(--ink); }
   .tool-title-wrap small { display: block; font-size: 11.5px; font-weight: 700; color: var(--primary); margin-top: 2px; }
   .tool-desc { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; margin: 0 0 14px 0; }
-  .tool-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f1f5f9;
-    padding-top: 10px;
-  }
-  .tag-free {
-    background: #f0fdf4;
-    color: var(--green);
-    border: 1px solid #bbf7d0;
-    font-size: 10.5px;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 4px;
-  }
+  .tool-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f1f5f9; padding-top: 10px; }
+  .tag-free { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 4px; }
   .btn-open {
     background: var(--ink);
     color: #ffffff;
@@ -231,21 +172,18 @@
     font-weight: 700;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.2s;
   }
   .tool-card:hover .btn-open { background: var(--primary); }
 
-  /* ================= SUPPORT BANNER ================= */
+  /* SUPPORT BANNER */
   .support-banner {
-    margin-top: 36px;
+    margin-top: 32px;
     background: #ffffff;
     border: 2px dashed #0284c7;
     border-radius: 14px;
-    padding: 24px 18px;
+    padding: 22px 16px;
     text-align: center;
   }
-  .support-banner h3 { margin: 0 0 8px 0; font-size: 18px; color: var(--ink); }
-  .support-banner p { margin: 0 auto 14px auto; max-width: 600px; font-size: 13px; color: var(--ink-soft); }
   .upi-pill {
     display: inline-block;
     background: #f0f9ff;
@@ -258,82 +196,11 @@
     border-radius: 8px;
   }
 
-  /* ================= FOOTER ================= */
-  footer {
-    background: var(--ink);
-    color: #94a3b8;
-    text-align: center;
-    padding: 20px 14px;
-    font-size: 12px;
-    border-top: 3px solid var(--gold);
-  }
+  footer { background: var(--ink); color: #94a3b8; text-align: center; padding: 18px 14px; font-size: 12px; border-top: 3px solid var(--gold); }
   footer a { color: var(--gold); text-decoration: none; font-weight: 700; }
 
-  /* ================= FLOATING CHATBOT WIDGET ================= */
-  .chat-fab {
-    position: fixed;
-    bottom: 18px;
-    right: 18px;
-    background: var(--gold);
-    color: var(--ink);
-    border: 2px solid var(--ink);
-    border-radius: 50px;
-    padding: 12px 18px;
-    font-size: 13.5px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .chat-drawer {
-    position: fixed;
-    bottom: 76px;
-    right: 18px;
-    width: 360px;
-    max-width: calc(100vw - 36px);
-    height: 480px;
-    background: #ffffff;
-    border: 2px solid var(--ink);
-    border-radius: 14px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    display: none;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 1000;
-  }
-  .chat-head {
-    background: var(--ink);
-    color: #ffffff;
-    padding: 10px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid var(--gold);
-    font-size: 13.5px;
-    font-weight: 800;
-  }
-  .chat-close { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; font-weight: bold; }
-  .chat-body {
-    flex: 1;
-    padding: 12px;
-    overflow-y: auto;
-    background: #f8fafc;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-size: 12.5px;
-  }
-  .msg-bot { background: #fff; border: 1px solid #cbd5e1; padding: 8px 10px; border-radius: 10px; align-self: flex-start; max-width: 88%; line-height: 1.45; }
-  .msg-me { background: var(--ink); color: #fff; padding: 8px 10px; border-radius: 10px; align-self: flex-end; max-width: 85%; }
-  .chat-form { display: flex; gap: 6px; padding: 8px; border-top: 1px solid #cbd5e1; background: #fff; }
-  .chat-form input { flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12.5px; outline: none; }
-  .chat-form button { background: var(--gold); border: none; padding: 0 12px; border-radius: 6px; font-weight: 800; cursor: pointer; }
-
   @media (max-width: 600px) {
-    .hero h2 { font-size: 21px; }
+    .hero h2 { font-size: 20px; }
     .tools-grid { grid-template-columns: 1fr; }
   }
 </style>
@@ -351,8 +218,8 @@
         </div>
       </div>
       <div class="nav-links">
-        <a href="#toolsSection" class="nav-btn">All Tools (20+)</a>
-        <a href="https://sites.google.com/view/kaamkaj-bills/home/support-custom-request?authuser=0" target="_top" class="nav-btn nav-btn-gold">✨ Custom Page / Support</a>
+        <a href="help.html" target="_self" class="nav-btn">💬 Help Bot</a>
+        <a href="support-custom-request.html" target="_self" class="nav-btn nav-btn-gold">✨ Support / Custom Page</a>
       </div>
     </div>
   </nav>
@@ -372,8 +239,6 @@
 
   <!-- MAIN TOOLS DIRECTORY -->
   <main class="container" id="toolsSection">
-    
-    <!-- Category Filter Pills -->
     <div class="cat-bar">
       <button class="cat-pill active" onclick="setCategory('ALL', this)">🌟 सभी टूल्स (All)</button>
       <button class="cat-pill" onclick="setCategory('BILLING', this)">🧾 बिल, कोटेशन व इनवॉइस</button>
@@ -382,228 +247,48 @@
       <button class="cat-pill" onclick="setCategory('CAREER', this)">📄 रिज्यूमे व सर्टिफिकेट</button>
     </div>
 
-    <!-- Dynamic Grid -->
     <div class="tools-grid" id="toolsGrid"></div>
 
-    <!-- Support & Custom Request Banner -->
     <div class="support-banner">
       <h3>💚 KaamKaj Bills हमेशा सबके लिए 100% मुफ़्त है!</h3>
-      <p>यदि इन टूल्स से आपके व्यापार या ऑफिस के काम में मदद मिली है, या आप अपनी दुकान के लिए अलग से पर्सनल कस्टम पेज बनवाना चाहते हैं, तो आप स्वैच्छिक सहयोग (UPI) या ईमेल से संपर्क कर सकते हैं।</p>
+      <p>यदि इन टूल्स से आपके व्यापार या ऑफिस के काम में मदद मिली है, या आप अपनी दुकान के लिए अलग से पर्सनल कस्टम पेज बनवाना चाहते हैं, तो नीचे क्लिक करें।</p>
       <div class="upi-pill">UPI ID: amartomar1982@ybl</div>
       <div style="margin-top: 12px;">
-        <a href="https://sites.google.com/view/kaamkaj-bills/home/support-custom-request?authuser=0" target="_top" class="btn-open" style="background: var(--primary); display: inline-block;">✨ कस्टम पेज रिक्वेस्ट / QR कोड देखें ↗</a>
+        <a href="support-custom-request.html" target="_self" class="btn-open" style="background: var(--primary); display: inline-block;">✨ कस्टम पेज रिक्वेस्ट / QR कोड देखें ↗</a>
       </div>
     </div>
-
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2026 <b>KaamKaj Bills</b> • Built for Indian Small Businesses, Technicians, Shops & Offices.</p>
     <p>Help & Custom Page Support: <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a></p>
   </footer>
 
-  <!-- FLOATING HELP CHATBOT -->
-  <button class="chat-fab" onclick="toggleChat()">💬 सहायता / Help</button>
-  <div class="chat-drawer" id="chatDrawer">
-    <div class="chat-head">
-      <span>🤖 KaamKaj Bills सहायक</span>
-      <button class="chat-close" onclick="toggleChat()">✕</button>
-    </div>
-    <div class="chat-body" id="chatLog">
-      <div class="msg-bot">नमस्ते! आपको किस काम के लिए बिल, रसीद या कार्ड बनाना है? नीचे लिखें (जैसे: <b>किराया रसीद</b>, <b>ID कार्ड</b>, <b>कोटेशन</b>, <b>सैलरी स्लिप</b>)।</div>
-    </div>
-    <form class="chat-form" onsubmit="handleChatSubmit(event)">
-      <input type="text" id="chatInput" placeholder="यहाँ लिखें..." autocomplete="off">
-      <button type="submit">भेजें</button>
-    </form>
-  </div>
-
 <script>
-const BASE_URL = 'https://sites.google.com/view/kaamkaj-bills/home/';
-
-// All 27 Submitted Modules Mapped into Unified Directory
+// Direct GitHub Relative Links (Matches exact .html filenames in your repository)
 const TOOLS_DATA = [
-  {
-    slug: 'estimate-quotationinvoce',
-    cat: 'BILLING',
-    icon: '📑',
-    hi: 'एस्टीमेट, कोटेशन व टैक्स इनवॉइस',
-    en: 'Estimate, Quotation, Invoice & Material List',
-    desc: 'GST / Non-GST इनवॉइस, कोटेशन, एस्टीमेट और साइट मटेरियल लिस्ट बनाएं। WhatsApp शेयर और PDF सपोर्ट।',
-    keys: 'estimate quotation invoice material list gst bill'
-  },
-  {
-    slug: 'technician-bills',
-    cat: 'BILLING',
-    icon: '⚡',
-    hi: 'मल्टी-ट्रेड टेक्नीशियन बिल व कोटेशन',
-    en: 'Electrical, CCTV, AC, Plumbing & Solar Bills',
-    desc: 'इलेक्ट्रीशियन, CCTV, AC, प्लंबिंग, पेंटिंग और सोलर काम के लेबर व मटेरियल रेट्स के साथ कोटेशन और डिजिटल साइन।',
-    keys: 'technician electrician cctv ac plumbing solar carpenter waterproofing'
-  },
-  {
-    slug: 'kirana-shop-bill',
-    cat: 'BILLING',
-    icon: '🛒',
-    hi: 'किराना व जनरल स्टोर बिल',
-    en: 'Kirana & Grocery Retail Shop Bill',
-    desc: 'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं और तुरंत प्रिंट करें।',
-    keys: 'kirana grocery ration shop retail bill'
-  },
-  {
-    slug: 'stationery-xerox-bill',
-    cat: 'BILLING',
-    icon: '🖨️',
-    hi: 'स्टेशनरी, जेरोक्स व प्रिंटिंग शॉप बिल',
-    en: 'Stationery, Xerox & Binding Cash Memo',
-    desc: 'फोटोकॉपी, कलर प्रिंट, स्पाइरल बाइंडिंग और स्टेशनरी सामान का कैश मेमो या ऑर्डर स्लिप (11 भाषाओं में)।',
-    keys: 'stationery xerox photocopy binding printout lamination'
-  },
-  {
-    slug: 'beauty-parlour-salon-bill',
-    cat: 'BILLING',
-    icon: '💄',
-    hi: 'ब्यूटी पार्लर व सैलून बिल / बुकिंग',
-    en: 'Beauty Parlour Service Bill & Bridal Booking',
-    desc: 'सैलून सर्विस बिल और ब्राइडल/पार्टी मेकअप अपॉइंटमेंट बुकिंग स्लिप (क्विक सर्विस चिप्स के साथ)।',
-    keys: 'beauty parlour salon bridal makeup facial'
-  },
-  {
-    slug: 'salary-pay-slip',
-    cat: 'SLIPS',
-    icon: '💵',
-    hi: 'कर्मचारी सैलरी / पे स्लिप जनरेटर',
-    en: 'Employee Monthly Salary Pay Slip',
-    desc: 'Basic, HRA, Overtime, PF, ESIC और एडवांस कटौती के साथ प्रोफेशनल सैलरी स्लिप बनाएं।',
-    keys: 'salary pay slip payslip employee wage'
-  },
-  {
-    slug: 'paymet-slip-rasid',
-    cat: 'SLIPS',
-    icon: '🧾',
-    hi: 'पेमेंट रसीद व भुगतान वाउचर',
-    en: 'Payment Receipt & Voucher (1 or 2 Slips A4)',
-    desc: 'पैसे प्राप्त होने की रसीद (Receipt) या भुगतान वाउचर (Voucher) शब्दों में ऑटो-कन्वर्जन के साथ।',
-    keys: 'payment receipt voucher cash rasid'
-  },
-  {
-    slug: 'rent-receipt-generator',
-    cat: 'SLIPS',
-    icon: '🏠',
-    hi: 'किराया रसीद (HRA व बिजली बिल सहित)',
-    en: 'House / Shop Rent Receipt Generator',
-    desc: 'मकान या दुकान की किराया रसीद (रेवेन्यू स्टैम्प बॉक्स, बिजली बिल और मेंटेनेंस जोड़ने की सुविधा के साथ)।',
-    keys: 'rent receipt landlord tenant hra house shop'
-  },
-  {
-    slug: 'tailoring-measurement-job-slip',
-    cat: 'SLIPS',
-    icon: '✂️',
-    hi: 'टेलरिंग नाप व मास्टर कटिंग स्लिप',
-    en: 'Tailoring & Boutique Measurement Job Slip',
-    desc: 'ग्राहक के कपड़ों का इंच में नाप, डिलीवरी तारीख और कारीगर कटिंग पर्ची (Customer + Counter Copy)।',
-    keys: 'tailor tailoring boutique measurement cutting cloth'
-  },
-  {
-    slug: 'catering-rental-booking-slip',
-    cat: 'SLIPS',
-    icon: '🎪',
-    hi: 'टेंट, लाइट-साउंड व कैटरिंग बुकिंग स्लिप',
-    en: 'Tent Rental & Catering Booking Slip',
-    desc: 'शादी-पार्टी के लिए टेंट रेंटल और हलवाई/कैटरिंग ऑर्डर की बुकिंग स्लिप, अग्रिम व बकाया हिसाब सहित।',
-    keys: 'catering tent halwai rental lights sound booking'
-  },
-  {
-    slug: 'mobile-electronics-repair',
-    cat: 'SLIPS',
-    icon: '📱',
-    hi: 'मोबाइल व इलेक्ट्रॉनिक्स रिपेयर जॉब शीट',
-    en: 'Mobile & Laptop Repair Job Token / Bill',
-    desc: 'मोबाइल व लैपटॉप रिपेयरिंग के लिए जमा टोकन (IMEI/Lock सहित) और वारंटी डिलीवरी बिल।',
-    keys: 'mobile laptop electronics repair job sheet token imei'
-  },
-  {
-    slug: 'hotel-lodge-guest-slip',
-    cat: 'SLIPS',
-    icon: '🏨',
-    hi: 'होटल व लॉज गेस्ट चेक-इन / रूम बिल',
-    en: 'Hotel & Lodge Guest Registration & Checkout Bill',
-    desc: 'होटल व गेस्ट हाउस के लिए चेक-इन रजिस्ट्रेशन स्लिप और रूम टैरिफ फाइनल चेक-आउट बिल।',
-    keys: 'hotel lodge guest house room checkin checkout'
-  },
-  {
-    slug: 'mandi',
-    cat: 'SLIPS',
-    icon: '🌾',
-    hi: 'डेरी दूध संकलन व मंडी किसान पर्ची',
-    en: 'Dairy Milk Collection & Mandi Crop Sale Slip',
-    desc: 'दैनिक दूध संकलन (FAT/SNF रेट) पर्ची और मंडी फसल बिक्री आढ़त व हम्माली कटौती पर्चा।',
-    keys: 'dairy milk fat snf mandi farmer crop kisan'
-  },
-  {
-    slug: 'security-services',
-    cat: 'SLIPS',
-    icon: '🛡️',
-    hi: 'सिक्योरिटी गार्ड ड्यूटी रोस्टर व एडवांस स्लिप',
-    en: 'Staff Advance Memo & Security Duty Roster',
-    desc: 'कर्मचारी सैलरी एडवांस पर्ची और सिक्योरिटी गार्ड शिफ्ट व पोस्ट तैनाती ड्यूटी रोस्टर।',
-    keys: 'security guard duty roster shift staff advance'
-  },
-  {
-    slug: 'school',
-    cat: 'CAREER',
-    icon: '🎓',
-    hi: 'स्कूल / कोचिंग फीस रसीद व एडमिशन स्लिप',
-    en: 'Coaching Fee Receipt, Admission & Certificate',
-    desc: 'कोचिंग व ट्रेनिंग संस्थानों के लिए फीस रसीद, छात्र एडमिशन पर्ची और कोर्स पूर्णता सर्टिफिकेट।',
-    keys: 'school coaching tuition fee admission student certificate'
-  },
-  {
-    slug: 'id-card-maker',
-    cat: 'ID_PHOTO',
-    icon: '🪪',
-    hi: 'सिंगल और बल्क ID कार्ड मेकर (QR सहित)',
-    en: 'Single & Bulk Excel ID Card Generator',
-    desc: '5 थीम डिज़ाइन, लाइव QR कोड वेरिफिकेशन, डिजिटल साइन और Excel से एक साथ सैकड़ों ID कार्ड बनाएं।',
-    keys: 'id card identity badge bulk excel qr code'
-  },
-  {
-    slug: 'passport-photo-maker',
-    cat: 'ID_PHOTO',
-    icon: '📸',
-    hi: 'पासपोर्ट साइज फोटो शीट मेकर',
-    en: 'Passport & Stamp Size Photo Print Sheet',
-    desc: 'फोटो क्रॉप करें और A4 या 4x6 पेपर पर 4 से 20+ पासपोर्ट फोटो की प्रिंट शीट व PDF तुरंत तैयार करें।',
-    keys: 'passport photo sheet stamp size crop print'
-  },
-  {
-    slug: 'cv-resume',
-    cat: 'CAREER',
-    icon: '📄',
-    hi: 'प्रोफेशनल CV व टेक्निकल रिज्यूमे मेकर',
-    en: 'Creative Minimalist & Technical Field Resume',
-    desc: 'ऑफिस जॉब के लिए क्रिएटिव फोटो रिज्यूमे और इलेक्ट्रीशियन/ITI/फील्ड स्टाफ के लिए टेक्निकल रिज्यूमे।',
-    keys: 'cv resume biodata technical iti job'
-  },
-  {
-    slug: 'work-completion-handover-certificate',
-    cat: 'CAREER',
-    icon: '✅',
-    hi: 'कार्य पूर्णता व हैंडओवर सर्टिफिकेट',
-    en: 'Work Completion & Site Handover Certificate',
-    desc: 'ठेकेदारों और इंजीनियरों के लिए काम पूरा होने और क्लाइंट संतुष्टि हैंडओवर प्रमाण पत्र।',
-    keys: 'work completion handover certificate contractor site'
-  },
-  {
-    slug: 'support-custom-request',
-    cat: 'ALL',
-    icon: '✨',
-    hi: 'कस्टम पेज रिक्वेस्ट व वॉलंटरी सपोर्ट',
-    en: 'Request Custom Page or Support KaamKaj Bills',
-    desc: 'अपनी दुकान या कंपनी के लिए नया कस्टम टूल बनवाने हेतु रिक्वेस्ट भेजें या वॉलंटरी सहयोग करें।',
-    keys: 'support custom page request donate help'
-  }
+  { file: 'estimate-quotationinvoce.html', cat: 'BILLING', icon: '📑', hi: 'एस्टीमेट, कोटेशन व टैक्स इनवॉइस', en: 'Estimate, Quotation, Invoice & Material List', desc: 'GST / Non-GST इनवॉइस, कोटेशन, एस्टीमेट और साइट मटेरियल लिस्ट बनाएं।', keys: 'estimate quotation invoice material list gst bill' },
+  { file: 'technician-bills.html', cat: 'BILLING', icon: '⚡', hi: 'मल्टी-ट्रेड टेक्नीशियन बिल व कोटेशन', en: 'Electrical, CCTV, AC, Plumbing & Solar Bills', desc: 'इलेक्ट्रीशियन, CCTV, AC, प्लंबिंग, पेंटिंग और सोलर काम के लेबर व मटेरियल रेट्स के साथ कोटेशन।', keys: 'technician electrician cctv ac plumbing solar carpenter waterproofing' },
+  { file: 'kirana-shop-bill.html', cat: 'BILLING', icon: '🛒', hi: 'किराना व जनरल स्टोर बिल', en: 'Kirana & Grocery Retail Shop Bill', desc: 'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं।', keys: 'kirana grocery ration shop retail bill' },
+  { file: 'stationery-xerox-bill.html', cat: 'BILLING', icon: '🖨️', hi: 'स्टेशनरी, जेरोक्स व प्रिंटिंग शॉप बिल', en: 'Stationery, Xerox & Binding Cash Memo', desc: 'फोटोकॉपी, कलर प्रिंट, स्पाइरल बाइंडिंग और स्टेशनरी सामान का कैश मेमो (11 भाषाओं में)।', keys: 'stationery xerox photocopy binding printout lamination' },
+  { file: 'beauty-parlour-salon-bill.html', cat: 'BILLING', icon: '💄', hi: 'ब्यूटी पार्लर व सैलून बिल / बुकिंग', en: 'Beauty Parlour Service Bill & Bridal Booking', desc: 'सैलून सर्विस बिल और ब्राइडल/पार्टी मेकअप अपॉइंटमेंट बुकिंग स्लिप।', keys: 'beauty parlour salon bridal makeup facial' },
+  { file: 'salary-pay-slip.html', cat: 'SLIPS', icon: '💵', hi: 'कर्मचारी सैलरी / पे स्लिप जनरेटर', en: 'Employee Monthly Monthly Salary Pay Slip', desc: 'Basic, HRA, Overtime, PF, ESIC और एडवांस कटौती के साथ सैलरी स्लिप बनाएं।', keys: 'salary pay slip payslip employee wage' },
+  { file: 'paymet-slip-rasid.html', cat: 'SLIPS', icon: '🧾', hi: 'पेमेंट रसीद व भुगतान वाउचर', en: 'Payment Receipt & Voucher (1 or 2 Slips A4)', desc: 'पैसे प्राप्त होने की रसीद (Receipt) या भुगतान वाउचर (Voucher) शब्दों में ऑटो-कन्वर्जन के साथ।', keys: 'payment receipt voucher cash rasid' },
+  { file: 'rent-receipt-generator.html', cat: 'SLIPS', icon: '🏠', hi: 'किराया रसीद (HRA व बिजली बिल सहित)', en: 'House / Shop Rent Receipt Generator', desc: 'मकान या दुकान की किराया रसीद (रेवेन्यू स्टैम्प बॉक्स, बिजली बिल और मेंटेनेंस सहित)।', keys: 'rent receipt landlord tenant hra house shop' },
+  { file: 'tailoring-measurement-job-slip.html', cat: 'SLIPS', icon: '✂️', hi: 'टेलरिंग नाप व मास्टर कटिंग स्लिप', en: 'Tailoring & Boutique Measurement Job Slip', desc: 'ग्राहक के कपड़ों का इंच में नाप, डिलीवरी तारीख और कारीगर कटिंग पर्ची।', keys: 'tailor tailoring boutique measurement cutting cloth' },
+  { file: 'catering-rental-booking-slip.html', cat: 'SLIPS', icon: '🎪', hi: 'टेंट, लाइट-साउंड व कैटरिंग बुकिंग स्लिप', en: 'Tent Rental & Catering Booking Slip', desc: 'शादी-पार्टी के लिए टेंट रेंटल और हलवाई/कैटरिंग ऑर्डर की बुकिंग स्लिप।', keys: 'catering tent halwai rental lights sound booking' },
+  { file: 'mobile-electronics-repair.html', cat: 'SLIPS', icon: '📱', hi: 'मोबाइल व इलेक्ट्रॉनिक्स रिपेयर जॉब शीट', en: 'Mobile & Laptop Repair Job Token / Bill', desc: 'मोबाइल व लैपटॉप रिपेयरिंग के लिए जमा टोकन (IMEI/Lock सहित) और वारंटी डिलीवरी बिल।', keys: 'mobile laptop electronics repair job sheet token imei' },
+  { file: 'hotel-lodge-guest-slip.html', cat: 'SLIPS', icon: '🏨', hi: 'होटल व लॉज गेस्ट चेक-इन / रूम बिल', en: 'Hotel & Lodge Guest Registration & Checkout Bill', desc: 'होटल व गेस्ट हाउस के लिए चेक-इन रजिस्ट्रेशन स्लिप और रूम टैरिफ फाइनल चेक-आउट बिल।', keys: 'hotel lodge guest house room checkin checkout' },
+  { file: 'mandi.html', cat: 'SLIPS', icon: '🌾', hi: 'डेरी दूध संकलन व मंडी किसान पर्ची', en: 'Dairy Milk Collection & Mandi Crop Sale Slip', desc: 'दैनिक दूध संकलन (FAT/SNF रेट) पर्ची और मंडी फसल बिक्री आढ़त व हम्माली कटौती पर्चा।', keys: 'dairy milk fat snf mandi farmer crop kisan' },
+  { file: 'security-services.html', cat: 'SLIPS', icon: '🛡️', hi: 'सिक्योरिटी गार्ड ड्यूटी रोस्टर व एडवांस स्लिप', en: 'Staff Advance Memo & Security Duty Roster', desc: 'कर्मचारी सैलरी एडवांस पर्ची और सिक्योरिटी गार्ड शिफ्ट व पोस्ट तैनाती ड्यूटी रोस्टर।', keys: 'security guard duty roster shift staff advance' },
+  { file: 'school.html', cat: 'CAREER', icon: '🎓', hi: 'स्कूल / कोचिंग फीस रसीद व एडमिशन स्लिप', en: 'Coaching Fee Receipt, Admission & Certificate', desc: 'कोचिंग व ट्रेनिंग संस्थानों के लिए फीस रसीद, छात्र एडमिशन पर्ची और कोर्स पूर्णता सर्टिफिकेट।', keys: 'school coaching tuition fee admission student certificate' },
+  { file: 'id-card-maker.html', cat: 'ID_PHOTO', icon: '🪪', hi: 'सिंगल ID कार्ड मेकर (5 थीम व QR सहित)', en: 'Single Employee / Student ID Card Generator', desc: '5 थीम डिज़ाइन, लाइव QR कोड वेरिफिकेशन और डिजिटल साइन के साथ ID कार्ड बनाएं।', keys: 'id card identity badge single qr code' },
+  { file: 'bulk-id-card-maker.html', cat: 'ID_PHOTO', icon: '🗂️', hi: 'बल्क ID कार्ड मेकर (Excel से 100+ कार्ड)', en: 'Bulk Excel & Auto Photo-Match ID Card Maker', desc: 'Excel शीट और एक साथ कई फोटो अपलोड करके सैकड़ों ID कार्ड एक क्लिक में बनाएं।', keys: 'bulk id card excel mass identity' },
+  { file: 'passport-photo-maker.html', cat: 'ID_PHOTO', icon: '📸', hi: 'पासपोर्ट साइज फोटो शीट मेकर', en: 'Passport & Stamp Size Photo Print Sheet', desc: 'फोटो क्रॉप करें और A4 या 4x6 पेपर पर 4 से 20+ पासपोर्ट फोटो की प्रिंट शीट व PDF तैयार करें।', keys: 'passport photo sheet stamp size crop print' },
+  { file: 'cv-resume.html', cat: 'CAREER', icon: '📄', hi: 'क्रिएटिव मिनिमलिस्ट रिज्यूमे मेकर (फोटो सहित)', en: 'Creative Minimalist Resume Builder', desc: 'ऑफिस व प्राइवेट जॉब के लिए फोटो और स्किल पिल्स के साथ आधुनिक A4 रिज्यूमे बनाएं।', keys: 'cv resume biodata creative job' },
+  { file: 'technical-resume.html', cat: 'CAREER', icon: '🛠️', hi: 'टेक्निकल व फील्ड स्टाफ रिज्यूमे मेकर', en: 'Technical & ITI Field Staff Resume Builder', desc: 'इलेक्ट्रीशियन, CCTV, ITI और फील्ड इंजीनियरों के लिए टूल्स व प्रोजेक्ट हाइलाइट्स वाला रिज्यूमे।', keys: 'technical resume iti electrician engineer field' },
+  { file: 'work-completion-handover-certificate.html', cat: 'CAREER', icon: '✅', hi: 'कार्य पूर्णता व हैंडओवर सर्टिफिकेट', en: 'Work Completion & Site Handover Certificate', desc: 'ठेकेदारों और इंजीनियरों के लिए काम पूरा होने और क्लाइंट संतुष्टि हैंडओवर प्रमाण पत्र।', keys: 'work completion handover certificate contractor site' },
+  { file: 'support-custom-request.html', cat: 'ALL', icon: '✨', hi: 'कस्टम पेज रिक्वेस्ट व वॉलंटरी सपोर्ट', en: 'Request Custom Page or Support KaamKaj Bills', desc: 'अपनी दुकान या कंपनी के लिए नया कस्टम टूल बनवाने हेतु रिक्वेस्ट भेजें या वॉलंटरी सहयोग करें।', keys: 'support custom page request donate help' }
 ];
 
 let currentCat = 'ALL';
@@ -625,13 +310,12 @@ function renderTools() {
 
   if (filtered.length === 0) {
     grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; background:#fff; border-radius:10px; border:1px solid #cbd5e1;">
-      <b>कोई टूल नहीं मिला!</b> कृपया दूसरा शब्द लिखकर खोजें या नीचे दिए गए Help बटन से पूछें।
+      <b>कोई टूल नहीं मिला!</b> कृपया दूसरा शब्द लिखकर खोजें।
     </div>`;
     return;
   }
 
   filtered.forEach(t => {
-    const url = `${BASE_URL}${t.slug}?authuser=0`;
     const card = document.createElement('div');
     card.className = 'tool-card';
     card.innerHTML = `
@@ -647,7 +331,7 @@ function renderTools() {
       </div>
       <div class="tool-footer">
         <span class="tag-free">✓ FREE TOOL</span>
-        <a href="${url}" target="_top" class="btn-open">Open Tool ↗</a>
+        <a href="${t.file}" target="_self" class="btn-open">Open Tool →</a>
       </div>
     `;
     grid.appendChild(card);
@@ -661,52 +345,8 @@ function setCategory(cat, btn) {
   renderTools();
 }
 
-function filterTools() {
-  renderTools();
-}
-
-/* ================= EMBEDDED MINI HELP CHATBOT ================= */
-function toggleChat() {
-  const drawer = document.getElementById('chatDrawer');
-  drawer.style.display = (drawer.style.display === 'flex') ? 'none' : 'flex';
-}
-
-function handleChatSubmit(e) {
-  e.preventDefault();
-  const input = document.getElementById('chatInput');
-  const q = input.value.trim();
-  if (!q) return;
-
-  const log = document.getElementById('chatLog');
-  log.innerHTML += `<div class="msg-me">${q}</div>`;
-  input.value = '';
-
-  const qLow = q.toLowerCase();
-  let best = null;
-  let maxScore = 0;
-
-  TOOLS_DATA.forEach(t => {
-    let score = 0;
-    t.keys.split(' ').forEach(k => {
-      if (qLow.includes(k)) score += k.length;
-    });
-    if (score > maxScore) { maxScore = score; best = t; }
-  });
-
-  if (best) {
-    const url = `${BASE_URL}${best.slug}?authuser=0`;
-    log.innerHTML += `<div class="msg-bot">
-      <b>${best.hi}</b><br>${best.desc}<br>
-      <a href="${url}" target="_top" style="display:inline-block; margin-top:6px; background:#f59e0b; color:#0f172a; padding:5px 10px; border-radius:6px; text-decoration:none; font-weight:800;">टूल खोलें ↗</a>
-    </div>`;
-  } else {
-    log.innerHTML += `<div class="msg-bot">क्षमा करें, सटीक टूल नहीं मिला। आप ऊपर सर्च बॉक्स में लिखें या हमें <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a> पर ईमेल करें।</div>`;
-  }
-  log.scrollTop = log.scrollHeight;
-}
-
+function filterTools() { renderTools(); }
 window.onload = renderTools;
 </script>
-
 </body>
 </html>
