@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mobile & Electronics Repair Job Sheet / Bill - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-soft: #dbeafe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --danger: #dc2626;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 16px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .toggle-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .toggle-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-muted);
+    transition: 0.2s;
+  }
+  .toggle-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.28);
+  }
+
+  /* Quick Fault/Part Chips */
+  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
+  .chip-btn {
+    background: #ffffff;
+    border: 1px solid #93c5fd;
+    color: var(--primary-dark);
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.15s;
+  }
+  .chip-btn:hover { background: var(--primary-soft); }
+
+  /* Accessories Checkboxes */
+  .acc-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 10px 0; font-size: 12px; font-weight: 600; }
+  .acc-grid label { display: flex; align-items: center; gap: 5px; text-transform: none; color: var(--ink); cursor: pointer; }
+  .acc-grid input { width: 15px; height: 15px; }
+
+  /* Table Controls */
+  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
+  .items-input-table th {
+    text-align: left;
+    padding: 8px 6px;
+    color: var(--ink-muted);
+    font-weight: 800;
+    background: #eff6ff;
+    border-bottom: 2px solid var(--border);
+  }
+  .items-input-table td { padding: 6px 4px; }
+  .btn-del-row {
+    background: #fee2e2;
+    color: var(--danger);
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    width: 32px;
+    height: 36px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-del-row:hover { background: var(--danger); color: #fff; }
+  .btn-add-row {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border: 1.5px dashed var(--primary);
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+  #a4DocSheet {
+    background: #ffffff;
+    width: 100%;
+    padding: 20px 18px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .slip-box {
+    border: 1.5px solid #0f172a;
+    border-radius: 8px;
+    padding: 14px;
+    background: #ffffff;
+  }
+
+  .slip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .slip-header h2 { margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+  .slip-header p { margin: 2px 0 0; font-size: 10px; color: #64748b; }
+  .slip-badge {
+    background: var(--primary);
+    color: #ffffff;
+    padding: 3px 9px;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px; }
+  .slip-table td { padding: 3.5px 3px; vertical-align: top; }
+  .slip-table td.lbl { font-weight: 700; color: #475569; width: 24%; }
+  .slip-table td.val { border-bottom: 1px dotted #94a3b8; font-weight: 600; color: #0f172a; }
+
+  .doc-items-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 10.5px; }
+  .doc-items-table th { background: #dbeafe; color: #1e3a8a; padding: 5px; text-align: left; font-weight: 800; border: 1px solid #93c5fd; }
+  .doc-items-table td { padding: 4.5px 5px; border: 1px solid #e2e8f0; font-weight: 600; }
+  .t-right { text-align: right; }
+  .t-center { text-align: center; }
+
+  .amount-highlight {
+    background: #eff6ff;
+    border: 1.2px solid #93c5fd;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    font-size: 11px;
+  }
+  .notes-box { background: #f8fafc; border-left: 3px solid var(--primary); padding: 5px 8px; font-size: 10px; color: #334155; margin: 6px 0; }
+  .footer-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; font-size: 10px; }
+  .sig-card { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
+
+  .cut-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 16px 0;
+    border-top: 2px dashed #94a3b8;
+  }
+  .cut-tag { position: absolute; top: -10px; background: #fff; padding: 0 8px; font-size: 10px; font-weight: 700; color: #64748b; }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Mobile & Electronics Repair</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: FORM CONTROLS -->
+  <div class="control-box">
+    <div style="margin-bottom: 10px;">
+      <label>1. Slip Mode Chunein:</label>
+      <div class="toggle-bar">
+        <button type="button" class="toggle-btn active" id="btnIntake" onclick="setMode('INTAKE')">📱 Repair Intake Job Sheet (2 Copies)</button>
+        <button type="button" class="toggle-btn" id="btnDelivery" onclick="setMode('DELIVERY')">🧾 Final Delivery & Warranty Bill</button>
+      </div>
+    </div>
+
+    <div class="section-badge">1. Service Center / Repair Shop Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Shop / Care Center Name</label><input type="text" id="in_shop" placeholder="उदा. SmartCare Mobile & Laptop Repair Hub" oninput="renderDoc()"></div>
+      <div class="field"><label>Address & Helpline Mobile</label><input type="text" id="in_addr" placeholder="उदा. FC Road, Pune | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">2. Customer & Device Info</div>
+    <div class="grid-3">
+      <div class="field"><label>Job Sheet / Token No.</label><input type="text" id="in_job_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Received Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label>Expected Delivery</label><input type="text" id="in_deliv" placeholder="उदा. Tomorrow 5 PM" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Customer Name</label><input type="text" id="in_cust" placeholder="उदा. Nikhil Pawar" oninput="renderDoc()"></div>
+      <div class="field"><label>Mobile / WhatsApp No.</label><input type="text" id="in_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Device Brand & Model</label><input type="text" id="in_model" placeholder="उदा. Samsung S23 / HP Pavilion" oninput="renderDoc()"></div>
+      <div class="field"><label>IMEI / Serial No.</label><input type="text" id="in_imei" placeholder="उदा. 35892011XXXX" oninput="renderDoc()"></div>
+      <div class="field"><label>Screen Lock / PIN (Optional)</label><input type="text" id="in_lock" placeholder="उदा. 2580 / None" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="field">
+      <label>Received Accessories (साथ में जमा सामान):</label>
+      <div class="acc-grid">
+        <label><input type="checkbox" class="acc-chk" value="SIM Tray" checked onchange="renderDoc()"> SIM Tray</label>
+        <label><input type="checkbox" class="acc-chk" value="Back Cover" onchange="renderDoc()"> Back Cover</label>
+        <label><input type="checkbox" class="acc-chk" value="Charger / Adapter" onchange="renderDoc()"> Charger / Adapter</label>
+        <label><input type="checkbox" class="acc-chk" value="Laptop Bag" onchange="renderDoc()"> Laptop Bag</label>
+        <label><input type="checkbox" class="acc-chk" value="Dead / No Power Condition" onchange="renderDoc()"> Dead Condition</label>
+      </div>
+    </div>
+
+    <div class="section-badge">3. Fault Diagnosis & Repair Estimate / Parts</div>
+    <div class="chip-group">
+      <button type="button" class="chip-btn" onclick="quickAdd('Original OLED / IPS Display Folder Replacement', 2400)">+ Display Folder</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Original Lithium Battery Replacement', 1100)">+ Battery Change</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Charging CC Board / Jack Repair', 450)">+ Charging Jack</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Motherboard IC / Water Damage Servicing', 1500)">+ Motherboard IC</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Laptop SSD Upgrade & Windows OS Install', 2200)">+ SSD & Windows</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Software Flashing / FRP / Data Backup', 350)">+ Software / OS</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="items-input-table">
+        <thead>
+          <tr>
+            <th style="width: 68%;">Problem / Replaced Spare Part Description</th>
+            <th style="width: 24%;">Estimate / Cost (₹)</th>
+            <th style="width: 8%;"></th>
+          </tr>
+        </thead>
+        <tbody id="itemsInputsBody"></tbody>
+      </table>
+    </div>
+    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Naya Part / Service Charge Jodein</button>
+
+    <div class="section-badge">4. Payment, Advance & Warranty Terms</div>
+    <div class="grid-3">
+      <div class="field"><label>Advance Paid (₹)</label><input type="number" id="in_adv" placeholder="500" oninput="renderDoc()"></div>
+      <div class="field"><label>Part Warranty</label><input type="text" id="in_warr" placeholder="उदा. 3 Months Testing Warranty" oninput="renderDoc()"></div>
+      <div class="field">
+        <label>Payment Mode</label>
+        <select id="in_mode" onchange="renderDoc()">
+          <option value="UPI / Online">UPI / PhonePe / GPay</option>
+          <option value="CASH">CASH (नकद)</option>
+          <option value="Pay on Delivery">Pay on Delivery</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Terms & Data Disclaimer</label><input type="text" id="in_notes" placeholder="उदा. रिपेयरिंग के दौरान डेटा लॉस के लिए दुकान जिम्मेदार नहीं होगी। 30 दिन में डिवाइस ले जाएं।" oninput="renderDoc()"></div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Slip</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live Job Sheet / Bill Preview</div>
+    <div id="a4DocSheet">
+      <div id="slipsContainer"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let mode = 'INTAKE';
+  let items = [
+    { desc: 'Display Folder Replacement (Original Quality)', rate: 2400 }
+  ];
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('btnIntake').classList.toggle('active', m === 'INTAKE');
+    document.getElementById('btnDelivery').classList.toggle('active', m === 'DELIVERY');
+    document.getElementById('in_job_no').value = (m === 'INTAKE' ? 'JOB-' : 'RPR-') + Math.floor(100000 + Math.random() * 899990);
+    renderDoc();
+  }
+
+  function quickAdd(desc, rate) { items.push({ desc, rate }); renderInputRows(); renderDoc(); }
+  function renderInputRows() {
+    document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
+      <tr>
+        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
+        <td><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;renderDoc()"></td>
+        <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
+      </tr>
+    `).join('');
+  }
+  function addItemRow() { items.push({ desc: '', rate: 0 }); renderInputRows(); renderDoc(); }
+  function delRow(i) { if (items.length > 1) { items.splice(i, 1); renderInputRows(); renderDoc(); } }
+
+  function renderDoc() {
+    const shop = document.getElementById('in_shop').value.trim() || 'SMARTCARE MOBILE & LAPTOP REPAIR';
+    const addr = document.getElementById('in_addr').value.trim() || 'Main Market, City | Mob: 98XXXXXXXX';
+    const jobNo = document.getElementById('in_job_no').value.trim() || '-';
+    const dt = document.getElementById('in_date').value || '-';
+    const dlv = document.getElementById('in_deliv').value.trim() || '-';
+    const cust = document.getElementById('in_cust').value.trim() || '-';
+    const ph = document.getElementById('in_phone').value.trim();
+    const model = document.getElementById('in_model').value.trim() || '-';
+    const imei = document.getElementById('in_imei').value.trim() || '-';
+    const lock = document.getElementById('in_lock').value.trim() || 'None';
+    const warr = document.getElementById('in_warr').value.trim() || 'No Warranty on Physical/Liquid Damage';
+    const payMode = document.getElementById('in_mode').value;
+    const notes = document.getElementById('in_notes').value.trim() || 'रिपेयरिंग के दौरान डेटा लॉस के लिए शॉप जिम्मेदार नहीं होगी। पर्ची दिखाकर ही डिवाइस प्राप्त करें।';
+
+    const acc = Array.from(document.querySelectorAll('.acc-chk:checked')).map(c => c.value).join(', ') || 'Device Only';
+    const tot = items.reduce((s, it) => s + (parseFloat(it.rate) || 0), 0);
+    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
+    const bal = Math.max(0, tot - adv);
+
+    const rowsHtml = items.map((it, i) => `
+      <tr>
+        <td class="t-center">${i+1}</td>
+        <td>${it.desc || '-'}</td>
+        <td class="t-right">₹${(parseFloat(it.rate)||0).toLocaleString('en-IN')}</td>
+      </tr>
+    `).join('');
+
+    const buildCard = (badge, isShopCopy) => `
+      <div class="slip-box">
+        <div class="slip-header">
+          <div>
+            <h2>${shop}</h2>
+            <p>${addr}</p>
+          </div>
+          <div class="slip-badge">${badge}</div>
+        </div>
+
+        <table class="slip-table">
+          <tr>
+            <td class="lbl">Job Token:</td><td class="val"><b>${jobNo}</b> (Dt: ${dt})</td>
+            <td class="lbl" style="width:20%;">Delivery:</td><td class="val" style="color:#1d4ed8;font-weight:800;">${dlv}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Customer:</td><td class="val">${ph ? `${cust} (${ph})` : cust}</td>
+            <td class="lbl" style="width:20%;">Device:</td><td class="val"><b>${model}</b></td>
+          </tr>
+          <tr>
+            <td class="lbl">IMEI / S.No:</td><td class="val">${imei}</td>
+            <td class="lbl" style="width:20%;">Lock/PIN:</td><td class="val">${isShopCopy ? lock : '****'}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Accessories:</td><td class="val" colspan="3">${acc}</td>
+          </tr>
+        </table>
+
+        <table class="doc-items-table">
+          <thead>
+            <tr>
+              <th class="t-center" style="width:8%">#</th>
+              <th style="width:70%">Fault / Spare Part / Service Description</th>
+              <th class="t-right" style="width:22%">Charges (₹)</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+
+        <div class="amount-highlight">
+          <div><b>TOTAL:</b> ₹${tot.toLocaleString('en-IN')} | <b>ADVANCE (${payMode}):</b> ₹${adv.toLocaleString('en-IN')}</div>
+          <div style="color:#dc2626;font-weight:800;font-size:12.5px;">BALANCE DUE: ₹${bal.toLocaleString('en-IN')}</div>
+        </div>
+
+        <div class="notes-box">
+          <b>Warranty:</b> ${warr}<br>
+          <b>Terms:</b> ${notes}
+        </div>
+
+        <div class="footer-row">
+          <div style="font-size:9.5px;color:#64748b;">Customer Signature</div>
+          <div class="sig-card">Technician / Authorized Sign</div>
+        </div>
+      </div>
+    `;
+
+    let html = buildCard(mode === 'INTAKE' ? 'CUSTOMER RECEIPT' : 'DELIVERY & WARRANTY BILL', false);
+    if (mode === 'INTAKE') {
+      html += `<div class="cut-divider"><span class="cut-tag">✂️ CUT HERE (TECHNICIAN / SHOP COPY)</span></div>` + buildCard('TECHNICIAN JOB CARD', true);
+    }
+    document.getElementById('slipsContainer').innerHTML = html;
+  }
+
+  function downloadA4PDF() {
+    const clone = document.getElementById('a4DocSheet').cloneNode(true);
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:16px;background:#fff;border:none;box-shadow:none;';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+    html2pdf().set({
+      margin: [6, 6, 6, 6],
+      filename: `RepairJob_${document.getElementById('in_job_no').value || 'Device'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDocDirect() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Job Sheet</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
+      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px}
+      .slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #2563eb;padding-bottom:6px;margin-bottom:8px}
+      .slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}
+      .slip-badge{background:#2563eb;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}
+      .slip-table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:11px}
+      .slip-table td{padding:3px}.slip-table td.lbl{font-weight:700;color:#475569;width:22%}.slip-table td.val{border-bottom:1px dotted #94a3b8}
+      .doc-items-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px}
+      .doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:4px;border:1px solid #93c5fd;text-align:left}
+      .doc-items-table td{padding:4px;border:1px solid #e2e8f0;font-weight:600}
+      .t-right{text-align:right}.t-center{text-align:center}
+      .amount-highlight{background:#eff6ff;border:1.2px solid #93c5fd;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;margin:6px 0;font-size:11px}
+      .notes-box{background:#f8fafc;border-left:3px solid #2563eb;padding:5px 8px;font-size:10px;margin:6px 0}
+      .footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px}
+      .sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+      .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}
+      .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  function shareWhatsApp() {
+    const shop = document.getElementById('in_shop').value.trim() || 'Repair Center';
+    const cust = document.getElementById('in_cust').value.trim() || 'Customer';
+    const model = document.getElementById('in_model').value.trim() || 'Device';
+    const tot = items.reduce((s, it) => s + (parseFloat(it.rate)||0), 0);
+    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
+    const ph = document.getElementById('in_phone').value.trim().replace(/[^0-9]/g, '');
+    const msg = `*📱 REPAIR JOB SHEET (${document.getElementById('in_job_no').value})*\n*Center:* ${shop}\n*Customer:* ${cust}\n*Device:* ${model}\n*Estimate:* ₹${tot} | *Advance:* ₹${adv}\n*Balance Due:* ₹${Math.max(0, tot - adv)}\n\n_Generated via KaamKaj Bills._`;
+    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_job_no').value = 'JOB-' + Math.floor(100000 + Math.random() * 899990);
+    renderInputRows();
+    renderDoc();
+  };
+</script>
+</body>
+</html>
