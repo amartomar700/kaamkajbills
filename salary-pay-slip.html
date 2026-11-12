@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Employee Salary / Pay Slip Generator (Single & Bulk Excel) - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -581,7 +583,7 @@
     <div class="section-badge">1. Company / Organization Details</div>
     <div class="grid-2">
       <div class="field"><label>Company / Firm Name</label><input type="text" id="in_comp_name" placeholder="e.g. Apex Technical Services Pvt. Ltd." oninput="renderSlip()"></div>
-      <div class="field"><label>Branch / Office Address</label><input type="text" id="in_comp_addr" placeholder="e.g. Plot 45, Industrial Area, New Delhi" oninput="renderSlip()"></div>
+      <div class="field"><label>Branch / Office Address</label><input type="text" id="in_comp_addr" placeholder="e.g. Office No. 10, Business Park, Main Road" oninput="renderSlip()"></div>
     </div>
     <div class="grid-2">
       <div class="field"><label>Company Phone (Optional)</label><input type="text" id="in_comp_phone" placeholder="e.g. +91 98000 00000" oninput="renderSlip()"></div>
@@ -590,7 +592,35 @@
 
     <div class="section-badge">2. Employee &amp; Pay Period Details</div>
     <div class="grid-3">
-      <div class="field"><label>Salary Month &amp; Year</label><input type="text" id="in_pay_month" placeholder="e.g. November 2026" oninput="renderSlip()"></div>
+      <div class="field">
+        <label>Salary Month &amp; Year</label>
+        <div style="display:grid; grid-template-columns:1.35fr 0.85fr; gap:6px;">
+          <select id="in_pay_month_sel" onchange="syncMonthYear()">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November" selected>November</option>
+            <option value="December">December</option>
+          </select>
+          <select id="in_pay_year_sel" onchange="syncMonthYear()">
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026" selected>2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+          </select>
+        </div>
+        <input type="hidden" id="in_pay_month" value="November 2026">
+      </div>
       <div class="field"><label>Employee ID / Code</label><input type="text" id="in_emp_id" placeholder="e.g. EMP-102" oninput="renderSlip()"></div>
       <div class="field"><label>Pay Date</label><input type="date" id="in_pay_date" oninput="renderSlip()"></div>
     </div>
@@ -713,6 +743,40 @@
   let bulkEmployees = [];
   let currentEmpIdx = -1;
 
+  function syncMonthYear() {
+    const m = document.getElementById('in_pay_month_sel').value;
+    const y = document.getElementById('in_pay_year_sel').value;
+    document.getElementById('in_pay_month').value = `${m} ${y}`;
+    renderSlip();
+  }
+
+  function setMonthYearFromString(str) {
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const now = new Date();
+    let foundM = months[now.getMonth()];
+    let foundY = String(now.getFullYear());
+    if (str) {
+      const s = String(str).trim();
+      const mMatch = months.find(m => s.toLowerCase().includes(m.toLowerCase()) || s.toLowerCase().includes(m.slice(0,3).toLowerCase()));
+      if (mMatch) foundM = mMatch;
+      const yMatch = s.match(/20\d{2}/);
+      if (yMatch) foundY = yMatch[0];
+    }
+    const mSel = document.getElementById('in_pay_month_sel');
+    const ySel = document.getElementById('in_pay_year_sel');
+    if (mSel) mSel.value = foundM;
+    if (ySel) {
+      if (![...ySel.options].some(o => o.value === foundY)) {
+        const opt = document.createElement('option');
+        opt.value = foundY;
+        opt.textContent = foundY;
+        ySel.appendChild(opt);
+      }
+      ySel.value = foundY;
+    }
+    document.getElementById('in_pay_month').value = `${foundM} ${foundY}`;
+  }
+
   function showToast(msg) {
     const t = document.getElementById('toastBox');
     t.innerText = msg;
@@ -788,7 +852,7 @@
     const sampleRows = [
       {
         'Company Name': document.getElementById('in_comp_name').value.trim() || 'Apex Technical Services Pvt. Ltd.',
-        'Company Address': document.getElementById('in_comp_addr').value.trim() || 'Plot 45, Industrial Area, New Delhi',
+        'Company Address': document.getElementById('in_comp_addr').value.trim() || 'Office No. 10, Business Park, Main Road',
         'Company Phone': document.getElementById('in_comp_phone').value.trim() || '9800000000',
         'Company GST': document.getElementById('in_comp_gst').value.trim() || '',
         'Salary Month': 'November 2026',
@@ -811,7 +875,7 @@
       },
       {
         'Company Name': document.getElementById('in_comp_name').value.trim() || 'Apex Technical Services Pvt. Ltd.',
-        'Company Address': document.getElementById('in_comp_addr').value.trim() || 'Plot 45, Industrial Area, New Delhi',
+        'Company Address': document.getElementById('in_comp_addr').value.trim() || 'Office No. 10, Business Park, Main Road',
         'Company Phone': document.getElementById('in_comp_phone').value.trim() || '9800000000',
         'Company GST': document.getElementById('in_comp_gst').value.trim() || '',
         'Salary Month': 'November 2026',
@@ -981,7 +1045,7 @@
     document.getElementById('in_comp_addr').value = emp.compAddr || '';
     document.getElementById('in_comp_phone').value = emp.compPhone || '';
     document.getElementById('in_comp_gst').value = emp.compGst || '';
-    document.getElementById('in_pay_month').value = emp.payMonth || '';
+    setMonthYearFromString(emp.payMonth || '');
     document.getElementById('in_pay_date').value = emp.payDate || new Date().toISOString().split('T')[0];
     document.getElementById('in_emp_id').value = emp.empId || '';
     document.getElementById('in_emp_name').value = emp.empName || '';
@@ -1231,7 +1295,7 @@
     `;
   }
 
-  /* Page-by-Page Direct jsPDF Multi-Page Builder (Eliminates Blank Canvas Limit on Multi-Page HTML) */
+  /* Reliable Multi-Page Bulk PDF Generator using direct html2canvas + window.jspdf.jsPDF */
   async function downloadAllBulkPDF() {
     if (bulkEmployees.length === 0) return;
     if (currentEmpIdx >= 0) saveEditsToCurrentEmployee(true);
@@ -1244,48 +1308,47 @@
     window.scrollTo(0, 0);
 
     const PDF_WIDTH = 660;
+    // Visible top-left overlay ensures html2canvas always paints the element properly (never blank)
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed; inset:0; background:rgba(15,23,42,0.75); z-index:999999; overflow:auto; padding:0; margin:0;';
     const staging = document.createElement('div');
-    staging.style.cssText = `position:fixed; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0; pointer-events:none;`;
-    document.body.appendChild(staging);
+    staging.style.cssText = `position:relative; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; margin:0; padding:0;`;
+    overlay.appendChild(staging);
+    document.body.appendChild(overlay);
 
     try {
-      // Obtain jsPDF constructor exposed by html2pdf bundle
-      const sampleWorker = html2pdf().set({ jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } });
-      const basePdf = await sampleWorker.toPdf().get('pdf');
-      const JsPDFCtor = basePdf.constructor;
-      const pdf = new JsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      const JsPDFClass = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+      if (!JsPDFClass || typeof html2canvas === 'undefined') {
+        throw new Error('PDF libraries still loading');
+      }
 
-      const pageW = pdf.internal.pageSize.getWidth();   // 210 mm
-      const pageH = pdf.internal.pageSize.getHeight();  // 297 mm
+      const pdf = new JsPDFClass({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
       const marginX = 12;
       const marginY = 10;
       const usableW = pageW - marginX * 2;
       const usableH = pageH - marginY * 2;
 
       for (let i = 0; i < bulkEmployees.length; i++) {
-        btn.innerText = `⏳ Rendering Slip ${i + 1} of ${bulkEmployees.length}...`;
+        btn.innerText = `⏳ Generating Slip ${i + 1} of ${bulkEmployees.length}...`;
         staging.innerHTML = buildSingleSlipCardHTML(bulkEmployees[i]);
 
-        await new Promise(r => requestAnimationFrame(() => setTimeout(r, 80)));
+        // Allow browser to paint DOM node before capture
+        await new Promise(r => requestAnimationFrame(() => setTimeout(r, 120)));
 
-        const canvas = await html2pdf()
-          .set({
-            html2canvas: {
-              scale: 2.5,
-              useCORS: true,
-              letterRendering: true,
-              scrollX: 0,
-              scrollY: 0,
-              x: 0,
-              y: 0,
-              width: PDF_WIDTH,
-              windowWidth: PDF_WIDTH,
-              backgroundColor: '#ffffff'
-            }
-          })
-          .from(staging)
-          .toCanvas()
-          .get('canvas');
+        const canvas = await html2canvas(staging, {
+          scale: 2.5,
+          useCORS: true,
+          logging: false,
+          scrollX: 0,
+          scrollY: 0,
+          x: 0,
+          y: 0,
+          width: PDF_WIDTH,
+          windowWidth: PDF_WIDTH,
+          backgroundColor: '#ffffff'
+        });
 
         const imgData = canvas.toDataURL('image/png', 1.0);
         let renderW = usableW;
@@ -1304,9 +1367,10 @@
       pdf.save(`Bulk_PaySlips_${monthSlug}.pdf`);
       showToast(`Downloaded all ${bulkEmployees.length} salary slips in one crisp A4 PDF!`);
     } catch (err) {
-      showToast('Error generating bulk PDF. Please try again.');
+      console.error(err);
+      showToast('Error generating bulk PDF: ' + (err.message || 'Please retry.'));
     } finally {
-      staging.remove();
+      overlay.remove();
       window.scrollTo(savedX, savedY);
       btn.disabled = false;
       btn.innerText = `📚 3. Generate All Slips PDF (${bulkEmployees.length})`;
@@ -1612,6 +1676,7 @@
     customDeds = [];
     renderCustomRows();
     document.getElementById('in_pay_date').value = new Date().toISOString().split('T')[0];
+    setMonthYearFromString('');
     calcSalary();
   }
 
@@ -1623,6 +1688,7 @@
       }
     } catch (e) {}
     document.getElementById('in_pay_date').value = new Date().toISOString().split('T')[0];
+    setMonthYearFromString('');
     loadCompanyLocal();
     calcSalary();
   };
