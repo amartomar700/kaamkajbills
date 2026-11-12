@@ -1231,67 +1231,86 @@
     `;
   }
 
-  function downloadAllBulkPDF() {
+  /* Page-by-Page Direct jsPDF Multi-Page Builder (Eliminates Blank Canvas Limit on Multi-Page HTML) */
+  async function downloadAllBulkPDF() {
     if (bulkEmployees.length === 0) return;
     if (currentEmpIdx >= 0) saveEditsToCurrentEmployee(true);
 
     const btn = document.getElementById('btnBulkPdf');
     btn.disabled = true;
-    btn.innerText = `⏳ Generating ${bulkEmployees.length} Slips PDF...`;
 
     const savedX = window.scrollX || 0;
     const savedY = window.scrollY || 0;
     window.scrollTo(0, 0);
 
     const PDF_WIDTH = 660;
-    const container = document.createElement('div');
-    container.style.cssText = `position:absolute; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0;`;
+    const staging = document.createElement('div');
+    staging.style.cssText = `position:fixed; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0; pointer-events:none;`;
+    document.body.appendChild(staging);
 
-    bulkEmployees.forEach((emp, i) => {
-      const pageWrap = document.createElement('div');
-      if (i > 0) pageWrap.style.pageBreakBefore = 'always';
-      pageWrap.innerHTML = buildSingleSlipCardHTML(emp);
-      container.appendChild(pageWrap);
-    });
+    try {
+      // Obtain jsPDF constructor exposed by html2pdf bundle
+      const sampleWorker = html2pdf().set({ jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } });
+      const basePdf = await sampleWorker.toPdf().get('pdf');
+      const JsPDFCtor = basePdf.constructor;
+      const pdf = new JsPDFCtor({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
 
-    document.body.appendChild(container);
-    const monthSlug = (bulkEmployees[0].payMonth || 'Bulk_Slips').replace(/[^a-zA-Z0-9-_]/g, '_');
+      const pageW = pdf.internal.pageSize.getWidth();   // 210 mm
+      const pageH = pdf.internal.pageSize.getHeight();  // 297 mm
+      const marginX = 12;
+      const marginY = 10;
+      const usableW = pageW - marginX * 2;
+      const usableH = pageH - marginY * 2;
 
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        html2pdf().set({
-          margin: [10, 12, 10, 12],
-          filename: `Bulk_PaySlips_${monthSlug}.pdf`,
-          image: { type: 'png', quality: 1.0 },
-          html2canvas: {
-            scale: 2.5,
-            useCORS: true,
-            letterRendering: true,
-            scrollX: 0,
-            scrollY: 0,
-            x: 0,
-            y: 0,
-            width: PDF_WIDTH,
-            windowWidth: PDF_WIDTH,
-            backgroundColor: '#ffffff'
-          },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-          pagebreak: { mode: ['css', 'legacy'] }
-        }).from(container).save().then(() => {
-          container.remove();
-          window.scrollTo(savedX, savedY);
-          btn.disabled = false;
-          btn.innerText = `📚 3. Generate All Slips PDF (${bulkEmployees.length})`;
-          showToast(`Downloaded all ${bulkEmployees.length} salary slips in one A4 PDF!`);
-        }).catch(() => {
-          container.remove();
-          window.scrollTo(savedX, savedY);
-          btn.disabled = false;
-          btn.innerText = `📚 3. Generate All Slips PDF (${bulkEmployees.length})`;
-          showToast('Bulk PDF error. Try fewer records at a time.');
-        });
-      }, 180);
-    });
+      for (let i = 0; i < bulkEmployees.length; i++) {
+        btn.innerText = `⏳ Rendering Slip ${i + 1} of ${bulkEmployees.length}...`;
+        staging.innerHTML = buildSingleSlipCardHTML(bulkEmployees[i]);
+
+        await new Promise(r => requestAnimationFrame(() => setTimeout(r, 80)));
+
+        const canvas = await html2pdf()
+          .set({
+            html2canvas: {
+              scale: 2.5,
+              useCORS: true,
+              letterRendering: true,
+              scrollX: 0,
+              scrollY: 0,
+              x: 0,
+              y: 0,
+              width: PDF_WIDTH,
+              windowWidth: PDF_WIDTH,
+              backgroundColor: '#ffffff'
+            }
+          })
+          .from(staging)
+          .toCanvas()
+          .get('canvas');
+
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        let renderW = usableW;
+        let renderH = (canvas.height * renderW) / canvas.width;
+        if (renderH > usableH) {
+          renderH = usableH;
+          renderW = (canvas.width * renderH) / canvas.height;
+        }
+        const offsetX = marginX + (usableW - renderW) / 2;
+
+        if (i > 0) pdf.addPage('a4', 'portrait');
+        pdf.addImage(imgData, 'PNG', offsetX, marginY, renderW, renderH, undefined, 'FAST');
+      }
+
+      const monthSlug = (bulkEmployees[0].payMonth || 'Bulk_Slips').replace(/[^a-zA-Z0-9-_]/g, '_');
+      pdf.save(`Bulk_PaySlips_${monthSlug}.pdf`);
+      showToast(`Downloaded all ${bulkEmployees.length} salary slips in one crisp A4 PDF!`);
+    } catch (err) {
+      showToast('Error generating bulk PDF. Please try again.');
+    } finally {
+      staging.remove();
+      window.scrollTo(savedX, savedY);
+      btn.disabled = false;
+      btn.innerText = `📚 3. Generate All Slips PDF (${bulkEmployees.length})`;
+    }
   }
 
   /* =========================================================
