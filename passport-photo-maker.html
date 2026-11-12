@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Passport & Stamp Size Photo Sheet Maker - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+  }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  /* Top Navigation Bar */
+  .top-nav {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: 0.2s;
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+
+  /* PC Full-Wide Split Grid Layout */
+  .kb-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 24px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* Left Control Box */
+  .control-box {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input[type="text"], input[type="number"], select, input[type="file"] {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: #f8fafc;
+    transition: all 0.2s;
+  }
+  input:focus, select:focus {
+    border-color: var(--primary);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 14px 0 12px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  /* Cropper Preview Box */
+  .crop-stage {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #f8fafc;
+    border: 1.5px dashed #94a3b8;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .crop-frame {
+    width: 110px;
+    height: 138px;
+    border: 2px solid #0f172a;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .crop-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center center;
+    display: block;
+  }
+  .sliders-wrap { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .slider-row { display: flex; flex-direction: column; gap: 2px; }
+  .slider-row span { font-size: 11px; font-weight: 700; color: var(--ink-muted); }
+  input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; }
+
+  /* Background Color Swatches */
+  .bg-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch {
+    padding: 6px 12px;
+    border: 2px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #fff;
+  }
+  .swatch.active { border-color: var(--primary); background: var(--primary-soft); color: var(--primary-dark); }
+
+  /* Actions */
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 72px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .preview-label {
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+  }
+
+  #printSheetWrap {
+    background: #ffffff;
+    padding: 18px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .photo-sheet {
+    background: #ffffff;
+    border: 1px dashed #94a3b8;
+    padding: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    align-content: flex-start;
+  }
+  .sheet-a4 { width: 100%; max-width: 560px; min-height: 420px; }
+  .sheet-4x6 { width: 100%; max-width: 390px; min-height: 270px; }
+
+  .p-tile {
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  .p-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 960px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .preview-panel { position: static; }
+    .top-nav { padding: 10px 12px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .crop-stage { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+  <span class="nav-title">KaamKaj Bills • Passport Photo Sheet Maker</span>
+  <span style="width: 60px;"></span>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: PHOTO CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Upload Photo & Crop Adjustment</div>
+    <div class="field">
+      <label>Select Portrait Photo (चेहरा स्पष्ट दिखने वाली फोटो चुनें)</label>
+      <input type="file" accept="image/*" onchange="handlePhoto(event)">
+    </div>
+
+    <div class="crop-stage">
+      <div class="crop-frame" id="cropBox">
+        <img id="cropPreviewImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='150' fill='%2364748b'><rect width='120' height='150' fill='%23e2e8f0'/><circle cx='60' cy='52' r='24'/><path d='M22 140 c0-28 76-28 76 0'/></svg>" alt="Preview">
+      </div>
+      <div class="sliders-wrap">
+        <div class="slider-row">
+          <span>🔍 Zoom Level (<b id="lblZoom">100%</b>)</span>
+          <input type="range" id="rngZoom" min="100" max="220" value="100" oninput="updateCrop()">
+        </div>
+        <div class="slider-row">
+          <span>↔️ Left / Right Position (<b id="lblX">0px</b>)</span>
+          <input type="range" id="rngX" min="-50" max="50" value="0" oninput="updateCrop()">
+        </div>
+        <div class="slider-row">
+          <span>↕️ Up / Down Position (<b id="lblY">0px</b>)</span>
+          <input type="range" id="rngY" min="-50" max="50" value="0" oninput="updateCrop()">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-badge">2. Paper Size, Photo Copies & Border</div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Paper Size (पेपर)</label>
+        <select id="selPaper" onchange="renderSheet()">
+          <option value="A4" selected>A4 Sheet (210 × 297 mm)</option>
+          <option value="4X6">4 × 6 Inch Photo Paper</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Photo Size (आकार)</label>
+        <select id="selSize" onchange="renderSheet()">
+          <option value="PASSPORT" selected>Passport (35 × 45 mm)</option>
+          <option value="VISA">Visa / Square (50 × 50 mm)</option>
+          <option value="STAMP">Stamp Size (25 × 30 mm)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Number of Copies</label>
+        <select id="selCount" onchange="renderSheet()">
+          <option value="4">4 Photos</option>
+          <option value="6">6 Photos</option>
+          <option value="8" selected>8 Photos</option>
+          <option value="12">12 Photos</option>
+          <option value="16">16 Photos</option>
+          <option value="20">20 Photos</option>
+          <option value="24">24 Photos</option>
+          <option value="30">30 Photos</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Cut Border Style</label>
+        <select id="selBorder" onchange="renderSheet()">
+          <option value="1px solid #0f172a" selected>Thin Black Border (कटिंग लाइन)</option>
+          <option value="1px dashed #64748b">Dashed Cut Line</option>
+          <option value="none">No Border</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Transparent PNG Background Fill</label>
+        <div class="bg-swatches">
+          <button type="button" class="swatch active" onclick="setBg('#ffffff', this)">White</button>
+          <button type="button" class="swatch" onclick="setBg('#dbeafe', this)">Sky Blue</button>
+          <button type="button" class="swatch" onclick="setBg('#fee2e2', this)">Light Red</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadSheetPDF()">📥 Download Print-Ready PDF</button>
+      <button type="button" class="btn btn-print" onclick="printSheetDirect()">🖨️ Direct Photo Print</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PRINT SHEET -->
+  <div class="preview-panel">
+    <div class="preview-label" id="sheetTitle">Live Print Sheet Preview (A4 • 8 Passport Photos)</div>
+    <div id="printSheetWrap">
+      <div class="photo-sheet sheet-a4" id="photoSheet"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let imgSrc = document.getElementById('cropPreviewImg').src;
+  let fillBg = '#ffffff';
+  let zoom = 1, offX = 0, offY = 0;
+
+  function handlePhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      imgSrc = ev.target.result;
+      document.getElementById('cropPreviewImg').src = imgSrc;
+      renderSheet();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function setBg(color, btn) {
+    fillBg = color;
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('cropBox').style.background = color;
+    renderSheet();
+  }
+
+  function updateCrop() {
+    zoom = (parseInt(document.getElementById('rngZoom').value) || 100) / 100;
+    offX = parseInt(document.getElementById('rngX').value) || 0;
+    offY = parseInt(document.getElementById('rngY').value) || 0;
+
+    document.getElementById('lblZoom').innerText = Math.round(zoom * 100) + '%';
+    document.getElementById('lblX').innerText = offX + 'px';
+    document.getElementById('lblY').innerText = offY + 'px';
+
+    const img = document.getElementById('cropPreviewImg');
+    img.style.transform = `scale(${zoom}) translate(${offX}px, ${offY}px)`;
+    renderSheet();
+  }
+
+  function renderSheet() {
+    const paper = document.getElementById('selPaper').value;
+    const size = document.getElementById('selSize').value;
+    const count = parseInt(document.getElementById('selCount').value) || 8;
+    const border = document.getElementById('selBorder').value;
+
+    const sheet = document.getElementById('photoSheet');
+    sheet.className = 'photo-sheet ' + (paper === 'A4' ? 'sheet-a4' : 'sheet-4x6');
+
+    let w = 92, h = 116; // Passport scaled pixels
+    if (size === 'VISA') { w = 115; h = 115; }
+    if (size === 'STAMP') { w = 68; h = 82; }
+
+    document.getElementById('sheetTitle').innerText = `Live Print Sheet (${paper} • ${count} ${size} Photos)`;
+
+    let html = '';
+    for (let i = 0; i < count; i++) {
+      html += `
+        <div class="p-tile" style="width:${w}px; height:${h}px; border:${border}; background:${fillBg};">
+          <img src="${imgSrc}" style="transform:scale(${zoom}) translate(${offX}px, ${offY}px); transform-origin:center center;" alt="Photo">
+        </div>
+      `;
+    }
+    sheet.innerHTML = html;
+  }
+
+  function downloadSheetPDF() {
+    const paper = document.getElementById('selPaper').value;
+    const el = document.getElementById('photoSheet');
+    html2pdf().set({
+      margin: [5, 5, 5, 5],
+      filename: `Passport_Photos_${paper}.pdf`,
+      image: { type: 'jpeg', quality: 0.99 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: paper === 'A4' ? 'a4' : [101.6, 152.4], orientation: 'portrait' }
+    }).from(el).save();
+  }
+
+  function printSheetDirect() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Passport Photos</title><style>
+      *{box-sizing:border-box}body{margin:8mm;background:#fff}
+      .photo-sheet{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
+      .p-tile{overflow:hidden;position:relative;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .p-tile img{width:100%;height:100%;object-fit:cover;display:block}
+    </style></head><body>${document.getElementById('printSheetWrap').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
+  }
+
+  window.onload = renderSheet;
+</script>
+</body>
+</html>
