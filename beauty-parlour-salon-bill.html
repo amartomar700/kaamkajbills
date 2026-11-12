@@ -1086,12 +1086,14 @@
   @media print {
     @page {
       size: A4 portrait;
-      margin: 10mm;
+      margin: 0mm;
     }
-    body {
+    html, body {
       background: #ffffff !important;
       margin: 0 !important;
       padding: 0 !important;
+      width: 100% !important;
+      height: auto !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
@@ -1125,7 +1127,7 @@
       min-height: auto !important;
       box-shadow: none !important;
       border-top: 5px solid #d6336c !important;
-      padding: 8px 10px !important;
+      padding: 12mm 14mm !important;
       margin: 0 !important;
     }
     .doc-top-banner {
@@ -2790,7 +2792,11 @@
     // Primary Actions
     $('btnDownloadPdf').addEventListener('click', generateA4PDF);
     $('btnPrintDoc').addEventListener('click', () => {
+      const origTitle = document.title;
+      const rawDocNo = ($('docNumber').value.trim() || 'Slip').replace(/[^a-zA-Z0-9-_]/g, '');
+      document.title = rawDocNo;
       window.print();
+      setTimeout(() => { document.title = origTitle; }, 500);
     });
     $('btnWhatsappShare').addEventListener('click', openWhatsAppModal);
 
