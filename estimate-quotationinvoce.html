@@ -618,7 +618,7 @@
             <th class="t-center" style="width:5%;">Sl.</th>
             <th style="width:32%;" id="th_desc">Product / Service Description*</th>
             <th style="width:10%;" id="th_hsn">HSN/SAC</th>
-            <th class="t-center" style="width:9%;">GST %</th>
+            <th class="t-center gst-col" style="width:9%;">GST %</th>
             <th class="t-center" style="width:10%;" id="th_qty">Qty / Days*</th>
             <th class="t-right" style="width:12%;">Rate (₹)*</th>
             <th class="t-center" style="width:8%;">Disc %</th>
@@ -638,10 +638,9 @@
     <!-- Bottom Tax Type & Summary -->
     <div class="bottom-calc-grid">
       <div>
-        <div class="tax-radio-group">
+        <div class="tax-radio-group" id="gstTypeGroup">
           <label><input type="radio" name="taxType" value="INTRA" checked onchange="recalc()"> Intra-state (CGST + SGST)</label>
           <label><input type="radio" name="taxType" value="INTER" onchange="recalc()"> Inter-state (IGST)</label>
-          <label><input type="radio" name="taxType" value="NOGST" onchange="recalc()"> Without GST (Non-GST)</label>
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:440px;">
           <div class="u-field">
@@ -815,12 +814,12 @@
     document.getElementById('th_hsn').innerText = type === 'LABOUR' ? 'SAC / Unit' : 'HSN/SAC';
     document.getElementById('th_qty').innerText = type === 'LABOUR' ? 'Days / Qty*' : 'Qty*';
 
-    // Default tax radio for Estimate / Labour vs Tax Invoice
-    if (type === 'ESTIMATE' || type === 'LABOUR') {
-      document.querySelector('input[name="taxType"][value="NOGST"]').checked = true;
-    } else {
-      document.querySelector('input[name="taxType"][value="INTRA"]').checked = true;
-    }
+    // GST options & column appear ONLY on Tax Invoice (INVOICE)
+    const isTaxInvoice = (type === 'INVOICE');
+    document.getElementById('gstTypeGroup').style.display = isTaxInvoice ? 'flex' : 'none';
+    document.querySelectorAll('.gst-col').forEach(el => {
+      el.style.display = isTaxInvoice ? '' : 'none';
+    });
 
     // Update doc number prefix
     const randNum = Math.floor(100000 + Math.random() * 899990);
@@ -867,17 +866,27 @@
   }
 
   function renderTable() {
-    const taxMode = document.querySelector('input[name="taxType"]:checked').value;
+    const isTaxInvoice = (docType === 'INVOICE');
     document.getElementById('itemsBody').innerHTML = items.map((it, i) => {
       const base = (it.qty || 0) * (it.rate || 0);
       const afterDisc = base - (base * (it.disc || 0) / 100);
-      const effectiveGst = taxMode === 'NOGST' ? 0 : (it.gst || 0);
+      const effectiveGst = Number(it.gst) || 0;
       return `
         <tr>
           <td class="t-center"><b>${i+1}</b></td>
           <td><input value="${it.name.replace(/"/g, '&quot;')}" placeholder="Description" oninput="items[${i}].name=this.value"></td>
           <td><input value="${(it.hsn||'').replace(/"/g, '&quot;')}" placeholder="${docType === 'LABOUR' ? 'Day/Pt' : 'HSN'}" oninput="items[${i}].hsn=this.value"></td>
-          <td><input type="number" class="t-center" value="${effectiveGst}" ${taxMode === 'NOGST' ? 'disabled' : ''} oninput="items[${i}].gst=parseFloat(this.value)||0;recalc()"></td>
+          <td class="gst-col">
+            <select style="width:100%; border:none; border-bottom:1.5px solid #cbd5e1; padding:6px 2px; font-size:12.5px; font-weight:700; background:transparent; outline:none; text-align:center;" onchange="items[${i}].gst=parseFloat(this.value)||0;recalc()">
+              <option value="0" ${effectiveGst===0?'selected':''}>0%</option>
+              <option value="3" ${effectiveGst===3?'selected':''}>3%</option>
+              <option value="5" ${effectiveGst===5?'selected':''}>5%</option>
+              <option value="12" ${effectiveGst===12?'selected':''}>12%</option>
+              <option value="18" ${effectiveGst===18?'selected':''}>18%</option>
+              <option value="28" ${effectiveGst===28?'selected':''}>28%</option>
+              ${![0,3,5,12,18,28].includes(effectiveGst) ? `<option value="${effectiveGst}" selected>${effectiveGst}%</option>` : ''}
+            </select>
+          </td>
           <td><input type="number" class="t-center" value="${it.qty}" min="0" step="any" oninput="items[${i}].qty=parseFloat(this.value)||0;recalc()"></td>
           <td><input type="number" class="t-right" value="${it.rate}" min="0" step="any" oninput="items[${i}].rate=parseFloat(this.value)||0;recalc()"></td>
           <td><input type="number" class="t-center" value="${it.disc}" min="0" max="100" oninput="items[${i}].disc=parseFloat(this.value)||0;recalc()"></td>
@@ -886,6 +895,9 @@
         </tr>
       `;
     }).join('');
+    document.querySelectorAll('.gst-col').forEach(el => {
+      el.style.display = isTaxInvoice ? '' : 'none';
+    });
     recalc();
   }
 
@@ -910,8 +922,9 @@
 
   function recalc() {
     const taxMode = document.querySelector('input[name="taxType"]:checked').value;
-    const isIntra = taxMode === 'INTRA';
-    const isNoGst = taxMode === 'NOGST';
+    const isTaxInvoice = (docType === 'INVOICE');
+    const isIntra = isTaxInvoice && (taxMode === 'INTRA');
+    const isNoGst = !isTaxInvoice;
 
     let sub = 0, totalTax = 0;
     items.forEach((it, i) => {
@@ -953,8 +966,9 @@
   function buildCleanInvoiceHTML() {
     const cfg = DOC_CONFIG[docType];
     const taxMode = document.querySelector('input[name="taxType"]:checked').value;
-    const isIntra = taxMode === 'INTRA';
-    const isNoGst = taxMode === 'NOGST';
+    const isTaxInvoice = (docType === 'INVOICE');
+    const isIntra = isTaxInvoice && (taxMode === 'INTRA');
+    const isNoGst = !isTaxInvoice;
     const extra = Math.max(0, parseFloat(document.getElementById('extra_charge').value) || 0);
     const adv = Math.max(0, parseFloat(document.getElementById('adv_received').value) || 0);
     let sub = 0, totalTax = 0;
@@ -971,10 +985,10 @@
           <td style="text-align:center; padding:6px; border:1px solid #cbd5e1;">${i+1}</td>
           <td style="padding:6px; border:1px solid #cbd5e1;"><b>${escHtml(it.name || '-')}</b></td>
           <td style="text-align:center; padding:6px; border:1px solid #cbd5e1;">${escHtml(it.hsn || '-')}</td>
-          ${!isNoGst ? `<td style="text-align:center; padding:6px; border:1px solid #cbd5e1;">${gstRate}%</td>` : ''}
+          ${!isNoGst ? `<td style="text-align:center; padding:6px; border:1px solid #cbd5e1;">${gstRate}%<br><span style="font-size:9px; color:#64748b;">₹${tax.toLocaleString('en-IN', {minimumFractionDigits:2})}</span></td>` : ''}
           <td style="text-align:center; padding:6px; border:1px solid #cbd5e1;">${it.qty}</td>
           <td style="text-align:right; padding:6px; border:1px solid #cbd5e1;">₹${(it.rate||0).toLocaleString('en-IN')}</td>
-          <td style="text-align:right; padding:6px; border:1px solid #cbd5e1;"><b>₹${taxable.toLocaleString('en-IN', {minimumFractionDigits:2})}</b></td>
+          <td style="text-align:right; padding:6px; border:1px solid #cbd5e1;"><b>₹${(taxable + tax).toLocaleString('en-IN', {minimumFractionDigits:2})}</b></td>
         </tr>
       `;
     }).join('');
@@ -1034,7 +1048,7 @@
               ${!isNoGst ? `<th style="padding:6px; border:1px solid #066399;">GST</th>` : ''}
               <th style="padding:6px; border:1px solid #066399;">${docType === 'LABOUR' ? 'Days/Qty' : 'Qty'}</th>
               <th style="padding:6px; border:1px solid #066399; text-align:right;">Rate</th>
-              <th style="padding:6px; border:1px solid #066399; text-align:right;">Amount</th>
+              <th style="padding:6px; border:1px solid #066399; text-align:right;">${!isNoGst ? 'Total (Incl. GST)' : 'Amount'}</th>
             </tr>
           </thead>
           <tbody>${rowsHtml}</tbody>
