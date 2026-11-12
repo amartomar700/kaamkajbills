@@ -41,7 +41,6 @@
     overflow-x: hidden !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
-    /* Animated Gradient Background */
     background: linear-gradient(-45deg, var(--bg), #e2e8f0, var(--primary-soft), var(--bg));
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
@@ -273,7 +272,7 @@
   #sigCanvas {
     border: 1px solid var(--border);
     border-radius: 6px;
-    background: #ffffff; /* Always white for signature */
+    background: #ffffff;
     cursor: crosshair;
     touch-action: none;
     width: 100%;
@@ -428,7 +427,7 @@
 
     <div class="section-badge">1. Contractor / Firm Details</div>
     <div class="grid-2">
-      <div class="field"><label>Firm / Technician Name</label><input type="text" id="in_biz_name" placeholder="उदा. Maruthi Technologies / Kalyani Electrical" oninput="renderDoc()"></div>
+      <div class="field"><label>Firm / Technician Name</label><input type="text" id="in_biz_name" placeholder="उदा. Maruthi Technologies" oninput="renderDoc()"></div>
       <div class="field"><label>Address, Contact & GST/License</label><input type="text" id="in_biz_info" placeholder="उदा. Pune, Maharashtra | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
     </div>
 
@@ -468,7 +467,8 @@
     <div id="finControls">
       <div class="section-badge">4. Totals, Tax & Payment Details</div>
       <div class="grid-3">
-        <div class="field"><label>Discount (₹)</label><input type="number" id="in_discount" placeholder="0" oninput="calcTotals()"></div>
+        <!-- FIXED: Added min="0" to prevent negative inputs -->
+        <div class="field"><label>Discount (₹)</label><input type="number" id="in_discount" min="0" placeholder="0" oninput="calcTotals()"></div>
         <div class="field">
           <label>GST (%)</label>
           <select id="in_gst_rate" onchange="calcTotals()">
@@ -478,7 +478,7 @@
             <option value="18">18% GST</option>
           </select>
         </div>
-        <div class="field"><label>Advance Received (₹)</label><input type="number" id="in_advance" placeholder="0" oninput="calcTotals()"></div>
+        <div class="field"><label>Advance Received (₹)</label><input type="number" id="in_advance" min="0" placeholder="0" oninput="calcTotals()"></div>
       </div>
 
       <div class="grid-2">
@@ -573,7 +573,6 @@
     localStorage.setItem('kaamkaj_theme', next);
   }
   
-  // Load saved theme on startup
   const savedTheme = localStorage.getItem('kaamkaj_theme');
   if (savedTheme) {
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -669,9 +668,10 @@
     document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
       <tr>
         <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
-        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;calcTotals()"></td>
+        <!-- FIXED: Added min="0" to prevent negative Qty and Rate -->
+        <td><input type="number" step="any" min="0" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;calcTotals()"></td>
         <td><input value="${it.unit}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
-        <td style="${isMat ? 'display:none' : ''}"><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;calcTotals()"></td>
+        <td style="${isMat ? 'display:none' : ''}"><input type="number" step="any" min="0" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;calcTotals()"></td>
         <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
       </tr>
     `).join('');
@@ -687,24 +687,33 @@
     if (items.length > 1) { items.splice(i, 1); renderInputRows(); calcTotals(); }
   }
 
+  // --- FIXED CALCULATION LOGIC (100% Minus-Proof) ---
   function calcTotals() {
     if (docMode === 'MATERIAL_LIST') { renderDoc(); return; }
-    const sub = items.reduce((s, it) => s + (it.qty * it.rate), 0);
-    const disc = parseFloat(document.getElementById('in_discount').value) || 0;
+    
+    // 1. Force all values to be >= 0 using Math.max(0, ...)
+    const sub = Math.max(0, items.reduce((s, it) => s + (Math.max(0, it.qty) * Math.max(0, it.rate)), 0));
+    const disc = Math.max(0, parseFloat(document.getElementById('in_discount').value) || 0);
     const taxable = Math.max(0, sub - disc);
-    const gst = parseFloat(document.getElementById('in_gst_rate').value) || 0;
+    const gst = Math.max(0, parseFloat(document.getElementById('in_gst_rate').value) || 0);
     const taxAmt = (taxable * gst) / 100;
-    const tot = Math.round(taxable + taxAmt);
-    const adv = parseFloat(document.getElementById('in_advance').value) || 0;
+    const tot = Math.max(0, Math.round(taxable + taxAmt));
+    const adv = Math.max(0, parseFloat(document.getElementById('in_advance').value) || 0);
+    
+    // 2. Balance can NEVER go below 0
     const bal = Math.max(0, tot - adv);
 
     document.getElementById('out_sub').innerText = '₹' + sub.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
     document.getElementById('row_disc').style.display = disc > 0 ? 'table-row' : 'none';
     document.getElementById('out_disc').innerText = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
     document.getElementById('row_tax').style.display = gst > 0 ? 'table-row' : 'none';
     document.getElementById('out_tax_lbl').innerText = `GST (${gst}%):`;
     document.getElementById('out_tax').innerText = '+₹' + taxAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
     document.getElementById('out_tot').innerText = '₹' + tot.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    
     document.getElementById('row_adv').style.display = adv > 0 ? 'table-row' : 'none';
     document.getElementById('row_bal').style.display = adv > 0 ? 'table-row' : 'none';
     document.getElementById('out_adv').innerText = '-₹' + adv.toLocaleString('en-IN', { minimumFractionDigits: 2 });
