@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Technical & Engineering Resume Builder - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
@@ -14,65 +14,105 @@
     --ink-muted: #475569;
     --border: #cbd5e1;
     --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
   }
+
+  body.dark-mode {
+    --accent: #38bdf8;
+    --accent-soft: rgba(56, 189, 248, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: #334155;
+    --bg: #0b1120;
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  }
+
   html, body {
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    background: var(--bg);
+    min-height: 100vh;
+    background-color: var(--bg);
     color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+    overflow-x: hidden;
+    transition: background-color 0.2s, color 0.2s;
   }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
 
   /* Top Navigation Bar */
   .top-nav {
-    background: var(--primary);
-    color: #fff;
-    padding: 12px 24px;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 12px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     border-bottom: 3px solid #f59e0b;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+    background-color: rgba(255,255,255,0.12);
+    color: #ffffff;
     text-decoration: none;
     padding: 7px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 700;
     border: 1px solid rgba(255,255,255,0.2);
     transition: 0.2s;
   }
-  .btn-home:hover { background: var(--accent); border-color: var(--accent); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+  .btn-home:hover { background-color: #0284c7; border-color: #38bdf8; }
+  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
+  .btn-theme {
+    background-color: rgba(255,255,255,0.14);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
 
-  /* PC Full-Wide Split Grid Layout */
+  /* Full-Screen Wide HD Split Layout */
   .kb-wrapper {
     width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
+    max-width: 1580px;
+    margin: 0 auto;
+    padding: 20px 26px 48px 26px;
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: minmax(420px, 0.96fr) minmax(540px, 1.04fr);
     gap: 24px;
     align-items: start;
   }
 
   /* Left Control Box */
   .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 14px;
     padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    box-shadow: var(--shadow);
   }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -84,24 +124,24 @@
   input, select, textarea {
     width: 100%;
     padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
     font-size: 13.5px;
     outline: none;
     color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
+    background-color: var(--surface-alt);
+    transition: border-color 0.2s, background-color 0.2s;
   }
   textarea { resize: vertical; min-height: 62px; }
   input:focus, select:focus, textarea:focus {
     border-color: var(--accent);
-    background: #ffffff;
+    background-color: var(--surface);
     box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
   }
 
   .section-badge {
-    background: var(--accent-soft);
-    color: #0369a1;
+    background-color: var(--accent-soft);
+    color: var(--accent);
     font-size: 11.5px;
     font-weight: 800;
     padding: 6px 12px;
@@ -115,166 +155,222 @@
   }
   .section-badge:first-of-type { margin-top: 0; }
 
+  /* CV Color Theme Selector */
+  .cv-theme-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .cv-pill {
+    padding: 6px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    background-color: var(--surface-alt);
+    color: var(--ink);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cv-pill.active { border-color: var(--accent); background-color: var(--accent-soft); color: var(--accent); }
+  .dot-c { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
     flex: 1;
-    min-width: 140px;
+    min-width: 150px;
     padding: 13px;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     transition: 0.2s;
   }
   .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-pdf { background-color: #0284c7; }
+  .btn-print { background-color: #0f172a; }
 
   /* Right Sticky Preview Panel */
   .preview-panel {
     position: sticky;
     top: 72px;
     width: 100%;
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow);
   }
   .preview-label {
     text-align: center;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--ink-muted);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 10px;
   }
-
-  #a4DocSheet {
-    background: #ffffff;
+  .preview-viewport {
     width: 100%;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
+    overflow-x: auto;
+    background-color: #e2e8f0;
+    padding: 18px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+  body.dark-mode .preview-viewport {
+    background-color: #0f172a;
+  }
+
+  /* Exact A4 Proportion Sheet (794px x 1123px) */
+  #a4DocSheet {
+    background-color: #ffffff !important;
+    width: 794px;
+    min-height: 1123px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
     overflow: hidden;
     display: grid;
     grid-template-columns: 34% 66%;
-    min-height: 760px;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   /* Left Dark Sidebar in CV */
   .cv-side {
-    background: #0f172a;
+    background-color: #0f172a;
     color: #f8fafc;
-    padding: 20px 14px;
+    padding: 28px 18px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 18px;
   }
   .side-photo {
-    width: 84px;
-    height: 98px;
+    width: 96px;
+    height: 112px;
     margin: 0 auto;
-    border-radius: 8px;
-    border: 2.5px solid #38bdf8;
+    border-radius: 10px;
+    border: 3px solid #38bdf8;
     overflow: hidden;
   }
   .side-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
 
   .side-sec-title {
-    font-size: 10.5px;
+    font-size: 11px;
     font-weight: 800;
     color: #38bdf8;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    border-bottom: 1px solid rgba(255,255,255,0.18);
-    padding-bottom: 3px;
-    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
   }
-  .side-text { font-size: 9.8px; line-height: 1.5; color: #cbd5e1; word-break: break-word; white-space: pre-line; }
+  .side-text { font-size: 10.5px; line-height: 1.58; color: #e2e8f0; word-break: break-word; white-space: pre-line; }
   .tech-tag {
     display: inline-block;
-    background: rgba(56, 189, 248, 0.16);
-    border: 1px solid rgba(56, 189, 248, 0.4);
-    color: #e0f2fe;
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 9px;
+    background-color: rgba(56, 189, 248, 0.16);
+    border: 1px solid rgba(56, 189, 248, 0.45);
+    color: #f0f9ff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 9.5px;
     font-weight: 700;
-    margin: 2px 2px 2px 0;
+    margin: 2px 3px 3px 0;
   }
 
   /* Right Main Column in CV */
   .cv-main {
-    padding: 22px 20px;
-    background: #ffffff;
+    padding: 30px 28px;
+    background-color: #ffffff;
     color: #1e293b;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .cv-main-header { border-bottom: 2.5px solid #0284c7; padding-bottom: 10px; margin-bottom: 12px; }
-  .cv-main-header h1 { margin: 0; font-size: 20px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.4px; }
-  .cv-main-header .sub-role { font-size: 11.5px; font-weight: 800; color: #0284c7; margin-top: 3px; text-transform: uppercase; }
+  .cv-main-header { border-bottom: 3px solid #0284c7; padding-bottom: 12px; margin-bottom: 16px; }
+  .cv-main-header h1 { margin: 0; font-size: 24px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .cv-main-header .sub-role { font-size: 12.5px; font-weight: 800; color: #0284c7; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
 
-  .main-sec { margin-bottom: 13px; }
+  .main-sec { margin-bottom: 16px; }
   .main-sec-title {
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 900;
     color: #0f172a;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    background: #f1f5f9;
-    border-left: 3.5px solid #0284c7;
-    padding: 4px 8px;
-    margin-bottom: 6px;
+    background-color: #f1f5f9;
+    border-left: 4px solid #0284c7;
+    padding: 5px 10px;
+    margin-bottom: 8px;
   }
-  .main-text { font-size: 10.5px; line-height: 1.55; color: #334155; margin: 0; white-space: pre-line; }
+  .main-text { font-size: 11.2px; line-height: 1.62; color: #334155; margin: 0; white-space: pre-line; }
 
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+  @media (max-width: 1280px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
     .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
+    .preview-viewport { justify-content: flex-start; }
   }
   @media (max-width: 600px) {
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    #a4DocSheet { grid-template-columns: 1fr; }
+    .top-nav { padding: 10px 14px; }
+    .nav-title { font-size: 13.5px; }
+    .control-box, .preview-panel { padding: 14px 12px; }
   }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Technical & Engineering Resume</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+    <span class="nav-title">KaamKaj Bills • Technical &amp; Engineering Resume (A4 HD)</span>
+  </div>
+  <div class="nav-right">
+    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </div>
 </div>
 
 <div class="kb-wrapper">
   <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Engineer / Technical Profile & Photo</div>
+    <div class="section-badge">1. Select Resume Color Theme</div>
+    <div class="cv-theme-bar">
+      <button type="button" class="cv-pill active" onclick="setCvPalette('#0f172a', '#0284c7', '#38bdf8', this)"><span class="dot-c" style="background:#0284c7;"></span> Slate &amp; Sky Blue</button>
+      <button type="button" class="cv-pill" onclick="setCvPalette('#172554', '#1d4ed8', '#fbbf24', this)"><span class="dot-c" style="background:#1d4ed8;"></span> Royal Navy &amp; Gold</button>
+      <button type="button" class="cv-pill" onclick="setCvPalette('#064e3b', '#059669', '#34d399', this)"><span class="dot-c" style="background:#059669;"></span> Emerald Tech</button>
+      <button type="button" class="cv-pill" onclick="setCvPalette('#18181b', '#dc2626', '#f87171', this)"><span class="dot-c" style="background:#dc2626;"></span> Obsidian &amp; Red</button>
+    </div>
+
+    <div class="section-badge">2. Engineer / Technical Profile &amp; Photo</div>
     <div class="grid-2">
-      <div class="field"><label>Full Name</label><input type="text" id="in_name" value="Amar Singh Tomar" oninput="renderCV()"></div>
-      <div class="field"><label>Technical Role / Specialization</label><input type="text" id="in_role" value="Network Engineer & Technical Systems Analyst" oninput="renderCV()"></div>
+      <div class="field"><label>Full Name</label><input type="text" id="in_name" value="Rohan Verma" oninput="renderCV()"></div>
+      <div class="field"><label>Technical Role / Specialization</label><input type="text" id="in_role" value="Network Engineer &amp; Technical Systems Analyst" oninput="renderCV()"></div>
     </div>
 
     <div class="grid-3">
-      <div class="field"><label>Mobile / WhatsApp</label><input type="text" id="in_mob" value="+91 98XXXXXXXX" oninput="renderCV()"></div>
-      <div class="field"><label>Email ID</label><input type="text" id="in_email" value="amar.tech@email.com" oninput="renderCV()"></div>
-      <div class="field"><label>Location</label><input type="text" id="in_city" value="Pune, Maharashtra" oninput="renderCV()"></div>
+      <div class="field"><label>Mobile / WhatsApp</label><input type="text" id="in_mob" value="+91 90000 12345" oninput="renderCV()"></div>
+      <div class="field"><label>Email ID</label><input type="text" id="in_email" value="rohan.tech@email.com" oninput="renderCV()"></div>
+      <div class="field"><label>Location</label><input type="text" id="in_city" value="New Delhi, India" oninput="renderCV()"></div>
     </div>
 
     <div class="grid-2">
-      <div class="field"><label>GitHub / Portfolio / LinkedIn URL</label><input type="text" id="in_links" value="github.com/amartomar700" oninput="renderCV()"></div>
+      <div class="field"><label>GitHub / Portfolio / LinkedIn URL</label><input type="text" id="in_links" value="github.com/rohan-tech" oninput="renderCV()"></div>
       <div class="field"><label>Upload Profile Photo</label><input type="file" accept="image/*" onchange="loadPhoto(event)"></div>
     </div>
 
-    <div class="section-badge">2. Technical Skills & Tools Stack</div>
+    <div class="section-badge">3. Technical Skills &amp; Tools Stack</div>
     <div class="grid-2">
-      <div class="field"><label>Core Tech / Networking / Hardware</label><input type="text" id="in_tech1" value="CCNA Routing & Switching, LAN/WAN, Hikvision/CP Plus IP CCTV, NVR/DVR, PoE, Biometric Access" oninput="renderCV()"></div>
-      <div class="field"><label>Software / Scripting / Automation</label><input type="text" id="in_tech2" value="Python, HTML/CSS/JS, PowerShell, Windows Batch, Google Apps Script, ABB e-Design" oninput="renderCV()"></div>
+      <div class="field"><label>Core Tech / Networking / Hardware</label><input type="text" id="in_tech1" value="CCNA Routing &amp; Switching, LAN/WAN, IP CCTV Surveillance, NVR/DVR, PoE, Biometric Access" oninput="renderCV()"></div>
+      <div class="field"><label>Software / Scripting / Automation</label><input type="text" id="in_tech2" value="Python, HTML/CSS/JS, PowerShell, Windows Batch, Google Apps Script, AutoCAD Electrical" oninput="renderCV()"></div>
     </div>
 
-    <div class="section-badge">3. Summary, Experience & Key Technical Projects</div>
+    <div class="section-badge">4. Summary, Experience &amp; Key Technical Projects</div>
     <div class="field">
       <label>Technical Summary</label>
       <textarea id="in_summary" oninput="renderCV()">Results-driven Technical Analyst and Network Infrastructure Specialist with hands-on expertise in enterprise IP surveillance, structured LAN networking, electrical systems, and custom workflow automation tools.</textarea>
@@ -282,106 +378,145 @@
 
     <div class="field">
       <label>Work Experience</label>
-      <textarea id="in_exp" style="min-height:85px;" oninput="renderCV()">Technical Analyst & Proprietor — Maruthi Technologies, Pune (Present)
-• Designed and deployed end-to-end IP CCTV, biometric access control, and structured LAN setups for commercial & residential sites.
-• Built custom browser-based billing & operational utilities to streamline field workflows.</textarea>
+      <textarea id="in_exp" style="min-height:85px;" oninput="renderCV()">Technical Systems Engineer — Apex Infrastructure &amp; Tech Solutions (Present)
+• Designed and deployed end-to-end IP CCTV, biometric access control, and structured LAN setups for commercial &amp; residential sites.
+• Built custom browser-based billing &amp; operational utilities to streamline field reporting workflows.</textarea>
     </div>
 
     <div class="field">
-      <label>Key Technical & Software Projects</label>
-      <textarea id="in_proj" style="min-height:85px;" oninput="renderCV()">• KaamKaj Bills Portal: Developed a 27-tool multi-language business invoicing, ID card, and receipt web suite.
-• VeyroCam RTSP Virtual Bridge: Engineered a Windows DirectShow utility to route Hikvision RTSP camera feeds as virtual webcams.
-• Enterprise IP Surveillance & Solar Integrations: Executed multi-site PoE network architectures and on-grid solar electrical audits.</textarea>
+      <label>Key Technical &amp; Software Projects</label>
+      <textarea id="in_proj" style="min-height:85px;" oninput="renderCV()">• Automated Billing &amp; Document Suite: Developed a multi-language business invoicing, ID card, and receipt web application.
+• RTSP Virtual Camera Bridge: Engineered a Windows utility to route live IP camera RTSP streams into desktop applications.
+• Enterprise IP Surveillance &amp; Solar Audits: Executed multi-site PoE network architectures and solar load calculations.</textarea>
     </div>
 
-    <div class="section-badge">4. Certifications & Education</div>
+    <div class="section-badge">5. Certifications &amp; Education</div>
     <div class="grid-2">
       <div class="field">
-        <label>Certifications & Training</label>
+        <label>Certifications &amp; Training</label>
         <textarea id="in_cert" oninput="renderCV()">• CCNA Enterprise Networking Training
-• CP Plus & Hikvision IP Surveillance Certified
-• Electrical Wiring & Solar Design Specialist</textarea>
+• IP Surveillance &amp; Access Control Certified
+• Electrical Wiring &amp; Solar Design Specialist</textarea>
       </div>
       <div class="field">
         <label>Academic Education</label>
-        <textarea id="in_edu" oninput="renderCV()">• Diploma / Degree in Electronics & Technical Studies
-• Higher Secondary & Technical ITI Certification</textarea>
+        <textarea id="in_edu" oninput="renderCV()">• Diploma / Degree in Electronics &amp; Technical Studies
+• Higher Secondary &amp; Technical ITI Certification</textarea>
       </div>
     </div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download Technical Resume PDF</button>
-      <button type="button" class="btn btn-print" onclick="printCV()">🖨️ Direct Print Resume</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()">📥 Download A4 Technical Resume PDF</button>
+      <button type="button" class="btn btn-print" onclick="printCV()">🖨️ Direct Print A4 Resume</button>
     </div>
   </div>
 
-  <!-- RIGHT: LIVE TWO-COLUMN TECHNICAL RESUME PREVIEW -->
+  <!-- RIGHT: LIVE FULL A4 TWO-COLUMN TECHNICAL RESUME PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live A4 Engineering & Technical Resume</div>
-    <div id="a4DocSheet">
-      
-      <!-- SIDEBAR -->
-      <div class="cv-side">
-        <div class="side-photo">
-          <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%231e293b'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
+    <div class="preview-label">Live Full A4 Engineering &amp; Technical Resume (210 × 297 mm)</div>
+    <div class="preview-viewport">
+      <div id="a4DocSheet">
+
+        <!-- SIDEBAR -->
+        <div class="cv-side" id="cvSide">
+          <div class="side-photo" id="sidePhoto">
+            <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%231e293b'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
+          </div>
+
+          <div>
+            <div class="side-sec-title">Contact &amp; Links</div>
+            <div class="side-text" id="out_contact"></div>
+          </div>
+
+          <div>
+            <div class="side-sec-title">Core Infrastructure</div>
+            <div id="out_tech1"></div>
+          </div>
+
+          <div>
+            <div class="side-sec-title">Code &amp; Automation</div>
+            <div id="out_tech2"></div>
+          </div>
+
+          <div>
+            <div class="side-sec-title">Certifications</div>
+            <div class="side-text" id="out_cert"></div>
+          </div>
         </div>
 
-        <div>
-          <div class="side-sec-title">Contact & Links</div>
-          <div class="side-text" id="out_contact"></div>
+        <!-- MAIN BODY -->
+        <div class="cv-main">
+          <div>
+            <div class="cv-main-header" id="cvMainHeader">
+              <h1 id="out_name">ROHAN VERMA</h1>
+              <div class="sub-role" id="out_role">NETWORK ENGINEER &amp; TECHNICAL SYSTEMS ANALYST</div>
+            </div>
+
+            <div class="main-sec">
+              <div class="main-sec-title">Technical Profile</div>
+              <p class="main-text" id="out_summary"></p>
+            </div>
+
+            <div class="main-sec">
+              <div class="main-sec-title">Key Engineering &amp; Software Projects</div>
+              <p class="main-text" id="out_proj"></p>
+            </div>
+
+            <div class="main-sec">
+              <div class="main-sec-title">Professional Experience</div>
+              <p class="main-text" id="out_exp"></p>
+            </div>
+
+            <div class="main-sec">
+              <div class="main-sec-title">Education</div>
+              <p class="main-text" id="out_edu"></p>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid #e2e8f0; padding-top:10px; display:flex; justify-content:space-between; font-size:10px; color:#64748b;">
+            <span>Declaration: Information provided above is true to the best of my knowledge.</span>
+            <b style="color:#0f172a;" id="out_foot_name">ROHAN VERMA</b>
+          </div>
         </div>
 
-        <div>
-          <div class="side-sec-title">Core Infrastructure</div>
-          <div id="out_tech1"></div>
-        </div>
-
-        <div>
-          <div class="side-sec-title">Code & Automation</div>
-          <div id="out_tech2"></div>
-        </div>
-
-        <div>
-          <div class="side-sec-title">Certifications</div>
-          <div class="side-text" id="out_cert"></div>
-        </div>
       </div>
-
-      <!-- MAIN BODY -->
-      <div class="cv-main">
-        <div class="cv-main-header">
-          <h1 id="out_name">AMAR SINGH TOMAR</h1>
-          <div class="sub-role" id="out_role">NETWORK ENGINEER & TECHNICAL SYSTEMS ANALYST</div>
-        </div>
-
-        <div class="main-sec">
-          <div class="main-sec-title">Technical Profile</div>
-          <p class="main-text" id="out_summary"></p>
-        </div>
-
-        <div class="main-sec">
-          <div class="main-sec-title">Key Engineering & Software Projects</div>
-          <p class="main-text" id="out_proj"></p>
-        </div>
-
-        <div class="main-sec">
-          <div class="main-sec-title">Professional Experience</div>
-          <p class="main-text" id="out_exp"></p>
-        </div>
-
-        <div class="main-sec">
-          <div class="main-sec-title">Education</div>
-          <p class="main-text" id="out_edu"></p>
-        </div>
-      </div>
-
     </div>
   </div>
 </div>
 
 <script>
+  let sideBg = '#0f172a', mainAccent = '#0284c7', sideAccent = '#38bdf8';
+
+  function esc(str) {
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    try { localStorage.setItem('kkb_tech_resume_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  }
+
+  function setCvPalette(sBg, mAcc, sAcc, btn) {
+    sideBg = sBg;
+    mainAccent = mAcc;
+    sideAccent = sAcc;
+    document.querySelectorAll('.cv-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    applyPaletteStyles();
+  }
+
+  function applyPaletteStyles() {
+    document.getElementById('cvSide').style.backgroundColor = sideBg;
+    document.getElementById('sidePhoto').style.borderColor = sideAccent;
+    document.querySelectorAll('.side-sec-title').forEach(el => { el.style.color = sideAccent; });
+    document.getElementById('cvMainHeader').style.borderBottomColor = mainAccent;
+    document.getElementById('out_role').style.color = mainAccent;
+    document.querySelectorAll('.main-sec-title').forEach(el => { el.style.borderLeftColor = mainAccent; });
+  }
+
   function loadPhoto(e) {
-    const file = e.target.files[0];
+    const file = e.target.files && e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => { document.getElementById('out_photo').src = ev.target.result; };
@@ -389,11 +524,13 @@
   }
 
   function renderTags(str) {
-    return str.split(',').filter(s => s.trim()).map(s => `<span class="tech-tag">${s.trim()}</span>`).join('');
+    return str.split(',').filter(s => s.trim()).map(s => `<span class="tech-tag">${esc(s.trim())}</span>`).join('');
   }
 
   function renderCV() {
-    document.getElementById('out_name').innerText = document.getElementById('in_name').value.trim() || 'ENGINEER NAME';
+    const nm = document.getElementById('in_name').value.trim() || 'ENGINEER NAME';
+    document.getElementById('out_name').innerText = nm;
+    document.getElementById('out_foot_name').innerText = nm.toUpperCase();
     document.getElementById('out_role').innerText = document.getElementById('in_role').value.trim() || 'TECHNICAL ROLE';
 
     const mob = document.getElementById('in_mob').value.trim();
@@ -410,45 +547,113 @@
     document.getElementById('out_proj').innerText = document.getElementById('in_proj').value;
     document.getElementById('out_exp').innerText = document.getElementById('in_exp').value;
     document.getElementById('out_edu').innerText = document.getElementById('in_edu').value;
+    applyPaletteStyles();
   }
 
+  /* Zero-Clipping Exact A4 HD PDF Export */
   function downloadPDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:720px;margin:0 auto;border:none;box-shadow:none;display:grid;grid-template-columns:34% 66%;min-height:1020px;';
+    const btn = document.getElementById('btnPdf');
+    btn.disabled = true;
+    btn.innerText = '⏳ Generating HD A4 PDF...';
+
+    const savedX = window.scrollX || 0;
+    const savedY = window.scrollY || 0;
+    window.scrollTo(0, 0);
+
+    const source = document.getElementById('a4DocSheet');
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+
+    const A4_W = 794;
+    clone.style.cssText = [
+      `width: ${A4_W}px`,
+      `min-width: ${A4_W}px`,
+      `max-width: ${A4_W}px`,
+      'min-height: 1120px',
+      'margin: 0',
+      'border: none',
+      'box-shadow: none',
+      'display: grid',
+      'grid-template-columns: 34% 66%',
+      'box-sizing: border-box'
+    ].join(';');
+
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.style.cssText = `position:absolute; top:0; left:0; width:${A4_W}px; background-color:#ffffff; z-index:999999; margin:0; padding:0;`;
     wrap.appendChild(clone);
     document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [0, 0, 0, 0],
-      filename: `TechResume_${document.getElementById('in_name').value.trim() || 'Engineer'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 720, windowWidth: 720 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+
+    const engName = (document.getElementById('in_name').value.trim() || 'Engineer').replace(/[^a-zA-Z0-9-_]/g, '_');
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        html2pdf().set({
+          margin: [0, 0, 0, 0],
+          filename: `TechResume_${engName}.pdf`,
+          image: { type: 'png', quality: 1.0 },
+          html2canvas: {
+            scale: 3,
+            useCORS: true,
+            letterRendering: true,
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            width: A4_W,
+            windowWidth: A4_W,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        }).from(clone).save().then(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download A4 Technical Resume PDF';
+        }).catch(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download A4 Technical Resume PDF';
+        });
+      }, 150);
+    });
   }
 
+  /* Exact A4 Direct Print */
   function printCV() {
-    const w = window.open('', '_blank', 'width=850,height=950');
+    const w = window.open('', '_blank', 'width=900,height=950');
+    const sheetHTML = document.getElementById('a4DocSheet').innerHTML;
     w.document.write(`<!DOCTYPE html><html><head><title>Print Technical Resume</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-      .sheet{display:grid;grid-template-columns:34% 66%;min-height:296mm}
-      .cv-side{background:#0f172a;color:#f8fafc;padding:20px 14px;display:flex;flex-direction:column;gap:14px}
-      .side-photo{width:84px;height:98px;margin:0 auto;border-radius:8px;border:2.5px solid #38bdf8;overflow:hidden}
-      .side-photo img{width:100%;height:100%;object-fit:cover}
-      .side-sec-title{font-size:10.5px;font-weight:800;color:#38bdf8;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,0.18);padding-bottom:3px;margin-bottom:6px}
-      .side-text{font-size:9.8px;line-height:1.5;color:#cbd5e1;white-space:pre-line}
-      .tech-tag{display:inline-block;background:rgba(56,189,248,0.16);border:1px solid rgba(56,189,248,0.4);color:#e0f2fe;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;margin:2px 2px 2px 0}
-      .cv-main{padding:22px 20px;background:#fff;color:#1e293b}
-      .cv-main-header{border-bottom:2.5px solid #0284c7;padding-bottom:10px;margin-bottom:12px}
-      .cv-main-header h1{margin:0;font-size:20px;text-transform:uppercase}.cv-main-header .sub-role{font-size:11.5px;font-weight:800;color:#0284c7;margin-top:3px;text-transform:uppercase}
-      .main-sec{margin-bottom:13px}.main-sec-title{font-size:11px;font-weight:900;text-transform:uppercase;background:#f1f5f9;border-left:3.5px solid #0284c7;padding:4px 8px;margin-bottom:6px}
-      .main-text{font-size:10.5px;line-height:1.55;margin:0;white-space:pre-line}
-    </style></head><body><div class="sheet">${document.getElementById('a4DocSheet').innerHTML}</div></body></html>`);
+      @page { size: A4 portrait; margin: 0mm; }
+      * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      body { margin: 0; padding: 0; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .sheet { display: grid; grid-template-columns: 34% 66%; min-height: 297mm; width: 210mm; }
+      .cv-side { background-color: ${sideBg}; color: #f8fafc; padding: 26px 18px; display: flex; flex-direction: column; gap: 16px; }
+      .side-photo { width: 96px; height: 112px; margin: 0 auto; border-radius: 10px; border: 3px solid ${sideAccent}; overflow: hidden; }
+      .side-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .side-sec-title { font-size: 11px; font-weight: 800; color: ${sideAccent}; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; margin-bottom: 8px; }
+      .side-text { font-size: 10.5px; line-height: 1.58; color: #e2e8f0; white-space: pre-line; }
+      .tech-tag { display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.35); color: #ffffff; padding: 3px 8px; border-radius: 5px; font-size: 9.5px; font-weight: 700; margin: 2px 3px 3px 0; }
+      .cv-main { padding: 28px 26px; background: #ffffff; color: #1e293b; display: flex; flex-direction: column; justify-content: space-between; }
+      .cv-main-header { border-bottom: 3px solid ${mainAccent}; padding-bottom: 12px; margin-bottom: 16px; }
+      .cv-main-header h1 { margin: 0; font-size: 24px; font-weight: 900; text-transform: uppercase; color: #0f172a; }
+      .cv-main-header .sub-role { font-size: 12.5px; font-weight: 800; color: ${mainAccent}; margin-top: 4px; text-transform: uppercase; }
+      .main-sec { margin-bottom: 15px; }
+      .main-sec-title { font-size: 11.5px; font-weight: 900; text-transform: uppercase; background: #f1f5f9; border-left: 4px solid ${mainAccent}; padding: 5px 10px; margin-bottom: 8px; color: #0f172a; }
+      .main-text { font-size: 11.2px; line-height: 1.62; margin: 0; white-space: pre-line; color: #334155; }
+    </style></head><body><div class="sheet">${sheetHTML}</div></body></html>`);
     w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
   }
 
-  window.onload = renderCV;
+  window.onload = () => {
+    try {
+      if (localStorage.getItem('kkb_tech_resume_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('btnDark').innerText = '☀️ Light Mode';
+      }
+    } catch (e) {}
+    renderCV();
+  };
 </script>
 </body>
 </html>
