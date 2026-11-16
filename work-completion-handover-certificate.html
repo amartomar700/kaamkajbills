@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Work Completion & Site Handover Certificate - KaamKaj Bills</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0f172a;
+    --accent: #16a34a;
+    --accent-soft: #dcfce7;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: #cbd5e1;
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  }
+
+  body.dark-mode {
+    --accent: #22c55e;
+    --accent-soft: rgba(34, 197, 94, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: #334155;
+    --bg: #0b1120;
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+
+  html, body {
+    margin: 0; padding: 0; width: 100%; min-height: 100vh;
+    background-color: var(--bg); color: var(--ink); overflow-x: hidden;
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  .top-nav {
+    background-color: #0f172a; color: #ffffff; padding: 12px 28px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    border-bottom: 3px solid #f59e0b; position: sticky; top: 0; z-index: 100; flex-wrap: wrap;
+  }
+  .nav-left, .nav-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn-home {
+    background-color: rgba(255,255,255,0.12); color: #ffffff; text-decoration: none;
+    padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2); transition: 0.2s;
+  }
+  .btn-home:hover { background-color: #16a34a; border-color: #22c55e; }
+  .nav-title { font-size: 15.5px; font-weight: 800; }
+  .btn-theme {
+    background-color: rgba(255,255,255,0.14); color: #ffffff; border: 1px solid rgba(255,255,255,0.25);
+    padding: 7px 13px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s;
+  }
+  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
+
+  .kb-wrapper {
+    width: 100%; max-width: 1540px; margin: 0 auto; padding: 20px 26px 48px 26px;
+    display: grid; grid-template-columns: minmax(420px, 1.04fr) minmax(520px, 0.96fr);
+    gap: 24px; align-items: start;
+  }
+
+  .control-box {
+    background-color: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 22px 20px; box-shadow: var(--shadow);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select, textarea {
+    width: 100%; padding: 9px 11px; border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 13.5px; outline: none; color: var(--ink); background-color: var(--surface-alt);
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+  textarea { resize: vertical; min-height: 65px; }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); background-color: var(--surface); box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14); }
+
+  .section-badge {
+    background-color: var(--accent-soft); color: var(--accent); font-size: 11.5px; font-weight: 800;
+    padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;
+    margin: 14px 0 12px 0; text-transform: uppercase; border-left: 4px solid var(--accent);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  .sig-wrap { background-color: var(--surface-alt); border: 1.5px dashed var(--border); border-radius: 8px; padding: 10px; }
+  #sigCanvas {
+    border: 1px solid #94a3b8; border-radius: 6px; background-color: #ffffff;
+    cursor: crosshair; touch-action: none; width: 100%; max-width: 240px; height: 55px; display: block;
+  }
+  .btn-sm { background-color: #64748b; color: #ffffff; border: none; padding: 5px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .btn {
+    flex: 1; min-width: 150px; padding: 13px; border: none; border-radius: 8px;
+    font-size: 13.5px; font-weight: 800; color: #ffffff; cursor: pointer; text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: 0.2s;
+  }
+  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-pdf { background-color: #16a34a; }
+  .btn-print { background-color: #0f172a; }
+
+  .preview-panel {
+    position: sticky; top: 72px; width: 100%; background-color: var(--surface);
+    border: 1.5px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: var(--shadow);
+  }
+  .preview-label { text-align: center; font-size: 12px; font-weight: 800; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .preview-viewport {
+    width: 100%; overflow-x: auto; background-color: #e2e8f0; padding: 18px 14px;
+    border-radius: 10px; border: 1px solid var(--border); display: flex; justify-content: center;
+  }
+  body.dark-mode .preview-viewport { background-color: #0f172a; }
+
+  #a4DocSheet {
+    background-color: #ffffff !important; color: #0f172a !important; width: 100%; max-width: 700px;
+    padding: 30px 28px; border: 1.5px solid #cbd5e1; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    border-radius: 8px; box-sizing: border-box; flex-shrink: 0;
+  }
+
+  .cert-header {
+    border-bottom: 3px solid #16a34a; padding-bottom: 12px; margin-bottom: 16px;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  }
+  .cert-org h2 { margin: 0; font-size: 19px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .cert-org p { margin: 3px 0 0; font-size: 11px; color: #475569; line-height: 1.4; }
+  .cert-badge {
+    background-color: #16a34a; color: #ffffff; padding: 6px 12px; border-radius: 5px;
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+  }
+
+  .cert-title-box { text-align: center; margin: 16px 0; }
+  .cert-title-box h1 { margin: 0; font-size: 22px; font-weight: 900; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; }
+  .cert-title-box p { margin: 4px 0 0; font-size: 11.5px; color: #475569; font-weight: 700; }
+
+  .cert-meta-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 11.5px; }
+  .cert-meta-table td { padding: 5px 8px; border: 1px solid #cbd5e1; color: #0f172a; }
+  .cert-meta-table td.lbl { background-color: #f8fafc; font-weight: 700; color: #334155; width: 25%; }
+  .cert-meta-table td.val { font-weight: 600; color: #0f172a; width: 25%; }
+
+  .cert-body-text { font-size: 12px; line-height: 1.65; color: #1e293b; margin-bottom: 14px; white-space: pre-line; }
+
+  .checklist-box {
+    background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px;
+    padding: 10px 14px; font-size: 11px; line-height: 1.6; color: #334155; margin-bottom: 16px; white-space: pre-line;
+  }
+
+  .sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 11px; color: #0f172a; }
+  .sig-col { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 6px; font-weight: 700; color: #334155; }
+  .auth-sig-img { max-height: 32px; max-width: 120px; display: block; margin: 0 auto 2px auto; }
+
+  @media (max-width: 1120px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
+    .preview-panel { position: static; }
+  }
+  @media (max-width: 760px) {
+    .preview-viewport { justify-content: flex-start; padding: 10px; }
+    #a4DocSheet { min-width: 620px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .top-nav { padding: 10px 14px; }
+    .nav-title { font-size: 13.5px; }
+    .control-box, .preview-panel { padding: 14px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+    <span class="nav-title">KaamKaj Bills • Work Completion &amp; Handover Certificate</span>
+  </div>
+  <div class="nav-right">
+    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </div>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Contractor / Engineering Firm Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Contractor / Firm Name</label><input type="text" id="in_org" value="Apex Civil &amp; Technical Contractors" oninput="renderCert()"></div>
+      <div class="field"><label>Address &amp; Contact</label><input type="text" id="in_addr" value="Sector 21, Industrial Area | Mob: 9000000000" oninput="renderCert()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field"><label>Certificate / Ref No.</label><input type="text" id="in_ref" oninput="renderCert()"></div>
+      <div class="field"><label>Date of Handover</label><input type="date" id="in_date" oninput="renderCert()"></div>
+      <div class="field"><label>Warranty Period</label><input type="text" id="in_warranty" value="2 Years On-Site Warranty" oninput="renderCert()"></div>
+    </div>
+
+    <div class="section-badge">2. Client &amp; Project Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Client / Owner Name</label><input type="text" id="in_client" value="Mr. Ramesh Gupta" oninput="renderCert()"></div>
+      <div class="field"><label>Project Title / Work Name</label><input type="text" id="in_project" value="Commercial Office Fitout &amp; MEP Installation Project" oninput="renderCert()"></div>
+    </div>
+
+    <div class="field"><label>Site / Property Address</label><input type="text" id="in_site" value="Shop No. 4, Sunshine Plaza, Main Road" oninput="renderCert()"></div>
+
+    <div class="section-badge">3. Completion Statement &amp; Checklist</div>
+    <div class="field">
+      <label>Completion Declaration Note</label>
+      <textarea id="in_note" oninput="renderCert()">This is to certify that all the contracted works, installations, and technical testing for the above-mentioned project have been successfully completed as per the agreed specifications, drawings, and quality standards.</textarea>
+    </div>
+
+    <div class="field">
+      <label>Handover Items &amp; Remarks Checklist</label>
+      <textarea id="in_check" style="min-height:85px;" oninput="renderCert()">• All physical installations and wiring/piping tested successfully without defects.&#10;• Site cleaned, debris cleared, and operational manual handed over.&#10;• Satisfactory demonstration given to the client and maintenance team.</textarea>
+    </div>
+
+    <div class="section-badge">4. Authorized Signatory</div>
+    <div class="grid-2">
+      <div class="field"><label>Signatory Name</label><input type="text" id="in_auth" value="Anil Sharma" oninput="renderCert()"></div>
+      <div class="field"><label>Designation</label><input type="text" id="in_desig" value="Project Manager / Director" oninput="renderCert()"></div>
+    </div>
+
+    <div class="field">
+      <label>Draw Digital Signature (Optional):</label>
+      <div class="sig-wrap">
+        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()">📥 Download Certificate PDF</button>
+      <button type="button" class="btn btn-print" onclick="printCert()">🖨️ Direct Print Certificate</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-label">Live A4 Work Completion Certificate Preview</div>
+    <div class="preview-viewport">
+      <div id="a4DocSheet">
+        <div class="cert-header">
+          <div class="cert-org">
+            <h2 id="out_org">APEX CIVIL &amp; TECHNICAL CONTRACTORS</h2>
+            <p id="out_addr">Sector 21, Industrial Area | Mob: 9000000000</p>
+          </div>
+          <div class="cert-badge">SITE HANDOVER</div>
+        </div>
+
+        <div class="cert-title-box">
+          <h1>Work Completion &amp; Handover Certificate</h1>
+          <p>Official Proof of Successful Project Delivery &amp; Client Acceptance</p>
+        </div>
+
+        <table class="cert-meta-table">
+          <tr><td class="lbl">Certificate Ref No:</td><td class="val"><b id="out_ref">HC/2026/101</b></td><td class="lbl">Handover Date:</td><td class="val" id="out_date">-</td></tr>
+          <tr><td class="lbl">Client Name:</td><td class="val"><b id="out_client">Mr. Ramesh Gupta</b></td><td class="lbl">Project Name:</td><td class="val" id="out_project">Commercial Office Fitout Project</td></tr>
+          <tr><td class="lbl">Site Location:</td><td class="val" colspan="3" id="out_site">Shop No. 4, Sunshine Plaza, Main Road</td></tr>
+          <tr><td class="lbl">Warranty Terms:</td><td class="val" colspan="3"><b id="out_warranty" style="color:#16a34a;">2 Years On-Site Warranty</b></td></tr>
+        </table>
+
+        <div class="cert-body-text" id="out_note"></div>
+
+        <div style="font-size:11.5px;font-weight:800;color:#0f172a;margin-bottom:4px;text-transform:uppercase;">Handover Checklist &amp; Status:</div>
+        <div class="checklist-box" id="out_check"></div>
+
+        <div style="font-size:10.5px;color:#475569;margin-top:12px;line-height:1.4;">
+          <b>Declaration:</b> The client has inspected the completed site and accepts the installation in good working order. Any future service requests will be governed by the stated warranty terms.
+        </div>
+
+        <div class="sig-row">
+          <div class="sig-col">
+            <div style="min-height:32px;"></div>
+            Client Acceptance Signature &amp; Stamp
+          </div>
+          <div class="sig-col">
+            <div style="min-height:32px; display:flex; align-items:flex-end; justify-content:center;">
+              <img id="out_sig" class="auth-sig-img" style="display:none;" alt="Signature">
+            </div>
+            <b id="out_auth">Anil Sharma</b><br>
+            <span style="font-size:9.5px; color:#475569;" id="out_desig">Project Manager / Director</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function esc(str) {
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    try { localStorage.setItem('kkb_handover_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  }
+
+  function renderCert() {
+    document.getElementById('out_org').innerText = document.getElementById('in_org').value.trim() || 'CONTRACTOR NAME';
+    document.getElementById('out_addr').innerText = document.getElementById('in_addr').value.trim() || '-';
+    document.getElementById('out_ref').innerText = document.getElementById('in_ref').value.trim() || '-';
+    document.getElementById('out_date').innerText = document.getElementById('in_date').value || '-';
+    document.getElementById('out_warranty').innerText = document.getElementById('in_warranty').value.trim() || '-';
+    document.getElementById('out_client').innerText = document.getElementById('in_client').value.trim() || '-';
+    document.getElementById('out_project').innerText = document.getElementById('in_project').value.trim() || '-';
+    document.getElementById('out_site').innerText = document.getElementById('in_site').value.trim() || '-';
+    document.getElementById('out_note').innerText = document.getElementById('in_note').value;
+    document.getElementById('out_check').innerText = document.getElementById('in_check').value;
+    document.getElementById('out_auth').innerText = document.getElementById('in_auth').value.trim() || 'Authorized Signatory';
+    document.getElementById('out_desig').innerText = document.getElementById('in_desig').value.trim() || 'Director';
+  }
+
+  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
+  let draw = false;
+  function pos(e) {
+    const r = cvs.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  cvs.addEventListener('mousedown', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  cvs.addEventListener('touchstart', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
+  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
+
+  function downloadPDF() {
+    const btn = document.getElementById('btnPdf');
+    btn.disabled = true; btn.innerText = '⏳ Generating PDF...';
+    const savedX = window.scrollX || 0, savedY = window.scrollY || 0;
+    window.scrollTo(0, 0);
+
+    const source = document.getElementById('a4DocSheet');
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+
+    const PDF_WIDTH = 660;
+    clone.style.cssText = `width:${PDF_WIDTH}px; min-width:${PDF_WIDTH}px; max-width:${PDF_WIDTH}px; margin:0; padding:24px 26px; background:#ffffff; color:#0f172a; border:none; box-shadow:none; box-sizing:border-box;`;
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `position:absolute; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0;`;
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+
+    const clientName = (document.getElementById('in_client').value.trim() || 'Client').replace(/[^a-zA-Z0-9-_]/g, '_');
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        html2pdf().set({
+          margin: [8, 10, 10, 10],
+          filename: `Handover_Certificate_${clientName}.pdf`,
+          image: { type: 'png', quality: 1.0 },
+          html2canvas: { scale: 3, useCORS: true, scrollX: 0, scrollY: 0, width: PDF_WIDTH, windowWidth: PDF_WIDTH, backgroundColor: '#ffffff' },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        }).from(clone).save().then(() => {
+          wrap.remove(); window.scrollTo(savedX, savedY);
+          btn.disabled = false; btn.innerText = '📥 Download Certificate PDF';
+        }).catch(() => {
+          wrap.remove(); window.scrollTo(savedX, savedY);
+          btn.disabled = false; btn.innerText = '📥 Download Certificate PDF';
+        });
+      }, 150);
+    });
+  }
+
+  function printCert() {
+    const w = window.open('', '_blank', 'width=850,height=900');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Certificate</title><style>
+      @page { size: A4 portrait; margin: 10mm; }
+      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm;color:#0f172a;background:#fff;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+      .cert-header{border-bottom:3px solid #16a34a;padding-bottom:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start}
+      .cert-org h2{margin:0;font-size:19px;text-transform:uppercase}.cert-org p{margin:3px 0 0;font-size:10.5px;color:#475569}
+      .cert-badge{background:#16a34a;color:#fff;padding:6px 12px;border-radius:5px;font-size:10.5px;font-weight:800;text-transform:uppercase}
+      .cert-title-box{text-align:center;margin:16px 0}.cert-title-box h1{margin:0;font-size:22px;color:#16a34a;text-transform:uppercase}
+      .cert-title-box p{margin:4px 0 0;font-size:11.5px;color:#475569;font-weight:700}
+      .cert-meta-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11.5px}
+      .cert-meta-table td{padding:5px 8px;border:1px solid #cbd5e1}.cert-meta-table td.lbl{background:#f8fafc;font-weight:700;width:25%}
+      .cert-body-text{font-size:12px;line-height:1.65;margin-bottom:14px;white-space:pre-line}
+      .checklist-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:10px 14px;font-size:11px;line-height:1.6;margin-bottom:16px;white-space:pre-line}
+      .sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:26px;font-size:11px}
+      .sig-col{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:6px;font-weight:700}
+      .auth-sig-img{max-height:32px;display:block;margin:0 auto 2px}
+    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+  }
+
+  window.onload = () => {
+    try {
+      if (localStorage.getItem('kkb_handover_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('btnDark').innerText = '☀️ Light Mode';
+      }
+    } catch (e) {}
+    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('in_ref').value = 'HC/2026/' + Math.floor(100 + Math.random() * 899);
+    renderCert();
+  };
+</script>
+</body>
+</html>
