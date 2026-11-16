@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brew &amp; Bloom — Artisan Roastery &amp; Botanical Teas</title>
+<style>
+  :root {
+    --bg: #0A0908;
+    --surface: #141210;
+    --surface-card: #151311;
+    --gold: #C8963E;
+    --gold-light: #DFB25E;
+    --text: #F5F5F4;
+    --text-muted: #9C958D;
+    --border: #26221E;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  * { box-sizing: border-box; font-family: var(--font); }
+  body {
+    margin: 0; padding: 0;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* TOP NAVIGATION */
+  header {
+    background-color: rgba(10, 9, 8, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 36px;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text);
+  }
+  .brand-icon { font-size: 20px; }
+  .brand h1 { margin: 0; font-size: 16px; letter-spacing: 0.5px; font-weight: 600; color: var(--text); }
+  
+  .nav-center { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .nav-center a {
+    text-decoration: none; color: var(--text-muted); font-size: 11.5px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; transition: 0.2s;
+  }
+  .nav-center a:hover, .nav-center a.active { color: var(--gold-light); }
+
+  .btn-order {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+    padding: 8px 16px; border-radius: 30px; font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .btn-order:hover { border-color: var(--gold); color: var(--gold-light); }
+  .order-badge { background: var(--gold); color: var(--bg); border-radius: 50%; padding: 2px 6px; font-size: 10px; font-weight: 900; }
+
+  /* FULL-SCREEN HERO SECTION */
+  .hero-fullscreen {
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    min-height: 540px;
+    background: url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 60px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,9,8,0.3) 0%, rgba(10,9,8,0.75) 60%, var(--bg) 100%);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+  .hero-subtitle {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold);
+    margin-bottom: 12px; font-weight: 700; display: block;
+  }
+  .hero-content h2 {
+    margin: 0 0 16px 0;
+    font-size: 56px;
+    color: var(--text);
+    font-family: Georgia, serif;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+  .hero-content p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  .hero-footer-stats {
+    position: absolute; bottom: 48px; right: 48px; z-index: 2;
+    display: flex; gap: 40px; text-align: right;
+  }
+  .stat-item span:first-child { display: block; font-size: 10px; color: var(--gold); font-weight: 700; letter-spacing: 1px; margin-bottom: 2px; }
+  .stat-item span:last-child { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+  /* CONTAINER & MENU TABS */
+  .container { max-width: 1280px; margin: 0 auto; padding: 60px 36px; width: 100%; flex: 1; }
+
+  .menu-tabs {
+    display: flex; gap: 24px; border-bottom: 1px solid var(--border);
+    margin-bottom: 30px; padding-bottom: 0; overflow-x: auto; scrollbar-width: none;
+  }
+  .menu-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: transparent; border: none; color: var(--text-muted);
+    font-size: 13px; font-weight: 600; cursor: pointer; padding: 0 0 14px 0;
+    position: relative; white-space: nowrap; transition: 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active { color: var(--text); }
+  .tab-btn.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--gold);
+  }
+
+  .menu-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .menu-section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); font-weight: 700; margin: 0; }
+  .menu-item-count { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+
+  /* MENU GRID & CARDS */
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; }
+  .menu-card {
+    background: var(--surface-card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+    transition: 0.2s; position: relative;
+  }
+  .menu-card:hover { border-color: rgba(200, 150, 62, 0.4); transform: translateY(-3px); }
+  
+  .card-img-wrap { width: 100%; height: 260px; overflow: hidden; position: relative; background: #1a1714; }
+  .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+  .menu-card:hover .card-img-wrap img { transform: scale(1.03); }
+
+  .card-tags { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; z-index: 2; }
+  .card-tag {
+    background: rgba(10, 9, 8, 0.85); backdrop-filter: blur(4px);
+    color: var(--text); font-size: 9px; font-weight: 700; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 4px; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .card-body { padding: 22px; display: flex; flex-direction: column; flex: 1; justify-content: space-between; }
+  .card-title-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .card-title { margin: 0; font-size: 18px; font-weight: 600; font-family: Georgia, serif; color: var(--text); }
+  .card-price { font-size: 15px; font-weight: 700; color: var(--text); font-family: monospace; }
+  .card-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; margin: 0 0 20px 0; }
+  
+  .btn-add-item {
+    background: transparent; border: 1px solid var(--border); color: var(--text);
+    width: 100%; padding: 10px; border-radius: 6px; font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.2s;
+  }
+  .btn-add-item:hover { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+  /* STORY / RITUAL SECTION */
+  .ritual-section {
+    background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 90px 36px; margin-top: 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1280px; margin-left: auto; margin-right: auto; width: 100%;
+  }
+  .ritual-img-box { position: relative; border-radius: 12px; overflow: hidden; height: 420px; }
+  .ritual-img-box img { width: 100%; height: 100%; object-fit: cover; }
+  .time-badge {
+    position: absolute; bottom: 20px; left: 20px; background: rgba(10,9,8,0.9);
+    border: 1px solid var(--border); padding: 14px 20px; border-radius: 8px; backdrop-filter: blur(4px);
+  }
+  .time-badge b { display: block; font-size: 18px; color: var(--gold-light); font-family: monospace; margin-bottom: 2px; }
+  .time-badge span { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+  .ritual-content h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin: 0 0 10px 0; font-weight: 700; }
+  .ritual-content h2 { font-size: 38px; font-family: Georgia, serif; font-weight: 400; margin: 0 0 20px 0; line-height: 1.2; }
+  .ritual-content p { color: var(--text-muted); font-size: 13.5px; line-height: 1.7; margin: 0 0 35px 0; }
+  .ritual-stats { display: flex; gap: 50px; border-top: 1px solid var(--border); padding-top: 30px; }
+  .r-stat b { display: block; font-size: 20px; font-family: Georgia, serif; color: var(--gold-light); margin-bottom: 4px; font-weight: 400; }
+  .r-stat span { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+  /* CART DRAWER */
+  .drawer-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px); z-index: 200; display: none;
+  }
+  .drawer {
+    position: fixed; top: 0; right: 0; width: 100%; max-width: 420px;
+    height: 100%; background: var(--surface); border-left: 1px solid var(--border);
+    z-index: 201; display: flex; flex-direction: column; transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .drawer-body { padding: 24px; flex: 1; overflow-y: auto; }
+  .drawer-footer { padding: 24px; border-top: 1px solid var(--border); background: #0e0d0c; }
+
+  .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  .cart-item-title { font-size: 14px; font-weight: 600; }
+  .cart-item-price { font-size: 13px; color: var(--gold-light); font-family: monospace; }
+  .qty-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+  .qty-btn { background: var(--border); border: none; color: var(--text); width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+
+  .btn-wa {
+    background: #16a34a; color: #fff; border: none; width: 100%;
+    padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 800; cursor: pointer;
+    letter-spacing: 0.5px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
+  }
+  .btn-wa:hover { background: #15803d; }
+
+  /* ADMIN MODAL */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 300; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 500px; padding: 28px; max-height: 90vh; overflow-y: auto; }
+  .form-field { margin-bottom: 16px; }
+  .form-field label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 6px; font-weight: 700; }
+  .form-field input, .form-field select, .form-field textarea {
+    width: 100%; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 13.5px; outline: none;
+  }
+  .form-field input:focus { border-color: var(--gold); }
+
+  footer { background: var(--surface); border-top: 1px solid var(--border); text-align: center; padding: 30px; font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+  @media(max-width: 900px) {
+    .ritual-section { grid-template-columns: 1fr; padding: 50px 20px; }
+    .hero-content h2 { font-size: 38px; }
+    header { padding: 14px 20px; }
+    .nav-center { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header>
+    <a href="#" class="brand">
+      <span class="brand-icon">☕</span>
+      <h1>Brew &amp; Bloom</h1>
+    </a>
+    <ul class="nav-center">
+      <li><a href="#menuSection" class="active">Menu</a></li>
+      <li><a href="#storySection">Story</a></li>
+      <li><a href="#" onclick="toggleAdminModal(); return false;">Admin</a></li>
+    </ul>
+    <button class="btn-order" onclick="toggleCartDrawer()">
+      <span>Order</span>
+      <span class="order-badge" id="cartCount">3</span>
+    </button>
+  </header>
+
+  <!-- FULL-SCREEN HERO SECTION -->
+  <section class="hero-fullscreen">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-subtitle">Artisan Roastery &amp; Botanical Teas</span>
+      <h2>Brew &amp; Bloom</h2>
+      <p>Single-origin Chikmagalur espresso, hand-whisked matchas, and pastries pulled from the oven before sunrise.</p>
+    </div>
+    <div class="hero-footer-stats">
+      <div class="stat-item">
+        <span>Est. 2024</span>
+        <span>Roasted in-house</span>
+      </div>
+      <div class="stat-item">
+        <span>Chikmagalur</span>
+        <span>Single origin lots</span>
+      </div>
+      <div class="stat-item">
+        <span>18 Hour</span>
+        <span>Slow cold extraction</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTAINER WITH MENU -->
+  <div class="container" id="menuSection">
+    
+    <!-- CATEGORY TABS -->
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="filterMenu('HOT', this)">Hot Coffees</button>
+      <button class="tab-btn" onclick="filterMenu('ICED', this)">Iced &amp; Cold Brew</button>
+      <button class="tab-btn" onclick="filterMenu('MATCHA', this)">Artisanal Teas &amp; Matcha</button>
+      <button class="tab-btn" onclick="filterMenu('PASTERY', this)">Bakes &amp; Pastries</button>
+      <button class="tab-btn" onclick="filterMenu('BITES', this)">All-Day Bites</button>
+    </div>
+
+    <div class="menu-header-row">
+      <h3 class="menu-section-title" id="activeCategoryTitle">04 — Baked at Dawn</h3>
+      <span class="menu-item-count" id="activeItemCount">3 Items</span>
+    </div>
+
+    <!-- MENU GRID -->
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+
+  <!-- THE RITUAL / STORY SECTION -->
+  <section class="ritual-section" id="storySection">
+    <div class="ritual-img-box">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" alt="Coffee ritual">
+      <div class="time-badge">
+        <b>04:30</b>
+        <span>First roast, daily</span>
+      </div>
+    </div>
+    <div class="ritual-content">
+      <h3>The Brew &amp; Bloom Ritual</h3>
+      <h2>Slow extraction, deliberate mornings.</h2>
+      <p>Every lot we roast is traced to a single Chikmagalur estate. We pull espresso at 27 seconds, steep cold brew for 18 hours, and whisk our Uji matcha to order — because a morning ritual deserves patience, not shortcuts.</p>
+      <div class="ritual-stats">
+        <div class="r-stat">
+          <b>16</b>
+          <span>Menu Offerings</span>
+        </div>
+        <div class="r-stat">
+          <b>27s</b>
+          <span>Espresso Pull</span>
+        </div>
+        <div class="r-stat">
+          <b>18h</b>
+          <span>Cold Steep</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CART DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleCartDrawer()"></div>
+  <div class="drawer" id="cartDrawer">
+    <div class="drawer-header">
+      <h3 style="margin: 0; font-family: Georgia, serif; color: var(--gold-light);">Your Order Tray</h3>
+      <button class="btn-order" onclick="toggleCartDrawer()">✕ Close</button>
+    </div>
+    <div class="drawer-body" id="cartItemsList">
+      <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Your tray is empty.</p>
+    </div>
+    <div class="drawer-footer">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 16px; font-weight: 700;">
+        <span>Total:</span>
+        <span id="cartTotalPrice" style="color: var(--gold-light); font-family: monospace;">₹0</span>
+      </div>
+      <button class="btn-wa" onclick="sendWhatsAppOrder()">
+        💬 Send Order via WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- ADMIN MODAL -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal">
+      <h3 style="margin-top: 0; font-family: Georgia, serif; color: var(--gold-light);">Add New Menu Item</h3>
+      <form id="addItemForm" onsubmit="handleAddNewItem(event)">
+        <div class="form-field">
+          <label>Item Name</label>
+          <input type="text" id="newName" required placeholder="e.g. Pistachio Rose Tres Leches">
+        </div>
+        <div class="form-field">
+          <label>Category</label>
+          <select id="newCat">
+            <option value="HOT">Hot Coffees</option>
+            <option value="ICED">Iced & Cold Brew</option>
+            <option value="MATCHA">Artisanal Teas & Matcha</option>
+            <option value="PASTERY">Bakes & Pastries</option>
+            <option value="BITES">All-Day Bites</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Price (₹)</label>
+          <input type="number" id="newPrice" required placeholder="290">
+        </div>
+        <div class="form-field">
+          <label>Tags (Comma separated)</label>
+          <input type="text" id="newTags" placeholder="BAKED DAILY, 27 LAYERS">
+        </div>
+        <div class="form-field">
+          <label>Image URL</label>
+          <input type="text" id="newImg" required placeholder="https://images.unsplash.com/...">
+        </div>
+        <div class="form-field">
+          <label>Description</label>
+          <textarea id="newDesc" required placeholder="Description notes..."></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+          <button type="button" class="btn-order" onclick="toggleAdminModal()">Cancel</button>
+          <button type="submit" class="btn-order" style="background: var(--gold); border-color: var(--gold); color: var(--bg);">Save Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Brew &amp; Bloom Nocturnal Coffee Atelier. All rights reserved.</p>
+  </footer>
+
+<script>
+  // Complete Menu Data matching screenshots
+  const defaultMenu = [
+    { id: 1, name: "Flaky Butter Croissant", cat: "PASTERY", price: 160, tags: ["BAKED DAILY", "27 LAYERS"], img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80", desc: "27-layer French butter pastry, baked fresh daily before sunrise." },
+    { id: 2, name: "Dark Chocolate Sea Salt Brownie", cat: "PASTERY", price: 180, tags: ["70% DARK", "WARM & FUDGY"], img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80", desc: "Single-origin 70% dark chocolate baked into a rich, fudgy square with Maldon sea salt." },
+    { id: 3, name: "Pistachio Rose Tres Leches", cat: "PASTERY", price: 290, tags: ["IRANIAN PISTACHIO", "ROSE CREAM"], img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80", desc: "Milk-soaked sponge topped with roasted Iranian pistachio and aromatic rose petal cream." },
+    
+    { id: 4, name: "Nocturnal Single-Origin Espresso", cat: "HOT", price: 220, tags: ["CHIKMAGALUR", "SINGLE SHOT"], img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80", desc: "Ethiopian Yirgacheffe bean notes with dark chocolate & jasmine finish extracted in 27s." },
+    { id: 5, name: "Velvet Vanilla Bean Latte", cat: "HOT", price: 340, tags: ["HOUSE EXTRACT", "OAT MILK"], img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=600&q=80", desc: "Double shot espresso with house-extracted vanilla pods and steamed oat milk." },
+    
+    { id: 6, name: "Smoked Rosemary Cold Brew", cat: "ICED", price: 360, tags: ["18 HOUR", "SLOW DRIP"], img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80", desc: "18-hour slow cold drip infused with aromatic charred rosemary smoke." },
+    { id: 7, name: "Midnight Hibiscus Tonic", cat: "ICED", price: 320, tags: ["BOTANICAL", "REFRESHING"], img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80", desc: "Cold-extracted wild hibiscus flower steeped with crushed mint leaves and artisanal tonic." },
+
+    { id: 8, name: "Ceremonial Grade Uji Matcha", cat: "MATCHA", price: 420, tags: ["UJI JAP", "WHISKED"], img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80", desc: "Stone-milled green tea whisked with ceremonial precision over textured milk." },
+    { id: 9, name: "Rose & Cardamom Cold Foam Matcha", cat: "MATCHA", price: 460, tags: ["AROMATIC", "TOPPED"], img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80", desc: "Earthy ceremonial matcha topped with aromatic rose water and crushed cardamom foam." },
+
+    { id: 10, name: "Avocado Sourdough Toast", cat: "BITES", price: 380, tags: ["ARTISANAL", "FRESH"], img: "https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?auto=format&fit=crop&w=600&q=80", desc: "Hass avocado smashed on house-fermented sourdough with chili flakes and microgreens." }
+  ];
+
+  let menuItems = JSON.parse(localStorage.getItem('bnb_menu_v2')) || defaultMenu;
+  let cart = {};
+  let currentFilter = 'HOT';
+
+  const catTitles = {
+    'HOT': '01 — Hot Coffees',
+    'ICED': '02 — Iced & Cold Brew',
+    'MATCHA': '03 — Artisanal Teas & Matcha',
+    'PASTERY': '04 — Baked at Dawn',
+    'BITES': '05 — All-Day Bites'
+  };
+
+  function saveMenu() {
+    localStorage.setItem('bnb_menu_v2', JSON.stringify(menuItems));
+  }
+
+  function renderMenu() {
+    const grid = document.getElementById('menuGrid');
+    const filtered = menuItems.filter(i => i.cat === currentFilter);
+    
+    document.getElementById('activeCategoryTitle').innerText = catTitles[currentFilter] || 'Menu';
+    document.getElementById('activeItemCount').innerText = `${filtered.length} ITEMS`;
+
+    if(filtered.length === 0) {
+      grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0;">No items found in this section.</p>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(item => `
+      <div class="menu-card">
+        <div class="card-img-wrap">
+          <div class="card-tags">
+            ${(item.tags || []).map(t => `<span class="card-tag">${t}</span>`).join('')}
+          </div>
+          <img src="${item.img}" alt="${item.name}">
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="card-title-row">
+              <h3 class="card-title">${item.name}</h3>
+              <span class="card-price">₹${item.price}</span>
+            </div>
+            <p class="card-desc">${item.desc}</p>
+          </div>
+          <button class="btn-add-item" onclick="addToCart(${item.id})">+ Add to Tray</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterMenu(cat, btn) {
+    currentFilter = cat;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderMenu();
+  }
+
+  function addToCart(id) {
+    cart[id] = (cart[id] || 0) + 1;
+    updateCartUI();
+  }
+
+  function updateQty(id, change) {
+    cart[id] = (cart[id] || 0) + change;
+    if(cart[id] <= 0) delete cart[id];
+    updateCartUI();
+  }
+
+  function updateCartUI() {
+    let totalCount = 0;
+    let totalPrice = 0;
+    let listHTML = '';
+
+    const keys = Object.keys(cart);
+    if(keys.length === 0) {
+      listHTML = `<p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Your tray is empty.</p>`;
+    } else {
+      listHTML = keys.map(id => {
+        const item = menuItems.find(i => i.id == id);
+        if(!item) return '';
+        totalCount += cart[id];
+        totalPrice += item.price * cart[id];
+        return `
+          <div class="cart-item">
+            <div>
+              <div class="cart-item-title">${item.name}</div>
+              <div class="cart-item-price">₹${item.price} × ${cart[id]}</div>
+              <div class="qty-ctrl">
+                <button class="qty-btn" onclick="updateQty(${id}, -1)">-</button>
+                <span>${cart[id]}</span>
+                <button class="qty-btn" onclick="updateQty(${id}, 1)">+</button>
+              </div>
+            </div>
+            <div style="font-weight: 700; color: var(--gold-light); font-family: monospace;">₹${item.price * cart[id]}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById('cartCount').innerText = totalCount;
+    document.getElementById('cartTotalPrice').innerText = '₹' + totalPrice;
+    document.getElementById('cartItemsList').innerHTML = listHTML;
+  }
+
+  function toggleCartDrawer() {
+    const drawer = document.getElementById('cartDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const isOpen = drawer.classList.contains('open');
+    
+    if(isOpen) {
+      drawer.classList.remove('open');
+      overlay.style.display = 'none';
+    } else {
+      drawer.classList.add('open');
+      overlay.style.display = 'block';
+    }
+  }
+
+  function toggleAdminModal() {
+    const modal = document.getElementById('adminModal');
+    modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  function handleAddNewItem(e) {
+    e.preventDefault();
+    const tagsInput = document.getElementById('newTags').value;
+    const tagsArr = tagsInput ? tagsInput.split(',').map(s => s.trim().toUpperCase()) : ['FRESH'];
+    
+    const newItem = {
+      id: Date.now(),
+      name: document.getElementById('newName').value,
+      cat: document.getElementById('newCat').value,
+      price: parseFloat(document.getElementById('newPrice').value),
+      tags: tagsArr,
+      img: document.getElementById('newImg').value,
+      desc: document.getElementById('newDesc').value
+    };
+    menuItems.push(newItem);
+    saveMenu();
+    renderMenu();
+    toggleAdminModal();
+    document.getElementById('addItemForm').reset();
+  }
+
+  function sendWhatsAppOrder() {
+    const keys = Object.keys(cart);
+    if(keys.length === 0) {
+      alert('Your tray is empty!');
+      return;
+    }
+    let msg = "Hello Brew & Bloom, I'd like to place an order:%0A%0A";
+    let total = 0;
+    keys.forEach(id => {
+      const item = menuItems.find(i => i.id == id);
+      const sub = item.price * cart[id];
+      total += sub;
+      msg += `• ${item.name} x ${cart[id]} = ₹${sub}%0A`;
+    });
+    msg += `%0A*Total Amount: ₹${total}*`;
+    
+    const phone = "919000000000"; 
+    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+  }
+
+  window.onload = () => {
+    // Initial active tab is 'PASTERY' to match image_c4b045.jpg or 'HOT'
+    currentFilter = 'PASTERY';
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if(b.innerText.includes('Bakes')) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+    renderMenu();
+    updateCartUI();
+  };
+</script>
+</body>
+</html>
