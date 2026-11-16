@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bulk ID Card Generator (Excel + Auto Photo Match) - KaamKaj Bills</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Bulk ID Card Generator (8 Designer Themes + Excel Auto Match) - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
@@ -15,66 +15,107 @@
     --ink-muted: #475569;
     --border: #cbd5e1;
     --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
     --success: #16a34a;
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
   }
+
+  body.dark-mode {
+    --primary: #38bdf8;
+    --primary-dark: #0284c7;
+    --primary-soft: rgba(56, 189, 248, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: #334155;
+    --bg: #0b1120;
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  }
+
   html, body {
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    background: var(--bg);
+    min-height: 100vh;
+    background-color: var(--bg);
     color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+    overflow-x: hidden;
+    transition: background-color 0.2s, color 0.2s;
   }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
 
   /* Top Navigation Bar */
   .top-nav {
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 24px;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 12px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     border-bottom: 3px solid #f59e0b;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+    background-color: rgba(255,255,255,0.12);
+    color: #ffffff;
     text-decoration: none;
     padding: 7px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 700;
     border: 1px solid rgba(255,255,255,0.2);
     transition: 0.2s;
   }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+  .btn-home:hover { background-color: #0284c7; border-color: #38bdf8; }
+  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
+  .btn-theme {
+    background-color: rgba(255,255,255,0.14);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
 
-  /* PC Full-Wide Split Grid Layout */
+  /* Full-Screen Wide Split Layout */
   .kb-wrapper {
     width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 20px 26px 48px 26px;
     display: grid;
-    grid-template-columns: 1fr 1.15fr;
+    grid-template-columns: minmax(410px, 0.92fr) minmax(540px, 1.08fr);
     gap: 24px;
     align-items: start;
   }
 
   /* Left Control Box */
   .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 14px;
     padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    box-shadow: var(--shadow);
   }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -84,23 +125,23 @@
   input, select {
     width: 100%;
     padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
     font-size: 13.5px;
     outline: none;
     color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
+    background-color: var(--surface-alt);
+    transition: border-color 0.2s, background-color 0.2s;
   }
   input:focus, select:focus {
     border-color: var(--primary);
-    background: #ffffff;
+    background-color: var(--surface);
     box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
   }
 
   .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
+    background-color: var(--primary-soft);
+    color: var(--primary);
     font-size: 11.5px;
     font-weight: 800;
     padding: 6px 12px;
@@ -114,17 +155,53 @@
   }
   .section-badge:first-of-type { margin-top: 0; }
 
+  /* 8 Designer Theme Selector Grid */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .theme-card-btn {
+    padding: 8px 6px;
+    border: 2px solid var(--border);
+    border-radius: 9px;
+    background-color: var(--surface-alt);
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    transition: 0.2s;
+  }
+  .theme-card-btn:hover { border-color: var(--primary); }
+  .theme-card-btn.active {
+    border-color: var(--primary);
+    background-color: var(--primary-soft);
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.18);
+  }
+  .swatch-bar {
+    width: 100%;
+    height: 10px;
+    border-radius: 4px;
+    display: block;
+  }
+
   .upload-card {
-    background: #f8fafc;
-    border: 1.5px dashed #94a3b8;
+    background-color: var(--surface-alt);
+    border: 1.5px dashed var(--border);
     border-radius: 10px;
     padding: 12px;
     margin-bottom: 12px;
   }
   .btn-sample {
-    background: #e0f2fe;
-    color: #0369a1;
-    border: 1px solid #7dd3fc;
+    background-color: var(--primary-soft);
+    color: var(--primary);
+    border: 1px solid var(--primary);
     padding: 7px 12px;
     border-radius: 6px;
     font-size: 12px;
@@ -133,11 +210,11 @@
     margin-bottom: 8px;
     display: inline-block;
   }
-  .btn-sample:hover { background: #bae6fd; }
+  .btn-sample:hover { opacity: 0.9; }
 
   .status-pill {
     display: inline-block;
-    background: #f0fdf4;
+    background-color: #f0fdf4;
     color: #166534;
     border: 1px solid #86efac;
     padding: 4px 10px;
@@ -148,155 +225,330 @@
   }
 
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
     flex: 1;
-    min-width: 140px;
+    min-width: 145px;
     padding: 13px;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     transition: 0.2s;
   }
   .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-pdf { background-color: #0284c7; }
+  .btn-print { background-color: #0f172a; }
 
   /* Right Preview Panel */
   .preview-panel {
     width: 100%;
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow);
   }
   .preview-label {
     text-align: center;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--ink-muted);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 10px;
   }
+  .preview-viewport {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #e2e8f0;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  body.dark-mode .preview-viewport {
+    background-color: #0f172a;
+  }
+
   #bulkSheet {
-    background: #ffffff;
+    background-color: #ffffff;
     width: 100%;
     padding: 20px;
     border: 1.5px solid #cbd5e1;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
     justify-items: center;
   }
 
-  /* Individual Bulk ID Card */
+  /* =========================================================
+     INDIVIDUAL DESIGNER BULK ID CARD (224px x 356px)
+     ========================================================= */
   .id-card {
-    width: 215px;
-    height: 340px;
-    border-radius: 10px;
+    width: 224px;
+    height: 356px;
+    border-radius: 13px;
     overflow: hidden;
-    background: #ffffff;
+    background-color: #ffffff;
+    color: #0f172a;
     border: 1.5px solid #cbd5e1;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
     page-break-inside: avoid;
+    break-inside: avoid;
   }
-  .card-top {
-    padding: 12px 8px 22px 8px;
-    text-align: center;
-    color: #ffffff;
-    clip-path: ellipse(125% 100% at 50% 0%);
-  }
-  .card-top h4 { margin: 0; font-size: 12.5px; font-weight: 900; text-transform: uppercase; line-height: 1.2; }
-  .card-top p { margin: 2px 0 0; font-size: 8.5px; opacity: 0.9; }
 
-  .photo-ring {
-    width: 78px;
-    height: 90px;
-    margin: -18px auto 4px auto;
-    border-radius: 7px;
-    border: 2.5px solid #ffffff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.16);
-    overflow: hidden;
-    background: #e2e8f0;
+  .card-svg-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .card-layer {
     position: relative;
     z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .photo-ring img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
 
-  .card-body { padding: 2px 10px; text-align: center; flex: 1; }
-  .emp-name { margin: 2px 0; font-size: 13.5px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .org-head {
+    padding: 12px 10px 4px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    text-align: left;
+  }
+  .org-logo-box {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 11px;
+    color: #0f172a;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+  }
+  .org-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+  .org-titles h4 {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.15;
+  }
+  .org-titles p {
+    margin: 2px 0 0;
+    font-size: 8px;
+    font-weight: 600;
+    opacity: 0.92;
+  }
+
+  .photo-frame {
+    width: 82px;
+    height: 82px;
+    margin: 5px auto 5px auto;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    overflow: hidden;
+    background-color: #e2e8f0;
+    position: relative;
+  }
+  .photo-frame.square-frame {
+    width: 80px;
+    height: 90px;
+    border-radius: 8px;
+  }
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+
+  .holder-main {
+    padding: 0 12px;
+    text-align: center;
+  }
+  .emp-name {
+    margin: 2px 0;
+    font-size: 13.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    line-height: 1.15;
+  }
   .emp-role {
     display: inline-block;
-    padding: 2px 9px;
+    padding: 2px 10px;
     border-radius: 20px;
     font-size: 8.5px;
     font-weight: 800;
-    color: #fff;
-    margin-bottom: 6px;
     text-transform: uppercase;
+    margin-bottom: 6px;
   }
-  .info-list { text-align: left; font-size: 9px; line-height: 1.5; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 5px; }
-  .info-list div { display: flex; justify-content: space-between; }
-  .info-list b { color: #0f172a; }
+
+  .info-list {
+    padding: 5px 14px 2px 14px;
+    font-size: 9px;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .info-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.45);
+    padding: 1px 0;
+  }
+  .info-line:last-child { border-bottom: none; }
+  .info-k { font-weight: 700; opacity: 0.85; }
+  .info-v { font-weight: 800; text-align: right; }
 
   .card-bottom {
-    padding: 5px 10px 7px 10px;
+    padding: 5px 12px 8px 12px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-top: 1px solid #f1f5f9;
   }
-  .qr-box img { width: 38px; height: 38px; display: block; }
-  .auth-sig { text-align: center; font-size: 7.5px; font-weight: 700; color: #475569; border-top: 1px solid #64748b; padding-top: 2px; }
+  .qr-box {
+    background-color: #ffffff;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+  }
+  .qr-box img { width: 35px; height: 35px; display: block; }
+  .auth-sig {
+    text-align: center;
+    font-size: 7.5px;
+    font-weight: 800;
+  }
+  .auth-sig img { max-height: 20px; max-width: 70px; display: block; margin: 0 auto 1px auto; }
 
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
-    .top-nav { padding: 10px 12px; }
+  .bottom-strip {
+    height: 10px;
+    width: 100%;
+    flex-shrink: 0;
   }
-  @media (max-width: 600px) {
+
+  .side-tag {
+    position: absolute;
+    left: 8px;
+    top: 98px;
+    background-color: #0284c7;
+    color: #ffffff;
+    font-size: 7.5px;
+    font-weight: 900;
+    padding: 5px 2.5px;
+    border-radius: 4px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    letter-spacing: 0.8px;
+    z-index: 3;
+  }
+
+  @media (max-width: 1120px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
+  }
+  @media (max-width: 640px) {
+    .theme-grid { grid-template-columns: repeat(2, 1fr); }
     .grid-2 { grid-template-columns: 1fr; }
+    .top-nav { padding: 10px 14px; }
+    .nav-title { font-size: 13.5px; }
+    .control-box, .preview-panel { padding: 14px 12px; }
   }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Bulk Excel ID Card Maker</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+    <span class="nav-title">KaamKaj Bills • Bulk 8-Theme ID Card Maker</span>
+  </div>
+  <div class="nav-right">
+    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </div>
 </div>
 
 <div class="kb-wrapper">
   <!-- LEFT: BULK CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Organization & Theme Settings</div>
+    <div class="section-badge">1. Select Designer Card Theme (8 Styles)</div>
+    <div class="theme-grid">
+      <button type="button" class="theme-card-btn active" onclick="applyTheme('royal_blue', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #0f172a 50%, #0284c7 50%);"></span>
+        1. Royal Curve Blue
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('crimson_geo', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #18181b 50%, #dc2626 50%);"></span>
+        2. Geometric Red
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('golden_sun', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #f59e0b 50%, #082f49 50%);"></span>
+        3. Golden Sun Split
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('emerald_wave', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #dcfce7 50%, #15803d 50%);"></span>
+        4. Emerald Wave
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('university_v', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #0f294a 50%, #38bdf8 50%);"></span>
+        5. University Shield
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('school_ribbon', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #1e3a8a 50%, #facc15 50%);"></span>
+        6. School Ribbon
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('amber_arch', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #f59e0b 50%, #1e1b4b 50%);"></span>
+        7. Amber Arch Pro
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('lime_studio', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #84cc16 50%, #064e3b 50%);"></span>
+        8. Lime Studio Split
+      </button>
+    </div>
+
+    <div class="section-badge">2. Organization, Logo &amp; Validity</div>
     <div class="grid-2">
-      <div class="field"><label>Company / School Name</label><input type="text" id="in_org" value="MARUTHI TECHNOLOGIES" oninput="renderBulk()"></div>
-      <div class="field"><label>Subtitle / Tagline</label><input type="text" id="in_tag" value="Technical & Engineering Services" oninput="renderBulk()"></div>
+      <div class="field"><label>Company / School Name</label><input type="text" id="in_org" value="APEX TECH SOLUTIONS" oninput="renderBulk()"></div>
+      <div class="field"><label>Subtitle / Tagline</label><input type="text" id="in_tag" value="Technical &amp; Engineering Services" oninput="renderBulk()"></div>
     </div>
 
     <div class="grid-2">
-      <div class="field">
-        <label>Card Color Theme</label>
-        <select id="in_theme" onchange="renderBulk()">
-          <option value="#0284c7|#0369a1">Royal Blue</option>
-          <option value="#0f172a|#334155">Corporate Dark</option>
-          <option value="#15803d|#166534">Emerald Green</option>
-          <option value="#b91c1c|#991b1b">Crimson Red</option>
-          <option value="#7c3aed|#5b21b6">Royal Purple</option>
-        </select>
-      </div>
-      <div class="field"><label>Default Validity</label><input type="text" id="in_val" value="Dec 2028" oninput="renderBulk()"></div>
+      <div class="field"><label>Default Validity / Session</label><input type="text" id="in_val" value="Dec 2028" oninput="renderBulk()"></div>
+      <div class="field"><label>Upload Org Logo (Optional)</label><input type="file" accept="image/*" onchange="handleLogoUpload(event)"></div>
     </div>
 
-    <div class="section-badge">2. Step-1: Upload Excel / CSV Data Sheet</div>
+    <div class="field">
+      <label>Upload Authorized Signature Image (Optional)</label>
+      <input type="file" accept="image/*" onchange="handleSigUpload(event)">
+    </div>
+
+    <div class="section-badge">3. Step-1: Upload Excel / CSV Data Sheet</div>
     <div class="upload-card">
       <button type="button" class="btn-sample" onclick="downloadSampleExcel()">📥 Download Sample Excel Template (.xlsx)</button>
       <div class="field" style="margin-bottom:4px;">
@@ -306,9 +558,9 @@
       <div class="status-pill" id="excelStatus">Loaded: 3 Sample Records (Ready)</div>
     </div>
 
-    <div class="section-badge">3. Step-2: Bulk Photo Auto-Match (Optional)</div>
+    <div class="section-badge">4. Step-2: Bulk Photo Auto-Match (Optional)</div>
     <div class="upload-card">
-      <p style="margin:0 0 8px;font-size:11.5px;color:#475569;line-height:1.45;">
+      <p style="margin:0 0 8px;font-size:11.5px;color:var(--ink-muted);line-height:1.45;">
         एक साथ सभी कर्मचारियों/छात्रों के फोटो चुनें। यदि फोटो फाइल का नाम <b>ID Number</b> (जैसे <code>EMP101.jpg</code>) या <b>Name</b> से मेल खाता है, तो फोटो अपने आप सही कार्ड पर लग जाएगी!
       </p>
       <div class="field" style="margin-bottom:4px;">
@@ -319,7 +571,7 @@
     </div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadBulkPDF()">📥 Download All Cards PDF</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadBulkPDF()">📥 Download All Cards PDF</button>
       <button type="button" class="btn btn-print" onclick="printBulk()">🖨️ Print A4 Sheet</button>
     </div>
   </div>
@@ -327,26 +579,194 @@
   <!-- RIGHT: LIVE BULK CARDS GRID -->
   <div class="preview-panel">
     <div class="preview-label" id="countLabel">Live Bulk Preview (3 Cards Generated)</div>
-    <div id="bulkSheet"></div>
+    <div class="preview-viewport">
+      <div id="bulkSheet"></div>
+    </div>
   </div>
 </div>
 
 <script>
   const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%23e2e8f0'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>";
 
+  let activeTheme = 'royal_blue';
+  let customLogoUrl = '';
+  let customSigUrl = '';
+
+  const THEMES = {
+    royal_blue: {
+      cardBg: '#ffffff',
+      textColor: '#0f172a',
+      headerText: '#ffffff',
+      roleBg: '#0284c7',
+      roleText: '#ffffff',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#0f172a',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M0,0 L224,0 L224,112 Q112,148 0,112 Z" fill="#0f172a"/>
+        <path d="M0,106 Q112,142 224,106 L224,115 Q112,151 0,115 Z" fill="#0284c7"/>
+      </svg>`
+    },
+    crimson_geo: {
+      cardBg: '#ffffff',
+      textColor: '#0f172a',
+      headerText: '#ffffff',
+      roleBg: '#dc2626',
+      roleText: '#ffffff',
+      photoBorder: '#dc2626',
+      squarePhoto: false,
+      stripBg: '#18181b',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <polygon points="0,0 224,0 224,86 112,118 0,86" fill="#18181b"/>
+        <polygon points="0,86 112,118 224,86 224,104 112,132 0,104" fill="#dc2626"/>
+        <polygon points="0,320 82,356 0,356" fill="#dc2626"/>
+        <polygon points="224,310 128,356 224,356" fill="#18181b"/>
+      </svg>`
+    },
+    golden_sun: {
+      cardBg: '#082f49',
+      textColor: '#ffffff',
+      headerText: '#082f49',
+      roleBg: '#f59e0b',
+      roleText: '#082f49',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#f59e0b',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="224" height="356" fill="#082f49"/>
+        <polygon points="0,0 224,0 0,205" fill="#f59e0b"/>
+        <circle cx="112" cy="100" r="49" fill="none" stroke="#f59e0b" stroke-width="5" stroke-dasharray="130 70"/>
+      </svg>`
+    },
+    emerald_wave: {
+      cardBg: '#ecfdf5',
+      textColor: '#064e3b',
+      headerText: '#064e3b',
+      roleBg: '#15803d',
+      roleText: '#ffffff',
+      photoBorder: '#15803d',
+      squarePhoto: true,
+      stripBg: '#15803d',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="224" height="356" fill="#ecfdf5"/>
+        <path d="M168,0 Q214,128 160,356 L224,356 L224,0 Z" fill="#15803d"/>
+        <path d="M192,145 Q220,238 180,356 L224,356 L224,145 Z" fill="#22c55e" opacity="0.7"/>
+      </svg>`
+    },
+    university_v: {
+      cardBg: '#ffffff',
+      textColor: '#0f294a',
+      headerText: '#ffffff',
+      roleBg: '#e0f2fe',
+      roleText: '#0369a1',
+      photoBorder: '#0284c7',
+      squarePhoto: false,
+      stripBg: '#0f294a',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <polygon points="0,0 224,0 224,104 112,140 0,104" fill="#0f294a"/>
+        <polygon points="150,116 224,88 224,104 160,128" fill="#38bdf8"/>
+        <polygon points="140,356 224,300 224,356" fill="#0f294a"/>
+      </svg>`
+    },
+    school_ribbon: {
+      cardBg: '#ffffff',
+      textColor: '#0f172a',
+      headerText: '#ffffff',
+      roleBg: '#1e3a8a',
+      roleText: '#ffffff',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#1e3a8a',
+      sideTag: true,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M0,0 L224,0 L224,95 Q112,76 0,108 Z" fill="#1e3a8a"/>
+        <path d="M0,70 Q114,95 224,190 L224,215 Q110,114 0,88 Z" fill="#facc15"/>
+        <path d="M0,330 Q112,316 224,335 L224,356 L0,356 Z" fill="#f59e0b"/>
+      </svg>`
+    },
+    amber_arch: {
+      cardBg: '#ffffff',
+      textColor: '#1e1b4b',
+      headerText: '#1e1b4b',
+      roleBg: '#fef3c7',
+      roleText: '#b45309',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#1e1b4b',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M0,0 L224,0 L224,132 Q205,76 112,76 Q19,76 0,132 Z" fill="#f59e0b"/>
+      </svg>`
+    },
+    lime_studio: {
+      cardBg: '#f8fafc',
+      textColor: '#064e3b',
+      headerText: '#064e3b',
+      roleBg: '#064e3b',
+      roleText: '#bef264',
+      photoBorder: '#bef264',
+      squarePhoto: true,
+      stripBg: '#064e3b',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 224 356" width="100%" height="100%" preserveAspectRatio="none">
+        <rect x="0" y="0" width="224" height="160" fill="#84cc16"/>
+        <circle cx="40" cy="36" r="58" fill="#10b981" opacity="0.55"/>
+        <circle cx="195" cy="122" r="68" fill="#bef264" opacity="0.65"/>
+      </svg>`
+    }
+  };
+
   let records = [
-    { ID: 'EMP101', Name: 'Munal Kumar', Role: 'Senior Electrician', Blood: 'O+', Mobile: '9822011111' },
-    { ID: 'EMP102', Name: 'Vishal Patil', Role: 'CCTV Technician', Blood: 'B+', Mobile: '9822022222' },
-    { ID: 'EMP103', Name: 'Ajay Sharma', Role: 'Network Engineer', Blood: 'A+', Mobile: '9822033333' }
+    { ID: 'EMP101', Name: 'Rohan Verma', Role: 'Senior Engineer', Blood: 'O+', Mobile: '9000011111' },
+    { ID: 'EMP102', Name: 'Neha Sharma', Role: 'Operations Lead', Blood: 'B+', Mobile: '9000022222' },
+    { ID: 'EMP103', Name: 'Amit Kumar', Role: 'Field Specialist', Blood: 'A+', Mobile: '9000033333' }
   ];
 
-  let photoMap = {}; // key: lowercase filename without extension -> dataURL
+  let photoMap = {};
+
+  function esc(str) {
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    try { localStorage.setItem('kkb_bulk_id_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  }
+
+  function applyTheme(key, btn) {
+    activeTheme = key;
+    document.querySelectorAll('.theme-card-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderBulk();
+  }
+
+  function handleLogoUpload(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => { customLogoUrl = ev.target.result; renderBulk(); };
+    reader.readAsDataURL(file);
+  }
+
+  function handleSigUpload(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => { customSigUrl = ev.target.result; renderBulk(); };
+    reader.readAsDataURL(file);
+  }
 
   function downloadSampleExcel() {
     const ws = XLSX.utils.json_to_sheet([
-      { ID: 'EMP101', Name: 'Munal Kumar', Role: 'Senior Electrician', Blood: 'O+', Mobile: '9822011111' },
-      { ID: 'EMP102', Name: 'Vishal Patil', Role: 'CCTV Technician', Blood: 'B+', Mobile: '9822022222' },
-      { ID: 'EMP103', Name: 'Ajay Sharma', Role: 'Network Engineer', Blood: 'A+', Mobile: '9822033333' }
+      { ID: 'EMP101', Name: 'Rohan Verma', Role: 'Senior Engineer', Blood: 'O+', Mobile: '9000011111' },
+      { ID: 'EMP102', Name: 'Neha Sharma', Role: 'Operations Lead', Blood: 'B+', Mobile: '9000022222' },
+      { ID: 'EMP103', Name: 'Amit Kumar', Role: 'Field Specialist', Blood: 'A+', Mobile: '9000033333' }
     ]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'ID_Data');
@@ -354,11 +774,12 @@
   }
 
   function handleExcelUpload(e) {
-    const file = e.target.files[0];
+    const file = e.target.files && e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      const wb = XLSX.read(ev.target.result, { type: 'binary' });
+      const data = new Uint8Array(ev.target.result);
+      const wb = XLSX.read(data, { type: 'array' });
       const sheet = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(sheet);
       if (rows.length > 0) {
@@ -367,13 +788,14 @@
         renderBulk();
       }
     };
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   }
 
   function handleBulkPhotos(e) {
-    const files = Array.from(e.target.files);
+    const files = Array.from(e.target.files || []);
     if (!files.length) return;
     let loaded = 0;
+    let matchedCount = 0;
     files.forEach(f => {
       const key = f.name.replace(/\.[^/.]+$/, '').trim().toLowerCase();
       const reader = new FileReader();
@@ -381,7 +803,12 @@
         photoMap[key] = ev.target.result;
         loaded++;
         if (loaded === files.length) {
-          document.getElementById('photoStatus').innerText = `Uploaded: ${files.length} Photos (Auto-Matched)`;
+          matchedCount = records.filter(r => {
+            const idK = String(r.ID || r.id || '').trim().toLowerCase();
+            const nmK = String(r.Name || r.name || '').trim().toLowerCase();
+            return Boolean(photoMap[idK] || photoMap[nmK]);
+          }).length;
+          document.getElementById('photoStatus').innerText = `Uploaded: ${files.length} Photos (${matchedCount} Cards Matched)`;
           renderBulk();
         }
       };
@@ -396,10 +823,13 @@
   }
 
   function renderBulk() {
+    const t = THEMES[activeTheme] || THEMES.royal_blue;
     const org = document.getElementById('in_org').value.trim() || 'ORGANIZATION NAME';
     const tag = document.getElementById('in_tag').value.trim() || 'Authorized Personnel';
     const val = document.getElementById('in_val').value.trim() || 'Dec 2028';
-    const [c1, c2] = document.getElementById('in_theme').value.split('|');
+    const initials = org.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'KB';
+    const logoHTML = customLogoUrl ? `<img src="${customLogoUrl}" alt="Logo">` : esc(initials);
+    const sigHTML = customSigUrl ? `<img src="${customSigUrl}" alt="Sign">` : '';
 
     document.getElementById('countLabel').innerText = `Live Bulk Preview (${records.length} Cards Generated)`;
 
@@ -413,62 +843,154 @@
       const qr = `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(`ID:${id}|Name:${name}|Org:${org}`)}`;
 
       return `
-        <div class="id-card">
-          <div class="card-top" style="background:linear-gradient(135deg, ${c1}, ${c2});">
-            <h4>${org}</h4>
-            <p>${tag}</p>
-          </div>
-          <div class="photo-ring"><img src="${photo}" alt="${name}"></div>
-          <div class="card-body">
-            <div class="emp-name">${name}</div>
-            <div class="emp-role" style="background:${c1};">${role}</div>
-            <div class="info-list">
-              <div><span>ID No:</span><b>${id}</b></div>
-              <div><span>Blood Group:</span><b>${blood}</b></div>
-              <div><span>Mobile:</span><b>${mob}</b></div>
-              <div><span>Valid Upto:</span><b>${val}</b></div>
+        <div class="id-card" style="background-color:${t.cardBg}; color:${t.textColor};">
+          <div class="card-svg-bg">${t.frontSvg}</div>
+          ${t.sideTag ? `<div class="side-tag">ID CARD</div>` : ''}
+
+          <div class="card-layer">
+            <div>
+              <div class="org-head">
+                <div class="org-logo-box">${logoHTML}</div>
+                <div class="org-titles" style="color:${t.headerText};">
+                  <h4>${esc(org)}</h4>
+                  <p>${esc(tag)}</p>
+                </div>
+              </div>
+
+              <div class="photo-frame ${t.squarePhoto ? 'square-frame' : ''}" style="border-color:${t.photoBorder};">
+                <img src="${photo}" alt="${esc(name)}">
+              </div>
+
+              <div class="holder-main">
+                <div class="emp-name">${esc(name)}</div>
+                <div class="emp-role" style="background-color:${t.roleBg}; color:${t.roleText};">${esc(role)}</div>
+              </div>
+
+              <div class="info-list">
+                <div class="info-line"><span class="info-k">ID Number:</span><span class="info-v">${esc(id)}</span></div>
+                <div class="info-line"><span class="info-k">Blood Group:</span><span class="info-v">${esc(blood)}</span></div>
+                <div class="info-line"><span class="info-k">Mobile No:</span><span class="info-v">${esc(mob)}</span></div>
+                <div class="info-line"><span class="info-k">Valid Upto:</span><span class="info-v">${esc(val)}</span></div>
+              </div>
             </div>
-          </div>
-          <div class="card-bottom">
-            <div class="qr-box"><img src="${qr}" alt="QR"></div>
-            <div class="auth-sig">Authorized Signatory</div>
+
+            <div>
+              <div class="card-bottom">
+                <div class="qr-box"><img src="${qr}" alt="QR"></div>
+                <div class="auth-sig">
+                  ${sigHTML}
+                  <div style="border-top:1px solid currentColor; padding-top:2px;">Authorized Signatory</div>
+                </div>
+              </div>
+              <div class="bottom-strip" style="background-color:${t.stripBg};"></div>
+            </div>
           </div>
         </div>
       `;
     }).join('');
   }
 
+  /* Zero-Clipping Multi-Card A4 PDF Export */
   function downloadBulkPDF() {
-    const el = document.getElementById('bulkSheet');
-    html2pdf().set({
-      margin: [8, 8, 8, 8],
-      filename: `Bulk_ID_Cards_${records.length}.pdf`,
-      image: { type: 'jpeg', quality: 0.96 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(el).save();
+    const btn = document.getElementById('btnPdf');
+    btn.disabled = true;
+    btn.innerText = '⏳ Generating PDF...';
+
+    const savedX = window.scrollX || 0;
+    const savedY = window.scrollY || 0;
+    window.scrollTo(0, 0);
+
+    const source = document.getElementById('bulkSheet');
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+
+    const PDF_WIDTH = 720;
+    clone.style.cssText = `width:${PDF_WIDTH}px; min-width:${PDF_WIDTH}px; max-width:${PDF_WIDTH}px; margin:0; padding:16px; background:#ffffff; border:none; box-shadow:none; display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; justify-items:center;`;
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `position:absolute; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0;`;
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        html2pdf().set({
+          margin: [8, 8, 8, 8],
+          filename: `Bulk_ID_Cards_${records.length}.pdf`,
+          image: { type: 'png', quality: 1.0 },
+          html2canvas: {
+            scale: 2.5,
+            useCORS: true,
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            width: PDF_WIDTH,
+            windowWidth: PDF_WIDTH,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        }).from(clone).save().then(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download All Cards PDF';
+        }).catch(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download All Cards PDF';
+        });
+      }, 200);
+    });
   }
 
   function printBulk() {
-    const w = window.open('', '_blank', 'width=900,height=900');
+    const w = window.open('', '_blank', 'width=940,height=900');
+    const sheetHTML = document.getElementById('bulkSheet').innerHTML;
     w.document.write(`<!DOCTYPE html><html><head><title>Print Bulk ID Cards</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:10mm;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;justify-items:center}
-      .id-card{width:215px;height:340px;border-radius:10px;overflow:hidden;border:1.5px solid #cbd5e1;display:flex;flex-direction:column;justify-content:space-between;page-break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-      .card-top{padding:12px 8px 22px;text-align:center;color:#fff;clip-path:ellipse(125% 100% at 50% 0%)}
-      .card-top h4{margin:0;font-size:12.5px;text-transform:uppercase}.card-top p{margin:2px 0 0;font-size:8.5px}
-      .photo-ring{width:78px;height:90px;margin:-18px auto 4px;border-radius:7px;border:2.5px solid #fff;overflow:hidden;position:relative;z-index:2}
-      .photo-ring img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-      .card-body{padding:2px 10px;text-align:center;flex:1}.emp-name{margin:2px 0;font-size:13.5px;font-weight:900}
-      .emp-role{display:inline-block;padding:2px 9px;border-radius:20px;font-size:8.5px;font-weight:800;color:#fff;margin-bottom:6px}
-      .info-list{text-align:left;font-size:9px;line-height:1.5;border-top:1px dashed #cbd5e1;padding-top:5px}
-      .info-list div{display:flex;justify-content:space-between}
-      .card-bottom{padding:5px 10px 7px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #f1f5f9}
-      .qr-box img{width:38px;height:38px}.auth-sig{font-size:7.5px;font-weight:700;border-top:1px solid #64748b;padding-top:2px}
-    </style></head><body>${document.getElementById('bulkSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 600);
+      @page { size: A4 portrait; margin: 10mm; }
+      * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      body { margin: 0; padding: 6mm; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; justify-items: center; background: #fff; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .id-card { width: 224px; height: 356px; border-radius: 13px; overflow: hidden; border: 1.5px solid #cbd5e1; display: flex; flex-direction: column; justify-content: space-between; position: relative; page-break-inside: avoid; break-inside: avoid; }
+      .card-svg-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+      .card-layer { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .org-head { padding: 12px 10px 4px; display: flex; align-items: center; justify-content: center; gap: 7px; }
+      .org-logo-box { width: 28px; height: 28px; border-radius: 6px; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 11px; color: #0f172a; overflow: hidden; flex-shrink: 0; }
+      .org-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+      .org-titles h4 { margin: 0; font-size: 12px; font-weight: 900; text-transform: uppercase; line-height: 1.15; }
+      .org-titles p { margin: 2px 0 0; font-size: 8px; font-weight: 600; opacity: 0.92; }
+      .photo-frame { width: 82px; height: 82px; margin: 5px auto; border-radius: 50%; border: 3px solid #fff; overflow: hidden; background: #e2e8f0; }
+      .photo-frame.square-frame { width: 80px; height: 90px; border-radius: 8px; }
+      .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+      .holder-main { padding: 0 12px; text-align: center; }
+      .emp-name { margin: 2px 0; font-size: 13.5px; font-weight: 900; text-transform: uppercase; line-height: 1.15; }
+      .emp-role { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 8.5px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
+      .info-list { padding: 5px 14px 2px; font-size: 9px; line-height: 1.5; text-align: left; }
+      .info-line { display: flex; justify-content: space-between; gap: 6px; border-bottom: 1px dashed rgba(148,163,184,0.45); padding: 1px 0; }
+      .info-line:last-child { border-bottom: none; }
+      .info-k { font-weight: 700; opacity: 0.85; }
+      .info-v { font-weight: 800; text-align: right; }
+      .card-bottom { padding: 5px 12px 8px; display: flex; justify-content: space-between; align-items: flex-end; }
+      .qr-box { background: #fff; padding: 2px; border-radius: 4px; border: 1px solid #cbd5e1; }
+      .qr-box img { width: 35px; height: 35px; display: block; }
+      .auth-sig { text-align: center; font-size: 7.5px; font-weight: 800; }
+      .auth-sig img { max-height: 20px; max-width: 70px; display: block; margin: 0 auto 1px; }
+      .bottom-strip { height: 10px; width: 100%; }
+      .side-tag { position: absolute; left: 8px; top: 98px; background: #0284c7; color: #fff; font-size: 7.5px; font-weight: 900; padding: 5px 2.5px; border-radius: 4px; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.8px; z-index: 3; }
+    </style></head><body>${sheetHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
   }
 
-  window.onload = renderBulk;
+  window.onload = () => {
+    try {
+      if (localStorage.getItem('kkb_bulk_id_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('btnDark').innerText = '☀️ Light Mode';
+      }
+    } catch (e) {}
+    renderBulk();
+  };
 </script>
 </body>
 </html>
