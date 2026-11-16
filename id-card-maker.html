@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Single ID Card Generator (Multi-Theme & QR) - KaamKaj Bills</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Single ID Card Generator (8 Designer Themes & QR) - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
@@ -14,65 +14,106 @@
     --ink-muted: #475569;
     --border: #cbd5e1;
     --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
   }
+
+  body.dark-mode {
+    --primary: #38bdf8;
+    --primary-dark: #0284c7;
+    --primary-soft: rgba(56, 189, 248, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: #334155;
+    --bg: #0b1120;
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  }
+
   html, body {
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    background: var(--bg);
+    min-height: 100vh;
+    background-color: var(--bg);
     color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+    overflow-x: hidden;
+    transition: background-color 0.2s, color 0.2s;
   }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
 
   /* Top Navigation Bar */
   .top-nav {
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 24px;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 12px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     border-bottom: 3px solid #f59e0b;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+    background-color: rgba(255,255,255,0.12);
+    color: #ffffff;
     text-decoration: none;
     padding: 7px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 700;
     border: 1px solid rgba(255,255,255,0.2);
     transition: 0.2s;
   }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+  .btn-home:hover { background-color: #0284c7; border-color: #38bdf8; }
+  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
+  .btn-theme {
+    background-color: rgba(255,255,255,0.14);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
 
-  /* PC Full-Wide Split Grid Layout */
+  /* Full-Screen Wide Split Layout */
   .kb-wrapper {
     width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: 20px 26px 48px 26px;
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: minmax(430px, 1.08fr) minmax(520px, 0.92fr);
     gap: 24px;
     align-items: start;
   }
 
   /* Left Control Box */
   .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 14px;
     padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    box-shadow: var(--shadow);
   }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -84,23 +125,23 @@
   input, select {
     width: 100%;
     padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
     font-size: 13.5px;
     outline: none;
     color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
+    background-color: var(--surface-alt);
+    transition: border-color 0.2s, background-color 0.2s;
   }
   input:focus, select:focus {
     border-color: var(--primary);
-    background: #ffffff;
+    background-color: var(--surface);
     box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
   }
 
   .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
+    background-color: var(--primary-soft);
+    color: var(--primary);
     font-size: 11.5px;
     font-weight: 800;
     padding: 6px 12px;
@@ -114,128 +155,245 @@
   }
   .section-badge:first-of-type { margin-top: 0; }
 
-  /* Theme Selector Pills */
-  .theme-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-  .theme-btn {
-    padding: 8px 12px;
-    border: 2px solid #cbd5e1;
-    border-radius: 8px;
-    background: #fff;
+  /* 8 Designer Theme Selector Grid */
+  .theme-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .theme-card-btn {
+    padding: 8px 6px;
+    border: 2px solid var(--border);
+    border-radius: 9px;
+    background-color: var(--surface-alt);
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    text-align: center;
+    transition: 0.2s;
+  }
+  .theme-card-btn:hover { border-color: var(--primary); }
+  .theme-card-btn.active {
+    border-color: var(--primary);
+    background-color: var(--primary-soft);
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.18);
+  }
+  .swatch-bar {
+    width: 100%;
+    height: 10px;
+    border-radius: 4px;
+    display: block;
+  }
+
+  /* Card Type Toggle */
+  .mode-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+    background-color: var(--surface-alt);
+    border: 1px solid var(--border);
+    padding: 4px;
+    border-radius: 9px;
+  }
+  .mode-btn {
+    padding: 8px;
+    border: none;
+    border-radius: 7px;
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: 0.2s;
+    background: transparent;
+    color: var(--ink-muted);
   }
-  .theme-btn.active { border-color: var(--ink); background: #f8fafc; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
-  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .mode-btn.active {
+    background-color: #0284c7;
+    color: #ffffff;
+  }
 
   /* Signature Pad */
-  .sig-wrap { background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px; }
+  .sig-wrap { background-color: var(--surface-alt); border: 1.5px dashed var(--border); border-radius: 8px; padding: 10px; }
   #sigCanvas {
     border: 1px solid #94a3b8;
     border-radius: 6px;
-    background: #fff;
+    background-color: #ffffff;
     cursor: crosshair;
     touch-action: none;
     width: 100%;
-    max-width: 240px;
+    max-width: 250px;
     height: 55px;
     display: block;
   }
-  .btn-sm { background: #64748b; color: #fff; border: none; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+  .btn-sm { background-color: #64748b; color: #ffffff; border: none; padding: 5px 11px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 6px; }
 
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
     flex: 1;
-    min-width: 140px;
+    min-width: 150px;
     padding: 13px;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     transition: 0.2s;
   }
   .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-pdf { background-color: #0284c7; }
+  .btn-print { background-color: #0f172a; }
 
   /* Right Sticky Preview Panel */
   .preview-panel {
     position: sticky;
     top: 72px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow);
   }
   .preview-label {
     text-align: center;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--ink-muted);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 12px;
   }
-
-  /* CR80 Standard Vertical ID Card (240px x 380px scaled nicely for preview) */
-  .cards-stage {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    background: #ffffff;
-    padding: 24px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  .preview-viewport {
     width: 100%;
+    overflow-x: auto;
+    background-color: #e2e8f0;
+    padding: 20px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+  body.dark-mode .preview-viewport {
+    background-color: #0f172a;
   }
 
-  .id-card {
-    width: 230px;
-    height: 365px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #ffffff;
+  .cards-stage {
+    display: flex;
+    gap: 24px;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 24px 26px;
     border: 1.5px solid #cbd5e1;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    flex-shrink: 0;
+  }
+
+  /* =========================================================
+     CR80 VERTICAL ID CARD BASE (246px x 390px)
+     ========================================================= */
+  .id-card {
+    width: 246px;
+    height: 390px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: #ffffff;
+    color: #0f172a;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.14);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    flex-shrink: 0;
   }
 
-  .card-top {
-    padding: 14px 10px 26px 10px;
-    text-align: center;
-    color: #ffffff;
-    clip-path: ellipse(125% 100% at 50% 0%);
+  .card-svg-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
   }
-  .card-top h3 { margin: 0; font-size: 13.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.2; }
-  .card-top p { margin: 3px 0 0; font-size: 9px; opacity: 0.9; }
 
-  .photo-ring {
-    width: 86px;
-    height: 98px;
-    margin: -22px auto 6px auto;
-    border-radius: 8px;
-    border: 3px solid #ffffff;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
-    overflow: hidden;
-    background: #e2e8f0;
+  .card-layer {
     position: relative;
     z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
-  .photo-ring img {
+
+  .org-head {
+    padding: 14px 12px 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: left;
+  }
+  .org-logo-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    background-color: rgba(255,255,255,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 13px;
+    color: #0f172a;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+  }
+  .org-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+  .org-titles h3 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    line-height: 1.15;
+  }
+  .org-titles p {
+    margin: 2px 0 0;
+    font-size: 8.5px;
+    font-weight: 600;
+    opacity: 0.92;
+  }
+
+  .photo-frame {
+    width: 90px;
+    height: 90px;
+    margin: 6px auto 6px auto;
+    border-radius: 50%;
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+    overflow: hidden;
+    background-color: #e2e8f0;
+    position: relative;
+  }
+  .photo-frame.square-frame {
+    width: 88px;
+    height: 98px;
+    border-radius: 8px;
+  }
+  .photo-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -243,224 +401,681 @@
     display: block;
   }
 
-  .card-body { padding: 2px 12px; text-align: center; flex: 1; }
-  .emp-name { margin: 2px 0; font-size: 14.5px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
-  .emp-role {
+  .holder-main {
+    padding: 0 14px;
+    text-align: center;
+  }
+  .holder-name {
+    margin: 2px 0 2px 0;
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.15;
+  }
+  .holder-role {
     display: inline-block;
-    padding: 2px 10px;
+    padding: 2.5px 11px;
     border-radius: 20px;
     font-size: 9.5px;
     font-weight: 800;
-    color: #fff;
-    margin-bottom: 8px;
     text-transform: uppercase;
+    margin-bottom: 7px;
   }
 
-  .info-list { text-align: left; font-size: 9.5px; line-height: 1.55; color: #334155; border-top: 1px dashed #cbd5e1; padding-top: 6px; }
-  .info-list div { display: flex; justify-content: space-between; }
-  .info-list b { color: #0f172a; }
+  .meta-rows {
+    padding: 6px 16px 2px 16px;
+    font-size: 9.5px;
+    line-height: 1.55;
+    text-align: left;
+  }
+  .meta-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.45);
+    padding: 1.5px 0;
+  }
+  .meta-line:last-child { border-bottom: none; }
+  .meta-k { font-weight: 700; opacity: 0.85; white-space: nowrap; }
+  .meta-v { font-weight: 800; text-align: right; word-break: break-word; }
 
-  .card-bottom {
-    padding: 6px 12px 8px 12px;
+  .card-foot {
+    padding: 6px 14px 10px 14px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-top: 1px solid #f1f5f9;
   }
-  .qr-box img { width: 42px; height: 42px; display: block; }
-  .auth-sig { text-align: center; font-size: 8px; font-weight: 700; color: #475569; }
-  .auth-sig img { max-height: 24px; max-width: 75px; display: block; margin: 0 auto 1px; }
+  .qr-mini {
+    background: #ffffff;
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+  }
+  .qr-mini img { width: 38px; height: 38px; display: block; }
+  .sig-mini {
+    text-align: center;
+    font-size: 8px;
+    font-weight: 800;
+  }
+  .sig-mini img { max-height: 22px; max-width: 76px; display: block; margin: 0 auto 1px auto; }
 
-  /* Back Side Card */
-  .back-top { padding: 10px; text-align: center; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; }
-  .back-body { padding: 12px; font-size: 9.5px; color: #334155; line-height: 1.5; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-  .back-rules { padding-left: 14px; margin: 4px 0; }
-  .back-rules li { margin-bottom: 4px; }
-  .back-footer { padding: 8px 10px; text-align: center; color: #fff; font-size: 9px; font-weight: 700; }
+  .bottom-strip {
+    height: 12px;
+    width: 100%;
+    flex-shrink: 0;
+  }
 
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+  /* Vertical Side Tag for School Ribbon Theme */
+  .side-tag {
+    position: absolute;
+    left: 10px;
+    top: 108px;
+    background-color: #0284c7;
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: 900;
+    padding: 6px 3px;
+    border-radius: 4px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    letter-spacing: 1px;
+    z-index: 3;
+    display: none;
+  }
+
+  /* Back Side Styling */
+  .back-head {
+    padding: 11px 12px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  .back-content {
+    padding: 10px 14px;
+    font-size: 9.2px;
+    line-height: 1.48;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .back-list { padding-left: 14px; margin: 4px 0; }
+  .back-list li { margin-bottom: 3px; }
+  .emg-box {
+    background-color: rgba(248, 250, 252, 0.92);
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 6px 8px;
+    color: #0f172a;
+  }
+  .barcode-svg {
+    width: 100%;
+    height: 24px;
+    display: block;
+    margin: 4px auto 0 auto;
+  }
+  .back-foot {
+    padding: 8px 10px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 800;
+  }
+
+  @media (max-width: 1140px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
     .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 640px) {
+    .theme-grid { grid-template-columns: repeat(2, 1fr); }
     .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .preview-viewport { justify-content: flex-start; padding: 12px; }
+    .top-nav { padding: 10px 14px; }
+    .nav-title { font-size: 13.5px; }
+    .control-box, .preview-panel { padding: 14px 12px; }
   }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Multi-Theme ID Card Maker</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+    <span class="nav-title">KaamKaj Bills • 8-Theme Designer ID Card Maker</span>
+  </div>
+  <div class="nav-right">
+    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </div>
 </div>
 
 <div class="kb-wrapper">
   <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Select Card Color Theme</div>
-    <div class="theme-bar">
-      <button type="button" class="theme-btn active" onclick="setTheme('#0284c7', '#0369a1', this)"><span class="dot" style="background:#0284c7;"></span> Royal Blue</button>
-      <button type="button" class="theme-btn" onclick="setTheme('#0f172a', '#334155', this)"><span class="dot" style="background:#0f172a;"></span> Corporate Dark</button>
-      <button type="button" class="theme-btn" onclick="setTheme('#15803d', '#166534', this)"><span class="dot" style="background:#15803d;"></span> Emerald Green</button>
-      <button type="button" class="theme-btn" onclick="setTheme('#b91c1c', '#991b1b', this)"><span class="dot" style="background:#b91c1c;"></span> Crimson Red</button>
-      <button type="button" class="theme-btn" onclick="setTheme('#7c3aed', '#5b21b6', this)"><span class="dot" style="background:#7c3aed;"></span> Royal Purple</button>
+    <div class="section-badge">1. Choose Designer ID Card Theme (8 Styles)</div>
+    <div class="theme-grid" id="themeGrid">
+      <button type="button" class="theme-card-btn active" onclick="applyTheme('royal_blue', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #0f172a 50%, #0284c7 50%);"></span>
+        1. Royal Curve Blue
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('crimson_geo', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #18181b 50%, #dc2626 50%);"></span>
+        2. Geometric Red
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('golden_sun', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #f59e0b 50%, #082f49 50%);"></span>
+        3. Golden Sun Split
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('emerald_wave', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #dcfce7 50%, #15803d 50%);"></span>
+        4. Emerald Wave
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('university_v', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #0f294a 50%, #38bdf8 50%);"></span>
+        5. University Shield
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('school_ribbon', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #1e3a8a 50%, #facc15 50%);"></span>
+        6. School Ribbon
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('amber_arch', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #f59e0b 50%, #1e1b4b 50%);"></span>
+        7. Amber Arch Pro
+      </button>
+      <button type="button" class="theme-card-btn" onclick="applyTheme('lime_studio', this)">
+        <span class="swatch-bar" style="background: linear-gradient(90deg, #84cc16 50%, #064e3b 50%);"></span>
+        8. Lime Studio Split
+      </button>
     </div>
 
-    <div class="section-badge">2. Organization / Company / School Details</div>
-    <div class="grid-2">
-      <div class="field"><label>Company / Institute Name</label><input type="text" id="in_org" placeholder="उदा. Maruthi Technologies" oninput="renderCard()"></div>
-      <div class="field"><label>Tagline / Department</label><input type="text" id="in_tag" placeholder="उदा. Technical & Security Services" oninput="renderCard()"></div>
+    <div class="mode-bar">
+      <button type="button" class="mode-btn active" id="modeCorp" onclick="setHolderType('CORP')">🏢 Corporate / Staff Card</button>
+      <button type="button" class="mode-btn" id="modeStud" onclick="setHolderType('STUD')">🎓 School / Student Card</button>
     </div>
 
-    <div class="section-badge">3. Holder Personal & Photo Details</div>
+    <div class="section-badge">2. Organization / School / Company Details</div>
     <div class="grid-2">
-      <div class="field"><label>Full Name (पूरा नाम)</label><input type="text" id="in_name" placeholder="उदा. Amar Singh Tomar" oninput="renderCard()"></div>
-      <div class="field"><label>Designation / Course / Role</label><input type="text" id="in_role" placeholder="उदा. Senior Technical Analyst" oninput="renderCard()"></div>
+      <div class="field"><label>Company / School Name</label><input type="text" id="in_org" placeholder="e.g. Apex Tech Solutions" oninput="renderCard()"></div>
+      <div class="field"><label>Tagline / Department</label><input type="text" id="in_tag" placeholder="e.g. Creative &amp; Technical Division" oninput="renderCard()"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Upload Logo (Optional)</label><input type="file" accept="image/*" onchange="loadLogo(event)"></div>
+      <div class="field"><label>Office / School Address</label><input type="text" id="in_addr" placeholder="e.g. Sector 18, Main Road, City" oninput="renderCard()"></div>
+    </div>
+
+    <div class="section-badge">3. Holder Personal &amp; Photo Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Full Name (पूरा नाम)</label><input type="text" id="in_name" placeholder="e.g. Rohan Sharma" oninput="renderCard()"></div>
+      <div class="field"><label id="lbl_role">Designation / Role</label><input type="text" id="in_role" placeholder="e.g. Senior Network Engineer" oninput="renderCard()"></div>
     </div>
 
     <div class="grid-3">
-      <div class="field"><label>Employee / Roll No.</label><input type="text" id="in_id" placeholder="उदा. MT-101" oninput="renderCard()"></div>
-      <div class="field"><label>Blood Group</label><input type="text" id="in_bg" placeholder="उदा. B+" oninput="renderCard()"></div>
-      <div class="field"><label>Valid Upto</label><input type="text" id="in_val" placeholder="उदा. Dec 2028" oninput="renderCard()"></div>
+      <div class="field"><label id="lbl_id">ID / Roll Number</label><input type="text" id="in_id" placeholder="e.g. EMP-1025" oninput="renderCard()"></div>
+      <div class="field"><label id="lbl_field3">Blood Group</label><input type="text" id="in_f3" placeholder="e.g. O+ / 15-08-1998" oninput="renderCard()"></div>
+      <div class="field"><label id="lbl_field4">Valid Upto / Batch</label><input type="text" id="in_f4" placeholder="e.g. Dec 2028" oninput="renderCard()"></div>
+    </div>
+
+    <div class="grid-2" id="studentExtraRow" style="display:none;">
+      <div class="field"><label>Father's / Guardian Name</label><input type="text" id="in_father" placeholder="e.g. Mr. Suresh Sharma" oninput="renderCard()"></div>
+      <div class="field"><label>Date of Birth (D.O.B)</label><input type="text" id="in_dob" placeholder="e.g. 12-05-2012" oninput="renderCard()"></div>
     </div>
 
     <div class="grid-2">
-      <div class="field"><label>Mobile / Emergency Contact</label><input type="text" id="in_mob" placeholder="उदा. +91 98XXXXXXXX" oninput="renderCard()"></div>
+      <div class="field"><label>Mobile / Contact No.</label><input type="text" id="in_mob" placeholder="e.g. +91 90000 12345" oninput="renderCard()"></div>
       <div class="field"><label>Upload Passport Photo</label><input type="file" accept="image/*" onchange="loadPhoto(event)"></div>
     </div>
 
-    <div class="section-badge">4. Back Side Info & Authorized Signature</div>
+    <div class="section-badge">4. Back Side Info &amp; Authorized Signature</div>
     <div class="grid-2">
-      <div class="field"><label>Emergency Contact Person</label><input type="text" id="in_emg" placeholder="उदा. Munal / Vishal (98XXXXXXXX)" oninput="renderCard()"></div>
-      <div class="field"><label>Website / Helpline Email</label><input type="text" id="in_web" placeholder="उदा. www.kaamkajbills.in" oninput="renderCard()"></div>
+      <div class="field"><label>Emergency Contact / Email</label><input type="text" id="in_emg" placeholder="e.g. +91 90000 54321 | hr@company.in" oninput="renderCard()"></div>
+      <div class="field"><label>Website / Helpline URL</label><input type="text" id="in_web" placeholder="e.g. www.kaamkajbills.in" oninput="renderCard()"></div>
     </div>
 
     <div class="field">
       <label>Draw Authorized Signature (हस्ताक्षर):</label>
       <div class="sig-wrap">
-        <canvas id="sigCanvas" width="240" height="55"></canvas>
+        <canvas id="sigCanvas" width="250" height="55"></canvas>
         <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
       </div>
     </div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download A4 PDF (Front + Back)</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()">📥 Download A4 PDF (Front + Back)</button>
       <button type="button" class="btn btn-print" onclick="printCard()">🖨️ Direct Print Card</button>
     </div>
   </div>
 
   <!-- RIGHT: LIVE FRONT & BACK CARD PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live Front & Back Card Preview (CR80 Standard)</div>
-    <div class="cards-stage" id="printStage">
-      
-      <!-- FRONT CARD -->
-      <div class="id-card" id="frontCard">
-        <div class="card-top" id="cTop" style="background: linear-gradient(135deg, #0284c7, #0369a1);">
-          <h3 id="out_org">MARUTHI TECHNOLOGIES</h3>
-          <p id="out_tag">Technical & Security Services</p>
-        </div>
+    <div class="preview-label">Live Front &amp; Back Card Preview (CR80 Standard)</div>
+    <div class="preview-viewport">
+      <div class="cards-stage" id="printStage">
 
-        <div class="photo-ring">
-          <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%23e2e8f0'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
-        </div>
+        <!-- FRONT CARD -->
+        <div class="id-card" id="frontCard">
+          <div class="card-svg-bg" id="frontSvgBg"></div>
+          <div class="side-tag" id="sideTag">ID CARD</div>
 
-        <div class="card-body">
-          <div class="emp-name" id="out_name">AMAR SINGH TOMAR</div>
-          <div class="emp-role" id="out_role" style="background:#0284c7;">TECHNICAL ANALYST</div>
+          <div class="card-layer">
+            <div>
+              <div class="org-head" id="orgHead">
+                <div class="org-logo-box" id="logoBox">KB</div>
+                <div class="org-titles" id="orgTitles">
+                  <h3 id="out_org">APEX TECH SOLUTIONS</h3>
+                  <p id="out_tag">Creative &amp; Technical Division</p>
+                </div>
+              </div>
 
-          <div class="info-list">
-            <div><span>ID Number:</span><b id="out_id">MT-101</b></div>
-            <div><span>Blood Group:</span><b id="out_bg">B+</b></div>
-            <div><span>Mobile No:</span><b id="out_mob">+91 98XXXXXXXX</b></div>
-            <div><span>Valid Upto:</span><b id="out_val">Dec 2028</b></div>
-          </div>
-        </div>
+              <div class="photo-frame" id="photoFrame">
+                <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%23e2e8f0'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
+              </div>
 
-        <div class="card-bottom">
-          <div class="qr-box"><img id="out_qr" src="" alt="QR"></div>
-          <div class="auth-sig">
-            <img id="out_sig" style="display:none;" alt="Sign">
-            <div style="border-top:1px solid #64748b; padding-top:2px;">Authorized Signatory</div>
-          </div>
-        </div>
-      </div>
+              <div class="holder-main">
+                <div class="holder-name" id="out_name">ROHAN SHARMA</div>
+                <div class="holder-role" id="out_role">SENIOR NETWORK ENGINEER</div>
+              </div>
 
-      <!-- BACK CARD -->
-      <div class="id-card" id="backCard">
-        <div class="back-top" id="bTop" style="background:#0284c7;">TERMS & EMERGENCY INFO</div>
-        <div class="back-body">
-          <div>
-            <b>Instructions:</b>
-            <ul class="back-rules">
-              <li>This card is the property of the issuing organization and must be worn while on duty.</li>
-              <li>Non-transferable. Loss of card must be reported immediately.</li>
-              <li>If found, please return to the helpline below.</li>
-            </ul>
-            <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:6px;border-radius:6px;margin-top:6px;">
-              <b>Emergency Contact:</b><br>
-              <span id="out_emg">Munal / Vishal (98XXXXXXXX)</span>
+              <div class="meta-rows" id="metaRows"></div>
+            </div>
+
+            <div>
+              <div class="card-foot" id="cardFoot">
+                <div class="qr-mini"><img id="out_qr" src="" alt="QR"></div>
+                <div class="sig-mini" id="sigMini">
+                  <img id="out_sig" style="display:none;" alt="Sign">
+                  <div style="border-top:1px solid currentColor; padding-top:2px;" id="sigLabel">Authorized Signatory</div>
+                </div>
+              </div>
+              <div class="bottom-strip" id="frontStrip"></div>
             </div>
           </div>
+        </div>
 
-          <div style="text-align:center;font-size:8.5px;color:#64748b;">
-            Scan front QR code to verify holder credentials.
+        <!-- BACK CARD -->
+        <div class="id-card" id="backCard">
+          <div class="card-svg-bg" id="backSvgBg"></div>
+          <div class="card-layer">
+            <div class="back-head" id="backHead">TERMS &amp; EMERGENCY INFO</div>
+
+            <div class="back-content" id="backContent">
+              <div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                  <div class="org-logo-box" id="backLogoBox" style="width:26px;height:26px;font-size:11px;">KB</div>
+                  <div style="font-weight:900;font-size:11px;text-transform:uppercase;" id="out_back_org">APEX TECH SOLUTIONS</div>
+                </div>
+                <b>Instructions:</b>
+                <ul class="back-list">
+                  <li>This card is the property of the issuing organization and must be carried while on duty / campus.</li>
+                  <li>Non-transferable. Loss of card must be reported immediately to the office.</li>
+                </ul>
+                <div class="emg-box">
+                  <div><b>Emergency / Email:</b> <span id="out_emg">+91 90000 54321</span></div>
+                  <div style="margin-top:3px;"><b>Address:</b> <span id="out_addr">Sector 18, Main Road, City</span></div>
+                </div>
+              </div>
+
+              <div style="text-align:center;">
+                <svg class="barcode-svg" viewBox="0 0 200 28" preserveAspectRatio="none">
+                  <rect x="4" y="0" width="3" height="28" fill="#0f172a"/><rect x="10" y="0" width="1.5" height="28" fill="#0f172a"/>
+                  <rect x="15" y="0" width="4" height="28" fill="#0f172a"/><rect x="23" y="0" width="2" height="28" fill="#0f172a"/>
+                  <rect x="28" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="33" y="0" width="5" height="28" fill="#0f172a"/>
+                  <rect x="42" y="0" width="2" height="28" fill="#0f172a"/><rect x="48" y="0" width="3" height="28" fill="#0f172a"/>
+                  <rect x="55" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="60" y="0" width="4" height="28" fill="#0f172a"/>
+                  <rect x="68" y="0" width="2" height="28" fill="#0f172a"/><rect x="74" y="0" width="3.5" height="28" fill="#0f172a"/>
+                  <rect x="81" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="86" y="0" width="4" height="28" fill="#0f172a"/>
+                  <rect x="94" y="0" width="2" height="28" fill="#0f172a"/><rect x="100" y="0" width="3" height="28" fill="#0f172a"/>
+                  <rect x="107" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="112" y="0" width="5" height="28" fill="#0f172a"/>
+                  <rect x="121" y="0" width="2" height="28" fill="#0f172a"/><rect x="127" y="0" width="3" height="28" fill="#0f172a"/>
+                  <rect x="134" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="139" y="0" width="4" height="28" fill="#0f172a"/>
+                  <rect x="147" y="0" width="2" height="28" fill="#0f172a"/><rect x="153" y="0" width="3" height="28" fill="#0f172a"/>
+                  <rect x="160" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="165" y="0" width="4.5" height="28" fill="#0f172a"/>
+                  <rect x="174" y="0" width="2" height="28" fill="#0f172a"/><rect x="180" y="0" width="3" height="28" fill="#0f172a"/>
+                  <rect x="187" y="0" width="1.5" height="28" fill="#0f172a"/><rect x="192" y="0" width="4" height="28" fill="#0f172a"/>
+                </svg>
+                <div style="font-size:8px;opacity:0.8;margin-top:3px;">Scan front QR code to verify holder credentials</div>
+              </div>
+            </div>
+
+            <div class="back-foot" id="backFoot">
+              <span id="out_web">www.kaamkajbills.in</span>
+            </div>
           </div>
         </div>
-        <div class="back-footer" id="bBot" style="background:#0369a1;">
-          <span id="out_web">www.kaamkajbills.in</span>
-        </div>
-      </div>
 
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-  let c1 = '#0284c7', c2 = '#0369a1';
+  let activeTheme = 'royal_blue';
+  let holderType = 'CORP';
+  let customLogoUrl = '';
 
-  function setTheme(primary, dark, btn) {
-    c1 = primary; c2 = dark;
-    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('cTop').style.background = `linear-gradient(135deg, ${c1}, ${c2})`;
-    document.getElementById('out_role').style.background = c1;
-    document.getElementById('bTop').style.background = c1;
-    document.getElementById('bBot').style.background = c2;
+  const THEMES = {
+    royal_blue: {
+      cardBg: '#ffffff',
+      textColor: '#0f172a',
+      headerText: '#ffffff',
+      roleBg: '#0284c7',
+      roleText: '#ffffff',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#0f172a',
+      backHeadBg: '#0f172a',
+      backHeadText: '#ffffff',
+      backFootBg: '#0284c7',
+      backFootText: '#ffffff',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M0,0 L246,0 L246,125 Q123,165 0,125 Z" fill="#0f172a"/>
+        <path d="M0,118 Q123,158 246,118 L246,128 Q123,168 0,128 Z" fill="#0284c7"/>
+      </svg>`,
+      backSvg: ``
+    },
+    crimson_geo: {
+      cardBg: '#ffffff',
+      textColor: '#0f172a',
+      headerText: '#ffffff',
+      roleBg: '#dc2626',
+      roleText: '#ffffff',
+      photoBorder: '#dc2626',
+      squarePhoto: false,
+      stripBg: '#18181b',
+      backHeadBg: '#18181b',
+      backHeadText: '#ffffff',
+      backFootBg: '#dc2626',
+      backFootText: '#ffffff',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <polygon points="0,0 246,0 246,95 123,130 0,95" fill="#18181b"/>
+        <polygon points="0,95 123,130 246,95 246,115 123,145 0,115" fill="#dc2626"/>
+        <polygon points="0,350 90,390 0,390" fill="#dc2626"/>
+        <polygon points="246,340 140,390 246,390" fill="#18181b"/>
+      </svg>`,
+      backSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <polygon points="0,315 120,365 0,365" fill="#dc2626"/>
+      </svg>`
+    },
+    golden_sun: {
+      cardBg: '#082f49',
+      textColor: '#ffffff',
+      headerText: '#082f49',
+      roleBg: '#f59e0b',
+      roleText: '#082f49',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#f59e0b',
+      backHeadBg: '#f59e0b',
+      backHeadText: '#082f49',
+      backFootBg: '#f59e0b',
+      backFootText: '#082f49',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="246" height="390" fill="#082f49"/>
+        <polygon points="0,0 246,0 0,225" fill="#f59e0b"/>
+        <circle cx="123" cy="112" r="54" fill="none" stroke="#f59e0b" stroke-width="6" stroke-dasharray="140 80"/>
+      </svg>`,
+      backSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="246" height="390" fill="#082f49"/>
+      </svg>`
+    },
+    emerald_wave: {
+      cardBg: '#ecfdf5',
+      textColor: '#064e3b',
+      headerText: '#064e3b',
+      roleBg: '#15803d',
+      roleText: '#ffffff',
+      photoBorder: '#15803d',
+      squarePhoto: true,
+      stripBg: '#15803d',
+      backHeadBg: '#15803d',
+      backHeadText: '#ffffff',
+      backFootBg: '#064e3b',
+      backFootText: '#ffffff',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="246" height="390" fill="#ecfdf5"/>
+        <path d="M185,0 Q235,140 175,390 L246,390 L246,0 Z" fill="#15803d"/>
+        <path d="M210,160 Q242,260 198,390 L246,390 L246,160 Z" fill="#22c55e" opacity="0.7"/>
+      </svg>`,
+      backSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="246" height="390" fill="#ecfdf5"/>
+      </svg>`
+    },
+    university_v: {
+      cardBg: '#ffffff',
+      textColor: '#0f294a',
+      headerText: '#ffffff',
+      roleBg: '#e0f2fe',
+      roleText: '#0369a1',
+      photoBorder: '#0284c7',
+      squarePhoto: false,
+      stripBg: '#0f294a',
+      backHeadBg: '#0f294a',
+      backHeadText: '#ffffff',
+      backFootBg: '#0f294a',
+      backFootText: '#ffffff',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <polygon points="0,0 246,0 246,115 123,155 0,115" fill="#0f294a"/>
+        <polygon points="165,128 246,98 246,115 175,142" fill="#38bdf8"/>
+        <polygon points="155,390 246,330 246,390" fill="#0f294a"/>
+      </svg>`,
+      backSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <polygon points="0,330 95,365 0,365" fill="#0f294a"/>
+      </svg>`
+    },
+    school_ribbon: {
+      cardBg: '#ffffff',
+      textColor: '#0f172a',
+      headerText: '#ffffff',
+      roleBg: '#1e3a8a',
+      roleText: '#ffffff',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#1e3a8a',
+      backHeadBg: '#1e3a8a',
+      backHeadText: '#ffffff',
+      backFootBg: '#1e3a8a',
+      backFootText: '#ffffff',
+      sideTag: true,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M0,0 L246,0 L246,105 Q123,85 0,120 Z" fill="#1e3a8a"/>
+        <path d="M0,78 Q125,105 246,210 L246,238 Q120,125 0,98 Z" fill="#facc15"/>
+        <path d="M0,362 Q123,348 246,368 L246,390 L0,390 Z" fill="#f59e0b"/>
+      </svg>`,
+      backSvg: ``
+    },
+    amber_arch: {
+      cardBg: '#ffffff',
+      textColor: '#1e1b4b',
+      headerText: '#1e1b4b',
+      roleBg: '#fef3c7',
+      roleText: '#b45309',
+      photoBorder: '#ffffff',
+      squarePhoto: false,
+      stripBg: '#1e1b4b',
+      backHeadBg: '#1e1b4b',
+      backHeadText: '#f59e0b',
+      backFootBg: '#1e1b4b',
+      backFootText: '#ffffff',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M0,0 L246,0 L246,145 Q225,85 123,85 Q21,85 0,145 Z" fill="#f59e0b"/>
+      </svg>`,
+      backSvg: ``
+    },
+    lime_studio: {
+      cardBg: '#f8fafc',
+      textColor: '#064e3b',
+      headerText: '#064e3b',
+      roleBg: '#064e3b',
+      roleText: '#bef264',
+      photoBorder: '#bef264',
+      squarePhoto: true,
+      stripBg: '#064e3b',
+      backHeadBg: '#064e3b',
+      backHeadText: '#bef264',
+      backFootBg: '#064e3b',
+      backFootText: '#ffffff',
+      sideTag: false,
+      frontSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <rect x="0" y="0" width="246" height="175" fill="#84cc16"/>
+        <circle cx="45" cy="40" r="65" fill="#10b981" opacity="0.55"/>
+        <circle cx="215" cy="135" r="75" fill="#bef264" opacity="0.65"/>
+      </svg>`,
+      backSvg: `<svg viewBox="0 0 246 390" width="100%" height="100%" preserveAspectRatio="none">
+        <rect width="246" height="390" fill="#064e3b"/>
+        <path d="M0,60 Q123,130 246,60 L246,115 Q123,185 0,115 Z" fill="#84cc16" opacity="0.22"/>
+      </svg>`
+    }
+  };
+
+  function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    try { localStorage.setItem('kkb_idcard_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  }
+
+  function applyTheme(key, btn) {
+    activeTheme = key;
+    document.querySelectorAll('.theme-card-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderCard();
+  }
+
+  function setHolderType(type) {
+    holderType = type;
+    document.getElementById('modeCorp').classList.toggle('active', type === 'CORP');
+    document.getElementById('modeStud').classList.toggle('active', type === 'STUD');
+    document.getElementById('studentExtraRow').style.display = (type === 'STUD') ? 'grid' : 'none';
+
+    if (type === 'STUD') {
+      document.getElementById('lbl_role').innerText = 'Class / Course / Stream';
+      document.getElementById('in_role').placeholder = 'e.g. Class 10th - Section A';
+      document.getElementById('lbl_id').innerText = 'Roll No. / Admission ID';
+      document.getElementById('in_id').placeholder = 'e.g. STU-2026-042';
+      document.getElementById('lbl_field3').innerText = 'Blood Group';
+      document.getElementById('lbl_field4').innerText = 'Academic Session';
+      document.getElementById('in_f4').placeholder = 'e.g. 2026 - 2027';
+      document.getElementById('sigLabel').innerText = 'Principal Signature';
+    } else {
+      document.getElementById('lbl_role').innerText = 'Designation / Role';
+      document.getElementById('in_role').placeholder = 'e.g. Senior Network Engineer';
+      document.getElementById('lbl_id').innerText = 'Employee ID';
+      document.getElementById('in_id').placeholder = 'e.g. EMP-1025';
+      document.getElementById('lbl_field3').innerText = 'Blood Group';
+      document.getElementById('lbl_field4').innerText = 'Valid Upto';
+      document.getElementById('in_f4').placeholder = 'e.g. Dec 2028';
+      document.getElementById('sigLabel').innerText = 'Authorized Signatory';
+    }
+    renderCard();
   }
 
   function loadPhoto(e) {
-    const file = e.target.files[0];
+    const file = e.target.files && e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = ev => { document.getElementById('out_photo').src = ev.target.result; };
     reader.readAsDataURL(file);
   }
 
+  function loadLogo(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      customLogoUrl = ev.target.result;
+      renderCard();
+    };
+    reader.readAsDataURL(file);
+  }
+
   function renderCard() {
-    const org = document.getElementById('in_org').value.trim() || 'MARUTHI TECHNOLOGIES';
-    const tag = document.getElementById('in_tag').value.trim() || 'Technical & Security Services';
-    const name = document.getElementById('in_name').value.trim() || 'AMAR SINGH TOMAR';
-    const role = document.getElementById('in_role').value.trim() || 'TECHNICAL ANALYST';
-    const id = document.getElementById('in_id').value.trim() || 'MT-101';
-    const bg = document.getElementById('in_bg').value.trim() || 'B+';
-    const val = document.getElementById('in_val').value.trim() || 'Dec 2028';
-    const mob = document.getElementById('in_mob').value.trim() || '+91 98XXXXXXXX';
-    const emg = document.getElementById('in_emg').value.trim() || 'Munal / Vishal (98XXXXXXXX)';
+    const t = THEMES[activeTheme] || THEMES.royal_blue;
+
+    const frontCard = document.getElementById('frontCard');
+    const backCard = document.getElementById('backCard');
+    frontCard.style.backgroundColor = t.cardBg;
+    frontCard.style.color = t.textColor;
+
+    document.getElementById('frontSvgBg').innerHTML = t.frontSvg;
+    document.getElementById('backSvgBg').innerHTML = t.backSvg;
+
+    document.getElementById('orgTitles').style.color = t.headerText;
+    const roleEl = document.getElementById('out_role');
+    roleEl.style.backgroundColor = t.roleBg;
+    roleEl.style.color = t.roleText;
+
+    const photoFrame = document.getElementById('photoFrame');
+    photoFrame.style.borderColor = t.photoBorder;
+    photoFrame.classList.toggle('square-frame', !!t.squarePhoto);
+
+    document.getElementById('frontStrip').style.backgroundColor = t.stripBg;
+    document.getElementById('sideTag').style.display = t.sideTag ? 'block' : 'none';
+
+    const backHead = document.getElementById('backHead');
+    backHead.style.backgroundColor = t.backHeadBg;
+    backHead.style.color = t.backHeadText;
+
+    const backFoot = document.getElementById('backFoot');
+    backFoot.style.backgroundColor = t.backFootBg;
+    backFoot.style.color = t.backFootText;
+
+    const backContent = document.getElementById('backContent');
+    backContent.style.color = (activeTheme === 'golden_sun' || activeTheme === 'lime_studio') ? '#ffffff' : '#334155';
+
+    const org = document.getElementById('in_org').value.trim() || (holderType === 'STUD' ? 'APEX PUBLIC SCHOOL' : 'APEX TECH SOLUTIONS');
+    const tag = document.getElementById('in_tag').value.trim() || (holderType === 'STUD' ? 'Affiliated Senior Secondary Academy' : 'Creative & Technical Division');
+    const addr = document.getElementById('in_addr').value.trim() || 'Sector 18, Main Road, City';
+    const name = document.getElementById('in_name').value.trim() || (holderType === 'STUD' ? 'AARAV SHARMA' : 'ROHAN SHARMA');
+    const role = document.getElementById('in_role').value.trim() || (holderType === 'STUD' ? 'CLASS 10TH - SECTION A' : 'SENIOR NETWORK ENGINEER');
+    const id = document.getElementById('in_id').value.trim() || (holderType === 'STUD' ? 'STU-2026-042' : 'EMP-1025');
+    const f3 = document.getElementById('in_f3').value.trim() || 'O+';
+    const f4 = document.getElementById('in_f4').value.trim() || (holderType === 'STUD' ? '2026 - 2027' : 'Dec 2028');
+    const father = document.getElementById('in_father').value.trim() || 'Mr. Suresh Sharma';
+    const dob = document.getElementById('in_dob').value.trim() || '12-05-2012';
+    const mob = document.getElementById('in_mob').value.trim() || '+91 90000 12345';
+    const emg = document.getElementById('in_emg').value.trim() || '+91 90000 54321 | info@portal.in';
     const web = document.getElementById('in_web').value.trim() || 'www.kaamkajbills.in';
 
     document.getElementById('out_org').innerText = org;
+    document.getElementById('out_back_org').innerText = org;
     document.getElementById('out_tag').innerText = tag;
     document.getElementById('out_name').innerText = name;
     document.getElementById('out_role').innerText = role;
-    document.getElementById('out_id').innerText = id;
-    document.getElementById('out_bg').innerText = bg;
-    document.getElementById('out_val').innerText = val;
-    document.getElementById('out_mob').innerText = mob;
     document.getElementById('out_emg').innerText = emg;
+    document.getElementById('out_addr').innerText = addr;
     document.getElementById('out_web').innerText = web;
+
+    // Logo Update
+    const initials = org.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'KB';
+    const logoHTML = customLogoUrl ? `<img src="${customLogoUrl}" alt="Logo">` : initials;
+    document.getElementById('logoBox').innerHTML = logoHTML;
+    document.getElementById('backLogoBox').innerHTML = logoHTML;
+
+    // Meta Rows
+    const rows = holderType === 'STUD' ? [
+      { k: 'Roll / ID No', v: id },
+      { k: "Father's Name", v: father },
+      { k: 'D.O.B / B.G', v: `${dob} (${f3})` },
+      { k: 'Mobile No', v: mob },
+      { k: 'Session', v: f4 }
+    ] : [
+      { k: 'ID Number', v: id },
+      { k: 'Blood Group', v: f3 },
+      { k: 'Mobile No', v: mob },
+      { k: 'Valid Upto', v: f4 }
+    ];
+
+    document.getElementById('metaRows').innerHTML = rows.map(r => `
+      <div class="meta-line">
+        <span class="meta-k">${r.k}:</span>
+        <span class="meta-v">${r.v}</span>
+      </div>
+    `).join('');
 
     const qrData = encodeURIComponent(`Name: ${name} | ID: ${id} | Org: ${org} | Mob: ${mob}`);
     document.getElementById('out_qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${qrData}`;
@@ -482,39 +1097,115 @@
   window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
   function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
 
+  /* Zero-Clipping A4 PDF Download */
   function downloadPDF() {
+    const btn = document.getElementById('btnPdf');
+    btn.disabled = true;
+    btn.innerText = '⏳ Generating PDF...';
+
+    const savedX = window.scrollX || 0;
+    const savedY = window.scrollY || 0;
+    window.scrollTo(0, 0);
+
     const stage = document.getElementById('printStage');
-    html2pdf().set({
-      margin: [10, 10, 10, 10],
-      filename: `IDCard_${document.getElementById('in_name').value.trim() || 'Holder'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(stage).save();
+    const clone = stage.cloneNode(true);
+    clone.removeAttribute('id');
+
+    const PDF_WIDTH = 620;
+    clone.style.cssText = `width:${PDF_WIDTH}px; min-width:${PDF_WIDTH}px; max-width:${PDF_WIDTH}px; margin:0; padding:24px; background:#ffffff; border:none; box-shadow:none; display:flex; gap:28px; justify-content:center; align-items:center;`;
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `position:absolute; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0;`;
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+
+    const holder = (document.getElementById('in_name').value.trim() || 'IDCard').replace(/[^a-zA-Z0-9-_]/g, '_');
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        html2pdf().set({
+          margin: [12, 12, 12, 12],
+          filename: `IDCard_${holder}.pdf`,
+          image: { type: 'png', quality: 1.0 },
+          html2canvas: {
+            scale: 3,
+            useCORS: true,
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            width: PDF_WIDTH,
+            windowWidth: PDF_WIDTH,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        }).from(clone).save().then(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download A4 PDF (Front + Back)';
+        }).catch(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download A4 PDF (Front + Back)';
+        });
+      }, 150);
+    });
   }
 
   function printCard() {
-    const w = window.open('', '_blank', 'width=800,height=700');
+    const w = window.open('', '_blank', 'width=850,height=720');
+    const stageHTML = document.getElementById('printStage').innerHTML;
     w.document.write(`<!DOCTYPE html><html><head><title>Print ID Card</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:20px;display:flex;gap:20px;justify-content:center}
-      .id-card{width:230px;height:365px;border-radius:12px;overflow:hidden;border:1.5px solid #cbd5e1;display:flex;flex-direction:column;justify-content:space-between;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-      .card-top{padding:14px 10px 26px;text-align:center;color:#fff;clip-path:ellipse(125% 100% at 50% 0%)}
-      .card-top h3{margin:0;font-size:13.5px;text-transform:uppercase}.card-top p{margin:3px 0 0;font-size:9px}
-      .photo-ring{width:86px;height:98px;margin:-22px auto 6px;border-radius:8px;border:3px solid #fff;overflow:hidden;position:relative;z-index:2}
-      .photo-ring img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
-      .card-body{padding:2px 12px;text-align:center;flex:1}.emp-name{margin:2px 0;font-size:14.5px;font-weight:900}
-      .emp-role{display:inline-block;padding:2px 10px;border-radius:20px;font-size:9.5px;font-weight:800;color:#fff;margin-bottom:8px}
-      .info-list{text-align:left;font-size:9.5px;line-height:1.55;border-top:1px dashed #cbd5e1;padding-top:6px}
-      .info-list div{display:flex;justify-content:space-between}
-      .card-bottom{padding:6px 12px 8px;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #f1f5f9}
-      .qr-box img{width:42px;height:42px}.auth-sig{text-align:center;font-size:8px;font-weight:700}.auth-sig img{max-height:24px;display:block;margin:0 auto 1px}
-      .back-top{padding:10px;text-align:center;color:#fff;font-size:11px;font-weight:800}.back-body{padding:12px;font-size:9.5px;line-height:1.5;flex:1;display:flex;flex-direction:column;justify-content:space-between}
-      .back-rules{padding-left:14px;margin:4px 0}.back-footer{padding:8px 10px;text-align:center;color:#fff;font-size:9px;font-weight:700}
-    </style></head><body>${document.getElementById('printStage').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
+      @page { size: A4 portrait; margin: 12mm; }
+      * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      body { margin: 20px; display: flex; gap: 26px; justify-content: center; background: #fff; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .id-card { width: 246px; height: 390px; border-radius: 14px; overflow: hidden; border: 1.5px solid #cbd5e1; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+      .card-svg-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
+      .card-layer { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .org-head { padding: 14px 12px 6px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+      .org-logo-box { width: 32px; height: 32px; border-radius: 7px; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; color: #0f172a; overflow: hidden; flex-shrink: 0; }
+      .org-logo-box img { width: 100%; height: 100%; object-fit: contain; }
+      .org-titles h3 { margin: 0; font-size: 13px; font-weight: 900; text-transform: uppercase; line-height: 1.15; }
+      .org-titles p { margin: 2px 0 0; font-size: 8.5px; font-weight: 600; opacity: 0.92; }
+      .photo-frame { width: 90px; height: 90px; margin: 6px auto; border-radius: 50%; border: 3.5px solid #fff; overflow: hidden; background: #e2e8f0; }
+      .photo-frame.square-frame { width: 88px; height: 98px; border-radius: 8px; }
+      .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+      .holder-main { padding: 0 14px; text-align: center; }
+      .holder-name { margin: 2px 0; font-size: 15px; font-weight: 900; text-transform: uppercase; line-height: 1.15; }
+      .holder-role { display: inline-block; padding: 2.5px 11px; border-radius: 20px; font-size: 9.5px; font-weight: 800; text-transform: uppercase; margin-bottom: 7px; }
+      .meta-rows { padding: 6px 16px 2px; font-size: 9.5px; line-height: 1.55; text-align: left; }
+      .meta-line { display: flex; justify-content: space-between; gap: 6px; border-bottom: 1px dashed rgba(148,163,184,0.45); padding: 1.5px 0; }
+      .meta-line:last-child { border-bottom: none; }
+      .meta-k { font-weight: 700; opacity: 0.85; }
+      .meta-v { font-weight: 800; text-align: right; }
+      .card-foot { padding: 6px 14px 10px; display: flex; justify-content: space-between; align-items: flex-end; }
+      .qr-mini { background: #fff; padding: 2px; border-radius: 4px; border: 1px solid #cbd5e1; }
+      .qr-mini img { width: 38px; height: 38px; display: block; }
+      .sig-mini { text-align: center; font-size: 8px; font-weight: 800; }
+      .sig-mini img { max-height: 22px; max-width: 76px; display: block; margin: 0 auto 1px; }
+      .bottom-strip { height: 12px; width: 100%; }
+      .side-tag { position: absolute; left: 10px; top: 108px; background: #0284c7; color: #fff; font-size: 8px; font-weight: 900; padding: 6px 3px; border-radius: 4px; writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 1px; z-index: 3; }
+      .back-head { padding: 11px 12px; text-align: center; font-size: 11px; font-weight: 900; letter-spacing: 0.6px; text-transform: uppercase; }
+      .back-content { padding: 10px 14px; font-size: 9.2px; line-height: 1.48; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+      .back-list { padding-left: 14px; margin: 4px 0; }
+      .emg-box { background: rgba(248,250,252,0.92); border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 8px; color: #0f172a; }
+      .barcode-svg { width: 100%; height: 24px; display: block; margin: 4px auto 0; }
+      .back-foot { padding: 8px 10px; text-align: center; font-size: 9px; font-weight: 800; }
+    </style></head><body>${stageHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 450);
   }
 
-  window.onload = renderCard;
+  window.onload = () => {
+    try {
+      if (localStorage.getItem('kkb_idcard_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('btnDark').innerText = '☀️ Light Mode';
+      }
+    } catch (e) {}
+    renderCard();
+  };
 </script>
 </body>
 </html>
