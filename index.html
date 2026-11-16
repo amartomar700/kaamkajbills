@@ -21,78 +21,23 @@
   * { box-sizing: border-box; font-family: var(--font); }
   html { scroll-behavior: smooth; }
   html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden;
-    position: relative;
+    margin: 0; padding: 0; width: 100%; min-height: 100vh;
+    background: var(--bg); color: var(--ink); overflow-x: hidden; position: relative;
   }
 
   /* VISIBLE FLOATING COLOURS LAYER (PAGE BACKGROUND) */
   .floating-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
   }
   .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(45px);
-    opacity: 0.72;
+    position: absolute; border-radius: 50%; filter: blur(45px); opacity: 0.72;
     animation: floatOrb 12s infinite alternate ease-in-out;
   }
-  .orb-1 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, #0ea5e9, #38bdf8);
-    top: 8%;
-    left: -60px;
-    animation-duration: 11s;
-  }
-  .orb-2 {
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, #f59e0b, #fde047);
-    top: 22%;
-    right: -70px;
-    animation-duration: 14s;
-    animation-delay: -3s;
-  }
-  .orb-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #8b5cf6, #c084fc);
-    bottom: 18%;
-    left: 12%;
-    opacity: 0.55;
-    animation-duration: 13s;
-    animation-delay: -6s;
-  }
-  .orb-4 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, #10b981, #34d399);
-    bottom: 4%;
-    right: 8%;
-    opacity: 0.65;
-    animation-duration: 12s;
-    animation-delay: -2s;
-  }
-  .orb-5 {
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, #f43f5e, #fb7185);
-    top: 52%;
-    left: 48%;
-    opacity: 0.45;
-    animation-duration: 15s;
-    animation-delay: -4s;
-  }
+  .orb-1 { width: 360px; height: 360px; background: radial-gradient(circle, #0ea5e9, #38bdf8); top: 8%; left: -60px; animation-duration: 11s; }
+  .orb-2 { width: 380px; height: 380px; background: radial-gradient(circle, #f59e0b, #fde047); top: 22%; right: -70px; animation-duration: 14s; animation-delay: -3s; }
+  .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, #8b5cf6, #c084fc); bottom: 18%; left: 12%; opacity: 0.55; animation-duration: 13s; animation-delay: -6s; }
+  .orb-4 { width: 360px; height: 360px; background: radial-gradient(circle, #10b981, #34d399); bottom: 4%; right: 8%; opacity: 0.65; animation-duration: 12s; animation-delay: -2s; }
+  .orb-5 { width: 280px; height: 280px; background: radial-gradient(circle, #f43f5e, #fb7185); top: 52%; left: 48%; opacity: 0.45; animation-duration: 15s; animation-delay: -4s; }
 
   @keyframes floatOrb {
     0% { transform: translate(0px, 0px) scale(1); }
@@ -101,109 +46,49 @@
     100% { transform: translate(40px, 40px) scale(1.06); }
   }
 
-  /* KEEP ALL CONTENT ABOVE FLOATING COLOURS */
-  .navbar, .hero, .container, footer {
-    position: relative;
-    z-index: 2;
-  }
+  .navbar, .hero, .container, footer { position: relative; z-index: 2; }
 
   /* FULL-WIDTH NAVBAR */
   .navbar {
-    background: rgba(15, 23, 42, 0.94);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #ffffff;
-    padding: 14px 32px;
-    border-bottom: 3px solid var(--gold);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
+    background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    color: #ffffff; padding: 14px 32px; border-bottom: 3px solid var(--gold);
+    position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
   }
   .nav-inner {
-    width: 100%;
-    max-width: 1480px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+    width: 100%; max-width: 1480px; margin: 0 auto; display: flex;
+    justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
   }
   .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
   .brand-logo {
-    width: 42px;
-    height: 42px;
-    background: linear-gradient(135deg, #fbbf24, #d97706);
-    color: var(--ink);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 21px;
-    font-weight: 900;
-    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
+    width: 42px; height: 42px; background: linear-gradient(135deg, #fbbf24, #d97706);
+    color: var(--ink); border-radius: 10px; display: flex; align-items: center;
+    justify-content: center; font-size: 21px; font-weight: 900; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
   }
   .brand-text h1 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.3px; }
   .brand-text span { font-size: 11.5px; color: #cbd5e1; display: block; }
 
   .nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   .nav-btn {
-    background: rgba(255,255,255,0.1);
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 8px 15px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s ease;
   }
   .nav-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-1px); }
   .nav-btn-gold { background: var(--gold); color: var(--ink); border: none; }
   .nav-btn-gold:hover { background: #fbbf24; color: var(--ink); }
 
-  /* HERO SECTION WITH FLOATING COLOUR ORBS INSIDE */
+  /* HERO SECTION */
   .hero {
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%);
-    color: #ffffff;
-    padding: 46px 24px 52px 24px;
-    text-align: center;
-    overflow: hidden;
+    color: #ffffff; padding: 46px 24px 52px 24px; text-align: center; overflow: hidden;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
   }
   .hero-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(35px);
-    pointer-events: none;
-    z-index: 1;
+    position: absolute; border-radius: 50%; filter: blur(35px); pointer-events: none; z-index: 1;
     animation: heroFloat 9s infinite alternate ease-in-out;
   }
-  .hero-orb-1 {
-    width: 260px;
-    height: 260px;
-    background: rgba(56, 189, 248, 0.45);
-    top: -60px;
-    left: 6%;
-  }
-  .hero-orb-2 {
-    width: 240px;
-    height: 240px;
-    background: rgba(245, 158, 11, 0.45);
-    bottom: -70px;
-    right: 8%;
-    animation-delay: -4s;
-  }
-  .hero-orb-3 {
-    width: 200px;
-    height: 200px;
-    background: rgba(168, 85, 247, 0.4);
-    top: 10%;
-    right: 28%;
-    animation-delay: -2s;
-  }
+  .hero-orb-1 { width: 260px; height: 260px; background: rgba(56, 189, 248, 0.45); top: -60px; left: 6%; }
+  .hero-orb-2 { width: 240px; height: 240px; background: rgba(245, 158, 11, 0.45); bottom: -70px; right: 8%; animation-delay: -4s; }
+  .hero-orb-3 { width: 200px; height: 200px; background: rgba(168, 85, 247, 0.4); top: 10%; right: 28%; animation-delay: -2s; }
   @keyframes heroFloat {
     0% { transform: translate(0, 0) scale(1); }
     100% { transform: translate(45px, 30px) scale(1.18); }
@@ -211,288 +96,163 @@
 
   .hero-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
   .hero-badge {
-    display: inline-block;
-    background: rgba(245, 158, 11, 0.2);
-    border: 1px solid var(--gold);
-    color: #fde68a;
-    font-size: 12.5px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 50px;
-    margin-bottom: 14px;
+    display: inline-block; background: rgba(245, 158, 11, 0.2); border: 1px solid var(--gold);
+    color: #fde68a; font-size: 12.5px; font-weight: 700; padding: 6px 16px; border-radius: 50px; margin-bottom: 14px;
   }
   .hero h2 { margin: 0 0 12px 0; font-size: 30px; font-weight: 800; line-height: 1.3; }
   .hero p { margin: 0 0 24px 0; font-size: 15px; color: #e2e8f0; }
 
   .search-box { max-width: 680px; margin: 0 auto; position: relative; display: flex; align-items: center; }
   .search-box input {
-    width: 100%;
-    padding: 15px 20px 15px 48px;
-    border-radius: 12px;
-    border: 2px solid rgba(255,255,255,0.25);
-    font-size: 15px;
-    outline: none;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    transition: 0.2s;
+    width: 100%; padding: 15px 20px 15px 48px; border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.25); font-size: 15px; outline: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transition: 0.2s;
   }
   .search-box input:focus { border-color: var(--gold); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25); }
   .search-icon { position: absolute; left: 16px; font-size: 20px; color: #64748b; }
 
-  /* MAIN WIDE CONTAINER */
-  .container {
-    width: 100%;
-    max-width: 1480px;
-    margin: 0 auto;
-    padding: 28px 32px 70px 32px;
-  }
+  /* CONTAINER */
+  .container { width: 100%; max-width: 1480px; margin: 0 auto; padding: 28px 32px 70px 32px; }
 
   /* CATEGORY TABS */
   .cat-bar {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    margin-bottom: 24px;
-    scrollbar-width: none;
-    justify-content: flex-start;
+    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;
+    margin-bottom: 24px; scrollbar-width: none; justify-content: flex-start;
   }
   .cat-bar::-webkit-scrollbar { display: none; }
   .cat-pill {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1.5px solid #cbd5e1;
-    color: var(--ink-soft);
-    padding: 10px 18px;
-    border-radius: 50px;
-    font-size: 13.5px;
-    font-weight: 700;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid #cbd5e1; color: var(--ink-soft); padding: 10px 18px; border-radius: 50px;
+    font-size: 13.5px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
   .cat-pill:hover { border-color: var(--primary); color: var(--primary); background: #ffffff; }
   .cat-pill.active {
-    background: linear-gradient(135deg, #0284c7, #0369a1);
-    border-color: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    background: linear-gradient(135deg, #0284c7, #0369a1); border-color: var(--primary);
+    color: #ffffff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
   }
 
-  /* FULL-WIDTH TOOLS GRID */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-    gap: 20px;
-  }
+  /* TOOLS GRID */
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
+  
   .tool-card {
-    background: var(--card);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--line);
-    border-radius: 14px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
-    transition: all 0.25s ease;
+    background: var(--card); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid var(--line); border-radius: 14px; padding: 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05); transition: all 0.25s ease;
   }
   .tool-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 12px 26px rgba(2, 132, 199, 0.15);
+    transform: translateY(-4px); border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.96); box-shadow: 0 12px 26px rgba(2, 132, 199, 0.15);
   }
+
+  /* SPECIAL STYLING FOR CAFE TEMPLATE CARD (DIFFERENT COLOR & LARGE TEMPLATE BADGE) */
+  .tool-card.template-card {
+    background: linear-gradient(135deg, rgba(254, 243, 199, 0.95), rgba(255, 255, 255, 0.96));
+    border: 2px dashed #f59e0b;
+    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.15);
+  }
+  .tool-card.template-card:hover {
+    border-color: #d97706;
+    background: #fffbeb;
+    box-shadow: 0 14px 30px rgba(245, 158, 11, 0.28);
+  }
+
   .tool-top { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 12px; }
   .tool-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
-    color: var(--primary-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: var(--primary-dark);
+    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
   }
+  .tool-card.template-card .tool-icon {
+    background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309;
+  }
+
   .tool-title-wrap h3 { margin: 0; font-size: 16px; font-weight: 800; color: var(--ink); line-height: 1.3; }
   .tool-title-wrap small { display: block; font-size: 12px; font-weight: 700; color: var(--primary); margin-top: 3px; }
+  .tool-card.template-card .tool-title-wrap small { color: #b45309; }
+
   .tool-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px 0; }
   .tool-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 12px; }
+  
   .tag-free { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 6px; }
+  
+  /* LARGE TEMPLATE TAG */
+  .tag-template {
+    background: #f59e0b; color: #ffffff; border: 1px solid #d97706;
+    font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 6px;
+    letter-spacing: 0.8px; text-transform: uppercase; box-shadow: 0 2px 5px rgba(245,158,11,0.3);
+  }
+
   .btn-open {
-    background: var(--ink);
-    color: #ffffff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    transition: 0.2s;
+    background: var(--ink); color: #ffffff; border: none; padding: 8px 16px;
+    border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; text-decoration: none; transition: 0.2s;
   }
   .tool-card:hover .btn-open { background: var(--primary); }
+  .tool-card.template-card:hover .btn-open { background: #b45309; }
 
   /* DONATION & CUSTOM REQUEST WIDE SECTION */
   .donation-wrapper {
-    margin-top: 48px;
-    padding-top: 36px;
-    border-top: 2px dashed rgba(2, 132, 199, 0.35);
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    align-items: stretch;
+    margin-top: 48px; padding-top: 36px; border-top: 2px dashed rgba(2, 132, 199, 0.35);
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: stretch;
   }
 
   .support-card {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid #cbd5e1;
-    border-radius: 16px;
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid #cbd5e1; border-radius: 16px; padding: 28px 24px; text-align: center;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06); display: flex; flex-direction: column; justify-content: space-between;
   }
 
   .request-card {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 249, 255, 0.9) 100%);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 2px solid #bae6fd;
-    border-radius: 16px;
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(2, 132, 199, 0.08);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 2px solid #bae6fd;
+    border-radius: 16px; padding: 28px 24px; text-align: center; box-shadow: 0 8px 25px rgba(2, 132, 199, 0.08);
+    display: flex; flex-direction: column; justify-content: space-between;
   }
 
   .upi-box {
-    background: rgba(248, 250, 252, 0.92);
-    border: 2px dashed #0284c7;
-    border-radius: 14px;
-    padding: 18px 16px;
-    max-width: 410px;
-    width: 100%;
-    margin: 0 auto;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    background: rgba(248, 250, 252, 0.92); border: 2px dashed #0284c7; border-radius: 14px;
+    padding: 18px 16px; max-width: 410px; width: 100%; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
   }
 
   .upi-row {
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    padding: 8px 10px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    flex-wrap: wrap;
+    background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;
+    margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
   }
 
   .btn-copy-upi {
-    background: #e0f2fe;
-    color: #0369a1;
-    border: 1px solid #7dd3fc;
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 11.5px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
+    background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 6px;
+    padding: 5px 10px; font-size: 11.5px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
   }
   .btn-copy-upi:hover { background: #0284c7; color: #ffffff; border-color: #0284c7; }
   .btn-copy-upi.copied { background: #16a34a; color: #ffffff; border-color: #16a34a; }
 
   .btn-pay-upi {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    background: linear-gradient(135deg, #16a34a, #15803d);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 11px 16px;
-    border-radius: 9px;
-    font-size: 13.5px;
-    font-weight: 800;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+    background: linear-gradient(135deg, #16a34a, #15803d); color: #ffffff; text-decoration: none;
+    padding: 11px 16px; border-radius: 9px; font-size: 13.5px; font-weight: 800; margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.28); transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .btn-pay-upi:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(22, 163, 74, 0.36);
-  }
+  .btn-pay-upi:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(22, 163, 74, 0.36); }
 
   .amt-chip {
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #334155;
-    text-decoration: none;
-    transition: all 0.15s ease;
-    display: inline-block;
+    background: #ffffff; border: 1px solid #cbd5e1; padding: 5px 10px; border-radius: 6px;
+    font-size: 12px; font-weight: 700; color: #334155; text-decoration: none; transition: all 0.15s ease; display: inline-block;
   }
-  .amt-chip:hover {
-    border-color: #0284c7;
-    background: #f0f9ff;
-    color: #0284c7;
-  }
+  .amt-chip:hover { border-color: #0284c7; background: #f0f9ff; color: #0284c7; }
 
   .form-box {
-    max-width: 540px;
-    width: 100%;
-    margin: 0 auto;
-    background: #ffffff;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 14px;
-    padding: 20px 18px;
-    text-align: left;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    max-width: 540px; width: 100%; margin: 0 auto; background: #ffffff;
+    border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 20px 18px; text-align: left; box-shadow: 0 4px 14px rgba(0,0,0,0.04);
   }
-  .form-label {
-    display: block;
-    font-size: 11.5px;
-    font-weight: 700;
-    color: #475569;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
+  .form-label { display: block; font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 5px; }
   .form-input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    background: #fff;
-    transition: border-color 0.2s;
+    width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px;
+    font-size: 13.5px; outline: none; background: #fff; transition: border-color 0.2s;
   }
   .form-input:focus { border-color: var(--primary); }
 
   footer {
-    background: var(--ink);
-    color: #94a3b8;
-    text-align: center;
-    padding: 22px 16px;
-    font-size: 13px;
-    border-top: 3px solid var(--gold);
+    background: var(--ink); color: #94a3b8; text-align: center; padding: 22px 16px; font-size: 13px; border-top: 3px solid var(--gold);
   }
   footer a { color: var(--gold); text-decoration: none; font-weight: 700; }
 
@@ -602,7 +362,6 @@
               <div style="font-size: 10.5px; color: #64748b; margin-top: 2px;">PhonePe • Google Pay • Paytm • BHIM UPI</div>
             </div>
 
-            <!-- UPI ID + Click-to-Copy Button -->
             <div class="upi-row">
               <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; word-break: break-all;">
                 UPI ID: <span id="upiIdText" style="color: #0284c7; font-family: monospace; font-size: 13.5px;">amartomar1982@ybl</span>
@@ -610,7 +369,6 @@
               <button type="button" id="copyUpiBtn" class="btn-copy-upi" onclick="copyUpiId()">📋 Copy</button>
             </div>
 
-            <!-- Direct Pay via UPI App Intent Button (Mobile Users) -->
             <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&cu=INR" class="btn-pay-upi">
               📲 Pay via UPI App (PhonePe / GPay / Paytm)
             </a>
@@ -648,7 +406,6 @@
             Agar aapko is website par koi naya tool judwana hai, ya apne business/shop ke liye <b style="color: #0284c7;">alag se personal custom page</b> banwana chahte hain, toh niche diye gaye box me likhein aur seedhe send karein!
           </p>
 
-          <!-- Interactive Form -->
           <div class="form-box">
             <div style="margin-bottom: 12px;">
               <label class="form-label">Aapka Naam (Your Name):</label>
@@ -694,9 +451,8 @@
   </footer>
 
 <script>
-// Direct GitHub Relative Links (Matches exact .html filenames in your repository)
+// NOTE: cafe-template.html is placed at the VERY LAST position with a special highlighted template style
 const TOOLS_DATA = [
-  { file: 'cafe-template.html', cat: 'ALL', icon: '☕', hi: 'रेस्टोरेंट व कैफे डिजिटल मेनू टेम्पलेट', en: 'Brew & Bloom Artisan Cafe & Restaurant Template', desc: 'नोक्टर्नल कैफे, रेस्टोरेंट और बेकरी के लिए फुल-स्क्रीन इमर्सिव मेनू, WhatsApp आर्डर ट्रे और एडमिन मेनू एडिटर।', keys: 'cafe restaurant coffee menu brew bloom food bar bakery' },
   { file: 'estimate-quotationinvoce.html', cat: 'BILLING', icon: '📑', hi: 'एस्टीमेट, कोटेशन व टैक्स इनवॉइस', en: 'Estimate, Quotation, Invoice & Material List', desc: 'GST / Non-GST इनवॉइस, कोटेशन, एस्टीमेट और साइट मटेरियल लिस्ट बनाएं।', keys: 'estimate quotation invoice material list gst bill' },
   { file: 'technician-bills.html', cat: 'BILLING', icon: '⚡', hi: 'मल्टी-ट्रेड टेक्नीशियन बिल व कोटेशन', en: 'Electrical, CCTV, AC, Plumbing & Solar Bills', desc: 'इलेक्ट्रीशियन, CCTV, AC, प्लंबिंग, पेंटिंग और सोलर काम के लेबर व मटेरियल रेट्स के साथ कोटेशन।', keys: 'technician electrician cctv ac plumbing solar carpenter waterproofing' },
   { file: 'kirana-shop-bill.html', cat: 'BILLING', icon: '🛒', hi: 'किराना व जनरल स्टोर बिल', en: 'Kirana & Grocery Retail Shop Bill', desc: 'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं।', keys: 'kirana grocery ration shop retail bill' },
@@ -718,7 +474,10 @@ const TOOLS_DATA = [
   { file: 'cv-resume.html', cat: 'CAREER', icon: '📄', hi: 'क्रिएटिव मिनिमलिस्ट रिज्यूमे मेकर (फोटो सहित)', en: 'Creative Minimalist Resume Builder', desc: 'ऑफिस व प्राइवेट जॉब के लिए फोटो और स्किल पिल्स के साथ आधुनिक A4 रिज्यूमे बनाएं।', keys: 'cv resume biodata creative job' },
   { file: 'technical-resume.html', cat: 'CAREER', icon: '🛠️', hi: 'टेक्निकल व फील्ड स्टाफ रिज्यूमे मेकर', en: 'Technical & ITI Field Staff Resume Builder', desc: 'इलेक्ट्रीशियन, CCTV, ITI और फील्ड इंजीनियरों के लिए टूल्स व प्रोजेक्ट हाइलाइट्स वाला रिज्यूमे।', keys: 'technical resume iti electrician engineer field' },
   { file: 'work-completion-handover-certificate.html', cat: 'CAREER', icon: '✅', hi: 'कार्य पूर्णता व हैंडओवर सर्टिफिकेट', en: 'Work Completion & Site Handover Certificate', desc: 'ठेकेदारों और इंजीनियरों के लिए काम पूरा होने और क्लाइंट संतुष्टि हैंडओवर प्रमाण पत्र।', keys: 'work completion handover certificate contractor site' },
-  { file: 'support-custom-request.html', cat: 'ALL', icon: '✨', hi: 'कस्टम पेज रिक्वेस्ट व वॉलंटरी सपोर्ट', en: 'Request Custom Page or Support KaamKaj Bills', desc: 'अपनी दुकान या कंपनी के लिए नया कस्टम टूल बनवाने हेतु रिक्वेस्ट भेजें या वॉलंटरी सहयोग करें।', keys: 'support custom page request donate help' }
+  { file: 'support-custom-request.html', cat: 'ALL', icon: '✨', hi: 'कस्टम पेज रिक्वेस्ट व वॉलंटरी सपोर्ट', en: 'Request Custom Page or Support KaamKaj Bills', desc: 'अपनी दुकान या कंपनी के लिए नया कस्टम टूल बनवाने हेतु रिक्वेस्ट भेजें या वॉलंटरी सहयोग करें।', keys: 'support custom page request donate help' },
+  
+  /* CAFE TEMPLATE PLACED AT THE VERY LAST WITH A SPECIAL TEMPLATE DESIGN */
+  { file: 'cafe-template.html', cat: 'ALL', isTemplate: true, icon: '☕ ⭐', hi: 'रेस्टोरेंट व कैफे डिजिटल मेनू टेम्पलेट', en: 'Brew & Bloom Artisan Cafe & Restaurant TEMPLATE', desc: 'नोक्टर्नल कैफे, रेस्टोरेंट और बेकरी के लिए फुल-स्क्रीन इमर्सिव मेनू, WhatsApp आर्डर ट्रे और एडमिन मेनू एडिटर।', keys: 'cafe restaurant coffee menu brew bloom food bar bakery template sample' }
 ];
 
 let currentCat = 'ALL';
@@ -747,7 +506,9 @@ function renderTools() {
 
   filtered.forEach(t => {
     const card = document.createElement('div');
-    card.className = 'tool-card';
+    // If it is a template, add a special highlighting class
+    card.className = 'tool-card' + (t.isTemplate ? ' template-card' : '');
+    
     card.innerHTML = `
       <div>
         <div class="tool-top">
@@ -760,8 +521,8 @@ function renderTools() {
         <p class="tool-desc">${t.desc}</p>
       </div>
       <div class="tool-footer">
-        <span class="tag-free">✓ FREE TOOL</span>
-        <a href="${t.file}" target="_self" class="btn-open">Open Tool →</a>
+        <span class="${t.isTemplate ? 'tag-template' : 'tag-free'}">${t.isTemplate ? '⭐ LIVE TEMPLATE' : '✓ FREE TOOL'}</span>
+        <a href="${t.file}" target="_self" class="btn-open">${t.isTemplate ? 'View Template ↗' : 'Open Tool →'}</a>
       </div>
     `;
     grid.appendChild(card);
