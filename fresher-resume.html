@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Executive Corporate & Fresher Resume Builder - KaamKaj Bills</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Executive Corporate & Fresher ATS Resume Builder - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
@@ -14,65 +14,105 @@
     --ink-muted: #475569;
     --border: #cbd5e1;
     --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface-alt: #f8fafc;
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
   }
+
+  body.dark-mode {
+    --accent: #2dd4bf;
+    --accent-soft: rgba(45, 212, 191, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: #334155;
+    --bg: #0b1120;
+    --surface: #1e293b;
+    --surface-alt: #0f172a;
+    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  }
+
   html, body {
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0;
+    padding: 0;
     width: 100%;
-    background: var(--bg);
+    min-height: 100vh;
+    background-color: var(--bg);
     color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+    overflow-x: hidden;
+    transition: background-color 0.2s, color 0.2s;
   }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
 
   /* Top Navigation Bar */
   .top-nav {
-    background: var(--primary);
-    color: #fff;
-    padding: 12px 24px;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 12px 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     border-bottom: 3px solid #f59e0b;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
+    background-color: rgba(255,255,255,0.12);
+    color: #ffffff;
     text-decoration: none;
     padding: 7px 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 13px;
     font-weight: 700;
     border: 1px solid rgba(255,255,255,0.2);
     transition: 0.2s;
   }
-  .btn-home:hover { background: var(--accent); border-color: var(--accent); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+  .btn-home:hover { background-color: #0f766e; border-color: #2dd4bf; }
+  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
+  .btn-theme {
+    background-color: rgba(255,255,255,0.14);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
 
-  /* PC Full-Wide Split Grid Layout */
+  /* Full-Screen Wide HD Split Layout */
   .kb-wrapper {
     width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
+    max-width: 1580px;
+    margin: 0 auto;
+    padding: 20px 26px 48px 26px;
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: minmax(420px, 0.96fr) minmax(540px, 1.04fr);
     gap: 24px;
     align-items: start;
   }
 
   /* Left Control Box */
   .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
     border-radius: 14px;
     padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    box-shadow: var(--shadow);
   }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -84,24 +124,24 @@
   input, select, textarea {
     width: 100%;
     padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
     font-size: 13.5px;
     outline: none;
     color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
+    background-color: var(--surface-alt);
+    transition: border-color 0.2s, background-color 0.2s;
   }
   textarea { resize: vertical; min-height: 62px; }
   input:focus, select:focus, textarea:focus {
     border-color: var(--accent);
-    background: #ffffff;
+    background-color: var(--surface);
     box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
   }
 
   .section-badge {
-    background: var(--accent-soft);
-    color: #115e59;
+    background-color: var(--accent-soft);
+    color: var(--accent);
     font-size: 11.5px;
     font-weight: 800;
     padding: 6px 12px;
@@ -115,6 +155,24 @@
   }
   .section-badge:first-of-type { margin-top: 0; }
 
+  /* Style & Accent Switcher */
+  .accent-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .accent-pill {
+    padding: 6px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    background-color: var(--surface-alt);
+    color: var(--ink);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .accent-pill.active { border-color: var(--accent); background-color: var(--accent-soft); color: var(--accent); }
+  .dot-c { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+
   /* Education Table in Form */
   .edu-input-table { width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 12px; }
   .edu-input-table th {
@@ -122,12 +180,12 @@
     padding: 7px 6px;
     color: var(--ink-muted);
     font-weight: 800;
-    background: #f0fdfa;
+    background-color: var(--accent-soft);
     border-bottom: 2px solid var(--border);
   }
   .edu-input-table td { padding: 5px 4px; }
   .btn-del-row {
-    background: #fee2e2;
+    background-color: #fee2e2;
     color: #dc2626;
     border: 1px solid #fca5a5;
     border-radius: 6px;
@@ -136,9 +194,10 @@
     font-weight: bold;
     cursor: pointer;
   }
+  .btn-del-row:hover { background-color: #dc2626; color: #ffffff; }
   .btn-add-row {
-    background: var(--accent-soft);
-    color: #115e59;
+    background-color: var(--accent-soft);
+    color: var(--accent);
     border: 1.5px dashed var(--accent);
     padding: 8px 14px;
     border-radius: 8px;
@@ -149,169 +208,237 @@
   }
 
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
     flex: 1;
-    min-width: 140px;
+    min-width: 150px;
     padding: 13px;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     transition: 0.2s;
   }
   .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #0f766e, #115e59); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-pdf { background-color: #0f766e; }
+  .btn-print { background-color: #0f172a; }
 
   /* Right Sticky Preview Panel */
   .preview-panel {
     position: sticky;
     top: 72px;
     width: 100%;
+    background-color: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: var(--shadow);
   }
   .preview-label {
     text-align: center;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 800;
     color: var(--ink-muted);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 10px;
   }
-
-  /* Classic ATS-Friendly Executive A4 Sheet */
-  #a4DocSheet {
-    background: #ffffff;
+  .preview-viewport {
     width: 100%;
-    padding: 28px 26px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
+    overflow-x: auto;
+    background-color: #e2e8f0;
+    padding: 18px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+  body.dark-mode .preview-viewport {
+    background-color: #0f172a;
+  }
+
+  /* Exact A4 Proportion Sheet (794px x 1123px) */
+  #a4DocSheet {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    width: 794px;
+    min-height: 1123px;
+    padding: 42px 46px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
     box-sizing: border-box;
-    color: #0f172a;
-    font-family: Georgia, "Times New Roman", serif;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .ats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2.5px solid #0f172a;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .ats-header.centered {
+    flex-direction: column;
     text-align: center;
-    border-bottom: 2px solid #0f172a;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
   }
   .ats-header h1 {
     margin: 0;
-    font-size: 22px;
+    font-size: 25px;
     font-weight: 900;
     letter-spacing: 1px;
     text-transform: uppercase;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: #0f172a;
   }
   .ats-header .sub {
-    font-size: 11px;
+    font-size: 11.5px;
     color: #334155;
-    margin-top: 4px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+  .ats-photo-box {
+    width: 82px;
+    height: 98px;
+    border: 1.5px solid #0f172a;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: none;
+  }
+  .ats-photo-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .ats-sec { margin-bottom: 12px; }
+  .ats-sec { margin-bottom: 15px; }
   .ats-sec-title {
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
+    letter-spacing: 0.9px;
     color: #0f172a;
     border-bottom: 1.5px solid #0f172a;
-    padding-bottom: 2px;
-    margin-bottom: 6px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding-bottom: 3px;
+    margin-bottom: 8px;
   }
   .ats-text {
-    font-size: 11px;
-    line-height: 1.55;
+    font-size: 11.5px;
+    line-height: 1.62;
     color: #1e293b;
     margin: 0;
     white-space: pre-line;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
   .ats-edu-table {
     width: 100%;
     border-collapse: collapse;
     margin: 6px 0;
-    font-size: 10.5px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 11.2px;
   }
   .ats-edu-table th {
-    background: #f1f5f9;
+    background-color: #f1f5f9;
     border: 1px solid #94a3b8;
-    padding: 5px 6px;
+    padding: 6px 8px;
     text-align: left;
     font-weight: 800;
+    color: #0f172a;
   }
   .ats-edu-table td {
     border: 1px solid #cbd5e1;
-    padding: 5px 6px;
+    padding: 6px 8px;
+    color: #0f172a;
   }
 
   .ats-p-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px 16px;
-    font-size: 10.5px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    gap: 7px 18px;
+    font-size: 11.2px;
+    color: #1e293b;
   }
   .ats-footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 20px;
-    font-size: 10.5px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    margin-top: 28px;
+    font-size: 11.2px;
+    color: #0f172a;
   }
 
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+  @media (max-width: 1280px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
     .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
+    .preview-viewport { justify-content: flex-start; }
   }
   @media (max-width: 600px) {
-    .grid-2, .grid-3, .ats-p-grid { grid-template-columns: 1fr; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .top-nav { padding: 10px 14px; }
+    .nav-title { font-size: 13.5px; }
+    .control-box, .preview-panel { padding: 14px 12px; }
   }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Executive & Fresher ATS Resume</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+    <span class="nav-title">KaamKaj Bills • Executive &amp; Fresher ATS Resume (A4 HD)</span>
+  </div>
+  <div class="nav-right">
+    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+  </div>
 </div>
 
 <div class="kb-wrapper">
   <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Candidate Header & Contact</div>
-    <div class="grid-2">
-      <div class="field"><label>Full Name (पूरा नाम)</label><input type="text" id="in_name" value="SNEHA DESHMUKH" oninput="renderCV()"></div>
-      <div class="field"><label>Mobile Number</label><input type="text" id="in_mob" value="+91 98XXXXXXXX" oninput="renderCV()"></div>
+    <div class="section-badge">1. Resume Accent Color &amp; Optional Photo</div>
+    <div class="accent-bar">
+      <button type="button" class="accent-pill active" onclick="setResumeAccent('#0f172a', this)"><span class="dot-c" style="background:#0f172a;"></span> ATS Classic Black</button>
+      <button type="button" class="accent-pill" onclick="setResumeAccent('#1e3a8a', this)"><span class="dot-c" style="background:#1e3a8a;"></span> Executive Navy</button>
+      <button type="button" class="accent-pill" onclick="setResumeAccent('#0f766e', this)"><span class="dot-c" style="background:#0f766e;"></span> Corporate Teal</button>
+      <button type="button" class="accent-pill" onclick="setResumeAccent('#881337', this)"><span class="dot-c" style="background:#881337;"></span> Burgundy Pro</button>
     </div>
 
     <div class="grid-2">
-      <div class="field"><label>Email Address</label><input type="text" id="in_email" value="sneha.deshmukh@email.com" oninput="renderCV()"></div>
-      <div class="field"><label>Current City & LinkedIn</label><input type="text" id="in_city" value="Pune, Maharashtra | linkedin.com/in/sneha" oninput="renderCV()"></div>
+      <div class="field"><label>Candidate Photo (Optional)</label><input type="file" accept="image/*" onchange="loadResumePhoto(event)"></div>
+      <div class="field"><label>Photo Display</label>
+        <select id="selPhotoShow" onchange="renderCV()">
+          <option value="HIDE" selected>ATS Text Only (No Photo)</option>
+          <option value="SHOW">Show Photo on Top-Right</option>
+        </select>
+      </div>
     </div>
 
-    <div class="section-badge">2. Career Objective</div>
+    <div class="section-badge">2. Candidate Header &amp; Contact</div>
+    <div class="grid-2">
+      <div class="field"><label>Full Name (पूरा नाम)</label><input type="text" id="in_name" value="ANANYA SHARMA" oninput="renderCV()"></div>
+      <div class="field"><label>Mobile Number</label><input type="text" id="in_mob" value="+91 90000 12345" oninput="renderCV()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Email Address</label><input type="text" id="in_email" value="ananya.sharma@email.com" oninput="renderCV()"></div>
+      <div class="field"><label>Current City &amp; LinkedIn</label><input type="text" id="in_city" value="New Delhi, India | linkedin.com/in/ananya" oninput="renderCV()"></div>
+    </div>
+
+    <div class="section-badge">3. Career Objective</div>
     <div class="field">
       <textarea id="in_obj" oninput="renderCV()">To secure a responsible career opportunity in a progressive organization where I can utilize my analytical, communication, and computer skills while contributing effectively to organizational success.</textarea>
     </div>
 
-    <div class="section-badge">3. Academic Qualifications (शिक्षा विवरण)</div>
+    <div class="section-badge">4. Academic Qualifications (शिक्षा विवरण)</div>
     <div style="overflow-x: auto;">
       <table class="edu-input-table">
         <thead>
@@ -328,112 +455,154 @@
     </div>
     <button type="button" class="btn-add-row" onclick="addEduRow()">+ Add Qualification</button>
 
-    <div class="section-badge">4. Internships / Projects / Work Experience</div>
+    <div class="section-badge">5. Internships / Projects / Work Experience</div>
     <div class="field">
       <label>Internships, Academic Projects or Experience</label>
-      <textarea id="in_exp" style="min-height:85px;" oninput="renderCV()">• Summer Management Intern — Apex Solutions Pvt. Ltd. (2 Months)
+      <textarea id="in_exp" style="min-height:92px;" oninput="renderCV()">• Summer Management Intern — Apex Solutions Pvt. Ltd. (2 Months)
   Assisted in client database management, MIS Excel reporting, and customer onboarding.
-• Final Year Academic Project: "Digital Billing & Inventory Workflow Analysis for Retail SMEs"
+• Final Year Academic Project: "Digital Billing &amp; Inventory Workflow Analysis for Retail SMEs"
   Conducted field surveys across 25 local businesses and presented process optimization insights.</textarea>
     </div>
 
-    <div class="section-badge">5. Core Skills, Strengths & Personal Profile</div>
+    <div class="section-badge">6. Core Skills, Strengths &amp; Personal Profile</div>
     <div class="grid-2">
-      <div class="field"><label>Technical & Computer Skills</label><input type="text" id="in_skills" value="MS Office (Excel, Word, PowerPoint), Tally Prime, GST Basics, Email Etiquette, Data Analysis" oninput="renderCV()"></div>
+      <div class="field"><label>Technical &amp; Computer Skills</label><input type="text" id="in_skills" value="MS Office (Excel, Word, PowerPoint), Tally Prime, GST Basics, Email Etiquette, Data Analysis" oninput="renderCV()"></div>
       <div class="field"><label>Key Strengths</label><input type="text" id="in_strength" value="Quick Learner, Team Leadership, Problem Solving, Punctuality" oninput="renderCV()"></div>
     </div>
 
     <div class="grid-3">
-      <div class="field"><label>Father's Name</label><input type="text" id="in_father" value="Shri Rajendra Deshmukh" oninput="renderCV()"></div>
+      <div class="field"><label>Father's Name</label><input type="text" id="in_father" value="Shri Rajendra Sharma" oninput="renderCV()"></div>
       <div class="field"><label>Date of Birth</label><input type="text" id="in_dob" value="14 May 2002" oninput="renderCV()"></div>
-      <div class="field"><label>Languages Known</label><input type="text" id="in_lang" value="English, Hindi, Marathi" oninput="renderCV()"></div>
+      <div class="field"><label>Languages Known</label><input type="text" id="in_lang" value="English, Hindi" oninput="renderCV()"></div>
     </div>
 
-    <div class="field"><label>Permanent Address</label><input type="text" id="in_addr" value="Flat 102, Anand Vihar, Kothrud, Pune - 411038" oninput="renderCV()"></div>
+    <div class="field"><label>Permanent Address</label><input type="text" id="in_addr" value="House No. 45, Sector 14, Main Road, New Delhi - 110001" oninput="renderCV()"></div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download ATS Resume PDF</button>
-      <button type="button" class="btn btn-print" onclick="printCV()">🖨️ Direct Print Resume</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()">📥 Download A4 ATS Resume PDF</button>
+      <button type="button" class="btn btn-print" onclick="printCV()">🖨️ Direct Print A4 Resume</button>
     </div>
   </div>
 
-  <!-- RIGHT: LIVE ATS CORPORATE RESUME PREVIEW -->
+  <!-- RIGHT: LIVE FULL A4 ATS CORPORATE RESUME PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live A4 ATS Corporate Resume Preview</div>
-    <div id="a4DocSheet">
-      <div class="ats-header">
-        <h1 id="out_name">SNEHA DESHMUKH</h1>
-        <div class="sub" id="out_contact">Mobile: +91 98XXXXXXXX &nbsp;|&nbsp; Email: sneha.deshmukh@email.com &nbsp;|&nbsp; Pune, Maharashtra</div>
-      </div>
+    <div class="preview-label">Live Full A4 ATS Corporate Resume Preview (210 × 297 mm)</div>
+    <div class="preview-viewport">
+      <div id="a4DocSheet">
+        <div>
+          <div class="ats-header centered" id="atsHeader">
+            <div>
+              <h1 id="out_name">ANANYA SHARMA</h1>
+              <div class="sub" id="out_contact">Mobile: +91 90000 12345 &nbsp;|&nbsp; Email: ananya.sharma@email.com &nbsp;|&nbsp; New Delhi, India</div>
+            </div>
+            <div class="ats-photo-box" id="out_photo_box">
+              <img id="out_photo_img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%23e2e8f0'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Candidate">
+            </div>
+          </div>
 
-      <div class="ats-sec">
-        <div class="ats-sec-title">Career Objective</div>
-        <p class="ats-text" id="out_obj"></p>
-      </div>
+          <div class="ats-sec">
+            <div class="ats-sec-title">Career Objective</div>
+            <p class="ats-text" id="out_obj"></p>
+          </div>
 
-      <div class="ats-sec">
-        <div class="ats-sec-title">Academic Qualifications</div>
-        <table class="ats-edu-table">
-          <thead>
-            <tr>
-              <th style="width:28%;">Qualification</th>
-              <th style="width:44%;">Institution / Board / University</th>
-              <th style="width:14%;">Year</th>
-              <th style="width:14%;">Score</th>
-            </tr>
-          </thead>
-          <tbody id="out_edu_body"></tbody>
-        </table>
-      </div>
+          <div class="ats-sec">
+            <div class="ats-sec-title">Academic Qualifications</div>
+            <table class="ats-edu-table">
+              <thead>
+                <tr>
+                  <th style="width:28%;">Qualification</th>
+                  <th style="width:44%;">Institution / Board / University</th>
+                  <th style="width:14%;">Year</th>
+                  <th style="width:14%;">Score</th>
+                </tr>
+              </thead>
+              <tbody id="out_edu_body"></tbody>
+            </table>
+          </div>
 
-      <div class="ats-sec">
-        <div class="ats-sec-title">Internships / Projects / Experience</div>
-        <p class="ats-text" id="out_exp"></p>
-      </div>
+          <div class="ats-sec">
+            <div class="ats-sec-title">Internships / Projects / Experience</div>
+            <p class="ats-text" id="out_exp"></p>
+          </div>
 
-      <div class="ats-sec">
-        <div class="ats-sec-title">Technical Skills & Core Strengths</div>
-        <p class="ats-text"><b>Computer & Domain Skills:</b> <span id="out_skills"></span><br>
-        <b>Personal Strengths:</b> <span id="out_strength"></span></p>
-      </div>
+          <div class="ats-sec">
+            <div class="ats-sec-title">Technical Skills &amp; Core Strengths</div>
+            <p class="ats-text"><b>Computer &amp; Domain Skills:</b> <span id="out_skills"></span><br>
+            <b>Personal Strengths:</b> <span id="out_strength"></span></p>
+          </div>
 
-      <div class="ats-sec">
-        <div class="ats-sec-title">Personal Details</div>
-        <div class="ats-p-grid">
-          <div><b>Father's Name:</b> <span id="out_father"></span></div>
-          <div><b>Date of Birth:</b> <span id="out_dob"></span></div>
-          <div><b>Languages:</b> <span id="out_lang"></span></div>
-          <div><b>Address:</b> <span id="out_addr"></span></div>
+          <div class="ats-sec">
+            <div class="ats-sec-title">Personal Details</div>
+            <div class="ats-p-grid">
+              <div><b>Father's Name:</b> <span id="out_father"></span></div>
+              <div><b>Date of Birth:</b> <span id="out_dob"></span></div>
+              <div><b>Languages:</b> <span id="out_lang"></span></div>
+              <div><b>Address:</b> <span id="out_addr"></span></div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="ats-sec" style="margin-bottom:0;">
-        <div class="ats-sec-title">Declaration</div>
-        <p class="ats-text">I hereby declare that all the statements made in this resume are true, complete, and correct to the best of my knowledge and belief.</p>
-      </div>
+        <div>
+          <div class="ats-sec" style="margin-bottom:0;">
+            <div class="ats-sec-title">Declaration</div>
+            <p class="ats-text">I hereby declare that all the statements made in this resume are true, complete, and correct to the best of my knowledge and belief.</p>
+          </div>
 
-      <div class="ats-footer">
-        <div><b>Place:</b> <span id="out_place">Pune</span><br><b>Date:</b> <span id="out_date"></span></div>
-        <div style="font-weight:800;border-top:1px solid #0f172a;padding-top:3px;min-width:130px;text-align:center;" id="out_sig">SNEHA DESHMUKH</div>
+          <div class="ats-footer">
+            <div><b>Place:</b> <span id="out_place">New Delhi</span><br><b>Date:</b> <span id="out_date"></span></div>
+            <div style="font-weight:800;border-top:1.5px solid #0f172a;padding-top:4px;min-width:150px;text-align:center;" id="out_sig">ANANYA SHARMA</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
+  let accentColor = '#0f172a';
+
   let eduList = [
-    { deg: 'B.Com (Graduation)', board: 'Savitribai Phule Pune University', yr: '2024', score: '78.4%' },
-    { deg: 'H.S.C. (Class XII)', board: 'Maharashtra State Board', yr: '2021', score: '84.0%' },
-    { deg: 'S.S.C. (Class X)', board: 'Maharashtra State Board', yr: '2019', score: '88.2%' }
+    { deg: 'B.Com (Graduation)', board: 'University of Delhi', yr: '2024', score: '78.4%' },
+    { deg: 'H.S.C. (Class XII)', board: 'C.B.S.E. Board', yr: '2021', score: '84.0%' },
+    { deg: 'S.S.C. (Class X)', board: 'C.B.S.E. Board', yr: '2019', score: '88.2%' }
   ];
+
+  function esc(str) {
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    try { localStorage.setItem('kkb_ats_resume_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  }
+
+  function setResumeAccent(color, btn) {
+    accentColor = color;
+    document.querySelectorAll('.accent-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderCV();
+  }
+
+  function loadResumePhoto(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('out_photo_img').src = ev.target.result;
+      document.getElementById('selPhotoShow').value = 'SHOW';
+      renderCV();
+    };
+    reader.readAsDataURL(file);
+  }
 
   function renderEduInputs() {
     document.getElementById('eduInputsBody').innerHTML = eduList.map((e, i) => `
       <tr>
-        <td><input value="${e.deg}" oninput="eduList[${i}].deg=this.value;renderCV()"></td>
-        <td><input value="${e.board}" oninput="eduList[${i}].board=this.value;renderCV()"></td>
-        <td><input value="${e.yr}" oninput="eduList[${i}].yr=this.value;renderCV()"></td>
-        <td><input value="${e.score}" oninput="eduList[${i}].score=this.value;renderCV()"></td>
+        <td><input value="${esc(e.deg)}" oninput="eduList[${i}].deg=this.value;renderCV()"></td>
+        <td><input value="${esc(e.board)}" oninput="eduList[${i}].board=this.value;renderCV()"></td>
+        <td><input value="${esc(e.yr)}" oninput="eduList[${i}].yr=this.value;renderCV()"></td>
+        <td><input value="${esc(e.score)}" oninput="eduList[${i}].score=this.value;renderCV()"></td>
         <td><button type="button" class="btn-del-row" onclick="delEdu(${i})">✕</button></td>
       </tr>
     `).join('');
@@ -446,11 +615,25 @@
     const mob = document.getElementById('in_mob').value.trim();
     const email = document.getElementById('in_email').value.trim();
     const city = document.getElementById('in_city').value.trim();
+    const showPhoto = document.getElementById('selPhotoShow').value === 'SHOW';
+
+    const hdr = document.getElementById('atsHeader');
+    const pBox = document.getElementById('out_photo_box');
+    hdr.classList.toggle('centered', !showPhoto);
+    hdr.style.borderBottomColor = accentColor;
+    pBox.style.display = showPhoto ? 'block' : 'none';
+    pBox.style.borderColor = accentColor;
 
     document.getElementById('out_name').innerText = name;
+    document.getElementById('out_name').style.color = accentColor;
     document.getElementById('out_sig').innerText = name;
     document.getElementById('out_contact').innerText = `Mobile: ${mob}  |  Email: ${email}  |  ${city}`;
-    document.getElementById('out_place').innerText = city.split(',')[0] || 'Pune';
+    document.getElementById('out_place').innerText = city.split(',')[0] || 'City';
+
+    document.querySelectorAll('.ats-sec-title').forEach(el => {
+      el.style.color = accentColor;
+      el.style.borderBottomColor = accentColor;
+    });
 
     document.getElementById('out_obj').innerText = document.getElementById('in_obj').value;
     document.getElementById('out_exp').innerText = document.getElementById('in_exp').value;
@@ -463,48 +646,141 @@
 
     document.getElementById('out_edu_body').innerHTML = eduList.map(e => `
       <tr>
-        <td><b>${e.deg || '-'}</b></td>
-        <td>${e.board || '-'}</td>
-        <td>${e.yr || '-'}</td>
-        <td><b>${e.score || '-'}</b></td>
+        <td><b>${esc(e.deg) || '-'}</b></td>
+        <td>${esc(e.board) || '-'}</td>
+        <td>${esc(e.yr) || '-'}</td>
+        <td><b>${esc(e.score) || '-'}</b></td>
       </tr>
     `).join('');
   }
 
+  /* Zero-Clipping Exact A4 HD PDF Export */
   function downloadPDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:24px;background:#fff;border:none;box-shadow:none;';
+    const btn = document.getElementById('btnPdf');
+    btn.disabled = true;
+    btn.innerText = '⏳ Generating HD A4 PDF...';
+
+    const savedX = window.scrollX || 0;
+    const savedY = window.scrollY || 0;
+    window.scrollTo(0, 0);
+
+    const source = document.getElementById('a4DocSheet');
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+
+    const A4_W = 794;
+    clone.style.cssText = [
+      `width: ${A4_W}px`,
+      `min-width: ${A4_W}px`,
+      `max-width: ${A4_W}px`,
+      'min-height: 1110px',
+      'margin: 0',
+      'padding: 38px 44px',
+      'background-color: #ffffff',
+      'color: #0f172a',
+      'border: none',
+      'box-shadow: none',
+      'box-sizing: border-box',
+      'display: flex',
+      'flex-direction: column',
+      'justify-content: space-between'
+    ].join(';');
+
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.style.cssText = `position:absolute; top:0; left:0; width:${A4_W}px; background-color:#ffffff; z-index:999999; margin:0; padding:0;`;
     wrap.appendChild(clone);
     document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [8, 8, 8, 8],
-      filename: `ATS_Resume_${document.getElementById('in_name').value.trim() || 'Candidate'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+
+    const candName = (document.getElementById('in_name').value.trim() || 'Candidate').replace(/[^a-zA-Z0-9-_]/g, '_');
+
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        html2pdf().set({
+          margin: [0, 0, 0, 0],
+          filename: `ATS_Resume_${candName}.pdf`,
+          image: { type: 'png', quality: 1.0 },
+          html2canvas: {
+            scale: 3,
+            useCORS: true,
+            letterRendering: true,
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            width: A4_W,
+            windowWidth: A4_W,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        }).from(clone).save().then(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download A4 ATS Resume PDF';
+        }).catch(() => {
+          wrap.remove();
+          window.scrollTo(savedX, savedY);
+          btn.disabled = false;
+          btn.innerText = '📥 Download A4 ATS Resume PDF';
+        });
+      }, 150);
+    });
   }
 
+  /* Exact A4 Direct Print */
   function printCV() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Resume</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:12mm;color:#0f172a}
-      .ats-header{text-align:center;border-bottom:2px solid #0f172a;padding-bottom:10px;margin-bottom:12px}
-      .ats-header h1{margin:0;font-size:22px;text-transform:uppercase}.ats-header .sub{font-size:11px;color:#334155;margin-top:4px}
-      .ats-sec{margin-bottom:12px}.ats-sec-title{font-size:11.5px;font-weight:800;text-transform:uppercase;border-bottom:1.5px solid #0f172a;padding-bottom:2px;margin-bottom:6px}
-      .ats-text{font-size:11px;line-height:1.55;margin:0;white-space:pre-line}
-      .ats-edu-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px}
-      .ats-edu-table th{background:#f1f5f9;border:1px solid #94a3b8;padding:5px 6px;text-align:left}
-      .ats-edu-table td{border:1px solid #cbd5e1;padding:5px 6px}
-      .ats-p-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:10.5px}
-      .ats-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:10.5px}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    const w = window.open('', '_blank', 'width=900,height=950');
+    const sheetHTML = document.getElementById('a4DocSheet').innerHTML;
+    const isCentered = document.getElementById('atsHeader').classList.contains('centered');
+
+    w.document.write(`<!DOCTYPE html><html><head><title>Print ATS Resume</title><style>
+      @page { size: A4 portrait; margin: 12mm; }
+      * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+      body {
+        margin: 0;
+        padding: 0;
+        color: #0f172a;
+        background: #ffffff;
+        min-height: 270mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .ats-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        border-bottom: 2.5px solid ${accentColor};
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+        ${isCentered ? 'flex-direction: column; text-align: center;' : ''}
+      }
+      .ats-header h1 { margin: 0; font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; color: ${accentColor}; }
+      .ats-header .sub { font-size: 11px; color: #334155; margin-top: 4px; font-weight: 600; }
+      .ats-photo-box { width: 80px; height: 96px; border: 1.5px solid ${accentColor}; border-radius: 6px; overflow: hidden; flex-shrink: 0; }
+      .ats-photo-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .ats-sec { margin-bottom: 13px; }
+      .ats-sec-title { font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: ${accentColor}; border-bottom: 1.5px solid ${accentColor}; padding-bottom: 2px; margin-bottom: 6px; }
+      .ats-text { font-size: 11px; line-height: 1.58; margin: 0; white-space: pre-line; color: #1e293b; }
+      .ats-edu-table { width: 100%; border-collapse: collapse; margin: 6px 0; font-size: 10.8px; }
+      .ats-edu-table th { background: #f1f5f9; border: 1px solid #94a3b8; padding: 5px 7px; text-align: left; font-weight: 800; }
+      .ats-edu-table td { border: 1px solid #cbd5e1; padding: 5px 7px; }
+      .ats-p-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; font-size: 10.8px; }
+      .ats-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 22px; font-size: 10.8px; }
+    </style></head><body>${sheetHTML}</body></html>`);
     w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
   }
 
   window.onload = () => {
+    try {
+      if (localStorage.getItem('kkb_ats_resume_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('btnDark').innerText = '☀️ Light Mode';
+      }
+    } catch (e) {}
     document.getElementById('out_date').innerText = new Date().toLocaleDateString('en-IN');
     renderEduInputs();
     renderCV();
