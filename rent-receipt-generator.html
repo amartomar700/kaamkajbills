@@ -3,7 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>House / Shop Rent Receipt Generator - KaamKaj Bills</title>
+<title>House / Shop Rent Receipt &amp; Rent Agreement Generator (12 Languages) - KaamKaj Bills</title>
+<meta name="description" content="Free House & Shop Rent Receipt and 11-Month Rent Agreement Generator in 12 Indian Languages. Instant A4 PDF Download & Direct Print.">
+<link rel="canonical" href="https://kaamkajbills.in/rent-receipt-generator.html">
+
+<!-- Favicon Tags -->
+<link rel="icon" type="image/png" href="https://kaamkajbills.in/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/x-icon" href="https://kaamkajbills.in/favicon.ico" />
+<link rel="shortcut icon" href="https://kaamkajbills.in/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://kaamkajbills.in/apple-touch-icon.png" />
+
+<!-- Google Fonts for 12 Indian Scripts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
@@ -35,7 +49,7 @@
 
   * {
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", "Noto Sans Gujarati", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Gurmukhi", "Noto Sans Oriya", sans-serif;
   }
 
   html, body {
@@ -70,39 +84,10 @@
     animation: floatOrb 14s infinite alternate ease-in-out;
   }
   body.dark-mode .orb { opacity: 0.22; }
-  .orb-1 {
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, #0ea5e9, #38bdf8);
-    top: 4%;
-    left: -80px;
-  }
-  .orb-2 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, #f59e0b, #fde047);
-    top: 26%;
-    right: -80px;
-    animation-delay: -4s;
-  }
-  .orb-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #8b5cf6, #c084fc);
-    bottom: 8%;
-    left: 18%;
-    opacity: 0.4;
-    animation-delay: -7s;
-  }
-  .orb-4 {
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, #10b981, #34d399);
-    bottom: -40px;
-    right: 12%;
-    opacity: 0.45;
-    animation-delay: -2s;
-  }
+  .orb-1 { width: 380px; height: 380px; background: radial-gradient(circle, #0ea5e9, #38bdf8); top: 4%; left: -80px; }
+  .orb-2 { width: 360px; height: 360px; background: radial-gradient(circle, #f59e0b, #fde047); top: 26%; right: -80px; animation-delay: -4s; }
+  .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, #8b5cf6, #c084fc); bottom: 8%; left: 18%; opacity: 0.4; animation-delay: -7s; }
+  .orb-4 { width: 340px; height: 340px; background: radial-gradient(circle, #10b981, #34d399); bottom: -40px; right: 12%; opacity: 0.45; animation-delay: -2s; }
   @keyframes floatOrb {
     0% { transform: translate(0, 0) scale(1); }
     50% { transform: translate(55px, -40px) scale(1.1); }
@@ -164,11 +149,11 @@
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 1540px;
+    max-width: 1560px;
     margin: 0 auto;
-    padding: 22px 28px 48px 28px;
+    padding: 20px 26px 48px 26px;
     display: grid;
-    grid-template-columns: minmax(420px, 1.05fr) minmax(500px, 0.95fr);
+    grid-template-columns: minmax(420px, 1.02fr) minmax(520px, 0.98fr);
     gap: 24px;
     align-items: start;
   }
@@ -180,7 +165,7 @@
     -webkit-backdrop-filter: blur(14px);
     border: 1.5px solid var(--border);
     border-radius: 16px;
-    padding: 22px 22px;
+    padding: 20px 22px;
     box-shadow: var(--shadow);
   }
 
@@ -192,7 +177,7 @@
 
   input, select {
     width: 100%;
-    padding: 10px 12px;
+    padding: 9.5px 11px;
     border: 1.5px solid var(--border);
     border-radius: 9px;
     font-size: 13.5px;
@@ -217,7 +202,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin: 16px 0 12px 0;
+    margin: 14px 0 10px 0;
     text-transform: uppercase;
     border-left: 4px solid var(--primary);
   }
@@ -227,7 +212,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     background: var(--surface-alt);
     border: 1px solid var(--border);
     padding: 5px;
@@ -238,7 +223,7 @@
     border: none;
     border-radius: 8px;
     font-size: 12.5px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     background: transparent;
     color: var(--ink-muted);
@@ -249,13 +234,18 @@
     color: #ffffff;
     box-shadow: 0 3px 8px rgba(2, 132, 199, 0.25);
   }
+  .toggle-btn.active-gold {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.25);
+  }
 
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
     flex: 1;
-    min-width: 145px;
-    padding: 13px;
+    min-width: 140px;
+    padding: 12px;
     border: none;
     border-radius: 10px;
     font-size: 13.5px;
@@ -274,25 +264,54 @@
   /* Right Sticky Preview Panel */
   .preview-panel {
     position: sticky;
-    top: 72px;
+    top: 70px;
     width: 100%;
     background: var(--surface);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1.5px solid var(--border);
     border-radius: 16px;
-    padding: 16px;
+    padding: 14px 16px;
     box-shadow: var(--shadow);
   }
+  .preview-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
   .preview-label {
-    text-align: center;
     font-size: 12px;
     font-weight: 800;
     color: var(--ink-muted);
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
+    letter-spacing: 0.6px;
   }
+  .preview-mini-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .btn-mini {
+    border: none;
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.2s;
+  }
+  .btn-mini:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-mini-pdf { background: #0284c7; }
+  .btn-mini-print { background: #0f172a; }
+
   .preview-viewport {
     width: 100%;
     overflow-x: auto;
@@ -303,29 +322,36 @@
     display: flex;
     justify-content: center;
   }
-  body.dark-mode .preview-viewport {
-    background: #0f172a;
-  }
+  body.dark-mode .preview-viewport { background: #0f172a; }
+
   #a4DocSheet {
     background: #ffffff !important;
     color: #0f172a !important;
-    width: 100%;
-    max-width: 720px;
-    padding: 22px 20px;
+    width: 700px;
+    max-width: 100%;
+    padding: 22px 24px;
     border: 1.5px solid #cbd5e1;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
+    border-radius: 6px;
     box-sizing: border-box;
     flex-shrink: 0;
   }
 
+  .urdu-rtl {
+    font-family: 'Noto Nastaliq Urdu', serif !important;
+    direction: rtl;
+    text-align: right;
+    line-height: 2.1 !important;
+  }
+
+  /* RECEIPT STYLES */
   .slip-box {
     border: 2px solid #0f172a;
     border-radius: 8px;
     padding: 16px;
     background: #ffffff;
+    page-break-inside: avoid;
   }
-
   .slip-header {
     display: flex;
     justify-content: space-between;
@@ -335,19 +361,18 @@
     margin-bottom: 12px;
     gap: 10px;
   }
-  .slip-header h2 { margin: 0; font-size: 17px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .slip-header h2 { margin: 0; font-size: 16.5px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
   .slip-header p { margin: 2px 0 0; font-size: 10.5px; color: #475569; }
   .slip-badge {
     background: #0f172a;
     color: #ffffff;
     padding: 4px 10px;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 800;
     border-radius: 4px;
     text-transform: uppercase;
     flex-shrink: 0;
   }
-
   .rent-body-text {
     font-size: 12px;
     line-height: 1.75;
@@ -360,7 +385,6 @@
     border-bottom: 1px dashed #64748b;
     padding: 0 4px;
   }
-
   .breakdown-table {
     width: 100%;
     border-collapse: collapse;
@@ -381,7 +405,6 @@
     border-top: 2px solid #16a34a;
   }
   .t-right { text-align: right; }
-
   .footer-row {
     display: flex;
     justify-content: space-between;
@@ -413,7 +436,6 @@
     font-weight: 700;
     color: #334155;
   }
-
   .cut-divider {
     display: flex;
     align-items: center;
@@ -432,13 +454,71 @@
     color: #64748b;
   }
 
+  /* AGREEMENT DOCUMENT STYLES */
+  .agr-doc {
+    border: 2px solid #0f172a;
+    padding: 18px 20px;
+    background: #ffffff;
+  }
+  .agr-stamp-space {
+    border: 1px dashed #94a3b8;
+    background: #f8fafc;
+    text-align: center;
+    padding: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 12px;
+    border-radius: 4px;
+  }
+  .agr-title {
+    text-align: center;
+    font-size: 17px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-decoration: underline;
+    margin: 0 0 10px 0;
+    color: #0f172a;
+  }
+  .agr-intro {
+    font-size: 11.5px;
+    line-height: 1.65;
+    margin-bottom: 10px;
+    color: #1e293b;
+  }
+  .agr-clauses {
+    margin: 8px 0 14px 18px;
+    padding: 0;
+    font-size: 11.2px;
+    line-height: 1.6;
+    color: #0f172a;
+  }
+  .agr-clauses li {
+    margin-bottom: 5px;
+    page-break-inside: avoid;
+  }
+  .agr-sig-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+    font-size: 11px;
+    page-break-inside: avoid;
+  }
+  .agr-sig-box {
+    border-top: 1.5px solid #0f172a;
+    padding-top: 5px;
+    text-align: center;
+    font-weight: 800;
+  }
+
   @media (max-width: 1120px) {
     .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
     .preview-panel { position: static; }
   }
   @media (max-width: 760px) {
     .preview-viewport { justify-content: flex-start; padding: 10px; }
-    #a4DocSheet { min-width: 620px; }
+    #a4DocSheet { min-width: 650px; }
   }
   @media (max-width: 600px) {
     .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
@@ -461,7 +541,7 @@
 <div class="top-nav">
   <div class="nav-left">
     <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Rent Receipt Generator</span>
+    <span class="nav-title">KaamKaj Bills • Rent Receipt &amp; Rent/Shop Agreement (12 Languages)</span>
   </div>
   <div class="nav-right">
     <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
@@ -472,41 +552,96 @@
   <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
     <div style="margin-bottom: 10px;">
-      <label>1. A4 Page Layout (कितनी रसीद प्रिंट करनी हैं?):</label>
+      <label>Select Document Type (क्या बनाना है?):</label>
+      <div class="toggle-bar">
+        <button type="button" class="toggle-btn active" id="btnModeReceipt" onclick="setDocMode('RECEIPT')">🧾 Rent Receipt (किराया रसीद)</button>
+        <button type="button" class="toggle-btn" id="btnModeAgreement" onclick="setDocMode('AGREEMENT')">📜 Rent / Shop Agreement (किरायानामा)</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Language / भाषा (12 Languages)</label>
+        <select id="in_lang" onchange="renderDoc()">
+          <option value="en">1. English</option>
+          <option value="hi">2. हिंदी (Hindi)</option>
+          <option value="mr">3. मराठी (Marathi)</option>
+          <option value="gu">4. ગુજરાતી (Gujarati)</option>
+          <option value="bn">5. বাংলা (Bengali)</option>
+          <option value="ta">6. தமிழ் (Tamil)</option>
+          <option value="te">7. తెలుగు (Telugu)</option>
+          <option value="kn">8. ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">9. മലയാളം (Malayalam)</option>
+          <option value="pa">10. ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="or">11. ଓଡ଼ିଆ (Odia)</option>
+          <option value="ur">12. اردو (Urdu)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Property Type (मकान या दुकान)</label>
+        <select id="in_prop_type" onchange="renderDoc()">
+          <option value="Residential House / Flat">Residential House / Flat (मकान)</option>
+          <option value="Commercial Shop / Office">Commercial Shop / Office (दुकान / ऑफिस)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- RECEIPT ONLY COPIES OPTION -->
+    <div id="receiptCopyOption" style="margin-bottom: 10px;">
+      <label>A4 Page Layout (कितनी रसीद प्रिंट करनी हैं?):</label>
       <div class="toggle-bar">
         <button type="button" class="toggle-btn active" id="btnOne" onclick="setCopies(1)">📄 1 Receipt (Tenant Copy)</button>
         <button type="button" class="toggle-btn" id="btnTwo" onclick="setCopies(2)">📑 2 Receipts (Tenant + Landlord)</button>
       </div>
     </div>
 
-    <div class="section-badge">1. Receipt &amp; Property Details</div>
+    <div class="section-badge">1. Document &amp; Property Details</div>
     <div class="grid-3">
-      <div class="field"><label>Receipt No. (Auto)</label><input type="text" id="in_rec_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Receipt Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
-      <div class="field"><label>Rent Month / Period</label><input type="text" id="in_month" placeholder="उदा. November 2026" oninput="renderDoc()"></div>
+      <div class="field"><label id="lblDocNo">Receipt No.</label><input type="text" id="in_rec_no" oninput="renderDoc()"></div>
+      <div class="field"><label>Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label id="lblMonthOrStart">Rent Month / Period</label><input type="text" id="in_month" placeholder="उदा. Nov 2026 / 01-12-2026" oninput="renderDoc()"></div>
     </div>
 
-    <div class="field"><label>Rented Property Address (मकान / दुकान का पता)</label><input type="text" id="in_prop_addr" placeholder="उदा. House / Shop No. 12, Shanti Nagar, Main Road" oninput="renderDoc()"></div>
+    <div class="field"><label>Rented Property Full Address (मकान / दुकान का पूरा पता)</label><input type="text" id="in_prop_addr" placeholder="उदा. Shop/House No. 12, Shanti Nagar, Main Road, Pune" oninput="renderDoc()"></div>
 
-    <div class="section-badge">2. Tenant &amp; Landlord Details</div>
-    <div class="grid-2">
-      <div class="field"><label>Tenant Name (किरायेदार का नाम)</label><input type="text" id="in_tenant" placeholder="उदा. Anil Sharma" oninput="renderDoc()"></div>
-      <div class="field"><label>Tenant WhatsApp / Mobile</label><input type="text" id="in_tenant_ph" placeholder="उदा. 9000012345" oninput="renderDoc()"></div>
-    </div>
-
+    <div class="section-badge">2. Landlord &amp; Tenant Details</div>
     <div class="grid-2">
       <div class="field"><label>Landlord Name (मकान मालिक का नाम)</label><input type="text" id="in_landlord" placeholder="उदा. Shri Rameshwar Gupta" oninput="renderDoc()"></div>
-      <div class="field"><label>Landlord PAN (Optional for HRA)</label><input type="text" id="in_pan" placeholder="उदा. XXXXX1234X" oninput="renderDoc()"></div>
-    </div>
-
-    <div class="section-badge">3. Rent &amp; Utility Breakdown (₹)</div>
-    <div class="grid-3">
-      <div class="field"><label>Monthly Rent (मासिक किराया ₹)</label><input type="number" id="in_rent" placeholder="10000" oninput="calcRent()"></div>
-      <div class="field"><label>Electricity / Water Bill (₹)</label><input type="number" id="in_elec" placeholder="0" oninput="calcRent()"></div>
-      <div class="field"><label>Maintenance / Other (₹)</label><input type="number" id="in_maint" placeholder="0" oninput="calcRent()"></div>
+      <div class="field"><label>Landlord Father/Husband &amp; Address</label><input type="text" id="in_landlord_addr" placeholder="S/o Late Mohanlal, Pune" oninput="renderDoc()"></div>
     </div>
 
     <div class="grid-2">
+      <div class="field"><label>Tenant Name (किरायेदार का नाम)</label><input type="text" id="in_tenant" placeholder="उदा. Anil Sharma" oninput="renderDoc()"></div>
+      <div class="field"><label>Tenant Father/Husband &amp; Address</label><input type="text" id="in_tenant_addr" placeholder="S/o Prakash Sharma, Mumbai" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Tenant WhatsApp / Mobile</label><input type="text" id="in_tenant_ph" placeholder="उदा. 9000012345" oninput="renderDoc()"></div>
+      <div class="field"><label>Landlord PAN / Aadhaar (Optional)</label><input type="text" id="in_pan" placeholder="उदा. XXXXX1234X" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge">3. Rent, Deposit &amp; Terms (₹)</div>
+    <div class="grid-3">
+      <div class="field"><label>Monthly Rent (₹)</label><input type="number" id="in_rent" placeholder="10000" oninput="renderDoc()"></div>
+      <div class="field" id="boxElec"><label>Electricity / Water (₹)</label><input type="number" id="in_elec" placeholder="0" oninput="renderDoc()"></div>
+      <div class="field"><label>Maintenance (₹/Month)</label><input type="number" id="in_maint" placeholder="0" oninput="renderDoc()"></div>
+    </div>
+
+    <!-- AGREEMENT SPECIFIC FIELDS -->
+    <div id="agreementFields" style="display:none;">
+      <div class="grid-3">
+        <div class="field"><label>Security Deposit (₹)</label><input type="number" id="in_deposit" placeholder="30000" oninput="renderDoc()"></div>
+        <div class="field"><label>Agreement Duration</label><input type="text" id="in_duration" value="11 Months" oninput="renderDoc()"></div>
+        <div class="field"><label>Notice Period</label><input type="text" id="in_notice" value="1 Month" oninput="renderDoc()"></div>
+      </div>
+      <div class="grid-3">
+        <div class="field"><label>Yearly Rent Hike (%)</label><input type="text" id="in_hike" value="5%" oninput="renderDoc()"></div>
+        <div class="field"><label>Witness 1 Name</label><input type="text" id="in_wit1" placeholder="गवाह 1 का नाम" oninput="renderDoc()"></div>
+        <div class="field"><label>Witness 2 Name</label><input type="text" id="in_wit2" placeholder="गवाह 2 का नाम" oninput="renderDoc()"></div>
+      </div>
+    </div>
+
+    <div class="grid-2" id="receiptPayFields">
       <div class="field">
         <label>Payment Mode</label>
         <select id="in_pay_mode" onchange="renderDoc()">
@@ -521,13 +656,20 @@
     <div class="actions">
       <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
       <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Receipt</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
     </div>
   </div>
 
   <!-- RIGHT: LIVE PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live A4 Rent Receipt Preview</div>
+    <div class="preview-toolbar">
+      <div class="preview-label" id="previewTitleLabel">Live A4 Rent Receipt Preview</div>
+      <div class="preview-mini-actions">
+        <button type="button" class="btn-mini btn-mini-pdf" onclick="downloadA4PDF()">📥 Download PDF</button>
+        <button type="button" class="btn-mini btn-mini-print" onclick="printDocDirect()">🖨️ Print</button>
+      </div>
+    </div>
+
     <div class="preview-viewport">
       <div id="a4DocSheet">
         <div id="slipsContainer"></div>
@@ -537,12 +679,29 @@
 </div>
 
 <script>
+  let docMode = 'RECEIPT';
   let copyCount = 1;
 
   function toggleTheme() {
     const isDark = document.body.classList.toggle('dark-mode');
     document.getElementById('btnTheme').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
     try { localStorage.setItem('kkb_rent_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+  }
+
+  function setDocMode(mode) {
+    docMode = mode;
+    document.getElementById('btnModeReceipt').className = mode === 'RECEIPT' ? 'toggle-btn active' : 'toggle-btn';
+    document.getElementById('btnModeAgreement').className = mode === 'AGREEMENT' ? 'toggle-btn active-gold' : 'toggle-btn';
+
+    document.getElementById('receiptCopyOption').style.display = mode === 'RECEIPT' ? 'block' : 'none';
+    document.getElementById('receiptPayFields').style.display = mode === 'RECEIPT' ? 'grid' : 'none';
+    document.getElementById('boxElec').style.display = mode === 'RECEIPT' ? 'flex' : 'none';
+    document.getElementById('agreementFields').style.display = mode === 'AGREEMENT' ? 'block' : 'none';
+
+    document.getElementById('lblDocNo').innerText = mode === 'RECEIPT' ? 'Receipt No.' : 'Agreement No.';
+    document.getElementById('lblMonthOrStart').innerText = mode === 'RECEIPT' ? 'Rent Month / Period' : 'Start Date (कब से लागू)';
+    document.getElementById('previewTitleLabel').innerText = mode === 'RECEIPT' ? 'Live A4 Rent Receipt Preview' : 'Live A4 Rent / Shop Agreement Preview';
+    renderDoc();
   }
 
   function setCopies(n) {
@@ -552,15 +711,208 @@
     renderDoc();
   }
 
-  function calcRent() { renderDoc(); }
+  function getAgreementLang(lang, d) {
+    const data = {
+      en: {
+        title: `${d.propType.toUpperCase()} RENT AGREEMENT`,
+        stamp: `Space for E-Stamp Paper / Notarization (If Required)`,
+        intro: `This Rent Agreement is executed on <b>${d.date}</b> between <b>${d.landlord}</b> (${d.landlordAddr}), hereinafter called the <b>LANDLORD / OWNER</b> of the One Part, AND <b>${d.tenant}</b> (${d.tenantAddr}), hereinafter called the <b>TENANT</b> of the Other Part.`,
+        clauses: [
+          `<b>Premises:</b> The Landlord hereby lets out the <b>${d.propType}</b> situated at <b>${d.addr}</b> to the Tenant for lawful residential/commercial use only.`,
+          `<b>Duration:</b> This tenancy is for a period of <b>${d.duration}</b> commencing from <b>${d.month}</b>.`,
+          `<b>Monthly Rent & Maintenance:</b> The Tenant shall pay a monthly rent of <b>₹${d.rent}</b> plus maintenance of <b>₹${d.maint}</b> on or before the 5th day of every English calendar month.`,
+          `<b>Security Deposit:</b> The Tenant has paid an interest-free refundable Security Deposit of <b>₹${d.deposit}</b> to the Landlord, which shall be refunded at the time of vacating the premises after deducting any pending dues or damages.`,
+          `<b>Utility Bills:</b> Electricity, water, and municipal usage charges as per meter reading shall be paid separately by the Tenant every month.`,
+          `<b>Sub-letting & Alterations:</b> The Tenant shall not sub-let, assign, or make any structural changes to the premises without prior written consent of the Landlord.`,
+          `<b>Renewal & Notice Period:</b> Either party may terminate this agreement by giving <b>${d.notice}</b> prior written notice. Upon mutual renewal, rent shall increase by <b>${d.hike}</b> annually.`
+        ],
+        w1: `Witness 1: ${d.wit1}`, w2: `Witness 2: ${d.wit2}`,
+        sigL: `Signature of Landlord<br>(${d.landlord})`, sigT: `Signature of Tenant<br>(${d.tenant})`
+      },
+      hi: {
+        title: `किरायानामा / रेंट एग्रीमेंट (${d.propType})`,
+        stamp: `ई-स्टाम्प पेपर / नोटरी हेतु स्थान (यदि आवश्यक हो)`,
+        intro: `यह किरायानामा आज दिनांक <b>${d.date}</b> को प्रथम पक्ष <b>${d.landlord}</b> (${d.landlordAddr}) (जिन्हें आगे <b>मकान/दुकान मालिक</b> कहा जाएगा) तथा द्वितीय पक्ष <b>${d.tenant}</b> (${d.tenantAddr}) (जिन्हें आगे <b>किरायेदार</b> कहा जाएगा) के मध्य निष्पादित किया गया है:`,
+        clauses: [
+          `<b>संपत्ति विवरण:</b> प्रथम पक्ष ने अपना <b>${d.propType}</b> जो <b>${d.addr}</b> पर स्थित है, द्वितीय पक्ष को वैध उपयोग हेतु किराये पर दिया है।`,
+          `<b>अवधि:</b> यह किरायानामा <b>${d.duration}</b> की अवधि के लिए दिनांक <b>${d.month}</b> से प्रभावी होगा।`,
+          `<b>मासिक किराया:</b> किरायेदार प्रत्येक माह की 5 तारीख तक <b>₹${d.rent}</b> मासिक किराया तथा <b>₹${d.maint}</b> मेंटेनेंस शुल्क मालिक को अदा करेगा।`,
+          `<b>सिक्योरिटी डिपॉजिट:</b> किरायेदार ने <b>₹${d.deposit}</b> की राशि बतौर ब्याज-मुक्त सुरक्षा जमा (Deposit) दी है, जो परिसर खाली करते समय बकाया/टूट-फूट काटकर वापस कर दी जाएगी।`,
+          `<b>बिजली व पानी बिल:</b> मीटर रीडिंग के अनुसार बिजली और पानी का बिल किरायेदार द्वारा स्वयं भरा जाएगा।`,
+          `<b>सब-लेटिंग निषेध:</b> किरायेदार मालिक की लिखित अनुमति के बिना किसी अन्य व्यक्ति को परिसर किराये पर नहीं देगा और न ही कोई तोड़-फोड़ करेगा।`,
+          `<b>नोटिस व वृद्धि:</b> कोई भी पक्ष <b>${d.notice}</b> का पूर्व लिखित नोटिस देकर यह अनुबंध समाप्त कर सकता है। नवीनीकरण पर किराये में <b>${d.hike}</b> वार्षिक वृद्धि होगी।`
+        ],
+        w1: `गवाह 1: ${d.wit1}`, w2: `गवाह 2: ${d.wit2}`,
+        sigL: `मकान/दुकान मालिक के हस्ताक्षर<br>(${d.landlord})`, sigT: `किरायेदार के हस्ताक्षर<br>(${d.tenant})`
+      },
+      mr: {
+        title: `भाडेकरारनामा / रेंट ॲग्रीमेंट (${d.propType})`,
+        stamp: `ई-स्टॅम्प पेपर / नोटरीसाठी जागा`,
+        intro: `हा भाडेकरार आज दिनांक <b>${d.date}</b> रोजी मालक <b>${d.landlord}</b> (${d.landlordAddr}) आणि भाडेकरू <b>${d.tenant}</b> (${d.tenantAddr}) यांच्यात करण्यात येत आहे:`,
+        clauses: [
+          `<b>मिळकत:</b> मालकाने <b>${d.addr}</b> येथील <b>${d.propType}</b> भाडेकरूस कायदेशीर वापरासाठी भाड्याने दिले आहे.`,
+          `<b>कालावधी:</b> हा करार <b>${d.duration}</b> कालावधीसाठी दिनांक <b>${d.month}</b> पासून लागू राहील.`,
+          `<b>मासिक भाडे:</b> भाडेकरू दरमहा ५ तारखेपूर्वी <b>₹${d.rent}</b> भाडे व <b>₹${d.maint}</b> मेंटेनन्स देईल.`,
+          `<b>अनामत रक्कम (Deposit):</b> भाडेकरूने <b>₹${d.deposit}</b> बिनव्याजी अनामत रक्कम जमा केली आहे, जी जागा सोडताना थकबाकी वजा करून परत केली जाईल.`,
+          `<b>वीज व पाणी बिल:</b> वापरानुसार वीज व पाणी बिल भाडेकरूने स्वतंत्रपणे भरायचे आहे.`,
+          `<b>नोटीस व वाढ:</b> <b>${d.notice}</b> आगाऊ लेखी नोटीस देऊन करार रद्द करता येईल. नूतनीकरणावेळी भाड्यात <b>${d.hike}</b> वाढ होईल.`
+        ],
+        w1: `साक्षीदार १: ${d.wit1}`, w2: `साक्षीदार २: ${d.wit2}`,
+        sigL: `मालकाची सही<br>(${d.landlord})`, sigT: `भाडेकरूची सही<br>(${d.tenant})`
+      },
+      gu: {
+        title: `ભાડા કરાર / રેન્ટ એગ્રીમેન્ટ (${d.propType})`,
+        stamp: `ઈ-સ્ટેમ્પ પેપર / નોટરી માટેની જગ્યા`,
+        intro: `આ ભાડા કરાર આજ તારીખ <b>${d.date}</b> ના રોજ માલિક <b>${d.landlord}</b> (${d.landlordAddr}) અને ભાડૂઆત <b>${d.tenant}</b> (${d.tenantAddr}) વચ્ચે કરવામાં આવે છે:`,
+        clauses: [
+          `<b>મિલકત:</b> માલિકે <b>${d.addr}</b> ખાતે આવેલ <b>${d.propType}</b> ભાડૂઆતને કાયદેસર ઉપયોગ માટે ભાડે આપેલ છે.`,
+          `<b>સમયગાળો:</b> આ કરાર <b>${d.duration}</b> માટે તારીખ <b>${d.month}</b> થી અમલમાં રહેશે.`,
+          `<b>માસિક ભાડું:</b> ભાડૂઆત દર મહિનાની ૫ તારીખ સુધીમાં <b>₹${d.rent}</b> ભાડું અને <b>₹${d.maint}</b> મેન્ટેનન્સ ચૂકવશે.`,
+          `<b>સિક્યોરિટી ડિપોઝિટ:</b> ભાડૂઆતે <b>₹${d.deposit}</b> વ્યાજ-મુક્ત ડિપોઝિટ જમા કરાવી છે, જે જગ્યા ખાલી કરતી વખતે પરત મળશે.`,
+          `<b>વીજળી બિલ:</b> વીજળી અને પાણીનું બિલ ભાડૂઆતે અલગથી ભરવાનું રહેશે.`,
+          `<b>નોટિસ અને વધારો:</b> <b>${d.notice}</b> ની અગાઉથી લેખિત નોટિસ આપી કરાર પૂર્ણ કરી શકાશે. રિન્યૂઅલ પર <b>${d.hike}</b> ભાડા વધારો થશે.`
+        ],
+        w1: `સાક્ષી ૧: ${d.wit1}`, w2: `સાક્ષી ૨: ${d.wit2}`,
+        sigL: `માલિકની સહી<br>(${d.landlord})`, sigT: `ભાડૂઆતની સહી<br>(${d.tenant})`
+      },
+      bn: {
+        title: `ভাড়া চুক্তিপত্র / রেন্ট এগ্রিমেন্ট (${d.propType})`,
+        stamp: `ই-স্ট্যাম্প পেপার / নোটারির জন্য স্থান`,
+        intro: `এই ভাড়া চুক্তিপত্রটি আজ <b>${d.date}</b> তারিখে মালিক <b>${d.landlord}</b> (${d.landlordAddr}) এবং ভাড়াটিয়া <b>${d.tenant}</b> (${d.tenantAddr})-এর মধ্যে সম্পাদিত হলো:`,
+        clauses: [
+          `<b>সম্পত্তি:</b> মালিক <b>${d.addr}</b> ঠিকানায় অবস্থিত <b>${d.propType}</b> বৈধ ব্যবহারের জন্য ভাড়াটিয়াকে ভাড়া দিলেন।`,
+          `<b>মেয়াদ:</b> এই চুক্তি <b>${d.duration}</b> সময়ের জন্য <b>${d.month}</b> তারিখ থেকে কার্যকর হবে।`,
+          `<b>মাসিক ভাড়া:</b> ভাড়াটিয়া প্রতি মাসের ৫ তারিখের মধ্যে <b>₹${d.rent}</b> ভাড়া এবং <b>₹${d.maint}</b> রক্ষণাবেক্ষণ চার্জ প্রদান করবেন।`,
+          `<b>সিকিউরিটি ডিপোজিট:</b> ভাড়াটিয়া <b>₹${d.deposit}</b> সুদমুক্ত জামানত জমা দিয়েছেন, যা ঘর/দোকান ছাড়ার সময় ফেরত দেওয়া হবে।`,
+          `<b>বিদ্যুৎ ও জলের বিল:</b> মিটার অনুযায়ী বিদ্যুৎ ও জলের বিল ভাড়াটিয়া আলাদাভাবে পরিশোধ করবেন।`,
+          `<b>নোটিশ ও ভাড়া বৃদ্ধি:</b> <b>${d.notice}</b> পূর্ব লিখিত নোটিশে চুক্তি বাতিল করা যাবে। নবায়নের সময় বার্ষিক <b>${d.hike}</b> ভাড়া বৃদ্ধি পাবে।`
+        ],
+        w1: `সাক্ষী ১: ${d.wit1}`, w2: `সাক্ষী ২: ${d.wit2}`,
+        sigL: `মালিকের স্বাক্ষর<br>(${d.landlord})`, sigT: `ভাড়াটিয়ার স্বাক্ষর<br>(${d.tenant})`
+      },
+      ta: {
+        title: `வாடகை ஒப்பந்தம் (${d.propType})`,
+        stamp: `முத்திரைத் தாள் / நோட்டரி இடம்`,
+        intro: `இந்த வாடகை ஒப்பந்தம் <b>${d.date}</b> அன்று உரிமையாளர் <b>${d.landlord}</b> (${d.landlordAddr}) மற்றும் வாடகைதாரர் <b>${d.tenant}</b> (${d.tenantAddr}) ஆகியோருக்கு இடையே செய்யப்படுகிறது:`,
+        clauses: [
+          `<b>சொத்து விவரம்:</b> <b>${d.addr}</b> முகவரியில் உள்ள <b>${d.propType}</b> சட்டப்பூர்வ பயன்பாட்டிற்கு வாடகைக்கு விடப்படுகிறது.`,
+          `<b>கால அளவு:</b> இந்த ஒப்பந்தம் <b>${d.month}</b> முதல் <b>${d.duration}</b> காலத்திற்கு செல்லுபடியாகும்.`,
+          `<b>மாத வாடகை:</b> ஒவ்வொரு மாதமும் 5-ம் தேதிக்குள் <b>₹${d.rent}</b> வாடகை மற்றும் <b>₹${d.maint}</b> பராமரிப்பு கட்டணம் செலுத்த வேண்டும்.`,
+          `<b>முன்பணம் (Deposit):</b> வாடகைதாரர் <b>₹${d.deposit}</b> வட்டியில்லா முன்பணம் செலுத்தியுள்ளார்; காலி செய்யும்போது இது திருப்பித் தரப்படும்.`,
+          `<b>மின் கட்டணம்:</b> மின்சாரம் மற்றும் தண்ணீர் கட்டணத்தை வாடகைதாரர் தனியாக செலுத்த வேண்டும்.`,
+          `<b>அறிவிப்பு காலம்:</b> <b>${d.notice}</b> முன்னறிவிப்புடன் ஒப்பந்தத்தை முடித்துக் கொள்ளலாம். புதுப்பிக்கும்போது ஆண்டுக்கு <b>${d.hike}</b> வாடகை உயர்த்தப்படும்.`
+        ],
+        w1: `சாட்சி 1: ${d.wit1}`, w2: `சாட்சி 2: ${d.wit2}`,
+        sigL: `உரிமையாளர் கையொப்பம்<br>(${d.landlord})`, sigT: `வாடகைதாரர் கையொப்பம்<br>(${d.tenant})`
+      },
+      te: {
+        title: `అద్దె ఒప్పంద పత్రం (${d.propType})`,
+        stamp: `ఇ-స్టాంప్ పేపర్ / నోటరీ స్థలం`,
+        intro: `ఈ అద్దె ఒప్పందం <b>${d.date}</b> తేదీన యజమాని <b>${d.landlord}</b> (${d.landlordAddr}) మరియు అద్దెదారు <b>${d.tenant}</b> (${d.tenantAddr}) మధ్య కుదుర్చుకోబడింది:`,
+        clauses: [
+          `<b>ఆస్తి వివరాలు:</b> <b>${d.addr}</b> వద్ద ఉన్న <b>${d.propType}</b> చట్టబద్ధమైన వినియోగానికి అద్దెకు ఇవ్వబడింది.`,
+          `<b>కాలపరిమితి:</b> ఈ ఒప్పందం <b>${d.month}</b> నుండి <b>${d.duration}</b> వరకు అమలులో ఉంటుంది.`,
+          `<b>నెలవారీ అద్దె:</b> ప్రతి నెల 5వ తేదీ లోపు <b>₹${d.rent}</b> అద్దె మరియు <b>₹${d.maint}</b> మెయింటెనెన్స్ చెల్లించాలి.`,
+          `<b>సెక్యూరిటీ డిపాజిట్:</b> అద్దెదారు <b>₹${d.deposit}</b> వడ్డీ లేని డిపాజిట్ చెల్లించారు; ఖాళీ చేసే సమయంలో ఇది తిరిగి ఇవ్వబడుతుంది.`,
+          `<b>కరెంట్ బిల్లు:</b> విద్యుత్ మరియు నీటి బిల్లులను అద్దెదారు విడిగా చెల్లించాలి.`,
+          `<b>నోటీసు వ్యవధి:</b> <b>${d.notice}</b> ముందస్తు నోటీసుతో ఒప్పందాన్ని రద్దు చేసుకోవచ్చు. రెన్యూవల్ సమయంలో <b>${d.hike}</b> అద్దె పెరుగుతుంది.`
+        ],
+        w1: `సాక్షి 1: ${d.wit1}`, w2: `సాక్షి 2: ${d.wit2}`,
+        sigL: `యజమాని సంతకం<br>(${d.landlord})`, sigT: `అద్దెదారు సంతకం<br>(${d.tenant})`
+      },
+      kn: {
+        title: `ಬಾಡಿಗೆ ಕರಾರು ಪತ್ರ (${d.propType})`,
+        stamp: `ಇ-ಸ್ಟಾಂಪ್ ಪೇಪರ್ / ನೋಟರಿ ಸ್ಥಳ`,
+        intro: `ಈ ಬಾಡಿಗೆ ಕರಾರು ಪತ್ರವನ್ನು ದಿನಾಂಕ <b>${d.date}</b> ರಂದು ಮಾಲೀಕರಾದ <b>${d.landlord}</b> (${d.landlordAddr}) ಮತ್ತು ಬಾಡಿಗೆದಾರರಾದ <b>${d.tenant}</b> (${d.tenantAddr}) ನಡುವೆ ಮಾಡಿಕೊಳ್ಳಲಾಗಿದೆ:`,
+        clauses: [
+          `<b>ಆಸ್ತಿ ವಿವರ:</b> <b>${d.addr}</b> ವಿಳಾಸದಲ್ಲಿರುವ <b>${d.propType}</b> ಕಾನೂನುಬದ್ಧ ಬಳಕೆಗಾಗಿ ಬಾಡಿಗೆಗೆ ನೀಡಲಾಗಿದೆ.`,
+          `<b>ಅವಧಿ:</b> ಈ ಕರಾರು <b>${d.month}</b> ರಿಂದ <b>${d.duration}</b> ಅವಧಿಗೆ ಜಾರಿಯಲ್ಲಿರುತ್ತದೆ.`,
+          `<b>ಮಾಸಿಕ ಬಾಡಿಗೆ:</b> ಪ್ರತಿ ತಿಂಗಳ 5ನೇ ತಾರೀಖಿನೊಳಗೆ <b>₹${d.rent}</b> ಬಾಡಿಗೆ ಮತ್ತು <b>₹${d.maint}</b> ನಿರ್ವಹಣಾ ಶುಲ್ಕ ಪಾವತಿಸಬೇಕು.`,
+          `<b>ಭದ್ರತಾ ಠೇವಣಿ (Deposit):</b> ಬಾಡಿಗೆದಾರರು <b>₹${d.deposit}</b> ಬಡ್ಡಿರಹಿತ ಠೇವಣಿ ನೀಡಿದ್ದು, ಖಾಲಿ ಮಾಡುವಾಗ ಹಿಂತಿರುಗಿಸಲಾಗುವುದು.`,
+          `<b>ವಿದ್ಯುತ್ ಬಿಲ್:</b> ವಿದ್ಯುತ್ ಮತ್ತು ನೀರಿನ ಬಿಲ್‌ಗಳನ್ನು ಬಾಡಿಗೆದಾರರೇ ಪ್ರತ್ಯೇಕವಾಗಿ ಪಾವತಿಸಬೇಕು.`,
+          `<b>ನೋಟಿಸ್ ಅವಧಿ:</b> <b>${d.notice}</b> ಮುಂಚಿತ ನೋಟಿಸ್ ನೀಡಿ ಕರಾರು ರದ್ದುಗೊಳಿಸಬಹುದು. ನವೀಕರಣದ ಸಮಯದಲ್ಲಿ <b>${d.hike}</b> ಬಾಡಿಗೆ ಹೆಚ್ಚಾಗುತ್ತದೆ.`
+        ],
+        w1: `ಸಾಕ್ಷಿ 1: ${d.wit1}`, w2: `ಸಾಕ್ಷಿ 2: ${d.wit2}`,
+        sigL: `ಮಾಲೀಕರ ಸಹಿ<br>(${d.landlord})`, sigT: `ಬಾಡಿಗೆದಾರರ ಸಹಿ<br>(${d.tenant})`
+      },
+      ml: {
+        title: `വാടക കരാർ / റെന്റ് എഗ്രിമെന്റ് (${d.propType})`,
+        stamp: `ഇ-സ്റ്റാമ്പ് പേപ്പർ / നോട്ടറി സ്ഥലം`,
+        intro: `ഈ വാടക കരാർ <b>${d.date}</b> തീയതി ഉടമസ്ഥൻ <b>${d.landlord}</b> (${d.landlordAddr}) ഉം വാടകക്കാരൻ <b>${d.tenant}</b> (${d.tenantAddr}) ഉം തമ്മിൽ ഒപ്പുവെക്കുന്നു:`,
+        clauses: [
+          `<b>വസ്തു വിവരം:</b> <b>${d.addr}</b> വിലാസത്തിലുള്ള <b>${d.propType}</b> നിയമാനുസൃത ആവശ്യങ്ങൾക്കായി വാടകയ്ക്ക് നൽകുന്നു.`,
+          `<b>കാലാവധി:</b> ഈ കരാർ <b>${d.month}</b> മുതൽ <b>${d.duration}</b> കാലയളവിലേക്ക് പ്രാബല്യത്തിൽ ഉണ്ടായിരിക്കും.`,
+          `<b>പ്രതിമാസ വാടക:</b> എല്ലാ മാസവും 5-ാം തീയതിക്കുള്ളിൽ <b>₹${d.rent}</b> വാടകയും <b>₹${d.maint}</b> മെയിന്റനൻസും നൽകേണ്ടതാണ്.`,
+          `<b>സെക്യൂരിറ്റി ഡെപ്പോസിറ്റ്:</b> വാടകക്കാരൻ <b>₹${d.deposit}</b> പലിശരഹിത ഡെപ്പോസിറ്റ് നൽകിയിട്ടുണ്ട്; ഒഴിയുമ്പോൾ ഇത് തിരികെ നൽകും.`,
+          `<b>വൈദ്യുതി ബിൽ:</b> വൈദ്യുതി, വെള്ളം ബില്ലുകൾ വാടകക്കാരൻ പ്രത്യേകം അടയ്ക്കേണ്ടതാണ്.`,
+          `<b>നോട്ടീസ് കാലയളവ്:</b> <b>${d.notice}</b> മുൻകൂർ നോട്ടീസ് നൽകി കരാർ അവസാനിപ്പിക്കാം. പുതുക്കുമ്പോൾ <b>${d.hike}</b> വാടക വർദ്ധനവ് ഉണ്ടായിരിക്കും.`
+        ],
+        w1: `സാക്ഷി 1: ${d.wit1}`, w2: `സാക്ഷി 2: ${d.wit2}`,
+        sigL: `ഉടമയുടെ ഒപ്പ്<br>(${d.landlord})`, sigT: `വാടകക്കാരന്റെ ഒപ്പ്<br>(${d.tenant})`
+      },
+      pa: {
+        title: `ਕਿਰਾਇਆਨਾਮਾ / ਰੈਂਟ ਐਗਰੀਮੈਂਟ (${d.propType})`,
+        stamp: `ਈ-ਸਟੈਂਪ ਪੇਪਰ / ਨੋਟਰੀ ਲਈ ਥਾਂ`,
+        intro: `ਇਹ ਕਿਰਾਇਆਨਾਮਾ ਅੱਜ ਮਿਤੀ <b>${d.date}</b> ਨੂੰ ਮਾਲਕ <b>${d.landlord}</b> (${d.landlordAddr}) ਅਤੇ ਕਿਰਾਏਦਾਰ <b>${d.tenant}</b> (${d.tenantAddr}) ਵਿਚਕਾਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ:`,
+        clauses: [
+          `<b>ਜਾਇਦਾਦ ਦਾ ਵੇਰਵਾ:</b> ਮਾਲਕ ਨੇ <b>${d.addr}</b> ਵਿਖੇ ਸਥਿਤ <b>${d.propType}</b> ਕਾਨੂੰਨੀ ਵਰਤੋਂ ਲਈ ਕਿਰਾਏ 'ਤੇ ਦਿੱਤਾ ਹੈ।`,
+          `<b>ਮਿਆਦ:</b> ਇਹ ਇਕਰਾਰਨਾਮਾ <b>${d.month}</b> ਤੋਂ <b>${d.duration}</b> ਦੀ ਮਿਆਦ ਲਈ ਲਾਗੂ ਰਹੇਗਾ।`,
+          `<b>ਮਹੀਨਾਵਾਰ ਕਿਰਾਇਆ:</b> ਕਿਰਾਏਦਾਰ ਹਰ ਮਹੀਨੇ ਦੀ 5 ਤਰੀਕ ਤੱਕ <b>₹${d.rent}</b> ਕਿਰਾਇਆ ਅਤੇ <b>₹${d.maint}</b> ਮੇਨਟੇਨੈਂਸ ਅਦਾ ਕਰੇਗਾ।`,
+          `<b>ਸਕਿਓਰਿਟੀ ਡਿਪਾਜ਼ਿਟ:</b> ਕਿਰਾਏਦਾਰ ਨੇ <b>₹${d.deposit}</b> ਬਿਨਾਂ ਵਿਆਜ ਸਕਿਓਰਿਟੀ ਜਮ੍ਹਾਂ ਕਰਵਾਈ ਹੈ, ਜੋ ਖਾਲੀ ਕਰਨ ਸਮੇਂ ਵਾਪਸ ਕੀਤੀ ਜਾਵੇਗੀ।`,
+          `<b>ਬਿਜਲੀ ਅਤੇ ਪਾਣੀ ਦਾ ਬਿੱਲ:</b> ਬਿਜਲੀ ਅਤੇ ਪਾਣੀ ਦਾ ਬਿੱਲ ਕਿਰਾਏਦਾਰ ਵੱਲੋਂ ਵੱਖਰੇ ਤੌਰ 'ਤੇ ਭਰਿਆ ਜਾਵੇਗਾ।`,
+          `<b>ਨੋਟਿਸ ਅਤੇ ਵਾਧਾ:</b> <b>${d.notice}</b> ਦਾ ਅਗਾਊਂ ਲਿਖਤੀ ਨੋਟਿਸ ਦੇ ਕੇ ਇਕਰਾਰਨਾਮਾ ਖਤਮ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ। ਨਵੀਨੀਕਰਨ 'ਤੇ <b>${d.hike}</b> ਸਾਲਾਨਾ ਵਾਧਾ ਹੋਵੇਗਾ।`
+        ],
+        w1: `ਗਵਾਹ 1: ${d.wit1}`, w2: `ਗਵਾਹ 2: ${d.wit2}`,
+        sigL: `ਮਾਲਕ ਦੇ ਦਸਤਖਤ<br>(${d.landlord})`, sigT: `ਕਿਰਾਏਦਾਰ ਦੇ ਦਸਤਖਤ<br>(${d.tenant})`
+      },
+      or: {
+        title: `ଭଡ଼ା ଚୁକ୍ତିନାମା / ରେଣ୍ଟ ଏଗ୍ରିମେଣ୍ଟ (${d.propType})`,
+        stamp: `ଇ-ଷ୍ଟାମ୍ପ ପେପର / ନୋଟାରୀ ପାଇଁ ସ୍ଥାନ`,
+        intro: `ଏହି ଭଡ଼ା ଚୁକ୍ତିନାମା ଆଜି ତା <b>${d.date}</b> ରିଖରେ ମାଲିକ <b>${d.landlord}</b> (${d.landlordAddr}) ଏବଂ ଭଡ଼ାଟିଆ <b>${d.tenant}</b> (${d.tenantAddr}) ଙ୍କ ମଧ୍ୟରେ ସମ୍ପାଦିତ ହେଲା:`,
+        clauses: [
+          `<b>ସମ୍ପତ୍ତି ବିବରଣୀ:</b> ମାଲିକ <b>${d.addr}</b> ଠାରେ ଥିବା <b>${d.propType}</b> ବୈଧ ବ୍ୟବହାର ପାଇଁ ଭଡ଼ା ଦେଇଛନ୍ତି।`,
+          `<b>ସମୟସୀମା:</b> ଏହି ଚୁକ୍ତି <b>${d.month}</b> ଠାରୁ <b>${d.duration}</b> ପର୍ଯ୍ୟନ୍ତ ବଳବତ୍ତର ରହିବ।`,
+          `<b>ମାସିକ ଭଡ଼ା:</b> ଭଡ଼ାଟିଆ ପ୍ରତି ମାସ ୫ ତାରିଖ ସୁଦ୍ଧା <b>₹${d.rent}</b> ଭଡ଼ା ଏବଂ <b>₹${d.maint}</b> ମେଣ୍ଟେନାନ୍ସ ପ୍ରଦାନ କରିବେ।`,
+          `<b>ସିକ୍ୟୁରିଟି ଡିପୋଜିଟ୍:</b> ଭଡ଼ାଟିଆ <b>₹${d.deposit}</b> ଜମା ରଖିଛନ୍ତି, ଯାହା ଘର/ଦୋକାନ ଛାଡ଼ିବା ସମୟରେ ଫେରସ୍ତ ମିଳିବ।`,
+          `<b>ବିଦ୍ୟୁତ୍ ଓ ପାଣି ବିଲ୍:</b> ବିଦ୍ୟୁତ୍ ଏବଂ ପାଣି ବିଲ୍ ଭଡ଼ାଟିଆ ଅଲଗା ଭାବରେ ପୈଠ କରିବେ।`,
+          `<b>ନୋଟିସ୍ ଓ ବୃଦ୍ଧି:</b> <b>${d.notice}</b> ପୂର୍ବ ଲିଖିତ ନୋଟିସ୍ ଦେଇ ଚୁକ୍ତି ଶେଷ କରିହେବ। ନବୀକରଣ ସମୟରେ ବାର୍ଷିକ <b>${d.hike}</b> ଭଡ଼ା ବୃଦ୍ଧି ହେବ।`
+        ],
+        w1: `ସାକ୍ଷୀ ୧: ${d.wit1}`, w2: `ସାକ୍ଷୀ ୨: ${d.wit2}`,
+        sigL: `ମାଲିକଙ୍କ ସ୍ୱାକ୍ଷର<br>(${d.landlord})`, sigT: `ଭଡ଼ାଟିଆଙ୍କ ସ୍ୱାକ୍ଷର<br>(${d.tenant})`
+      },
+      ur: {
+        title: `کرایہ نامہ / رینٹ ایگریمنٹ (${d.propType})`,
+        stamp: `ای-اسٹامپ پیپر / نوٹری کے لیے جگہ`,
+        intro: `یہ کرایہ نامہ آج بتاریخ <b>${d.date}</b> مالک <b>${d.landlord}</b> (${d.landlordAddr}) اور کرایہ دار <b>${d.tenant}</b> (${d.tenantAddr}) کے درمیان طے پایا ہے:`,
+        clauses: [
+          `<b>جائیداد کی تفصیل:</b> مالک نے <b>${d.addr}</b> پر واقع <b>${d.propType}</b> قانونی استعمال کے لیے کرایہ دار کو کرایہ پر دیا ہے۔`,
+          `<b>مدت:</b> یہ معاہدہ <b>${d.month}</b> سے <b>${d.duration}</b> کی مدت کے لیے نافذ العمل ہوگا۔`,
+          `<b>ماہانہ کرایہ:</b> کرایہ دار ہر ماہ کی 5 تاریخ تک <b>₹${d.rent}</b> کرایہ اور <b>₹${d.maint}</b> مینٹیننس ادا کرے گا۔`,
+          `<b>سیکیورٹی ڈپازٹ:</b> کرایہ دار نے <b>₹${d.deposit}</b> بطور امانت جمع کروائے ہیں جو جگہ خالی کرتے وقت واپس کر دیے جائیں گے۔`,
+          `<b>بجلی اور پانی کا بل:</b> میٹر ریڈنگ کے مطابق بجلی اور پانی کا بل کرایہ دار خود ادا کرے گا۔`,
+          `<b>نوٹس اور اضافہ:</b> کوئی بھی فریق <b>${d.notice}</b> کا پیشگی تحریری نوٹس دے کر معاہدہ ختم کر سکتا ہے۔ تجدید پر سالانہ <b>${d.hike}</b> اضافہ ہوگا۔`
+        ],
+        w1: `گواہ 1: ${d.wit1}`, w2: `گواہ 2: ${d.wit2}`,
+        sigL: `مالک کے دستخط<br>(${d.landlord})`, sigT: `کرایہ دار کے دستخط<br>(${d.tenant})`
+      }
+    };
+    return data[lang] || data.en;
+  }
 
   function renderDoc() {
+    const lang = document.getElementById('in_lang').value;
+    const sheet = document.getElementById('a4DocSheet');
+    sheet.className = lang === 'ur' ? 'urdu-rtl' : '';
+
     const recNo = document.getElementById('in_rec_no').value.trim() || '-';
     const date = document.getElementById('in_date').value || '-';
     const month = document.getElementById('in_month').value.trim() || 'Current Month';
+    const propType = document.getElementById('in_prop_type').value;
     const addr = document.getElementById('in_prop_addr').value.trim() || 'Property Address';
     const tenant = document.getElementById('in_tenant').value.trim() || 'Tenant Name';
+    const tenantAddr = document.getElementById('in_tenant_addr').value.trim() || 'Tenant Permanent Address';
     const landlord = document.getElementById('in_landlord').value.trim() || 'Landlord Name';
+    const landlordAddr = document.getElementById('in_landlord_addr').value.trim() || 'Landlord Address';
     const pan = document.getElementById('in_pan').value.trim();
     const mode = document.getElementById('in_pay_mode').value;
     const ref = document.getElementById('in_ref').value.trim();
@@ -568,43 +920,91 @@
     const rent = parseFloat(document.getElementById('in_rent').value) || 0;
     const elec = parseFloat(document.getElementById('in_elec').value) || 0;
     const maint = parseFloat(document.getElementById('in_maint').value) || 0;
+    const deposit = parseFloat(document.getElementById('in_deposit').value) || 0;
     const total = rent + elec + maint;
+
+    if (docMode === 'AGREEMENT') {
+      const ag = getAgreementLang(lang, {
+        date, month, propType, addr, tenant, tenantAddr, landlord, landlordAddr,
+        rent: rent.toLocaleString('en-IN'),
+        maint: maint.toLocaleString('en-IN'),
+        deposit: deposit.toLocaleString('en-IN'),
+        duration: document.getElementById('in_duration').value.trim() || '11 Months',
+        notice: document.getElementById('in_notice').value.trim() || '1 Month',
+        hike: document.getElementById('in_hike').value.trim() || '5%',
+        wit1: document.getElementById('in_wit1').value.trim() || '___________________',
+        wit2: document.getElementById('in_wit2').value.trim() || '___________________'
+      });
+
+      document.getElementById('slipsContainer').innerHTML = `
+        <div class="agr-doc">
+          <div class="agr-stamp-space">${ag.stamp} • Ref No: ${recNo}</div>
+          <h2 class="agr-title">${ag.title}</h2>
+          <p class="agr-intro">${ag.intro}</p>
+          <ol class="agr-clauses">
+            ${ag.clauses.map(c => `<li>${c}</li>`).join('')}
+          </ol>
+          <div style="font-size:11px; margin-top:10px; display:flex; justify-content:space-between; gap:12px;">
+            <div><b>${ag.w1}</b></div>
+            <div><b>${ag.w2}</b></div>
+          </div>
+          <div class="agr-sig-grid">
+            <div class="agr-sig-box">${ag.sigL}</div>
+            <div class="agr-sig-box">${ag.sigT}</div>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    // RECEIPT MODE (WITH 12 LANGUAGES HEADINGS)
+    const rLabels = {
+      en: { head: 'HOUSE / SHOP RENT RECEIPT', rNo: 'Receipt No', dt: 'Date', rFrom: 'Received with thanks from Shri/Smt.', sum: 'a sum of', via: 'via', towards: 'towards rent & charges for', prem: 'for the premises at', row1: 'Monthly House / Shop Rent', row2: 'Electricity / Water Charges', row3: 'Maintenance / Society Charges', tot: 'Total Amount Received', lLbl: 'Landlord', sig: 'Landlord Signature' },
+      hi: { head: 'मकान / दुकान किराया रसीद (RENT RECEIPT)', rNo: 'रसीद क्र.', dt: 'दिनांक', rFrom: 'श्री/श्रीमती', sum: 'से कुल राशि', via: 'द्वारा', towards: 'माह/अवधि के किराये हेतु प्राप्त हुए:', prem: 'परिसर का पता:', row1: 'मासिक मकान / दुकान किराया', row2: 'बिजली / पानी शुल्क', row3: 'मेंटेनेंस / सोसायटी शुल्क', tot: 'कुल प्राप्त राशि', lLbl: 'मकान/दुकान मालिक', sig: 'मकान मालिक के हस्ताक्षर' },
+      mr: { head: 'घर / दुकान भाडे पावती (RENT RECEIPT)', rNo: 'पावती क्र.', dt: 'दिनांक', rFrom: 'श्री/श्रीमती', sum: 'यांचेकडून एकूण रक्कम', via: 'द्वारे', towards: 'कालावधीच्या भाड्यापोटी प्राप्त झाली:', prem: 'जागेचा पत्ता:', row1: 'मासिक भाडे', row2: 'वीज / पाणी बिल', row3: 'मेंटेनन्स शुल्क', tot: 'एकूण प्राप्त रक्कम', lLbl: 'मालक', sig: 'मालकाची सही' },
+      gu: { head: 'મકાન / દુકાન ભાડાની પહોંચ (RENT RECEIPT)', rNo: 'પહોંચ નં.', dt: 'તારીખ', rFrom: 'શ્રી/શ્રીમતી', sum: 'પાસેથી કુલ રકમ', via: 'દ્વારા', towards: 'મહિનાના ભાડા પેટે મળેલ છે:', prem: 'મિલકતનું સરનામું:', row1: 'માસિક ભાડું', row2: 'વીજળી / પાણી બિલ', row3: 'મેન્ટેનન્સ ચાર્જ', tot: 'કુલ મળેલ રકમ', lLbl: 'માલિક', sig: 'માલિકની સહી' },
+      bn: { head: 'বাড়ি / দোকান ভাড়ার রসিদ (RENT RECEIPT)', rNo: 'রসিদ নং', dt: 'তারিখ', rFrom: 'শ্রী/শ্রীমতী', sum: 'নিকট হইতে মোট', via: 'মাধ্যমে', towards: 'মাসের ভাড়া বাবদ প্রাপ্ত হইলাম:', prem: 'ঠিকানা:', row1: 'মাসিক ভাড়া', row2: 'বিদ্যুৎ / জল বিল', row3: 'রক্ষণাবেক্ষণ চার্জ', tot: 'মোট প্রাপ্ত টাকা', lLbl: 'মালিক', sig: 'মালিকের স্বাক্ষর' },
+      ta: { head: 'வீடு / கடை வாடகை ரசீது (RENT RECEIPT)', rNo: 'ரசீது எண்', dt: 'தேதி', rFrom: 'திரு/திருமதி', sum: 'அவர்களிடமிருந்து', via: 'மூலம்', towards: 'மாத வாடகையாக பெறப்பட்டது:', prem: 'முகவரி:', row1: 'மாத வாடகை', row2: 'மின்சாரம் / தண்ணீர் கட்டணம்', row3: 'பராமரிப்பு கட்டணம்', tot: 'மொத்த தொகை', lLbl: 'உரிமையாளர்', sig: 'உரிமையாளர் கையொப்பம்' },
+      te: { head: 'ఇల్లు / షాపు అద్దె రసీదు (RENT RECEIPT)', rNo: 'రసీదు నం.', dt: 'తేదీ', rFrom: 'శ్రీ/శ్రీమతి', sum: 'గారి నుండి మొత్తం', via: 'ద్వారా', towards: 'నెల అద్దె నిమిత్తం స్వీకరించబడింది:', prem: 'చిరునామా:', row1: 'నెలవారీ అద్దె', row2: 'కరెంట్ / నీటి బిల్లు', row3: 'మెయింటెనెన్స్ ఛార్జీలు', tot: 'మొత్తం స్వీకరించిన నగదు', lLbl: 'యజమాని', sig: 'యజమాని సంతకం' },
+      kn: { head: 'ಮನೆ / ಅಂಗಡಿ ಬಾಡಿಗೆ ರಸೀದಿ (RENT RECEIPT)', rNo: 'ರಸೀದಿ ಸಂ.', dt: 'ದಿನಾಂಕ', rFrom: 'ಶ್ರೀ/ಶ್ರೀಮತಿ', sum: 'ಅವರಿಂದ ಒಟ್ಟು', via: 'ಮೂಲಕ', towards: 'ತಿಂಗಳ ಬಾಡಿಗೆಯಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ:', prem: 'ವಿಳಾಸ:', row1: 'ಮಾಸಿಕ ಬಾಡಿಗೆ', row2: 'ವಿದ್ಯುತ್ / ನೀರಿನ ಶುಲ್ಕ', row3: 'ನಿರ್ವಹಣಾ ಶುಲ್ಕ', tot: 'ಒಟ್ಟು ಸ್ವೀಕರಿಸಿದ ಮೊತ್ತ', lLbl: 'ಮಾಲೀಕರು', sig: 'ಮಾಲೀಕರ ಸಹಿ' },
+      ml: { head: 'വീട് / കട വാടക രസീത് (RENT RECEIPT)', rNo: 'രസീത് നമ്പർ', dt: 'തീയതി', rFrom: 'ശ്രീ/ശ്രീമതി', sum: 'പക്കൽ നിന്നും', via: 'മുഖേന', towards: 'മാസത്തെ വാടകയായി കൈപ്പറ്റി:', prem: 'വിലാസം:', row1: 'പ്രതിമാസ വാടക', row2: 'വൈദ്യുതി / വെള്ളം ചാർജ്', row3: 'മെയിന്റനൻസ് ചാർജ്', tot: 'ആകെ ലഭിച്ച തുക', lLbl: 'ഉടമ', sig: 'ഉടമയുടെ ഒപ്പ്' },
+      pa: { head: 'ਘਰ / ਦੁਕਾਨ ਕਿਰਾਇਆ ਰਸੀਦ (RENT RECEIPT)', rNo: 'ਰਸੀਦ ਨੰ.', dt: 'ਮਿਤੀ', rFrom: 'ਸ਼੍ਰੀ/ਸ਼੍ਰੀਮਤੀ', sum: 'ਤੋਂ ਕੁੱਲ ਰਕਮ', via: 'ਰਾਹੀਂ', towards: 'ਮਹੀਨੇ ਦੇ ਕਿਰਾਏ ਵਜੋਂ ਪ੍ਰਾਪਤ ਹੋਈ:', prem: 'ਪਤਾ:', row1: 'ਮਹੀਨਾਵਾਰ ਕਿਰਾਇਆ', row2: 'ਬਿਜਲੀ / ਪਾਣੀ ਬਿੱਲ', row3: 'ਮੇਨਟੇਨੈਂਸ ਖਰਚਾ', tot: 'ਕੁੱਲ ਪ੍ਰਾਪਤ ਰਕਮ', lLbl: 'ਮਾਲਕ', sig: 'ਮਾਲਕ ਦੇ ਦਸਤਖਤ' },
+      or: { head: 'ଘର / ଦୋକାନ ଭଡ଼ା ରସିଦ (RENT RECEIPT)', rNo: 'ରସିଦ ନଂ', dt: 'ତାରିଖ', rFrom: 'ଶ୍ରୀ/ଶ୍ରୀମତୀ', sum: 'ଙ୍କ ଠାରୁ ମୋଟ', via: 'ମାଧ୍ୟମରେ', towards: 'ମାସର ଭଡ଼ା ବାବଦକୁ ପ୍ରାପ୍ତ ହେଲା:', prem: 'ଠିକଣା:', row1: 'ମାସିକ ଭଡ଼ା', row2: 'ବିଦ୍ୟୁତ୍ / ପାଣି ବିଲ୍', row3: 'ମେଣ୍ଟେନାନ୍ସ ଚାର୍ଜ', tot: 'ମୋଟ ପ୍ରାପ୍ତ ରାଶି', lLbl: 'ମାଲିକ', sig: 'ମାଲିକଙ୍କ ସ୍ୱାକ୍ଷର' },
+      ur: { head: 'مکان / دکان کرایہ رسید (RENT RECEIPT)', rNo: 'رسید نمبر', dt: 'تاریخ', rFrom: 'جناب/محترمہ', sum: 'سے کل رقم', via: 'بذریعہ', towards: 'ماہ کے کرایہ کی مد میں وصول پائے:', prem: 'پتہ:', row1: 'ماہانہ کرایہ', row2: 'بجلی / پانی کا بل', row3: 'مینٹیننس چارجز', tot: 'کل وصول شدہ رقم', lLbl: 'مالک', sig: 'مالک کے دستخط' }
+    };
+    const L = rLabels[lang] || rLabels.en;
 
     const buildSlip = (label, noSuffix) => `
       <div class="slip-box">
         <div class="slip-header">
           <div>
-            <h2>HOUSE / SHOP RENT RECEIPT</h2>
-            <p>Receipt No: <b>${recNo}${noSuffix}</b> • Date: <b>${date}</b></p>
+            <h2>${L.head}</h2>
+            <p>${L.rNo}: <b>${recNo}${noSuffix}</b> • ${L.dt}: <b>${date}</b></p>
           </div>
           <div class="slip-badge">${label}</div>
         </div>
 
         <div class="rent-body-text">
-          Received with thanks from Shri/Smt. <span class="u-val">${tenant}</span> a sum of
+          ${L.rFrom} <span class="u-val">${tenant}</span> ${L.sum}
           <span class="u-val">₹${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
-          via <b>${mode}</b> ${ref ? `(${ref})` : ''} towards rent &amp; charges for the month/period of
-          <span class="u-val">${month}</span> for the premises situated at:
-          <span class="u-val">${addr}</span>.
+          ${L.via} <b>${mode}</b> ${ref ? `(${ref})` : ''} ${L.towards}
+          <span class="u-val">${month}</span> (${L.prem} <span class="u-val">${addr}</span>).
         </div>
 
         <table class="breakdown-table">
-          <tr><td>Monthly House / Shop Rent</td><td class="t-right">₹${rent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>
-          ${elec > 0 ? `<tr><td>Electricity / Water Charges</td><td class="t-right">₹${elec.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>` : ''}
-          ${maint > 0 ? `<tr><td>Maintenance / Society Charges</td><td class="t-right">₹${maint.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>` : ''}
-          <tr class="tot-row"><td>Total Amount Received</td><td class="t-right">₹${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>
+          <tr><td>${L.row1} (${propType})</td><td class="t-right">₹${rent.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>
+          ${elec > 0 ? `<tr><td>${L.row2}</td><td class="t-right">₹${elec.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>` : ''}
+          ${maint > 0 ? `<tr><td>${L.row3}</td><td class="t-right">₹${maint.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>` : ''}
+          <tr class="tot-row"><td>${L.tot}</td><td class="t-right">₹${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td></tr>
         </table>
 
         <div class="footer-row">
           <div>
-            <div><b>Landlord:</b> ${landlord}</div>
-            ${pan ? `<div style="margin-top:3px;"><b>Landlord PAN:</b> ${pan}</div>` : ''}
+            <div><b>${L.lLbl}:</b> ${landlord}</div>
+            ${pan ? `<div style="margin-top:3px;"><b>PAN / ID:</b> ${pan}</div>` : ''}
           </div>
           <div class="stamp-box">Affix Revenue<br>Stamp<br>(If Cash &gt; ₹5000)</div>
-          <div class="sig-block">
-            Landlord Signature<br>
-            <span style="font-size:9px; color:#64748b;">(मकान मालिक के हस्ताक्षर)</span>
-          </div>
+          <div class="sig-block">${L.sig}</div>
         </div>
       </div>
     `;
@@ -618,27 +1018,32 @@
 
   function downloadA4PDF() {
     const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:16px;background:#fff;border:none;box-shadow:none;';
+    clone.style.cssText = 'width:700px;margin:0 auto;padding:14px;background:#fff;border:none;box-shadow:none;';
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
+    wrap.style.cssText = 'position:fixed;top:0;left:0;width:730px;z-index:999999;background:#fff;';
     wrap.appendChild(clone);
     document.body.appendChild(wrap);
+    const prefix = docMode === 'AGREEMENT' ? 'RentAgreement' : 'RentReceipt';
     html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `RentReceipt_${document.getElementById('in_rec_no').value || 'Slip'}.pdf`,
+      margin: [8, 8, 8, 8],
+      filename: `${prefix}_${document.getElementById('in_rec_no').value || 'Doc'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
+      html2canvas: { scale: 2, useCORS: true, width: 730, windowWidth: 730 },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
   }
 
   function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Rent Receipt</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:2px solid #0f172a;border-radius:8px;padding:14px 16px;margin-bottom:8px}
+    const w = window.open('', '_blank', 'width=850,height=950');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print Document</title>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+      <style>
+      *{box-sizing:border-box;font-family:-apple-system,"Noto Sans Devanagari","Noto Sans Gujarati","Noto Sans Bengali","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Kannada","Noto Sans Malayalam","Noto Sans Gurmukhi","Noto Sans Oriya",sans-serif}
+      body{margin:0;padding:8mm}
+      .urdu-rtl{font-family:'Noto Nastaliq Urdu',serif!important;direction:rtl;text-align:right;line-height:2.1!important}
+      .slip-box{border:2px solid #0f172a;border-radius:8px;padding:14px 16px;margin-bottom:8px;page-break-inside:avoid}
       .slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0f172a;padding-bottom:6px;margin-bottom:10px}
-      .slip-header h2{margin:0;font-size:16px;font-weight:900}.slip-header p{margin:2px 0 0;font-size:10px;color:#475569}
+      .slip-header h2{margin:0;font-size:15.5px;font-weight:900}.slip-header p{margin:2px 0 0;font-size:10px;color:#475569}
       .slip-badge{background:#0f172a;color:#fff;padding:3px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
       .rent-body-text{font-size:11.5px;line-height:1.7;margin:10px 0}.u-val{font-weight:800;border-bottom:1px dashed #64748b;padding:0 4px}
       .breakdown-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
@@ -650,8 +1055,16 @@
       .sig-block{width:42%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
       .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}
       .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
+      .agr-doc{border:2px solid #0f172a;padding:18px 20px}
+      .agr-stamp-space{border:1px dashed #94a3b8;background:#f8fafc;text-align:center;padding:8px;font-size:10px;font-weight:700;color:#64748b;margin-bottom:12px}
+      .agr-title{text-align:center;font-size:17px;font-weight:900;text-transform:uppercase;text-decoration:underline;margin:0 0 10px 0}
+      .agr-intro{font-size:11.5px;line-height:1.65;margin-bottom:10px}
+      .agr-clauses{margin:8px 0 14px 18px;padding:0;font-size:11.2px;line-height:1.6}
+      .agr-clauses li{margin-bottom:5px;page-break-inside:avoid}
+      .agr-sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:26px;font-size:11px;page-break-inside:avoid}
+      .agr-sig-box{border-top:1.5px solid #0f172a;padding-top:5px;text-align:center;font-weight:800}
+    </style></head><body class="${document.getElementById('a4DocSheet').className}">${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
   }
 
   function shareWhatsApp() {
@@ -659,7 +1072,8 @@
     const month = document.getElementById('in_month').value.trim() || 'Current Month';
     const rent = (parseFloat(document.getElementById('in_rent').value)||0) + (parseFloat(document.getElementById('in_elec').value)||0) + (parseFloat(document.getElementById('in_maint').value)||0);
     const ph = document.getElementById('in_tenant_ph').value.trim().replace(/[^0-9]/g, '');
-    const msg = `*🏠 RENT RECEIPT (${document.getElementById('in_rec_no').value})*\n*Tenant:* ${tenant}\n*Period:* ${month}\n*Amount Paid:* ₹${rent.toLocaleString('en-IN')}\n\n_Generated via KaamKaj Bills._`;
+    const title = docMode === 'AGREEMENT' ? 'RENT / SHOP AGREEMENT' : 'RENT RECEIPT';
+    const msg = `*🏠 ${title} (${document.getElementById('in_rec_no').value})*\n*Tenant:* ${tenant}\n*Period/Start:* ${month}\n*Monthly Rent:* ₹${rent.toLocaleString('en-IN')}\n\n_Generated via KaamKaj Bills._`;
     window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
