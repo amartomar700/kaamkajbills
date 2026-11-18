@@ -8,7 +8,7 @@
   <link rel="icon" type="image/x-icon" href="https://kaamkajbills.in/favicon.ico" />
   <link rel="shortcut icon" href="https://kaamkajbills.in/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="https://kaamkajbills.in/apple-touch-icon.png" />
-<meta name="description" content="KaamKaj Bills (kaamkajbills.in) - Free GST/Non-GST Invoice, Quotation, Rent Receipt, Salary Slip, ID Card, Passport Photo Sheet aur Resume Maker.">
+<meta name="description" content="KaamKaj Bills (kaamkajbills.in) - Free GST/Non-GST Invoice, Quotation, Rent Receipt, Salary Slip, Bank Application Letters, ID Card, Passport Photo Sheet aur Resume Maker.">
 <link rel="canonical" href="https://kaamkajbills.in/">
 <style>
   :root {
@@ -316,7 +316,7 @@
         <div class="brand-logo">KB</div>
         <div class="brand-text">
           <h1>KaamKaj Bills</h1>
-          <span>100% Free Billing, Slips, ID Cards & Resume Tools</span>
+          <span>100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools</span>
         </div>
       </div>
       <div class="nav-links">
@@ -336,10 +336,10 @@
     <div class="hero-inner">
       <div class="hero-badge">⚡ No Login • Instant A4 PDF & Direct Print • 100% Free</div>
       <h2>हर व्यापार और काम-काज के लिए आसान बिल, रसीद और डॉक्यूमेंट टूल्स</h2>
-      <p>कोटेशन, टैक्स इनवॉइस, किराया रसीद, सैलरी स्लिप, ID कार्ड, पासपोर्ट फोटो शीट और रिज्यूमे—सब कुछ सेकंडों में बनाएं।</p>
+      <p>कोटेशन, टैक्स इनवॉइस, किराया रसीद, सैलरी स्लिप, बैंक एप्लीकेशन लेटर, ID कार्ड, पासपोर्ट फोटो शीट और रिज्यूमे—सब कुछ सेकंडों में बनाएं।</p>
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="टूल खोजें... जैसे: Invoice, Rent, ID Card, Resume, Salon, Tailor, Mandi..." oninput="filterTools()">
+        <input type="text" id="searchInput" placeholder="टूल खोजें... जैसे: Bank Transfer, Invoice, Rent, ID Card, Resume, Salon, Tailor..." oninput="filterTools()">
       </div>
     </div>
   </section>
@@ -348,6 +348,7 @@
   <main class="container" id="toolsSection">
     <div class="cat-bar">
       <button class="cat-pill active" onclick="setCategory('ALL', this)">🌟 सभी टूल्स (All)</button>
+      <button class="cat-pill" onclick="setCategory('BANK', this)">🏦 बैंक लेटर व एप्लीकेशन</button>
       <button class="cat-pill" onclick="setCategory('BILLING', this)">🧾 बिल, कोटेशन व इनवॉइस</button>
       <button class="cat-pill" onclick="setCategory('SLIPS', this)">🎟️ रसीद, बुकिंग व जॉब स्लिप</button>
       <button class="cat-pill" onclick="setCategory('ID_PHOTO', this)">🪪 ID कार्ड व पासपोर्ट फोटो</button>
@@ -505,6 +506,7 @@
 <script>
 // NOTE: cafe-template.html is placed at the VERY LAST position with a special highlighted template style
 const TOOLS_DATA = [
+  { file: 'bank-account-transfer-letter.html', cat: 'BANK', icon: '🏦', hi: 'बैंक खाता ट्रांसफर एप्लीकेशन लेटर (12 भाषाएँ)', en: 'Bank Account Transfer Request Letter (12 Languages)', desc: 'एक शाखा से दूसरी शाखा में बैंक अकाउंट ट्रांसफर करने के लिए हिंदी, अंग्रेजी व 12 भारतीय भाषाओं में प्रिंट-रेडी एप्लीकेशन।', keys: 'bank account transfer branch change application letter hindi english' },
   { file: 'estimate-quotationinvoce.html', cat: 'BILLING', icon: '📑', hi: 'एस्टीमेट, कोटेशन व टैक्स इनवॉइस', en: 'Estimate, Quotation, Invoice & Material List', desc: 'GST / Non-GST इनवॉइस, कोटेशन, एस्टीमेट और साइट मटेरियल लिस्ट बनाएं।', keys: 'estimate quotation invoice material list gst bill' },
   { file: 'technician-bills.html', cat: 'BILLING', icon: '⚡', hi: 'मल्टी-ट्रेड टेक्नीशियन बिल व कोटेशन', en: 'Electrical, CCTV, AC, Plumbing & Solar Bills', desc: 'इलेक्ट्रीशियन, CCTV, AC, प्लंबिंग, पेंटिंग और सोलर काम के लेबर व मटेरियल रेट्स के साथ कोटेशन।', keys: 'technician electrician cctv ac plumbing solar carpenter waterproofing' },
   { file: 'kirana-shop-bill.html', cat: 'BILLING', icon: '🛒', hi: 'किराना व जनरल स्टोर बिल', en: 'Kirana & Grocery Retail Shop Bill', desc: 'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं।', keys: 'kirana grocery ration shop retail bill' },
