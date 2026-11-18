@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — KaamKaj Bills | We are Here to Help</title>
+  <meta name="description" content="KaamKaj Bills (kaamkajbills.in) par contact kaise karein. Feedback, sujhaav aur business queries ke liye humein message bhejein." />
+  <link rel="canonical" href="https://kaamkajbills.in/contact.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Sticky Navbar */
+    .navbar {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.14);
+    }
+    .nav-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+    .brand-logo {
+      background: linear-gradient(135deg, #0284c7, #10b981);
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .brand-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+    .lang-toggle {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Header title */
+    .page-title-sec {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 80%);
+      color: #ffffff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .page-title-sec h1 {
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+    .page-title-sec p {
+      margin: 0;
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    .main-wrap {
+      max-width: 900px;
+      margin: -20px auto 40px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 1.20fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .main-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .box-info {
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 26px 20px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    }
+    .box-info h3 {
+      margin: 0 0 18px;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+    .info-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+    .info-icon {
+      font-size: 1.35rem;
+    }
+    .info-text strong {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .info-text span, .info-text a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .box-form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 20px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    }
+    .box-form h3 {
+      margin: 0 0 16px;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .fld {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .fld label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .fld input, .fld select, .fld textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .fld input:focus, .fld select:focus, .fld textarea:focus {
+      border-color: var(--accent);
+    }
+    .fld textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 7px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.2);
+    }
+    .btn-submit:hover {
+      background: var(--accent-dark);
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="https://kaamkajbills.in" class="brand">
+        <div class="brand-logo">KB</div>
+        <span class="brand-name">KaamKaj Bills</span>
+      </a>
+      <button type="button" class="lang-toggle" id="langToggleBtn" onclick="toggleContactLang()">🌐 English</button>
+    </div>
+  </nav>
+
+  <div class="page-title-sec">
+    <h1 id="topHeading">हमसे संपर्क करें (Contact Us)</h1>
+    <p id="topDesc">कोई सवाल, सुझाव या फीडबैक है? हमसे संपर्क करें।</p>
+  </div>
+
+  <main class="main-wrap">
+    <!-- Left: Info Card -->
+    <div class="box-info">
+      <h3 id="infoTitle">संपर्क विवरण</h3>
+      
+      <div class="info-item">
+        <div class="info-icon">📧</div>
+        <div class="info-text">
+          <strong id="lblEmail">ईमेल आईडी</strong>
+          <a href="mailto:support@kaamkajbills.in">support@kaamkajbills.in</a>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-text">
+          <strong id="lblAddr">कार्यालय का पता</strong>
+          <span id="txtAddr">पुणे, महाराष्ट्र, भारत (India)</span>
+        </div>
+      </div>
+
+      <div class="info-item">
+        <div class="info-icon">⏰</div>
+        <div class="info-text">
+          <strong id="lblTime">काम करने का समय</strong>
+          <span id="txtTime">सोमवार से शनिवार: सुबह 10:00 से शाम 06:00 बजे तक</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Send Email Dynamic Pre-loader -->
+    <div class="box-form">
+      <h3 id="formTitle">संदेश भेजें</h3>
+      
+      <div class="fld">
+        <label id="lblFormName" for="c_name">आपका नाम (Your Name)</label>
+        <input type="text" id="c_name" placeholder="eg. Rahul Sharma" required />
+      </div>
+
+      <div class="fld">
+        <label id="lblFormSub" for="c_subj">विषय / कारण (Subject)</label>
+        <select id="c_subj">
+          <option value="फीडबैक व सुझाव (Feedback & Suggestions)" selected id="optFeedback">फीडबैक व सुझाव (Feedback)</option>
+          <option value="दस्तावेज़ में समस्या (Document / PDF Issue)" id="optIssue">दस्तावेज़ बनाने में समस्या</option>
+          <option value="व्यापार साझेदारी (Business Partnership)" id="optPartner">व्यापार साझेदारी</option>
+        </select>
+      </div>
+
+      <div class="fld">
+        <label id="lblFormMsg" for="c_msg">आपका संदेश (Your Message)</label>
+        <textarea id="c_msg" placeholder="अपना संदेश यहाँ लिखें..." required></textarea>
+      </div>
+
+      <button type="button" class="btn-submit" id="btnSubmit" onclick="sendInquiryEmail()">📩 ईमेल से भेजें (Open Email)</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> <strong>KaamKaj Bills (kaamkajbills.in)</strong> — All Rights Reserved.</p>
+    <p>
+      <a href="https://kaamkajbills.in">Home</a> |
+      <a href="https://kaamkajbills.in/about.html">About Us</a> |
+      <a href="https://kaamkajbills.in/privacy.html">Privacy Policy</a> |
+      <a href="https://kaamkajbills.in/contact.html">Contact Us</a>
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    let langState = 'hi';
+
+    const trans = {
+      hi: {
+        langBtn: "🌐 English",
+        topHeading: "हमसे संपर्क करें (Contact Us)",
+        topDesc: "कोई सवाल, सुझाव या फीडबैक है? हमसे संपर्क करें।",
+        infoTitle: "संपर्क विवरण",
+        lblEmail: "ईमेल आईडी",
+        lblAddr: "कार्यालय का पता",
+        txtAddr: "पुणे, महाराष्ट्र, भारत (India)",
+        lblTime: "काम करने का समय",
+        txtTime: "सोमवार से शनिवार: सुबह 10:00 से शाम 06:00 बजे तक",
+        formTitle: "संदेश भेजें",
+        lblFormName: "आपका नाम (Your Name)",
+        lblFormSub: "विषय / कारण (Subject)",
+        lblFormMsg: "आपका संदेश (Your Message)",
+        btnSubmit: "📩 ईमेल से भेजें (Open Email)",
+        msgPlaceholder: "अपना संदेश यहाँ लिखें...",
+        optFeedback: "फीडबैक व सुझाव (Feedback)",
+        optIssue: "दस्तावेज़ बनाने में समस्या",
+        optPartner: "व्यापार साझेदारी"
+      },
+      en: {
+        langBtn: "🌐 हिन्दी",
+        topHeading: "Contact Us",
+        topDesc: "Have questions, suggestions, or feedback? Get in touch with us.",
+        infoTitle: "Contact Details",
+        lblEmail: "Email Address",
+        lblAddr: "Office Location",
+        txtAddr: "Pune, Maharashtra, India",
+        lblTime: "Operational Hours",
+        txtTime: "Monday to Saturday: 10:00 AM to 06:00 PM",
+        formTitle: "Send a Message",
+        lblFormName: "Your Name",
+        lblFormSub: "Subject",
+        lblFormMsg: "Your Message",
+        btnSubmit: "📩 Send via Email (Open Email)",
+        msgPlaceholder: "Write your message here...",
+        optFeedback: "Feedback & Suggestions",
+        optIssue: "Issue with Document / Generator",
+        optPartner: "Business Partnership"
+      }
+    };
+
+    function toggleContactLang() {
+      langState = langState === 'hi' ? 'en' : 'hi';
+      const d = trans[langState];
+
+      document.getElementById('langToggleBtn').innerText = d.langBtn;
+      document.getElementById('topHeading').innerText = d.topHeading;
+      document.getElementById('topDesc').innerText = d.topDesc;
+      document.getElementById('infoTitle').innerText = d.infoTitle;
+      document.getElementById('lblEmail').innerText = d.lblEmail;
+      document.getElementById('lblAddr').innerText = d.lblAddr;
+      document.getElementById('txtAddr').innerText = d.txtAddr;
+      document.getElementById('lblTime').innerText = d.lblTime;
+      document.getElementById('txtTime').innerText = d.txtTime;
+      document.getElementById('formTitle').innerText = d.formTitle;
+      document.getElementById('lblFormName').innerText = d.lblFormName;
+      document.getElementById('lblFormSub').innerText = d.lblFormSub;
+      document.getElementById('lblFormMsg').innerText = d.lblFormMsg;
+      document.getElementById('btnSubmit').innerText = d.btnSubmit;
+      document.getElementById('c_msg').placeholder = d.msgPlaceholder;
+
+      document.getElementById('optFeedback').innerText = d.optFeedback;
+      document.getElementById('optIssue').innerText = d.optIssue;
+      document.getElementById('optPartner').innerText = d.optPartner;
+    }
+
+    function sendInquiryEmail() {
+      const name = document.getElementById('c_name').value.trim();
+      const subject = document.getElementById('c_subj').value;
+      const message = document.getElementById('c_msg').value.trim();
+
+      if (!name || !message) {
+        alert(langState === 'hi' ? 'कृपया सभी आवश्यक फ़ील्ड भरें।' : 'Please fill all the required fields.');
+        return;
+      }
+
+      const emailSubject = encodeURIComponent(`[KaamKaj Bills] ${subject}`);
+      const emailBody = encodeURIComponent(`नमस्ते Team KaamKaj Bills,\n\nमेरा नाम: ${name}\nविषय: ${subject}\n\nसंदेश:\n${message}\n\n(Brought to you by kaamkajbills.in)`);
+      
+      window.location.href = `mailto:support@kaamkajbills.in?subject=${emailSubject}&body=${emailBody}`;
+    }
+  </script>
+</body>
+</html>
