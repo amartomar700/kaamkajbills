@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — KaamKaj Bills | Free Business & Citizen Document Tools</title>
+  <meta name="description" content="KaamKaj Bills (kaamkajbills.in) ke baare mein jaanein — Bharat ke chhote vyapariyon, schools, freelancers aur aam nagrikon ke liye 100% free online billing aur document generator platform." />
+  <link rel="canonical" href="https://kaamkajbills.in/about.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --primary-soft: #1e293b;
+      --accent: #0284c7;
+      --accent-dark: #0369a1;
+      --emerald: #10b981;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Sticky Navbar */
+    .navbar {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.14);
+    }
+    .nav-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+    .brand-logo {
+      background: linear-gradient(135deg, #0284c7, #10b981);
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .brand-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lang-toggle {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .lang-toggle:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .btn-home {
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: background 0.2s;
+    }
+    .btn-home:hover {
+      background: var(--accent-dark);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0369a1 100%);
+      color: #ffffff;
+      padding: 56px 20px 64px;
+      text-align: center;
+    }
+    .hero-inner {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      margin: 0 0 16px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+    .hero p {
+      margin: 0 auto;
+      max-width: 680px;
+      font-size: 1.05rem;
+      color: #cbd5e1;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1140px;
+      margin: -30px auto 50px;
+      padding: 0 16px;
+    }
+
+    /* Key Pillars Grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+    .pillar-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    .pillar-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #e0f2fe;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+    }
+    .pillar-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .pillar-card p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    /* Section Block */
+    .section-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    }
+    .section-header {
+      margin-bottom: 22px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+    .section-header h2 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .section-header p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* Tools Modules Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .tool-module {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .tool-module h4 {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--accent-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tool-module ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #334155;
+      font-size: 0.9rem;
+    }
+    .tool-module li {
+      margin-bottom: 4px;
+    }
+
+    /* Tech & Privacy Strip */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .tech-item {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .tech-item strong {
+      display: block;
+      font-size: 0.95rem;
+      color: #166534;
+      margin-bottom: 4px;
+    }
+    .tech-item span {
+      font-size: 0.83rem;
+      color: #15803d;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background: linear-gradient(135deg, #0284c7 0%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 34px 24px;
+      text-align: center;
+    }
+    .cta-banner h2 {
+      margin: 0 0 10px;
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    .cta-banner p {
+      margin: 0 auto 20px;
+      max-width: 600px;
+      color: #e2e8f0;
+      font-size: 0.96rem;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--emerald);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 12px 26px;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      transition: transform 0.15s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 24px 16px 36px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: 1fr 1fr; }
+      .hero h1 { font-size: 1.7rem; }
+    }
+    @media (max-width: 480px) {
+      .tech-grid { grid-template-columns: 1fr; }
+      .section-box { padding: 22px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="https://kaamkajbills.in" class="brand">
+        <div class="brand-logo">KB</div>
+        <span class="brand-name">KaamKaj Bills</span>
+      </a>
+      <div class="nav-right">
+        <button type="button" class="lang-toggle" id="langBtn" onclick="toggleLang()">🌐 English</button>
+        <a href="https://kaamkajbills.in" class="btn-home" id="navHomeBtn">सभी टूल्स देखें →</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="hero-badge" id="heroBadge">🇮🇳 Made for Indian Businesses & Citizens</span>
+      <h1 id="heroTitle">हर कामकाज और दस्तावेज़ का आसान डिजिटल समाधान</h1>
+      <p id="heroDesc">
+        KaamKaj Bills (kaamkajbills.in) एक मुफ़्त, तेज़ और मोबाइल-फ्रेंडली ऑनलाइन प्लेटफॉर्म है, जहाँ छोटे व्यापारी, दुकानदार, स्कूल, फ्रीलांसर और आम नागरिक बिना किसी महंगे सॉफ्टवेयर के 1 मिनट में प्रोफेशनल बिल, रसीदें और लीगल/बैंकिंग डॉक्यूमेंट्स बना सकते हैं।
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+
+    <!-- 3 Core Pillars -->
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">⚡</div>
+        <h3 id="p1Title">100% मुफ़्त और बिना लॉगिन</h3>
+        <p id="p1Desc">कोई अकाउंट बनाने, पासवर्ड याद रखने या सब्सक्रिप्शन लेने की ज़रूरत नहीं। सीधे फॉर्म भरें और तुरंत A4 PDF डाउनलोड या प्रिंट करें।</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🔒</div>
+        <h3 id="p2Title">पूरी प्राइवेसी और सुरक्षा</h3>
+        <p id="p2Desc">आपकी कोई भी व्यक्तिगत या व्यापारिक जानकारी हमारे सर्वर पर सेव नहीं होती। सारा डेटा सीधे आपके मोबाइल या कंप्यूटर ब्राउज़र में प्रोसेस होता है।</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-icon">🌐</div>
+        <h3 id="p3Title">12 भारतीय भाषाओं का सपोर्ट</h3>
+        <p id="p3Desc">हिन्दी और अंग्रेज़ी के साथ मराठी, गुजराती, बंगाली, तमिल, तेलुगु, कन्नड़, मलयालम, पंजाबी, उड़िया और उर्दू में दस्तावेज़ तैयार करें।</p>
+      </div>
+    </div>
+
+    <!-- Modules & Tools Section -->
+    <section class="section-box">
+      <div class="section-header">
+        <h2 id="modTitle">KaamKaj Bills पर उपलब्ध प्रमुख टूल्स</h2>
+        <p id="modSub">व्यापार, ऑफिस, स्कूल और रोज़मर्रा के सरकारी व कानूनी कामों के लिए तैयार ऑल-इन-वन यूटिलिटी सुइट:</p>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tool-module">
+          <h4 id="m1Title">🧾 व्यापार और बिलिंग (Billing & Accounting)</h4>
+          <ul id="m1List">
+            <li>GST और Non-GST Invoice जनरेटर</li>
+            <li>Client Quotation और Estimate मेकर</li>
+            <li>Payment Receipt और Cash Voucher</li>
+            <li>Transport Bilty और Delivery Challan</li>
+          </ul>
+        </div>
+
+        <div class="tool-module">
+          <h4 id="m2Title">🏦 बैंकिंग और लीगल सेवाएं (Banking & Legal)</h4>
+          <ul id="m2List">
+            <li>Bank Application Letter (खाता ट्रांसफर, मोबाइल अपडेट, KYC, स्टेटमेंट, चेकबुक)</li>
+            <li>Tenant व Police Verification रिकॉर्ड</li>
+            <li>Vehicle Sale Agreement (वाहन बिक्री अनुबंध)</li>
+            <li>Self-Declaration Affidavit और Medical Fitness सर्टिफिकेट</li>
+          </ul>
+        </div>
+
+        <div class="tool-module">
+          <h4 id="m3Title">💼 ऑफिस और HR टूल्स (Office & Career)</h4>
+          <ul id="m3List">
+            <li>Employee Salary Slip जनरेटर</li>
+            <li>Experience Letter (अनुभव प्रमाण पत्र)</li>
+            <li>प्रोफेशनल Resume और Bio-Data मेकर</li>
+          </ul>
+        </div>
+
+        <div class="tool-module">
+          <h4 id="m4Title">🎓 स्कूल, कोचिंग और किराया (Education & Rent)</h4>
+          <ul id="m4List">
+            <li>Student Fee Receipt जनरेटर</li>
+            <li>Student और Staff ID Card मेकर</li>
+            <li>House Rent Receipt (HRA टैक्स प्रूफ के लिए)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technical Highlights -->
+    <section class="section-box">
+      <div class="section-header">
+        <h2 id="techTitle">हमारी तकनीकी खासियतें</h2>
+        <p id="techSub">मोबाइल और डेस्कटॉप दोनों पर बिना किसी रुकावट के काम करने के लिए डिज़ाइन किया गया:</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-item">
+          <strong id="t1Head">HD A4 PDF आउटपुट</strong>
+          <span id="t1Text">बिना किसी कटआउट के क्रिस्प प्रिंट-रेडी A4 दस्तावेज़</span>
+        </div>
+        <div class="tech-item">
+          <strong id="t2Head">मोबाइल-फर्स्ट UI</strong>
+          <span id="t2Text">स्मार्टफोन पर भी तेज़ और आसान फॉर्म-फिलिंग अनुभव</span>
+        </div>
+        <div class="tech-item">
+          <strong id="t3Head">वन-क्लिक डायरेक्ट प्रिंट</strong>
+          <span id="t3Text">बिना फालतू हेडर या बटन के साफ-सुथरा प्रिंट आउट</span>
+        </div>
+        <div class="tech-item">
+          <strong id="t4Head">सदैव उपलब्ध (Cloud Hosted)</strong>
+          <span id="t4Text">तेज़ लोडिंग स्पीड और 24×7 बिना रुकावट एक्सेस</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <div class="cta-banner">
+      <h2 id="ctaTitle">आज ही अपना पहला बिल या दस्तावेज़ बनाएं</h2>
+      <p id="ctaDesc">बिना किसी खर्च और बिना रजिस्ट्रेशन के अपने बिज़नेस और रोज़मर्रा के कामकाज को डिजिटल बनाएं।</p>
+      <a href="https://kaamkajbills.in" class="cta-btn" id="ctaBtn">KaamKaj Bills होमपेज पर जाएं →</a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© <span id="year"></span> <strong>KaamKaj Bills (kaamkajbills.in)</strong> — All Rights Reserved.</p>
+    <p>
+      <a href="https://kaamkajbills.in">Home</a> |
+      <a href="https://kaamkajbills.in/about.html">About Us</a>
+    </p>
+  </footer>
+
+  <script>
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    let currentLang = 'hi';
+
+    const content = {
+      hi: {
+        langBtn: '🌐 English',
+        navHomeBtn: 'सभी टूल्स देखें →',
+        heroBadge: '🇮🇳 Made for Indian Businesses & Citizens',
+        heroTitle: 'हर कामकाज और दस्तावेज़ का आसान डिजिटल समाधान',
+        heroDesc: 'KaamKaj Bills (kaamkajbills.in) एक मुफ़्त, तेज़ और मोबाइल-फ्रेंडली ऑनलाइन प्लेटफॉर्म है, जहाँ छोटे व्यापारी, दुकानदार, स्कूल, फ्रीलांसर और आम नागरिक बिना किसी महंगे सॉफ्टवेयर के 1 मिनट में प्रोफेशनल बिल, रसीदें और लीगल/बैंकिंग डॉक्यूमेंट्स बना सकते हैं।',
+        p1Title: '100% मुफ़्त और बिना लॉगिन',
+        p1Desc: 'कोई अकाउंट बनाने, पासवर्ड याद रखने या सब्सक्रिप्शन लेने की ज़रूरत नहीं। सीधे फॉर्म भरें और तुरंत A4 PDF डाउनलोड या प्रिंट करें।',
+        p2Title: 'पूरी प्राइवेसी और सुरक्षा',
+        p2Desc: 'आपकी कोई भी व्यक्तिगत या व्यापारिक जानकारी हमारे सर्वर पर सेव नहीं होती। सारा डेटा सीधे आपके मोबाइल या कंप्यूटर ब्राउज़र में प्रोसेस होता है।',
+        p3Title: '12 भारतीय भाषाओं का सपोर्ट',
+        p3Desc: 'हिन्दी और अंग्रेज़ी के साथ मराठी, गुजराती, बंगाली, तमिल, तेलुगु, कन्नड़, मलयालम, पंजाबी, उड़िया और उर्दू में दस्तावेज़ तैयार करें।',
+        modTitle: 'KaamKaj Bills पर उपलब्ध प्रमुख टूल्स',
+        modSub: 'व्यापार, ऑफिस, स्कूल और रोज़मर्रा के सरकारी व कानूनी कामों के लिए तैयार ऑल-इन-वन यूटिलिटी सुइट:',
+        m1Title: '🧾 व्यापार और बिलिंग (Billing & Accounting)',
+        m1List: ['GST और Non-GST Invoice जनरेटर', 'Client Quotation और Estimate मेकर', 'Payment Receipt और Cash Voucher', 'Transport Bilty और Delivery Challan'],
+        m2Title: '🏦 बैंकिंग और लीगल सेवाएं (Banking & Legal)',
+        m2List: ['Bank Application Letter (खाता ट्रांसफर, मोबाइल अपडेट, KYC, स्टेटमेंट, चेकबुक)', 'Tenant व Police Verification रिकॉर्ड', 'Vehicle Sale Agreement (वाहन बिक्री अनुबंध)', 'Self-Declaration Affidavit और Medical Fitness सर्टिफिकेट'],
+        m3Title: '💼 ऑफिस और HR टूल्स (Office & Career)',
+        m3List: ['Employee Salary Slip जनरेटर', 'Experience Letter (अनुभव प्रमाण पत्र)', 'प्रोफेशनल Resume और Bio-Data मेकर'],
+        m4Title: '🎓 स्कूल, कोचिंग और किराया (Education & Rent)',
+        m4List: ['Student Fee Receipt जनरेटर', 'Student और Staff ID Card मेकर', 'House Rent Receipt (HRA टैक्स प्रूफ के लिए)'],
+        techTitle: 'हमारी तकनीकी खासियतें',
+        techSub: 'मोबाइल और डेस्कटॉप दोनों पर बिना किसी रुकावट के काम करने के लिए डिज़ाइन किया गया:',
+        t1Head: 'HD A4 PDF आउटपुट',
+        t1Text: 'बिना किसी कटआउट के क्रिस्प प्रिंट-रेडी A4 दस्तावेज़',
+        t2Head: 'मोबाइल-फर्स्ट UI',
+        t2Text: 'स्मार्टफोन पर भी तेज़ और आसान फॉर्म-फिलिंग अनुभव',
+        t3Head: 'वन-क्लिक डायरेक्ट प्रिंट',
+        t3Text: 'बिना फालतू हेडर या बटन के साफ-सुथरा प्रिंट आउट',
+        t4Head: 'सदैव उपलब्ध (Cloud Hosted)',
+        t4Text: 'तेज़ लोडिंग स्पीड और 24×7 बिना रुकावट एक्सेस',
+        ctaTitle: 'आज ही अपना पहला बिल या दस्तावेज़ बनाएं',
+        ctaDesc: 'बिना किसी खर्च और बिना रजिस्ट्रेशन के अपने बिज़नेस और रोज़मर्रा के कामकाज को डिजिटल बनाएं।',
+        ctaBtn: 'KaamKaj Bills होमपेज पर जाएं →'
+      },
+      en: {
+        langBtn: '🌐 हिन्दी',
+        navHomeBtn: 'Explore All Tools →',
+        heroBadge: '🇮🇳 Made for Indian Businesses & Citizens',
+        heroTitle: 'Simple Digital Solutions for Every Business & Everyday Document',
+        heroDesc: 'KaamKaj Bills (kaamkajbills.in) is a free, fast, and mobile-friendly online utility platform built to help Indian shopkeepers, small businesses, schools, freelancers, and citizens generate professional bills, receipts, and banking/legal documents in under a minute.',
+        p1Title: '100% Free & No Login Required',
+        p1Desc: 'No account signup, passwords, or paid subscriptions. Simply fill in your details and download or print an A4 PDF immediately.',
+        p2Title: 'Complete Privacy & Data Safety',
+        p2Desc: 'None of your personal or business records are stored on our servers. All document processing happens locally inside your browser.',
+        p3Title: '12 Indian Languages Support',
+        p3Desc: 'Create documents in English, Hindi, Marathi, Gujarati, Bengali, Tamil, Telugu, Kannada, Malayalam, Punjabi, Odia, and Urdu.',
+        modTitle: 'Core Utility Modules on KaamKaj Bills',
+        modSub: 'An all-in-one suite designed for commerce, offices, educational institutes, and everyday civic needs:',
+        m1Title: '🧾 Billing & Accounting',
+        m1List: ['GST & Non-GST Invoice Generator', 'Client Quotation & Estimate Maker', 'Payment Receipt & Cash Voucher', 'Transport Bilty & Delivery Challan'],
+        m2Title: '🏦 Banking & Citizen Legal Services',
+        m2List: ['Bank Application Letter Generator (Account Transfer, Mobile Update, KYC, Statement, Chequebook)', 'Tenant & Police Verification Record', 'Vehicle Sale Agreement Deed', 'Self-Declaration Affidavit & Medical Fitness Certificate'],
+        m3Title: '💼 Office & Career Tools',
+        m3List: ['Employee Salary Slip Generator', 'Experience Certificate Letter', 'Professional Resume & Bio-Data Maker'],
+        m4Title: '🎓 Schools, Coaching & Housing',
+        m4List: ['Student Fee Receipt Generator', 'Student & Staff ID Card Maker', 'House Rent Receipt (for HRA Tax Proof)'],
+        techTitle: 'Technical Highlights',
+        techSub: 'Engineered for seamless performance across smartphones, tablets, and desktop computers:',
+        t1Head: 'HD A4 PDF Output',
+        t1Text: 'Crisp, print-ready A4 documents with zero edge clipping',
+        t2Head: 'Mobile-First UI',
+        t2Text: 'Fast and responsive form-filling experience on any phone',
+        t3Head: 'One-Click Direct Print',
+        t3Text: 'Clean document printing without extra headers or buttons',
+        t4Head: 'Always Accessible',
+        t4Text: 'Lightweight pages with fast loading speeds 24×7',
+        ctaTitle: 'Create Your First Bill or Document Today',
+        ctaDesc: 'Digitize your daily paperwork with zero cost and zero registration.',
+        ctaBtn: 'Go to KaamKaj Bills Homepage →'
+      }
+    };
+
+    function toggleLang() {
+      currentLang = currentLang === 'hi' ? 'en' : 'hi';
+      const d = content[currentLang];
+
+      document.getElementById('langBtn').innerText = d.langBtn;
+      document.getElementById('navHomeBtn').innerText = d.navHomeBtn;
+      document.getElementById('heroBadge').innerText = d.heroBadge;
+      document.getElementById('heroTitle').innerText = d.heroTitle;
+      document.getElementById('heroDesc').innerText = d.heroDesc;
+
+      document.getElementById('p1Title').innerText = d.p1Title;
+      document.getElementById('p1Desc').innerText = d.p1Desc;
+      document.getElementById('p2Title').innerText = d.p2Title;
+      document.getElementById('p2Desc').innerText = d.p2Desc;
+      document.getElementById('p3Title').innerText = d.p3Title;
+      document.getElementById('p3Desc').innerText = d.p3Desc;
+
+      document.getElementById('modTitle').innerText = d.modTitle;
+      document.getElementById('modSub').innerText = d.modSub;
+
+      document.getElementById('m1Title').innerText = d.m1Title;
+      document.getElementById('m1List').innerHTML = d.m1List.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('m2Title').innerText = d.m2Title;
+      document.getElementById('m2List').innerHTML = d.m2List.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('m3Title').innerText = d.m3Title;
+      document.getElementById('m3List').innerHTML = d.m3List.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('m4Title').innerText = d.m4Title;
+      document.getElementById('m4List').innerHTML = d.m4List.map(i => `<li>${i}</li>`).join('');
+
+      document.getElementById('techTitle').innerText = d.techTitle;
+      document.getElementById('techSub').innerText = d.techSub;
+      document.getElementById('t1Head').innerText = d.t1Head;
+      document.getElementById('t1Text').innerText = d.t1Text;
+      document.getElementById('t2Head').innerText = d.t2Head;
+      document.getElementById('t2Text').innerText = d.t2Text;
+      document.getElementById('t3Head').innerText = d.t3Head;
+      document.getElementById('t3Text').innerText = d.t3Text;
+      document.getElementById('t4Head').innerText = d.t4Head;
+      document.getElementById('t4Text').innerText = d.t4Text;
+
+      document.getElementById('ctaTitle').innerText = d.ctaTitle;
+      document.getElementById('ctaDesc').innerText = d.ctaDesc;
+      document.getElementById('ctaBtn').innerText = d.ctaBtn;
+    }
+  </script>
+</body>
+</html>
