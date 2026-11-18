@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KaamKaj Bills - Free Business Billing, Slips, ID Card & Resume Portal</title>
+<meta name="description" content="KaamKaj Bills (kaamkajbills.in) - Free GST/Non-GST Invoice, Quotation, Rent Receipt, Salary Slip, ID Card, Passport Photo Sheet aur Resume Maker.">
+<link rel="canonical" href="https://kaamkajbills.in/">
 <style>
   :root {
     --primary: #0284c7;
@@ -145,7 +147,7 @@
     background: rgba(255, 255, 255, 0.96); box-shadow: 0 12px 26px rgba(2, 132, 199, 0.15);
   }
 
-  /* SPECIAL STYLING FOR CAFE TEMPLATE CARD (DIFFERENT COLOR & LARGE TEMPLATE BADGE) */
+  /* SPECIAL STYLING FOR CAFE TEMPLATE CARD */
   .tool-card.template-card {
     background: linear-gradient(135deg, rgba(254, 243, 199, 0.95), rgba(255, 255, 255, 0.96));
     border: 2px dashed #f59e0b;
@@ -176,7 +178,6 @@
   
   .tag-free { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 6px; }
   
-  /* LARGE TEMPLATE TAG */
   .tag-template {
     background: #f59e0b; color: #ffffff; border: 1px solid #d97706;
     font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 6px;
@@ -251,10 +252,20 @@
   }
   .form-input:focus { border-color: var(--primary); }
 
+  /* FOOTER & POLICY LINKS */
   footer {
-    background: var(--ink); color: #94a3b8; text-align: center; padding: 22px 16px; font-size: 13px; border-top: 3px solid var(--gold);
+    background: var(--ink); color: #94a3b8; text-align: center; padding: 26px 16px; font-size: 13px; border-top: 3px solid var(--gold);
   }
   footer a { color: var(--gold); text-decoration: none; font-weight: 700; }
+  .footer-nav {
+    display: flex; justify-content: center; align-items: center; flex-wrap: wrap;
+    gap: 10px; margin: 12px 0 8px 0;
+  }
+  .footer-nav a {
+    color: #e2e8f0; background: rgba(255,255,255,0.08); padding: 5px 12px;
+    border-radius: 6px; font-size: 12.5px; transition: 0.2s;
+  }
+  .footer-nav a:hover { background: var(--primary); color: #ffffff; }
 
   @media (max-width: 960px) {
     .donation-wrapper { grid-template-columns: 1fr; }
@@ -292,6 +303,7 @@
         </div>
       </div>
       <div class="nav-links">
+        <a href="about.html" target="_self" class="nav-btn">ℹ️ About Us</a>
         <a href="#donationSection" class="nav-btn">💚 Donate / Support</a>
         <a href="help.html" target="_self" class="nav-btn">💬 Help Bot</a>
         <a href="support-custom-request.html" target="_self" class="nav-btn nav-btn-gold">✨ Support / Custom Page</a>
@@ -446,8 +458,14 @@
   </main>
 
   <footer>
-    <p>© 2026 <b>KaamKaj Bills</b> • Built for Indian Small Businesses, Technicians, Shops & Offices.</p>
-    <p>Help & Custom Page Support: <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a></p>
+    <p>© 2026 <b>KaamKaj Bills (kaamkajbills.in)</b> • Built for Indian Small Businesses, Technicians, Shops & Offices.</p>
+    <div class="footer-nav">
+      <a href="index.html">🏠 Home</a>
+      <a href="about.html">ℹ️ About Us</a>
+      <a href="privacy.html">🔒 Privacy Policy</a>
+      <a href="contact.html">📞 Contact Us</a>
+    </div>
+    <p style="margin-top: 8px;">Help & Custom Page Support: <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a></p>
   </footer>
 
 <script>
@@ -458,7 +476,7 @@ const TOOLS_DATA = [
   { file: 'kirana-shop-bill.html', cat: 'BILLING', icon: '🛒', hi: 'किराना व जनरल स्टोर बिल', en: 'Kirana & Grocery Retail Shop Bill', desc: 'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं।', keys: 'kirana grocery ration shop retail bill' },
   { file: 'stationery-xerox-bill.html', cat: 'BILLING', icon: '🖨️', hi: 'स्टेशनरी, जेरोक्स व प्रिंटिंग शॉप बिल', en: 'Stationery, Xerox & Binding Cash Memo', desc: 'फोटोकॉपी, कलर प्रिंट, स्पाइरल बाइंडिंग और स्टेशनरी सामान का कैश मेमो (11 भाषाओं में)।', keys: 'stationery xerox photocopy binding printout lamination' },
   { file: 'beauty-parlour-salon-bill.html', cat: 'BILLING', icon: '💄', hi: 'ब्यूटी पार्लर व सैलून बिल / बुकिंग', en: 'Beauty Parlour Service Bill & Bridal Booking', desc: 'सैलून सर्विस बिल और ब्राइडल/पार्टी मेकअप अपॉइंटमेंट बुकिंग स्लिप।', keys: 'beauty parlour salon bridal makeup facial' },
-  { file: 'salary-pay-slip.html', cat: 'SLIPS', icon: '💵', hi: 'कर्मचारी सैलरी / पे स्लिप जनरेटर', en: 'Employee Monthly Monthly Salary Pay Slip', desc: 'Basic, HRA, Overtime, PF, ESIC और एडवांस कटौती के साथ सैलरी स्लिप बनाएं।', keys: 'salary pay slip payslip employee wage' },
+  { file: 'salary-pay-slip.html', cat: 'SLIPS', icon: '💵', hi: 'कर्मचारी सैलरी / पे स्लिप जनरेटर', en: 'Employee Monthly Salary Pay Slip', desc: 'Basic, HRA, Overtime, PF, ESIC और एडवांस कटौती के साथ सैलरी स्लिप बनाएं।', keys: 'salary pay slip payslip employee wage' },
   { file: 'paymet-slip-rasid.html', cat: 'SLIPS', icon: '🧾', hi: 'पेमेंट रसीद व भुगतान वाउचर', en: 'Payment Receipt & Voucher (1 or 2 Slips A4)', desc: 'पैसे प्राप्त होने की रसीद (Receipt) या भुगतान वाउचर (Voucher) शब्दों में ऑटो-कन्वर्जन के साथ।', keys: 'payment receipt voucher cash rasid' },
   { file: 'rent-receipt-generator.html', cat: 'SLIPS', icon: '🏠', hi: 'किराया रसीद (HRA व बिजली बिल सहित)', en: 'House / Shop Rent Receipt Generator', desc: 'मकान या दुकान की किराया रसीद (रेवेन्यू स्टैम्प बॉक्स, बिजली बिल और मेंटेनेंस सहित)।', keys: 'rent receipt landlord tenant hra house shop' },
   { file: 'tailoring-measurement-job-slip.html', cat: 'SLIPS', icon: '✂️', hi: 'टेलरिंग नाप व मास्टर कटिंग स्लिप', en: 'Tailoring & Boutique Measurement Job Slip', desc: 'ग्राहक के कपड़ों का इंच में नाप, डिलीवरी तारीख और कारीगर कटिंग पर्ची।', keys: 'tailor tailoring boutique measurement cutting cloth' },
@@ -506,7 +524,6 @@ function renderTools() {
 
   filtered.forEach(t => {
     const card = document.createElement('div');
-    // If it is a template, add a special highlighting class
     card.className = 'tool-card' + (t.isTemplate ? ' template-card' : '');
     
     card.innerHTML = `
