@@ -1016,21 +1016,42 @@
     document.getElementById('slipsContainer').innerHTML = html;
   }
 
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:14px;background:#fff;border:none;box-shadow:none;';
+ function downloadA4PDF() {
+    const source = document.getElementById('a4DocSheet');
+    const clone = source.cloneNode(true);
+
+    // Exact A4 width without auto-margin offset
+    clone.style.cssText = 'width: 680px; max-width: 680px; margin: 0; padding: 14px; background: #ffffff; color: #0f172a; border: none; box-shadow: none; box-sizing: border-box;';
+
+    // Off-screen static host at (0,0) so scroll never clips left side
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:730px;z-index:999999;background:#fff;';
+    wrap.style.cssText = 'position: absolute; top: 0; left: 0; width: 680px; background: #ffffff; z-index: 999999; margin: 0; padding: 0;';
     wrap.appendChild(clone);
     document.body.appendChild(wrap);
+
     const prefix = docMode === 'AGREEMENT' ? 'RentAgreement' : 'RentReceipt';
-    html2pdf().set({
-      margin: [8, 8, 8, 8],
-      filename: `${prefix}_${document.getElementById('in_rec_no').value || 'Doc'}.pdf`,
+    const fileNo = document.getElementById('in_rec_no').value.trim() || 'Doc';
+
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: `${prefix}_${fileNo}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 730, windowWidth: 730 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0,
+        width: 680,
+        windowWidth: 680
+      },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+    };
+
+    html2pdf().set(opt).from(clone).save()
+      .then(() => wrap.remove())
+      .catch(() => wrap.remove());
   }
 
   function printDocDirect() {
