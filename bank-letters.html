@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All-in-One Bank Application & Letter Generator (12 Languages) – KaamKaj Bills</title>
+  <meta name="description" content="Free Bank Application Letter Generator in 12 Indian Languages: Account Transfer, KYC Update, Account Closing, Cheque Book, ATM Card, Bank Statement, Mobile Change & Loan NOC." />
+  <link rel="canonical" href="https://kaamkajbills.in/bank-letters.html" />
+
+  <!-- Favicon Tags -->
+  <link rel="icon" type="image/png" href="https://kaamkajbills.in/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/x-icon" href="https://kaamkajbills.in/favicon.ico" />
+  <link rel="shortcut icon" href="https://kaamkajbills.in/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="https://kaamkajbills.in/apple-touch-icon.png" />
+
+  <!-- Google Fonts for 12 Indian Scripts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Gurmukhi:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #0284c7;
+      --green: #16a34a;
+      --bg: #f1f5f9;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', sans-serif;
+      background: var(--bg);
+      color: #1e293b;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 24px;
+      border-bottom: 3px solid #f59e0b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .container {
+      max-width: 1220px;
+      margin: 22px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 22px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    h1 { font-size: 1.25rem; color: var(--primary); margin-bottom: 4px; }
+    p.sub { font-size: 0.88rem; color: #64748b; margin-bottom: 16px; }
+    .form-group { margin-bottom: 11px; }
+    label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: #334155; }
+    input, select {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    input:focus, select:focus { outline: none; border-color: var(--accent); }
+    .select-highlight { background: #f0f9ff; border-color: #7dd3fc; font-weight: 700; color: #0369a1; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dynamic-box {
+      background: #f8fafc;
+      border: 1px dashed #94a3b8;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    .btn-group { display: flex; gap: 10px; margin-top: 16px; }
+    button {
+      flex: 1;
+      padding: 11px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+    .btn-print { background: var(--green); color: #fff; }
+    .btn-copy { background: var(--primary); color: #fff; }
+    .preview-box {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      padding: 36px 40px;
+      min-height: 700px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      white-space: pre-line;
+      color: #0f172a;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .urdu-font {
+      font-family: 'Noto Nastaliq Urdu', serif;
+      direction: rtl;
+      text-align: right;
+      line-height: 2.2;
+    }
+    .indic-font {
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', 'Noto Sans Gujarati', 'Noto Sans Bengali', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada', 'Noto Sans Malayalam', 'Noto Sans Gurmukhi', 'Noto Sans Oriya', sans-serif;
+    }
+    @media (max-width: 880px) {
+      .container { grid-template-columns: 1fr; }
+      .preview-box { padding: 22px 18px; }
+    }
+    @media print {
+      body * { visibility: hidden; }
+      #letterPreview, #letterPreview * { visibility: visible; }
+      #letterPreview {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none;
+        padding: 20px;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://kaamkajbills.in/">
+    <img src="https://kaamkajbills.in/favicon-96x96.png" alt="KB Logo" width="32" height="32" style="border-radius:50%;">
+    KaamKaj Bills
+  </a>
+  <a href="https://kaamkajbills.in/" style="font-size:0.88rem; background:rgba(255,255,255,0.12); padding:6px 12px; border-radius:6px;">← All Tools</a>
+</header>
+
+<div class="container">
+  <!-- LEFT INPUT FORM -->
+  <div class="card">
+    <h1>🏦 All-in-One Bank Application Generator</h1>
+    <p class="sub">Letter ka prakar aur apni bhasha chunein—ready-to-print A4 application turant ban jayegi.</p>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label for="letterType">1. Select Bank Letter Type</label>
+        <select id="letterType" class="select-highlight" onchange="toggleFields(); updateLetter();">
+          <option value="transfer">1. Account Transfer (शाखा बदलें)</option>
+          <option value="kyc">2. KYC Update (Aadhaar / PAN Link)</option>
+          <option value="close">3. Account Closing (खाता बंद करें)</option>
+          <option value="cheque_atm">4. New Cheque Book / ATM Card</option>
+          <option value="statement">5. Bank Statement Request</option>
+          <option value="mobile_addr">6. Mobile No. / Address Change</option>
+          <option value="stop_cheque">7. Stop Cheque Payment</option>
+          <option value="loan_noc">8. Loan Closure / NOC Request</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="langSelect">2. Language / भाषा (12 Languages)</label>
+        <select id="langSelect" class="select-highlight" onchange="updateLetter()">
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          <option value="ur">اردو (Urdu)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Customer Full Name</label>
+        <input type="text" id="custName" placeholder="e.g. Amit Verma" oninput="updateLetter()">
+      </div>
+      <div class="form-group">
+        <label>Registered Mobile No.</label>
+        <input type="text" id="mobile" placeholder="e.g. 9876543210" oninput="updateLetter()">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Bank Name</label>
+        <input type="text" id="bankName" placeholder="e.g. State Bank of India" oninput="updateLetter()">
+      </div>
+      <div class="form-group">
+        <label>Account / Loan Number</label>
+        <input type="text" id="accNo" placeholder="e.g. 30987654321" oninput="updateLetter()">
+      </div>
+    </div>
+
+    <div class="row-2">
+      <div class="form-group">
+        <label>Current Branch & City</label>
+        <input type="text" id="branchName" placeholder="e.g. MG Road, Pune" oninput="updateLetter()">
+      </div>
+      <div class="form-group">
+        <label>Application Date</label>
+        <input type="date" id="letterDate" onchange="updateLetter()">
+      </div>
+    </div>
+
+    <!-- DYNAMIC EXTRA FIELDS BASED ON LETTER TYPE -->
+    <div id="extraFields" class="dynamic-box"></div>
+
+    <div class="btn-group">
+      <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+      <button class="btn-copy" onclick="copyText()">📋 Copy Letter Text</button>
+    </div>
+  </div>
+
+  <!-- RIGHT LIVE PREVIEW -->
+  <div>
+    <div id="letterPreview" class="preview-box indic-font"></div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('letterDate').valueAsDate = new Date();
+
+  function val(id, fallback) {
+    const el = document.getElementById(id);
+    if (!el) return fallback;
+    const v = el.value.trim();
+    return v ? v : fallback;
+  }
+
+  function toggleFields() {
+    const type = document.getElementById('letterType').value;
+    const box = document.getElementById('extraFields');
+
+    if (type === 'transfer') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group">
+            <label>New (Target) Branch Name & City</label>
+            <input type="text" id="f1" placeholder="e.g. Andheri West, Mumbai" oninput="updateLetter()">
+          </div>
+          <div class="form-group">
+            <label>New Branch Code (Optional)</label>
+            <input type="text" id="f2" placeholder="e.g. 04512" oninput="updateLetter()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Reason for Transfer</label>
+          <input type="text" id="f3" placeholder="e.g. Job Transfer / Home Relocation" oninput="updateLetter()">
+        </div>`;
+    } else if (type === 'kyc') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Aadhaar Number (Last 4 or Full)</label>
+            <input type="text" id="f1" placeholder="e.g. XXXX-XXXX-1234" oninput="updateLetter()">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>PAN Card Number</label>
+            <input type="text" id="f2" placeholder="e.g. ABCDE1234F" oninput="updateLetter()">
+          </div>
+        </div>`;
+    } else if (type === 'close') {
+      box.innerHTML = `
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Reason for Closing Account</label>
+          <input type="text" id="f1" placeholder="e.g. Relocating to another city / Not in use" oninput="updateLetter()">
+        </div>`;
+    } else if (type === 'cheque_atm') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Service Required</label>
+            <select id="f1" onchange="updateLetter()">
+              <option value="New Cheque Book (25 Leaves)">New Cheque Book</option>
+              <option value="New ATM / Debit Card">New ATM / Debit Card</option>
+              <option value="Both Cheque Book & ATM Card">Both Cheque Book & ATM Card</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Delivery Address</label>
+            <input type="text" id="f2" placeholder="Registered Home/Office Address" oninput="updateLetter()">
+          </div>
+        </div>`;
+    } else if (type === 'statement') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group">
+            <label>From Date (कब से)</label>
+            <input type="date" id="f1" onchange="updateLetter()">
+          </div>
+          <div class="form-group">
+            <label>To Date (कब तक)</label>
+            <input type="date" id="f2" onchange="updateLetter()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Purpose (उद्देश्य)</label>
+          <input type="text" id="f3" placeholder="e.g. Income Tax Return (ITR) / Loan / Visa" oninput="updateLetter()">
+        </div>`;
+    } else if (type === 'mobile_addr') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label>New Mobile Number (If changing)</label>
+            <input type="text" id="f1" placeholder="e.g. 9988776655" oninput="updateLetter()">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>New Address (If changing)</label>
+            <input type="text" id="f2" placeholder="Enter new full address" oninput="updateLetter()">
+          </div>
+        </div>`;
+    } else if (type === 'stop_cheque') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group">
+            <label>Cheque Number</label>
+            <input type="text" id="f1" placeholder="e.g. 458912" oninput="updateLetter()">
+          </div>
+          <div class="form-group">
+            <label>Cheque Amount (₹)</label>
+            <input type="text" id="f2" placeholder="e.g. 15,000" oninput="updateLetter()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Reason to Stop Payment</label>
+          <input type="text" id="f3" placeholder="e.g. Cheque Lost / Payment Cancelled" oninput="updateLetter()">
+        </div>`;
+    } else if (type === 'loan_noc') {
+      box.innerHTML = `
+        <div class="row-2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Loan Type</label>
+            <input type="text" id="f1" placeholder="e.g. Personal / Vehicle / Home Loan" oninput="updateLetter()">
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Final Settlement Date</label>
+            <input type="date" id="f2" onchange="updateLetter()">
+          </div>
+        </div>`;
+    }
+  }
+
+  function getBodyText(type, lang, d) {
+    const templates = {
+      transfer: {
+        en: { sub: `Request for transfer of Bank Account (${d.acc}) to ${d.f1} branch.`, body: `I am maintaining a Savings/Current Account with your branch bearing Account Number ${d.acc}. Due to ${d.f3}, I have shifted to a new location and it is difficult for me to operate my account from the current branch.\n\nTherefore, I kindly request you to transfer my bank account along with my KYC, net banking, and debit card facilities to your ${d.f1} branch (Branch Code: ${d.f2}). Passbook and ID proof copies are enclosed.` },
+        hi: { sub: `बैंक खाता (${d.acc}) को ${d.f1} शाखा में स्थानांतरित (Transfer) करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मेरा आपके बैंक की इस शाखा में खाता संख्या ${d.acc} है। ${d.f3} के कारण मैं नए स्थान पर शिफ्ट हो गया हूँ, जिससे वर्तमान शाखा से लेन-देन करने में असुविधा हो रही है।\n\nअतः आपसे विनम्र अनुरोध है कि मेरे इस खाते को आपकी ${d.f1} शाखा (ब्रांच कोड: ${d.f2}) में स्थानांतरित करने की कृपा करें। पासबुक और केवाईसी दस्तावेज़ की प्रति संलग्न है।` },
+        mr: { sub: `बँक खाते (${d.acc}) ${d.f1} शाखेत वर्ग (Transfer) करणेबाबत.`, body: `माझे आपल्या शाखेत खाते क्रमांक ${d.acc} आहे. ${d.f3} यामुळे मी नवीन ठिकाणी स्थलांतरित झालो आहे. कृपया माझे खाते आपल्या ${d.f1} शाखेत (कोड: ${d.f2}) वर्ग करावे, ही नम्र विनंती. पासबुक व KYC प्रत जोडली आहे.` },
+        gu: { sub: `બેંક ખાતું (${d.acc}) ${d.f1} શાખામાં ટ્રાન્સફર કરવા બાબત.`, body: `મારું આપની શાખામાં ખાતા નંબર ${d.acc} છે. ${d.f3} ના કારણે હું નવા સ્થળે શિફ્ટ થયો છું. કૃપા કરીને મારું ખાતું આપની ${d.f1} શાખામાં (કોડ: ${d.f2}) ટ્રાન્સફર કરવા વિનંતી છે. પાસબુક અને KYC નકલ સામેલ છે.` },
+        bn: { sub: `ব্যাংক অ্যাকাউন্ট (${d.acc}) ${d.f1} শাখায় স্থানান্তরের আবেদন।`, body: `আপনার শাখায় আমার অ্যাকাউন্ট নম্বর ${d.acc}। ${d.f3}-এর কারণে আমি নতুন জায়গায় স্থানান্তরিত হয়েছি। অনুগ্রহ করে আমার অ্যাকাউন্টটি আপনার ${d.f1} শাখায় (কোড: ${d.f2}) স্থানান্তর করুন। পাসবুক ও KYC নথি সংযুক্ত করা হলো।` },
+        ta: { sub: `வங்கிக் கணக்கை (${d.acc}) ${d.f1} கிளைக்கு மாற்றுதல் தொடர்பாக.`, body: `தங்கள் கிளையில் எனது கணக்கு எண் ${d.acc} உள்ளது. ${d.f3} காரணமாக நான் புதிய இடத்திற்கு மாறியுள்ளேன். எனவே எனது கணக்கை ${d.f1} கிளைக்கு (குறியீடு: ${d.f2}) மாற்றித் தருமாறு கேட்டுக்கொள்கிறேன்.` },
+        te: { sub: `బ్యాంక్ ఖాతాను (${d.acc}) ${d.f1} బ్రాంచ్‌కు బదిలీ చేయమని అభ్యర్థన.`, body: `మీ బ్రాంచ్‌లో నాకు ${d.acc} ఖాతా ఉంది. ${d.f3} కారణంగా నేను కొత్త ప్రాంతానికి మారాను. దయచేసి నా ఖాతాను ${d.f1} బ్రాంచ్‌కు (కోడ్: ${d.f2}) బదిలీ చేయగలరు.` },
+        kn: { sub: `ಬ್ಯಾಂಕ್ ಖಾತೆಯನ್ನು (${d.acc}) ${d.f1} ಶಾಖೆಗೆ ವರ್ಗಾಯಿಸಲು ವಿನಂತಿ.`, body: `ನಿಮ್ಮ ಶಾಖೆಯಲ್ಲಿ ನಾನು ${d.acc} ಖಾತೆಯನ್ನು ಹೊಂದಿದ್ದೇನೆ. ${d.f3} ಕಾರಣದಿಂದ ನಾನು ಹೊಸ ಸ್ಥಳಕ್ಕೆ ಸ್ಥಳಾಂತರಗೊಂಡಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ನನ್ನ ಖಾತೆಯನ್ನು ${d.f1} ಶಾಖೆಗೆ (ಕೋಡ್: ${d.f2}) ವರ್ಗಾಯಿಸಿ.` },
+        ml: { sub: `ബാങ്ക് അക്കൗണ്ട് (${d.acc}) ${d.f1} ശാഖയിലേക്ക് മാറ്റുന്നതിനുള്ള അപേക്ഷ.`, body: `നിങ്ങളുടെ ശാഖയിൽ എനിക്ക് ${d.acc} എന്ന അക്കൗണ്ട് ഉണ്ട്. ${d.f3} കാരണം ഞാൻ പുതിയ സ്ഥലത്തേക്ക് മാറി. ദയവായി എന്റെ അക്കൗണ്ട് ${d.f1} ശാഖയിലേക്ക് (കോഡ്: ${d.f2}) മാറ്റിത്തരണം.` },
+        pa: { sub: `ਬੈਂਕ ਖਾਤਾ (${d.acc}) ${d.f1} ਬ੍ਰਾਂਚ ਵਿੱਚ ਟ੍ਰਾਂਸਫਰ ਕਰਨ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਤੁਹਾਡੀ ਬ੍ਰਾਂਚ ਵਿੱਚ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ${d.f3} ਕਾਰਨ ਮੈਂ ਨਵੀਂ ਜਗ੍ਹਾ ਸ਼ਿਫਟ ਹੋ ਗਿਆ ਹਾਂ। ਕਿਰਪਾ ਕਰਕੇ ਮੇਰਾ ਖਾਤਾ ${d.f1} ਬ੍ਰਾਂਚ (ਕੋਡ: ${d.f2}) ਵਿੱਚ ਟ੍ਰਾਂਸਫਰ ਕੀਤਾ ਜਾਵੇ।` },
+        or: { sub: `ବ୍ୟାଙ୍କ ଆକାଉଣ୍ଟ (${d.acc}) କୁ ${d.f1} ଶାଖାକୁ ସ୍ଥାନାନ୍ତର ପାଇଁ ଆବେଦନ।`, body: `ଆପଣଙ୍କ ଶାଖାରେ ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc} ଅଛି। ${d.f3} କାରଣରୁ ମୁଁ ନୂତନ ସ୍ଥାନକୁ ଯାଇଛି। ଦୟାକରି ମୋର ଆକାଉଣ୍ଟକୁ ${d.f1} ଶାଖାକୁ (କୋଡ୍: ${d.f2}) ସ୍ଥାନାନ୍ତର କରନ୍ତୁ।` },
+        ur: { sub: `بینک اکاؤنٹ (${d.acc}) کو ${d.f1} برانچ میں منتقل کرنے کی درخواست۔`, body: `میرا آپ کی برانچ میں اکاؤنٹ نمبر ${d.acc} ہے۔ ${d.f3} کی وجہ سے میں نئی جگہ منتقل ہو گیا ہوں۔ براہ کرم میرا اکاؤنٹ ${d.f1} برانچ (کوڈ: ${d.f2}) میں منتقل فرمائیں۔` }
+      },
+      kyc: {
+        en: { sub: `Request for KYC Update in Account Number ${d.acc}.`, body: `I am holding a Savings/Current Account (${d.acc}) in your branch. I am submitting my latest KYC documents (Aadhaar No: ${d.f1}, PAN No: ${d.f2}) to update my bank records.\n\nKindly update my KYC details in your system so that I can continue smooth banking operations without any interruption.` },
+        hi: { sub: `बैंक खाता संख्या ${d.acc} में केवाईसी (KYC) अपडेट करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मेरा आपकी शाखा में खाता संख्या ${d.acc} है। मैं अपने खाते में नवीनतम केवाईसी दस्तावेज़ (आधार नंबर: ${d.f1}, पैन नंबर: ${d.f2}) अपडेट करवाना चाहता/चाहती हूँ।\n\nकृपया संलग्न दस्तावेजों के आधार पर मेरे खाते की KYC अपडेट करने की कृपा करें।` },
+        mr: { sub: `बँक खाते क्रमांक ${d.acc} मध्ये KYC अपडेट करणेबाबत.`, body: `माझे आपल्या शाखेत खाते क्रमांक ${d.acc} आहे. मी माझे नवीन KYC कागदपत्रे (आधार: ${d.f1}, पॅन: ${d.f2}) सादर करत आहे. कृपया माझ्या खात्याचे KYC अपडेट करावे.` },
+        gu: { sub: `બેંક ખાતા નંબર ${d.acc} માં KYC અપડેટ કરવા બાબત.`, body: `મારું આપની શાખામાં ખાતા નંબર ${d.acc} છે. હું મારા નવીનતમ KYC દસ્તાવેજો (આધાર: ${d.f1}, પાન: ${d.f2}) રજૂ કરું છું. કૃપા કરીને મારું KYC અપડેટ કરશો.` },
+        bn: { sub: `ব্যাংক অ্যাকাউন্ট (${d.acc})-এ KYC আপডেট করার আবেদন।`, body: `আপনার শাখায় আমার অ্যাকাউন্ট নম্বর ${d.acc}। আমি আমার সাম্প্রতিক KYC নথি (আধার: ${d.f1}, প্যান: ${d.f2}) জমা দিচ্ছি। অনুগ্রহ করে আমার অ্যাকাউন্টের KYC আপডেট করুন।` },
+        ta: { sub: `வங்கிக் கணக்கில் (${d.acc}) KYC புதுப்பித்தல் தொடர்பாக.`, body: `எனது கணக்கு எண் ${d.acc}. எனது சமீபத்திய KYC ஆவணங்களை (ஆதார்: ${d.f1}, பான்: ${d.f2}) இணைத்துள்ளேன். தயவுசெய்து எனது கணக்கில் KYC விவரங்களைப் புதுப்பிக்கவும்.` },
+        te: { sub: `బ్యాంక్ ఖాతా (${d.acc}) లో KYC అప్‌డేట్ చేయమని అభ్యర్థన.`, body: `నా ఖాతా నంబర్ ${d.acc}. నా తాజా KYC పత్రాలను (ఆధార్: ${d.f1}, పాన్: ${d.f2}) జతపరుస్తున్నాను. దయచేసి నా ఖాతాలో KYC వివరాలు అప్‌డేట్ చేయగలరు.` },
+        kn: { sub: `ಬ್ಯಾಂಕ್ ಖಾತೆಯಲ್ಲಿ (${d.acc}) KYC ನವೀಕರಿಸಲು ವಿನಂತಿ.`, body: `ನನ್ನ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc}. ನನ್ನ ಇತ್ತೀಚಿನ KYC ದಾಖಲೆಗಳನ್ನು (ಆಧಾರ್: ${d.f1}, ಪ್ಯಾನ್: ${d.f2}) ಸಲ್ಲಿಸುತ್ತಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ನನ್ನ ಖಾತೆಯ KYC ನವೀಕರಿಸಿ.` },
+        ml: { sub: `ബാങ്ക് അക്കൗണ്ടിൽ (${d.acc}) KYC പുതുക്കുന്നതിനുള്ള അപേക്ഷ.`, body: `എന്റെ അക്കൗണ്ട് നമ്പർ ${d.acc} ആണ്. എന്റെ ഏറ്റവും പുതിയ KYC രേഖകൾ (ആധാർ: ${d.f1}, പാൻ: ${d.f2}) ഇതോടൊപ്പം സമർപ്പിക്കുന്നു. ദയവായി എന്റെ KYC പുതുക്കുക.` },
+        pa: { sub: `ਬੈਂਕ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਵਿੱਚ KYC ਅਪਡੇਟ ਕਰਨ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ਮੈਂ ਆਪਣੇ ਨਵੇਂ KYC ਦਸਤਾਵੇਜ਼ (ਆਧਾਰ: ${d.f1}, ਪੈਨ: ${d.f2}) ਜਮ੍ਹਾਂ ਕਰਵਾ ਰਿਹਾ ਹਾਂ। ਕਿਰਪਾ ਕਰਕੇ ਮੇਰੀ KYC ਅਪਡੇਟ ਕੀਤੀ ਜਾਵੇ।` },
+        or: { sub: `ବ୍ୟାଙ୍କ ଆକାଉଣ୍ଟ (${d.acc}) ରେ KYC ଅପଡେଟ୍ କରିବା ପାଇଁ ଆବେଦନ।`, body: `ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc}। ମୁଁ ମୋର ନୂତନ KYC ଦସ୍ତାବିଜ (ଆଧାର: ${d.f1}, ପ୍ୟାନ୍: ${d.f2}) ଦାଖଲ କରୁଛି। ଦୟାକରି ମୋର KYC ଅପଡେଟ୍ କରନ୍ତୁ।` },
+        ur: { sub: `بینک اکاؤنٹ نمبر ${d.acc} میں KYC اپ ڈیٹ کرنے کی درخواست۔`, body: `میرا اکاؤنٹ نمبر ${d.acc} ہے۔ میں اپنی تازہ ترین KYC دستاویزات (آدھار: ${d.f1}، پین: ${d.f2}) جمع کروا رہا ہوں۔ براہ کرم میرا KYC اپ ڈیٹ فرمائیں۔` }
+      },
+      close: {
+        en: { sub: `Application for Permanent Closure of Bank Account (${d.acc}).`, body: `I am maintaining an account (${d.acc}) in your branch. Due to ${d.f1}, I no longer require this account and wish to close it permanently.\n\nI am returning my unused cheque leaves and ATM/Debit card along with this application. Kindly close my account and transfer the remaining balance to me via cash/DD/NEFT.` },
+        hi: { sub: `बैंक खाता संख्या ${d.acc} को स्थायी रूप से बंद (Close) करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मेरा आपकी शाखा में खाता संख्या ${d.acc} है। ${d.f1} के कारण मुझे अब इस खाते की आवश्यकता नहीं है और मैं इसे स्थायी रूप से बंद करवाना चाहता/चाहती हूँ।\n\nमैं अपनी पासबुक, एटीएम कार्ड और बचे हुए चेक वापस जमा कर रहा/रही हूँ। कृपया खाता बंद कर शेष राशि मुझे प्रदान करें।` },
+        mr: { sub: `बँक खाते क्रमांक ${d.acc} कायमस्वरूपी बंद करणेबाबत.`, body: `माझे आपल्या शाखेत खाते क्रमांक ${d.acc} आहे. ${d.f1} यामुळे मला हे खाते बंद करायचे आहे. मी माझे ATM कार्ड व चेकबुक परत करत आहे. कृपया खाते बंद करून शिल्लक रक्कम द्यावी.` },
+        gu: { sub: `બેંક ખાતા નંબર ${d.acc} કાયમી ધોરણે બંધ કરવા બાબત.`, body: `મારું આપની શાખામાં ખાતા નંબર ${d.acc} છે. ${d.f1} ના કારણે મારે આ ખાતું બંધ કરાવવું છે. હું મારું ATM કાર્ડ અને ચેકબુક પરત કરું છું. કૃપા કરીને ખાતું બંધ કરી બાકી રકમ આપશો.` },
+        bn: { sub: `ব্যাংক অ্যাকাউন্ট (${d.acc}) স্থায়ীভাবে বন্ধ করার আবেদন।`, body: `আপনার শাখায় আমার অ্যাকাউন্ট নম্বর ${d.acc}। ${d.f1}-এর কারণে আমি অ্যাকাউন্টটি স্থায়ীভাবে বন্ধ করতে চাই। আমি আমার ATM কার্ড ও চেকবুক ফেরত দিচ্ছি। অনুগ্রহ করে অ্যাকাউন্ট বন্ধ করে অবশিষ্ট টাকা ফেরত দিন।` },
+        ta: { sub: `வங்கிக் கணக்கை (${d.acc}) நிரந்தரமாக மூடுவதற்கான விண்ணப்பம்.`, body: `எனது கணக்கு எண் ${d.acc}. ${d.f1} காரணமாக இக்கணக்கை நிரந்தரமாக மூட விரும்புகிறேன். எனது ATM கார்டு மற்றும் காசோலைப் புத்தகத்தை ஒப்படைக்கிறேன். கணக்கை மூடி மீதித் தொகையை வழங்குமாறு கேட்டுக்கொள்கிறேன்.` },
+        te: { sub: `బ్యాంక్ ఖాతాను (${d.acc}) శాశ్వతంగా మూసివేయమని దరఖాస్తు.`, body: `నా ఖాతా నంబర్ ${d.acc}. ${d.f1} కారణంగా నేను ఈ ఖాతాను మూసివేయాలనుకుంటున్నాను. నా ATM కార్డు మరియు చెక్ బుక్ తిరిగి ఇస్తున్నాను. దయచేసి ఖాతాను మూసివేసి మిగిలిన మొత్తాన్ని ఇవ్వగలరు.` },
+        kn: { sub: `ಬ್ಯಾಂಕ್ ಖಾತೆಯನ್ನು (${d.acc}) ಶಾಶ್ವತವಾಗಿ ಮುಚ್ಚಲು ಅರ್ಜಿ.`, body: `ನನ್ನ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc}. ${d.f1} ಕಾರಣದಿಂದ ನಾನು ಈ ಖಾತೆಯನ್ನು ಮುಚ್ಚಲು ಬಯಸುತ್ತೇನೆ. ನನ್ನ ATM ಕಾರ್ಡ್ ಮತ್ತು ಚೆಕ್ ಬುಕ್ ಹಿಂತಿರುಗಿಸುತ್ತಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ಖಾತೆಯನ್ನು ಮುಚ್ಚಿ ಉಳಿದ ಹಣವನ್ನು ನೀಡಿ.` },
+        ml: { sub: `ബാങ്ക് അക്കൗണ്ട് (${d.acc}) സ്ഥിരമായി അവസാനിപ്പിക്കുന്നതിനുള്ള അപേക്ഷ.`, body: `എന്റെ അക്കൗണ്ട് നമ്പർ ${d.acc} ആണ്. ${d.f1} കാരണം ഈ അക്കൗണ്ട് സ്ഥിരമായി ക്ലോസ് ചെയ്യാൻ ആഗ്രഹിക്കുന്നു. എന്റെ ATM കാർഡും ചെക്ക് ബുക്കും തിരികെ നൽകുന്നു. അക്കൗണ്ട് ക്ലോസ് ചെയ്ത് ബാക്കി തുക നൽകണമെന്ന് അപേക്ഷിക്കുന്നു.` },
+        pa: { sub: `ਬੈਂਕ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਪੱਕੇ ਤੌਰ 'ਤੇ ਬੰਦ ਕਰਨ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ${d.f1} ਕਾਰਨ ਮੈਂ ਇਹ ਖਾਤਾ ਬੰਦ ਕਰਵਾਉਣਾ ਚਾਹੁੰਦਾ ਹਾਂ। ਮੈਂ ਆਪਣਾ ATM ਕਾਰਡ ਅਤੇ ਚੈੱਕ ਬੁੱਕ ਵਾਪਸ ਜਮ੍ਹਾਂ ਕਰਵਾ ਰਿਹਾ ਹਾਂ। ਕਿਰਪਾ ਕਰਕੇ ਖਾਤਾ ਬੰਦ ਕਰਕੇ ਬਕਾਇਆ ਰਾਸ਼ੀ ਦਿੱਤੀ ਜਾਵੇ।` },
+        or: { sub: `ବ୍ୟାଙ୍କ ଆକାଉଣ୍ଟ (${d.acc}) ସ୍ଥାୟୀ ଭାବରେ ବନ୍ଦ କରିବା ପାଇଁ ଆବେଦନ।`, body: `ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc}। ${d.f1} କାରଣରୁ ମୁଁ ଏହି ଆକାଉଣ୍ଟ ବନ୍ଦ କରିବାକୁ ଚାହୁଁଛି। ମୁଁ ମୋର ATM କାର୍ଡ ଏବଂ ଚେକ୍ ବୁକ୍ ଫେରସ୍ତ କରୁଛି। ଦୟାକରି ଆକାଉଣ୍ଟ ବନ୍ଦ କରି ବଳକା ଟଙ୍କା ଦିଅନ୍ତୁ।` },
+        ur: { sub: `بینک اکاؤنٹ نمبر ${d.acc} مستقل طور پر بند کرنے کی درخواست۔`, body: `میرا اکاؤنٹ نمبر ${d.acc} ہے۔ ${d.f1} کی وجہ سے میں اپنا یہ اکاؤنٹ بند کروانا چاہتا ہوں۔ میں اپنا ATM کارڈ اور چیک بک واپس جمع کروا رہا ہوں۔ براہ کرم اکاؤنٹ بند کر کے بقایا رقم ادا فرمائیں۔` }
+      },
+      cheque_atm: {
+        en: { sub: `Request for ${d.f1} for Account Number ${d.acc}.`, body: `I am holding Account Number ${d.acc} in your branch. I kindly request you to issue a ${d.f1} for my account and dispatch it to my registered address: ${d.f2}.\n\nKindly process this request at the earliest.` },
+        hi: { sub: `खाता संख्या ${d.acc} के लिए ${d.f1} जारी करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मेरा आपकी शाखा में खाता संख्या ${d.acc} है। मुझे अपने खाते के लिए ${d.f1} की आवश्यकता है। कृपया इसे मेरे पते (${d.f2}) पर भेजने की कृपा करें।` },
+        mr: { sub: `खाते क्रमांक ${d.acc} साठी ${d.f1} मिळणेबाबत विनंती.`, body: `माझे आपल्या शाखेत खाते क्रमांक ${d.acc} आहे. मला माझ्या खात्यासाठी ${d.f1} हवे आहे. कृपया ते माझ्या पत्त्यावर (${d.f2}) पाठवावे.` },
+        gu: { sub: `ખાતા નંબર ${d.acc} માટે ${d.f1} મેળવવા બાબત.`, body: `મારું આપની શાખામાં ખાતા નંબર ${d.acc} છે. મારે મારા ખાતા માટે ${d.f1} ની જરૂર છે. કૃપા કરીને તે મારા સરનામે (${d.f2}) મોકલશો.` },
+        bn: { sub: `অ্যাকাউন্ট (${d.acc})-এর জন্য ${d.f1} প্রদানের আবেদন।`, body: `আপনার শাখায় আমার অ্যাকাউন্ট নম্বর ${d.acc}। আমার অ্যাকাউন্টের জন্য ${d.f1} প্রয়োজন। অনুগ্রহ করে এটি আমার ঠিকানায় (${d.f2}) পাঠানোর ব্যবস্থা করুন।` },
+        ta: { sub: `கணக்கு எண் ${d.acc}-க்கு ${d.f1} வழங்கக் கோரி விண்ணப்பம்.`, body: `எனது கணக்கு எண் ${d.acc}. எனது கணக்கிற்கு ${d.f1} தேவைப்படுகிறது. தயவுசெய்து அதனை எனது முகவரிக்கு (${d.f2}) அனுப்பி வைக்கவும்.` },
+        te: { sub: `ఖాతా నంబర్ ${d.acc} కొరకు ${d.f1} జారీ చేయమని అభ్యర్థన.`, body: `నా ఖాతా నంబర్ ${d.acc}. నా ఖాతా కోసం ${d.f1} అవసరం ఉంది. దయచేసి దానిని నా చిరునామాకు (${d.f2}) పంపగలరు.` },
+        kn: { sub: `ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc} ಗಾಗಿ ${d.f1} ನೀಡುವಂತೆ ವಿನಂತಿ.`, body: `ನನ್ನ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc}. ನನ್ನ ಖಾತೆಗೆ ${d.f1} ಅಗತ್ಯವಿದೆ. ದಯವಿಟ್ಟು ಅದನ್ನು ನನ್ನ ವಿಳಾಸಕ್ಕೆ (${d.f2}) ಕಳುಹಿಸಿಕೊಡಿ.` },
+        ml: { sub: `അക്കൗണ്ട് നമ്പർ ${d.acc}-ലേക്ക് ${d.f1} ലഭിക്കുന്നതിനുള്ള അപേക്ഷ.`, body: `എന്റെ അക്കൗണ്ട് നമ്പർ ${d.acc} ആണ്. എനിക്ക് ${d.f1} ആവശ്യമുണ്ട്. ദയവായി അത് എന്റെ വിലാസത്തിലേക്ക് (${d.f2}) അയച്ചുതരണമെന്ന് അപേക്ഷിക്കുന്നു.` },
+        pa: { sub: `ਖਾਤਾ ਨੰਬਰ ${d.acc} ਲਈ ${d.f1} ਜਾਰੀ ਕਰਨ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ਮੈਨੂੰ ਆਪਣੇ ਖਾਤੇ ਲਈ ${d.f1} ਦੀ ਲੋੜ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਇਸਨੂੰ ਮੇਰੇ ਪਤੇ (${d.f2}) 'ਤੇ ਭੇਜਿਆ ਜਾਵੇ।` },
+        or: { sub: `ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc} ପାଇଁ ${d.f1} ପ୍ରଦାନ କରିବାକୁ ଆବେଦନ।`, body: `ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc}। ମୋତେ ମୋ ଆକାଉଣ୍ଟ ପାଇଁ ${d.f1} ଆବଶ୍ୟକ। ଦୟାକରି ଏହାକୁ ମୋ ଠିକଣାରେ (${d.f2}) ପଠାନ୍ତୁ।` },
+        ur: { sub: `اکاؤنٹ نمبر ${d.acc} کے لیے ${d.f1} جاری کرنے کی درخواست۔`, body: `میرا اکاؤنٹ نمبر ${d.acc} ہے۔ مجھے اپنے اکاؤنٹ کے لیے ${d.f1} درکار ہے۔ براہ کرم اسے میرے پتے (${d.f2}) پر ارسال فرمائیں۔` }
+      },
+      statement: {
+        en: { sub: `Request for Bank Account Statement (${d.f1} to ${d.f2}) for Account ${d.acc}.`, body: `I maintain Account Number ${d.acc} in your branch. I require an official stamped Bank Account Statement from ${d.f1} to ${d.f2} for ${d.f3} purpose.\n\nKindly issue the statement at your earliest convenience.` },
+        hi: { sub: `खाता संख्या ${d.acc} का बैंक स्टेटमेंट (${d.f1} से ${d.f2} तक) प्राप्त करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मेरा आपकी शाखा में खाता संख्या ${d.acc} है। मुझे ${d.f3} कार्य हेतु दिनांक ${d.f1} से ${d.f2} तक का प्रमाणित (Stamped) बैंक स्टेटमेंट चाहिए।\n\nकृपया मुझे उक्त अवधि का बैंक स्टेटमेंट प्रदान करने की कृपा करें।` },
+        mr: { sub: `खाते क्रमांक ${d.acc} चे बँक स्टेटमेंट (${d.f1} ते ${d.f2}) मिळणेबाबत.`, body: `माझे खाते क्रमांक ${d.acc} आहे. मला ${d.f3} कामासाठी ${d.f1} ते ${d.f2} पर्यंतचे शिक्का मारलेले बँक स्टेटमेंट हवे आहे. कृपया ते लवकरात लवकर द्यावे.` },
+        gu: { sub: `ખાતા નંબર ${d.acc} નું બેંક સ્ટેટમેન્ટ (${d.f1} થી ${d.f2}) મેળવવા બાબત.`, body: `મારું ખાતા નંબર ${d.acc} છે. મારે ${d.f3} હેતુ માટે ${d.f1} થી ${d.f2} સુધીનું સ્ટેમ્પ વાળું બેંક સ્ટેટમેન્ટ જોઈએ છે. કૃપા કરીને આપશો.` },
+        bn: { sub: `অ্যাকাউন্ট (${d.acc})-এর ব্যাংক স্টেটমেন্ট (${d.f1} থেকে ${d.f2}) পাওয়ার আবেদন।`, body: `আমার অ্যাকাউন্ট নম্বর ${d.acc}। ${d.f3}-এর প্রয়োজনে আমার ${d.f1} থেকে ${d.f2} পর্যন্ত সিলমোহরযুক্ত ব্যাংক স্টেটমেন্ট প্রয়োজন। অনুগ্রহ করে তা প্রদান করুন।` },
+        ta: { sub: `கணக்கு எண் ${d.acc}-க்கான வங்கி அறிக்கை (${d.f1} முதல் ${d.f2}) கோரி விண்ணப்பம்.`, body: `எனது கணக்கு எண் ${d.acc}. ${d.f3} தேவைக்காக ${d.f1} முதல் ${d.f2} வரையிலான முத்திரையிடப்பட்ட வங்கி அறிக்கை (Bank Statement) வழங்குமாறு கேட்டுக்கொள்கிறேன்.` },
+        te: { sub: `ఖాతా నంబర్ ${d.acc} యొక్క బ్యాంక్ స్టేట్‌మెంట్ (${d.f1} నుండి ${d.f2}) కొరకు అభ్యర్థన.`, body: `నా ఖాతా నంబర్ ${d.acc}. ${d.f3} అవసరం నిమిత్తం నాకు ${d.f1} నుండి ${d.f2} వరకు స్టాంప్ వేసిన బ్యాంక్ స్టేట్‌మెంట్ ఇవ్వగలరు.` },
+        kn: { sub: `ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc} ರ ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್ (${d.f1} ರಿಂದ ${d.f2}) ಗಾಗಿ ವಿನಂತಿ.`, body: `ನನ್ನ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc}. ${d.f3} ಉದ್ದೇಶಕ್ಕಾಗಿ ನನಗೆ ${d.f1} ರಿಂದ ${d.f2} ರವರೆಗಿನ ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್ ಅಗತ್ಯವಿದೆ. ದಯವಿಟ್ಟು ನೀಡಬೇಕಾಗಿ ವಿನಂತಿ.` },
+        ml: { sub: `അക്കൗണ്ട് നമ്പർ ${d.acc}-ന്റെ ബാങ്ക് സ്റ്റേറ്റ്‌മെന്റ് (${d.f1} മുതൽ ${d.f2}) ലഭിക്കുന്നതിനുള്ള അപേക്ഷ.`, body: `എന്റെ അക്കൗണ്ട് നമ്പർ ${d.acc} ആണ്. ${d.f3} ആവശ്യത്തിനായി ${d.f1} മുതൽ ${d.f2} വരെയുള്ള സീൽ ചെയ്ത ബാങ്ക് സ്റ്റേറ്റ്‌മെന്റ് നൽകണമെന്ന് അപേക്ഷിക്കുന്നു.` },
+        pa: { sub: `ਖਾਤਾ ਨੰਬਰ ${d.acc} ਦੀ ਬੈਂਕ ਸਟੇਟਮੈਂਟ (${d.f1} ਤੋਂ ${d.f2}) ਲੈਣ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ਮੈਨੂੰ ${d.f3} ਦੇ ਕੰਮ ਲਈ ${d.f1} ਤੋਂ ${d.f2} ਤੱਕ ਦੀ ਮੋਹਰ ਲੱਗੀ ਬੈਂਕ ਸਟੇਟਮੈਂਟ ਚਾਹੀਦੀ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਜਾਰੀ ਕੀਤੀ ਜਾਵੇ।` },
+        or: { sub: `ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc} ର ବ୍ୟାଙ୍କ ଷ୍ଟେଟମେଣ୍ଟ (${d.f1} ରୁ ${d.f2}) ପାଇବା ପାଇଁ ଆବେଦନ।`, body: `ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc}। ${d.f3} କାର୍ଯ୍ୟ ପାଇଁ ମୋତେ ${d.f1} ରୁ ${d.f2} ପର୍ଯ୍ୟନ୍ତ ବ୍ୟାଙ୍କ ଷ୍ଟେଟମେଣ୍ଟ ଆବଶ୍ୟକ। ଦୟାକରି ପ୍ରଦାନ କରନ୍ତୁ।` },
+        ur: { sub: `اکاؤنٹ نمبر ${d.acc} کی بینک اسٹیٹمنٹ (${d.f1} تا ${d.f2}) حاصل کرنے کی درخواست۔`, body: `میرا اکاؤنٹ نمبر ${d.acc} ہے۔ مجھے ${d.f3} کے مقصد کے لیے ${d.f1} سے ${d.f2} تک کی تصدیق شدہ بینک اسٹیٹمنٹ درکار ہے۔ براہ کرم جاری فرمائیں۔` }
+      },
+      mobile_addr: {
+        en: { sub: `Request to Update Mobile Number / Address in Account ${d.acc}.`, body: `I am holding Account Number ${d.acc} in your branch. I request you to update my contact details in your records as given below:\n• New Mobile Number: ${d.f1}\n• New Address: ${d.f2}\n\nSelf-attested ID/Address proof is enclosed for verification.` },
+        hi: { sub: `बैंक खाता संख्या ${d.acc} में मोबाइल नंबर / पता अपडेट करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मेरा आपकी शाखा में खाता संख्या ${d.acc} है। कृपया बैंक रिकॉर्ड में मेरा नया विवरण अपडेट करने की कृपा करें:\n• नया मोबाइल नंबर: ${d.f1}\n• नया पता: ${d.f2}\n\nसत्यापन हेतु पहचान/पते के प्रमाण की प्रति संलग्न है।` },
+        mr: { sub: `खाते क्रमांक ${d.acc} मध्ये मोबाईल नंबर / पत्ता बदलणेबाबत.`, body: `माझे खाते क्रमांक ${d.acc} आहे. कृपया माझ्या खात्यात खालील नवीन माहिती अपडेट करावी:\n• नवीन मोबाईल: ${d.f1}\n• नवीन पत्ता: ${d.f2}\nपुरावा सोबत जोडला आहे.` },
+        gu: { sub: `ખાતા નંબર ${d.acc} માં મોબાઈલ નંબર / સરનામું બદલવા બાબત.`, body: `મારું ખાતા નંબર ${d.acc} છે. કૃપા કરીને બેંક રેકોર્ડમાં મારી નવી વિગતો અપડેટ કરશો:\n• નવો મોબાઈલ નંબર: ${d.f1}\n• નવું સરનામું: ${d.f2}` },
+        bn: { sub: `অ্যাকাউন্ট (${d.acc})-এ মোবাইল নম্বর / ঠিকানা পরিবর্তনের আবেদন।`, body: `আমার অ্যাকাউন্ট নম্বর ${d.acc}। অনুগ্রহ করে ব্যাংকের রেকর্ডে আমার নতুন তথ্য আপডেট করুন:\n• নতুন মোবাইল নম্বর: ${d.f1}\n• নতুন ঠিকানা: ${d.f2}` },
+        ta: { sub: `கணக்கு எண் ${d.acc}-ல் மொபைல் எண் / முகவரி மாற்றம் தொடர்பாக.`, body: `எனது கணக்கு எண் ${d.acc}. வங்கிப் பதிவேட்டில் எனது புதிய விவரங்களைப் புதுப்பிக்கவும்:\n• புதிய மொபைல் எண்: ${d.f1}\n• புதிய முகவரி: ${d.f2}` },
+        te: { sub: `ఖాతా నంబర్ ${d.acc} లో మొబైల్ నంబర్ / చిరునామా మార్పు కొరకు అభ్యర్థన.`, body: `నా ఖాతా నంబర్ ${d.acc}. దయచేసి బ్యాంక్ రికార్డులలో నా కొత్త వివరాలను అప్‌డేట్ చేయగలరు:\n• కొత్త మొబైల్ నంబర్: ${d.f1}\n• కొత్త చిరునామా: ${d.f2}` },
+        kn: { sub: `ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc} ರಲ್ಲಿ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ / ವಿಳಾಸ ಬದಲಾವಣೆಗೆ ವಿನಂತಿ.`, body: `ನನ್ನ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc}. ದಯವಿಟ್ಟು ಬ್ಯಾಂಕ್ ದಾಖಲೆಗಳಲ್ಲಿ ನನ್ನ ಹೊಸ ವಿವರಗಳನ್ನು ನವೀಕರಿಸಿ:\n• ಹೊಸ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ: ${d.f1}\n• ಹೊಸ ವಿಳಾಸ: ${d.f2}` },
+        ml: { sub: `അക്കൗണ്ട് നമ്പർ ${d.acc}-ൽ മൊബൈൽ നമ്പർ / വിലാസം മാറ്റുന്നതിനുള്ള അപേക്ഷ.`, body: `എന്റെ അക്കൗണ്ട് നമ്പർ ${d.acc} ആണ്. ബാങ്ക് രേഖകളിൽ എന്റെ പുതിയ വിവരങ്ങൾ അപ്‌ഡേറ്റ് ചെയ്യുക:\n• പുതിയ മൊബൈൽ നമ്പർ: ${d.f1}\n• പുതിയ വിലാസം: ${d.f2}` },
+        pa: { sub: `ਖਾਤਾ ਨੰਬਰ ${d.acc} ਵਿੱਚ ਮੋਬਾਈਲ ਨੰਬਰ / ਪਤਾ ਬਦਲਣ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਬੈਂਕ ਰਿਕਾਰਡ ਵਿੱਚ ਮੇਰੀ ਨਵੀਂ ਜਾਣਕਾਰੀ ਅਪਡੇਟ ਕੀਤੀ ਜਾਵੇ:\n• ਨਵਾਂ ਮੋਬਾਈਲ ਨੰਬਰ: ${d.f1}\n• ਨਵਾਂ ਪਤਾ: ${d.f2}` },
+        or: { sub: `ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc} ରେ ମୋବାଇଲ୍ ନମ୍ବର / ଠିକଣା ପରିବର୍ତ୍ତନ ପାଇଁ ଆବେଦନ।`, body: `ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc}। ଦୟାକରି ବ୍ୟାଙ୍କ ରେକର୍ଡରେ ମୋର ନୂତନ ବିବରଣୀ ଅପଡେଟ୍ କରନ୍ତୁ:\n• ନୂତନ ମୋବାଇଲ୍ ନମ୍ବର: ${d.f1}\n• ନୂତନ ଠିକଣା: ${d.f2}` },
+        ur: { sub: `اکاؤنٹ نمبر ${d.acc} میں موبائل نمبر / پتہ تبدیل کرنے کی درخواست۔`, body: `میرا اکاؤنٹ نمبر ${d.acc} ہے۔ براہ کرم بینک ریکارڈ میں میری نئی تفصیلات اپ ڈیٹ فرمائیں:\n• نیا موبائل نمبر: ${d.f1}\n• نیا پتہ: ${d.f2}` }
+      },
+      stop_cheque: {
+        en: { sub: `Urgent Request to Stop Payment of Cheque No. ${d.f1} (Account: ${d.acc}).`, body: `I maintain Account Number ${d.acc} in your branch. I kindly request you to immediately stop payment of my Cheque bearing No. ${d.f1} for ₹${d.f2} due to ${d.f3}.\n\nPlease ensure this cheque is not honored if presented for clearing.` },
+        hi: { sub: `चेक संख्या ${d.f1} का भुगतान रोकने (Stop Payment) हेतु तत्काल आवेदन।`, body: `सविनय निवेदन है कि मेरा आपकी शाखा में खाता संख्या ${d.acc} है। ${d.f3} के कारण कृपया मेरे चेक संख्या ${d.f1} (राशि ₹${d.f2}) का भुगतान तत्काल प्रभाव से रोकने (Stop Payment) की कृपा करें।` },
+        mr: { sub: `चेक क्रमांक ${d.f1} चे पेमेंट थांबवणेबाबत (Stop Payment).`, body: `माझे खाते क्रमांक ${d.acc} आहे. ${d.f3} यामुळे कृपया माझ्या चेक क्रमांक ${d.f1} (रक्कम ₹${d.f2}) चे पेमेंट तात्काळ थांबवावे.` },
+        gu: { sub: `ચેક નંબર ${d.f1} નું પેમેન્ટ અટકાવવા (Stop Payment) બાબત.`, body: `મારું ખાતા નંબર ${d.acc} છે. ${d.f3} ના કારણે કૃપા કરીને મારા ચેક નંબર ${d.f1} (રકમ ₹${d.f2}) નું પેમેન્ટ તાત્કાલિક અટકાવશો.` },
+        bn: { sub: `চেক নম্বর ${d.f1}-এর পেমেন্ট বন্ধ করার (Stop Payment) আবেদন।`, body: `আমার অ্যাকাউন্ট নম্বর ${d.acc}। ${d.f3}-এর কারণে অনুগ্রহ করে আমার চেক নম্বর ${d.f1} (পরিমাণ ₹${d.f2})-এর পেমেন্ট অবিলম্বে বন্ধ করুন।` },
+        ta: { sub: `காசோலை எண் ${d.f1}-க்கான பணம் வழங்குவதை நிறுத்தக் கோரி விண்ணப்பம்.`, body: `எனது கணக்கு எண் ${d.acc}. ${d.f3} காரணமாக எனது காசோலை எண் ${d.f1} (தொகை ₹${d.f2}) பணம் வழங்குவதை உடனடியாக நிறுத்துமாறு கேட்டுக்கொள்கிறேன்.` },
+        te: { sub: `చెక్ నంబర్ ${d.f1} చెల్లింపును నిలిపివేయమని (Stop Payment) అభ్యర్థన.`, body: `నా ఖాతా నంబర్ ${d.acc}. ${d.f3} కారణంగా దయచేసి నా చెక్ నంబర్ ${d.f1} (మొత్తం ₹${d.f2}) చెల్లింపును తక్షణమే నిలిపివేయగలరు.` },
+        kn: { sub: `ಚೆಕ್ ಸಂಖ್ಯೆ ${d.f1} ಪಾವತಿಯನ್ನು ನಿಲ್ಲಿಸಲು (Stop Payment) ವಿನಂತಿ.`, body: `ನನ್ನ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc}. ${d.f3} ಕಾರಣದಿಂದ ದಯವಿಟ್ಟು ನನ್ನ ಚೆಕ್ ಸಂಖ್ಯೆ ${d.f1} (ಮೊತ್ತ ₹${d.f2}) ಪಾವತಿಯನ್ನು ತಕ್ಷಣ ನಿಲ್ಲಿಸಿ.` },
+        ml: { sub: `ചെക്ക് നമ്പർ ${d.f1}-ന്റെ പേയ്‌മെന്റ് തടയുന്നതിനുള്ള (Stop Payment) അപേക്ഷ.`, body: `എന്റെ അക്കൗണ്ട് നമ്പർ ${d.acc} ആണ്. ${d.f3} കാരണം എന്റെ ചെക്ക് നമ്പർ ${d.f1} (തുക ₹${d.f2}) പേയ്‌മെന്റ് ഉടൻ തടയണമെന്ന് അപേക്ഷിക്കുന്നു.` },
+        pa: { sub: `ਚੈੱਕ ਨੰਬਰ ${d.f1} ਦੀ ਅਦਾਇਗੀ ਰੋਕਣ (Stop Payment) ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੇਰਾ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਹੈ। ${d.f3} ਕਾਰਨ ਕਿਰਪਾ ਕਰਕੇ ਮੇਰੇ ਚੈੱਕ ਨੰਬਰ ${d.f1} (ਰਾਸ਼ੀ ₹${d.f2}) ਦੀ ਅਦਾਇਗੀ ਤੁਰੰਤ ਰੋਕੀ ਜਾਵੇ।` },
+        or: { sub: `ଚେକ୍ ନମ୍ବର ${d.f1} ର ପେମେଣ୍ଟ ବନ୍ଦ କରିବା ପାଇଁ ଆବେଦନ।`, body: `ମୋର ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc}। ${d.f3} କାରଣରୁ ଦୟାକରି ମୋ ଚେକ୍ ନମ୍ବର ${d.f1} (ଟଙ୍କା ₹${d.f2}) ର ପେମେଣ୍ଟ ତୁରନ୍ତ ବନ୍ଦ କରନ୍ତୁ।` },
+        ur: { sub: `چیک نمبر ${d.f1} کی ادائیگی روکنے (Stop Payment) کی درخواست۔`, body: `میرا اکاؤنٹ نمبر ${d.acc} ہے۔ ${d.f3} کی وجہ سے براہ کرم میرے چیک نمبر ${d.f1} (رقم ₹${d.f2}) کی ادائیگی فوری طور پر روک دی جائے۔` }
+      },
+      loan_noc: {
+        en: { sub: `Request for Loan Closure Certificate & NOC (Loan Account: ${d.acc}).`, body: `I had availed a ${d.f1} bearing Loan Account Number ${d.acc} from your branch. I have paid all EMIs and settled the full loan amount on ${d.f2}.\n\nKindly issue the official Loan Closure Certificate and No Objection Certificate (NOC) at the earliest.` },
+        hi: { sub: `लोन खाता संख्या ${d.acc} का क्लोजर सर्टिफिकेट और एनओसी (NOC) प्राप्त करने हेतु आवेदन।`, body: `सविनय निवेदन है कि मैंने आपकी शाखा से ${d.f1} (लोन खाता संख्या: ${d.acc}) लिया था, जिसकी संपूर्ण राशि का भुगतान मैंने दिनांक ${d.f2} को कर दिया है।\n\nकृपया मुझे लोन क्लोजर सर्टिफिकेट और अनापत्ति प्रमाण पत्र (NOC) जारी करने की कृपा करें।` },
+        mr: { sub: `कर्ज खाते क्रमांक ${d.acc} चे क्लोजर सर्टिफिकेट व NOC मिळणेबाबत.`, body: `मी आपल्या शाखेतून ${d.f1} (खाते क्र. ${d.acc}) घेतले होते, ज्याची संपूर्ण परतफेड दिनांक ${d.f2} रोजी केली आहे. कृपया मला लोन क्लोजर सर्टिफिकेट व NOC द्यावे.` },
+        gu: { sub: `લોન ખાતા નંબર ${d.acc} નું ક્લોઝર સર્ટિફિકેટ અને NOC મેળવવા બાબત.`, body: `મેં આપની શાખામાંથી ${d.f1} (લોન નંબર ${d.acc}) લીધી હતી, જેની સંપૂર્ણ ચુકવણી તારીખ ${d.f2} ના રોજ કરી દીધી છે. કૃપા કરીને મને NOC આપશો.` },
+        bn: { sub: `লোন অ্যাকাউন্ট (${d.acc})-এর ক্লোজার সার্টিফিকেট ও NOC-এর আবেদন।`, body: `আমি আপনার শাখা থেকে ${d.f1} (লোন নম্বর ${d.acc}) নিয়েছিলাম, যা ${d.f2} তারিখে সম্পূর্ণ পরিশোধ করেছি। অনুগ্রহ করে আমাকে লোন ক্লোজার সার্টিফিকেট ও NOC প্রদান করুন।` },
+        ta: { sub: `கடன் கணக்கு எண் ${d.acc}-க்கான கடன் முடிப்பு சான்றிதழ் மற்றும் NOC கோரி விண்ணப்பம்.`, body: `தங்கள் கிளையில் நான் பெற்ற ${d.f1} (கணக்கு எண்: ${d.acc}) முழுத் தொகையையும் ${d.f2} அன்று செலுத்திவிட்டேன். தயவுசெய்து எனக்கு கடன் முடிப்பு சான்றிதழ் மற்றும் NOC வழங்குமாறு கேட்டுக்கொள்கிறேன்.` },
+        te: { sub: `లోన్ ఖాతా నంబర్ ${d.acc} యొక్క క్లోజర్ సర్టిఫికెట్ మరియు NOC కొరకు అభ్యర్థన.`, body: `మీ బ్రాంచ్ నుండి నేను తీసుకున్న ${d.f1} (ఖాతా నంబర్: ${d.f2}) పూర్తి మొత్తాన్ని ${d.f2} తేదీన చెల్లించాను. దయచేసి నాకు లోన్ క్లోజర్ సర్టిఫికెట్ మరియు NOC ఇవ్వగలరు.` },
+        kn: { sub: `ಸಾಲದ ಖಾತೆ ಸಂಖ್ಯೆ ${d.acc} ರ ಕ್ಲೋಸರ್ ಪ್ರಮಾಣಪತ್ರ ಮತ್ತು NOC ಗಾಗಿ ವಿನಂತಿ.`, body: `ನಿಮ್ಮ ಶಾಖೆಯಿಂದ ನಾನು ಪಡೆದಿದ್ದ ${d.f1} (ಖಾತೆ ಸಂಖ್ಯೆ: ${d.acc}) ಪೂರ್ಣ ಮೊತ್ತವನ್ನು ${d.f2} ರಂದು ಪಾವತಿಸಿದ್ದೇನೆ. ದಯವಿಟ್ಟು ನನಗೆ NOC ನೀಡಿ.` },
+        ml: { sub: `ലോൺ അക്കൗണ്ട് നമ്പർ ${d.acc}-ന്റെ ക്ലോഷർ സർട്ടിഫിക്കറ്റും NOC-യും ലഭിക്കുന്നതിനുള്ള അപേക്ഷ.`, body: `നിങ്ങളുടെ ശാഖയിൽ നിന്ന് ഞാൻ എടുത്ത ${d.f1} (നമ്പർ: ${d.acc}) മുഴുവൻ തുകയും ${d.f2}-ന് അടച്ചു തീർത്തു. ദയവായി എനിക്ക് ലോൺ ക്ലോഷർ സർട്ടിഫിക്കറ്റും NOC-യും നൽകുക.` },
+        pa: { sub: `ਲੋਨ ਖਾਤਾ ਨੰਬਰ ${d.acc} ਦਾ ਕਲੋਜ਼ਰ ਸਰਟੀਫਿਕੇਟ ਅਤੇ NOC ਲੈਣ ਬਾਰੇ ਬੇਨਤੀ।`, body: `ਮੈਂ ਤੁਹਾਡੀ ਬ੍ਰਾਂਚ ਤੋਂ ${d.f1} (ਨੰਬਰ: ${d.acc}) ਲਿਆ ਸੀ, ਜਿਸਦੀ ਪੂਰੀ ਅਦਾਇਗੀ ${d.f2} ਨੂੰ ਕਰ ਦਿੱਤੀ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਮੈਨੂੰ NOC ਜਾਰੀ ਕੀਤੀ ਜਾਵੇ।` },
+        or: { sub: `ଲୋନ୍ ଆକାଉଣ୍ଟ ନମ୍ବର ${d.acc} ର କ୍ଲୋଜର ସାର୍ଟିଫିକେଟ୍ ଏବଂ NOC ପାଇଁ ଆବେଦନ।`, body: `ମୁଁ ଆପଣଙ୍କ ଶାଖାରୁ ନେଇଥିବା ${d.f1} (ନମ୍ବର: ${d.acc}) ର ସମ୍ପୂର୍ଣ୍ଣ ଟଙ୍କା ${d.f2} ତାରିଖରେ ପୈଠ କରିଛି। ଦୟାକରି ମୋତେ NOC ପ୍ରଦାନ କରନ୍ତୁ।` },
+        ur: { sub: `لون اکاؤنٹ نمبر ${d.acc} کا کلوزر سرٹیفکیٹ اور NOC حاصل کرنے کی درخواست۔`, body: `میں نے آپ کی برانچ سے ${d.f1} (نمبر: ${d.acc}) لیا تھا جس کی مکمل ادائیگی ${d.f2} کو کر دی ہے۔ براہ کرم مجھے کلوزر سرٹیفکیٹ اور NOC جاری فرمائیں۔` }
+      }
+    };
+    return templates[type][lang] || templates[type]['en'];
+  }
+
+  function updateLetter() {
+    const type = document.getElementById('letterType').value;
+    const lang = document.getElementById('langSelect').value;
+
+    const d = {
+      name: val('custName', '[Customer Name]'),
+      mobile: val('mobile', '[Mobile Number]'),
+      bank: val('bankName', '[Bank Name]'),
+      acc: val('accNo', '[Account Number]'),
+      branch: val('branchName', '[Branch Name & City]'),
+      date: val('letterDate', 'DD/MM/YYYY'),
+      f1: val('f1', '[Details]'),
+      f2: val('f2', '[Details]'),
+      f3: val('f3', '[Reason/Purpose]')
+    };
+
+    const content = getBodyText(type, lang, d);
+    const preview = document.getElementById('letterPreview');
+    preview.className = lang === 'ur' ? 'preview-box urdu-font' : 'preview-box indic-font';
+
+    const headers = {
+      en: { to: `To,\nThe Branch Manager,\n${d.bank},\n${d.branch}`, dt: `Date: ${d.date}`, subL: `Subject: `, sal: `Respected Sir/Madam,`, sign: `Thanking you,\n\nYours faithfully,\n${d.name}\nMobile: ${d.mobile}` },
+      hi: { to: `सेवा में,\nशाखा प्रबंधक महोदय,\n${d.bank},\n${d.branch}`, dt: `दिनांक: ${d.date}`, subL: `विषय: `, sal: `महोदय/महोदया,`, sign: `धन्यवाद,\n\nभवदीय,\n${d.name}\nमोबाइल: ${d.mobile}` },
+      mr: { to: `प्रति,\nशाखा व्यवस्थापक,\n${d.bank},\n${d.branch}`, dt: `दिनांक: ${d.date}`, subL: `विषय: `, sal: `महोदय/महोदया,`, sign: `कळावे,\n\nआपला विश्वासू,\n${d.name}\nमोबाईल: ${d.mobile}` },
+      gu: { to: `પ્રતિ,\nશાખા મેનેજર શ્રી,\n${d.bank},\n${d.branch}`, dt: `તારીખ: ${d.date}`, subL: `વિષય: `, sal: `માનનીય સાહેબ/મેડમ,`, sign: `આભાર સહ,\n\nઆપનો વિશ્વાસુ,\n${d.name}\nમોબાઈલ: ${d.mobile}` },
+      bn: { to: `প্রতি,\nশাখা ব্যবস্থাপক,\n${d.bank},\n${d.branch}`, dt: `তারিখ: ${d.date}`, subL: `বিষয়: `, sal: `মহাশয়/মহাশয়া,`, sign: `ধন্যবাদান্তে,\n\nবিনীত,\n${d.name}\nমোবাইল: ${d.mobile}` },
+      ta: { to: `பெறுநர்,\nகிளை மேலாளர் அவர்கள்,\n${d.bank},\n${d.branch}`, dt: `தேதி: ${d.date}`, subL: `பொருள்: `, sal: `மதிப்பிற்குரிய ஐயா/அம்மா,`, sign: `நன்றி,\n\nதங்கள் உண்மையுள்ள,\n${d.name}\nதொலைபேசி: ${d.mobile}` },
+      te: { to: `గౌరవనీయులైన బ్రాంచ్ మేనేజర్ గారికి,\n${d.bank},\n${d.branch}`, dt: `తేదీ: ${d.date}`, subL: `విషయం: `, sal: `అయ్యా/అమ్మా,`, sign: `ధన్యవాదాలు,\n\nఇట్లు,\n${d.name}\nమొబైల్: ${d.mobile}` },
+      kn: { to: `ಗೆ,\nಶಾಖಾ ವ್ಯವಸ್ಥಾಪಕರು,\n${d.bank},\n${d.branch}`, dt: `ದಿನಾಂಕ: ${d.date}`, subL: `ವಿಷಯ: `, sal: `ಮಾನ್ಯರೇ,`, sign: `ಧನ್ಯವಾದಗಳು,\n\nತಮ್ಮ ವಿಶ್ವಾಸಿ,\n${d.name}\nಮೊಬೈಲ್: ${d.mobile}` },
+      ml: { to: `സ്വീകർത്താവ്,\nബ്രാഞ്ച് മാനേജർ,\n${d.bank},\n${d.branch}`, dt: `തീയതി: ${d.date}`, subL: `വിഷയം: `, sal: `സർ/മാഡം,`, sign: `നന്ദി,\n\nവിശ്വസ്തതയോടെ,\n${d.name}\nമൊബൈൽ: ${d.mobile}` },
+      pa: { to: `ਸੇਵਾ ਵਿਖੇ,\nਬ੍ਰਾਂਚ ਮੈਨੇਜਰ ਸਾਹਿਬ,\n${d.bank},\n${d.branch}`, dt: `ਮਿਤੀ: ${d.date}`, subL: `ਵਿਸ਼ਾ: `, sal: `ਸ਼੍ਰੀਮਾਨ ਜੀ,`, sign: `ਧੰਨਵਾਦ ਸਹਿਤ,\n\nਆਪ ਜੀ ਦਾ ਵਿਸ਼ਵਾਸਪਾਤਰ,\n${d.name}\nਮੋਬਾਈਲ: ${d.mobile}` },
+      or: { to: `ମାନ୍ୟବର ଶାଖା ପରିଚାଳକ,\n${d.bank},\n${d.branch}`, dt: `ତାରିଖ: ${d.date}`, subL: `ବିଷୟ: `, sal: `ମହାଶୟ/ମହାଶୟା,`, sign: `ଧନ୍ୟବାଦ,\n\nଆପଣଙ୍କର ବିଶ୍ୱସ୍ତ,\n${d.name}\nମୋବାଇଲ୍: ${d.mobile}` },
+      ur: { to: `بخدمت جناب برانچ منیجر صاحب،\n${d.bank}،\n${d.branch}`, dt: `تاریخ: ${d.date}`, subL: `موضوع: `, sal: `جناب عالی،`, sign: `شکریہ،\n\nآپ کا مخلص،\n${d.name}\nموبائل: ${d.mobile}` }
+    };
+
+    const h = headers[lang];
+    preview.textContent = `${h.to}\n\n${h.dt}\n\n${h.subL}${content.sub}\n\n${h.sal}\n\n${content.body}\n\n${h.sign}`;
+  }
+
+  function copyText() {
+    const text = document.getElementById('letterPreview').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Bank Application copied to clipboard!');
+    });
+  }
+
+  toggleFields();
+  updateLetter();
+</script>
+
+</body>
+</html>
