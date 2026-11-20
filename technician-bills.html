@@ -780,22 +780,40 @@
   window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig_img'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
   function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); signed = false; document.getElementById('out_sig_img').style.display = 'none'; }
 
-  function downloadA4PDF() {
-    const orig = document.getElementById('a4DocSheet');
-    const clone = orig.cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `${document.getElementById('in_doc_no').value || 'TechBill'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
+ function downloadA4PDF() {
+  const element = document.getElementById('a4DocSheet');
+  const docNo = document.getElementById('in_doc_no').value || 'TechBill';
+
+  // PDF ke liye temporary clean styling
+  const originalStyle = element.getAttribute('style') || '';
+  element.style.width = '700px';
+  element.style.maxWidth = '700px';
+  element.style.margin = '0 auto';
+  element.style.boxShadow = 'none';
+  element.style.border = 'none';
+
+  const opt = {
+    margin:       [8, 8, 8, 8],
+    filename:     `${docNo}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { 
+      scale: 2, 
+      useCORS: true, 
+      scrollY: 0,       // Page scrolled hone par bhi blank nahi aayega
+      scrollX: 0,
+      backgroundColor: '#ffffff' 
+    },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    // Download ke baad original preview style wapas laayein
+    element.setAttribute('style', originalStyle);
+  }).catch((err) => {
+    console.error('PDF Error:', err);
+    element.setAttribute('style', originalStyle);
+  });
+}
 
   function printDocDirect() {
     const w = window.open('', '_blank', 'width=850,height=900');
