@@ -1,598 +1,144 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f766e">
 <title>Hotel & Lodge Guest Check-in / Room Bill - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #0f766e;
-    --primary-dark: #115e59;
-    --primary-soft: #ccfbf1;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-    --danger: #dc2626;
-  }
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
-
-  /* PC Full-Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select {
-    width: 100%;
-    padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: #f1f5f9;
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(15, 118, 110, 0.28);
-  }
-
-  /* Quick Charge Chips */
-  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
-  .chip-btn {
-    background: #ffffff;
-    border: 1px solid #5eead4;
-    color: var(--primary-dark);
-    padding: 5px 11px;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.15s;
-  }
-  .chip-btn:hover { background: var(--primary-soft); }
-
-  /* Table Controls */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
-  .items-input-table th {
-    text-align: left;
-    padding: 8px 6px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: #f0fdfa;
-    border-bottom: 2px solid var(--border);
-  }
-  .items-input-table td { padding: 6px 4px; }
-  .btn-del-row {
-    background: #fee2e2;
-    color: var(--danger);
-    border: 1px solid #fca5a5;
-    border-radius: 6px;
-    width: 32px;
-    height: 36px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .btn-del-row:hover { background: var(--danger); color: #fff; }
-  .btn-add-row {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    border: 1.5px dashed var(--primary);
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
-  .btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #0f766e, #115e59); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 11.5px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  #a4DocSheet {
-    background: #ffffff;
-    width: 100%;
-    padding: 24px 20px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 16px;
-    background: #ffffff;
-  }
-
-  .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 2.5px solid var(--primary);
-    padding-bottom: 10px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .doc-biz p { margin: 3px 0 0; font-size: 11px; color: #475569; }
-  .doc-type-badge {
-    background: var(--primary);
-    color: #ffffff;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-weight: 800;
-    border-radius: 5px;
-    text-transform: uppercase;
-  }
-
-  .guest-grid-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
-  .guest-grid-table td { padding: 5px 6px; border: 1px solid #cbd5e1; }
-  .guest-grid-table td.lbl { background: #f8fafc; font-weight: 700; color: #334155; width: 22%; }
-  .guest-grid-table td.val { font-weight: 600; color: #0f172a; width: 28%; }
-
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11.5px; }
-  .doc-items-table th { background: #ccfbf1; color: #115e59; padding: 6px; text-align: left; font-weight: 800; border: 1px solid #5eead4; }
-  .doc-items-table td { padding: 5.5px 6px; border: 1px solid #e2e8f0; font-weight: 600; }
-  .t-right { text-align: right !important; }
-  .t-center { text-align: center !important; }
-
-  .summary-wrap { display: flex; justify-content: flex-end; margin: 10px 0; }
-  .summary-table { font-size: 11.5px; border-collapse: collapse; min-width: 230px; }
-  .summary-table td { padding: 4px 8px; }
-  .summary-table .total-row td { background: #f0fdfa; border-top: 2px solid var(--primary); font-size: 14px; font-weight: 800; color: #115e59; }
-
-  .notes-box { background: #f8fafc; border-left: 3.5px solid var(--primary); padding: 7px 10px; font-size: 10.5px; color: #334155; margin: 10px 0; line-height: 1.45; }
-  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px; font-size: 10.5px; }
-  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
-    .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  }
+:root{--primary:#0f766e;--primary-dark:#115e59;--primary-soft:#ccfbf1;--ink:#0f172a;--muted:#475569;--border:#cbd5e1;--bg:#f1f5f9;--surface:#fff;--surface-alt:#f8fafc;--danger:#dc2626;--shadow:0 8px 28px rgba(15,23,42,.07)}
+body.dark-mode{--primary:#2dd4bf;--primary-dark:#14b8a6;--primary-soft:rgba(45,212,191,.15);--ink:#f1f5f9;--muted:#a7b4c5;--border:#334155;--bg:#0b1120;--surface:#172337;--surface-alt:#101b2d;--danger:#f87171;--shadow:0 8px 28px rgba(0,0,0,.35)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100%;background:var(--bg);color:var(--ink);overflow-x:hidden;scrollbar-width:none;transition:background .2s,color .2s}::-webkit-scrollbar{display:none;width:0;height:0}
+button,input,select{font:inherit}button{touch-action:manipulation}
+.top-nav{width:100%;background:#0f172a;color:#fff;padding:11px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 4px 18px rgba(0,0,0,.13)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 13px;border-radius:8px;font-size:13px;font-weight:750;border:1px solid rgba(255,255,255,.2);white-space:nowrap}.btn-home:hover{background:#0f766e}.nav-title{font-size:15px;font-weight:850;letter-spacing:.2px}
+.lang-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:750}.lang-control select{width:auto;min-width:140px;padding:7px 9px;background:#fff;color:#0f172a;border:1px solid rgba(255,255,255,.35);border-radius:8px;font-weight:700;font-size:12px}
+.theme-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.theme-hint{font-size:11.5px;color:#e2e8f0;font-weight:600}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:750;cursor:pointer;white-space:nowrap}.btn-theme:hover{background:rgba(255,255,255,.25)}
+.kb-wrapper{width:100%;max-width:none;margin:0;padding:18px 22px 38px;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:20px;align-items:start}
+.control-box,.preview-panel{min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}label{font-size:11px;font-weight:750;color:var(--muted);letter-spacing:.25px}
+input,select{width:100%;min-width:0;padding:10px 11px;border:1.5px solid var(--border);border-radius:9px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:border-color .2s,box-shadow .2s}input:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(15,118,110,.13)}
+.section-badge{background:var(--primary-soft);color:var(--primary-dark);font-size:11.5px;font-weight:850;padding:7px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:16px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary)}
+.toggle-bar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px;background:var(--surface-alt);border:1px solid var(--border);padding:5px;border-radius:10px}.toggle-btn{padding:11px 9px;border:0;border-radius:7px;font-size:12px;font-weight:750;cursor:pointer;background:transparent;color:var(--muted);transition:.2s}.toggle-btn.active{background:var(--primary);color:#fff;box-shadow:0 3px 8px rgba(15,118,110,.25)}
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 12px}.chip-btn{background:var(--surface-alt);border:1px solid #5eead4;color:var(--primary-dark);padding:7px 11px;border-radius:20px;font-size:11.5px;font-weight:750;cursor:pointer}.chip-btn:hover{background:var(--primary-soft)}
+.table-scroll{width:100%;overflow-x:auto;border:1px solid var(--border);border-radius:9px}.items-input-table{width:100%;min-width:470px;border-collapse:collapse;margin-top:0;font-size:12px}.items-input-table th{text-align:left;padding:9px 7px;color:var(--muted);font-weight:850;background:var(--surface-alt);border-bottom:2px solid var(--border)}.items-input-table td{padding:6px 5px;border-bottom:1px solid var(--border)}.items-input-table input{padding:8px 9px;font-size:13px}.btn-del-row{background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;border-radius:7px;width:32px;height:35px;font-weight:bold;cursor:pointer}.btn-add-row{background:var(--primary-soft);color:var(--primary-dark);border:1.5px dashed var(--primary);padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:750;cursor:pointer;margin-top:9px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:145px;padding:13px 12px;border:0;border-radius:9px;font-size:13.5px;font-weight:850;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 11px rgba(0,0,0,.1);transition:.2s}.btn:hover{opacity:.94;transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:wait;transform:none}.btn-pdf{background:linear-gradient(135deg,#0f766e,#115e59)}.btn-print{background:linear-gradient(135deg,#334155,#0f172a)}.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d)}
+.preview-panel{position:sticky;top:82px}.preview-label{text-align:center;font-size:11.5px;font-weight:850;color:var(--muted);letter-spacing:.7px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:12px;border-radius:10px;border:1px solid var(--border);display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0b1424}#a4DocSheet{background:#fff!important;color:#0f172a!important;width:100%;max-width:720px;padding:20px 18px;border:1.5px solid #cbd5e1;box-shadow:0 10px 30px rgba(15,23,42,.08);border-radius:8px;box-sizing:border-box;flex-shrink:0}
+.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px;background:#fff;color:#0f172a}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #0f766e;padding-bottom:10px;margin-bottom:12px;gap:8px;flex-wrap:wrap}.doc-biz h2{margin:0;font-size:18px;font-weight:850;color:#0f172a;text-transform:uppercase;overflow-wrap:anywhere}.doc-biz p{margin:3px 0 0;font-size:11px;color:#475569;overflow-wrap:anywhere}.doc-type-badge{background:#0f766e;color:#fff;padding:5px 11px;font-size:10.5px;font-weight:850;border-radius:5px;text-transform:uppercase;max-width:100%}
+.guest-grid-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:11px;table-layout:fixed}.guest-grid-table td{padding:5px 6px;border:1px solid #cbd5e1;vertical-align:top;overflow-wrap:anywhere}.guest-grid-table td.lbl{background:#f8fafc;font-weight:750;color:#334155;width:22%}.guest-grid-table td.val{font-weight:650;color:#0f172a;width:28%}
+.doc-items-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px;table-layout:fixed}.doc-items-table th{background:#ccfbf1;color:#115e59;padding:6px;text-align:left;font-weight:850;border:1px solid #5eead4}.doc-items-table td{padding:5.5px 6px;border:1px solid #e2e8f0;font-weight:650;color:#0f172a;overflow-wrap:anywhere}.t-right{text-align:right!important}.t-center{text-align:center!important}
+.summary-wrap{display:flex;justify-content:flex-end;margin:10px 0}.summary-table{font-size:11.5px;border-collapse:collapse;min-width:230px;color:#0f172a}.summary-table td{padding:4px 8px}.summary-table .total-row td{background:#f0fdfa;border-top:2px solid #0f766e;font-size:14px;font-weight:850;color:#115e59}.notes-box{background:#f8fafc;border-left:3.5px solid #0f766e;padding:7px 10px;font-size:10.5px;color:#334155;margin:10px 0;line-height:1.45;overflow-wrap:anywhere}.footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:10.5px;gap:10px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:750;color:#334155}
+@media(max-width:1100px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 30px;gap:16px}.preview-panel{position:static}}
+@media(max-width:680px){.top-nav{padding:10px 12px}.nav-title{font-size:13px}.nav-left{width:100%;justify-content:space-between}.nav-right{width:100%;justify-content:space-between}.theme-wrap{justify-content:flex-end}.theme-hint{font-size:10.5px}.kb-wrapper{padding:10px 8px 24px}.control-box,.preview-panel{padding:14px 11px;border-radius:12px}.grid-2,.grid-3{grid-template-columns:1fr}.toggle-bar{grid-template-columns:1fr}.btn{width:100%;min-width:100%}.preview-viewport{justify-content:flex-start;padding:8px}#a4DocSheet{min-width:600px}.lang-control{justify-content:space-between;flex:1}.lang-control select{min-width:130px}}
+@media print{@page{size:A4 portrait;margin:0}body{background:#fff!important}.top-nav,.control-box,.preview-label{display:none!important}.kb-wrapper{display:block!important;padding:0!important;margin:0!important}.preview-panel{position:static!important;padding:0!important;border:0!important;box-shadow:none!important}#a4DocSheet{width:100%!important;max-width:none!important;border:0!important;box-shadow:none!important;padding:12mm!important}}
 </style>
 </head>
 <body>
-
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Hotel & Lodge Guest Slip</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left"><a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← सभी टूल</a><span class="nav-title">KaamKaj Bills • Hotel & Lodge</span></div>
+  <div class="nav-right">
+    <label class="lang-control"><span>🌐 <span data-i18n="language">भाषा चुनें</span></span><select id="sel_lang" onchange="changeLanguage(this.value)" aria-label="Select language"><option value="hi">हिन्दी</option><option value="en">English</option><option value="bn">বাংলা</option><option value="te">తెలుగు</option><option value="mr">मराठी</option><option value="ta">தமிழ்</option><option value="gu">ગુજરાતી</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="or">ଓଡ଼ିଆ</option><option value="pa">ਪੰਜਾਬੀ</option><option value="ur">اردو</option></select></label>
+    <div class="theme-wrap"><span class="theme-hint" data-i18n="themeHint">यहाँ से आप मोड बदल सकते हैं</span><button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button></div>
+  </div>
 </div>
 
 <div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Slip Mode Chunein:</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnCheckIn" onclick="setDocMode('CHECKIN')">🏨 Guest Check-in Registration Slip</button>
-        <button type="button" class="toggle-btn" id="btnCheckOut" onclick="setDocMode('CHECKOUT')">🧾 Final Check-out Room Bill</button>
-      </div>
-    </div>
-
-    <div class="section-badge">1. Hotel / Lodge / Guest House Details</div>
+    <div style="margin-bottom:10px"><label data-i18n="modeLabel">1. पर्ची का प्रकार चुनें:</label><div class="toggle-bar"><button type="button" class="toggle-btn active" id="btnCheckIn" onclick="setDocMode('CHECKIN')">🏨 Guest Check-in Registration Slip</button><button type="button" class="toggle-btn" id="btnCheckOut" onclick="setDocMode('CHECKOUT')">🧾 Final Check-out Room Bill</button></div></div>
+    <div class="section-badge" data-i18n="hotelSection">1. होटल / लॉज की जानकारी</div>
     <div class="grid-2">
-      <div class="field"><label>Hotel / Lodge Name</label><input type="text" id="in_hotel" placeholder="उदा. Hotel Sai Residency & Lodge" oninput="renderDoc()"></div>
-      <div class="field"><label>Address, Reception No. & GSTIN</label><input type="text" id="in_addr" placeholder="उदा. Near Railway Station, Pune | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="hotelName">होटल / लॉज का नाम</label><input type="text" id="in_hotel" data-ph="hotelPh" placeholder="उदा. Hotel Sai Residency & Lodge" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="hotelAddress">पता, रिसेप्शन नंबर और GSTIN</label><input type="text" id="in_addr" data-ph="addressPh" placeholder="उदा. रेलवे स्टेशन के पास, पुणे | मोबाइल: 98XXXXXXXX" oninput="renderDoc()"></div>
     </div>
-
-    <div class="section-badge">2. Guest & Room Stay Details</div>
+    <div class="section-badge" data-i18n="guestSection">2. अतिथि और कमरे की जानकारी</div>
     <div class="grid-3">
-      <div class="field"><label>Folio / Bill No. (Auto)</label><input type="text" id="in_folio" oninput="renderDoc()"></div>
-      <div class="field"><label>Room No. & Type</label><input type="text" id="in_room" placeholder="उदा. Room 204 (Deluxe AC)" oninput="renderDoc()"></div>
-      <div class="field"><label>No. of Guests (अतिथि)</label><input type="text" id="in_guests" placeholder="उदा. 2 Adults, 1 Child" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="folio">फोलियो / बिल नंबर (ऑटो)</label><input type="text" id="in_folio" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="room">कमरा नंबर और प्रकार</label><input type="text" id="in_room" data-ph="roomPh" placeholder="उदा. कमरा 204 (डीलक्स AC)" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="guestCount">अतिथियों की संख्या</label><input type="text" id="in_guests" data-ph="guestCountPh" placeholder="उदा. 2 वयस्क, 1 बच्चा" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Primary Guest Full Name</label><input type="text" id="in_guest_name" placeholder="उदा. Vikramaditya Rao" oninput="renderDoc()"></div>
-      <div class="field"><label>Guest Mobile / WhatsApp</label><input type="text" id="in_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="guestName">मुख्य अतिथि का पूरा नाम</label><input type="text" id="in_guest_name" data-ph="guestNamePh" placeholder="उदा. विक्रम राव" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="guestPhone">अतिथि मोबाइल / WhatsApp</label><input type="text" id="in_phone" data-ph="phonePh" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>ID Proof Type & Last 4 Digits</label><input type="text" id="in_id_proof" placeholder="उदा. Aadhaar Card (XXXX-8492)" oninput="renderDoc()"></div>
-      <div class="field"><label>Guest City / Coming From</label><input type="text" id="in_city" placeholder="उदा. Mumbai, Maharashtra" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="idProof">पहचान प्रमाण का प्रकार और अंतिम 4 अंक</label><input type="text" id="in_id_proof" data-ph="idPh" placeholder="उदा. Aadhaar (XXXX-8492)" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="guestCity">अतिथि का शहर / कहाँ से आए हैं</label><input type="text" id="in_city" data-ph="cityPh" placeholder="उदा. मुंबई, महाराष्ट्र" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Check-in Date & Time</label><input type="text" id="in_checkin_dt" oninput="renderDoc()"></div>
-      <div class="field"><label>Check-out Date & Time</label><input type="text" id="in_checkout_dt" placeholder="उदा. Next Day 11:00 AM" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="checkin">चेक-इन की तारीख और समय</label><input type="text" id="in_checkin_dt" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="checkout">चेक-आउट की तारीख और समय</label><input type="text" id="in_checkout_dt" data-ph="checkoutPh" placeholder="उदा. अगले दिन सुबह 11:00 बजे" oninput="renderDoc()"></div>
     </div>
-
-    <div class="section-badge">3. Room Tariff & Food / Extra Services</div>
+    <div class="section-badge" data-i18n="servicesSection">3. कमरे का किराया और अतिरिक्त सेवाएँ</div>
     <div class="chip-group">
-      <button type="button" class="chip-btn" onclick="quickAdd('AC Deluxe Room Tariff (Per Night)', 1, 1800)">+ Deluxe AC Room</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Non-AC Standard Room Tariff', 1, 1000)">+ Standard Room</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Extra Mattress / Bedding Charge', 1, 350)">+ Extra Mattress</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Room Service / Tea & Breakfast', 2, 150)">+ Breakfast / Tea</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Lunch / Dinner Thali Package', 2, 220)">+ Meals / Thali</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Laundry & Ironing Service', 1, 120)">+ Laundry</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('deluxe',1,1800)" data-i18n="chipDeluxe">+ डीलक्स AC कमरा</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('standard',1,1000)" data-i18n="chipStandard">+ स्टैंडर्ड कमरा</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('mattress',1,350)" data-i18n="chipMattress">+ अतिरिक्त गद्दा</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('breakfast',2,150)" data-i18n="chipBreakfast">+ नाश्ता / चाय</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('meals',2,220)" data-i18n="chipMeals">+ भोजन / थाली</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('laundry',1,120)" data-i18n="chipLaundry">+ कपड़े धुलाई</button>
     </div>
-
-    <div style="overflow-x: auto;">
-      <table class="items-input-table">
-        <thead>
-          <tr>
-            <th style="width: 52%;">Room / Service Description</th>
-            <th style="width: 18%;">Nights / Qty</th>
-            <th style="width: 22%;">Rate (₹)</th>
-            <th style="width: 8%;"></th>
-          </tr>
-        </thead>
-        <tbody id="itemsInputsBody"></tbody>
-      </table>
-    </div>
-    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Naya Charge / Room Service Jodein</button>
-
-    <div class="section-badge">4. Advance, Tax & House Rules</div>
+    <div class="table-scroll"><table class="items-input-table"><thead><tr><th style="width:52%" data-i18n="serviceDesc">कमरा / सेवा का विवरण</th><th style="width:18%" data-i18n="nightsQty">रातें / संख्या</th><th style="width:22%" data-i18n="rate">दर (₹)</th><th style="width:8%"></th></tr></thead><tbody id="itemsInputsBody"></tbody></table></div>
+    <button type="button" class="btn-add-row" onclick="addItemRow()" data-i18n="addCharge">+ नया शुल्क / रूम सर्विस जोड़ें</button>
+    <div class="section-badge" data-i18n="paymentSection">4. एडवांस, टैक्स और होटल नियम</div>
     <div class="grid-3">
-      <div class="field"><label>GST / Tax (%)</label>
-        <select id="in_gst" onchange="calcTotals()">
-          <option value="0" selected>0% (Included / Exempt)</option>
-          <option value="5">5% GST</option>
-          <option value="12">12% GST</option>
-        </select>
-      </div>
-      <div class="field"><label>Advance Deposit Paid (₹)</label><input type="number" id="in_adv" placeholder="1000" oninput="calcTotals()"></div>
-      <div class="field"><label>Payment Mode</label>
-        <select id="in_mode" onchange="renderDoc()">
-          <option value="UPI / Online">UPI / Card</option>
-          <option value="CASH">CASH (नकद)</option>
-        </select>
-      </div>
+      <div class="field"><label data-i18n="gst">GST / टैक्स (%)</label><select id="in_gst" onchange="calcTotals()"><option value="0" data-i18n="gst0">0% (शामिल / छूट)</option><option value="5">5% GST</option><option value="12">12% GST</option></select></div>
+      <div class="field"><label data-i18n="advance">जमा एडवांस (₹)</label><input type="number" id="in_adv" min="0" step="any" placeholder="1000" oninput="calcTotals()"></div>
+      <div class="field"><label data-i18n="paymentMode">भुगतान का तरीका</label><select id="in_mode" onchange="renderDoc()"><option value="UPI / Online" data-i18n="upi">UPI / कार्ड</option><option value="CASH" data-i18n="cash">नकद</option></select></div>
     </div>
-    <div class="field"><label>Hotel Rules / Remarks</label><input type="text" id="in_notes" placeholder="उदा. Standard Check-out time is 11:00 AM. Valid Govt. ID mandatory for all guests." oninput="renderDoc()"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Slip</button>
-    </div>
+    <div class="field"><label data-i18n="hotelRules">होटल के नियम / टिप्पणी</label><input type="text" id="in_notes" data-ph="notesPh" placeholder="उदा. चेक-आउट समय सुबह 11 बजे है। सभी अतिथियों के लिए वैध सरकारी पहचान पत्र अनिवार्य है।" oninput="renderDoc()"></div>
+    <div class="actions"><button type="button" class="btn btn-pdf" id="btn_pdf" onclick="downloadA4PDF()" data-i18n="downloadPdf">📥 A4 PDF डाउनलोड करें</button><button type="button" class="btn btn-print" onclick="printDocDirect()" data-i18n="directPrint">🖨️ सीधे प्रिंट करें</button><button type="button" class="btn btn-wa" onclick="shareWhatsApp()" data-i18n="whatsapp">📲 WhatsApp पर्ची</button></div>
   </div>
 
-  <!-- RIGHT: LIVE PREVIEW -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Hotel Folio / Slip Preview</div>
-    <div id="a4DocSheet">
-      <div class="slip-box">
-        <div class="doc-header">
-          <div class="doc-biz">
-            <h2 id="out_hotel">HOTEL SAI RESIDENCY & LODGE</h2>
-            <p id="out_addr">Near Railway Station, City | Mob: 98XXXXXXXX</p>
-          </div>
-          <div class="doc-type-badge" id="out_badge">GUEST CHECK-IN SLIP</div>
-        </div>
-
-        <table class="guest-grid-table">
-          <tr>
-            <td class="lbl">Folio / Bill No:</td><td class="val"><b id="out_folio">-</b></td>
-            <td class="lbl">Room No / Type:</td><td class="val"><b id="out_room">-</b></td>
-          </tr>
-          <tr>
-            <td class="lbl">Guest Name:</td><td class="val" id="out_guest">-</td>
-            <td class="lbl">Occupancy:</td><td class="val" id="out_guests">-</td>
-          </tr>
-          <tr>
-            <td class="lbl">ID Proof:</td><td class="val" id="out_id">-</td>
-            <td class="lbl">Origin City:</td><td class="val" id="out_city">-</td>
-          </tr>
-          <tr>
-            <td class="lbl">Check-In:</td><td class="val" id="out_ci">-</td>
-            <td class="lbl">Check-Out:</td><td class="val" id="out_co">-</td>
-          </tr>
-        </table>
-
-        <table class="doc-items-table">
-          <thead>
-            <tr>
-              <th class="t-center" style="width:8%">#</th>
-              <th style="width:52%">Particulars / Room & Services</th>
-              <th class="t-center" style="width:12%">Qty</th>
-              <th class="t-right" style="width:14%">Rate</th>
-              <th class="t-right" style="width:14%">Amount</th>
-            </tr>
-          </thead>
-          <tbody id="out_tbody"></tbody>
-        </table>
-
-        <div class="summary-wrap">
-          <table class="summary-table">
-            <tr><td>Subtotal:</td><td class="t-right" id="out_sub">₹0.00</td></tr>
-            <tr id="row_gst" style="display:none; color:#0f766e;"><td id="out_gst_lbl">GST:</td><td class="t-right" id="out_gst">+₹0.00</td></tr>
-            <tr class="total-row"><td>Grand Total:</td><td class="t-right" id="out_tot">₹0.00</td></tr>
-            <tr id="row_adv" style="display:none;"><td>Advance Paid (<span id="out_mode">UPI</span>):</td><td class="t-right" id="out_adv">-₹0.00</td></tr>
-            <tr id="row_bal" style="display:none; color:#dc2626; font-weight:700;"><td>Balance Payable:</td><td class="t-right" id="out_bal">₹0.00</td></tr>
-          </table>
-        </div>
-
-        <div class="notes-box">
-          <b>Hotel Policy:</b> <span id="out_notes">Standard Check-out time is 11:00 AM. Please hand over room keys at reception.</span>
-        </div>
-
-        <div class="footer-sig-row">
-          <div style="font-size:10px; color:#64748b;">Guest Signature</div>
-          <div class="sig-block">Reception / Front Desk Sign</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="preview-panel"><div class="preview-label" data-i18n="previewTitle">लाइव होटल फोलियो / पर्ची प्रीव्यू</div><div class="preview-viewport"><div id="a4DocSheet">
+    <div class="slip-box"><div class="doc-header"><div class="doc-biz"><h2 id="out_hotel">HOTEL SAI RESIDENCY & LODGE</h2><p id="out_addr">Near Railway Station, City | Mob: 98XXXXXXXX</p></div><div class="doc-type-badge" id="out_badge">GUEST CHECK-IN SLIP</div></div>
+    <table class="guest-grid-table"><tr><td class="lbl" id="lbl_folio">Folio / Bill No:</td><td class="val"><b id="out_folio">-</b></td><td class="lbl" id="lbl_room">Room No / Type:</td><td class="val"><b id="out_room">-</b></td></tr><tr><td class="lbl" id="lbl_guest">Guest Name:</td><td class="val" id="out_guest">-</td><td class="lbl" id="lbl_occupancy">Occupancy:</td><td class="val" id="out_guests">-</td></tr><tr><td class="lbl" id="lbl_id">ID Proof:</td><td class="val" id="out_id">-</td><td class="lbl" id="lbl_city">Origin City:</td><td class="val" id="out_city">-</td></tr><tr><td class="lbl" id="lbl_ci">Check-In:</td><td class="val" id="out_ci">-</td><td class="lbl" id="lbl_co">Check-Out:</td><td class="val" id="out_co">-</td></tr></table>
+    <table class="doc-items-table"><thead><tr><th class="t-center" style="width:8%">#</th><th style="width:52%" id="lbl_particulars">Particulars / Room & Services</th><th class="t-center" style="width:12%" id="lbl_qty">Qty</th><th class="t-right" style="width:14%" id="lbl_rate">Rate</th><th class="t-right" style="width:14%" id="lbl_amount">Amount</th></tr></thead><tbody id="out_tbody"></tbody></table>
+    <div class="summary-wrap"><table class="summary-table"><tr><td id="lbl_sub">Subtotal:</td><td class="t-right" id="out_sub">₹0.00</td></tr><tr id="row_gst" style="display:none;color:#0f766e"><td id="out_gst_lbl">GST:</td><td class="t-right" id="out_gst">+₹0.00</td></tr><tr class="total-row"><td id="lbl_grand">Grand Total:</td><td class="t-right" id="out_tot">₹0.00</td></tr><tr id="row_adv" style="display:none"><td><span id="lbl_advance">Advance Paid</span> (<span id="out_mode">UPI</span>):</td><td class="t-right" id="out_adv">-₹0.00</td></tr><tr id="row_bal" style="display:none;color:#dc2626;font-weight:700"><td id="lbl_balance">Balance Payable:</td><td class="t-right" id="out_bal">₹0.00</td></tr></table></div>
+    <div class="notes-box"><b id="lbl_policy">Hotel Policy:</b> <span id="out_notes">Standard Check-out time is 11:00 AM. Please hand over room keys at reception.</span></div>
+    <div class="footer-sig-row"><div style="font-size:10px;color:#64748b" id="lbl_signature">Guest Signature</div><div class="sig-block" id="lbl_reception">Reception / Front Desk Sign</div></div></div>
+  </div></div></div>
 </div>
 
 <script>
-  let docMode = 'CHECKIN';
-  let items = [
-    { desc: 'Deluxe AC Room Tariff (Per Night)', qty: 1, rate: 1800 }
-  ];
-
-  function setDocMode(m) {
-    docMode = m;
-    document.getElementById('btnCheckIn').classList.toggle('active', m === 'CHECKIN');
-    document.getElementById('btnCheckOut').classList.toggle('active', m === 'CHECKOUT');
-    document.getElementById('in_folio').value = (m === 'CHECKIN' ? 'REG-' : 'HTL-') + Math.floor(100000 + Math.random() * 899990);
-    renderDoc();
-  }
-
-  function quickAdd(desc, qty, rate) { items.push({ desc, qty, rate }); renderInputRows(); calcTotals(); }
-  function renderInputRows() {
-    document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
-      <tr>
-        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
-        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;calcTotals()"></td>
-        <td><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;calcTotals()"></td>
-        <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
-      </tr>
-    `).join('');
-  }
-  function addItemRow() { items.push({ desc: '', qty: 1, rate: 0 }); renderInputRows(); calcTotals(); }
-  function delRow(i) { if (items.length > 1) { items.splice(i, 1); renderInputRows(); calcTotals(); } }
-
-  function calcTotals() {
-    const sub = items.reduce((s, it) => s + (it.qty * it.rate), 0);
-    const gst = parseFloat(document.getElementById('in_gst').value) || 0;
-    const tax = (sub * gst) / 100;
-    const tot = Math.round(sub + tax);
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    const bal = Math.max(0, tot - adv);
-
-    document.getElementById('out_sub').innerText = '₹' + sub.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('row_gst').style.display = gst > 0 ? 'table-row' : 'none';
-    document.getElementById('out_gst_lbl').innerText = `GST (${gst}%):`;
-    document.getElementById('out_gst').innerText = '+₹' + tax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('out_tot').innerText = '₹' + tot.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('row_adv').style.display = adv > 0 ? 'table-row' : 'none';
-    document.getElementById('row_bal').style.display = adv > 0 ? 'table-row' : 'none';
-    document.getElementById('out_adv').innerText = '-₹' + adv.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    document.getElementById('out_bal').innerText = '₹' + bal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-    renderDoc();
-  }
-
-  function renderDoc() {
-    document.getElementById('out_hotel').innerText = document.getElementById('in_hotel').value.trim() || 'HOTEL SAI RESIDENCY & LODGE';
-    document.getElementById('out_addr').innerText = document.getElementById('in_addr').value.trim() || 'Near Railway Station, City | Mob: 98XXXXXXXX';
-    document.getElementById('out_badge').innerText = docMode === 'CHECKIN' ? 'GUEST CHECK-IN SLIP' : 'FINAL ROOM BILL';
-    document.getElementById('out_folio').innerText = document.getElementById('in_folio').value || '-';
-    document.getElementById('out_room').innerText = document.getElementById('in_room').value || '-';
-    const g = document.getElementById('in_guest_name').value.trim() || '-';
-    const ph = document.getElementById('in_phone').value.trim();
-    document.getElementById('out_guest').innerText = ph ? `${g} (${ph})` : g;
-    document.getElementById('out_guests').innerText = document.getElementById('in_guests').value || '-';
-    document.getElementById('out_id').innerText = document.getElementById('in_id_proof').value || '-';
-    document.getElementById('out_city').innerText = document.getElementById('in_city').value || '-';
-    document.getElementById('out_ci').innerText = document.getElementById('in_checkin_dt').value || '-';
-    document.getElementById('out_co').innerText = document.getElementById('in_checkout_dt').value || '-';
-    document.getElementById('out_mode').innerText = document.getElementById('in_mode').value;
-    document.getElementById('out_notes').innerText = document.getElementById('in_notes').value.trim() || 'Standard Check-out time is 11:00 AM. Valid Govt. ID mandatory.';
-
-    document.getElementById('out_tbody').innerHTML = items.map((it, i) => `
-      <tr>
-        <td class="t-center">${i+1}</td>
-        <td>${it.desc || '-'}</td>
-        <td class="t-center">${it.qty}</td>
-        <td class="t-right">₹${it.rate.toLocaleString('en-IN')}</td>
-        <td class="t-right">₹${(it.qty * it.rate).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-      </tr>
-    `).join('');
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `HotelSlip_${document.getElementById('in_folio').value || 'Guest'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Hotel Folio</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px}
-      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #0f766e;padding-bottom:8px;margin-bottom:10px}
-      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
-      .doc-type-badge{background:#0f766e;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
-      .guest-grid-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
-      .guest-grid-table td{padding:4px 6px;border:1px solid #cbd5e1}.guest-grid-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-      .doc-items-table th{background:#ccfbf1;color:#115e59;padding:5px;text-align:left;border:1px solid #5eead4}
-      .doc-items-table td{padding:5px;border:1px solid #e2e8f0}.t-right{text-align:right}.t-center{text-align:center}
-      .summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}.summary-table{font-size:11px;border-collapse:collapse;min-width:220px}
-      .summary-table td{padding:2px 6px}.total-row td{background:#f0fdfa;border-top:2px solid #0f766e;font-size:13.5px;font-weight:800;color:#115e59}
-      .notes-box{background:#f8fafc;border-left:3px solid #0f766e;padding:6px 8px;font-size:10px;margin:8px 0}
-      .footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}
-      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const hotel = document.getElementById('in_hotel').value.trim() || 'Hotel';
-    const guest = document.getElementById('in_guest_name').value.trim() || 'Guest';
-    const room = document.getElementById('in_room').value.trim() || '-';
-    const tot = document.getElementById('out_tot').innerText;
-    const ph = document.getElementById('in_phone').value.trim().replace(/[^0-9]/g, '');
-    const msg = `*🏨 HOTEL ${docMode === 'CHECKIN' ? 'CHECK-IN SLIP' : 'ROOM BILL'} (${document.getElementById('in_folio').value})*\n*Hotel:* ${hotel}\n*Guest:* ${guest}\n*Room:* ${room}\n*Total:* ${tot}\n\n_Generated via KaamKaj Bills._`;
-    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = () => {
-    const now = new Date();
-    document.getElementById('in_checkin_dt').value = now.toISOString().split('T')[0] + ' 12:00 PM';
-    document.getElementById('in_folio').value = 'REG-' + Math.floor(100000 + Math.random() * 899990);
-    renderInputRows();
-    calcTotals();
-  };
+const LANGS={
+hi:{language:'भाषा चुनें',allTools:'← सभी टूल',themeHint:'यहाँ से आप मोड बदल सकते हैं',dark:'🌙 Dark Mode',light:'☀️ Light Mode',modeLabel:'1. पर्ची का प्रकार चुनें:',modeCheckin:'🏨 अतिथि चेक-इन पंजीकरण पर्ची',modeCheckout:'🧾 अंतिम चेक-आउट बिल',hotelSection:'1. होटल / लॉज की जानकारी',hotelName:'होटल / लॉज का नाम',hotelAddress:'पता, रिसेप्शन नंबर और GSTIN',guestSection:'2. अतिथि और कमरे की जानकारी',folio:'फोलियो / बिल नंबर (ऑटो)',room:'कमरा नंबर और प्रकार',guestCount:'अतिथियों की संख्या',guestName:'मुख्य अतिथि का पूरा नाम',guestPhone:'अतिथि मोबाइल / WhatsApp',idProof:'पहचान प्रमाण का प्रकार और अंतिम 4 अंक',guestCity:'अतिथि का शहर / कहाँ से आए हैं',checkin:'चेक-इन की तारीख और समय',checkout:'चेक-आउट की तारीख और समय',servicesSection:'3. कमरे का किराया और अतिरिक्त सेवाएँ',chipDeluxe:'+ डीलक्स AC कमरा',chipStandard:'+ स्टैंडर्ड कमरा',chipMattress:'+ अतिरिक्त गद्दा',chipBreakfast:'+ नाश्ता / चाय',chipMeals:'+ भोजन / थाली',chipLaundry:'+ कपड़े धुलाई',serviceDesc:'कमरा / सेवा का विवरण',nightsQty:'रातें / संख्या',rate:'दर (₹)',addCharge:'+ नया शुल्क / रूम सर्विस जोड़ें',paymentSection:'4. एडवांस, टैक्स और होटल नियम',gst:'GST / टैक्स (%)',gst0:'0% (शामिल / छूट)',advance:'जमा एडवांस (₹)',paymentMode:'भुगतान का तरीका',upi:'UPI / कार्ड',cash:'नकद',hotelRules:'होटल के नियम / टिप्पणी',downloadPdf:'📥 A4 PDF डाउनलोड करें',directPrint:'🖨️ सीधे प्रिंट करें',whatsapp:'📲 WhatsApp पर्ची',previewTitle:'लाइव होटल फोलियो / पर्ची प्रीव्यू',hotelPh:'उदा. Hotel Sai Residency & Lodge',addressPh:'उदा. रेलवे स्टेशन के पास, पुणे | मोबाइल: 98XXXXXXXX',roomPh:'उदा. कमरा 204 (डीलक्स AC)',guestCountPh:'उदा. 2 वयस्क, 1 बच्चा',guestNamePh:'उदा. विक्रम राव',phonePh:'उदा. 9876543210',idPh:'उदा. Aadhaar (XXXX-8492)',cityPh:'उदा. मुंबई, महाराष्ट्र',checkoutPh:'उदा. अगले दिन सुबह 11:00 बजे',notesPh:'उदा. चेक-आउट सुबह 11 बजे है। वैध सरकारी पहचान पत्र अनिवार्य है।',deluxe:'डीलक्स AC कमरे का किराया (प्रति रात)',standard:'नॉन-AC स्टैंडर्ड कमरे का किराया',mattress:'अतिरिक्त गद्दा / बिस्तर शुल्क',breakfast:'रूम सर्विस / चाय और नाश्ता',meals:'लंच / डिनर थाली पैकेज',laundry:'कपड़े धोने और प्रेस की सेवा',lblFolio:'फोलियो / बिल नंबर:',lblRoom:'कमरा नंबर / प्रकार:',lblGuest:'अतिथि का नाम:',lblOccupancy:'अतिथियों की संख्या:',lblId:'पहचान प्रमाण:',lblCity:'मूल शहर:',lblCi:'चेक-इन:',lblCo:'चेक-आउट:',lblParticulars:'विवरण / कमरा और सेवाएँ',lblQty:'संख्या',lblRate:'दर',lblAmount:'राशि',lblSub:'उप-योग:',lblGrand:'कुल राशि:',lblAdvance:'जमा एडवांस',lblBalance:'बाकी देय राशि:',lblPolicy:'होटल नीति:',lblSignature:'अतिथि के हस्ताक्षर',lblReception:'रिसेप्शन / फ्रंट डेस्क हस्ताक्षर',badgeIn:'अतिथि चेक-इन पर्ची',badgeOut:'अंतिम कमरे का बिल',defaultPolicy:'चेक-आउट का सामान्य समय सुबह 11:00 बजे है। कृपया कमरे की चाबी रिसेप्शन पर जमा करें।',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'हटाएँ',empty:'-',pdfBusy:'⏳ PDF बन रहा है...',pdfError:'PDF नहीं बन पाया। कृपया दोबारा प्रयास करें।'},
+en:{language:'Select language',allTools:'← All Tools',themeHint:'Change the display mode here',dark:'🌙 Dark Mode',light:'☀️ Light Mode',modeLabel:'1. Choose slip type:',modeCheckin:'🏨 Guest Check-in Registration Slip',modeCheckout:'🧾 Final Check-out Room Bill',hotelSection:'1. Hotel / Lodge Details',hotelName:'Hotel / Lodge Name',hotelAddress:'Address, Reception No. & GSTIN',guestSection:'2. Guest & Room Details',folio:'Folio / Bill No. (Auto)',room:'Room No. & Type',guestCount:'Number of Guests',guestName:'Primary Guest Full Name',guestPhone:'Guest Mobile / WhatsApp',idProof:'ID Proof Type & Last 4 Digits',guestCity:'Guest City / Coming From',checkin:'Check-in Date & Time',checkout:'Check-out Date & Time',servicesSection:'3. Room Tariff & Extra Services',chipDeluxe:'+ Deluxe AC Room',chipStandard:'+ Standard Room',chipMattress:'+ Extra Mattress',chipBreakfast:'+ Breakfast / Tea',chipMeals:'+ Meals / Thali',chipLaundry:'+ Laundry',serviceDesc:'Room / Service Description',nightsQty:'Nights / Qty',rate:'Rate (₹)',addCharge:'+ Add Room Service / Charge',paymentSection:'4. Advance, Tax & Hotel Rules',gst:'GST / Tax (%)',gst0:'0% (Included / Exempt)',advance:'Advance Deposit Paid (₹)',paymentMode:'Payment Mode',upi:'UPI / Card',cash:'Cash',hotelRules:'Hotel Rules / Remarks',downloadPdf:'📥 Download A4 PDF',directPrint:'🖨️ Direct Print',whatsapp:'📲 WhatsApp Slip',previewTitle:'Live Hotel Folio / Slip Preview',hotelPh:'e.g. Hotel Sai Residency & Lodge',addressPh:'e.g. Near Railway Station, Pune | Mob: 98XXXXXXXX',roomPh:'e.g. Room 204 (Deluxe AC)',guestCountPh:'e.g. 2 Adults, 1 Child',guestNamePh:'e.g. Vikram Rao',phonePh:'e.g. 9876543210',idPh:'e.g. Aadhaar (XXXX-8492)',cityPh:'e.g. Mumbai, Maharashtra',checkoutPh:'e.g. Next Day 11:00 AM',notesPh:'e.g. Check-out is 11 AM. Valid government ID is mandatory.',deluxe:'Deluxe AC Room Tariff (Per Night)',standard:'Non-AC Standard Room Tariff',mattress:'Extra Mattress / Bedding Charge',breakfast:'Room Service / Tea & Breakfast',meals:'Lunch / Dinner Thali Package',laundry:'Laundry & Ironing Service',lblFolio:'Folio / Bill No:',lblRoom:'Room No / Type:',lblGuest:'Guest Name:',lblOccupancy:'Occupancy:',lblId:'ID Proof:',lblCity:'Origin City:',lblCi:'Check-In:',lblCo:'Check-Out:',lblParticulars:'Particulars / Room & Services',lblQty:'Qty',lblRate:'Rate',lblAmount:'Amount',lblSub:'Subtotal:',lblGrand:'Grand Total:',lblAdvance:'Advance Paid',lblBalance:'Balance Payable:',lblPolicy:'Hotel Policy:',lblSignature:'Guest Signature',lblReception:'Reception / Front Desk Sign',badgeIn:'Guest Check-in Slip',badgeOut:'Final Room Bill',defaultPolicy:'Standard check-out time is 11:00 AM. Please hand over room keys at reception.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'Delete',empty:'-',pdfBusy:'⏳ Generating PDF...',pdfError:'PDF could not be generated. Please try again.'},
+mr:{language:'भाषा निवडा',allTools:'← सर्व टूल्स',themeHint:'येथून मोड बदलू शकता',dark:'🌙 डार्क मोड',light:'☀️ लाइट मोड',modeLabel:'1. पावतीचा प्रकार निवडा:',modeCheckin:'🏨 अतिथी चेक-इन नोंदणी पावती',modeCheckout:'🧾 अंतिम चेक-आउट बिल',hotelSection:'1. हॉटेल / लॉजची माहिती',hotelName:'हॉटेल / लॉजचे नाव',hotelAddress:'पत्ता, रिसेप्शन क्रमांक व GSTIN',guestSection:'2. अतिथी व खोलीची माहिती',folio:'फोलिओ / बिल क्रमांक (ऑटो)',room:'खोली क्रमांक व प्रकार',guestCount:'अतिथींची संख्या',guestName:'मुख्य अतिथीचे पूर्ण नाव',guestPhone:'अतिथी मोबाईल / WhatsApp',idProof:'ओळखपत्राचा प्रकार व शेवटचे 4 अंक',guestCity:'अतिथीचे शहर / कुठून आले',checkin:'चेक-इन तारीख व वेळ',checkout:'चेक-आउट तारीख व वेळ',servicesSection:'3. खोली भाडे व अतिरिक्त सेवा',chipDeluxe:'+ डिलक्स AC खोली',chipStandard:'+ स्टँडर्ड खोली',chipMattress:'+ अतिरिक्त गादी',chipBreakfast:'+ नाश्ता / चहा',chipMeals:'+ जेवण / थाळी',chipLaundry:'+ कपडे धुलाई',serviceDesc:'खोली / सेवेचे वर्णन',nightsQty:'रात्री / संख्या',rate:'दर (₹)',addCharge:'+ नवीन शुल्क / रूम सर्व्हिस जोडा',paymentSection:'4. आगाऊ रक्कम, कर व हॉटेलचे नियम',gst:'GST / कर (%)',gst0:'0% (समाविष्ट / सूट)',advance:'भरलेली आगाऊ रक्कम (₹)',paymentMode:'पेमेंट पद्धत',upi:'UPI / कार्ड',cash:'रोख',hotelRules:'हॉटेलचे नियम / टिप्पणी',downloadPdf:'📥 A4 PDF डाउनलोड',directPrint:'🖨️ थेट प्रिंट',whatsapp:'📲 WhatsApp पावती',previewTitle:'थेट हॉटेल फोलिओ / पावती पूर्वदृश्य',hotelPh:'उदा. Hotel Sai Residency & Lodge',addressPh:'उदा. रेल्वे स्टेशनजवळ, पुणे | मोबाईल: 98XXXXXXXX',roomPh:'उदा. खोली 204 (डिलक्स AC)',guestCountPh:'उदा. 2 प्रौढ, 1 मूल',guestNamePh:'उदा. विक्रम राव',phonePh:'उदा. 9876543210',idPh:'उदा. Aadhaar (XXXX-8492)',cityPh:'उदा. मुंबई, महाराष्ट्र',checkoutPh:'उदा. दुसऱ्या दिवशी सकाळी 11:00',notesPh:'उदा. चेक-आउट वेळ सकाळी 11 वाजता. वैध सरकारी ओळखपत्र आवश्यक.',deluxe:'डिलक्स AC खोली भाडे (प्रति रात्र)',standard:'नॉन-AC स्टँडर्ड खोली भाडे',mattress:'अतिरिक्त गादी / बेडिंग शुल्क',breakfast:'रूम सर्व्हिस / चहा व नाश्ता',meals:'दुपारचे / रात्रीचे जेवण थाळी',laundry:'कपडे धुणे व इस्त्री सेवा',lblFolio:'फोलिओ / बिल क्रमांक:',lblRoom:'खोली क्रमांक / प्रकार:',lblGuest:'अतिथीचे नाव:',lblOccupancy:'अतिथी संख्या:',lblId:'ओळखपत्र:',lblCity:'मूळ शहर:',lblCi:'चेक-इन:',lblCo:'चेक-आउट:',lblParticulars:'तपशील / खोली व सेवा',lblQty:'संख्या',lblRate:'दर',lblAmount:'रक्कम',lblSub:'उप-बेरीज:',lblGrand:'एकूण रक्कम:',lblAdvance:'आगाऊ भरले',lblBalance:'शिल्लक देय:',lblPolicy:'हॉटेल नियम:',lblSignature:'अतिथीची सही',lblReception:'रिसेप्शन / फ्रंट डेस्क सही',badgeIn:'अतिथी चेक-इन पावती',badgeOut:'अंतिम रूम बिल',defaultPolicy:'चेक-आउटची वेळ सकाळी 11:00 वाजता आहे. कृपया खोलीची चावी रिसेप्शनला द्या.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'काढा',empty:'-',pdfBusy:'⏳ PDF तयार होत आहे...',pdfError:'PDF तयार झाले नाही. पुन्हा प्रयत्न करा.'},
+bn:{language:'ভাষা নির্বাচন',allTools:'← সব টুল',themeHint:'এখান থেকে মোড পরিবর্তন করুন',dark:'🌙 ডার্ক মোড',light:'☀️ লাইট মোড',modeLabel:'1. স্লিপের ধরন নির্বাচন করুন:',modeCheckin:'🏨 অতিথি চেক-ইন নিবন্ধন স্লিপ',modeCheckout:'🧾 চূড়ান্ত চেক-আউট রুম বিল',hotelSection:'1. হোটেল / লজের বিবরণ',hotelName:'হোটেল / লজের নাম',hotelAddress:'ঠিকানা, রিসেপশন নম্বর ও GSTIN',guestSection:'2. অতিথি ও কক্ষের বিবরণ',folio:'ফোলিও / বিল নম্বর (অটো)',room:'রুম নম্বর ও ধরন',guestCount:'অতিথির সংখ্যা',guestName:'প্রধান অতিথির পুরো নাম',guestPhone:'অতিথির মোবাইল / WhatsApp',idProof:'পরিচয়পত্রের ধরন ও শেষ 4 সংখ্যা',guestCity:'অতিথির শহর / কোথা থেকে এসেছেন',checkin:'চেক-ইন তারিখ ও সময়',checkout:'চেক-আউট তারিখ ও সময়',servicesSection:'3. রুম ভাড়া ও অতিরিক্ত পরিষেবা',chipDeluxe:'+ ডিলাক্স AC রুম',chipStandard:'+ স্ট্যান্ডার্ড রুম',chipMattress:'+ অতিরিক্ত গদি',chipBreakfast:'+ ব্রেকফাস্ট / চা',chipMeals:'+ খাবার / থালি',chipLaundry:'+ লন্ড্রি',serviceDesc:'রুম / পরিষেবার বিবরণ',nightsQty:'রাত / পরিমাণ',rate:'দর (₹)',addCharge:'+ নতুন চার্জ / রুম সার্ভিস যোগ করুন',paymentSection:'4. অগ্রিম, কর ও হোটেলের নিয়ম',gst:'GST / কর (%)',gst0:'0% (অন্তর্ভুক্ত / ছাড়)',advance:'জমা অগ্রিম (₹)',paymentMode:'পেমেন্ট পদ্ধতি',upi:'UPI / কার্ড',cash:'নগদ',hotelRules:'হোটেলের নিয়ম / মন্তব্য',downloadPdf:'📥 A4 PDF ডাউনলোড',directPrint:'🖨️ সরাসরি প্রিন্ট',whatsapp:'📲 WhatsApp স্লিপ',previewTitle:'লাইভ হোটেল ফোলিও / স্লিপ প্রিভিউ',hotelPh:'যেমন Hotel Sai Residency & Lodge',addressPh:'যেমন রেলওয়ে স্টেশনের কাছে, পুনে | মোবাইল: 98XXXXXXXX',roomPh:'যেমন রুম 204 (ডিলাক্স AC)',guestCountPh:'যেমন 2 জন প্রাপ্তবয়স্ক, 1 শিশু',guestNamePh:'যেমন বিক্রম রাও',phonePh:'যেমন 9876543210',idPh:'যেমন Aadhaar (XXXX-8492)',cityPh:'যেমন মুম্বাই, মহারাষ্ট্র',checkoutPh:'যেমন পরের দিন সকাল 11:00',notesPh:'যেমন চেক-আউট সকাল 11টায়। বৈধ সরকারি পরিচয়পত্র আবশ্যক।',deluxe:'ডিলাক্স AC রুম ভাড়া (প্রতি রাত)',standard:'নন-AC স্ট্যান্ডার্ড রুম ভাড়া',mattress:'অতিরিক্ত গদি / বিছানার চার্জ',breakfast:'রুম সার্ভিস / চা ও ব্রেকফাস্ট',meals:'লাঞ্চ / ডিনার থালি প্যাকেজ',laundry:'লন্ড্রি ও ইস্ত্রি পরিষেবা',lblFolio:'ফোলিও / বিল নম্বর:',lblRoom:'রুম নম্বর / ধরন:',lblGuest:'অতিথির নাম:',lblOccupancy:'অতিথির সংখ্যা:',lblId:'পরিচয়পত্র:',lblCity:'মূল শহর:',lblCi:'চেক-ইন:',lblCo:'চেক-আউট:',lblParticulars:'বিবরণ / রুম ও পরিষেবা',lblQty:'পরিমাণ',lblRate:'দর',lblAmount:'পরিমাণ',lblSub:'উপমোট:',lblGrand:'সর্বমোট:',lblAdvance:'অগ্রিম জমা',lblBalance:'বাকি পাওনা:',lblPolicy:'হোটেল নীতি:',lblSignature:'অতিথির স্বাক্ষর',lblReception:'রিসেপশন / ফ্রন্ট ডেস্ক স্বাক্ষর',badgeIn:'অতিথি চেক-ইন স্লিপ',badgeOut:'চূড়ান্ত রুম বিল',defaultPolicy:'সাধারণ চেক-আউট সময় সকাল 11:00। অনুগ্রহ করে রুমের চাবি রিসেপশনে জমা দিন।',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'মুছুন',empty:'-',pdfBusy:'⏳ PDF তৈরি হচ্ছে...',pdfError:'PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।'},
+te:{language:'భాషను ఎంచుకోండి',allTools:'← అన్ని టూల్స్',themeHint:'ఇక్కడి నుంచి మోడ్ మార్చండి',dark:'🌙 డార్క్ మోడ్',light:'☀️ లైట్ మోడ్',modeLabel:'1. స్లిప్ రకాన్ని ఎంచుకోండి:',modeCheckin:'🏨 అతిథి చెక్-ఇన్ నమోదు స్లిప్',modeCheckout:'🧾 తుది చెక్-అవుట్ గది బిల్లు',hotelSection:'1. హోటల్ / లాడ్జ్ వివరాలు',hotelName:'హోటల్ / లాడ్జ్ పేరు',hotelAddress:'చిరునామా, రిసెప్షన్ నంబర్ & GSTIN',guestSection:'2. అతిథి & గది వివరాలు',folio:'ఫోలియో / బిల్ నంబర్ (ఆటో)',room:'గది నంబర్ & రకం',guestCount:'అతిథుల సంఖ్య',guestName:'ప్రధాన అతిథి పూర్తి పేరు',guestPhone:'అతిథి మొబైల్ / WhatsApp',idProof:'ID రకం & చివరి 4 అంకెలు',guestCity:'అతిథి నగరం / వచ్చిన ప్రదేశం',checkin:'చెక్-ఇన్ తేదీ & సమయం',checkout:'చెక్-అవుట్ తేదీ & సమయం',servicesSection:'3. గది అద్దె & అదనపు సేవలు',chipDeluxe:'+ డీలక్స్ AC గది',chipStandard:'+ స్టాండర్డ్ గది',chipMattress:'+ అదనపు పరుపు',chipBreakfast:'+ అల్పాహారం / టీ',chipMeals:'+ భోజనం / థాలి',chipLaundry:'+ లాండ్రీ',serviceDesc:'గది / సేవ వివరణ',nightsQty:'రాత్రులు / పరిమాణం',rate:'ధర (₹)',addCharge:'+ కొత్త ఛార్జీ / రూమ్ సర్వీస్ జోడించండి',paymentSection:'4. అడ్వాన్స్, పన్ను & హోటల్ నియమాలు',gst:'GST / పన్ను (%)',gst0:'0% (చేర్చబడింది / మినహాయింపు)',advance:'చెల్లించిన అడ్వాన్స్ (₹)',paymentMode:'చెల్లింపు విధానం',upi:'UPI / కార్డ్',cash:'నగదు',hotelRules:'హోటల్ నియమాలు / వ్యాఖ్యలు',downloadPdf:'📥 A4 PDF డౌన్‌లోడ్',directPrint:'🖨️ నేరుగా ప్రింట్',whatsapp:'📲 WhatsApp స్లిప్',previewTitle:'లైవ్ హోటల్ ఫోలియో / స్లిప్ ప్రివ్యూ',hotelPh:'ఉదా. Hotel Sai Residency & Lodge',addressPh:'ఉదా. రైల్వే స్టేషన్ దగ్గర, పుణే | మొబైల్: 98XXXXXXXX',roomPh:'ఉదా. గది 204 (డీలక్స్ AC)',guestCountPh:'ఉదా. 2 పెద్దలు, 1 పిల్లవాడు',guestNamePh:'ఉదా. విక్రమ్ రావు',phonePh:'ఉదా. 9876543210',idPh:'ఉదా. Aadhaar (XXXX-8492)',cityPh:'ఉదా. ముంబై, మహారాష్ట్ర',checkoutPh:'ఉదా. మరుసటి రోజు ఉదయం 11:00',notesPh:'ఉదా. చెక్-అవుట్ సమయం ఉదయం 11. ప్రభుత్వ ID తప్పనిసరి.',deluxe:'డీలక్స్ AC గది అద్దె (ప్రతి రాత్రి)',standard:'నాన్-AC స్టాండర్డ్ గది అద్దె',mattress:'అదనపు పరుపు / బెడ్డింగ్ ఛార్జీ',breakfast:'రూమ్ సర్వీస్ / టీ & అల్పాహారం',meals:'లంచ్ / డిన్నర్ థాలి ప్యాకేజ్',laundry:'లాండ్రీ & ఇస్త్రీ సేవ',lblFolio:'ఫోలియో / బిల్ నంబర్:',lblRoom:'గది నంబర్ / రకం:',lblGuest:'అతిథి పేరు:',lblOccupancy:'అతిథుల సంఖ్య:',lblId:'ID వివరాలు:',lblCity:'స్వస్థలం:',lblCi:'చెక్-ఇన్:',lblCo:'చెక్-అవుట్:',lblParticulars:'వివరాలు / గది & సేవలు',lblQty:'పరిమాణం',lblRate:'ధర',lblAmount:'మొత్తం',lblSub:'ఉపమొత్తం:',lblGrand:'మొత్తం బిల్లు:',lblAdvance:'అడ్వాన్స్ చెల్లింపు',lblBalance:'చెల్లించాల్సిన బాకీ:',lblPolicy:'హోటల్ నియమం:',lblSignature:'అతిథి సంతకం',lblReception:'రిసెప్షన్ / ఫ్రంట్ డెస్క్ సంతకం',badgeIn:'అతిథి చెక్-ఇన్ స్లిప్',badgeOut:'తుది గది బిల్లు',defaultPolicy:'సాధారణ చెక్-అవుట్ సమయం ఉదయం 11:00. గది తాళాన్ని రిసెప్షన్‌లో ఇవ్వండి.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'తొలగించు',empty:'-',pdfBusy:'⏳ PDF తయారవుతోంది...',pdfError:'PDF రూపొందలేదు. మళ్లీ ప్రయత్నించండి.'},
+ta:{language:'மொழியைத் தேர்ந்தெடுக்கவும்',allTools:'← அனைத்து கருவிகள்',themeHint:'இங்கிருந்து பயன்முறையை மாற்றலாம்',dark:'🌙 இருண்ட பயன்முறை',light:'☀️ ஒளி பயன்முறை',modeLabel:'1. ரசீது வகையைத் தேர்ந்தெடுக்கவும்:',modeCheckin:'🏨 விருந்தினர் செக்-இன் பதிவு சீட்டு',modeCheckout:'🧾 இறுதி செக்-அவுட் அறை பில்',hotelSection:'1. ஹோட்டல் / லாட்ஜ் விவரங்கள்',hotelName:'ஹோட்டல் / லாட்ஜ் பெயர்',hotelAddress:'முகவரி, வரவேற்பு எண் & GSTIN',guestSection:'2. விருந்தினர் & அறை விவரங்கள்',folio:'ஃபோலியோ / பில் எண் (தானாக)',room:'அறை எண் & வகை',guestCount:'விருந்தினர்கள் எண்ணிக்கை',guestName:'முக்கிய விருந்தினர் முழுப் பெயர்',guestPhone:'விருந்தினர் மொபைல் / WhatsApp',idProof:'அடையாள வகை & கடைசி 4 இலக்கங்கள்',guestCity:'விருந்தினர் நகரம் / வந்த இடம்',checkin:'செக்-இன் தேதி & நேரம்',checkout:'செக்-அவுட் தேதி & நேரம்',servicesSection:'3. அறை வாடகை & கூடுதல் சேவைகள்',chipDeluxe:'+ டீலக்ஸ் AC அறை',chipStandard:'+ ஸ்டாண்டர்ட் அறை',chipMattress:'+ கூடுதல் மெத்தை',chipBreakfast:'+ காலை உணவு / தேநீர்',chipMeals:'+ உணவு / தாளி',chipLaundry:'+ சலவை',serviceDesc:'அறை / சேவை விவரம்',nightsQty:'இரவுகள் / அளவு',rate:'விலை (₹)',addCharge:'+ புதிய கட்டணம் / அறை சேவை சேர்க்கவும்',paymentSection:'4. முன்பணம், வரி & ஹோட்டல் விதிகள்',gst:'GST / வரி (%)',gst0:'0% (சேர்க்கப்பட்டது / விலக்கு)',advance:'செலுத்திய முன்பணம் (₹)',paymentMode:'கட்டண முறை',upi:'UPI / அட்டை',cash:'ரொக்கம்',hotelRules:'ஹோட்டல் விதிகள் / குறிப்புகள்',downloadPdf:'📥 A4 PDF பதிவிறக்கம்',directPrint:'🖨️ நேரடி அச்சு',whatsapp:'📲 WhatsApp சீட்டு',previewTitle:'நேரடி ஹோட்டல் ஃபோலியோ / சீட்டு முன்னோட்டம்',hotelPh:'எ.கா. Hotel Sai Residency & Lodge',addressPh:'எ.கா. ரயில் நிலையம் அருகில், புனே | மொபைல்: 98XXXXXXXX',roomPh:'எ.கா. அறை 204 (டீலக்ஸ் AC)',guestCountPh:'எ.கா. 2 பெரியவர்கள், 1 குழந்தை',guestNamePh:'எ.கா. விக்ரம் ராவ்',phonePh:'எ.கா. 9876543210',idPh:'எ.கா. Aadhaar (XXXX-8492)',cityPh:'எ.கா. மும்பை, மகாராஷ்டிரா',checkoutPh:'எ.கா. அடுத்த நாள் காலை 11:00',notesPh:'எ.கா. செக்-அவுட் காலை 11 மணிக்கு. அரசு அடையாள அட்டை அவசியம்.',deluxe:'டீலக்ஸ் AC அறை வாடகை (ஒரு இரவு)',standard:'AC இல்லாத ஸ்டாண்டர்ட் அறை வாடகை',mattress:'கூடுதல் மெத்தை / படுக்கை கட்டணம்',breakfast:'அறை சேவை / தேநீர் & காலை உணவு',meals:'மதிய / இரவு உணவு தாளி',laundry:'துணி துவைத்தல் & அயர்னிங் சேவை',lblFolio:'ஃபோலியோ / பில் எண்:',lblRoom:'அறை எண் / வகை:',lblGuest:'விருந்தினர் பெயர்:',lblOccupancy:'விருந்தினர் எண்ணிக்கை:',lblId:'அடையாளம்:',lblCity:'சொந்த ஊர்:',lblCi:'செக்-இன்:',lblCo:'செக்-அவுட்:',lblParticulars:'விவரங்கள் / அறை & சேவைகள்',lblQty:'அளவு',lblRate:'விலை',lblAmount:'தொகை',lblSub:'கூட்டுத்தொகை:',lblGrand:'மொத்தம்:',lblAdvance:'முன்பணம் செலுத்தியது',lblBalance:'செலுத்த வேண்டிய மீதி:',lblPolicy:'ஹோட்டல் விதி:',lblSignature:'விருந்தினர் கையொப்பம்',lblReception:'வரவேற்பு / முன்பதிவு கையொப்பம்',badgeIn:'விருந்தினர் செக்-இன் சீட்டு',badgeOut:'இறுதி அறை பில்',defaultPolicy:'வழக்கமான செக்-அவுட் நேரம் காலை 11:00. அறை சாவியை வரவேற்பில் ஒப்படைக்கவும்.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'நீக்கு',empty:'-',pdfBusy:'⏳ PDF உருவாகிறது...',pdfError:'PDF உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.'},
+gu:{language:'ભાષા પસંદ કરો',allTools:'← બધા ટૂલ્સ',themeHint:'અહીંથી મોડ બદલી શકો છો',dark:'🌙 ડાર્ક મોડ',light:'☀️ લાઇટ મોડ',modeLabel:'1. સ્લિપનો પ્રકાર પસંદ કરો:',modeCheckin:'🏨 મહેમાન ચેક-ઇન નોંધણી સ્લિપ',modeCheckout:'🧾 અંતિમ ચેક-આઉટ રૂમ બિલ',hotelSection:'1. હોટેલ / લોજની વિગતો',hotelName:'હોટેલ / લોજનું નામ',hotelAddress:'સરનામું, રિસેપ્શન નંબર અને GSTIN',guestSection:'2. મહેમાન અને રૂમની વિગતો',folio:'ફોલિયો / બિલ નંબર (ઓટો)',room:'રૂમ નંબર અને પ્રકાર',guestCount:'મહેમાનોની સંખ્યા',guestName:'મુખ્ય મહેમાનનું પૂરું નામ',guestPhone:'મહેમાન મોબાઇલ / WhatsApp',idProof:'ઓળખ પુરાવાનો પ્રકાર અને છેલ્લા 4 અંક',guestCity:'મહેમાનનું શહેર / ક્યાંથી આવ્યા',checkin:'ચેક-ઇન તારીખ અને સમય',checkout:'ચેક-આઉટ તારીખ અને સમય',servicesSection:'3. રૂમ ભાડું અને વધારાની સેવાઓ',chipDeluxe:'+ ડીલક્સ AC રૂમ',chipStandard:'+ સ્ટાન્ડર્ડ રૂમ',chipMattress:'+ વધારાનું ગાદલું',chipBreakfast:'+ નાસ્તો / ચા',chipMeals:'+ ભોજન / થાળી',chipLaundry:'+ લોન્ડ્રી',serviceDesc:'રૂમ / સેવાનું વર્ણન',nightsQty:'રાત્રિ / જથ્થો',rate:'દર (₹)',addCharge:'+ નવો ચાર્જ / રૂમ સેવા ઉમેરો',paymentSection:'4. એડવાન્સ, ટેક્સ અને હોટેલના નિયમો',gst:'GST / ટેક્સ (%)',gst0:'0% (સમાવેલ / મુક્ત)',advance:'જમા એડવાન્સ (₹)',paymentMode:'ચુકવણીનો પ્રકાર',upi:'UPI / કાર્ડ',cash:'રોકડ',hotelRules:'હોટેલના નિયમો / નોંધ',downloadPdf:'📥 A4 PDF ડાઉનલોડ',directPrint:'🖨️ સીધું પ્રિન્ટ',whatsapp:'📲 WhatsApp સ્લિપ',previewTitle:'લાઇવ હોટેલ ફોલિયો / સ્લિપ પ્રિવ્યૂ',hotelPh:'દા.ત. Hotel Sai Residency & Lodge',addressPh:'દા.ત. રેલવે સ્ટેશન પાસે, પુણે | મોબાઇલ: 98XXXXXXXX',roomPh:'દા.ત. રૂમ 204 (ડિલક્સ AC)',guestCountPh:'દા.ત. 2 પુખ્ત, 1 બાળક',guestNamePh:'દા.ત. વિક્રમ રાવ',phonePh:'દા.ત. 9876543210',idPh:'દા.ત. Aadhaar (XXXX-8492)',cityPh:'દા.ત. મુંબઈ, મહારાષ્ટ્ર',checkoutPh:'દા.ત. બીજા દિવસે સવારે 11:00',notesPh:'દા.ત. ચેક-આઉટ સવારે 11 વાગ્યે છે. માન્ય સરકારી ID જરૂરી છે.',deluxe:'ડિલક્સ AC રૂમ ભાડું (દર રાત્રે)',standard:'નોન-AC સ્ટાન્ડર્ડ રૂમ ભાડું',mattress:'વધારાનું ગાદલું / બેડિંગ ચાર્જ',breakfast:'રૂમ સર્વિસ / ચા અને નાસ્તો',meals:'લંચ / ડિનર થાળી પેકેજ',laundry:'ધોવાણ અને ઇસ્ત્રી સેવા',lblFolio:'ફોલિયો / બિલ નંબર:',lblRoom:'રૂમ નંબર / પ્રકાર:',lblGuest:'મહેમાનનું નામ:',lblOccupancy:'મહેમાનો:',lblId:'ઓળખ પુરાવો:',lblCity:'મૂળ શહેર:',lblCi:'ચેક-ઇન:',lblCo:'ચેક-આઉટ:',lblParticulars:'વિગતો / રૂમ અને સેવાઓ',lblQty:'જથ્થો',lblRate:'દર',lblAmount:'રકમ',lblSub:'પેટા કુલ:',lblGrand:'કુલ બિલ:',lblAdvance:'જમા એડવાન્સ',lblBalance:'બાકી ચૂકવવાનું:',lblPolicy:'હોટેલ નીતિ:',lblSignature:'મહેમાનની સહી',lblReception:'રિસેપ્શન / ફ્રન્ટ ડેસ્ક સહી',badgeIn:'મહેમાન ચેક-ઇન સ્લિપ',badgeOut:'અંતિમ રૂમ બિલ',defaultPolicy:'સામાન્ય ચેક-આઉટ સમય સવારે 11:00 છે. રૂમની ચાવી રિસેપ્શનમાં આપો.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'કાઢી નાખો',empty:'-',pdfBusy:'⏳ PDF બની રહ્યો છે...',pdfError:'PDF બની શક્યો નથી. ફરી પ્રયાસ કરો.'},
+kn:{language:'ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',allTools:'← ಎಲ್ಲಾ ಉಪಕರಣಗಳು',themeHint:'ಇಲ್ಲಿಂದ ಮೋಡ್ ಬದಲಾಯಿಸಿ',dark:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',light:'☀️ ಲೈಟ್ ಮೋಡ್',modeLabel:'1. ಸ್ಲಿಪ್ ಪ್ರಕಾರ ಆಯ್ಕೆಮಾಡಿ:',modeCheckin:'🏨 ಅತಿಥಿ ಚೆಕ್-ಇನ್ ನೋಂದಣಿ ಸ್ಲಿಪ್',modeCheckout:'🧾 ಅಂತಿಮ ಚೆಕ್-ಔಟ್ ರೂಮ್ ಬಿಲ್',hotelSection:'1. ಹೋಟೆಲ್ / ಲಾಡ್ಜ್ ವಿವರಗಳು',hotelName:'ಹೋಟೆಲ್ / ಲಾಡ್ಜ್ ಹೆಸರು',hotelAddress:'ವಿಳಾಸ, ರಿಸೆಪ್ಷನ್ ಸಂಖ್ಯೆ ಮತ್ತು GSTIN',guestSection:'2. ಅತಿಥಿ ಮತ್ತು ಕೊಠಡಿ ವಿವರಗಳು',folio:'ಫೋಲಿಯೊ / ಬಿಲ್ ಸಂಖ್ಯೆ (ಆಟೋ)',room:'ಕೊಠಡಿ ಸಂಖ್ಯೆ ಮತ್ತು ಪ್ರಕಾರ',guestCount:'ಅತಿಥಿಗಳ ಸಂಖ್ಯೆ',guestName:'ಮುಖ್ಯ ಅತಿಥಿಯ ಪೂರ್ಣ ಹೆಸರು',guestPhone:'ಅತಿಥಿ ಮೊಬೈಲ್ / WhatsApp',idProof:'ಗುರುತಿನ ಪ್ರಕಾರ ಮತ್ತು ಕೊನೆಯ 4 ಅಂಕಿಗಳು',guestCity:'ಅತಿಥಿಯ ನಗರ / ಬಂದ ಸ್ಥಳ',checkin:'ಚೆಕ್-ಇನ್ ದಿನಾಂಕ ಮತ್ತು ಸಮಯ',checkout:'ಚೆಕ್-ಔಟ್ ದಿನಾಂಕ ಮತ್ತು ಸಮಯ',servicesSection:'3. ಕೊಠಡಿ ಬಾಡಿಗೆ ಮತ್ತು ಹೆಚ್ಚುವರಿ ಸೇವೆಗಳು',chipDeluxe:'+ ಡಿಲಕ್ಸ್ AC ಕೊಠಡಿ',chipStandard:'+ ಸ್ಟ್ಯಾಂಡರ್ಡ್ ಕೊಠಡಿ',chipMattress:'+ ಹೆಚ್ಚುವರಿ ಹಾಸಿಗೆ',chipBreakfast:'+ ಉಪಾಹಾರ / ಚಹಾ',chipMeals:'+ ಊಟ / ಥಾಳಿ',chipLaundry:'+ ಲಾಂಡ್ರಿ',serviceDesc:'ಕೊಠಡಿ / ಸೇವೆಯ ವಿವರ',nightsQty:'ರಾತ್ರಿಗಳು / ಪ್ರಮಾಣ',rate:'ದರ (₹)',addCharge:'+ ಹೊಸ ಶುಲ್ಕ / ರೂಮ್ ಸೇವೆ ಸೇರಿಸಿ',paymentSection:'4. ಮುಂಗಡ, ತೆರಿಗೆ ಮತ್ತು ಹೋಟೆಲ್ ನಿಯಮಗಳು',gst:'GST / ತೆರಿಗೆ (%)',gst0:'0% (ಸೇರಿಸಲಾಗಿದೆ / ವಿನಾಯಿತಿ)',advance:'ಪಾವತಿಸಿದ ಮುಂಗಡ (₹)',paymentMode:'ಪಾವತಿ ವಿಧಾನ',upi:'UPI / ಕಾರ್ಡ್',cash:'ನಗದು',hotelRules:'ಹೋಟೆಲ್ ನಿಯಮಗಳು / ಟಿಪ್ಪಣಿ',downloadPdf:'📥 A4 PDF ಡೌನ್‌ಲೋಡ್',directPrint:'🖨️ ನೇರ ಮುದ್ರಣ',whatsapp:'📲 WhatsApp ಸ್ಲಿಪ್',previewTitle:'ಲೈವ್ ಹೋಟೆಲ್ ಫೋಲಿಯೊ / ಸ್ಲಿಪ್ ಪೂರ್ವವೀಕ್ಷಣೆ',hotelPh:'ಉದಾ. Hotel Sai Residency & Lodge',addressPh:'ಉದಾ. ರೈಲು ನಿಲ್ದಾಣದ ಬಳಿ, ಪುಣೆ | ಮೊಬೈಲ್: 98XXXXXXXX',roomPh:'ಉದಾ. ಕೊಠಡಿ 204 (ಡಿಲಕ್ಸ್ AC)',guestCountPh:'ಉದಾ. 2 ವಯಸ್ಕರು, 1 ಮಗು',guestNamePh:'ಉದಾ. ವಿಕ್ರಮ್ ರಾವ್',phonePh:'ಉದಾ. 9876543210',idPh:'ಉದಾ. Aadhaar (XXXX-8492)',cityPh:'ಉದಾ. ಮುಂಬೈ, ಮಹಾರಾಷ್ಟ್ರ',checkoutPh:'ಉದಾ. ಮುಂದಿನ ದಿನ ಬೆಳಿಗ್ಗೆ 11:00',notesPh:'ಉದಾ. ಚೆಕ್-ಔಟ್ ಸಮಯ ಬೆಳಿಗ್ಗೆ 11. ಮಾನ್ಯ ಸರ್ಕಾರಿ ID ಕಡ್ಡಾಯ.',deluxe:'ಡಿಲಕ್ಸ್ AC ಕೊಠಡಿ ಬಾಡಿಗೆ (ಪ್ರತಿ ರಾತ್ರಿ)',standard:'ನಾನ್-AC ಸ್ಟ್ಯಾಂಡರ್ಡ್ ಕೊಠಡಿ ಬಾಡಿಗೆ',mattress:'ಹೆಚ್ಚುವರಿ ಹಾಸಿಗೆ ಶುಲ್ಕ',breakfast:'ರೂಮ್ ಸರ್ವಿಸ್ / ಚಹಾ ಮತ್ತು ಉಪಾಹಾರ',meals:'ಮಧ್ಯಾಹ್ನ / ರಾತ್ರಿ ಊಟದ ಥಾಳಿ',laundry:'ಬಟ್ಟೆ ಒಗೆಯುವಿಕೆ ಮತ್ತು ಇಸ್ತ್ರಿ ಸೇವೆ',lblFolio:'ಫೋಲಿಯೊ / ಬಿಲ್ ಸಂಖ್ಯೆ:',lblRoom:'ಕೊಠಡಿ ಸಂಖ್ಯೆ / ಪ್ರಕಾರ:',lblGuest:'ಅತಿಥಿಯ ಹೆಸರು:',lblOccupancy:'ಅತಿಥಿಗಳ ಸಂಖ್ಯೆ:',lblId:'ಗುರುತಿನ ದಾಖಲೆ:',lblCity:'ಮೂಲ ನಗರ:',lblCi:'ಚೆಕ್-ಇನ್:',lblCo:'ಚೆಕ್-ಔಟ್:',lblParticulars:'ವಿವರಗಳು / ಕೊಠಡಿ ಮತ್ತು ಸೇವೆಗಳು',lblQty:'ಪ್ರಮಾಣ',lblRate:'ದರ',lblAmount:'ಮೊತ್ತ',lblSub:'ಉಪಮೊತ್ತ:',lblGrand:'ಒಟ್ಟು ಮೊತ್ತ:',lblAdvance:'ಮುಂಗಡ ಪಾವತಿ',lblBalance:'ಬಾಕಿ ಪಾವತಿಸಬೇಕಾದದ್ದು:',lblPolicy:'ಹೋಟೆಲ್ ನಿಯಮ:',lblSignature:'ಅತಿಥಿ ಸಹಿ',lblReception:'ರಿಸೆಪ್ಷನ್ / ಫ್ರಂಟ್ ಡೆಸ್ಕ್ ಸಹಿ',badgeIn:'ಅತಿಥಿ ಚೆಕ್-ಇನ್ ಸ್ಲಿಪ್',badgeOut:'ಅಂತಿಮ ರೂಮ್ ಬಿಲ್',defaultPolicy:'ಸಾಮಾನ್ಯ ಚೆಕ್-ಔಟ್ ಸಮಯ ಬೆಳಿಗ್ಗೆ 11:00. ಕೊಠಡಿಯ ಕೀಲಿಯನ್ನು ರಿಸೆಪ್ಷನ್‌ಗೆ ನೀಡಿ.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'ಅಳಿಸಿ',empty:'-',pdfBusy:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',pdfError:'PDF ಸಿದ್ಧವಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'},
+ml:{language:'ഭാഷ തിരഞ്ഞെടുക്കുക',allTools:'← എല്ലാ ടൂളുകളും',themeHint:'ഇവിടെ നിന്ന് മോഡ് മാറ്റാം',dark:'🌙 ഡാർക്ക് മോഡ്',light:'☀️ ലൈറ്റ് മോഡ്',modeLabel:'1. സ്ലിപ്പിന്റെ തരം തിരഞ്ഞെടുക്കുക:',modeCheckin:'🏨 അതിഥി ചെക്ക്-ഇൻ രജിസ്ട്രേഷൻ സ്ലിപ്പ്',modeCheckout:'🧾 അന്തിമ ചെക്ക്-ഔട്ട് റൂം ബിൽ',hotelSection:'1. ഹോട്ടൽ / ലോഡ്ജ് വിവരങ്ങൾ',hotelName:'ഹോട്ടൽ / ലോഡ്ജിന്റെ പേര്',hotelAddress:'വിലാസം, റിസപ്ഷൻ നമ്പർ & GSTIN',guestSection:'2. അതിഥി & മുറി വിവരങ്ങൾ',folio:'ഫോളിയോ / ബിൽ നമ്പർ (ഓട്ടോ)',room:'മുറി നമ്പർ & തരം',guestCount:'അതിഥികളുടെ എണ്ണം',guestName:'പ്രധാന അതിഥിയുടെ പൂർണ്ണ പേര്',guestPhone:'അതിഥിയുടെ മൊബൈൽ / WhatsApp',idProof:'തിരിച്ചറിയൽ രേഖയുടെ തരം & അവസാന 4 അക്കങ്ങൾ',guestCity:'അതിഥിയുടെ നഗരം / വന്ന സ്ഥലം',checkin:'ചെക്ക്-ഇൻ തീയതിയും സമയവും',checkout:'ചെക്ക്-ഔട്ട് തീയതിയും സമയവും',servicesSection:'3. മുറി വാടകയും അധിക സേവനങ്ങളും',chipDeluxe:'+ ഡീലക്സ് AC മുറി',chipStandard:'+ സ്റ്റാൻഡേർഡ് മുറി',chipMattress:'+ അധിക മെത്ത',chipBreakfast:'+ പ്രഭാതഭക്ഷണം / ചായ',chipMeals:'+ ഭക്ഷണം / ഥാലി',chipLaundry:'+ അലക്കൽ',serviceDesc:'മുറി / സേവന വിവരണം',nightsQty:'രാത്രികൾ / അളവ്',rate:'നിരക്ക് (₹)',addCharge:'+ പുതിയ ചാർജ് / റൂം സർവീസ് ചേർക്കുക',paymentSection:'4. അഡ്വാൻസ്, നികുതി & ഹോട്ടൽ നിയമങ്ങൾ',gst:'GST / നികുതി (%)',gst0:'0% (ഉൾപ്പെടുത്തിയിട്ടുണ്ട് / ഒഴിവ്)',advance:'അടച്ച അഡ്വാൻസ് (₹)',paymentMode:'പണമടയ്ക്കൽ രീതി',upi:'UPI / കാർഡ്',cash:'പണം',hotelRules:'ഹോട്ടൽ നിയമങ്ങൾ / കുറിപ്പുകൾ',downloadPdf:'📥 A4 PDF ഡൗൺലോഡ്',directPrint:'🖨️ നേരിട്ട് പ്രിന്റ്',whatsapp:'📲 WhatsApp സ്ലിപ്പ്',previewTitle:'ലൈവ് ഹോട്ടൽ ഫോളിയോ / സ്ലിപ്പ് പ്രിവ്യൂ',hotelPh:'ഉദാ. Hotel Sai Residency & Lodge',addressPh:'ഉദാ. റെയിൽവേ സ്റ്റേഷന് സമീപം, പൂനെ | മൊബൈൽ: 98XXXXXXXX',roomPh:'ഉദാ. മുറി 204 (ഡീലക്സ് AC)',guestCountPh:'ഉദാ. 2 മുതിർന്നവർ, 1 കുട്ടി',guestNamePh:'ഉദാ. വിക്രം റാവു',phonePh:'ഉദാ. 9876543210',idPh:'ഉദാ. Aadhaar (XXXX-8492)',cityPh:'ഉദാ. മുംബൈ, മഹാരാഷ്ട്ര',checkoutPh:'ഉദാ. അടുത്ത ദിവസം രാവിലെ 11:00',notesPh:'ഉദാ. ചെക്ക്-ഔട്ട് സമയം രാവിലെ 11. സാധുവായ സർക്കാർ ID നിർബന്ധമാണ്.',deluxe:'ഡീലക്സ് AC മുറി വാടക (ഒരു രാത്രി)',standard:'നോൺ-AC സ്റ്റാൻഡേർഡ് മുറി വാടക',mattress:'അധിക മെത്ത / കിടക്ക ചാർജ്',breakfast:'റൂം സർവീസ് / ചായ & പ്രഭാതഭക്ഷണം',meals:'ഉച്ച / രാത്രി ഭക്ഷണ ഥാലി',laundry:'അലക്കൽ & ഇസ്തിരി സേവനം',lblFolio:'ഫോളിയോ / ബിൽ നമ്പർ:',lblRoom:'മുറി നമ്പർ / തരം:',lblGuest:'അതിഥിയുടെ പേര്:',lblOccupancy:'അതിഥികളുടെ എണ്ണം:',lblId:'തിരിച്ചറിയൽ രേഖ:',lblCity:'സ്വദേശം:',lblCi:'ചെക്ക്-ഇൻ:',lblCo:'ചെക്ക്-ഔട്ട്:',lblParticulars:'വിവരങ്ങൾ / മുറി & സേവനങ്ങൾ',lblQty:'അളവ്',lblRate:'നിരക്ക്',lblAmount:'തുക',lblSub:'ഉപമൊത്തം:',lblGrand:'ആകെ തുക:',lblAdvance:'അഡ്വാൻസ് അടച്ചു',lblBalance:'ബാക്കി അടയ്ക്കേണ്ടത്:',lblPolicy:'ഹോട്ടൽ നയം:',lblSignature:'അതിഥിയുടെ ഒപ്പ്',lblReception:'റിസപ്ഷൻ / ഫ്രണ്ട് ഡെസ്ക് ഒപ്പ്',badgeIn:'അതിഥി ചെക്ക്-ഇൻ സ്ലിപ്പ്',badgeOut:'അന്തിമ റൂം ബിൽ',defaultPolicy:'സാധാരണ ചെക്ക്-ഔട്ട് സമയം രാവിലെ 11:00. മുറിയുടെ താക്കോൽ റിസപ്ഷനിൽ നൽകുക.',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'നീക്കുക',empty:'-',pdfBusy:'⏳ PDF തയ്യാറാക്കുന്നു...',pdfError:'PDF തയ്യാറാക്കാനായില്ല. വീണ്ടും ശ്രമിക്കുക.'},
+or:{language:'ଭାଷା ବାଛନ୍ତୁ',allTools:'← ସମସ୍ତ ଟୁଲ୍',themeHint:'ଏଠାରୁ ମୋଡ୍ ବଦଳାନ୍ତୁ',dark:'🌙 ଡାର୍କ ମୋଡ୍',light:'☀️ ଲାଇଟ୍ ମୋଡ୍',modeLabel:'1. ସ୍ଲିପ୍ ପ୍ରକାର ବାଛନ୍ତୁ:',modeCheckin:'🏨 ଅତିଥି ଚେକ୍-ଇନ୍ ପଞ୍ଜୀକରଣ ସ୍ଲିପ୍',modeCheckout:'🧾 ଅନ୍ତିମ ଚେକ୍-ଆଉଟ୍ ରୁମ୍ ବିଲ୍',hotelSection:'1. ହୋଟେଲ୍ / ଲଜ୍ ବିବରଣୀ',hotelName:'ହୋଟେଲ୍ / ଲଜ୍ ନାମ',hotelAddress:'ଠିକଣା, ରିସେପ୍ସନ୍ ନମ୍ବର ଏବଂ GSTIN',guestSection:'2. ଅତିଥି ଏବଂ ରୁମ୍ ବିବରଣୀ',folio:'ଫୋଲିଓ / ବିଲ୍ ନମ୍ବର (ଅଟୋ)',room:'ରୁମ୍ ନମ୍ବର ଏବଂ ପ୍ରକାର',guestCount:'ଅତିଥିଙ୍କ ସଂଖ୍ୟା',guestName:'ମୁଖ୍ୟ ଅତିଥିଙ୍କ ପୂରା ନାମ',guestPhone:'ଅତିଥି ମୋବାଇଲ୍ / WhatsApp',idProof:'ପରିଚୟ ପ୍ରମାଣ ପ୍ରକାର ଓ ଶେଷ 4 ଅଙ୍କ',guestCity:'ଅତିଥିଙ୍କ ସହର / ଆସିଥିବା ସ୍ଥାନ',checkin:'ଚେକ୍-ଇନ୍ ତାରିଖ ଓ ସମୟ',checkout:'ଚେକ୍-ଆଉଟ୍ ତାରିଖ ଓ ସମୟ',servicesSection:'3. ରୁମ୍ ଭଡ଼ା ଏବଂ ଅତିରିକ୍ତ ସେବା',chipDeluxe:'+ ଡିଲକ୍ସ AC ରୁମ୍',chipStandard:'+ ଷ୍ଟାଣ୍ଡାର୍ଡ ରୁମ୍',chipMattress:'+ ଅତିରିକ୍ତ ଗଦି',chipBreakfast:'+ ଜଳଖିଆ / ଚା',chipMeals:'+ ଭୋଜନ / ଥାଳି',chipLaundry:'+ ଲଣ୍ଡ୍ରି',serviceDesc:'ରୁମ୍ / ସେବା ବିବରଣୀ',nightsQty:'ରାତି / ପରିମାଣ',rate:'ଦର (₹)',addCharge:'+ ନୂଆ ଚାର୍ଜ / ରୁମ୍ ସେବା ଯୋଡ଼ନ୍ତୁ',paymentSection:'4. ଅଗ୍ରିମ, ଟ୍ୟାକ୍ସ ଏବଂ ହୋଟେଲ୍ ନିୟମ',gst:'GST / ଟ୍ୟାକ୍ସ (%)',gst0:'0% (ଅନ୍ତର୍ଭୁକ୍ତ / ଛାଡ଼)',advance:'ଜମା ଅଗ୍ରିମ (₹)',paymentMode:'ପେମେଣ୍ଟ ପ୍ରକାର',upi:'UPI / କାର୍ଡ',cash:'ନଗଦ',hotelRules:'ହୋଟେଲ୍ ନିୟମ / ଟିପ୍ପଣୀ',downloadPdf:'📥 A4 PDF ଡାଉନଲୋଡ୍',directPrint:'🖨️ ସିଧାସଳଖ ପ୍ରିଣ୍ଟ୍',whatsapp:'📲 WhatsApp ସ୍ଲିପ୍',previewTitle:'ଲାଇଭ୍ ହୋଟେଲ୍ ଫୋଲିଓ / ସ୍ଲିପ୍ ପ୍ରିଭ୍ୟୁ',hotelPh:'ଉଦା. Hotel Sai Residency & Lodge',addressPh:'ଉଦା. ରେଳ ଷ୍ଟେସନ୍ ନିକଟରେ, ପୁଣେ | ମୋବାଇଲ୍: 98XXXXXXXX',roomPh:'ଉଦା. ରୁମ୍ 204 (ଡିଲକ୍ସ AC)',guestCountPh:'ଉଦା. 2 ବୟସ୍କ, 1 ଶିଶୁ',guestNamePh:'ଉଦା. ବିକ୍ରମ ରାଓ',phonePh:'ଉଦା. 9876543210',idPh:'ଉଦା. Aadhaar (XXXX-8492)',cityPh:'ଉଦା. ମୁମ୍ବାଇ, ମହାରାଷ୍ଟ୍ର',checkoutPh:'ଉଦା. ପରଦିନ ସକାଳ 11:00',notesPh:'ଉଦା. ଚେକ୍-ଆଉଟ୍ ସମୟ ସକାଳ 11ଟା। ବୈଧ ସରକାରୀ ID ଆବଶ୍ୟକ।',deluxe:'ଡିଲକ୍ସ AC ରୁମ୍ ଭଡ଼ା (ପ୍ରତି ରାତି)',standard:'ନନ୍-AC ଷ୍ଟାଣ୍ଡାର୍ଡ ରୁମ୍ ଭଡ଼ା',mattress:'ଅତିରିକ୍ତ ଗଦି / ବେଡିଂ ଚାର୍ଜ',breakfast:'ରୁମ୍ ସର୍ଭିସ୍ / ଚା ଓ ଜଳଖିଆ',meals:'ମଧ୍ୟାହ୍ନ / ରାତ୍ରି ଭୋଜନ ଥାଳି',laundry:'ଧୋଇବା ଓ ଇସ୍ତ୍ରୀ ସେବା',lblFolio:'ଫୋଲିଓ / ବିଲ୍ ନମ୍ବର:',lblRoom:'ରୁମ୍ ନମ୍ବର / ପ୍ରକାର:',lblGuest:'ଅତିଥିଙ୍କ ନାମ:',lblOccupancy:'ଅତିଥି ସଂଖ୍ୟା:',lblId:'ପରିଚୟ ପ୍ରମାଣ:',lblCity:'ମୂଳ ସହର:',lblCi:'ଚେକ୍-ଇନ୍:',lblCo:'ଚେକ୍-ଆଉଟ୍:',lblParticulars:'ବିବରଣୀ / ରୁମ୍ ଓ ସେବା',lblQty:'ପରିମାଣ',lblRate:'ଦର',lblAmount:'ରାଶି',lblSub:'ଉପମୋଟ:',lblGrand:'ମୋଟ ରାଶି:',lblAdvance:'ଅଗ୍ରିମ ଜମା',lblBalance:'ବାକି ଦେୟ:',lblPolicy:'ହୋଟେଲ୍ ନୀତି:',lblSignature:'ଅତିଥିଙ୍କ ଦସ୍ତଖତ',lblReception:'ରିସେପ୍ସନ୍ / ଫ୍ରଣ୍ଟ ଡେସ୍କ ଦସ୍ତଖତ',badgeIn:'ଅତିଥି ଚେକ୍-ଇନ୍ ସ୍ଲିପ୍',badgeOut:'ଅନ୍ତିମ ରୁମ୍ ବିଲ୍',defaultPolicy:'ସାଧାରଣ ଚେକ୍-ଆଉଟ୍ ସମୟ ସକାଳ 11:00। ଦୟାକରି ରୁମ୍ ଚାବି ରିସେପ୍ସନ୍‌ରେ ଦିଅନ୍ତୁ।',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'ବିଲୋପ',empty:'-',pdfBusy:'⏳ PDF ପ୍ରସ୍ତୁତ ହେଉଛି...',pdfError:'PDF ପ୍ରସ୍ତୁତ ହେଲା ନାହିଁ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।'},
+pa:{language:'ਭਾਸ਼ਾ ਚੁਣੋ',allTools:'← ਸਾਰੇ ਟੂਲ',themeHint:'ਇੱਥੋਂ ਮੋਡ ਬਦਲ ਸਕਦੇ ਹੋ',dark:'🌙 ਡਾਰਕ ਮੋਡ',light:'☀️ ਲਾਈਟ ਮੋਡ',modeLabel:'1. ਪਰਚੀ ਦੀ ਕਿਸਮ ਚੁਣੋ:',modeCheckin:'🏨 ਮਹਿਮਾਨ ਚੈੱਕ-ਇਨ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਪਰਚੀ',modeCheckout:'🧾 ਅੰਤਿਮ ਚੈੱਕ-ਆਊਟ ਕਮਰੇ ਦਾ ਬਿੱਲ',hotelSection:'1. ਹੋਟਲ / ਲੌਜ ਦੇ ਵੇਰਵੇ',hotelName:'ਹੋਟਲ / ਲੌਜ ਦਾ ਨਾਮ',hotelAddress:'ਪਤਾ, ਰਿਸੈਪਸ਼ਨ ਨੰਬਰ ਅਤੇ GSTIN',guestSection:'2. ਮਹਿਮਾਨ ਅਤੇ ਕਮਰੇ ਦੇ ਵੇਰਵੇ',folio:'ਫੋਲੀਓ / ਬਿੱਲ ਨੰਬਰ (ਆਟੋ)',room:'ਕਮਰਾ ਨੰਬਰ ਅਤੇ ਕਿਸਮ',guestCount:'ਮਹਿਮਾਨਾਂ ਦੀ ਗਿਣਤੀ',guestName:'ਮੁੱਖ ਮਹਿਮਾਨ ਦਾ ਪੂਰਾ ਨਾਮ',guestPhone:'ਮਹਿਮਾਨ ਮੋਬਾਈਲ / WhatsApp',idProof:'ਪਛਾਣ ਪੱਤਰ ਦੀ ਕਿਸਮ ਅਤੇ ਆਖਰੀ 4 ਅੰਕ',guestCity:'ਮਹਿਮਾਨ ਦਾ ਸ਼ਹਿਰ / ਕਿੱਥੋਂ ਆਏ',checkin:'ਚੈੱਕ-ਇਨ ਮਿਤੀ ਅਤੇ ਸਮਾਂ',checkout:'ਚੈੱਕ-ਆਊਟ ਮਿਤੀ ਅਤੇ ਸਮਾਂ',servicesSection:'3. ਕਮਰੇ ਦਾ ਕਿਰਾਇਆ ਅਤੇ ਵਾਧੂ ਸੇਵਾਵਾਂ',chipDeluxe:'+ ਡਿਲਕਸ AC ਕਮਰਾ',chipStandard:'+ ਸਟੈਂਡਰਡ ਕਮਰਾ',chipMattress:'+ ਵਾਧੂ ਗੱਦਾ',chipBreakfast:'+ ਨਾਸ਼ਤਾ / ਚਾਹ',chipMeals:'+ ਖਾਣਾ / ਥਾਲੀ',chipLaundry:'+ ਲਾਂਡਰੀ',serviceDesc:'ਕਮਰੇ / ਸੇਵਾ ਦਾ ਵੇਰਵਾ',nightsQty:'ਰਾਤਾਂ / ਮਾਤਰਾ',rate:'ਦਰ (₹)',addCharge:'+ ਨਵਾਂ ਚਾਰਜ / ਰੂਮ ਸਰਵਿਸ ਜੋੜੋ',paymentSection:'4. ਐਡਵਾਂਸ, ਟੈਕਸ ਅਤੇ ਹੋਟਲ ਨਿਯਮ',gst:'GST / ਟੈਕਸ (%)',gst0:'0% (ਸ਼ਾਮਲ / ਛੋਟ)',advance:'ਜਮ੍ਹਾਂ ਐਡਵਾਂਸ (₹)',paymentMode:'ਭੁਗਤਾਨ ਦਾ ਢੰਗ',upi:'UPI / ਕਾਰਡ',cash:'ਨਕਦ',hotelRules:'ਹੋਟਲ ਨਿਯਮ / ਟਿੱਪਣੀ',downloadPdf:'📥 A4 PDF ਡਾਊਨਲੋਡ',directPrint:'🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ',whatsapp:'📲 WhatsApp ਪਰਚੀ',previewTitle:'ਲਾਈਵ ਹੋਟਲ ਫੋਲੀਓ / ਪਰਚੀ ਪ੍ਰੀਵਿਊ',hotelPh:'ਉਦਾਹਰਨ Hotel Sai Residency & Lodge',addressPh:'ਉਦਾਹਰਨ ਰੇਲਵੇ ਸਟੇਸ਼ਨ ਨੇੜੇ, ਪੁਣੇ | ਮੋਬਾਈਲ: 98XXXXXXXX',roomPh:'ਉਦਾਹਰਨ ਕਮਰਾ 204 (ਡਿਲਕਸ AC)',guestCountPh:'ਉਦਾਹਰਨ 2 ਬਾਲਗ, 1 ਬੱਚਾ',guestNamePh:'ਉਦਾਹਰਨ ਵਿਕਰਮ ਰਾਓ',phonePh:'ਉਦਾਹਰਨ 9876543210',idPh:'ਉਦਾਹਰਨ Aadhaar (XXXX-8492)',cityPh:'ਉਦਾਹਰਨ ਮੁੰਬਈ, ਮਹਾਰਾਸ਼ਟਰ',checkoutPh:'ਉਦਾਹਰਨ ਅਗਲੇ ਦਿਨ ਸਵੇਰੇ 11:00',notesPh:'ਉਦਾਹਰਨ ਚੈੱਕ-ਆਊਟ ਸਵੇਰੇ 11 ਵਜੇ। ਸਰਕਾਰੀ ID ਲਾਜ਼ਮੀ ਹੈ।',deluxe:'ਡਿਲਕਸ AC ਕਮਰੇ ਦਾ ਕਿਰਾਇਆ (ਪ੍ਰਤੀ ਰਾਤ)',standard:'ਨਾਨ-AC ਸਟੈਂਡਰਡ ਕਮਰੇ ਦਾ ਕਿਰਾਇਆ',mattress:'ਵਾਧੂ ਗੱਦਾ / ਬਿਸਤਰਾ ਚਾਰਜ',breakfast:'ਰੂਮ ਸਰਵਿਸ / ਚਾਹ ਅਤੇ ਨਾਸ਼ਤਾ',meals:'ਦੁਪਹਿਰ / ਰਾਤ ਦੇ ਖਾਣੇ ਦੀ ਥਾਲੀ',laundry:'ਕੱਪੜੇ ਧੋਣ ਅਤੇ ਪ੍ਰੈੱਸ ਸੇਵਾ',lblFolio:'ਫੋਲੀਓ / ਬਿੱਲ ਨੰਬਰ:',lblRoom:'ਕਮਰਾ ਨੰਬਰ / ਕਿਸਮ:',lblGuest:'ਮਹਿਮਾਨ ਦਾ ਨਾਮ:',lblOccupancy:'ਮਹਿਮਾਨਾਂ ਦੀ ਗਿਣਤੀ:',lblId:'ਪਛਾਣ ਪੱਤਰ:',lblCity:'ਮੂਲ ਸ਼ਹਿਰ:',lblCi:'ਚੈੱਕ-ਇਨ:',lblCo:'ਚੈੱਕ-ਆਊਟ:',lblParticulars:'ਵੇਰਵਾ / ਕਮਰਾ ਅਤੇ ਸੇਵਾਵਾਂ',lblQty:'ਮਾਤਰਾ',lblRate:'ਦਰ',lblAmount:'ਰਕਮ',lblSub:'ਉਪ-ਕੁੱਲ:',lblGrand:'ਕੁੱਲ ਰਕਮ:',lblAdvance:'ਐਡਵਾਂਸ ਜਮ੍ਹਾਂ',lblBalance:'ਬਕਾਇਆ ਦੇਣਾ:',lblPolicy:'ਹੋਟਲ ਨੀਤੀ:',lblSignature:'ਮਹਿਮਾਨ ਦੇ ਦਸਤਖ਼ਤ',lblReception:'ਰਿਸੈਪਸ਼ਨ / ਫਰੰਟ ਡੈਸਕ ਦਸਤਖ਼ਤ',badgeIn:'ਮਹਿਮਾਨ ਚੈੱਕ-ਇਨ ਪਰਚੀ',badgeOut:'ਅੰਤਿਮ ਕਮਰੇ ਦਾ ਬਿੱਲ',defaultPolicy:'ਆਮ ਚੈੱਕ-ਆਊਟ ਸਮਾਂ ਸਵੇਰੇ 11:00 ਹੈ। ਕਿਰਪਾ ਕਰਕੇ ਕਮਰੇ ਦੀ ਚਾਬੀ ਰਿਸੈਪਸ਼ਨ ਤੇ ਦਿਓ।',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'ਮਿਟਾਓ',empty:'-',pdfBusy:'⏳ PDF ਬਣ ਰਹੀ ਹੈ...',pdfError:'PDF ਨਹੀਂ ਬਣੀ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।'},
+ur:{language:'زبان منتخب کریں',allTools:'← تمام ٹولز',themeHint:'یہاں سے موڈ تبدیل کریں',dark:'🌙 ڈارک موڈ',light:'☀️ لائٹ موڈ',modeLabel:'1. پرچی کی قسم منتخب کریں:',modeCheckin:'🏨 مہمان چیک اِن رجسٹریشن پرچی',modeCheckout:'🧾 حتمی چیک آؤٹ کمرہ بل',hotelSection:'1. ہوٹل / لاج کی تفصیلات',hotelName:'ہوٹل / لاج کا نام',hotelAddress:'پتہ، استقبالیہ نمبر اور GSTIN',guestSection:'2. مہمان اور کمرے کی تفصیلات',folio:'فولیو / بل نمبر (خودکار)',room:'کمرہ نمبر اور قسم',guestCount:'مہمانوں کی تعداد',guestName:'مرکزی مہمان کا پورا نام',guestPhone:'مہمان موبائل / WhatsApp',idProof:'شناختی دستاویز کی قسم اور آخری 4 ہندسے',guestCity:'مہمان کا شہر / کہاں سے آئے',checkin:'چیک اِن کی تاریخ اور وقت',checkout:'چیک آؤٹ کی تاریخ اور وقت',servicesSection:'3. کمرے کا کرایہ اور اضافی خدمات',chipDeluxe:'+ ڈیلکس AC کمرہ',chipStandard:'+ اسٹینڈرڈ کمرہ',chipMattress:'+ اضافی گدا',chipBreakfast:'+ ناشتہ / چائے',chipMeals:'+ کھانا / تھالی',chipLaundry:'+ لانڈری',serviceDesc:'کمرہ / خدمت کی تفصیل',nightsQty:'راتیں / مقدار',rate:'شرح (₹)',addCharge:'+ نیا چارج / روم سروس شامل کریں',paymentSection:'4. ایڈوانس، ٹیکس اور ہوٹل کے قواعد',gst:'GST / ٹیکس (%)',gst0:'0% (شامل / مستثنیٰ)',advance:'جمع شدہ ایڈوانس (₹)',paymentMode:'ادائیگی کا طریقہ',upi:'UPI / کارڈ',cash:'نقد',hotelRules:'ہوٹل کے قواعد / ریمارکس',downloadPdf:'📥 A4 PDF ڈاؤن لوڈ',directPrint:'🖨️ براہ راست پرنٹ',whatsapp:'📲 WhatsApp پرچی',previewTitle:'لائیو ہوٹل فولیو / پرچی پیش نظارہ',hotelPh:'مثلاً Hotel Sai Residency & Lodge',addressPh:'مثلاً ریلوے اسٹیشن کے قریب، پونے | موبائل: 98XXXXXXXX',roomPh:'مثلاً کمرہ 204 (ڈیلکس AC)',guestCountPh:'مثلاً 2 بالغ، 1 بچہ',guestNamePh:'مثلاً وکرم راؤ',phonePh:'مثلاً 9876543210',idPh:'مثلاً Aadhaar (XXXX-8492)',cityPh:'مثلاً ممبئی، مہاراشٹر',checkoutPh:'مثلاً اگلے دن صبح 11:00',notesPh:'مثلاً چیک آؤٹ صبح 11 بجے ہے۔ درست سرکاری شناختی کارڈ لازمی ہے۔',deluxe:'ڈیلکس AC کمرے کا کرایہ (فی رات)',standard:'نان AC اسٹینڈرڈ کمرے کا کرایہ',mattress:'اضافی گدے / بستر کا چارج',breakfast:'روم سروس / چائے اور ناشتہ',meals:'دوپہر / رات کے کھانے کی تھالی',laundry:'کپڑے دھونے اور استری کی خدمت',lblFolio:'فولیو / بل نمبر:',lblRoom:'کمرہ نمبر / قسم:',lblGuest:'مہمان کا نام:',lblOccupancy:'مہمانوں کی تعداد:',lblId:'شناختی دستاویز:',lblCity:'آبائی شہر:',lblCi:'چیک اِن:',lblCo:'چیک آؤٹ:',lblParticulars:'تفصیلات / کمرہ اور خدمات',lblQty:'مقدار',lblRate:'شرح',lblAmount:'رقم',lblSub:'ذیلی کل:',lblGrand:'کل رقم:',lblAdvance:'ایڈوانس جمع',lblBalance:'بقایا قابل ادائیگی:',lblPolicy:'ہوٹل پالیسی:',lblSignature:'مہمان کے دستخط',lblReception:'استقبالیہ / فرنٹ ڈیسک کے دستخط',badgeIn:'مہمان چیک اِن پرچی',badgeOut:'حتمی کمرہ بل',defaultPolicy:'معیاری چیک آؤٹ وقت صبح 11:00 ہے۔ براہ کرم کمرے کی چابی استقبالیہ پر جمع کریں۔',defaultHotel:'HOTEL SAI RESIDENCY & LODGE',defaultAddress:'Near Railway Station, City | Mob: 98XXXXXXXX',delete:'حذف کریں',empty:'-',pdfBusy:'⏳ PDF بن رہی ہے...',pdfError:'PDF تیار نہیں ہو سکی۔ دوبارہ کوشش کریں۔'}
+};
+let docMode='CHECKIN';let curLang='hi';let items=[{desc:'Deluxe AC Room Tariff (Per Night)',qty:1,rate:1800}];
+const $=id=>document.getElementById(id);const L=()=>LANGS[curLang]||LANGS.hi;
+function safeNum(v){const n=parseFloat(v);return Number.isFinite(n)&&n>0?n:0}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function money(v){return Number(v||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function applyLanguage(){const t=L();document.documentElement.lang=curLang;document.documentElement.dir=curLang==='ur'?'rtl':'ltr';document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(t[k]!==undefined)el.textContent=t[k]});document.querySelectorAll('[data-ph]').forEach(el=>{const k=el.dataset.ph;if(t[k]!==undefined)el.placeholder=t[k]});$('btnTheme').textContent=document.body.classList.contains('dark-mode')?t.light:t.dark;$('sel_lang').value=curLang;$('btnCheckIn').textContent=t.modeCheckin;$('btnCheckOut').textContent=t.modeCheckout;renderDoc()}
+function changeLanguage(lang){if(!LANGS[lang])return;curLang=lang;try{localStorage.setItem('kkb_hotel_lang',lang)}catch(e){}applyLanguage()}
+function toggleTheme(){const dark=document.body.classList.toggle('dark-mode');$('btnTheme').textContent=dark?L().light:L().dark;try{localStorage.setItem('kkb_hotel_theme',dark?'dark':'light')}catch(e){}}
+function setDocMode(m){docMode=m;$('btnCheckIn').classList.toggle('active',m==='CHECKIN');$('btnCheckOut').classList.toggle('active',m==='CHECKOUT');$('in_folio').value=(m==='CHECKIN'?'REG-':'HTL-')+Math.floor(100000+Math.random()*899990);renderDoc()}
+function quickAdd(key,qty,rate){const d=L()[key]||key;items.push({desc:d,qty,rate});renderInputRows();calcTotals()}
+function renderInputRows(){$('itemsInputsBody').innerHTML=items.map((it,i)=>`<tr><td><input aria-label="Service description" value="${esc(it.desc)}" oninput="items[${i}].desc=this.value;renderDoc()"></td><td><input aria-label="Quantity" type="number" min="0" step="any" value="${Number(it.qty)||0}" oninput="items[${i}].qty=Math.max(0,parseFloat(this.value)||0);calcTotals()"></td><td><input aria-label="Rate" type="number" min="0" step="any" value="${Number(it.rate)||0}" oninput="items[${i}].rate=Math.max(0,parseFloat(this.value)||0);calcTotals()"></td><td class="t-center"><button type="button" class="btn-del-row" aria-label="${esc(L().delete)}" title="${esc(L().delete)}" onclick="delRow(${i})">✕</button></td></tr>`).join('')}
+function addItemRow(){items.push({desc:'',qty:1,rate:0});renderInputRows();calcTotals()}
+function delRow(i){if(items.length>1){items.splice(i,1);renderInputRows();calcTotals()}}
+function calcTotals(){const sub=items.reduce((s,it)=>s+safeNum(it.qty)*safeNum(it.rate),0);const gst=safeNum($('in_gst').value);const tax=sub*gst/100;const tot=Math.round(sub+tax);const adv=safeNum($('in_adv').value);const bal=Math.max(0,tot-adv);$('out_sub').textContent='₹'+money(sub);$('row_gst').style.display=gst>0?'table-row':'none';$('out_gst_lbl').textContent=`GST (${gst}%):`;$('out_gst').textContent='+₹'+money(tax);$('out_tot').textContent='₹'+money(tot);$('row_adv').style.display=adv>0?'table-row':'none';$('row_bal').style.display=adv>0?'table-row':'none';$('out_adv').textContent='-₹'+money(adv);$('out_bal').textContent='₹'+money(bal);renderDoc()}
+function renderDoc(){const t=L();$('out_hotel').textContent=$('in_hotel').value.trim()||t.defaultHotel;$('out_addr').textContent=$('in_addr').value.trim()||t.defaultAddress;$('out_badge').textContent=docMode==='CHECKIN'?t.badgeIn:t.badgeOut;$('out_folio').textContent=$('in_folio').value||'-';$('out_room').textContent=$('in_room').value||'-';const g=$('in_guest_name').value.trim()||'-';const ph=$('in_phone').value.trim();$('out_guest').textContent=ph?`${g} (${ph})`:g;$('out_guests').textContent=$('in_guests').value||'-';$('out_id').textContent=$('in_id_proof').value||'-';$('out_city').textContent=$('in_city').value||'-';$('out_ci').textContent=$('in_checkin_dt').value||'-';$('out_co').textContent=$('in_checkout_dt').value||'-';$('out_mode').textContent=$('in_mode').value===''?'-':$('in_mode').selectedOptions[0].textContent;$('out_notes').textContent=$('in_notes').value.trim()||t.defaultPolicy;
+$('lbl_folio').textContent=t.lblFolio;$('lbl_room').textContent=t.lblRoom;$('lbl_guest').textContent=t.lblGuest;$('lbl_occupancy').textContent=t.lblOccupancy;$('lbl_id').textContent=t.lblId;$('lbl_city').textContent=t.lblCity;$('lbl_ci').textContent=t.lblCi;$('lbl_co').textContent=t.lblCo;$('lbl_particulars').textContent=t.lblParticulars;$('lbl_qty').textContent=t.lblQty;$('lbl_rate').textContent=t.lblRate;$('lbl_amount').textContent=t.lblAmount;$('lbl_sub').textContent=t.lblSub;$('lbl_grand').textContent=t.lblGrand;$('lbl_advance').textContent=t.lblAdvance;$('lbl_balance').textContent=t.lblBalance;$('lbl_policy').textContent=t.lblPolicy;$('lbl_signature').textContent=t.lblSignature;$('lbl_reception').textContent=t.lblReception;
+$('out_tbody').innerHTML=items.map((it,i)=>{const q=safeNum(it.qty),r=safeNum(it.rate);return `<tr><td class="t-center">${i+1}</td><td>${esc(it.desc)||'-'}</td><td class="t-center">${q}</td><td class="t-right">₹${r.toLocaleString('en-IN')}</td><td class="t-right">₹${money(q*r)}</td></tr>`}).join('')}
+/* Reliable A4 PDF export: visible white overlay + fixed-width relative staging container. Keep this export layer visible during html2canvas capture. */
+function downloadA4PDF(){const btn=$('btn_pdf');if(typeof html2pdf!=='function'){alert('PDF library load nahi hui. Internet connection check karke page reload karein.');return}btn.disabled=true;btn.textContent=L().pdfBusy;const source=$('a4DocSheet');const clone=source.cloneNode(true);clone.removeAttribute('id');const PDF_WIDTH=680;clone.style.cssText=[`width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'min-width:0','margin:0','padding:26px 28px','background:#ffffff','color:#0f172a','border:1.5px solid #cbd5e1','border-radius:6px','box-shadow:none','box-sizing:border-box','flex-shrink:0'].join(';');const overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:2147483000;overflow:auto;margin:0;padding:0;';const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;min-width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);const folio=($('in_folio').value.trim()||'HotelGuest').replace(/[^a-zA-Z0-9-_]/g,'');const filename=`Hotel_${folio}.pdf`;requestAnimationFrame(()=>setTimeout(()=>{html2pdf().set({margin:[10,12,12,12],filename,image:{type:'png',quality:1},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true}}).from(staging).save().then(()=>{overlay.remove();btn.disabled=false;btn.textContent=L().downloadPdf}).catch(err=>{console.error('PDF export failed:',err);overlay.remove();btn.disabled=false;btn.textContent=L().downloadPdf;alert(L().pdfError)})},150))}
+function printDocDirect(){const w=window.open('','_blank','width=850,height=900');if(!w){alert('Print window blocked. Please allow pop-ups for this page.');return}w.document.write(`<!DOCTYPE html><html lang="${curLang}" dir="${curLang==='ur'?'rtl':'ltr'}"><head><meta charset="UTF-8"><title>Hotel Folio</title><style>*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;padding:8mm}.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0f766e;padding-bottom:8px;margin-bottom:10px;gap:8px}.doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}.doc-type-badge{background:#0f766e;color:#fff;padding:4px 10px;font-size:10px;font-weight:800;border-radius:4px}.guest-grid-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px;table-layout:fixed}.guest-grid-table td{padding:4px 6px;border:1px solid #cbd5e1;overflow-wrap:anywhere}.guest-grid-table td.lbl{background:#f8fafc;font-weight:700;width:22%}.doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px;table-layout:fixed}.doc-items-table th{background:#ccfbf1;color:#115e59;padding:5px;text-align:left;border:1px solid #5eead4}.doc-items-table td{padding:5px;border:1px solid #e2e8f0}.t-right{text-align:right}.t-center{text-align:center}.summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}.summary-table{font-size:11px;border-collapse:collapse;min-width:220px}.summary-table td{padding:2px 6px}.total-row td{background:#f0fdfa;border-top:2px solid #0f766e;font-size:13px;font-weight:800;color:#115e59}.notes-box{background:#f8fafc;border-left:3px solid #0f766e;padding:6px 8px;font-size:10px;margin:8px 0;line-height:1.45}.footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}@page{size:A4 portrait;margin:8mm}</style></head><body>${$('a4DocSheet').innerHTML}</body></html>`);w.document.close();w.focus();setTimeout(()=>{w.print();w.close()},450)}
+function shareWhatsApp(){const hotel=$('in_hotel').value.trim()||'Hotel';const guest=$('in_guest_name').value.trim()||'Guest';const room=$('in_room').value.trim()||'-';const total=$('out_tot').textContent;const phone=$('in_phone').value.trim().replace(/[^0-9]/g,'');const folio=$('in_folio').value;const msg=`*🏨 ${docMode==='CHECKIN'?'HOTEL CHECK-IN SLIP':'HOTEL ROOM BILL'} (${folio})*\n*Hotel:* ${hotel}\n*Guest:* ${guest}\n*Room:* ${room}\n*Total:* ${total}\n\n_Generated via KaamKaj Bills._`;window.open(phone?`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank')}
+window.addEventListener('DOMContentLoaded',()=>{try{const savedTheme=localStorage.getItem('kkb_hotel_theme');if(savedTheme==='dark')document.body.classList.add('dark-mode');const savedLang=localStorage.getItem('kkb_hotel_lang');if(savedLang&&LANGS[savedLang])curLang=savedLang}catch(e){}const now=new Date();$('in_checkin_dt').value=now.toLocaleDateString('en-CA')+' 12:00 PM';$('in_folio').value='REG-'+Math.floor(100000+Math.random()*899990);$('btnTheme').textContent=document.body.classList.contains('dark-mode')?L().light:L().dark;applyLanguage();renderInputRows();calcTotals()});
 </script>
 </body>
 </html>
