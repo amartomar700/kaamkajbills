@@ -1,524 +1,443 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" dir="ltr" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
 <title>Tailoring & Boutique Measurement Job Slip - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #7c3aed;
-    --primary-dark: #5b21b6;
-    --primary-soft: #ede9fe;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-    --danger: #dc2626;
-  }
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
-
-  /* PC Full-Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select, textarea {
-    width: 100%;
-    padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
-  }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: #f1f5f9;
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(124, 58, 237, 0.25);
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
-  .btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 11.5px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  #a4DocSheet {
-    background: #ffffff;
-    width: 100%;
-    padding: 20px 18px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 14px;
-    background: #ffffff;
-  }
-
-  .slip-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #0f172a;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-  }
-  .slip-header h2 { margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .slip-header p { margin: 2px 0 0; font-size: 10px; color: #64748b; }
-  .slip-badge {
-    background: var(--primary);
-    color: #ffffff;
-    padding: 3px 9px;
-    font-size: 10px;
-    font-weight: 800;
-    border-radius: 4px;
-    text-transform: uppercase;
-  }
-
-  .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px; }
-  .slip-table td { padding: 3.5px 3px; vertical-align: top; }
-  .slip-table td.lbl { font-weight: 700; color: #475569; width: 28%; }
-  .slip-table td.val { border-bottom: 1px dotted #94a3b8; font-weight: 600; color: #0f172a; }
-
-  .meas-grid {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 8px 0;
-    font-size: 10.5px;
-    border: 1px solid #cbd5e1;
-  }
-  .meas-grid th {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    padding: 4px;
-    border: 1px solid #cbd5e1;
-    font-weight: 800;
-    text-align: center;
-  }
-  .meas-grid td {
-    padding: 5px 4px;
-    border: 1px solid #cbd5e1;
-    text-align: center;
-    font-weight: 700;
-    color: #0f172a;
-  }
-
-  .amount-highlight {
-    background: #f0fdf4;
-    border: 1.2px solid #86efac;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px 0;
-    font-size: 11px;
-  }
-  .notes-box { background: #f8fafc; border-left: 3px solid var(--primary); padding: 6px 8px; font-size: 10.5px; color: #334155; margin: 6px 0; }
-  .footer-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; font-size: 10px; }
-  .sig-card { width: 45%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  .cut-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 16px 0;
-    border-top: 2px dashed #94a3b8;
-  }
-  .cut-tag { position: absolute; top: -10px; background: #fff; padding: 0 8px; font-size: 10px; font-weight: 700; color: #64748b; }
-
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
-    .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .grid-4 { grid-template-columns: 1fr 1fr; }
-  }
+:root {
+  color-scheme: light;
+  --primary:#7c3aed; --primary-dark:#5b21b6; --primary-soft:#ede9fe;
+  --ink:#0f172a; --ink-muted:#475569; --border:#cbd5e1;
+  --page:#f1f5f9; --card:#ffffff; --field:#f8fafc; --field-focus:#ffffff;
+  --nav:#111827; --soft:#f1f5f9; --shadow:0 8px 28px rgba(15,23,42,.07);
+  --danger:#dc2626;
+}
+html[data-theme="dark"] {
+  color-scheme:dark;
+  --ink:#e5e7eb; --ink-muted:#aab6c7; --border:#334155;
+  --page:#0b1120; --card:#151f31; --field:#0f172a; --field-focus:#111c2f;
+  --nav:#080e1a; --soft:#1e293b; --shadow:0 8px 28px rgba(0,0,0,.24);
+}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0!important;padding:0!important;width:100%;min-height:100%;background:var(--page);color:var(--ink);overflow-x:hidden}
+body{min-height:100vh}
+button,input,select{font:inherit}
+.top-nav{position:sticky;top:0;z-index:50;background:var(--nav);color:#fff;border-bottom:3px solid #f59e0b;padding:10px clamp(12px,2vw,28px);box-shadow:0 5px 18px rgba(0,0,0,.12)}
+.nav-inner{width:100%;display:grid;grid-template-columns:auto minmax(180px,1fr) auto;align-items:center;gap:16px}
+.btn-home{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 13px;border-radius:9px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);color:#fff;text-decoration:none;font-size:13px;font-weight:750;white-space:nowrap}
+.btn-home:hover{background:var(--primary)}
+.nav-title{font-size:clamp(14px,1.35vw,18px);font-weight:850;letter-spacing:.2px;text-align:center;line-height:1.3}
+.nav-controls{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.lang-control{display:flex;align-items:center;gap:7px;color:#e5e7eb;font-size:12px;font-weight:750;white-space:nowrap}
+.lang-control select{width:auto;min-width:138px;max-width:180px;min-height:40px;padding:7px 30px 7px 10px;border:1px solid rgba(255,255,255,.25);border-radius:9px;background:#1f2937;color:#fff;font-size:13px;outline:none}
+.theme-control{display:flex;align-items:center;gap:8px;color:#f8fafc;font-size:12px;font-weight:700}
+.theme-hint{max-width:150px;line-height:1.25;color:#cbd5e1}
+.theme-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 12px;border:1px solid rgba(255,255,255,.26);border-radius:9px;background:#293548;color:#fff;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap}
+.theme-btn:hover{background:#394a63}
+.kb-wrapper{width:100%;max-width:none;margin:0;padding:clamp(12px,1.8vw,26px);display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);gap:clamp(14px,1.8vw,26px);align-items:start}
+.control-box{min-width:0;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:clamp(15px,1.7vw,24px);box-shadow:var(--shadow)}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;min-width:0}
+label{font-size:11px;font-weight:800;color:var(--ink-muted);letter-spacing:.25px;line-height:1.35}
+input,select,textarea{width:100%;min-width:0;min-height:43px;padding:10px 11px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;outline:none;color:var(--ink);background:var(--field);transition:border-color .18s,box-shadow .18s,background .18s}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);background:var(--field-focus);box-shadow:0 0 0 3px rgba(124,58,237,.16)}
+input[readonly]{background:var(--soft)!important;color:var(--danger)!important;font-weight:850}
+.section-badge{display:flex;align-items:center;gap:8px;background:var(--primary-soft);color:var(--primary-dark);font-size:12px;font-weight:850;padding:9px 12px;border-radius:9px;margin:18px 0 13px;border-left:4px solid var(--primary);line-height:1.35}
+html[dir="rtl"] .section-badge{border-left:0;border-right:4px solid var(--primary)}
+.section-badge:first-of-type{margin-top:0}
+.form-intro{margin:0 0 10px;color:var(--ink-muted);font-size:13px;font-weight:700}
+.toggle-bar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0 15px;background:var(--soft);border:1px solid var(--border);padding:5px;border-radius:11px}
+.toggle-btn{min-height:44px;padding:10px;border:0;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;background:transparent;color:var(--ink-muted);transition:.2s}
+.toggle-btn.active{background:var(--primary);color:#fff;box-shadow:0 3px 9px rgba(124,58,237,.24)}
+.actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.btn{min-width:0;min-height:48px;padding:12px 10px;border:0;border-radius:10px;font-size:13px;font-weight:850;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 11px rgba(0,0,0,.1);transition:transform .18s,filter .18s}
+.btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-pdf{background:linear-gradient(135deg,#7c3aed,#5b21b6)}
+.btn-print{background:linear-gradient(135deg,#334155,#0f172a)}
+.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d)}
+.preview-panel{position:sticky;top:86px;width:100%;min-width:0}
+.preview-label{text-align:center;font-size:12px;font-weight:850;color:var(--ink-muted);letter-spacing:.5px;margin:2px 0 11px}
+#a4DocSheet{background:#fff;color:#0f172a;width:100%;max-width:100%;padding:clamp(10px,1.4vw,20px);border:1px solid #cbd5e1;box-shadow:0 10px 30px rgba(15,23,42,.1);border-radius:10px;box-sizing:border-box;overflow:hidden}
+.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:clamp(8px,1.1vw,14px);background:#fff;color:#0f172a}
+.slip-header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:2px solid #0f172a;padding-bottom:7px;margin-bottom:9px}
+.slip-header h2{margin:0;font-size:clamp(12px,1.2vw,16px);font-weight:850;color:#0f172a;text-transform:uppercase;overflow-wrap:anywhere}
+.slip-header p{margin:3px 0 0;font-size:clamp(8px,.8vw,10px);color:#64748b;overflow-wrap:anywhere}
+.slip-badge{background:#7c3aed;color:#fff;padding:4px 8px;font-size:clamp(7px,.78vw,10px);font-weight:850;border-radius:4px;text-transform:uppercase;text-align:center;flex-shrink:0}
+.slip-table{width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:8px;font-size:clamp(7px,.88vw,11px);color:#0f172a}
+.slip-table td{padding:3.5px 3px;vertical-align:top;overflow-wrap:anywhere}
+.slip-table td.lbl{font-weight:800;color:#475569;width:18%}
+.slip-table td.val{border-bottom:1px dotted #94a3b8;font-weight:650}
+.meas-grid{width:100%;table-layout:fixed;border-collapse:collapse;margin:8px 0;font-size:clamp(6px,.82vw,10.5px);border:1px solid #cbd5e1;color:#0f172a}
+.meas-grid th{background:#ede9fe;color:#5b21b6;padding:clamp(2px,.35vw,4px) 1px;border:1px solid #cbd5e1;font-weight:850;text-align:center;overflow-wrap:anywhere}
+.meas-grid td{padding:clamp(3px,.4vw,5px) 1px;border:1px solid #cbd5e1;text-align:center;font-weight:750;overflow-wrap:anywhere}
+.amount-highlight{background:#f0fdf4;border:1.2px solid #86efac;padding:6px 9px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 0;font-size:clamp(8px,.9vw,11px);color:#14532d}
+.amount-highlight .balance-value{color:#dc2626;font-weight:850;font-size:clamp(9px,1vw,13px);text-align:right}
+.master-ticket{font-size:10.5px;font-weight:850;color:#5b21b6;margin:4px 0}
+.notes-box{background:#f8fafc;border-left:3px solid #7c3aed;padding:6px 8px;font-size:clamp(8px,.86vw,10.5px);color:#334155;margin:6px 0;overflow-wrap:anywhere}
+html[dir="rtl"] .notes-box{border-left:0;border-right:3px solid #7c3aed}
+.footer-row{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:14px;font-size:clamp(8px,.82vw,10px);color:#64748b}
+.sig-card{width:45%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:750;color:#334155}
+.cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:17px 0;border-top:2px dashed #94a3b8}
+.cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:9px;font-weight:800;color:#64748b;white-space:nowrap}
+@media(max-width:1050px){.kb-wrapper{grid-template-columns:minmax(0,1fr);padding:14px}.preview-panel{position:static;max-width:900px;margin:0 auto}.control-box{width:100%}#a4DocSheet{padding:14px}.slip-table{font-size:10px}.meas-grid{font-size:9px}}
+@media(max-width:720px){.nav-inner{grid-template-columns:auto 1fr;gap:8px}.nav-title{grid-column:1/-1;grid-row:1;text-align:center;order:0}.btn-home{grid-column:1;grid-row:2}.nav-controls{grid-column:2;grid-row:2;justify-content:flex-end;gap:7px}.lang-control{font-size:11px}.lang-control select{min-width:112px;max-width:145px;min-height:38px;font-size:12px}.theme-control{gap:3px;flex-direction:column;align-items:flex-end}.theme-hint{display:block;max-width:112px;font-size:9px;text-align:right;line-height:1.1}.theme-btn{min-height:38px;padding:7px 9px;font-size:12px}.kb-wrapper{padding:10px;gap:12px}.control-box{padding:14px;border-radius:13px}.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}.actions{grid-template-columns:1fr}.btn{min-height:46px}.preview-panel{width:100%}#a4DocSheet{padding:8px;border-radius:8px}.slip-box{padding:7px}.slip-table{font-size:8px}.meas-grid{font-size:7px}.amount-highlight{font-size:8px}.amount-highlight .balance-value{font-size:9px}}
+@media(max-width:420px){.nav-inner{grid-template-columns:auto 1fr}.nav-title{font-size:13px}.btn-home{font-size:11px;padding:7px 9px}.nav-controls{gap:5px}.lang-control{gap:4px}.lang-control select{min-width:104px;max-width:118px;padding-left:7px;padding-right:20px}.theme-btn{font-size:11px;padding:6px 7px}.theme-hint{max-width:94px;font-size:8px}.grid-2,.grid-3{grid-template-columns:1fr}.toggle-bar{grid-template-columns:1fr}.slip-header h2{font-size:11px}.slip-badge{font-size:7px;padding:3px 5px}}
+@media print{html,body{background:#fff!important}.top-nav,.control-box,.preview-label{display:none!important}.kb-wrapper{display:block;padding:0!important}.preview-panel{position:static!important}#a4DocSheet{border:0;box-shadow:none;border-radius:0;padding:0;width:100%}}
 </style>
 </head>
 <body>
-
-<div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Tailoring & Boutique Slip</span>
-  <span style="width: 60px;"></span>
-</div>
-
-<div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
-  <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. A4 Print Layout (पर्ची लेआउट चुनें):</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnOne" onclick="setCopies(1)">📄 1 Slip (Customer Receipt)</button>
-        <button type="button" class="toggle-btn" id="btnTwo" onclick="setCopies(2)">✂️ 2 Slips (Customer + Master Cutting)</button>
+<header class="top-nav">
+  <div class="nav-inner">
+    <a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a>
+    <div class="nav-title" data-i18n="pageTitle">KaamKaj Bills • Tailoring & Boutique Slip</div>
+    <div class="nav-controls">
+      <label class="lang-control"><span data-i18n="languageLabel">Language</span>
+        <select id="languageSelect" aria-label="Select language">
+          <option value="hi">हिन्दी</option><option value="en">English</option><option value="bn">বাংলা</option>
+          <option value="te">తెలుగు</option><option value="mr">मराठी</option><option value="ta">தமிழ்</option>
+          <option value="gu">ગુજરાતી</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option>
+          <option value="or">ଓଡ଼ିଆ</option><option value="pa">ਪੰਜਾਬੀ</option><option value="ur">اردو</option>
+        </select>
+      </label>
+      <div class="theme-control">
+        <span class="theme-hint" data-i18n="themeHint">मोड बदलने के लिए यहाँ क्लिक करें</span>
+        <button type="button" class="theme-btn" id="themeToggle" aria-label="Change appearance"><span id="themeIcon">☀️</span><span id="themeText">Dark Mode</span></button>
       </div>
     </div>
+  </div>
+</header>
 
-    <div class="section-badge">1. Tailor Shop / Boutique Details</div>
-    <div class="grid-2">
-      <div class="field"><label>Tailor / Boutique Name</label><input type="text" id="in_shop" placeholder="उदा. Royal Mens & Ladies Tailor / Boutique" oninput="renderDoc()"></div>
-      <div class="field"><label>Address & Mobile No.</label><input type="text" id="in_addr" placeholder="उदा. Main Market, City | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+<main class="kb-wrapper">
+  <section class="control-box">
+    <p class="form-intro" data-i18n="layoutHeading">A4 Print Layout – Choose Slip Format</p>
+    <div class="toggle-bar">
+      <button type="button" class="toggle-btn active" id="btnOne" onclick="setCopies(1)" data-i18n="oneSlip">📄 1 Slip (Customer Receipt)</button>
+      <button type="button" class="toggle-btn" id="btnTwo" onclick="setCopies(2)" data-i18n="twoSlips">✂️ 2 Slips (Customer + Master Cutting)</button>
     </div>
 
-    <div class="section-badge">2. Customer & Delivery Details</div>
+    <div class="section-badge" data-i18n="sectionShop">1. Tailor Shop / Boutique Details</div>
+    <div class="grid-2">
+      <div class="field"><label for="in_shop" data-i18n="shopName">Tailor / Boutique Name</label><input type="text" id="in_shop" placeholder="उदा. Royal Mens & Ladies Tailor / Boutique" data-i18n-placeholder="shopPlaceholder" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_addr" data-i18n="address">Address & Mobile No.</label><input type="text" id="in_addr" placeholder="उदा. Main Market, City | Mob: 98XXXXXXXX" data-i18n-placeholder="addressPlaceholder" oninput="renderDoc()"></div>
+    </div>
+
+    <div class="section-badge" data-i18n="sectionCustomer">2. Customer & Delivery Details</div>
     <div class="grid-3">
-      <div class="field"><label>Order / Bill No. (Auto)</label><input type="text" id="in_ord_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Order Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
-      <div class="field"><label>Delivery Date (डिलीवरी)</label><input type="date" id="in_deliv" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_ord_no" data-i18n="orderNoAuto">Order / Bill No. (Auto)</label><input type="text" id="in_ord_no" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_date" data-i18n="orderDate">Order Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_deliv" data-i18n="deliveryDate">Delivery Date</label><input type="date" id="in_deliv" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Customer Name (ग्राहक का नाम)</label><input type="text" id="in_cust" placeholder="उदा. Anand Joshi" oninput="renderDoc()"></div>
-      <div class="field"><label>Mobile / WhatsApp No.</label><input type="text" id="in_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_cust" data-i18n="customerName">Customer Name</label><input type="text" id="in_cust" placeholder="उदा. Anand Joshi" data-i18n-placeholder="customerPlaceholder" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_phone" data-i18n="mobileWhatsapp">Mobile / WhatsApp No.</label><input type="tel" id="in_phone" inputmode="tel" placeholder="उदा. 9876543210" data-i18n-placeholder="mobilePlaceholder" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Garment / Outfit Details (कपड़े का विवरण)</label><input type="text" id="in_outfit" placeholder="उदा. 2 Shirt + 2 Pant / Bridal Blouse & Lehenga" oninput="renderDoc()"></div>
-      <div class="field"><label>Fitting Style / Pattern</label><input type="text" id="in_style" placeholder="उदा. Slim Fit / Collar Cut / Back Zip" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_outfit" data-i18n="garmentDetails">Garment / Outfit Details</label><input type="text" id="in_outfit" placeholder="उदा. 2 Shirt + 2 Pant / Bridal Blouse & Lehenga" data-i18n-placeholder="garmentPlaceholder" oninput="renderDoc()"></div>
+      <div class="field"><label for="in_style" data-i18n="fittingStyle">Fitting Style / Pattern</label><input type="text" id="in_style" placeholder="उदा. Slim Fit / Collar Cut / Back Zip" data-i18n-placeholder="fittingPlaceholder" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">3. Measurements in Inches (नाप इंच में)</div>
+    <div class="section-badge" data-i18n="sectionMeasurements">3. Measurements in Inches</div>
     <div class="grid-4">
-      <div class="field"><label>Length (लंबाई)</label><input type="text" id="m_len" placeholder="28.5" oninput="renderDoc()"></div>
-      <div class="field"><label>Chest / Bust (छाती)</label><input type="text" id="m_chest" placeholder="38" oninput="renderDoc()"></div>
-      <div class="field"><label>Waist (कमर)</label><input type="text" id="m_waist" placeholder="32" oninput="renderDoc()"></div>
-      <div class="field"><label>Hip / Seat (हिप)</label><input type="text" id="m_hip" placeholder="39" oninput="renderDoc()"></div>
-      <div class="field"><label>Shoulder (तीरा)</label><input type="text" id="m_shld" placeholder="17.5" oninput="renderDoc()"></div>
-      <div class="field"><label>Sleeve (आस्तीन)</label><input type="text" id="m_slv" placeholder="24" oninput="renderDoc()"></div>
-      <div class="field"><label>Neck / Collar (गला)</label><input type="text" id="m_neck" placeholder="15.5" oninput="renderDoc()"></div>
-      <div class="field"><label>Bottom / Mohri (मोहरी)</label><input type="text" id="m_bot" placeholder="14" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_len" data-i18n="length">Length</label><input type="text" id="m_len" placeholder="28.5" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_chest" data-i18n="chest">Chest / Bust</label><input type="text" id="m_chest" placeholder="38" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_waist" data-i18n="waist">Waist</label><input type="text" id="m_waist" placeholder="32" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_hip" data-i18n="hip">Hip / Seat</label><input type="text" id="m_hip" placeholder="39" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_shld" data-i18n="shoulder">Shoulder</label><input type="text" id="m_shld" placeholder="17.5" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_slv" data-i18n="sleeve">Sleeve</label><input type="text" id="m_slv" placeholder="24" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_neck" data-i18n="neck">Neck / Collar</label><input type="text" id="m_neck" placeholder="15.5" oninput="renderDoc()"></div>
+      <div class="field"><label for="m_bot" data-i18n="bottom">Bottom / Hem</label><input type="text" id="m_bot" placeholder="14" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">4. Stitching Charges & Instructions</div>
+    <div class="section-badge" data-i18n="sectionCharges">4. Stitching Charges & Instructions</div>
     <div class="grid-3">
-      <div class="field"><label>Total Stitching Charge (₹)</label><input type="number" id="in_tot" placeholder="1600" oninput="calcBal()"></div>
-      <div class="field"><label>Advance Paid (₹)</label><input type="number" id="in_adv" placeholder="600" oninput="calcBal()"></div>
-      <div class="field"><label>Balance Due (₹)</label><input type="number" id="in_bal" readonly style="background:#f1f5f9;font-weight:800;color:#dc2626;"></div>
+      <div class="field"><label for="in_tot" data-i18n="totalCharge">Total Stitching Charge (₹)</label><input type="number" id="in_tot" min="0" step="0.01" placeholder="1600" oninput="calcBal()"></div>
+      <div class="field"><label for="in_adv" data-i18n="advancePaid">Advance Paid (₹)</label><input type="number" id="in_adv" min="0" step="0.01" placeholder="600" oninput="calcBal()"></div>
+      <div class="field"><label for="in_bal" data-i18n="balanceDue">Balance Due (₹)</label><input type="number" id="in_bal" readonly style="font-weight:850;"></div>
     </div>
-    <div class="field"><label>Special Tailor / Master Notes</label><input type="text" id="in_notes" placeholder="उदा. डिलीवरी लेते समय यह पर्ची लाना अनिवार्य है। कपड़ा अंदर से मार्जिन रखें।" oninput="renderDoc()"></div>
+    <div class="field"><label for="in_notes" data-i18n="specialNotes">Special Tailor / Master Notes</label><input type="text" id="in_notes" placeholder="उदा. डिलीवरी लेते समय यह पर्ची लाना अनिवार्य है। कपड़ा अंदर से मार्जिन रखें।" data-i18n-placeholder="notesPlaceholder" oninput="renderDoc()"></div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Slip</button>
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()" data-i18n="downloadPdf">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()" data-i18n="directPrint">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()" data-i18n="whatsappSlip">📲 WhatsApp Slip</button>
     </div>
-  </div>
+  </section>
 
-  <!-- RIGHT: LIVE PREVIEW -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Tailoring Slip Preview</div>
-    <div id="a4DocSheet">
-      <div id="slipsContainer"></div>
-    </div>
-  </div>
-</div>
+  <section class="preview-panel">
+    <div class="preview-label" data-i18n="livePreview">LIVE TAILORING SLIP PREVIEW</div>
+    <div id="a4DocSheet"><div id="slipsContainer"></div></div>
+  </section>
+</main>
 
 <script>
-  let copyCount = 1;
+const I18N = {
+  hi:{allTools:'← सभी टूल्स',pageTitle:'KaamKaj Bills • टेलरिंग और बुटीक स्लिप',languageLabel:'भाषा',themeHint:'मोड बदलने के लिए यहाँ क्लिक करें',darkMode:'डार्क मोड',lightMode:'लाइट मोड',layoutHeading:'A4 प्रिंट लेआउट – पर्ची का प्रकार चुनें',oneSlip:'📄 1 पर्ची (ग्राहक रसीद)',twoSlips:'✂️ 2 पर्चियाँ (ग्राहक + मास्टर कटिंग)',sectionShop:'1. टेलर शॉप / बुटीक का विवरण',shopName:'टेलर / बुटीक का नाम',shopPlaceholder:'जैसे: रॉयल मेंस एंड लेडीज़ टेलर / बुटीक',address:'पता और मोबाइल नंबर',addressPlaceholder:'जैसे: मेन मार्केट, शहर | मोबाइल: 98XXXXXXXX',sectionCustomer:'2. ग्राहक और डिलीवरी का विवरण',orderNoAuto:'ऑर्डर / बिल नंबर (ऑटो)',orderDate:'ऑर्डर की तारीख',deliveryDate:'डिलीवरी की तारीख',customerName:'ग्राहक का नाम',customerPlaceholder:'जैसे: आनंद जोशी',mobileWhatsapp:'मोबाइल / व्हाट्सऐप नंबर',mobilePlaceholder:'जैसे: 9876543210',garmentDetails:'कपड़े / ड्रेस का विवरण',garmentPlaceholder:'जैसे: 2 शर्ट + 2 पैंट / ब्राइडल ब्लाउज और लहंगा',fittingStyle:'फिटिंग / डिजाइन',fittingPlaceholder:'जैसे: स्लिम फिट / कॉलर कट / बैक ज़िप',sectionMeasurements:'3. नाप इंच में भरें',length:'लंबाई',chest:'छाती',waist:'कमर',hip:'हिप / सीट',shoulder:'कंधा',sleeve:'आस्तीन',neck:'गला / कॉलर',bottom:'मोहरी / बॉटम',sectionCharges:'4. सिलाई शुल्क और निर्देश',totalCharge:'कुल सिलाई शुल्क (₹)',advancePaid:'जमा राशि (₹)',balanceDue:'बाकी राशि (₹)',specialNotes:'टेलर / मास्टर के विशेष निर्देश',notesPlaceholder:'जैसे: डिलीवरी लेते समय यह पर्ची लाना अनिवार्य है। कपड़े में अंदर से मार्जिन रखें।',downloadPdf:'📥 A4 PDF डाउनलोड करें',directPrint:'🖨️ सीधे प्रिंट करें',whatsappSlip:'📲 व्हाट्सऐप पर्ची',livePreview:'लाइव टेलरिंग पर्ची प्रीव्यू',defaultShop:'रॉयल टेलर्स और बुटीक',defaultAddress:'मेन मार्केट, शहर | मोबाइल: 98XXXXXXXX',defaultNotes:'डिलीवरी लेते समय यह पर्ची लाना अनिवार्य है।',standardFit:'सामान्य फिटिंग',order:'ऑर्डर नंबर:',delivery:'डिलीवरी:',customer:'ग्राहक:',orderDateLabel:'ऑर्डर तारीख:',garments:'कपड़े:',total:'कुल:',advance:'जमा:',balance:'बाकी राशि:',masterTicket:'मास्टर कटिंग और कारीगर वर्क टिकट (बाकी राशि:',instructions:'निर्देश:',customerSign:'ग्राहक के हस्ताक्षर',masterSign:'मास्टर कटर के हस्ताक्षर',shopSign:'दुकान के अधिकृत हस्ताक्षर',customerJobSlip:'ग्राहक की जॉब पर्ची',masterCuttingSlip:'मास्टर कटिंग पर्ची',cutHere:'✂️ यहाँ से काटें (मास्टर कॉपी)',customerJobBadge:'ग्राहक जॉब पर्ची',masterBadge:'मास्टर कटिंग पर्ची',whatsappTitle:'टेलरिंग ऑर्डर पर्ची',shop:'दुकान:',deliveryDateLabel:'डिलीवरी तारीख:',generated:'KaamKaj Bills से बनाई गई।',printTitle:'टेलरिंग पर्ची'},
+  en:{allTools:'← All Tools',pageTitle:'KaamKaj Bills • Tailoring & Boutique Slip',languageLabel:'Language',themeHint:'Click here to change the display mode',darkMode:'Dark Mode',lightMode:'Light Mode',layoutHeading:'A4 Print Layout – Choose Slip Format',oneSlip:'📄 1 Slip (Customer Receipt)',twoSlips:'✂️ 2 Slips (Customer + Master Cutting)',sectionShop:'1. Tailor Shop / Boutique Details',shopName:'Tailor / Boutique Name',shopPlaceholder:'e.g. Royal Mens & Ladies Tailor / Boutique',address:'Address & Mobile No.',addressPlaceholder:'e.g. Main Market, City | Mob: 98XXXXXXXX',sectionCustomer:'2. Customer & Delivery Details',orderNoAuto:'Order / Bill No. (Auto)',orderDate:'Order Date',deliveryDate:'Delivery Date',customerName:'Customer Name',customerPlaceholder:'e.g. Anand Joshi',mobileWhatsapp:'Mobile / WhatsApp No.',mobilePlaceholder:'e.g. 9876543210',garmentDetails:'Garment / Outfit Details',garmentPlaceholder:'e.g. 2 Shirts + 2 Pants / Bridal Blouse & Lehenga',fittingStyle:'Fitting Style / Pattern',fittingPlaceholder:'e.g. Slim Fit / Collar Cut / Back Zip',sectionMeasurements:'3. Measurements in Inches',length:'Length',chest:'Chest / Bust',waist:'Waist',hip:'Hip / Seat',shoulder:'Shoulder',sleeve:'Sleeve',neck:'Neck / Collar',bottom:'Bottom / Hem',sectionCharges:'4. Stitching Charges & Instructions',totalCharge:'Total Stitching Charge (₹)',advancePaid:'Advance Paid (₹)',balanceDue:'Balance Due (₹)',specialNotes:'Special Tailor / Master Notes',notesPlaceholder:'e.g. Bring this slip at delivery. Keep sufficient fabric margin inside.',downloadPdf:'📥 Download A4 PDF',directPrint:'🖨️ Direct Print',whatsappSlip:'📲 WhatsApp Slip',livePreview:'LIVE TAILORING SLIP PREVIEW',defaultShop:'ROYAL TAILORS & BOUTIQUE',defaultAddress:'Main Market, City | Mob: 98XXXXXXXX',defaultNotes:'Please bring this slip when collecting your order.',standardFit:'Standard Fitting',order:'Order No:',delivery:'Delivery:',customer:'Customer:',orderDateLabel:'Order Date:',garments:'Garments:',total:'TOTAL:',advance:'ADV:',balance:'BALANCE DUE:',masterTicket:'MASTER CUTTING & KARIGAR WORK TICKET (BAL DUE:',instructions:'Instructions:',customerSign:'Customer Sign',masterSign:'Master Cutter Sign',shopSign:'Authorized Shop Sign',customerJobSlip:'Customer Job Slip',masterCuttingSlip:'Master Cutting Slip',cutHere:'✂️ CUT HERE (MASTER COPY)',customerJobBadge:'Customer Job Slip',masterBadge:'Master Cutting Slip',whatsappTitle:'TAILORING ORDER SLIP',shop:'Shop:',deliveryDateLabel:'Delivery Date:',generated:'Generated via KaamKaj Bills.',printTitle:'Tailoring Slip'},
+  bn:{allTools:'← সব টুল',pageTitle:'KaamKaj Bills • টেইলারিং ও বুটিক স্লিপ',languageLabel:'ভাষা',themeHint:'মোড পরিবর্তন করতে এখানে ক্লিক করুন',darkMode:'ডার্ক মোড',lightMode:'লাইট মোড',layoutHeading:'A4 প্রিন্ট লেআউট – স্লিপের ধরন বেছে নিন',oneSlip:'📄 ১টি স্লিপ (গ্রাহকের রসিদ)',twoSlips:'✂️ ২টি স্লিপ (গ্রাহক + মাস্টার কাটিং)',sectionShop:'১. টেইলার দোকান / বুটিকের বিবরণ',shopName:'টেইলার / বুটিকের নাম',shopPlaceholder:'যেমন: রয়্যাল মেন্স অ্যান্ড লেডিস টেইলার',address:'ঠিকানা ও মোবাইল নম্বর',addressPlaceholder:'যেমন: মেইন মার্কেট, শহর | মোবাইল: 98XXXXXXXX',sectionCustomer:'২. গ্রাহক ও ডেলিভারির বিবরণ',orderNoAuto:'অর্ডার / বিল নম্বর (স্বয়ংক্রিয়)',orderDate:'অর্ডারের তারিখ',deliveryDate:'ডেলিভারির তারিখ',customerName:'গ্রাহকের নাম',customerPlaceholder:'যেমন: আনন্দ যোশী',mobileWhatsapp:'মোবাইল / হোয়াটসঅ্যাপ নম্বর',mobilePlaceholder:'যেমন: 9876543210',garmentDetails:'পোশাকের বিবরণ',garmentPlaceholder:'যেমন: ২টি শার্ট + ২টি প্যান্ট',fittingStyle:'ফিটিং / নকশা',fittingPlaceholder:'যেমন: স্লিম ফিট / কলার কাট / ব্যাক জিপ',sectionMeasurements:'৩. ইঞ্চিতে মাপ লিখুন',length:'লম্বা',chest:'বুক',waist:'কোমর',hip:'হিপ',shoulder:'কাঁধ',sleeve:'হাতা',neck:'গলা / কলার',bottom:'নিচের ঘের',sectionCharges:'৪. সেলাইয়ের চার্জ ও নির্দেশ',totalCharge:'মোট সেলাইয়ের চার্জ (₹)',advancePaid:'অগ্রিম জমা (₹)',balanceDue:'বাকি টাকা (₹)',specialNotes:'টেইলার / মাস্টারের বিশেষ নির্দেশ',notesPlaceholder:'যেমন: পোশাক নেওয়ার সময় এই স্লিপটি আনুন।',downloadPdf:'📥 A4 PDF ডাউনলোড',directPrint:'🖨️ সরাসরি প্রিন্ট',whatsappSlip:'📲 হোয়াটসঅ্যাপ স্লিপ',livePreview:'লাইভ টেইলারিং স্লিপ প্রিভিউ',defaultShop:'রয়্যাল টেইলার্স ও বুটিক',defaultAddress:'মেইন মার্কেট, শহর | মোবাইল: 98XXXXXXXX',defaultNotes:'ডেলিভারি নেওয়ার সময় এই স্লিপটি আনুন।',standardFit:'সাধারণ ফিটিং',order:'অর্ডার নম্বর:',delivery:'ডেলিভারি:',customer:'গ্রাহক:',orderDateLabel:'অর্ডারের তারিখ:',garments:'পোশাক:',total:'মোট:',advance:'অগ্রিম:',balance:'বাকি টাকা:',masterTicket:'মাস্টার কাটিং ও কারিগরের কাজের টিকিট (বাকি:',instructions:'নির্দেশ:',customerSign:'গ্রাহকের স্বাক্ষর',masterSign:'মাস্টার কাটারের স্বাক্ষর',shopSign:'দোকানের অনুমোদিত স্বাক্ষর',customerJobSlip:'গ্রাহকের কাজের স্লিপ',masterCuttingSlip:'মাস্টার কাটিং স্লিপ',cutHere:'✂️ এখানে কাটুন (মাস্টার কপি)',customerJobBadge:'গ্রাহকের কাজের স্লিপ',masterBadge:'মাস্টার কাটিং স্লিপ',whatsappTitle:'টেইলারিং অর্ডার স্লিপ',shop:'দোকান:',deliveryDateLabel:'ডেলিভারির তারিখ:',generated:'KaamKaj Bills দিয়ে তৈরি।',printTitle:'টেইলারিং স্লিপ'},
+  te:{allTools:'← అన్ని టూల్స్',pageTitle:'KaamKaj Bills • టైలరింగ్ & బుటిక్ స్లిప్',languageLabel:'భాష',themeHint:'మోడ్ మార్చడానికి ఇక్కడ క్లిక్ చేయండి',darkMode:'డార్క్ మోడ్',lightMode:'లైట్ మోడ్',layoutHeading:'A4 ప్రింట్ లేఅవుట్ – స్లిప్ రకాన్ని ఎంచుకోండి',oneSlip:'📄 1 స్లిప్ (కస్టమర్ రసీదు)',twoSlips:'✂️ 2 స్లిప్స్ (కస్టమర్ + మాస్టర్ కటింగ్)',sectionShop:'1. టైలర్ షాప్ / బుటిక్ వివరాలు',shopName:'టైలర్ / బుటిక్ పేరు',shopPlaceholder:'ఉదా: రాయల్ మెన్ & లేడీస్ టైలర్',address:'చిరునామా & మొబైల్ నంబర్',addressPlaceholder:'ఉదా: మెయిన్ మార్కెట్, నగరం | మొబైల్: 98XXXXXXXX',sectionCustomer:'2. కస్టమర్ & డెలివరీ వివరాలు',orderNoAuto:'ఆర్డర్ / బిల్ నం. (ఆటో)',orderDate:'ఆర్డర్ తేదీ',deliveryDate:'డెలివరీ తేదీ',customerName:'కస్టమర్ పేరు',customerPlaceholder:'ఉదా: ఆనంద్ జోషి',mobileWhatsapp:'మొబైల్ / వాట్సాప్ నంబర్',mobilePlaceholder:'ఉదా: 9876543210',garmentDetails:'దుస్తుల వివరాలు',garmentPlaceholder:'ఉదా: 2 షర్ట్లు + 2 ప్యాంట్లు',fittingStyle:'ఫిట్టింగ్ స్టైల్ / నమూనా',fittingPlaceholder:'ఉదా: స్లిమ్ ఫిట్ / కాలర్ కట్ / బ్యాక్ జిప్',sectionMeasurements:'3. ఇంచుల్లో కొలతలు',length:'పొడవు',chest:'ఛాతీ',waist:'నడుము',hip:'హిప్',shoulder:'భుజం',sleeve:'చేతి పొడవు',neck:'మెడ / కాలర్',bottom:'బాటమ్ / మోహరి',sectionCharges:'4. కుట్టు ఛార్జీలు & సూచనలు',totalCharge:'మొత్తం కుట్టు ఛార్జీ (₹)',advancePaid:'అడ్వాన్స్ చెల్లింపు (₹)',balanceDue:'బాకీ మొత్తం (₹)',specialNotes:'టైలర్ / మాస్టర్ ప్రత్యేక సూచనలు',notesPlaceholder:'ఉదా: డెలివరీ తీసుకునేటప్పుడు ఈ స్లిప్ తీసుకురండి.',downloadPdf:'📥 A4 PDF డౌన్‌లోడ్',directPrint:'🖨️ నేరుగా ప్రింట్',whatsappSlip:'📲 వాట్సాప్ స్లిప్',livePreview:'లైవ్ టైలరింగ్ స్లిప్ ప్రివ్యూ',defaultShop:'రాయల్ టైలర్స్ & బుటిక్',defaultAddress:'మెయిన్ మార్కెట్, నగరం | మొబైల్: 98XXXXXXXX',defaultNotes:'డెలివరీ తీసుకునేటప్పుడు ఈ స్లిప్ తీసుకురావాలి.',standardFit:'సాధారణ ఫిట్టింగ్',order:'ఆర్డర్ నం:',delivery:'డెలివరీ:',customer:'కస్టమర్:',orderDateLabel:'ఆర్డర్ తేదీ:',garments:'దుస్తులు:',total:'మొత్తం:',advance:'అడ్వాన్స్:',balance:'బాకీ మొత్తం:',masterTicket:'మాస్టర్ కటింగ్ & పని టికెట్ (బాకీ:',instructions:'సూచనలు:',customerSign:'కస్టమర్ సంతకం',masterSign:'మాస్టర్ కట్టర్ సంతకం',shopSign:'అధీకృత షాప్ సంతకం',customerJobSlip:'కస్టమర్ జాబ్ స్లిప్',masterCuttingSlip:'మాస్టర్ కటింగ్ స్లిప్',cutHere:'✂️ ఇక్కడ కత్తిరించండి (మాస్టర్ కాపీ)',customerJobBadge:'కస్టమర్ జాబ్ స్లిప్',masterBadge:'మాస్టర్ కటింగ్ స్లిప్',whatsappTitle:'టైలరింగ్ ఆర్డర్ స్లిప్',shop:'షాప్:',deliveryDateLabel:'డెలివరీ తేదీ:',generated:'KaamKaj Bills ద్వారా రూపొందించబడింది.',printTitle:'టైలరింగ్ స్లిప్'},
+  mr:{allTools:'← सर्व टूल्स',pageTitle:'KaamKaj Bills • टेलरिंग आणि बुटीक स्लिप',languageLabel:'भाषा',themeHint:'मोड बदलण्यासाठी येथे क्लिक करा',darkMode:'डार्क मोड',lightMode:'लाईट मोड',layoutHeading:'A4 प्रिंट लेआउट – पावतीचा प्रकार निवडा',oneSlip:'📄 1 पावती (ग्राहक प्रत)',twoSlips:'✂️ 2 पावत्या (ग्राहक + मास्टर कटिंग)',sectionShop:'1. टेलर शॉप / बुटीकची माहिती',shopName:'टेलर / बुटीकचे नाव',shopPlaceholder:'उदा. रॉयल मेन्स अँड लेडीज टेलर',address:'पत्ता आणि मोबाईल क्रमांक',addressPlaceholder:'उदा. मेन मार्केट, शहर | मोबाईल: 98XXXXXXXX',sectionCustomer:'2. ग्राहक आणि डिलिव्हरीची माहिती',orderNoAuto:'ऑर्डर / बिल क्रमांक (ऑटो)',orderDate:'ऑर्डरची तारीख',deliveryDate:'डिलिव्हरीची तारीख',customerName:'ग्राहकाचे नाव',customerPlaceholder:'उदा. आनंद जोशी',mobileWhatsapp:'मोबाईल / व्हॉट्सअॅप क्रमांक',mobilePlaceholder:'उदा. 9876543210',garmentDetails:'कपड्यांचा / ड्रेसचा तपशील',garmentPlaceholder:'उदा. 2 शर्ट + 2 पँट / ब्रायडल ब्लाउज आणि लेहेंगा',fittingStyle:'फिटिंग / डिझाइन',fittingPlaceholder:'उदा. स्लिम फिट / कॉलर कट / बॅक झिप',sectionMeasurements:'3. इंचांमध्ये मापे भरा',length:'लांबी',chest:'छाती',waist:'कंबर',hip:'हिप',shoulder:'खांदा',sleeve:'बाही',neck:'गळा / कॉलर',bottom:'मोहरी / बॉटम',sectionCharges:'4. शिवणकामाचे शुल्क आणि सूचना',totalCharge:'एकूण शिवणकाम शुल्क (₹)',advancePaid:'आगाऊ रक्कम (₹)',balanceDue:'बाकी रक्कम (₹)',specialNotes:'टेलर / मास्टरसाठी विशेष सूचना',notesPlaceholder:'उदा. कपडे घेताना ही पावती आणणे आवश्यक आहे.',downloadPdf:'📥 A4 PDF डाउनलोड करा',directPrint:'🖨️ थेट प्रिंट करा',whatsappSlip:'📲 व्हॉट्सअॅप पावती',livePreview:'लाईव्ह टेलरिंग पावती प्रिव्ह्यू',defaultShop:'रॉयल टेलर्स आणि बुटीक',defaultAddress:'मेन मार्केट, शहर | मोबाईल: 98XXXXXXXX',defaultNotes:'डिलिव्हरी घेताना ही पावती आणणे आवश्यक आहे.',standardFit:'सामान्य फिटिंग',order:'ऑर्डर क्रमांक:',delivery:'डिलिव्हरी:',customer:'ग्राहक:',orderDateLabel:'ऑर्डर तारीख:',garments:'कपडे:',total:'एकूण:',advance:'आगाऊ:',balance:'बाकी रक्कम:',masterTicket:'मास्टर कटिंग आणि कारागीर कामाची पावती (बाकी:',instructions:'सूचना:',customerSign:'ग्राहकाची सही',masterSign:'मास्टर कटरची सही',shopSign:'दुकानाची अधिकृत सही',customerJobSlip:'ग्राहक जॉब स्लिप',masterCuttingSlip:'मास्टर कटिंग स्लिप',cutHere:'✂️ येथे कापा (मास्टर प्रत)',customerJobBadge:'ग्राहक जॉब स्लिप',masterBadge:'मास्टर कटिंग स्लिप',whatsappTitle:'टेलरिंग ऑर्डर स्लिप',shop:'दुकान:',deliveryDateLabel:'डिलिव्हरी तारीख:',generated:'KaamKaj Bills द्वारे तयार.',printTitle:'टेलरिंग स्लिप'},
+  ta:{allTools:'← அனைத்து கருவிகள்',pageTitle:'KaamKaj Bills • தையல் & பூட்டிக் சீட்டு',languageLabel:'மொழி',themeHint:'முறையை மாற்ற இங்கே கிளிக் செய்யவும்',darkMode:'டார்க் மோடு',lightMode:'லைட் மோடு',layoutHeading:'A4 அச்சு அமைப்பு – சீட்டு வகையைத் தேர்ந்தெடுக்கவும்',oneSlip:'📄 1 சீட்டு (வாடிக்கையாளர் ரசீது)',twoSlips:'✂️ 2 சீட்டுகள் (வாடிக்கையாளர் + மாஸ்டர் கட்டிங்)',sectionShop:'1. தையல் கடை / பூட்டிக் விவரங்கள்',shopName:'தையல்காரர் / பூட்டிக் பெயர்',shopPlaceholder:'எ.கா. ராயல் டெய்லர்ஸ்',address:'முகவரி & கைபேசி எண்',addressPlaceholder:'எ.கா. மெயின் மார்க்கெட், நகரம் | மொபைல்: 98XXXXXXXX',sectionCustomer:'2. வாடிக்கையாளர் & டெலிவரி விவரங்கள்',orderNoAuto:'ஆர்டர் / பில் எண் (தானாக)',orderDate:'ஆர்டர் தேதி',deliveryDate:'டெலிவரி தேதி',customerName:'வாடிக்கையாளர் பெயர்',customerPlaceholder:'எ.கா. ஆனந்த் ஜோஷி',mobileWhatsapp:'மொபைல் / வாட்ஸ்அப் எண்',mobilePlaceholder:'எ.கா. 9876543210',garmentDetails:'ஆடை விவரங்கள்',garmentPlaceholder:'எ.கா. 2 சட்டைகள் + 2 பேண்ட்கள்',fittingStyle:'பொருத்தம் / வடிவம்',fittingPlaceholder:'எ.கா. ஸ்லிம் ஃபிட் / காலர் கட் / பேக் ஜிப்',sectionMeasurements:'3. அங்குலங்களில் அளவுகள்',length:'நீளம்',chest:'மார்பு',waist:'இடுப்பு',hip:'ஹிப்',shoulder:'தோள்பட்டை',sleeve:'கை நீளம்',neck:'கழுத்து / காலர்',bottom:'கீழ் அளவு',sectionCharges:'4. தையல் கட்டணம் & வழிமுறைகள்',totalCharge:'மொத்த தையல் கட்டணம் (₹)',advancePaid:'முன்பணம் (₹)',balanceDue:'மீதித் தொகை (₹)',specialNotes:'தையல்காரர் / மாஸ்டர் சிறப்பு குறிப்புகள்',notesPlaceholder:'எ.கா. ஆடையைப் பெறும்போது இந்தச் சீட்டைக் கொண்டு வரவும்.',downloadPdf:'📥 A4 PDF பதிவிறக்கம்',directPrint:'🖨️ நேரடி அச்சு',whatsappSlip:'📲 வாட்ஸ்அப் சீட்டு',livePreview:'நேரடி தையல் சீட்டு முன்னோட்டம்',defaultShop:'ராயல் டெய்லர்ஸ் & பூட்டிக்',defaultAddress:'மெயின் மார்க்கெட், நகரம் | மொபைல்: 98XXXXXXXX',defaultNotes:'டெலிவரி பெறும்போது இந்தச் சீட்டைக் கொண்டு வரவும்.',standardFit:'சாதாரண பொருத்தம்',order:'ஆர்டர் எண்:',delivery:'டெலிவரி:',customer:'வாடிக்கையாளர்:',orderDateLabel:'ஆர்டர் தேதி:',garments:'ஆடைகள்:',total:'மொத்தம்:',advance:'முன்பணம்:',balance:'மீதித் தொகை:',masterTicket:'மாஸ்டர் கட்டிங் & வேலைச் சீட்டு (மீதம்:',instructions:'வழிமுறைகள்:',customerSign:'வாடிக்கையாளர் கையொப்பம்',masterSign:'மாஸ்டர் கையொப்பம்',shopSign:'கடை அங்கீகரிக்கப்பட்ட கையொப்பம்',customerJobSlip:'வாடிக்கையாளர் வேலைச் சீட்டு',masterCuttingSlip:'மாஸ்டர் கட்டிங் சீட்டு',cutHere:'✂️ இங்கே வெட்டவும் (மாஸ்டர் நகல்)',customerJobBadge:'வாடிக்கையாளர் வேலைச் சீட்டு',masterBadge:'மாஸ்டர் கட்டிங் சீட்டு',whatsappTitle:'தையல் ஆர்டர் சீட்டு',shop:'கடை:',deliveryDateLabel:'டெலிவரி தேதி:',generated:'KaamKaj Bills மூலம் உருவாக்கப்பட்டது.',printTitle:'தையல் சீட்டு'},
+  gu:{allTools:'← બધા ટૂલ્સ',pageTitle:'KaamKaj Bills • ટેલરિંગ અને બુટિક સ્લિપ',languageLabel:'ભાષા',themeHint:'મોડ બદલવા અહીં ક્લિક કરો',darkMode:'ડાર્ક મોડ',lightMode:'લાઇટ મોડ',layoutHeading:'A4 પ્રિન્ટ લેઆઉટ – સ્લિપનો પ્રકાર પસંદ કરો',oneSlip:'📄 1 સ્લિપ (ગ્રાહક રસીદ)',twoSlips:'✂️ 2 સ્લિપ (ગ્રાહક + માસ્ટર કટિંગ)',sectionShop:'1. ટેલર શોપ / બુટિકની વિગતો',shopName:'ટેલર / બુટિકનું નામ',shopPlaceholder:'દા.ત. રોયલ મેન્સ એન્ડ લેડીઝ ટેલર',address:'સરનામું અને મોબાઇલ નંબર',addressPlaceholder:'દા.ત. મેઇન માર્કેટ, શહેર | મોબાઇલ: 98XXXXXXXX',sectionCustomer:'2. ગ્રાહક અને ડિલિવરીની વિગતો',orderNoAuto:'ઓર્ડર / બિલ નંબર (ઓટો)',orderDate:'ઓર્ડરની તારીખ',deliveryDate:'ડિલિવરીની તારીખ',customerName:'ગ્રાહકનું નામ',customerPlaceholder:'દા.ત. આનંદ જોશી',mobileWhatsapp:'મોબાઇલ / વોટ્સએપ નંબર',mobilePlaceholder:'દા.ત. 9876543210',garmentDetails:'કપડાં / ડ્રેસની વિગતો',garmentPlaceholder:'દા.ત. 2 શર્ટ + 2 પેન્ટ',fittingStyle:'ફિટિંગ સ્ટાઇલ / ડિઝાઇન',fittingPlaceholder:'દા.ત. સ્લિમ ફિટ / કોલર કટ / બેક ઝિપ',sectionMeasurements:'3. ઇંચમાં માપ લખો',length:'લંબાઈ',chest:'છાતી',waist:'કમર',hip:'હિપ',shoulder:'ખભો',sleeve:'બાંય',neck:'ગળું / કોલર',bottom:'મોરી / બોટમ',sectionCharges:'4. સીવણ ચાર્જ અને સૂચનાઓ',totalCharge:'કુલ સીવણ ચાર્જ (₹)',advancePaid:'એડવાન્સ ચૂકવેલ (₹)',balanceDue:'બાકી રકમ (₹)',specialNotes:'ટેલર / માસ્ટરની ખાસ સૂચનાઓ',notesPlaceholder:'દા.ત. ડિલિવરી લેતી વખતે આ સ્લિપ સાથે લાવવી.',downloadPdf:'📥 A4 PDF ડાઉનલોડ',directPrint:'🖨️ સીધું પ્રિન્ટ',whatsappSlip:'📲 વોટ્સએપ સ્લિપ',livePreview:'લાઇવ ટેલરિંગ સ્લિપ પ્રિવ્યૂ',defaultShop:'રોયલ ટેલર્સ અને બુટિક',defaultAddress:'મેઇન માર્કેટ, શહેર | મોબાઇલ: 98XXXXXXXX',defaultNotes:'ડિલિવરી લેતી વખતે આ સ્લિપ લાવવી જરૂરી છે.',standardFit:'સામાન્ય ફિટિંગ',order:'ઓર્ડર નંબર:',delivery:'ડિલિવરી:',customer:'ગ્રાહક:',orderDateLabel:'ઓર્ડરની તારીખ:',garments:'કપડાં:',total:'કુલ:',advance:'એડવાન્સ:',balance:'બાકી રકમ:',masterTicket:'માસ્ટર કટિંગ અને કારીગર વર્ક ટિકિટ (બાકી:',instructions:'સૂચનાઓ:',customerSign:'ગ્રાહકની સહી',masterSign:'માસ્ટર કટરની સહી',shopSign:'અધિકૃત દુકાનની સહી',customerJobSlip:'ગ્રાહક જોબ સ્લિપ',masterCuttingSlip:'માસ્ટર કટિંગ સ્લિપ',cutHere:'✂️ અહીંથી કાપો (માસ્ટર કોપી)',customerJobBadge:'ગ્રાહક જોબ સ્લિપ',masterBadge:'માસ્ટર કટિંગ સ્લિપ',whatsappTitle:'ટેલરિંગ ઓર્ડર સ્લિપ',shop:'દુકાન:',deliveryDateLabel:'ડિલિવરી તારીખ:',generated:'KaamKaj Bills દ્વારા બનાવેલ.',printTitle:'ટેલરિંગ સ્લિપ'},
+  kn:{allTools:'← ಎಲ್ಲಾ ಟೂಲ್ಸ್',pageTitle:'KaamKaj Bills • ಟೈಲರಿಂಗ್ ಮತ್ತು ಬೂಟಿಕ್ ಸ್ಲಿಪ್',languageLabel:'ಭಾಷೆ',themeHint:'ಮೋಡ್ ಬದಲಿಸಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ',darkMode:'ಡಾರ್ಕ್ ಮೋಡ್',lightMode:'ಲೈಟ್ ಮೋಡ್',layoutHeading:'A4 ಪ್ರಿಂಟ್ ವಿನ್ಯಾಸ – ಸ್ಲಿಪ್ ಆಯ್ಕೆಮಾಡಿ',oneSlip:'📄 1 ಸ್ಲಿಪ್ (ಗ್ರಾಹಕರ ರಸೀದಿ)',twoSlips:'✂️ 2 ಸ್ಲಿಪ್‌ಗಳು (ಗ್ರಾಹಕ + ಮಾಸ್ಟರ್ ಕಟಿಂಗ್)',sectionShop:'1. ಟೈಲರ್ ಅಂಗಡಿ / ಬೂಟಿಕ್ ವಿವರಗಳು',shopName:'ಟೈಲರ್ / ಬೂಟಿಕ್ ಹೆಸರು',shopPlaceholder:'ಉದಾ. ರಾಯಲ್ ಮೆನ್ಸ್ ಅಂಡ್ ಲೇಡೀಸ್ ಟೈಲರ್',address:'ವಿಳಾಸ ಮತ್ತು ಮೊಬೈಲ್ ಸಂಖ್ಯೆ',addressPlaceholder:'ಉದಾ. ಮೇನ್ ಮಾರ್ಕೆಟ್, ನಗರ | ಮೊಬೈಲ್: 98XXXXXXXX',sectionCustomer:'2. ಗ್ರಾಹಕ ಮತ್ತು ಡೆಲಿವರಿ ವಿವರಗಳು',orderNoAuto:'ಆರ್ಡರ್ / ಬಿಲ್ ಸಂಖ್ಯೆ (ಸ್ವಯಂ)',orderDate:'ಆರ್ಡರ್ ದಿನಾಂಕ',deliveryDate:'ಡೆಲಿವರಿ ದಿನಾಂಕ',customerName:'ಗ್ರಾಹಕರ ಹೆಸರು',customerPlaceholder:'ಉದಾ. ಆನಂದ್ ಜೋಶಿ',mobileWhatsapp:'ಮೊಬೈಲ್ / ವಾಟ್ಸ್ಆಪ್ ಸಂಖ್ಯೆ',mobilePlaceholder:'ಉದಾ. 9876543210',garmentDetails:'ಉಡುಪುಗಳ ವಿವರ',garmentPlaceholder:'ಉದಾ. 2 ಶರ್ಟ್ + 2 ಪ್ಯಾಂಟ್',fittingStyle:'ಫಿಟ್ಟಿಂಗ್ ಶೈಲಿ / ಮಾದರಿ',fittingPlaceholder:'ಉದಾ. ಸ್ಲಿಮ್ ಫಿಟ್ / ಕಾಲರ್ ಕಟ್ / ಬ್ಯಾಕ್ ಜಿಪ್',sectionMeasurements:'3. ಇಂಚುಗಳಲ್ಲಿ ಅಳತೆಗಳು',length:'ಉದ್ದ',chest:'ಎದೆ',waist:'ಸೊಂಟ',hip:'ಹಿಪ್',shoulder:'ಭುಜ',sleeve:'ತೋಳು',neck:'ಕತ್ತು / ಕಾಲರ್',bottom:'ಬಾಟಮ್ / ಮೊಹರಿ',sectionCharges:'4. ಹೊಲಿಗೆ ಶುಲ್ಕ ಮತ್ತು ಸೂಚನೆಗಳು',totalCharge:'ಒಟ್ಟು ಹೊಲಿಗೆ ಶುಲ್ಕ (₹)',advancePaid:'ಮುಂಗಡ ಪಾವತಿ (₹)',balanceDue:'ಬಾಕಿ ಮೊತ್ತ (₹)',specialNotes:'ಟೈಲರ್ / ಮಾಸ್ಟರ್ ವಿಶೇಷ ಟಿಪ್ಪಣಿಗಳು',notesPlaceholder:'ಉದಾ. ಡೆಲಿವರಿ ಪಡೆಯುವಾಗ ಈ ಸ್ಲಿಪ್ ತರಬೇಕು.',downloadPdf:'📥 A4 PDF ಡೌನ್‌ಲೋಡ್',directPrint:'🖨️ ನೇರವಾಗಿ ಪ್ರಿಂಟ್',whatsappSlip:'📲 ವಾಟ್ಸ್ಆಪ್ ಸ್ಲಿಪ್',livePreview:'ಲೈವ್ ಟೈಲರಿಂಗ್ ಸ್ಲಿಪ್ ಪೂರ್ವವೀಕ್ಷಣೆ',defaultShop:'ರಾಯಲ್ ಟೈಲರ್ಸ್ ಮತ್ತು ಬೂಟಿಕ್',defaultAddress:'ಮೇನ್ ಮಾರ್ಕೆಟ್, ನಗರ | ಮೊಬೈಲ್: 98XXXXXXXX',defaultNotes:'ಡೆಲಿವರಿ ಪಡೆಯುವಾಗ ಈ ಸ್ಲಿಪ್ ತರುವುದು ಕಡ್ಡಾಯ.',standardFit:'ಸಾಮಾನ್ಯ ಫಿಟ್ಟಿಂಗ್',order:'ಆರ್ಡರ್ ಸಂಖ್ಯೆ:',delivery:'ಡೆಲಿವರಿ:',customer:'ಗ್ರಾಹಕ:',orderDateLabel:'ಆರ್ಡರ್ ದಿನಾಂಕ:',garments:'ಉಡುಪುಗಳು:',total:'ಒಟ್ಟು:',advance:'ಮುಂಗಡ:',balance:'ಬಾಕಿ:',masterTicket:'ಮಾಸ್ಟರ್ ಕಟಿಂಗ್ ಮತ್ತು ಕೆಲಸದ ಟಿಕೆಟ್ (ಬಾಕಿ:',instructions:'ಸೂಚನೆಗಳು:',customerSign:'ಗ್ರಾಹಕರ ಸಹಿ',masterSign:'ಮಾಸ್ಟರ್ ಕಟರ್ ಸಹಿ',shopSign:'ಅಧಿಕೃತ ಅಂಗಡಿ ಸಹಿ',customerJobSlip:'ಗ್ರಾಹಕರ ಜಾಬ್ ಸ್ಲಿಪ್',masterCuttingSlip:'ಮಾಸ್ಟರ್ ಕಟಿಂಗ್ ಸ್ಲಿಪ್',cutHere:'✂️ ಇಲ್ಲಿ ಕತ್ತರಿಸಿ (ಮಾಸ್ಟರ್ ಪ್ರತಿ)',customerJobBadge:'ಗ್ರಾಹಕರ ಜಾಬ್ ಸ್ಲಿಪ್',masterBadge:'ಮಾಸ್ಟರ್ ಕಟಿಂಗ್ ಸ್ಲಿಪ್',whatsappTitle:'ಟೈಲರಿಂಗ್ ಆರ್ಡರ್ ಸ್ಲಿಪ್',shop:'ಅಂಗಡಿ:',deliveryDateLabel:'ಡೆಲಿವರಿ ದಿನಾಂಕ:',generated:'KaamKaj Bills ಮೂಲಕ ರಚಿಸಲಾಗಿದೆ.',printTitle:'ಟೈಲರಿಂಗ್ ಸ್ಲಿಪ್'},
+  ml:{allTools:'← എല്ലാ ടൂളുകളും',pageTitle:'KaamKaj Bills • ടെയ്‌ലറിംഗ് & ബൂട്ടിക്ക് സ്ലിപ്പ്',languageLabel:'ഭാഷ',themeHint:'മോഡ് മാറ്റാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക',darkMode:'ഡാർക്ക് മോഡ്',lightMode:'ലൈറ്റ് മോഡ്',layoutHeading:'A4 പ്രിന്റ് ലേഔട്ട് – സ്ലിപ്പ് തിരഞ്ഞെടുക്കുക',oneSlip:'📄 1 സ്ലിപ്പ് (ഉപഭോക്തൃ രസീത്)',twoSlips:'✂️ 2 സ്ലിപ്പുകൾ (ഉപഭോക്താവ് + മാസ്റ്റർ കട്ടിംഗ്)',sectionShop:'1. ടെയ്‌ലർ ഷോപ്പ് / ബൂട്ടിക്ക് വിവരങ്ങൾ',shopName:'ടെയ്‌ലർ / ബൂട്ടിക്ക് പേര്',shopPlaceholder:'ഉദാ. റോയൽ മെൻസ് ആൻഡ് ലേഡീസ് ടെയ്‌ലർ',address:'വിലാസവും മൊബൈൽ നമ്പറും',addressPlaceholder:'ഉദാ. മെയിൻ മാർക്കറ്റ്, നഗരം | മൊബൈൽ: 98XXXXXXXX',sectionCustomer:'2. ഉപഭോക്താവിന്റെയും ഡെലിവറിയുടെയും വിവരങ്ങൾ',orderNoAuto:'ഓർഡർ / ബിൽ നമ്പർ (ഓട്ടോ)',orderDate:'ഓർഡർ തീയതി',deliveryDate:'ഡെലിവറി തീയതി',customerName:'ഉപഭോക്താവിന്റെ പേര്',customerPlaceholder:'ഉദാ. ആനന്ദ് ജോഷി',mobileWhatsapp:'മൊബൈൽ / വാട്സ്ആപ്പ് നമ്പർ',mobilePlaceholder:'ഉദാ. 9876543210',garmentDetails:'വസ്ത്രത്തിന്റെ വിവരങ്ങൾ',garmentPlaceholder:'ഉദാ. 2 ഷർട്ട് + 2 പാന്റ്',fittingStyle:'ഫിറ്റിംഗ് ശൈലി / പാറ്റേൺ',fittingPlaceholder:'ഉദാ. സ്ലിം ഫിറ്റ് / കോളർ കട്ട് / ബാക്ക് സിപ്പ്',sectionMeasurements:'3. ഇഞ്ചിൽ അളവുകൾ',length:'നീളം',chest:'നെഞ്ചളവ്',waist:'അരക്കെട്ട്',hip:'ഹിപ്പ്',shoulder:'തോൾ',sleeve:'കൈ നീളം',neck:'കഴുത്ത് / കോളർ',bottom:'ബോട്ടം / മൊഹരി',sectionCharges:'4. തുന്നൽ ചാർജുകളും നിർദ്ദേശങ്ങളും',totalCharge:'ആകെ തുന്നൽ ചാർജ് (₹)',advancePaid:'മുൻകൂർ തുക (₹)',balanceDue:'ബാക്കി തുക (₹)',specialNotes:'ടെയ്‌ലർ / മാസ്റ്ററുടെ പ്രത്യേക കുറിപ്പുകൾ',notesPlaceholder:'ഉദാ. വസ്ത്രം വാങ്ങുമ്പോൾ ഈ സ്ലിപ്പ് കൊണ്ടുവരണം.',downloadPdf:'📥 A4 PDF ഡൗൺലോഡ്',directPrint:'🖨️ നേരിട്ട് പ്രിന്റ്',whatsappSlip:'📲 വാട്സ്ആപ്പ് സ്ലിപ്പ്',livePreview:'ലൈവ് ടെയ്‌ലറിംഗ് സ്ലിപ്പ് പ്രിവ്യൂ',defaultShop:'റോയൽ ടെയ്‌ലേഴ്സ് & ബൂട്ടിക്ക്',defaultAddress:'മെയിൻ മാർക്കറ്റ്, നഗരം | മൊബൈൽ: 98XXXXXXXX',defaultNotes:'ഡെലിവറി വാങ്ങുമ്പോൾ ഈ സ്ലിപ്പ് കൊണ്ടുവരണം.',standardFit:'സാധാരണ ഫിറ്റിംഗ്',order:'ഓർഡർ നമ്പർ:',delivery:'ഡെലിവറി:',customer:'ഉപഭോക്താവ്:',orderDateLabel:'ഓർഡർ തീയതി:',garments:'വസ്ത്രങ്ങൾ:',total:'ആകെ:',advance:'മുൻകൂർ:',balance:'ബാക്കി തുക:',masterTicket:'മാസ്റ്റർ കട്ടിംഗ് & ജോലി ടിക്കറ്റ് (ബാക്കി:',instructions:'നിർദ്ദേശങ്ങൾ:',customerSign:'ഉപഭോക്താവിന്റെ ഒപ്പ്',masterSign:'മാസ്റ്റർ കട്ടറുടെ ഒപ്പ്',shopSign:'അംഗീകൃത ഷോപ്പ് ഒപ്പ്',customerJobSlip:'ഉപഭോക്തൃ ജോബ് സ്ലിപ്പ്',masterCuttingSlip:'മാസ്റ്റർ കട്ടിംഗ് സ്ലിപ്പ്',cutHere:'✂️ ഇവിടെ മുറിക്കുക (മാസ്റ്റർ കോപ്പി)',customerJobBadge:'ഉപഭോക്തൃ ജോബ് സ്ലിപ്പ്',masterBadge:'മാസ്റ്റർ കട്ടിംഗ് സ്ലിപ്പ്',whatsappTitle:'ടെയ്‌ലറിംഗ് ഓർഡർ സ്ലിപ്പ്',shop:'ഷോപ്പ്:',deliveryDateLabel:'ഡെലിവറി തീയതി:',generated:'KaamKaj Bills വഴി തയ്യാറാക്കിയത്.',printTitle:'ടെയ്‌ലറിംഗ് സ്ലിപ്പ്'},
+  or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',pageTitle:'KaamKaj Bills • ଟେଲରିଂ ଏବଂ ବୁଟିକ୍ ସ୍ଲିପ୍',languageLabel:'ଭାଷା',themeHint:'ମୋଡ୍ ବଦଳାଇବାକୁ ଏଠାରେ କ୍ଲିକ୍ କରନ୍ତୁ',darkMode:'ଡାର୍କ ମୋଡ୍',lightMode:'ଲାଇଟ୍ ମୋଡ୍',layoutHeading:'A4 ପ୍ରିଣ୍ଟ ଲେଆଉଟ୍ – ସ୍ଲିପ୍ ବାଛନ୍ତୁ',oneSlip:'📄 1 ସ୍ଲିପ୍ (ଗ୍ରାହକ ରସିଦ)',twoSlips:'✂️ 2 ସ୍ଲିପ୍ (ଗ୍ରାହକ + ମାଷ୍ଟର କଟିଂ)',sectionShop:'1. ଟେଲର ଦୋକାନ / ବୁଟିକ୍ ବିବରଣୀ',shopName:'ଟେଲର / ବୁଟିକ୍ ନାମ',shopPlaceholder:'ଉଦାହରଣ: ରୟାଲ୍ ଟେଲର୍ସ',address:'ଠିକଣା ଏବଂ ମୋବାଇଲ୍ ନମ୍ବର',addressPlaceholder:'ଉଦାହରଣ: ମେନ୍ ମାର୍କେଟ୍, ସହର | ମୋବାଇଲ୍: 98XXXXXXXX',sectionCustomer:'2. ଗ୍ରାହକ ଏବଂ ଡେଲିଭରି ବିବରଣୀ',orderNoAuto:'ଅର୍ଡର / ବିଲ୍ ନମ୍ବର (ସ୍ୱୟଂ)',orderDate:'ଅର୍ଡର ତାରିଖ',deliveryDate:'ଡେଲିଭରି ତାରିଖ',customerName:'ଗ୍ରାହକଙ୍କ ନାମ',customerPlaceholder:'ଉଦାହରଣ: ଆନନ୍ଦ ଯୋଶୀ',mobileWhatsapp:'ମୋବାଇଲ୍ / ହ୍ୱାଟ୍ସଆପ୍ ନମ୍ବର',mobilePlaceholder:'ଉଦାହରଣ: 9876543210',garmentDetails:'ପୋଷାକ ବିବରଣୀ',garmentPlaceholder:'ଉଦାହରଣ: 2 ସାର୍ଟ + 2 ପ୍ୟାଣ୍ଟ',fittingStyle:'ଫିଟିଂ ଶୈଳୀ / ପ୍ୟାଟର୍ନ',fittingPlaceholder:'ଉଦାହରଣ: ସ୍ଲିମ୍ ଫିଟ୍ / କଲାର କଟ୍',sectionMeasurements:'3. ଇଞ୍ଚରେ ମାପ',length:'ଲମ୍ବ',chest:'ଛାତି',waist:'ଅଣ୍ଟା',hip:'ହିପ୍',shoulder:'କାନ୍ଧ',sleeve:'ହାତ',neck:'ବେକ / କଲାର',bottom:'ତଳ ମାପ',sectionCharges:'4. ସିଲେଇ ଶୁଳ୍କ ଏବଂ ନିର୍ଦ୍ଦେଶ',totalCharge:'ମୋଟ ସିଲେଇ ଶୁଳ୍କ (₹)',advancePaid:'ଅଗ୍ରିମ ଦେୟ (₹)',balanceDue:'ବାକି ରାଶି (₹)',specialNotes:'ଟେଲର / ମାଷ୍ଟରଙ୍କ ବିଶେଷ ଟିପ୍ପଣୀ',notesPlaceholder:'ଉଦାହରଣ: ଡେଲିଭରି ନେବାବେଳେ ଏହି ସ୍ଲିପ୍ ଆଣନ୍ତୁ।',downloadPdf:'📥 A4 PDF ଡାଉନଲୋଡ୍',directPrint:'🖨️ ସିଧା ପ୍ରିଣ୍ଟ',whatsappSlip:'📲 ହ୍ୱାଟ୍ସଆପ୍ ସ୍ଲିପ୍',livePreview:'ଲାଇଭ୍ ଟେଲରିଂ ସ୍ଲିପ୍ ପ୍ରିଭ୍ୟୁ',defaultShop:'ରୟାଲ୍ ଟେଲର୍ସ ଏବଂ ବୁଟିକ୍',defaultAddress:'ମେନ୍ ମାର୍କେଟ୍, ସହର | ମୋବାଇଲ୍: 98XXXXXXXX',defaultNotes:'ଡେଲିଭରି ନେବାବେଳେ ଏହି ସ୍ଲିପ୍ ଆଣିବା ଆବଶ୍ୟକ।',standardFit:'ସାଧାରଣ ଫିଟିଂ',order:'ଅର୍ଡର ନଂ:',delivery:'ଡେଲିଭରି:',customer:'ଗ୍ରାହକ:',orderDateLabel:'ଅର୍ଡର ତାରିଖ:',garments:'ପୋଷାକ:',total:'ମୋଟ:',advance:'ଅଗ୍ରିମ:',balance:'ବାକି ରାଶି:',masterTicket:'ମାଷ୍ଟର କଟିଂ ଏବଂ କାରିଗର କାର୍ଯ୍ୟ ଟିକେଟ୍ (ବାକି:',instructions:'ନିର୍ଦ୍ଦେଶ:',customerSign:'ଗ୍ରାହକଙ୍କ ଦସ୍ତଖତ',masterSign:'ମାଷ୍ଟର କଟରଙ୍କ ଦସ୍ତଖତ',shopSign:'ଅଧିକୃତ ଦୋକାନ ଦସ୍ତଖତ',customerJobSlip:'ଗ୍ରାହକ ଜବ୍ ସ୍ଲିପ୍',masterCuttingSlip:'ମାଷ୍ଟର କଟିଂ ସ୍ଲିପ୍',cutHere:'✂️ ଏଠାରେ କାଟନ୍ତୁ (ମାଷ୍ଟର କପି)',customerJobBadge:'ଗ୍ରାହକ ଜବ୍ ସ୍ଲିପ୍',masterBadge:'ମାଷ୍ଟର କଟିଂ ସ୍ଲିପ୍',whatsappTitle:'ଟେଲରିଂ ଅର୍ଡର ସ୍ଲିପ୍',shop:'ଦୋକାନ:',deliveryDateLabel:'ଡେଲିଭରି ତାରିଖ:',generated:'KaamKaj Bills ଦ୍ୱାରା ପ୍ରସ୍ତୁତ।',printTitle:'ଟେଲରିଂ ସ୍ଲିପ୍'},
+  pa:{allTools:'← ਸਾਰੇ ਟੂਲ',pageTitle:'KaamKaj Bills • ਟੇਲਰਿੰਗ ਅਤੇ ਬੁਟੀਕ ਸਲਿੱਪ',languageLabel:'ਭਾਸ਼ਾ',themeHint:'ਮੋਡ ਬਦਲਣ ਲਈ ਇੱਥੇ ਕਲਿੱਕ ਕਰੋ',darkMode:'ਡਾਰਕ ਮੋਡ',lightMode:'ਲਾਈਟ ਮੋਡ',layoutHeading:'A4 ਪ੍ਰਿੰਟ ਲੇਆਉਟ – ਸਲਿੱਪ ਦੀ ਕਿਸਮ ਚੁਣੋ',oneSlip:'📄 1 ਸਲਿੱਪ (ਗਾਹਕ ਰਸੀਦ)',twoSlips:'✂️ 2 ਸਲਿੱਪਾਂ (ਗਾਹਕ + ਮਾਸਟਰ ਕਟਿੰਗ)',sectionShop:'1. ਟੇਲਰ ਦੁਕਾਨ / ਬੁਟੀਕ ਦੇ ਵੇਰਵੇ',shopName:'ਟੇਲਰ / ਬੁਟੀਕ ਦਾ ਨਾਮ',shopPlaceholder:'ਜਿਵੇਂ: ਰਾਇਲ ਮੈਨਜ਼ ਐਂਡ ਲੇਡੀਜ਼ ਟੇਲਰ',address:'ਪਤਾ ਅਤੇ ਮੋਬਾਈਲ ਨੰਬਰ',addressPlaceholder:'ਜਿਵੇਂ: ਮੇਨ ਮਾਰਕੀਟ, ਸ਼ਹਿਰ | ਮੋਬਾਈਲ: 98XXXXXXXX',sectionCustomer:'2. ਗਾਹਕ ਅਤੇ ਡਿਲਿਵਰੀ ਦੇ ਵੇਰਵੇ',orderNoAuto:'ਆਰਡਰ / ਬਿੱਲ ਨੰਬਰ (ਆਟੋ)',orderDate:'ਆਰਡਰ ਦੀ ਮਿਤੀ',deliveryDate:'ਡਿਲਿਵਰੀ ਦੀ ਮਿਤੀ',customerName:'ਗਾਹਕ ਦਾ ਨਾਮ',customerPlaceholder:'ਜਿਵੇਂ: ਆਨੰਦ ਜੋਸ਼ੀ',mobileWhatsapp:'ਮੋਬਾਈਲ / ਵਟਸਐਪ ਨੰਬਰ',mobilePlaceholder:'ਜਿਵੇਂ: 9876543210',garmentDetails:'ਕੱਪੜੇ / ਪਹਿਰਾਵੇ ਦੇ ਵੇਰਵੇ',garmentPlaceholder:'ਜਿਵੇਂ: 2 ਕਮੀਜ਼ਾਂ + 2 ਪੈਂਟਾਂ',fittingStyle:'ਫਿਟਿੰਗ ਸਟਾਈਲ / ਡਿਜ਼ਾਈਨ',fittingPlaceholder:'ਜਿਵੇਂ: ਸਲਿਮ ਫਿਟ / ਕਾਲਰ ਕਟ / ਬੈਕ ਜ਼ਿਪ',sectionMeasurements:'3. ਇੰਚਾਂ ਵਿੱਚ ਮਾਪ',length:'ਲੰਬਾਈ',chest:'ਛਾਤੀ',waist:'ਲੱਕ',hip:'ਹਿਪ',shoulder:'ਮੋਢਾ',sleeve:'ਬਾਂਹ',neck:'ਗਲਾ / ਕਾਲਰ',bottom:'ਮੋਹਰੀ / ਬਾਟਮ',sectionCharges:'4. ਸਿਲਾਈ ਦੇ ਖਰਚੇ ਅਤੇ ਹਦਾਇਤਾਂ',totalCharge:'ਕੁੱਲ ਸਿਲਾਈ ਖਰਚਾ (₹)',advancePaid:'ਅਗਾਊਂ ਰਕਮ (₹)',balanceDue:'ਬਕਾਇਆ ਰਕਮ (₹)',specialNotes:'ਟੇਲਰ / ਮਾਸਟਰ ਲਈ ਖਾਸ ਨੋਟ',notesPlaceholder:'ਜਿਵੇਂ: ਡਿਲਿਵਰੀ ਲੈਂਦੇ ਸਮੇਂ ਇਹ ਸਲਿੱਪ ਨਾਲ ਲਿਆਓ।',downloadPdf:'📥 A4 PDF ਡਾਊਨਲੋਡ',directPrint:'🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ',whatsappSlip:'📲 ਵਟਸਐਪ ਸਲਿੱਪ',livePreview:'ਲਾਈਵ ਟੇਲਰਿੰਗ ਸਲਿੱਪ ਪ੍ਰੀਵਿਊ',defaultShop:'ਰਾਇਲ ਟੇਲਰਜ਼ ਅਤੇ ਬੁਟੀਕ',defaultAddress:'ਮੇਨ ਮਾਰਕੀਟ, ਸ਼ਹਿਰ | ਮੋਬਾਈਲ: 98XXXXXXXX',defaultNotes:'ਡਿਲਿਵਰੀ ਲੈਂਦੇ ਸਮੇਂ ਇਹ ਸਲਿੱਪ ਲਿਆਉਣੀ ਲਾਜ਼ਮੀ ਹੈ।',standardFit:'ਆਮ ਫਿਟਿੰਗ',order:'ਆਰਡਰ ਨੰਬਰ:',delivery:'ਡਿਲਿਵਰੀ:',customer:'ਗਾਹਕ:',orderDateLabel:'ਆਰਡਰ ਮਿਤੀ:',garments:'ਕੱਪੜੇ:',total:'ਕੁੱਲ:',advance:'ਅਗਾਊਂ:',balance:'ਬਕਾਇਆ:',masterTicket:'ਮਾਸਟਰ ਕਟਿੰਗ ਅਤੇ ਕਾਰੀਗਰ ਵਰਕ ਟਿਕਟ (ਬਕਾਇਆ:',instructions:'ਹਦਾਇਤਾਂ:',customerSign:'ਗਾਹਕ ਦੇ ਦਸਤਖ਼ਤ',masterSign:'ਮਾਸਟਰ ਕਟਰ ਦੇ ਦਸਤਖ਼ਤ',shopSign:'ਅਧਿਕਾਰਤ ਦੁਕਾਨ ਦੇ ਦਸਤਖ਼ਤ',customerJobSlip:'ਗਾਹਕ ਜੌਬ ਸਲਿੱਪ',masterCuttingSlip:'ਮਾਸਟਰ ਕਟਿੰਗ ਸਲਿੱਪ',cutHere:'✂️ ਇੱਥੋਂ ਕੱਟੋ (ਮਾਸਟਰ ਕਾਪੀ)',customerJobBadge:'ਗਾਹਕ ਜੌਬ ਸਲਿੱਪ',masterBadge:'ਮਾਸਟਰ ਕਟਿੰਗ ਸਲਿੱਪ',whatsappTitle:'ਟੇਲਰਿੰਗ ਆਰਡਰ ਸਲਿੱਪ',shop:'ਦੁਕਾਨ:',deliveryDateLabel:'ਡਿਲਿਵਰੀ ਮਿਤੀ:',generated:'KaamKaj Bills ਰਾਹੀਂ ਤਿਆਰ ਕੀਤੀ।',printTitle:'ਟੇਲਰਿੰਗ ਸਲਿੱਪ'},
+  ur:{allTools:'← تمام ٹولز',pageTitle:'KaamKaj Bills • ٹیلرنگ اور بوتیک سلپ',languageLabel:'زبان',themeHint:'موڈ تبدیل کرنے کے لیے یہاں کلک کریں',darkMode:'ڈارک موڈ',lightMode:'لائٹ موڈ',layoutHeading:'A4 پرنٹ لے آؤٹ – سلپ کی قسم منتخب کریں',oneSlip:'📄 1 سلپ (کسٹمر رسید)',twoSlips:'✂️ 2 سلپس (کسٹمر + ماسٹر کٹنگ)',sectionShop:'1. ٹیلر شاپ / بوتیک کی تفصیلات',shopName:'ٹیلر / بوتیک کا نام',shopPlaceholder:'مثلاً رائل مینز اینڈ لیڈیز ٹیلر',address:'پتہ اور موبائل نمبر',addressPlaceholder:'مثلاً مین مارکیٹ، شہر | موبائل: 98XXXXXXXX',sectionCustomer:'2. کسٹمر اور ڈیلیوری کی تفصیلات',orderNoAuto:'آرڈر / بل نمبر (خودکار)',orderDate:'آرڈر کی تاریخ',deliveryDate:'ڈیلیوری کی تاریخ',customerName:'کسٹمر کا نام',customerPlaceholder:'مثلاً آنند جوشی',mobileWhatsapp:'موبائل / واٹس ایپ نمبر',mobilePlaceholder:'مثلاً 9876543210',garmentDetails:'لباس کی تفصیلات',garmentPlaceholder:'مثلاً 2 شرٹس + 2 پینٹس',fittingStyle:'فٹنگ اسٹائل / ڈیزائن',fittingPlaceholder:'مثلاً سلم فٹ / کالر کٹ / بیک زِپ',sectionMeasurements:'3. انچ میں پیمائش درج کریں',length:'لمبائی',chest:'چھاتی',waist:'کمر',hip:'ہِپ',shoulder:'کندھا',sleeve:'آستین',neck:'گلا / کالر',bottom:'نیچے کا گھیر',sectionCharges:'4. سلائی کے چارجز اور ہدایات',totalCharge:'کل سلائی چارج (₹)',advancePaid:'ایڈوانس ادا شدہ (₹)',balanceDue:'بقایا رقم (₹)',specialNotes:'ٹیلر / ماسٹر کے خصوصی نوٹس',notesPlaceholder:'مثلاً ڈیلیوری لیتے وقت یہ سلپ ساتھ لائیں۔',downloadPdf:'📥 A4 PDF ڈاؤن لوڈ',directPrint:'🖨️ براہ راست پرنٹ',whatsappSlip:'📲 واٹس ایپ سلپ',livePreview:'لائیو ٹیلرنگ سلپ پری ویو',defaultShop:'رائل ٹیلرز اینڈ بوتیک',defaultAddress:'مین مارکیٹ، شہر | موبائل: 98XXXXXXXX',defaultNotes:'ڈیلیوری لیتے وقت یہ سلپ لانا ضروری ہے۔',standardFit:'عام فٹنگ',order:'آرڈر نمبر:',delivery:'ڈیلیوری:',customer:'کسٹمر:',orderDateLabel:'آرڈر کی تاریخ:',garments:'لباس:',total:'کل:',advance:'ایڈوانس:',balance:'بقایا:',masterTicket:'ماسٹر کٹنگ اور کاریگر ورک ٹکٹ (بقایا:',instructions:'ہدایات:',customerSign:'کسٹمر کے دستخط',masterSign:'ماسٹر کٹر کے دستخط',shopSign:'دکان کے مجاز دستخط',customerJobSlip:'کسٹمر جاب سلپ',masterCuttingSlip:'ماسٹر کٹنگ سلپ',cutHere:'✂️ یہاں سے کاٹیں (ماسٹر کاپی)',customerJobBadge:'کسٹمر جاب سلپ',masterBadge:'ماسٹر کٹنگ سلپ',whatsappTitle:'ٹیلرنگ آرڈر سلپ',shop:'دکان:',deliveryDateLabel:'ڈیلیوری کی تاریخ:',generated:'KaamKaj Bills کے ذریعے تیار کردہ۔',printTitle:'ٹیلرنگ سلپ'}
+};
 
-  function setCopies(n) {
-    copyCount = n;
-    document.getElementById('btnOne').classList.toggle('active', n === 1);
-    document.getElementById('btnTwo').classList.toggle('active', n === 2);
-    renderDoc();
-  }
+let copyCount = 1;
+let currentLanguage = 'hi';
+let currentTheme = 'light';
+const $ = id => document.getElementById(id);
+const t = key => (I18N[currentLanguage] && I18N[currentLanguage][key]) || I18N.en[key] || key;
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
 
-  function calcBal() {
-    const tot = parseFloat(document.getElementById('in_tot').value) || 0;
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    document.getElementById('in_bal').value = Math.max(0, tot - adv);
-    renderDoc();
-  }
+function applyLanguage(lang){
+  currentLanguage = I18N[lang] ? lang : 'hi';
+  document.documentElement.lang = currentLanguage;
+  document.documentElement.dir = currentLanguage === 'ur' ? 'rtl' : 'ltr';
+  $('languageSelect').value = currentLanguage;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t(key))el.textContent=t(key);});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const key=el.getAttribute('data-i18n-placeholder');if(t(key))el.placeholder=t(key);});
+  $('themeText').textContent = currentTheme === 'dark' ? t('lightMode') : t('darkMode');
+  $('themeToggle').setAttribute('aria-label', t('themeHint'));
+  try{localStorage.setItem('kk_tailor_language',currentLanguage);}catch(e){}
+  renderDoc();
+}
+function applyTheme(theme){
+  currentTheme = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme',currentTheme);
+  $('themeIcon').textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+  $('themeText').textContent = currentTheme === 'dark' ? t('lightMode') : t('darkMode');
+  $('themeToggle').setAttribute('aria-pressed',String(currentTheme === 'dark'));
+  try{localStorage.setItem('kk_tailor_theme',currentTheme);}catch(e){}
+}
+$('languageSelect').addEventListener('change',e=>applyLanguage(e.target.value));
+$('themeToggle').addEventListener('click',()=>applyTheme(currentTheme === 'dark' ? 'light' : 'dark'));
 
-  function renderDoc() {
-    const shop = document.getElementById('in_shop').value.trim() || 'ROYAL TAILORS & BOUTIQUE';
-    const addr = document.getElementById('in_addr').value.trim() || 'Main Market, City | Mob: 98XXXXXXXX';
-    const ord = document.getElementById('in_ord_no').value.trim() || '-';
-    const dt = document.getElementById('in_date').value || '-';
-    const dlv = document.getElementById('in_deliv').value || '-';
-    const cust = document.getElementById('in_cust').value.trim() || '-';
-    const ph = document.getElementById('in_phone').value.trim();
-    const outfit = document.getElementById('in_outfit').value.trim() || '-';
-    const style = document.getElementById('in_style').value.trim() || 'Standard Fitting';
-    const notes = document.getElementById('in_notes').value.trim() || 'डिलीवरी लेते समय यह पर्ची लाना अनिवार्य है।';
-
-    const tot = parseFloat(document.getElementById('in_tot').value) || 0;
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    const bal = Math.max(0, tot - adv);
-
-    const m = {
-      len: document.getElementById('m_len').value || '-',
-      chest: document.getElementById('m_chest').value || '-',
-      waist: document.getElementById('m_waist').value || '-',
-      hip: document.getElementById('m_hip').value || '-',
-      shld: document.getElementById('m_shld').value || '-',
-      slv: document.getElementById('m_slv').value || '-',
-      neck: document.getElementById('m_neck').value || '-',
-      bot: document.getElementById('m_bot').value || '-'
-    };
-
-    const buildSlip = (badge, isMaster) => `
-      <div class="slip-box">
-        <div class="slip-header">
-          <div>
-            <h2>${shop}</h2>
-            <p>${addr}</p>
-          </div>
-          <div class="slip-badge">${badge}</div>
-        </div>
-
-        <table class="slip-table">
-          <tr>
-            <td class="lbl">Order No:</td><td class="val"><b>${ord}</b></td>
-            <td class="lbl" style="width:22%;">Delivery:</td><td class="val" style="color:#dc2626;font-weight:800;">${dlv}</td>
-          </tr>
-          <tr>
-            <td class="lbl">Customer:</td><td class="val">${ph ? `${cust} (${ph})` : cust}</td>
-            <td class="lbl" style="width:22%;">Order Date:</td><td class="val">${dt}</td>
-          </tr>
-          <tr>
-            <td class="lbl">Garments:</td><td class="val" colspan="3"><b>${outfit}</b> (${style})</td>
-          </tr>
-        </table>
-
-        <table class="meas-grid">
-          <thead>
-            <tr>
-              <th>Length</th><th>Chest</th><th>Waist</th><th>Hip</th>
-              <th>Shoulder</th><th>Sleeve</th><th>Neck</th><th>Bottom</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>${m.len}</td><td>${m.chest}</td><td>${m.waist}</td><td>${m.hip}</td>
-              <td>${m.shld}</td><td>${m.slv}</td><td>${m.neck}</td><td>${m.bot}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        ${!isMaster ? `
-        <div class="amount-highlight">
-          <div><b>TOTAL:</b> ₹${tot.toLocaleString('en-IN')} | <b>ADV:</b> ₹${adv.toLocaleString('en-IN')}</div>
-          <div style="color:#dc2626;font-weight:800;font-size:13px;">BALANCE DUE: ₹${bal.toLocaleString('en-IN')}</div>
-        </div>` : `<div style="font-size:10.5px;font-weight:800;color:#5b21b6;margin:4px 0;">MASTER CUTTING & KARIGAR WORK TICKET (BAL DUE: ₹${bal})</div>`}
-
-        <div class="notes-box"><b>Instructions:</b> ${notes}</div>
-
-        <div class="footer-row">
-          <div style="font-size:9.5px;color:#64748b;">Customer Sign</div>
-          <div class="sig-card">${isMaster ? 'Master Cutter Sign' : 'Authorized Shop Sign'}</div>
-        </div>
-      </div>
-    `;
-
-    let html = buildSlip('CUSTOMER JOB SLIP', false);
-    if (copyCount === 2) {
-      html += `<div class="cut-divider"><span class="cut-tag">✂️ CUT HERE (MASTER COPY)</span></div>` + buildSlip('MASTER CUTTING SLIP', true);
-    }
-    document.getElementById('slipsContainer').innerHTML = html;
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:16px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `TailorSlip_${document.getElementById('in_ord_no').value || 'Order'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Tailoring Slip</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px}
-      .slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0f172a;padding-bottom:6px;margin-bottom:8px}
-      .slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}
-      .slip-badge{background:#7c3aed;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}
-      .slip-table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:11px}
-      .slip-table td{padding:3px}.slip-table td.lbl{font-weight:700;color:#475569;width:24%}.slip-table td.val{border-bottom:1px dotted #94a3b8}
-      .meas-grid{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px;border:1px solid #cbd5e1}
-      .meas-grid th{background:#ede9fe;color:#5b21b6;padding:4px;border:1px solid #cbd5e1}.meas-grid td{padding:4px;border:1px solid #cbd5e1;text-align:center;font-weight:700}
-      .amount-highlight{background:#f0fdf4;border:1.2px solid #86efac;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;margin:6px 0;font-size:11px}
-      .notes-box{background:#f8fafc;border-left:3px solid #7c3aed;padding:5px 8px;font-size:10px;margin:6px 0}
-      .footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px}
-      .sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-      .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}
-      .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const shop = document.getElementById('in_shop').value.trim() || 'Tailor Shop';
-    const cust = document.getElementById('in_cust').value.trim() || 'Customer';
-    const dlv = document.getElementById('in_deliv').value || '-';
-    const bal = document.getElementById('in_bal').value || 0;
-    const ph = document.getElementById('in_phone').value.trim().replace(/[^0-9]/g, '');
-    const msg = `*✂️ TAILORING ORDER SLIP (${document.getElementById('in_ord_no').value})*\n*Shop:* ${shop}\n*Customer:* ${cust}\n*Delivery Date:* ${dlv}\n*Balance Due:* ₹${bal}\n\n_Generated via KaamKaj Bills._`;
-    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = () => {
-    const d = new Date();
-    document.getElementById('in_date').value = d.toISOString().split('T')[0];
-    d.setDate(d.getDate() + 5);
-    document.getElementById('in_deliv').value = d.toISOString().split('T')[0];
-    document.getElementById('in_ord_no').value = 'TLR-' + Math.floor(100000 + Math.random() * 899990);
-    calcBal();
+function setCopies(n){
+  copyCount = n;
+  $('btnOne').classList.toggle('active',n===1);
+  $('btnTwo').classList.toggle('active',n===2);
+  $('btnOne').setAttribute('aria-pressed',String(n===1));
+  $('btnTwo').setAttribute('aria-pressed',String(n===2));
+  renderDoc();
+}
+function calcBal(){
+  const total = parseFloat($('in_tot').value)||0;
+  const advance = parseFloat($('in_adv').value)||0;
+  $('in_bal').value = Math.max(0,total-advance).toFixed(2).replace(/\.00$/,'');
+  renderDoc();
+}
+function renderDoc(){
+  const shop = escapeHTML($('in_shop').value.trim()||t('defaultShop'));
+  const addr = escapeHTML($('in_addr').value.trim()||t('defaultAddress'));
+  const ord = escapeHTML($('in_ord_no').value.trim()||'-');
+  const dt = escapeHTML($('in_date').value||'-');
+  const dlv = escapeHTML($('in_deliv').value||'-');
+  const cust = escapeHTML($('in_cust').value.trim()||'-');
+  const ph = escapeHTML($('in_phone').value.trim());
+  const outfit = escapeHTML($('in_outfit').value.trim()||'-');
+  const style = escapeHTML($('in_style').value.trim()||t('standardFit'));
+  const notes = escapeHTML($('in_notes').value.trim()||t('defaultNotes'));
+  const total = parseFloat($('in_tot').value)||0;
+  const advance = parseFloat($('in_adv').value)||0;
+  const balance = Math.max(0,total-advance);
+  const money = value => Number(value).toLocaleString('en-IN',{maximumFractionDigits:2});
+  const measurements = {
+    len:escapeHTML($('m_len').value||'-'),chest:escapeHTML($('m_chest').value||'-'),
+    waist:escapeHTML($('m_waist').value||'-'),hip:escapeHTML($('m_hip').value||'-'),
+    shoulder:escapeHTML($('m_shld').value||'-'),sleeve:escapeHTML($('m_slv').value||'-'),
+    neck:escapeHTML($('m_neck').value||'-'),bottom:escapeHTML($('m_bot').value||'-')
   };
+  const buildSlip = (badge,isMaster) => `
+    <div class="slip-box">
+      <div class="slip-header"><div><h2>${shop}</h2><p>${addr}</p></div><div class="slip-badge">${badge}</div></div>
+      <table class="slip-table">
+        <tr><td class="lbl">${t('order')}</td><td class="val"><b>${ord}</b></td><td class="lbl" style="width:20%;">${t('delivery')}</td><td class="val" style="color:#dc2626;font-weight:850;">${dlv}</td></tr>
+        <tr><td class="lbl">${t('customer')}</td><td class="val">${ph?`${cust} (${ph})`:cust}</td><td class="lbl" style="width:20%;">${t('orderDateLabel')}</td><td class="val">${dt}</td></tr>
+        <tr><td class="lbl">${t('garments')}</td><td class="val" colspan="3"><b>${outfit}</b> (${style})</td></tr>
+      </table>
+      <table class="meas-grid"><thead><tr><th>${t('length')}</th><th>${t('chest')}</th><th>${t('waist')}</th><th>${t('hip')}</th><th>${t('shoulder')}</th><th>${t('sleeve')}</th><th>${t('neck')}</th><th>${t('bottom')}</th></tr></thead>
+      <tbody><tr><td>${measurements.len}</td><td>${measurements.chest}</td><td>${measurements.waist}</td><td>${measurements.hip}</td><td>${measurements.shoulder}</td><td>${measurements.sleeve}</td><td>${measurements.neck}</td><td>${measurements.bottom}</td></tr></tbody></table>
+      ${!isMaster?`<div class="amount-highlight"><div><b>${t('total')}</b> ₹${money(total)} | <b>${t('advance')}</b> ₹${money(advance)}</div><div class="balance-value">${t('balance')} ₹${money(balance)}</div></div>`:`<div class="master-ticket">${t('masterTicket')} ₹${money(balance)})</div>`}
+      <div class="notes-box"><b>${t('instructions')}</b> ${notes}</div>
+      <div class="footer-row"><div>${t('customerSign')}</div><div class="sig-card">${isMaster?t('masterSign'):t('shopSign')}</div></div>
+    </div>`;
+  let html = buildSlip(t('customerJobBadge'),false);
+  if(copyCount===2)html += `<div class="cut-divider"><span class="cut-tag">${t('cutHere')}</span></div>`+buildSlip(t('masterBadge'),true);
+  $('slipsContainer').innerHTML = html;
+}
+
+async function downloadA4PDF(){
+  const btn = document.querySelector('.actions .btn-pdf');
+  const originalButtonText = btn ? btn.textContent : '';
+  const source = $('a4DocSheet');
+
+  if (!source || !$('slipsContainer').innerHTML.trim()) {
+    alert(t('enterSlipDetails') || 'Please enter the slip details before downloading the PDF.');
+    return;
+  }
+
+  if (typeof html2pdf === 'undefined') {
+    alert('PDF library is unavailable. Please check your internet connection and try again.');
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '⏳ Generating PDF...';
+  }
+
+  // Use the same proven visible-overlay + relative-staging export method
+  // as the working Stationery/Xerox billing page.
+  const PDF_WIDTH = 680;
+  const clone = source.cloneNode(true);
+  clone.removeAttribute('id');
+  clone.dir = document.documentElement.dir || 'ltr';
+  const copiedContainer = clone.querySelector('#slipsContainer');
+  if (copiedContainer) copiedContainer.removeAttribute('id');
+
+  clone.style.cssText = [
+    `width:${PDF_WIDTH}px`,
+    `max-width:${PDF_WIDTH}px`,
+    `min-width:${PDF_WIDTH}px`,
+    'margin:0',
+    'padding:26px 28px',
+    'background:#ffffff',
+    'color:#0f172a',
+    'border:1.5px solid #cbd5e1',
+    'border-radius:6px',
+    'box-shadow:none',
+    'box-sizing:border-box',
+    'overflow:visible'
+  ].join(';');
+
+  // Make export type look like a desktop/A4 document even on mobile screens.
+  const exportStyle = document.createElement('style');
+  exportStyle.textContent = `
+    .pdf-export-sheet, .pdf-export-sheet * { box-sizing:border-box !important; }
+    .pdf-export-sheet .slip-box {
+      width:100% !important; max-width:100% !important; height:auto !important;
+      margin:0 !important; padding:14px !important; overflow:visible !important;
+      border:1.5px solid #0f172a !important; border-radius:8px !important;
+      background:#fff !important; color:#0f172a !important;
+      break-inside:avoid !important; page-break-inside:avoid !important;
+    }
+    .pdf-export-sheet .slip-header { display:flex !important; justify-content:space-between !important; align-items:center !important; gap:8px !important; }
+    .pdf-export-sheet .slip-header h2 { margin:0 !important; font-size:16px !important; line-height:1.25 !important; color:#0f172a !important; }
+    .pdf-export-sheet .slip-header p { margin:3px 0 0 !important; font-size:10px !important; color:#64748b !important; }
+    .pdf-export-sheet .slip-badge { font-size:10px !important; padding:4px 8px !important; }
+    .pdf-export-sheet .slip-table { width:100% !important; table-layout:fixed !important; font-size:10px !important; border-collapse:collapse !important; }
+    .pdf-export-sheet .slip-table td { padding:4px 3px !important; font-size:10px !important; }
+    .pdf-export-sheet .meas-grid { width:100% !important; table-layout:fixed !important; font-size:9px !important; border-collapse:collapse !important; }
+    .pdf-export-sheet .meas-grid th, .pdf-export-sheet .meas-grid td { padding:5px 2px !important; font-size:9px !important; }
+    .pdf-export-sheet .amount-highlight { display:flex !important; justify-content:space-between !important; align-items:center !important; gap:8px !important; font-size:11px !important; padding:7px 10px !important; }
+    .pdf-export-sheet .amount-highlight .balance-value { font-size:12px !important; }
+    .pdf-export-sheet .master-ticket { font-size:10.5px !important; }
+    .pdf-export-sheet .notes-box { font-size:10px !important; padding:6px 8px !important; }
+    .pdf-export-sheet .footer-row { display:flex !important; font-size:10px !important; }
+    .pdf-export-sheet .sig-card { font-size:10px !important; }
+    .pdf-export-sheet .cut-divider { margin:17px 0 !important; }
+    .pdf-export-sheet .cut-tag { font-size:9px !important; }
+  `;
+  clone.classList.add('pdf-export-sheet');
+
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+
+  const staging = document.createElement('div');
+  staging.style.cssText = `position:relative;top:0;left:0;width:${PDF_WIDTH}px;min-width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;color:#0f172a;`;
+  staging.appendChild(clone);
+  overlay.appendChild(staging);
+  document.head.appendChild(exportStyle);
+  document.body.appendChild(overlay);
+
+  const orderNumber = ($('in_ord_no').value.trim() || 'Order').replace(/[^a-zA-Z0-9-_]/g, '_');
+  const filename = `TailorSlip_${orderNumber}.pdf`;
+
+  try {
+    // Allow the browser to lay out the staging element before html2canvas captures it.
+    await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 150)));
+
+    await html2pdf().set({
+      margin: [10, 12, 12, 12],
+      filename,
+      image: { type: 'png', quality: 1.0 },
+      html2canvas: {
+        scale: 3,
+        useCORS: true,
+        letterRendering: true,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0,
+        width: PDF_WIDTH,
+        windowWidth: PDF_WIDTH,
+        backgroundColor: '#ffffff'
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+    }).from(staging).save();
+  } catch (error) {
+    console.error('Tailoring PDF export failed:', error);
+    alert('PDF generate नहीं हो पाया। कृपया दोबारा प्रयास करें या Direct Print में Save as PDF चुनें।');
+  } finally {
+    overlay.remove();
+    exportStyle.remove();
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = originalButtonText || t('downloadPdf');
+    }
+  }
+}
+
+function printDocDirect(){
+  const w=window.open('','_blank','width=850,height=900');
+  if(!w){alert('Please allow pop-ups to print this slip.');return;}
+  w.document.write(`<!DOCTYPE html><html lang="${currentLanguage}" dir="${currentLanguage==='ur'?'rtl':'ltr'}"><head><meta charset="UTF-8"><title>${t('printTitle')}</title><style>
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}body{margin:0;padding:8mm;background:#fff;color:#0f172a}
+    .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px;background:#fff;page-break-inside:avoid}
+    .slip-header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:2px solid #0f172a;padding-bottom:6px;margin-bottom:8px}
+    .slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}.slip-badge{background:#7c3aed;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}
+    .slip-table{width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:6px;font-size:11px}.slip-table td{padding:3px;overflow-wrap:anywhere}.slip-table td.lbl{font-weight:700;color:#475569;width:20%}.slip-table td.val{border-bottom:1px dotted #94a3b8}
+    .meas-grid{width:100%;table-layout:fixed;border-collapse:collapse;margin:6px 0;font-size:10px;border:1px solid #cbd5e1}.meas-grid th{background:#ede9fe;color:#5b21b6;padding:4px 2px;border:1px solid #cbd5e1}.meas-grid td{padding:4px 2px;border:1px solid #cbd5e1;text-align:center;font-weight:700}
+    .amount-highlight{background:#f0fdf4;border:1.2px solid #86efac;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;gap:8px;margin:6px 0;font-size:11px;color:#14532d}.balance-value{color:#dc2626;font-weight:800}
+    .master-ticket{font-size:10.5px;font-weight:800;color:#5b21b6;margin:4px 0}.notes-box{background:#f8fafc;border-left:3px solid #7c3aed;padding:5px 8px;font-size:10px;margin:6px 0;color:#334155}.footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px;color:#64748b}.sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700;color:#334155}.cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}.cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
+    @page{size:A4 portrait;margin:8mm}@media print{body{padding:0}.slip-box{break-inside:avoid}}
+    </style></head><body>${$('a4DocSheet').innerHTML}</body></html>`);
+  w.document.close();w.focus();setTimeout(()=>{w.print();w.close();},500);
+}
+function shareWhatsApp(){
+  const shop=$('in_shop').value.trim()||t('defaultShop');
+  const customer=$('in_cust').value.trim()||t('customer');
+  const delivery=$('in_deliv').value||'-';
+  const balance=$('in_bal').value||0;
+  const phone=$('in_phone').value.trim().replace(/[^0-9]/g,'');
+  const message=`*✂️ ${t('whatsappTitle')} (${ $('in_ord_no').value })*\n*${t('shop')}* ${shop}\n*${t('customer')}* ${customer}\n*${t('deliveryDateLabel')}* ${delivery}\n*${t('balance')}* ₹${balance}\n\n_${t('generated')}_`;
+  const url=phone?`https://wa.me/91${phone}?text=${encodeURIComponent(message)}`:`https://wa.me/?text=${encodeURIComponent(message)}`;
+  window.open(url,'_blank');
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  let savedLanguage='hi',savedTheme='light';
+  try{savedLanguage=localStorage.getItem('kk_tailor_language')||'hi';savedTheme=localStorage.getItem('kk_tailor_theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');}catch(e){}
+  applyTheme(savedTheme);
+  const d=new Date();
+  const localDate=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().split('T')[0];
+  $('in_date').value=localDate;
+  d.setDate(d.getDate()+5);
+  const deliveryLocal=new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().split('T')[0];
+  $('in_deliv').value=deliveryLocal;
+  $('in_ord_no').value='TLR-'+Math.floor(100000+Math.random()*899990);
+  applyLanguage(savedLanguage);
+  calcBal();
+});
 </script>
 </body>
 </html>
