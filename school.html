@@ -3,639 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f172a">
 <title>School, Coaching & Training Institute Suite - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #4338ca;
-    --primary-dark: #312e81;
-    --primary-soft: #e0e7ff;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-    --surface: #ffffff;
-    --surface-alt: #f8fafc;
-    --gold: #d97706;
-    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  body.dark-mode {
-    --primary: #818cf8;
-    --primary-dark: #4f46e5;
-    --primary-soft: rgba(129, 140, 248, 0.16);
-    --ink: #f1f5f9;
-    --ink-muted: #94a3b8;
-    --border: #334155;
-    --bg: #0b1120;
-    --surface: #1e293b;
-    --surface-alt: #0f172a;
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  }
-
-  * {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden;
-    transition: background-color 0.2s, color 0.2s;
-  }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background-color: #0f172a;
-    color: #ffffff;
-    padding: 12px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-  }
-  .nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-home {
-    background-color: rgba(255,255,255,0.12);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background-color: #4338ca; border-color: #818cf8; }
-  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
-  .btn-theme {
-    background-color: rgba(255,255,255,0.14);
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
-
-  /* Full-Screen Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 1520px;
-    margin: 0 auto;
-    padding: 20px 26px 46px 26px;
-    display: grid;
-    grid-template-columns: minmax(420px, 1.05fr) minmax(500px, 0.95fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background-color: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background-color: var(--surface-alt);
-    transition: border-color 0.2s, background-color 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background-color: var(--surface);
-    box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.14);
-  }
-
-  .section-badge {
-    background-color: var(--primary-soft);
-    color: var(--primary);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    margin-bottom: 14px;
-    background-color: var(--surface-alt);
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px 6px;
-    border: none;
-    border-radius: 7px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    background-color: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background-color: #4338ca;
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(67, 56, 202, 0.25);
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1;
-    min-width: 145px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #ffffff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn:disabled { opacity: 0.65; cursor: not-allowed; }
-  .btn-pdf { background-color: #4338ca; }
-  .btn-print { background-color: #0f172a; }
-  .btn-wa { background-color: #16a34a; }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-    background-color: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  .preview-viewport {
-    width: 100%;
-    overflow-x: auto;
-    background-color: #e2e8f0;
-    padding: 16px 12px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-  }
-  body.dark-mode .preview-viewport {
-    background-color: #0f172a;
-  }
-  #a4DocSheet {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-    width: 100%;
-    max-width: 700px;
-    padding: 20px 18px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-    flex-shrink: 0;
-  }
-
-  .slip-box {
-    border: 2px solid #0f172a;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #ffffff;
-  }
-
-  .cert-border {
-    border: 4px double #b45309;
-    border-radius: 10px;
-    padding: 24px 20px;
-    background-color: #fffbeb;
-    text-align: center;
-  }
-
-  .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 2.5px solid #4338ca;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .doc-biz p { margin: 3px 0 0; font-size: 11px; color: #475569; }
-  .doc-type-badge {
-    background-color: #4338ca;
-    color: #ffffff;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-weight: 800;
-    border-radius: 5px;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-
-  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
-  .meta-table td { padding: 4px 6px; border: 1px solid #cbd5e1; color: #0f172a; }
-  .meta-table td.lbl { background-color: #f8fafc; font-weight: 700; color: #334155; width: 24%; }
-  .meta-table td.val { font-weight: 600; color: #0f172a; width: 26%; }
-
-  .fee-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11.5px; }
-  .fee-table th { background-color: #e0e7ff; color: #312e81; padding: 6px; text-align: left; font-weight: 800; border: 1px solid #a5b4fc; }
-  .fee-table td { padding: 5.5px 6px; border: 1px solid #cbd5e1; font-weight: 600; color: #0f172a; }
-  .t-right { text-align: right; }
-  .t-center { text-align: center; }
-
-  .notes-box { background-color: #f8fafc; border-left: 3.5px solid #4338ca; padding: 7px 10px; font-size: 10.5px; color: #334155; margin: 10px 0; }
-  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 10.5px; }
-  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  @media (max-width: 1120px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
-    .preview-panel { position: static; }
-  }
-  @media (max-width: 760px) {
-    .preview-viewport { justify-content: flex-start; padding: 10px; }
-    #a4DocSheet { min-width: 620px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .top-nav { padding: 10px 14px; }
-    .nav-title { font-size: 13.5px; }
-    .control-box, .preview-panel { padding: 14px 12px; border-radius: 12px; }
-  }
+:root{--primary:#4338ca;--primary-dark:#312e81;--primary-soft:#e0e7ff;--ink:#0f172a;--muted:#475569;--border:#cbd5e1;--bg:#f1f5f9;--surface:#fff;--surface-alt:#f8fafc;--gold:#d97706;--shadow:0 8px 26px rgba(15,23,42,.07)}
+body.dark-mode{--primary:#818cf8;--primary-dark:#6366f1;--primary-soft:rgba(129,140,248,.16);--ink:#f1f5f9;--muted:#94a3b8;--border:#334155;--bg:#0b1120;--surface:#1e293b;--surface-alt:#0f172a;--shadow:0 8px 26px rgba(0,0,0,.36)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100%;background:var(--bg);color:var(--ink);overflow-x:hidden;transition:background .2s,color .2s}
+body{min-height:100vh}
+.top-nav{position:sticky;top:0;z-index:100;background:#0f172a;color:#fff;padding:11px 22px;border-bottom:3px solid #f59e0b;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;box-shadow:0 4px 18px rgba(0,0,0,.15)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 13px;border:1px solid rgba(255,255,255,.22);border-radius:8px;font-size:13px;font-weight:700}.nav-title{font-size:15px;font-weight:800}.theme-help{font-size:11px;color:#e2e8f0;max-width:190px;line-height:1.25}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.26);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer}.lang-top{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700}.lang-top select{width:auto;min-width:145px;background:#fff;color:#0f172a;border:1px solid #cbd5e1;padding:7px 9px;border-radius:8px;font-size:12px}
+.kb-wrapper{width:100%;max-width:none;margin:0;padding:18px 22px 42px;display:grid;grid-template-columns:minmax(420px,1.05fr) minmax(460px,.95fr);gap:22px;align-items:start}
+.control-box,.preview-panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow);min-width:0}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}label{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.25px}
+input,select{width:100%;min-width:0;padding:10px 11px;border:1.5px solid var(--border);border-radius:9px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt)}input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(67,56,202,.13);background:var(--surface)}
+.section-badge{display:inline-flex;align-items:center;background:var(--primary-soft);color:var(--primary);font-size:11.5px;font-weight:900;padding:7px 12px;border-radius:8px;border-left:4px solid var(--primary);margin:15px 0 12px;text-transform:uppercase}.section-badge:first-child{margin-top:0}
+.toggle-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;background:var(--surface-alt);border:1px solid var(--border);padding:5px;border-radius:10px;margin-bottom:14px}.toggle-btn{padding:10px 7px;border:0;border-radius:7px;background:transparent;color:var(--muted);font-size:12px;font-weight:800;cursor:pointer}.toggle-btn.active{background:var(--primary);color:#fff;box-shadow:0 3px 8px rgba(67,56,202,.22)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:145px;padding:13px 12px;border:0;border-radius:9px;color:#fff;font-size:13.5px;font-weight:900;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.09)}.btn:disabled{opacity:.6;cursor:wait}.btn-pdf{background:linear-gradient(135deg,#4338ca,#312e81)}.btn-print{background:linear-gradient(135deg,#334155,#0f172a)}.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d)}
+.preview-label{text-align:center;font-size:12px;font-weight:900;color:var(--muted);letter-spacing:.6px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:14px 10px;border:1px solid var(--border);border-radius:11px;display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0f172a}#a4DocSheet{width:100%;max-width:720px;flex-shrink:0;background:#fff!important;color:#0f172a!important;padding:20px 18px;border:1px solid #cbd5e1;border-radius:8px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
+.doc-slip{background:#fff;color:#0f172a;border:2px solid #0f172a;border-radius:8px;padding:16px}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;border-bottom:2.5px solid #4338ca;padding-bottom:10px;margin-bottom:12px}.doc-biz h2{margin:0;font-size:18px;font-weight:900;color:#0f172a;text-transform:uppercase}.doc-biz p{margin:3px 0 0;font-size:11px;color:#475569}.doc-type-badge{background:#4338ca;color:#fff;padding:5px 11px;border-radius:5px;font-size:10.5px;font-weight:900}.meta-table,.fee-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px}.meta-table td,.fee-table td,.fee-table th{border:1px solid #cbd5e1;padding:5px 6px;color:#0f172a}.meta-table td.lbl{background:#f8fafc;color:#334155;font-weight:800;width:23%}.meta-table td.val{font-weight:600;width:27%}.fee-table th{background:#e0e7ff;color:#312e81;text-align:left;font-weight:900}.fee-table tr:nth-child(even) td{background:#f8fafc}.fee-table tr.paid-row td{background:#f0fdf4;color:#166534;font-weight:800}.fee-table tr.balance-row td{background:#fef2f2;color:#b91c1c;font-weight:800}.t-right{text-align:right!important}.t-center{text-align:center!important}.notes-box{background:#f8fafc;border-left:3.5px solid #4338ca;padding:7px 10px;font-size:10.5px;color:#334155;margin:10px 0;line-height:1.5}.footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:10.5px;color:#334155}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:800}.cert-border{border:4px double #b45309;border-radius:10px;padding:24px 20px;background:#fffbeb;text-align:center;color:#1e293b}.cert-title{display:inline-block;background:#b45309;color:#fff;padding:7px 20px;border-radius:30px;font-size:14px;font-weight:900;margin:12px 0 16px}.cert-name{font-size:22px;font-weight:900;color:#1e3a8a;border-bottom:1.5px dashed #b45309;display:inline-block;padding:3px 24px;margin:5px 0}
+@media(max-width:1100px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 32px;gap:16px}.preview-panel{position:static}}@media(max-width:760px){.preview-viewport{justify-content:flex-start;padding:10px}#a4DocSheet{min-width:620px}}@media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}.toggle-bar{grid-template-columns:1fr}.top-nav{padding:10px 12px}.nav-title{font-size:13px}.control-box,.preview-panel{padding:14px 12px;border-radius:12px}.theme-help{max-width:none;flex-basis:100%}.lang-top{width:100%;justify-content:space-between}.lang-top select{flex:1;max-width:220px}}
+body.rtl{direction:rtl}body.rtl .section-badge{border-left:0;border-right:4px solid var(--primary)}body.rtl .notes-box{border-left:0;border-right:3.5px solid #4338ca}body.rtl .doc-header,body.rtl .footer-sig-row{direction:rtl}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-
-<div class="top-nav">
-  <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • School, Coaching &amp; Training</span>
-  </div>
+<header class="top-nav">
+  <div class="nav-left"><a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a><span class="nav-title" data-i18n="appTitle">KaamKaj Bills • School, Coaching &amp; Training</span></div>
   <div class="nav-right">
+    <label class="lang-top"><span data-i18n="language">🌐 भाषा चुनें</span><select id="selLang" onchange="changeLanguage(this.value)"><option value="hi">हिन्दी</option><option value="en">English</option><option value="bn">বাংলা</option><option value="te">తెలుగు</option><option value="mr">मराठी</option><option value="ta">தமிழ்</option><option value="gu">ગુજરાતી</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="or">ଓଡ଼ିଆ</option><option value="pa">ਪੰਜਾਬੀ</option><option value="ur">اردو</option></select></label>
     <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <span class="theme-help" data-i18n="themeHelp">यहाँ से आप Light / Dark मोड बदल सकते हैं</span>
   </div>
-</div>
+</header>
 
-<div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
-  <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Document Type Chunein:</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnFee" onclick="setMode('FEE')">🧾 Fee Receipt (फीस रसीद)</button>
-        <button type="button" class="toggle-btn" id="btnAdm" onclick="setMode('ADMISSION')">🎓 Admission Slip (एडमिशन)</button>
-        <button type="button" class="toggle-btn" id="btnCert" onclick="setMode('CERT')">🏆 Course Certificate</button>
-      </div>
+<main class="kb-wrapper">
+  <section class="control-box">
+    <div style="margin-bottom:10px"><label data-i18n="docType">1. Document Type चुनें:</label>
+      <div class="toggle-bar"><button type="button" class="toggle-btn active" id="btnFee" onclick="setMode('FEE')">🧾 <span data-i18n="feeReceipt">Fee Receipt (फीस रसीद)</span></button><button type="button" class="toggle-btn" id="btnAdm" onclick="setMode('ADMISSION')">🎓 <span data-i18n="admission">Admission Slip</span></button><button type="button" class="toggle-btn" id="btnCert" onclick="setMode('CERT')">🏆 <span data-i18n="certificate">Course Certificate</span></button></div>
     </div>
-
-    <div class="section-badge">1. Institute / Academy / School Details</div>
-    <div class="grid-2">
-      <div class="field"><label>Institute / Academy Name</label><input type="text" id="in_inst" placeholder="उदा. Apex Skill &amp; Coaching Academy" oninput="renderDoc()"></div>
-      <div class="field"><label>Address, Reg No. &amp; Contact</label><input type="text" id="in_addr" placeholder="उदा. Main Road, Station Market | Mob: 9000000000" oninput="renderDoc()"></div>
-    </div>
-
-    <div class="section-badge">2. Student &amp; Course Details</div>
-    <div class="grid-3">
-      <div class="field"><label>Receipt / Roll / Cert No.</label><input type="text" id="in_doc_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Issue Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
-      <div class="field"><label>Batch / Academic Session</label><input type="text" id="in_batch" placeholder="उदा. 2026-27 (Morning Batch)" oninput="renderDoc()"></div>
-    </div>
-
-    <div class="grid-2">
-      <div class="field"><label>Student Full Name</label><input type="text" id="in_stud" placeholder="उदा. Aarav Sharma" oninput="renderDoc()"></div>
-      <div class="field"><label>Father / Guardian Name</label><input type="text" id="in_parent" placeholder="उदा. Shri Rajesh Sharma" oninput="renderDoc()"></div>
-    </div>
-
-    <div class="grid-2">
-      <div class="field"><label>Course / Class / Trade Name</label><input type="text" id="in_course" placeholder="उदा. Computer &amp; Technical Diploma" oninput="renderDoc()"></div>
-      <div class="field"><label>Student Mobile / WhatsApp</label><input type="text" id="in_phone" placeholder="उदा. 9000012345" oninput="renderDoc()"></div>
-    </div>
-
-    <!-- FEE & ADMISSION SECTION -->
+    <div class="section-badge" data-i18n="instituteDetails">1. Institute / Academy / School Details</div>
+    <div class="grid-2"><div class="field"><label data-i18n="instituteName">Institute / Academy Name</label><input id="in_inst" type="text" placeholder="Apex Skill & Coaching Academy" data-ph="phInstitute" oninput="renderDoc()"></div><div class="field"><label data-i18n="addressReg">Address, Reg No. & Contact</label><input id="in_addr" type="text" placeholder="Main Road, Station Market | Mob: 9000000000" data-ph="phAddress" oninput="renderDoc()"></div></div>
+    <div class="section-badge" data-i18n="studentDetails">2. Student & Course Details</div>
+    <div class="grid-3"><div class="field"><label data-i18n="docNumber">Receipt / Roll / Cert No.</label><input id="in_doc_no" type="text" oninput="renderDoc()"></div><div class="field"><label data-i18n="issueDate">Issue Date</label><input id="in_date" type="date" oninput="renderDoc()"></div><div class="field"><label data-i18n="batch">Batch / Academic Session</label><input id="in_batch" type="text" placeholder="2026-27 (Morning Batch)" data-ph="phBatch" oninput="renderDoc()"></div></div>
+    <div class="grid-2"><div class="field"><label data-i18n="studentName">Student Full Name</label><input id="in_stud" type="text" placeholder="Aarav Sharma" data-ph="phStudent" oninput="renderDoc()"></div><div class="field"><label data-i18n="guardian">Father / Guardian Name</label><input id="in_parent" type="text" placeholder="Shri Rajesh Sharma" data-ph="phGuardian" oninput="renderDoc()"></div></div>
+    <div class="grid-2"><div class="field"><label data-i18n="course">Course / Class / Trade Name</label><input id="in_course" type="text" placeholder="Computer & Technical Diploma" data-ph="phCourse" oninput="renderDoc()"></div><div class="field"><label data-i18n="studentMobile">Student Mobile / WhatsApp</label><input id="in_phone" type="text" placeholder="9000012345" data-ph="phMobile" oninput="renderDoc()"></div></div>
     <div id="feeSection">
-      <div class="section-badge">3. Fee Structure &amp; Installment Status (₹)</div>
-      <div class="grid-3">
-        <div class="field"><label>Total Course / Annual Fee (₹)</label><input type="number" id="in_tot_fee" placeholder="12000" oninput="renderDoc()"></div>
-        <div class="field"><label>Amount Paid Now (₹)</label><input type="number" id="in_paid_now" placeholder="5000" oninput="renderDoc()"></div>
-        <div class="field"><label>Previous Paid (If any ₹)</label><input type="number" id="in_prev_paid" placeholder="0" oninput="renderDoc()"></div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Payment Mode</label>
-          <select id="in_mode" onchange="renderDoc()">
-            <option value="UPI / Online">UPI / PhonePe / GPay</option>
-            <option value="CASH (नकद)">CASH (नकद)</option>
-            <option value="Bank Transfer / Cheque">Bank Transfer / Cheque</option>
-          </select>
-        </div>
-        <div class="field"><label>Next Installment Due Date</label><input type="text" id="in_next_due" placeholder="उदा. 15 Dec 2026" oninput="renderDoc()"></div>
-      </div>
+      <div class="section-badge" data-i18n="feeStructure">3. Fee Structure & Installment Status (₹)</div>
+      <div class="grid-3"><div class="field"><label data-i18n="totalFee">Total Course / Annual Fee (₹)</label><input id="in_tot_fee" type="number" min="0" step="any" placeholder="12000" oninput="renderDoc()"></div><div class="field"><label data-i18n="paidNow">Amount Paid Now (₹)</label><input id="in_paid_now" type="number" min="0" step="any" placeholder="5000" oninput="renderDoc()"></div><div class="field"><label data-i18n="previousPaid">Previous Paid (₹)</label><input id="in_prev_paid" type="number" min="0" step="any" placeholder="0" oninput="renderDoc()"></div></div>
+      <div class="grid-2"><div class="field"><label data-i18n="paymentMode">Payment Mode</label><select id="in_mode" onchange="renderDoc()"><option value="UPI / Online" data-i18n="upiOption">UPI / PhonePe / GPay</option><option value="CASH (नकद)" data-i18n="cashOption">CASH (नकद)</option><option value="Bank Transfer / Cheque" data-i18n="bankOption">Bank Transfer / Cheque</option></select></div><div class="field"><label data-i18n="nextDue">Next Installment Due Date</label><input id="in_next_due" type="text" placeholder="15 Dec 2026" data-ph="phNextDue" oninput="renderDoc()"></div></div>
     </div>
-
-    <!-- CERTIFICATE SECTION -->
-    <div id="certSection" style="display:none;">
-      <div class="section-badge">3. Course Completion &amp; Grade Details</div>
-      <div class="grid-3">
-        <div class="field"><label>Course Duration</label><input type="text" id="in_dur" placeholder="उदा. 3 Months (120 Hours)" oninput="renderDoc()"></div>
-        <div class="field"><label>Grade / Percentage</label><input type="text" id="in_grade" placeholder="उदा. Grade A+ (92%)" oninput="renderDoc()"></div>
-        <div class="field"><label>Director / Principal Name</label><input type="text" id="in_dir" placeholder="उदा. Dr. S. K. Verma" oninput="renderDoc()"></div>
-      </div>
-    </div>
-
-    <div class="field" style="margin-top: 8px;"><label>Remarks / Institute Note</label><input type="text" id="in_notes" placeholder="उदा. जमा की गई फीस वापस या ट्रांसफर नहीं होगी। नियमित उपस्थिति अनिवार्य है।" oninput="renderDoc()"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
-    </div>
-  </div>
-
-  <!-- RIGHT: LIVE PREVIEW -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Document Preview</div>
-    <div class="preview-viewport">
-      <div id="a4DocSheet">
-        <div id="previewInner"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
+    <div id="certSection" style="display:none"><div class="section-badge" data-i18n="completionDetails">3. Course Completion & Grade Details</div><div class="grid-3"><div class="field"><label data-i18n="duration">Course Duration</label><input id="in_dur" type="text" placeholder="3 Months (120 Hours)" data-ph="phDuration" oninput="renderDoc()"></div><div class="field"><label data-i18n="grade">Grade / Percentage</label><input id="in_grade" type="text" placeholder="Grade A+ (92%)" data-ph="phGrade" oninput="renderDoc()"></div><div class="field"><label data-i18n="director">Director / Principal Name</label><input id="in_dir" type="text" placeholder="Dr. S. K. Verma" data-ph="phDirector" oninput="renderDoc()"></div></div></div>
+    <div class="field" style="margin-top:8px"><label data-i18n="remarks">Remarks / Institute Note</label><input id="in_notes" type="text" placeholder="जमा की गई फीस वापस या ट्रांसफर नहीं होगी। नियमित उपस्थिति अनिवार्य है।" data-ph="phRemarks" oninput="renderDoc()"></div>
+    <div class="actions"><button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadA4PDF()">📥 <span data-i18n="downloadPdf">Download A4 PDF</span></button><button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ <span data-i18n="directPrint">Direct Print</span></button><button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 <span data-i18n="whatsappShare">WhatsApp Share</span></button></div>
+  </section>
+  <section class="preview-panel"><div class="preview-label" data-i18n="livePreview">Live Document Preview</div><div class="preview-viewport"><div id="a4DocSheet"><div id="previewInner"></div></div></div></section>
+</main>
 <script>
-  let mode = 'FEE';
-
-  function esc(str) {
-    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnTheme').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem('kkb_school_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }
-
-  function setMode(m) {
-    mode = m;
-    document.getElementById('btnFee').classList.toggle('active', m === 'FEE');
-    document.getElementById('btnAdm').classList.toggle('active', m === 'ADMISSION');
-    document.getElementById('btnCert').classList.toggle('active', m === 'CERT');
-
-    document.getElementById('feeSection').style.display = (m === 'CERT') ? 'none' : 'block';
-    document.getElementById('certSection').style.display = (m === 'CERT') ? 'block' : 'none';
-    const pref = m === 'FEE' ? 'FEE-' : (m === 'ADMISSION' ? 'ADM-' : 'CRT-');
-    document.getElementById('in_doc_no').value = pref + Math.floor(100000 + Math.random() * 899990);
-    renderDoc();
-  }
-
-  function renderDoc() {
-    const inst = document.getElementById('in_inst').value.trim() || 'APEX SKILL & COACHING ACADEMY';
-    const addr = document.getElementById('in_addr').value.trim() || 'Main Road, Station Market | Mob: 9000000000';
-    const docNo = document.getElementById('in_doc_no').value.trim() || '-';
-    const dt = document.getElementById('in_date').value || '-';
-    const batch = document.getElementById('in_batch').value.trim() || '-';
-    const stud = document.getElementById('in_stud').value.trim() || '-';
-    const parent = document.getElementById('in_parent').value.trim() || '-';
-    const course = document.getElementById('in_course').value.trim() || '-';
-    const ph = document.getElementById('in_phone').value.trim() || '-';
-    const notes = document.getElementById('in_notes').value.trim() || 'फीस जमा करने के लिए धन्यवाद। नियमित उपस्थिति अनिवार्य है।';
-
-    if (mode === 'CERT') {
-      const dur = document.getElementById('in_dur').value.trim() || '3 Months';
-      const grade = document.getElementById('in_grade').value.trim() || 'Grade A+';
-      const dir = document.getElementById('in_dir').value.trim() || 'Director / Principal';
-
-      document.getElementById('previewInner').innerHTML = `
-        <div class="cert-border">
-          <div style="font-size:11px;font-weight:800;color:#b45309;letter-spacing:1.5px;text-transform:uppercase;">Certificate ID: ${esc(docNo)}</div>
-          <h2 style="margin:6px 0 2px;font-size:22px;font-weight:900;color:#0f172a;text-transform:uppercase;">${esc(inst)}</h2>
-          <p style="margin:0 0 16px;font-size:11px;color:#475569;">${esc(addr)}</p>
-
-          <div style="display:inline-block;background:#b45309;color:#fff;padding:6px 20px;border-radius:30px;font-size:14px;font-weight:800;letter-spacing:1px;margin-bottom:16px;">
-            CERTIFICATE OF COMPLETION
-          </div>
-
-          <p style="font-size:13px;color:#334155;margin:8px 0;">This is to proudly certify that</p>
-          <div style="font-size:21px;font-weight:900;color:#1e3a8a;border-bottom:1.5px dashed #b45309;display:inline-block;padding:2px 24px;margin:4px 0;">
-            ${esc(stud)}
-          </div>
-          <p style="font-size:11.5px;color:#475569;margin:4px 0 12px;">S/o / D/o <b>${esc(parent)}</b></p>
-
-          <p style="font-size:12.5px;line-height:1.65;color:#1e293b;margin:0 auto;max-width:520px;">
-            has successfully completed the training &amp; practical assessment in<br>
-            <b style="font-size:15px;color:#0f172a;">${esc(course)}</b><br>
-            (Duration: <b>${esc(dur)}</b> | Session: <b>${esc(batch)}</b>) and secured <b>${esc(grade)}</b>.
-          </p>
-
-          <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:34px;font-size:11px;text-align:center;">
-            <div style="width:35%;"><b>Issue Date:</b><br>${esc(dt)}</div>
-            <div style="width:25%;border:1.5px solid #b45309;border-radius:50%;padding:12px 4px;font-size:9px;font-weight:800;color:#b45309;">OFFICIAL<br>SEAL</div>
-            <div style="width:35%;border-top:1.5px dashed #0f172a;padding-top:4px;font-weight:800;">${esc(dir)}<br><span style="font-size:9.5px;color:#64748b;">Authorized Signatory</span></div>
-          </div>
-        </div>
-      `;
-    } else {
-      const tot = parseFloat(document.getElementById('in_tot_fee').value) || 0;
-      const paid = parseFloat(document.getElementById('in_paid_now').value) || 0;
-      const prev = parseFloat(document.getElementById('in_prev_paid').value) || 0;
-      const bal = Math.max(0, tot - (paid + prev));
-      const pMode = document.getElementById('in_mode').value;
-      const nextDue = document.getElementById('in_next_due').value.trim() || '-';
-
-      document.getElementById('previewInner').innerHTML = `
-        <div class="slip-box">
-          <div class="doc-header">
-            <div class="doc-biz"><h2>${esc(inst)}</h2><p>${esc(addr)}</p></div>
-            <div class="doc-type-badge">${mode === 'FEE' ? 'OFFICIAL FEE RECEIPT' : 'ADMISSION CONFIRMATION SLIP'}</div>
-          </div>
-          <table class="meta-table">
-            <tr><td class="lbl">${mode === 'FEE' ? 'Receipt No:' : 'Admission No:'}</td><td class="val"><b>${esc(docNo)}</b></td><td class="lbl">Date:</td><td class="val">${esc(dt)}</td></tr>
-            <tr><td class="lbl">Student Name:</td><td class="val"><b>${esc(stud)}</b></td><td class="lbl">Guardian:</td><td class="val">${esc(parent)}</td></tr>
-            <tr><td class="lbl">Course / Class:</td><td class="val"><b>${esc(course)}</b></td><td class="lbl">Batch:</td><td class="val">${esc(batch)}</td></tr>
-            <tr><td class="lbl">Mobile No:</td><td class="val">${esc(ph)}</td><td class="lbl">Payment Mode:</td><td class="val">${esc(pMode)}</td></tr>
-          </table>
-          <table class="fee-table">
-            <thead><tr><th>Fee Particulars</th><th class="t-right">Amount (₹)</th></tr></thead>
-            <tbody>
-              <tr><td>Total Course / Tuition Fee</td><td class="t-right">₹${tot.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-              ${prev > 0 ? `<tr><td>Previously Paid Amount</td><td class="t-right">₹${prev.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-              <tr style="background-color:#f0fdf4;color:#166534;font-weight:800;"><td>Amount Paid Today</td><td class="t-right">₹${paid.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-              <tr style="background-color:#fef2f2;color:#dc2626;font-weight:800;"><td>Balance Fee Due (Next Due: ${esc(nextDue)})</td><td class="t-right">₹${bal.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-            </tbody>
-          </table>
-          <div class="notes-box"><b>Note:</b> ${esc(notes)}</div>
-          <div class="footer-sig-row"><div style="font-size:10px;color:#64748b;">Student / Parent Signature</div><div class="sig-block">Accountant / Principal Sign</div></div>
-        </div>
-      `;
-    }
-  }
-
-  /* Zero-Clipping A4 PDF Export */
-  function downloadA4PDF() {
-    const btn = document.getElementById('btnPdf');
-    btn.disabled = true;
-    btn.innerText = '⏳ Generating PDF...';
-
-    const savedX = window.scrollX || 0;
-    const savedY = window.scrollY || 0;
-    window.scrollTo(0, 0);
-
-    const source = document.getElementById('a4DocSheet');
-    const clone = source.cloneNode(true);
-    clone.removeAttribute('id');
-
-    const PDF_WIDTH = 660;
-    clone.style.cssText = [
-      `width: ${PDF_WIDTH}px`,
-      `min-width: ${PDF_WIDTH}px`,
-      `max-width: ${PDF_WIDTH}px`,
-      'margin: 0',
-      'padding: 18px 20px',
-      'background-color: #ffffff',
-      'color: #0f172a',
-      'border: none',
-      'box-shadow: none',
-      'box-sizing: border-box'
-    ].join(';');
-
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `position:absolute; top:0; left:0; width:${PDF_WIDTH}px; background-color:#ffffff; z-index:999999; margin:0; padding:0;`;
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-
-    const studName = (document.getElementById('in_stud').value.trim() || 'Student').replace(/[^a-zA-Z0-9-_]/g, '_');
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        html2pdf().set({
-          margin: [8, 10, 10, 10],
-          filename: `${mode}_${studName}.pdf`,
-          image: { type: 'png', quality: 1.0 },
-          html2canvas: {
-            scale: 3,
-            useCORS: true,
-            letterRendering: true,
-            scrollX: 0,
-            scrollY: 0,
-            x: 0,
-            y: 0,
-            width: PDF_WIDTH,
-            windowWidth: PDF_WIDTH,
-            backgroundColor: '#ffffff'
-          },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
-        }).from(clone).save().then(() => {
-          wrap.remove();
-          window.scrollTo(savedX, savedY);
-          btn.disabled = false;
-          btn.innerText = '📥 Download A4 PDF';
-        }).catch(() => {
-          wrap.remove();
-          window.scrollTo(savedX, savedY);
-          btn.disabled = false;
-          btn.innerText = '📥 Download A4 PDF';
-        });
-      }, 150);
-    });
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm;background:#fff}
-      .slip-box{border:2px solid #0f172a;border-radius:8px;padding:16px}
-      .cert-border{border:4px double #b45309;border-radius:10px;padding:24px 20px;background:#fffbeb;text-align:center}
-      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #4338ca;padding-bottom:8px;margin-bottom:10px}
-      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
-      .doc-type-badge{background:#4338ca;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
-      .meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
-      .meta-table td{padding:4px 6px;border:1px solid #cbd5e1}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
-      .fee-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-      .fee-table th{background:#e0e7ff;color:#312e81;padding:5px;text-align:left;border:1px solid #a5b4fc}
-      .fee-table td{padding:5px;border:1px solid #cbd5e1}.t-right{text-align:right}
-      .notes-box{background:#f8fafc;border-left:3px solid #4338ca;padding:6px 8px;font-size:10px;margin:8px 0}
-      .footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}
-      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const inst = document.getElementById('in_inst').value.trim() || 'Institute';
-    const stud = document.getElementById('in_stud').value.trim() || 'Student';
-    const course = document.getElementById('in_course').value.trim() || 'Course';
-    const ph = document.getElementById('in_phone').value.trim().replace(/[^0-9]/g, '');
-    const msg = `*🎓 ${inst} (${document.getElementById('in_doc_no').value})*\n*Student:* ${stud}\n*Course:* ${course}\n*Paid Today:* ₹${document.getElementById('in_paid_now').value || 0}\n\n_Generated via KaamKaj Bills._`;
-    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = () => {
-    try {
-      if (localStorage.getItem('kkb_school_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnTheme').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_doc_no').value = 'FEE-' + Math.floor(100000 + Math.random() * 899990);
-    renderDoc();
-  };
+const LANGS={
+hi:{allTools:'← सभी टूल्स',appTitle:'KaamKaj Bills • स्कूल, कोचिंग और ट्रेनिंग',upiOption:'UPI / PhonePe / GPay',cashOption:'नकद',bankOption:'बैंक ट्रांसफर / चेक',language:'🌐 भाषा चुनें',themeHelp:'यहाँ से आप Light / Dark मोड बदल सकते हैं',dark:'🌙 डार्क मोड',light:'☀️ लाइट मोड',docType:'1. दस्तावेज़ का प्रकार चुनें:',feeReceipt:'फीस रसीद',admission:'एडमिशन स्लिप',certificate:'कोर्स प्रमाणपत्र',instituteDetails:'1. संस्थान / अकादमी / स्कूल का विवरण',instituteName:'संस्थान / अकादमी का नाम',addressReg:'पता, रजिस्ट्रेशन नंबर और संपर्क',studentDetails:'2. विद्यार्थी और कोर्स का विवरण',docNumber:'रसीद / रोल / प्रमाणपत्र नंबर',issueDate:'जारी करने की तारीख',batch:'बैच / शैक्षणिक सत्र',studentName:'विद्यार्थी का पूरा नाम',guardian:'पिता / अभिभावक का नाम',course:'कोर्स / कक्षा / ट्रेड का नाम',studentMobile:'विद्यार्थी का मोबाइल / WhatsApp',feeStructure:'3. फीस संरचना और किस्त की स्थिति (₹)',totalFee:'कुल कोर्स / वार्षिक फीस (₹)',paidNow:'आज जमा राशि (₹)',previousPaid:'पहले जमा राशि (₹)',paymentMode:'भुगतान का तरीका',nextDue:'अगली किस्त की तारीख',completionDetails:'3. कोर्स पूरा होने और ग्रेड का विवरण',duration:'कोर्स की अवधि',grade:'ग्रेड / प्रतिशत',director:'डायरेक्टर / प्रिंसिपल का नाम',remarks:'टिप्पणी / संस्थान का नोट',downloadPdf:'A4 PDF डाउनलोड',directPrint:'सीधा प्रिंट',whatsappShare:'WhatsApp पर भेजें',livePreview:'दस्तावेज़ का लाइव प्रीव्यू',phInstitute:'उदा. Apex Skill & Coaching Academy',phAddress:'उदा. मुख्य रोड, स्टेशन मार्केट | मोबाइल: 9000000000',phBatch:'उदा. 2026-27 (सुबह की बैच)',phStudent:'उदा. आरव शर्मा',phGuardian:'उदा. श्री राजेश शर्मा',phCourse:'उदा. कंप्यूटर एवं टेक्निकल डिप्लोमा',phMobile:'उदा. 9000012345',phNextDue:'उदा. 15 Dec 2026',phDuration:'उदा. 3 महीने (120 घंटे)',phGrade:'उदा. ग्रेड A+ (92%)',phDirector:'उदा. डॉ. एस. के. वर्मा',phRemarks:'जमा फीस वापस या ट्रांसफर नहीं होगी। नियमित उपस्थिति अनिवार्य है।',certificateTitle:'पूर्णता प्रमाणपत्र',certProud:'यह प्रमाणित किया जाता है कि',certSon:'पुत्र / पुत्री',completed:'ने सफलतापूर्वक प्रशिक्षण और प्रायोगिक मूल्यांकन पूरा किया है',durationLbl:'अवधि',session:'सत्र',secured:'प्राप्त किया',issue:'जारी करने की तारीख',seal:'आधिकारिक मुहर',authorized:'अधिकृत हस्ताक्षरकर्ता',receipt:'आधिकारिक फीस रसीद',admissionSlip:'प्रवेश पुष्टि पर्ची',receiptNo:'रसीद नंबर',admissionNo:'प्रवेश नंबर',date:'तारीख',student:'विद्यार्थी का नाम',guardianLbl:'अभिभावक',courseClass:'कोर्स / कक्षा',mobile:'मोबाइल नंबर',mode:'भुगतान का तरीका',feeParticulars:'फीस का विवरण',amount:'राशि (₹)',tuitionFee:'कुल कोर्स / ट्यूशन फीस',previous:'पहले जमा राशि',paidToday:'आज जमा राशि',balanceDue:'बाकी फीस (अगली तारीख',note:'नोट',thanks:'फीस जमा करने के लिए धन्यवाद। नियमित उपस्थिति अनिवार्य है।',studentSign:'विद्यार्थी / अभिभावक के हस्ताक्षर',accountSign:'अकाउंटेंट / प्रिंसिपल के हस्ताक्षर',generating:'⏳ PDF बन रही है...',pdfReady:'📥 A4 PDF डाउनलोड',whatsappFee:'फीस विवरण',whatsappCert:'कोर्स प्रमाणपत्र'},
+en:{allTools:'← All Tools',appTitle:'KaamKaj Bills • School, Coaching & Training',upiOption:'UPI / PhonePe / GPay',cashOption:'Cash',bankOption:'Bank Transfer / Cheque',language:'🌐 Select Language',themeHelp:'Change Light / Dark mode here',dark:'🌙 Dark Mode',light:'☀️ Light Mode',docType:'1. Choose Document Type:',feeReceipt:'Fee Receipt',admission:'Admission Slip',certificate:'Course Certificate',instituteDetails:'1. Institute / Academy / School Details',instituteName:'Institute / Academy Name',addressReg:'Address, Reg. No. & Contact',studentDetails:'2. Student & Course Details',docNumber:'Receipt / Roll / Certificate No.',issueDate:'Issue Date',batch:'Batch / Academic Session',studentName:'Student Full Name',guardian:'Father / Guardian Name',course:'Course / Class / Trade Name',studentMobile:'Student Mobile / WhatsApp',feeStructure:'3. Fee Structure & Installment Status (₹)',totalFee:'Total Course / Annual Fee (₹)',paidNow:'Amount Paid Now (₹)',previousPaid:'Previous Paid (₹)',paymentMode:'Payment Mode',nextDue:'Next Installment Due Date',completionDetails:'3. Course Completion & Grade Details',duration:'Course Duration',grade:'Grade / Percentage',director:'Director / Principal Name',remarks:'Remarks / Institute Note',downloadPdf:'Download A4 PDF',directPrint:'Direct Print',whatsappShare:'WhatsApp Share',livePreview:'Live Document Preview',phInstitute:'e.g. Apex Skill & Coaching Academy',phAddress:'e.g. Main Road, Station Market | Mob: 9000000000',phBatch:'e.g. 2026-27 (Morning Batch)',phStudent:'e.g. Aarav Sharma',phGuardian:'e.g. Shri Rajesh Sharma',phCourse:'e.g. Computer & Technical Diploma',phMobile:'e.g. 9000012345',phNextDue:'e.g. 15 Dec 2026',phDuration:'e.g. 3 Months (120 Hours)',phGrade:'e.g. Grade A+ (92%)',phDirector:'e.g. Dr. S. K. Verma',phRemarks:'Fees once paid are non-refundable. Regular attendance is required.',certificateTitle:'CERTIFICATE OF COMPLETION',certProud:'This is to proudly certify that',certSon:'Son / Daughter of',completed:'has successfully completed the training & practical assessment in',durationLbl:'Duration',session:'Session',secured:'and secured',issue:'Issue Date',seal:'OFFICIAL SEAL',authorized:'Authorized Signatory',receipt:'OFFICIAL FEE RECEIPT',admissionSlip:'ADMISSION CONFIRMATION SLIP',receiptNo:'Receipt No.',admissionNo:'Admission No.',date:'Date',student:'Student Name',guardianLbl:'Guardian',courseClass:'Course / Class',mobile:'Mobile No.',mode:'Payment Mode',feeParticulars:'Fee Particulars',amount:'Amount (₹)',tuitionFee:'Total Course / Tuition Fee',previous:'Previously Paid Amount',paidToday:'Amount Paid Today',balanceDue:'Balance Fee Due (Next Due',note:'Note',thanks:'Thank you for submitting the fee. Regular attendance is required.',studentSign:'Student / Parent Signature',accountSign:'Accountant / Principal Sign',generating:'⏳ Generating PDF...',pdfReady:'📥 Download A4 PDF',whatsappFee:'Fee details',whatsappCert:'Course certificate'},
+bn:{allTools:'← সব টুল',appTitle:'KaamKaj Bills • স্কুল, কোচিং ও প্রশিক্ষণ',upiOption:'UPI / PhonePe / GPay',cashOption:'নগদ',bankOption:'ব্যাংক ট্রান্সফার / চেক',language:'🌐 ভাষা নির্বাচন',themeHelp:'এখান থেকে Light / Dark মোড বদলান',dark:'🌙 ডার্ক মোড',light:'☀️ লাইট মোড',docType:'১. নথির ধরন নির্বাচন করুন:',feeReceipt:'ফি রসিদ',admission:'ভর্তি স্লিপ',certificate:'কোর্স সার্টিফিকেট',instituteDetails:'১. প্রতিষ্ঠান / অ্যাকাডেমির বিবরণ',instituteName:'প্রতিষ্ঠানের নাম',addressReg:'ঠিকানা, রেজিস্ট্রেশন ও যোগাযোগ',studentDetails:'২. শিক্ষার্থী ও কোর্সের বিবরণ',docNumber:'রসিদ / রোল / সার্টিফিকেট নম্বর',issueDate:'প্রদানের তারিখ',batch:'ব্যাচ / শিক্ষাবর্ষ',studentName:'শিক্ষার্থীর পুরো নাম',guardian:'পিতা / অভিভাবকের নাম',course:'কোর্স / শ্রেণি / ট্রেড',studentMobile:'শিক্ষার্থীর মোবাইল / WhatsApp',feeStructure:'৩. ফি ও কিস্তির বিবরণ (₹)',totalFee:'মোট কোর্স / বার্ষিক ফি',paidNow:'আজ জমা',previousPaid:'আগে জমা',paymentMode:'পেমেন্ট পদ্ধতি',nextDue:'পরবর্তী কিস্তির তারিখ',completionDetails:'৩. কোর্স সমাপ্তি ও গ্রেড',duration:'কোর্সের মেয়াদ',grade:'গ্রেড / শতাংশ',director:'পরিচালক / অধ্যক্ষের নাম',remarks:'মন্তব্য / প্রতিষ্ঠানের নোট',downloadPdf:'A4 PDF ডাউনলোড',directPrint:'সরাসরি প্রিন্ট',whatsappShare:'WhatsApp শেয়ার',livePreview:'লাইভ ডকুমেন্ট প্রিভিউ',phInstitute:'যেমন Apex Skill Academy',phAddress:'যেমন Main Road | মোবাইল: 9000000000',phBatch:'যেমন 2026-27 Morning Batch',phStudent:'যেমন Aarav Sharma',phGuardian:'যেমন Rajesh Sharma',phCourse:'যেমন Computer Diploma',phMobile:'যেমন 9000012345',phNextDue:'যেমন 15 Dec 2026',phDuration:'যেমন 3 মাস (120 ঘণ্টা)',phGrade:'যেমন Grade A+ (92%)',phDirector:'যেমন Dr. S. K. Verma',phRemarks:'জমা ফি ফেরতযোগ্য নয়। নিয়মিত উপস্থিতি আবশ্যক।',certificateTitle:'কোর্স সমাপ্তির সার্টিফিকেট',certProud:'এতদ্বারা প্রত্যয়ন করা হচ্ছে যে',certSon:'পিতা / মাতার নাম',completed:'সফলভাবে প্রশিক্ষণ ও ব্যবহারিক মূল্যায়ন সম্পন্ন করেছে',durationLbl:'মেয়াদ',session:'সেশন',secured:'এবং অর্জন করেছে',issue:'প্রদানের তারিখ',seal:'সরকারি সিল',authorized:'অনুমোদিত স্বাক্ষরকারী',receipt:'ফি রসিদ',admissionSlip:'ভর্তি নিশ্চিতকরণ স্লিপ',receiptNo:'রসিদ নম্বর',admissionNo:'ভর্তি নম্বর',date:'তারিখ',student:'শিক্ষার্থীর নাম',guardianLbl:'অভিভাবক',courseClass:'কোর্স / শ্রেণি',mobile:'মোবাইল',mode:'পেমেন্ট পদ্ধতি',feeParticulars:'ফি বিবরণ',amount:'পরিমাণ (₹)',tuitionFee:'মোট কোর্স ফি',previous:'আগে জমা',paidToday:'আজ জমা',balanceDue:'বকেয়া ফি (পরবর্তী তারিখ',note:'নোট',thanks:'ফি জমা দেওয়ার জন্য ধন্যবাদ। নিয়মিত উপস্থিতি আবশ্যক।',studentSign:'শিক্ষার্থী / অভিভাবকের স্বাক্ষর',accountSign:'হিসাবরক্ষক / অধ্যক্ষের স্বাক্ষর',generating:'⏳ PDF তৈরি হচ্ছে...',pdfReady:'📥 A4 PDF ডাউনলোড',whatsappFee:'ফি বিবরণ',whatsappCert:'কোর্স সার্টিফিকেট'},
+te:{allTools:'← అన్ని టూల్స్',appTitle:'KaamKaj Bills • పాఠశాల, కోచింగ్ & శిక్షణ',upiOption:'UPI / PhonePe / GPay',cashOption:'నగదు',bankOption:'బ్యాంక్ బదిలీ / చెక్',language:'🌐 భాష ఎంచుకోండి',themeHelp:'ఇక్కడ Light / Dark మోడ్ మార్చండి',dark:'🌙 డార్క్ మోడ్',light:'☀️ లైట్ మోడ్',docType:'1. పత్ర రకాన్ని ఎంచుకోండి:',feeReceipt:'ఫీజు రసీదు',admission:'అడ్మిషన్ స్లిప్',certificate:'కోర్సు సర్టిఫికేట్',instituteDetails:'1. సంస్థ / అకాడమీ వివరాలు',instituteName:'సంస్థ పేరు',addressReg:'చిరునామా, రిజిస్ట్రేషన్ & సంప్రదింపు',studentDetails:'2. విద్యార్థి & కోర్సు వివరాలు',docNumber:'రసీదు / రోల్ / సర్టిఫికేట్ నం.',issueDate:'జారీ తేదీ',batch:'బ్యాచ్ / విద్యా సంవత్సరం',studentName:'విద్యార్థి పూర్తి పేరు',guardian:'తండ్రి / సంరక్షకుని పేరు',course:'కోర్సు / తరగతి పేరు',studentMobile:'విద్యార్థి మొబైల్ / WhatsApp',feeStructure:'3. ఫీజు & వాయిదాల వివరాలు (₹)',totalFee:'మొత్తం కోర్సు / వార్షిక ఫీజు',paidNow:'ఇప్పుడు చెల్లించిన మొత్తం',previousPaid:'గతంలో చెల్లించిన మొత్తం',paymentMode:'చెల్లింపు విధానం',nextDue:'తదుపరి వాయిదా తేదీ',completionDetails:'3. కోర్సు పూర్తి & గ్రేడ్ వివరాలు',duration:'కోర్సు వ్యవధి',grade:'గ్రేడ్ / శాతం',director:'డైరెక్టర్ / ప్రిన్సిపల్ పేరు',remarks:'గమనికలు / సంస్థ సందేశం',downloadPdf:'A4 PDF డౌన్‌లోడ్',directPrint:'నేరుగా ప్రింట్',whatsappShare:'WhatsApp షేర్',livePreview:'లైవ్ పత్ర ప్రివ్యూ',phInstitute:'ఉదా. Apex Skill Academy',phAddress:'ఉదా. Main Road | మొబైల్: 9000000000',phBatch:'ఉదా. 2026-27 Morning Batch',phStudent:'ఉదా. Aarav Sharma',phGuardian:'ఉదా. Rajesh Sharma',phCourse:'ఉదా. Computer Diploma',phMobile:'ఉదా. 9000012345',phNextDue:'ఉదా. 15 Dec 2026',phDuration:'ఉదా. 3 నెలలు (120 గంటలు)',phGrade:'ఉదా. Grade A+ (92%)',phDirector:'ఉదా. Dr. S. K. Verma',phRemarks:'చెల్లించిన ఫీజు తిరిగి ఇవ్వబడదు. హాజరు తప్పనిసరి.',certificateTitle:'కోర్సు పూర్తి సర్టిఫికేట్',certProud:'దీనిచే ధృవీకరించబడునది ఏమనగా',certSon:'తండ్రి / తల్లి',completed:'శిక్షణ మరియు ప్రాక్టికల్ పరీక్షను విజయవంతంగా పూర్తి చేశారు',durationLbl:'వ్యవధి',session:'సెషన్',secured:'మరియు సాధించిన గ్రేడ్',issue:'జారీ తేదీ',seal:'అధికారిక ముద్ర',authorized:'అధీకృత సంతకం',receipt:'ఫీజు రసీదు',admissionSlip:'ప్రవేశ నిర్ధారణ స్లిప్',receiptNo:'రసీదు నం.',admissionNo:'అడ్మిషన్ నం.',date:'తేదీ',student:'విద్యార్థి పేరు',guardianLbl:'సంరక్షకుడు',courseClass:'కోర్సు / తరగతి',mobile:'మొబైల్ నం.',mode:'చెల్లింపు విధానం',feeParticulars:'ఫీజు వివరాలు',amount:'మొత్తం (₹)',tuitionFee:'మొత్తం కోర్సు ఫీజు',previous:'గతంలో చెల్లించినది',paidToday:'ఈ రోజు చెల్లించినది',balanceDue:'బకాయి ఫీజు (తదుపరి తేదీ',note:'గమనిక',thanks:'ఫీజు చెల్లించినందుకు ధన్యవాదాలు. హాజరు తప్పనిసరి.',studentSign:'విద్యార్థి / తల్లిదండ్రి సంతకం',accountSign:'అకౌంటెంట్ / ప్రిన్సిపల్ సంతకం',generating:'⏳ PDF తయారవుతోంది...',pdfReady:'📥 A4 PDF డౌన్‌లోడ్',whatsappFee:'ఫీజు వివరాలు',whatsappCert:'కోర్సు సర్టిఫికేట్'},
+mr:{allTools:'← सर्व टूल्स',appTitle:'KaamKaj Bills • शाळा, कोचिंग व प्रशिक्षण',upiOption:'UPI / PhonePe / GPay',cashOption:'रोख',bankOption:'बँक ट्रान्सफर / चेक',language:'🌐 भाषा निवडा',themeHelp:'येथून Light / Dark मोड बदला',dark:'🌙 डार्क मोड',light:'☀️ लाईट मोड',docType:'1. दस्तऐवजाचा प्रकार निवडा:',feeReceipt:'फी पावती',admission:'प्रवेश पावती',certificate:'कोर्स प्रमाणपत्र',instituteDetails:'1. संस्था / अकॅडमी / शाळेचा तपशील',instituteName:'संस्थेचे नाव',addressReg:'पत्ता, नोंदणी क्रमांक व संपर्क',studentDetails:'2. विद्यार्थी व कोर्सचा तपशील',docNumber:'पावती / रोल / प्रमाणपत्र क्रमांक',issueDate:'जारी तारीख',batch:'बॅच / शैक्षणिक सत्र',studentName:'विद्यार्थ्याचे पूर्ण नाव',guardian:'वडील / पालकांचे नाव',course:'कोर्स / वर्ग / ट्रेडचे नाव',studentMobile:'विद्यार्थ्याचा मोबाइल / WhatsApp',feeStructure:'3. फी रचना व हप्त्याची स्थिती (₹)',totalFee:'एकूण कोर्स / वार्षिक फी',paidNow:'आज भरलेली रक्कम',previousPaid:'मागील भरलेली रक्कम',paymentMode:'पेमेंट पद्धत',nextDue:'पुढील हप्त्याची तारीख',completionDetails:'3. कोर्स पूर्णता व ग्रेड तपशील',duration:'कोर्सचा कालावधी',grade:'ग्रेड / टक्केवारी',director:'संचालक / प्राचार्य यांचे नाव',remarks:'शेरा / संस्थेची सूचना',downloadPdf:'A4 PDF डाउनलोड',directPrint:'थेट प्रिंट',whatsappShare:'WhatsApp शेअर',livePreview:'दस्तऐवज पूर्वदृश्य',phInstitute:'उदा. Apex Skill Academy',phAddress:'उदा. मुख्य रस्ता | मोबाइल: 9000000000',phBatch:'उदा. 2026-27 सकाळची बॅच',phStudent:'उदा. आरव शर्मा',phGuardian:'उदा. राजेश शर्मा',phCourse:'उदा. कॉम्प्युटर डिप्लोमा',phMobile:'उदा. 9000012345',phNextDue:'उदा. 15 Dec 2026',phDuration:'उदा. 3 महिने (120 तास)',phGrade:'उदा. Grade A+ (92%)',phDirector:'उदा. डॉ. एस. के. वर्मा',phRemarks:'भरलेली फी परत मिळणार नाही. नियमित उपस्थिती आवश्यक.',certificateTitle:'कोर्स पूर्णत्व प्रमाणपत्र',certProud:'याद्वारे प्रमाणित करण्यात येते की',certSon:'यांचे पुत्र / कन्या',completed:'यांनी प्रशिक्षण व प्रात्यक्षिक मूल्यांकन यशस्वीरित्या पूर्ण केले आहे',durationLbl:'कालावधी',session:'सत्र',secured:'आणि मिळवले',issue:'जारी तारीख',seal:'अधिकृत शिक्का',authorized:'अधिकृत स्वाक्षरीकर्ता',receipt:'अधिकृत फी पावती',admissionSlip:'प्रवेश निश्चिती पावती',receiptNo:'पावती क्रमांक',admissionNo:'प्रवेश क्रमांक',date:'तारीख',student:'विद्यार्थ्याचे नाव',guardianLbl:'पालक',courseClass:'कोर्स / वर्ग',mobile:'मोबाइल क्रमांक',mode:'पेमेंट पद्धत',feeParticulars:'फीचा तपशील',amount:'रक्कम (₹)',tuitionFee:'एकूण कोर्स फी',previous:'मागील भरलेली रक्कम',paidToday:'आज भरलेली रक्कम',balanceDue:'बाकी फी (पुढील तारीख',note:'टीप',thanks:'फी भरल्याबद्दल धन्यवाद. नियमित उपस्थिती आवश्यक आहे.',studentSign:'विद्यार्थी / पालक स्वाक्षरी',accountSign:'लेखापाल / प्राचार्य स्वाक्षरी',generating:'⏳ PDF तयार होत आहे...',pdfReady:'📥 A4 PDF डाउनलोड',whatsappFee:'फी तपशील',whatsappCert:'कोर्स प्रमाणपत्र'},
+ta:{allTools:'← அனைத்து கருவிகள்',appTitle:'KaamKaj Bills • பள்ளி, பயிற்சி & கல்வி',upiOption:'UPI / PhonePe / GPay',cashOption:'ரொக்கம்',bankOption:'வங்கி பரிமாற்றம் / காசோலை',language:'🌐 மொழியைத் தேர்ந்தெடுக்கவும்',themeHelp:'இங்கே Light / Dark முறையை மாற்றலாம்',dark:'🌙 டார்க் மோடு',light:'☀️ லைட் மோடு',docType:'1. ஆவண வகையைத் தேர்ந்தெடுக்கவும்:',feeReceipt:'கட்டண ரசீது',admission:'சேர்க்கை சீட்டு',certificate:'பாடநெறி சான்றிதழ்',instituteDetails:'1. நிறுவனம் / அகாடமி விவரங்கள்',instituteName:'நிறுவனத்தின் பெயர்',addressReg:'முகவரி, பதிவு எண் மற்றும் தொடர்பு',studentDetails:'2. மாணவர் மற்றும் பாடநெறி விவரங்கள்',docNumber:'ரசீது / ரோல் / சான்றிதழ் எண்',issueDate:'வழங்கிய தேதி',batch:'பேட்ச் / கல்வியாண்டு',studentName:'மாணவர் முழுப் பெயர்',guardian:'தந்தை / பாதுகாவலர் பெயர்',course:'பாடநெறி / வகுப்பு பெயர்',studentMobile:'மாணவர் மொபைல் / WhatsApp',feeStructure:'3. கட்டண விவரம் மற்றும் தவணை நிலை (₹)',totalFee:'மொத்த பாடநெறி / ஆண்டு கட்டணம்',paidNow:'இன்று செலுத்திய தொகை',previousPaid:'முன்பு செலுத்திய தொகை',paymentMode:'கட்டண முறை',nextDue:'அடுத்த தவணை தேதி',completionDetails:'3. பாடநெறி நிறைவு மற்றும் தர விவரம்',duration:'பாடநெறி காலம்',grade:'தரம் / சதவீதம்',director:'இயக்குநர் / முதல்வர் பெயர்',remarks:'குறிப்புகள் / நிறுவன அறிவிப்பு',downloadPdf:'A4 PDF பதிவிறக்கம்',directPrint:'நேரடி அச்சு',whatsappShare:'WhatsApp பகிர்வு',livePreview:'நேரடி ஆவண முன்னோட்டம்',phInstitute:'எ.கா. Apex Skill Academy',phAddress:'எ.கா. Main Road | மொபைல்: 9000000000',phBatch:'எ.கா. 2026-27 Morning Batch',phStudent:'எ.கா. Aarav Sharma',phGuardian:'எ.கா. Rajesh Sharma',phCourse:'எ.கா. Computer Diploma',phMobile:'எ.கா. 9000012345',phNextDue:'எ.கா. 15 Dec 2026',phDuration:'எ.கா. 3 மாதங்கள் (120 மணி)',phGrade:'எ.கா. Grade A+ (92%)',phDirector:'எ.கா. Dr. S. K. Verma',phRemarks:'செலுத்திய கட்டணம் திருப்பித் தரப்படாது. வருகை கட்டாயம்.',certificateTitle:'பாடநெறி நிறைவு சான்றிதழ்',certProud:'இதன் மூலம் சான்றளிக்கப்படுவது என்னவெனில்',certSon:'இவரின் மகன் / மகள்',completed:'பயிற்சி மற்றும் செய்முறை மதிப்பீட்டை வெற்றிகரமாக முடித்துள்ளார்',durationLbl:'காலம்',session:'அமர்வு',secured:'பெற்றுள்ளார்',issue:'வழங்கிய தேதி',seal:'அதிகாரப்பூர்வ முத்திரை',authorized:'அங்கீகரிக்கப்பட்ட கையொப்பம்',receipt:'கட்டண ரசீது',admissionSlip:'சேர்க்கை உறுதிப்படுத்தல் சீட்டு',receiptNo:'ரசீது எண்',admissionNo:'சேர்க்கை எண்',date:'தேதி',student:'மாணவர் பெயர்',guardianLbl:'பாதுகாவலர்',courseClass:'பாடநெறி / வகுப்பு',mobile:'மொபைல் எண்',mode:'கட்டண முறை',feeParticulars:'கட்டண விவரங்கள்',amount:'தொகை (₹)',tuitionFee:'மொத்த பாடநெறி கட்டணம்',previous:'முன்பு செலுத்தியது',paidToday:'இன்று செலுத்தியது',balanceDue:'நிலுவை கட்டணம் (அடுத்த தேதி',note:'குறிப்பு',thanks:'கட்டணம் செலுத்தியதற்கு நன்றி. வருகை கட்டாயம்.',studentSign:'மாணவர் / பெற்றோர் கையொப்பம்',accountSign:'கணக்காளர் / முதல்வர் கையொப்பம்',generating:'⏳ PDF உருவாகிறது...',pdfReady:'📥 A4 PDF பதிவிறக்கம்',whatsappFee:'கட்டண விவரம்',whatsappCert:'பாடநெறி சான்றிதழ்'},
+gu:{allTools:'← બધા ટૂલ્સ',appTitle:'KaamKaj Bills • શાળા, કોચિંગ અને તાલીમ',upiOption:'UPI / PhonePe / GPay',cashOption:'રોકડ',bankOption:'બેંક ટ્રાન્સફર / ચેક',language:'🌐 ભાષા પસંદ કરો',themeHelp:'અહીંથી Light / Dark મોડ બદલો',dark:'🌙 ડાર્ક મોડ',light:'☀️ લાઇટ મોડ',docType:'1. દસ્તાવેજનો પ્રકાર પસંદ કરો:',feeReceipt:'ફી રસીદ',admission:'પ્રવેશ સ્લિપ',certificate:'કોર્સ પ્રમાણપત્ર',instituteDetails:'1. સંસ્થા / અકાદમીની વિગતો',instituteName:'સંસ્થાનું નામ',addressReg:'સરનામું, નોંધણી નંબર અને સંપર્ક',studentDetails:'2. વિદ્યાર્થી અને કોર્સની વિગતો',docNumber:'રસીદ / રોલ / પ્રમાણપત્ર નંબર',issueDate:'જારી તારીખ',batch:'બેચ / શૈક્ષણિક સત્ર',studentName:'વિદ્યાર્થીનું પૂરું નામ',guardian:'પિતા / વાલીનું નામ',course:'કોર્સ / વર્ગનું નામ',studentMobile:'વિદ્યાર્થી મોબાઇલ / WhatsApp',feeStructure:'3. ફી અને હપ્તાની સ્થિતિ (₹)',totalFee:'કુલ કોર્સ / વાર્ષિક ફી',paidNow:'આજે ચૂકવેલ રકમ',previousPaid:'અગાઉ ચૂકવેલ રકમ',paymentMode:'ચુકવણી પદ્ધતિ',nextDue:'આગલા હપ્તાની તારીખ',completionDetails:'3. કોર્સ પૂર્ણતા અને ગ્રેડ વિગતો',duration:'કોર્સનો સમયગાળો',grade:'ગ્રેડ / ટકાવારી',director:'ડિરેક્ટર / પ્રિન્સિપાલનું નામ',remarks:'નોંધ / સંસ્થાની સૂચના',downloadPdf:'A4 PDF ડાઉનલોડ',directPrint:'સીધું પ્રિન્ટ',whatsappShare:'WhatsApp શેર',livePreview:'લાઇવ દસ્તાવેજ પૂર્વદર્શન',phInstitute:'દા.ત. Apex Skill Academy',phAddress:'દા.ત. Main Road | મોબાઇલ: 9000000000',phBatch:'દા.ત. 2026-27 Morning Batch',phStudent:'દા.ત. Aarav Sharma',phGuardian:'દા.ત. Rajesh Sharma',phCourse:'દા.ત. Computer Diploma',phMobile:'દા.ત. 9000012345',phNextDue:'દા.ત. 15 Dec 2026',phDuration:'દા.ત. 3 મહિના (120 કલાક)',phGrade:'દા.ત. Grade A+ (92%)',phDirector:'દા.ત. Dr. S. K. Verma',phRemarks:'ભરેલી ફી પરત મળશે નહીં. નિયમિત હાજરી ફરજિયાત છે.',certificateTitle:'કોર્સ પૂર્ણતા પ્રમાણપત્ર',certProud:'આથી પ્રમાણિત કરવામાં આવે છે કે',certSon:'ના પુત્ર / પુત્રી',completed:'તાલીમ અને પ્રાયોગિક મૂલ્યાંકન સફળતાપૂર્વક પૂર્ણ કર્યું છે',durationLbl:'સમયગાળો',session:'સત્ર',secured:'અને મેળવ્યું',issue:'જારી તારીખ',seal:'સત્તાવાર સીલ',authorized:'અધિકૃત સહી કરનાર',receipt:'સત્તાવાર ફી રસીદ',admissionSlip:'પ્રવેશ પુષ્ટિ સ્લિપ',receiptNo:'રસીદ નંબર',admissionNo:'પ્રવેશ નંબર',date:'તારીખ',student:'વિદ્યાર્થીનું નામ',guardianLbl:'વાલી',courseClass:'કોર્સ / વર્ગ',mobile:'મોબાઇલ નંબર',mode:'ચુકવણી પદ્ધતિ',feeParticulars:'ફીની વિગતો',amount:'રકમ (₹)',tuitionFee:'કુલ કોર્સ ફી',previous:'અગાઉ ચૂકવેલ',paidToday:'આજે ચૂકવેલ',balanceDue:'બાકી ફી (આગલી તારીખ',note:'નોંધ',thanks:'ફી ભરવા બદલ આભાર. નિયમિત હાજરી જરૂરી છે.',studentSign:'વિદ્યાર્થી / વાલી સહી',accountSign:'એકાઉન્ટન્ટ / પ્રિન્સિપાલ સહી',generating:'⏳ PDF બની રહી છે...',pdfReady:'📥 A4 PDF ડાઉનલોડ',whatsappFee:'ફી વિગતો',whatsappCert:'કોર્સ પ્રમાણપત્ર'},
+kn:{allTools:'← ಎಲ್ಲಾ ಟೂಲ್ಸ್',appTitle:'KaamKaj Bills • ಶಾಲೆ, ಕೋಚಿಂಗ್ ಮತ್ತು ತರಬೇತಿ',upiOption:'UPI / PhonePe / GPay',cashOption:'ನಗದು',bankOption:'ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ / ಚೆಕ್',language:'🌐 ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',themeHelp:'ಇಲ್ಲಿಂದ Light / Dark ಮೋಡ್ ಬದಲಾಯಿಸಿ',dark:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',light:'☀️ ಲೈಟ್ ಮೋಡ್',docType:'1. ದಾಖಲೆ ಪ್ರಕಾರ ಆಯ್ಕೆಮಾಡಿ:',feeReceipt:'ಫೀಸ್ ರಸೀದಿ',admission:'ಪ್ರವೇಶ ಸ್ಲಿಪ್',certificate:'ಕೋರ್ಸ್ ಪ್ರಮಾಣಪತ್ರ',instituteDetails:'1. ಸಂಸ್ಥೆ / ಅಕಾಡೆಮಿ ವಿವರಗಳು',instituteName:'ಸಂಸ್ಥೆಯ ಹೆಸರು',addressReg:'ವಿಳಾಸ, ನೋಂದಣಿ ಸಂಖ್ಯೆ ಮತ್ತು ಸಂಪರ್ಕ',studentDetails:'2. ವಿದ್ಯಾರ್ಥಿ ಮತ್ತು ಕೋರ್ಸ್ ವಿವರಗಳು',docNumber:'ರಸೀದಿ / ರೋಲ್ / ಪ್ರಮಾಣಪತ್ರ ಸಂಖ್ಯೆ',issueDate:'ನೀಡಿದ ದಿನಾಂಕ',batch:'ಬ್ಯಾಚ್ / ಶೈಕ್ಷಣಿಕ ವರ್ಷ',studentName:'ವಿದ್ಯಾರ್ಥಿಯ ಪೂರ್ಣ ಹೆಸರು',guardian:'ತಂದೆ / ಪೋಷಕರ ಹೆಸರು',course:'ಕೋರ್ಸ್ / ತರಗತಿ ಹೆಸರು',studentMobile:'ವಿದ್ಯಾರ್ಥಿ ಮೊಬೈಲ್ / WhatsApp',feeStructure:'3. ಶುಲ್ಕ ಮತ್ತು ಕಂತು ವಿವರಗಳು (₹)',totalFee:'ಒಟ್ಟು ಕೋರ್ಸ್ / ವಾರ್ಷಿಕ ಶುಲ್ಕ',paidNow:'ಇಂದು ಪಾವತಿಸಿದ ಮೊತ್ತ',previousPaid:'ಹಿಂದೆ ಪಾವತಿಸಿದ ಮೊತ್ತ',paymentMode:'ಪಾವತಿ ವಿಧಾನ',nextDue:'ಮುಂದಿನ ಕಂತಿನ ದಿನಾಂಕ',completionDetails:'3. ಕೋರ್ಸ್ ಪೂರ್ಣತೆ ಮತ್ತು ಗ್ರೇಡ್ ವಿವರಗಳು',duration:'ಕೋರ್ಸ್ ಅವಧಿ',grade:'ಗ್ರೇಡ್ / ಶೇಕಡಾವಾರು',director:'ನಿರ್ದೇಶಕ / ಪ್ರಾಂಶುಪಾಲರ ಹೆಸರು',remarks:'ಟಿಪ್ಪಣಿ / ಸಂಸ್ಥೆಯ ಸೂಚನೆ',downloadPdf:'A4 PDF ಡೌನ್‌ಲೋಡ್',directPrint:'ನೇರ ಪ್ರಿಂಟ್',whatsappShare:'WhatsApp ಹಂಚಿಕೆ',livePreview:'ಲೈವ್ ದಾಖಲೆ ಪೂರ್ವವೀಕ್ಷಣೆ',phInstitute:'ಉದಾ. Apex Skill Academy',phAddress:'ಉದಾ. Main Road | ಮೊಬೈಲ್: 9000000000',phBatch:'ಉದಾ. 2026-27 Morning Batch',phStudent:'ಉದಾ. Aarav Sharma',phGuardian:'ಉದಾ. Rajesh Sharma',phCourse:'ಉದಾ. Computer Diploma',phMobile:'ಉದಾ. 9000012345',phNextDue:'ಉದಾ. 15 Dec 2026',phDuration:'ಉದಾ. 3 ತಿಂಗಳು (120 ಗಂಟೆ)',phGrade:'ಉದಾ. Grade A+ (92%)',phDirector:'ಉದಾ. Dr. S. K. Verma',phRemarks:'ಪಾವತಿಸಿದ ಶುಲ್ಕ ಮರುಪಾವತಿಯಾಗುವುದಿಲ್ಲ. ಹಾಜರಾತಿ ಕಡ್ಡಾಯ.',certificateTitle:'ಕೋರ್ಸ್ ಪೂರ್ಣಗೊಳಿಸಿದ ಪ್ರಮಾಣಪತ್ರ',certProud:'ಇದರಿಂದ ಪ್ರಮಾಣೀಕರಿಸುವುದೇನೆಂದರೆ',certSon:'ರವರ ಮಗ / ಮಗಳು',completed:'ತರಬೇತಿ ಮತ್ತು ಪ್ರಾಯೋಗಿಕ ಮೌಲ್ಯಮಾಪನವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಳಿಸಿದ್ದಾರೆ',durationLbl:'ಅವಧಿ',session:'ಅಧಿವೇಶನ',secured:'ಮತ್ತು ಪಡೆದಿದ್ದಾರೆ',issue:'ನೀಡಿದ ದಿನಾಂಕ',seal:'ಅಧಿಕೃತ ಮುದ್ರೆ',authorized:'ಅಧಿಕೃತ ಸಹಿದಾರರು',receipt:'ಅಧಿಕೃತ ಶುಲ್ಕ ರಸೀದಿ',admissionSlip:'ಪ್ರವೇಶ ದೃಢೀಕರಣ ಸ್ಲಿಪ್',receiptNo:'ರಸೀದಿ ಸಂಖ್ಯೆ',admissionNo:'ಪ್ರವೇಶ ಸಂಖ್ಯೆ',date:'ದಿನಾಂಕ',student:'ವಿದ್ಯಾರ್ಥಿಯ ಹೆಸರು',guardianLbl:'ಪೋಷಕರು',courseClass:'ಕೋರ್ಸ್ / ತರಗತಿ',mobile:'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ',mode:'ಪಾವತಿ ವಿಧಾನ',feeParticulars:'ಶುಲ್ಕ ವಿವರಗಳು',amount:'ಮೊತ್ತ (₹)',tuitionFee:'ಒಟ್ಟು ಕೋರ್ಸ್ ಶುಲ್ಕ',previous:'ಹಿಂದೆ ಪಾವತಿಸಿದದ್ದು',paidToday:'ಇಂದು ಪಾವತಿಸಿದದ್ದು',balanceDue:'ಬಾಕಿ ಶುಲ್ಕ (ಮುಂದಿನ ದಿನಾಂಕ',note:'ಸೂಚನೆ',thanks:'ಶುಲ್ಕ ಪಾವತಿಸಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು. ಹಾಜರಾತಿ ಕಡ್ಡಾಯ.',studentSign:'ವಿದ್ಯಾರ್ಥಿ / ಪೋಷಕರ ಸಹಿ',accountSign:'ಲೆಕ್ಕಾಧಿಕಾರಿ / ಪ್ರಾಂಶುಪಾಲರ ಸಹಿ',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',pdfReady:'📥 A4 PDF ಡೌನ್‌ಲೋಡ್',whatsappFee:'ಶುಲ್ಕ ವಿವರ',whatsappCert:'ಕೋರ್ಸ್ ಪ್ರಮಾಣಪತ್ರ'},
+ml:{allTools:'← എല്ലാ ടൂളുകളും',appTitle:'KaamKaj Bills • സ്കൂൾ, കോച്ചിംഗ് & പരിശീലനം',upiOption:'UPI / PhonePe / GPay',cashOption:'പണം',bankOption:'ബാങ്ക് ട്രാൻസ്ഫർ / ചെക്ക്',language:'🌐 ഭാഷ തിരഞ്ഞെടുക്കുക',themeHelp:'ഇവിടെ നിന്ന് Light / Dark മോഡ് മാറ്റാം',dark:'🌙 ഡാർക്ക് മോഡ്',light:'☀️ ലൈറ്റ് മോഡ്',docType:'1. രേഖയുടെ തരം തിരഞ്ഞെടുക്കുക:',feeReceipt:'ഫീസ് രസീത്',admission:'അഡ്മിഷൻ സ്ലിപ്പ്',certificate:'കോഴ്‌സ് സർട്ടിഫിക്കറ്റ്',instituteDetails:'1. സ്ഥാപനത്തിന്റെ വിവരങ്ങൾ',instituteName:'സ്ഥാപനത്തിന്റെ പേര്',addressReg:'വിലാസം, രജിസ്ട്രേഷൻ നമ്പർ, ബന്ധപ്പെടുക',studentDetails:'2. വിദ്യാർത്ഥി / കോഴ്‌സ് വിവരങ്ങൾ',docNumber:'രസീത് / റോൾ / സർട്ടിഫിക്കറ്റ് നമ്പർ',issueDate:'നൽകിയ തീയതി',batch:'ബാച്ച് / അധ്യയന വർഷം',studentName:'വിദ്യാർത്ഥിയുടെ പൂർണ്ണ പേര്',guardian:'പിതാവ് / രക്ഷിതാവിന്റെ പേര്',course:'കോഴ്‌സ് / ക്ലാസ് പേര്',studentMobile:'വിദ്യാർത്ഥിയുടെ മൊബൈൽ / WhatsApp',feeStructure:'3. ഫീസ് വിവരങ്ങളും തവണയും (₹)',totalFee:'മൊത്തം കോഴ്‌സ് / വാർഷിക ഫീസ്',paidNow:'ഇന്ന് അടച്ച തുക',previousPaid:'മുമ്പ് അടച്ച തുക',paymentMode:'പണമടയ്ക്കൽ രീതി',nextDue:'അടുത്ത തവണ തീയതി',completionDetails:'3. കോഴ്‌സ് പൂർത്തീകരണവും ഗ്രേഡും',duration:'കോഴ്‌സ് ദൈർഘ്യം',grade:'ഗ്രേഡ് / ശതമാനം',director:'ഡയറക്ടർ / പ്രിൻസിപ്പലിന്റെ പേര്',remarks:'കുറിപ്പുകൾ / സ്ഥാപന അറിയിപ്പ്',downloadPdf:'A4 PDF ഡൗൺലോഡ്',directPrint:'നേരിട്ട് പ്രിന്റ്',whatsappShare:'WhatsApp പങ്കിടുക',livePreview:'രേഖയുടെ തത്സമയ പ്രിവ്യൂ',phInstitute:'ഉദാ. Apex Skill Academy',phAddress:'ഉദാ. Main Road | മൊബൈൽ: 9000000000',phBatch:'ഉദാ. 2026-27 Morning Batch',phStudent:'ഉദാ. Aarav Sharma',phGuardian:'ഉദാ. Rajesh Sharma',phCourse:'ഉദാ. Computer Diploma',phMobile:'ഉദാ. 9000012345',phNextDue:'ഉദാ. 15 Dec 2026',phDuration:'ഉദാ. 3 മാസം (120 മണിക്കൂർ)',phGrade:'ഉദാ. Grade A+ (92%)',phDirector:'ഉദാ. Dr. S. K. Verma',phRemarks:'അടച്ച ഫീസ് തിരികെ ലഭിക്കില്ല. സ്ഥിരമായ ഹാജർ നിർബന്ധമാണ്.',certificateTitle:'കോഴ്‌സ് പൂർത്തീകരണ സർട്ടിഫിക്കറ്റ്',certProud:'ഇതുവഴി സാക്ഷ്യപ്പെടുത്തുന്നത്',certSon:'യുടെ മകൻ / മകൾ',completed:'പരിശീലനവും പ്രായോഗിക മൂല്യനിർണയവും വിജയകരമായി പൂർത്തിയാക്കി',durationLbl:'ദൈർഘ്യം',session:'സെഷൻ',secured:'നേടിയിരിക്കുന്നു',issue:'നൽകിയ തീയതി',seal:'ഔദ്യോഗിക മുദ്ര',authorized:'അധികൃത ഒപ്പ്',receipt:'ഔദ്യോഗിക ഫീസ് രസീത്',admissionSlip:'പ്രവേശന സ്ഥിരീകരണ സ്ലിപ്പ്',receiptNo:'രസീത് നമ്പർ',admissionNo:'പ്രവേശന നമ്പർ',date:'തീയതി',student:'വിദ്യാർത്ഥിയുടെ പേര്',guardianLbl:'രക്ഷിതാവ്',courseClass:'കോഴ്‌സ് / ക്ലാസ്',mobile:'മൊബൈൽ നമ്പർ',mode:'പണമടയ്ക്കൽ രീതി',feeParticulars:'ഫീസ് വിവരങ്ങൾ',amount:'തുക (₹)',tuitionFee:'മൊത്തം കോഴ്‌സ് ഫീസ്',previous:'മുമ്പ് അടച്ചത്',paidToday:'ഇന്ന് അടച്ചത്',balanceDue:'ബാക്കി ഫീസ് (അടുത്ത തീയതി',note:'കുറിപ്പ്',thanks:'ഫീസ് അടച്ചതിന് നന്ദി. സ്ഥിരമായ ഹാജർ നിർബന്ധമാണ്.',studentSign:'വിദ്യാർത്ഥി / രക്ഷിതാവിന്റെ ഒപ്പ്',accountSign:'അക്കൗണ്ടന്റ് / പ്രിൻസിപ്പൽ ഒപ്പ്',generating:'⏳ PDF തയ്യാറാക്കുന്നു...',pdfReady:'📥 A4 PDF ഡൗൺലോഡ്',whatsappFee:'ഫീസ് വിവരങ്ങൾ',whatsappCert:'കോഴ്‌സ് സർട്ടിഫിക്കറ്റ്'},
+or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',appTitle:'KaamKaj Bills • ସ୍କୁଲ୍, କୋଚିଂ ଓ ପ୍ରଶିକ୍ଷଣ',upiOption:'UPI / PhonePe / GPay',cashOption:'ନଗଦ',bankOption:'ବ୍ୟାଙ୍କ ଟ୍ରାନ୍ସଫର୍ / ଚେକ୍',language:'🌐 ଭାଷା ବାଛନ୍ତୁ',themeHelp:'ଏଠାରୁ Light / Dark ମୋଡ୍ ବଦଳାନ୍ତୁ',dark:'🌙 ଡାର୍କ ମୋଡ୍',light:'☀️ ଲାଇଟ୍ ମୋଡ୍',docType:'1. ଡକ୍ୟୁମେଣ୍ଟ ପ୍ରକାର ବାଛନ୍ତୁ:',feeReceipt:'ଫି ରସିଦ',admission:'ଆଡମିଶନ ସ୍ଲିପ୍',certificate:'କୋର୍ସ ସାର୍ଟିଫିକେଟ୍',instituteDetails:'1. ଅନୁଷ୍ଠାନ / ଏକାଡେମୀ ବିବରଣୀ',instituteName:'ଅନୁଷ୍ଠାନର ନାମ',addressReg:'ଠିକଣା, ପଞ୍ଜୀକରଣ ନମ୍ବର ଓ ଯୋଗାଯୋଗ',studentDetails:'2. ଛାତ୍ର ଓ କୋର୍ସ ବିବରଣୀ',docNumber:'ରସିଦ / ରୋଲ୍ / ସାର୍ଟିଫିକେଟ୍ ନମ୍ବର',issueDate:'ଜାରି ତାରିଖ',batch:'ବ୍ୟାଚ୍ / ଶିକ୍ଷାବର୍ଷ',studentName:'ଛାତ୍ରଙ୍କ ପୂର୍ଣ୍ଣ ନାମ',guardian:'ପିତା / ଅଭିଭାବକଙ୍କ ନାମ',course:'କୋର୍ସ / ଶ୍ରେଣୀ ନାମ',studentMobile:'ଛାତ୍ରଙ୍କ ମୋବାଇଲ୍ / WhatsApp',feeStructure:'3. ଫି ଓ କିସ୍ତି ବିବରଣୀ (₹)',totalFee:'ମୋଟ କୋର୍ସ / ବାର୍ଷିକ ଫି',paidNow:'ଆଜି ଦିଆଯାଇଥିବା ରାଶି',previousPaid:'ପୂର୍ବରୁ ଦିଆଯାଇଥିବା ରାଶି',paymentMode:'ପେମେଣ୍ଟ ପ୍ରକାର',nextDue:'ପରବର୍ତ୍ତୀ କିସ୍ତି ତାରିଖ',completionDetails:'3. କୋର୍ସ ସମାପ୍ତି ଓ ଗ୍ରେଡ୍ ବିବରଣୀ',duration:'କୋର୍ସ ଅବଧି',grade:'ଗ୍ରେଡ୍ / ପ୍ରତିଶତ',director:'ଡାଇରେକ୍ଟର / ପ୍ରିନ୍ସିପାଲ୍ ନାମ',remarks:'ଟିପ୍ପଣୀ / ଅନୁଷ୍ଠାନ ନୋଟ୍',downloadPdf:'A4 PDF ଡାଉନଲୋଡ୍',directPrint:'ସିଧା ପ୍ରିଣ୍ଟ',whatsappShare:'WhatsApp ସେୟାର୍',livePreview:'ଲାଇଭ୍ ଡକ୍ୟୁମେଣ୍ଟ ପ୍ରିଭ୍ୟୁ',phInstitute:'ଉଦା. Apex Skill Academy',phAddress:'ଉଦା. Main Road | ମୋବାଇଲ୍: 9000000000',phBatch:'ଉଦା. 2026-27 Morning Batch',phStudent:'ଉଦା. Aarav Sharma',phGuardian:'ଉଦା. Rajesh Sharma',phCourse:'ଉଦା. Computer Diploma',phMobile:'ଉଦା. 9000012345',phNextDue:'ଉଦା. 15 Dec 2026',phDuration:'ଉଦା. 3 ମାସ (120 ଘଣ୍ଟା)',phGrade:'ଉଦା. Grade A+ (92%)',phDirector:'ଉଦା. Dr. S. K. Verma',phRemarks:'ଜମା ଫି ଫେରସ୍ତ ହେବ ନାହିଁ। ନିୟମିତ ଉପସ୍ଥାନ ଆବଶ୍ୟକ।',certificateTitle:'କୋର୍ସ ସମାପ୍ତି ପ୍ରମାଣପତ୍ର',certProud:'ଏହାଦ୍ୱାରା ପ୍ରମାଣିତ କରାଯାଉଛି ଯେ',certSon:'ଙ୍କ ପୁଅ / ଝିଅ',completed:'ପ୍ରଶିକ୍ଷଣ ଓ ପ୍ରାୟୋଗିକ ମୂଲ୍ୟାଙ୍କନ ସଫଳତାର ସହ ସମାପ୍ତ କରିଛନ୍ତି',durationLbl:'ଅବଧି',session:'ସେସନ୍',secured:'ହାସଲ କରିଛନ୍ତି',issue:'ଜାରି ତାରିଖ',seal:'ଅଫିସିଆଲ୍ ମୋହର',authorized:'ଅଧିକୃତ ସ୍ୱାକ୍ଷରକାରୀ',receipt:'ଅଫିସିଆଲ୍ ଫି ରସିଦ',admissionSlip:'ଆଡମିଶନ ନିଶ୍ଚିତକରଣ ସ୍ଲିପ୍',receiptNo:'ରସିଦ ନମ୍ବର',admissionNo:'ଆଡମିଶନ ନମ୍ବର',date:'ତାରିଖ',student:'ଛାତ୍ରଙ୍କ ନାମ',guardianLbl:'ଅଭିଭାବକ',courseClass:'କୋର୍ସ / ଶ୍ରେଣୀ',mobile:'ମୋବାଇଲ୍ ନମ୍ବର',mode:'ପେମେଣ୍ଟ ପ୍ରକାର',feeParticulars:'ଫି ବିବରଣୀ',amount:'ରାଶି (₹)',tuitionFee:'ମୋଟ କୋର୍ସ ଫି',previous:'ପୂର୍ବରୁ ଦିଆଯାଇଛି',paidToday:'ଆଜି ଦିଆଯାଇଛି',balanceDue:'ବାକି ଫି (ପରବର୍ତ୍ତୀ ତାରିଖ',note:'ଟିପ୍ପଣୀ',thanks:'ଫି ଜମା କରିଥିବାରୁ ଧନ୍ୟବାଦ। ଉପସ୍ଥାନ ଆବଶ୍ୟକ।',studentSign:'ଛାତ୍ର / ଅଭିଭାବକଙ୍କ ସ୍ୱାକ୍ଷର',accountSign:'ଆକାଉଣ୍ଟାଣ୍ଟ / ପ୍ରିନ୍ସିପାଲ୍ ସ୍ୱାକ୍ଷର',generating:'⏳ PDF ତିଆରି ହେଉଛି...',pdfReady:'📥 A4 PDF ଡାଉନଲୋଡ୍',whatsappFee:'ଫି ବିବରଣୀ',whatsappCert:'କୋର୍ସ ସାର୍ଟିଫିକେଟ୍'},
+pa:{allTools:'← ਸਾਰੇ ਟੂਲ',appTitle:'KaamKaj Bills • ਸਕੂਲ, ਕੋਚਿੰਗ ਅਤੇ ਸਿਖਲਾਈ',upiOption:'UPI / PhonePe / GPay',cashOption:'ਨਕਦ',bankOption:'ਬੈਂਕ ਟ੍ਰਾਂਸਫਰ / ਚੈੱਕ',language:'🌐 ਭਾਸ਼ਾ ਚੁਣੋ',themeHelp:'ਇੱਥੋਂ Light / Dark ਮੋਡ ਬਦਲੋ',dark:'🌙 ਡਾਰਕ ਮੋਡ',light:'☀️ ਲਾਈਟ ਮੋਡ',docType:'1. ਦਸਤਾਵੇਜ਼ ਦੀ ਕਿਸਮ ਚੁਣੋ:',feeReceipt:'ਫੀਸ ਰਸੀਦ',admission:'ਦਾਖਲਾ ਸਲਿੱਪ',certificate:'ਕੋਰਸ ਸਰਟੀਫਿਕੇਟ',instituteDetails:'1. ਸੰਸਥਾ / ਅਕੈਡਮੀ / ਸਕੂਲ ਵੇਰਵਾ',instituteName:'ਸੰਸਥਾ ਦਾ ਨਾਮ',addressReg:'ਪਤਾ, ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ ਅਤੇ ਸੰਪਰਕ',studentDetails:'2. ਵਿਦਿਆਰਥੀ ਅਤੇ ਕੋਰਸ ਵੇਰਵਾ',docNumber:'ਰਸੀਦ / ਰੋਲ / ਸਰਟੀਫਿਕੇਟ ਨੰਬਰ',issueDate:'ਜਾਰੀ ਕਰਨ ਦੀ ਮਿਤੀ',batch:'ਬੈਚ / ਅਕਾਦਮਿਕ ਸੈਸ਼ਨ',studentName:'ਵਿਦਿਆਰਥੀ ਦਾ ਪੂਰਾ ਨਾਮ',guardian:'ਪਿਤਾ / ਸਰਪ੍ਰਸਤ ਦਾ ਨਾਮ',course:'ਕੋਰਸ / ਕਲਾਸ ਦਾ ਨਾਮ',studentMobile:'ਵਿਦਿਆਰਥੀ ਮੋਬਾਈਲ / WhatsApp',feeStructure:'3. ਫੀਸ ਅਤੇ ਕਿਸ਼ਤਾਂ ਦਾ ਵੇਰਵਾ (₹)',totalFee:'ਕੁੱਲ ਕੋਰਸ / ਸਾਲਾਨਾ ਫੀਸ',paidNow:'ਅੱਜ ਭੁਗਤਾਨ ਕੀਤੀ ਰਕਮ',previousPaid:'ਪਹਿਲਾਂ ਭੁਗਤਾਨ ਕੀਤੀ ਰਕਮ',paymentMode:'ਭੁਗਤਾਨ ਢੰਗ',nextDue:'ਅਗਲੀ ਕਿਸ਼ਤ ਦੀ ਮਿਤੀ',completionDetails:'3. ਕੋਰਸ ਪੂਰਾ ਹੋਣ ਅਤੇ ਗ੍ਰੇਡ ਦਾ ਵੇਰਵਾ',duration:'ਕੋਰਸ ਦੀ ਮਿਆਦ',grade:'ਗ੍ਰੇਡ / ਪ੍ਰਤੀਸ਼ਤ',director:'ਡਾਇਰੈਕਟਰ / ਪ੍ਰਿੰਸੀਪਲ ਦਾ ਨਾਮ',remarks:'ਟਿੱਪਣੀ / ਸੰਸਥਾ ਨੋਟ',downloadPdf:'A4 PDF ਡਾਊਨਲੋਡ',directPrint:'ਸਿੱਧਾ ਪ੍ਰਿੰਟ',whatsappShare:'WhatsApp ਸਾਂਝਾ ਕਰੋ',livePreview:'ਲਾਈਵ ਦਸਤਾਵੇਜ਼ ਪ੍ਰੀਵਿਊ',phInstitute:'ਉਦਾਹਰਨ Apex Skill Academy',phAddress:'ਉਦਾਹਰਨ Main Road | ਮੋਬਾਈਲ: 9000000000',phBatch:'ਉਦਾਹਰਨ 2026-27 Morning Batch',phStudent:'ਉਦਾਹਰਨ Aarav Sharma',phGuardian:'ਉਦਾਹਰਨ Rajesh Sharma',phCourse:'ਉਦਾਹਰਨ Computer Diploma',phMobile:'ਉਦਾਹਰਨ 9000012345',phNextDue:'ਉਦਾਹਰਨ 15 Dec 2026',phDuration:'ਉਦਾਹਰਨ 3 ਮਹੀਨੇ (120 ਘੰਟੇ)',phGrade:'ਉਦਾਹਰਨ Grade A+ (92%)',phDirector:'ਉਦਾਹਰਨ Dr. S. K. Verma',phRemarks:'ਜਮ੍ਹਾਂ ਫੀਸ ਵਾਪਸ ਨਹੀਂ ਹੋਵੇਗੀ। ਨਿਯਮਤ ਹਾਜ਼ਰੀ ਲਾਜ਼ਮੀ ਹੈ।',certificateTitle:'ਕੋਰਸ ਪੂਰਾ ਹੋਣ ਦਾ ਸਰਟੀਫਿਕੇਟ',certProud:'ਇਸ ਨਾਲ ਪ੍ਰਮਾਣਿਤ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਕਿ',certSon:'ਦੇ ਪੁੱਤਰ / ਧੀ',completed:'ਨੇ ਸਿਖਲਾਈ ਅਤੇ ਪ੍ਰੈਕਟੀਕਲ ਮੁਲਾਂਕਣ ਸਫਲਤਾਪੂਰਵਕ ਪੂਰਾ ਕੀਤਾ ਹੈ',durationLbl:'ਮਿਆਦ',session:'ਸੈਸ਼ਨ',secured:'ਅਤੇ ਪ੍ਰਾਪਤ ਕੀਤਾ',issue:'ਜਾਰੀ ਕਰਨ ਦੀ ਮਿਤੀ',seal:'ਅਧਿਕਾਰਤ ਮੋਹਰ',authorized:'ਅਧਿਕਾਰਤ ਦਸਤਖ਼ਤਕਰਤਾ',receipt:'ਅਧਿਕਾਰਤ ਫੀਸ ਰਸੀਦ',admissionSlip:'ਦਾਖਲਾ ਪੁਸ਼ਟੀ ਸਲਿੱਪ',receiptNo:'ਰਸੀਦ ਨੰਬਰ',admissionNo:'ਦਾਖਲਾ ਨੰਬਰ',date:'ਮਿਤੀ',student:'ਵਿਦਿਆਰਥੀ ਦਾ ਨਾਮ',guardianLbl:'ਸਰਪ੍ਰਸਤ',courseClass:'ਕੋਰਸ / ਕਲਾਸ',mobile:'ਮੋਬਾਈਲ ਨੰਬਰ',mode:'ਭੁਗਤਾਨ ਢੰਗ',feeParticulars:'ਫੀਸ ਦਾ ਵੇਰਵਾ',amount:'ਰਕਮ (₹)',tuitionFee:'ਕੁੱਲ ਕੋਰਸ ਫੀਸ',previous:'ਪਹਿਲਾਂ ਭੁਗਤਾਨ',paidToday:'ਅੱਜ ਭੁਗਤਾਨ',balanceDue:'ਬਕਾਇਆ ਫੀਸ (ਅਗਲੀ ਮਿਤੀ',note:'ਨੋਟ',thanks:'ਫੀਸ ਜਮ੍ਹਾਂ ਕਰਨ ਲਈ ਧੰਨਵਾਦ। ਨਿਯਮਤ ਹਾਜ਼ਰੀ ਲਾਜ਼ਮੀ ਹੈ।',studentSign:'ਵਿਦਿਆਰਥੀ / ਮਾਪੇ ਦੇ ਦਸਤਖ਼ਤ',accountSign:'ਅਕਾਊਂਟੈਂਟ / ਪ੍ਰਿੰਸੀਪਲ ਦਸਤਖ਼ਤ',generating:'⏳ PDF ਬਣ ਰਹੀ ਹੈ...',pdfReady:'📥 A4 PDF ਡਾਊਨਲੋਡ',whatsappFee:'ਫੀਸ ਵੇਰਵਾ',whatsappCert:'ਕੋਰਸ ਸਰਟੀਫਿਕੇਟ'},
+ur:{allTools:'← تمام ٹولز',appTitle:'KaamKaj Bills • اسکول، کوچنگ اور تربیت',upiOption:'UPI / PhonePe / GPay',cashOption:'نقد',bankOption:'بینک ٹرانسفر / چیک',language:'🌐 زبان منتخب کریں',themeHelp:'یہاں سے Light / Dark موڈ تبدیل کریں',dark:'🌙 ڈارک موڈ',light:'☀️ لائٹ موڈ',docType:'1. دستاویز کی قسم منتخب کریں:',feeReceipt:'فیس رسید',admission:'داخلہ سلپ',certificate:'کورس سرٹیفکیٹ',instituteDetails:'1. ادارہ / اکیڈمی / اسکول کی تفصیلات',instituteName:'ادارے کا نام',addressReg:'پتہ، رجسٹریشن نمبر اور رابطہ',studentDetails:'2. طالب علم اور کورس کی تفصیلات',docNumber:'رسید / رول / سرٹیفکیٹ نمبر',issueDate:'اجراء کی تاریخ',batch:'بیچ / تعلیمی سیشن',studentName:'طالب علم کا پورا نام',guardian:'والد / سرپرست کا نام',course:'کورس / کلاس کا نام',studentMobile:'طالب علم موبائل / WhatsApp',feeStructure:'3. فیس اور قسطوں کی تفصیل (₹)',totalFee:'کل کورس / سالانہ فیس',paidNow:'آج ادا کی گئی رقم',previousPaid:'پہلے ادا کی گئی رقم',paymentMode:'ادائیگی کا طریقہ',nextDue:'اگلی قسط کی تاریخ',completionDetails:'3. کورس کی تکمیل اور گریڈ کی تفصیلات',duration:'کورس کا دورانیہ',grade:'گریڈ / فیصد',director:'ڈائریکٹر / پرنسپل کا نام',remarks:'تبصرہ / ادارے کا نوٹ',downloadPdf:'A4 PDF ڈاؤن لوڈ',directPrint:'براہ راست پرنٹ',whatsappShare:'WhatsApp شیئر',livePreview:'دستاویز کا لائیو پیش منظر',phInstitute:'مثلاً Apex Skill Academy',phAddress:'مثلاً Main Road | موبائل: 9000000000',phBatch:'مثلاً 2026-27 Morning Batch',phStudent:'مثلاً Aarav Sharma',phGuardian:'مثلاً Rajesh Sharma',phCourse:'مثلاً Computer Diploma',phMobile:'مثلاً 9000012345',phNextDue:'مثلاً 15 Dec 2026',phDuration:'مثلاً 3 ماہ (120 گھنٹے)',phGrade:'مثلاً Grade A+ (92%)',phDirector:'مثلاً Dr. S. K. Verma',phRemarks:'جمع شدہ فیس واپس نہیں ہوگی۔ باقاعدہ حاضری ضروری ہے۔',certificateTitle:'کورس مکمل ہونے کا سرٹیفکیٹ',certProud:'اس بات کی تصدیق کی جاتی ہے کہ',certSon:'کے صاحبزادے / صاحبزادی',completed:'نے تربیت اور عملی جائزہ کامیابی سے مکمل کیا ہے',durationLbl:'دورانیہ',session:'سیشن',secured:'اور حاصل کیا',issue:'اجراء کی تاریخ',seal:'سرکاری مہر',authorized:'مجاز دستخط کنندہ',receipt:'سرکاری فیس رسید',admissionSlip:'داخلہ تصدیقی سلپ',receiptNo:'رسید نمبر',admissionNo:'داخلہ نمبر',date:'تاریخ',student:'طالب علم کا نام',guardianLbl:'سرپرست',courseClass:'کورس / کلاس',mobile:'موبائل نمبر',mode:'ادائیگی کا طریقہ',feeParticulars:'فیس کی تفصیل',amount:'رقم (₹)',tuitionFee:'کل کورس فیس',previous:'پہلے ادا شدہ',paidToday:'آج ادا شدہ',balanceDue:'باقی فیس (اگلی تاریخ',note:'نوٹ',thanks:'فیس جمع کرانے کا شکریہ۔ باقاعدہ حاضری ضروری ہے۔',studentSign:'طالب علم / والدین کے دستخط',accountSign:'اکاؤنٹنٹ / پرنسپل کے دستخط',generating:'⏳ PDF تیار ہو رہی ہے...',pdfReady:'📥 A4 PDF ڈاؤن لوڈ',whatsappFee:'فیس کی تفصیل',whatsappCert:'کورس سرٹیفکیٹ'}
+};
+const LANG_LABELS={hi:'हिन्दी',en:'English',bn:'বাংলা',te:'తెలుగు',mr:'मराठी',ta:'தமிழ்',gu:'ગુજરાતી',kn:'ಕನ್ನಡ',ml:'മലയാളം',or:'ଓଡ଼ିଆ',pa:'ਪੰਜਾਬੀ',ur:'اردو'};
+let mode='FEE',curLang='hi';
+function T(){return LANGS[curLang]||LANGS.hi}
+function esc(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function money(n){return (Number(n)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function changeLanguage(lang){curLang=LANGS[lang]?lang:'hi';applyLanguage();renderDoc();try{localStorage.setItem('kkb_school_lang_v2',curLang)}catch(e){}}
+function applyLanguage(){const L=T();document.documentElement.lang=curLang;document.body.classList.toggle('rtl',curLang==='ur');document.body.dir=curLang==='ur'?'rtl':'ltr';document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(L[k])el.textContent=L[k]});document.querySelectorAll('[data-ph]').forEach(el=>{const k=el.dataset.ph;if(L[k])el.placeholder=L[k]});const themeBtn=document.getElementById('btnTheme');themeBtn.textContent=document.body.classList.contains('dark-mode')?L.light:L.dark;document.getElementById('btnPdf').querySelector('span').textContent=L.downloadPdf}
+function toggleTheme(){const dark=document.body.classList.toggle('dark-mode');try{localStorage.setItem('kkb_school_theme_v2',dark?'dark':'light')}catch(e){}applyLanguage()}
+function setMode(m){mode=m;document.getElementById('btnFee').classList.toggle('active',m==='FEE');document.getElementById('btnAdm').classList.toggle('active',m==='ADMISSION');document.getElementById('btnCert').classList.toggle('active',m==='CERT');document.getElementById('feeSection').style.display=m==='CERT'?'none':'block';document.getElementById('certSection').style.display=m==='CERT'?'block':'none';const pref=m==='FEE'?'FEE-':m==='ADMISSION'?'ADM-':'CRT-';document.getElementById('in_doc_no').value=pref+Math.floor(100000+Math.random()*899990);renderDoc()}
+function renderDoc(){const L=T();const inst=esc(document.getElementById('in_inst').value.trim()||'APEX SKILL & COACHING ACADEMY');const addr=esc(document.getElementById('in_addr').value.trim()||'Main Road, Station Market | Mob: 9000000000');const docNo=esc(document.getElementById('in_doc_no').value.trim()||'-');const dt=esc(document.getElementById('in_date').value||'-');const batch=esc(document.getElementById('in_batch').value.trim()||'-');const stud=esc(document.getElementById('in_stud').value.trim()||'-');const parent=esc(document.getElementById('in_parent').value.trim()||'-');const course=esc(document.getElementById('in_course').value.trim()||'-');const ph=esc(document.getElementById('in_phone').value.trim()||'-');const notes=esc(document.getElementById('in_notes').value.trim()||L.thanks);
+if(mode==='CERT'){const dur=esc(document.getElementById('in_dur').value.trim()||'3 Months');const grade=esc(document.getElementById('in_grade').value.trim()||'Grade A+');const dir=esc(document.getElementById('in_dir').value.trim()||'Director / Principal');document.getElementById('previewInner').innerHTML=`<div class="cert-border" dir="${curLang==='ur'?'rtl':'ltr'}"><div style="font-size:11px;font-weight:900;color:#b45309;letter-spacing:1px">${esc(L.certificateTitle)} ID: ${docNo}</div><h2 style="margin:8px 0 2px;font-size:22px;font-weight:900;color:#0f172a;text-transform:uppercase">${inst}</h2><p style="margin:0 0 16px;font-size:11px;color:#475569">${addr}</p><div class="cert-title">${esc(L.certificateTitle)}</div><p style="font-size:13px;color:#334155;margin:8px 0">${esc(L.certProud)}</p><div class="cert-name">${stud}</div><p style="font-size:11.5px;color:#475569;margin:5px 0 12px">${esc(L.certSon)} <b>${parent}</b></p><p style="font-size:12.5px;line-height:1.7;color:#1e293b;margin:0 auto;max-width:520px">${esc(L.completed)}<br><b style="font-size:15px;color:#0f172a">${course}</b><br>(${esc(L.durationLbl)}: <b>${dur}</b> | ${esc(L.session)}: <b>${batch}</b>) ${esc(L.secured)} <b>${grade}</b>.</p><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:34px;font-size:11px;text-align:center;gap:8px"><div style="width:35%"><b>${esc(L.issue)}:</b><br>${dt}</div><div style="width:25%;border:1.5px solid #b45309;border-radius:50%;padding:12px 4px;font-size:9px;font-weight:900;color:#b45309">${esc(L.seal)}</div><div style="width:35%;border-top:1.5px dashed #0f172a;padding-top:5px;font-weight:900">${dir}<br><span style="font-size:9.5px;color:#64748b">${esc(L.authorized)}</span></div></div></div>`;return}
+const tot=Math.max(0,parseFloat(document.getElementById('in_tot_fee').value)||0);const paid=Math.max(0,parseFloat(document.getElementById('in_paid_now').value)||0);const prev=Math.max(0,parseFloat(document.getElementById('in_prev_paid').value)||0);const bal=Math.max(0,tot-(paid+prev));const pMode=esc(document.getElementById('in_mode').value);const nextDue=esc(document.getElementById('in_next_due').value.trim()||'-');const docTitle=mode==='FEE'?L.receipt:L.admissionSlip;const numberLabel=mode==='FEE'?L.receiptNo:L.admissionNo;
+document.getElementById('previewInner').innerHTML=`<div class="doc-slip" dir="${curLang==='ur'?'rtl':'ltr'}"><div class="doc-header"><div class="doc-biz"><h2>${inst}</h2><p>${addr}</p></div><div class="doc-type-badge">${esc(docTitle)}</div></div><table class="meta-table"><tr><td class="lbl">${esc(numberLabel)}:</td><td class="val"><b>${docNo}</b></td><td class="lbl">${esc(L.date)}:</td><td class="val">${dt}</td></tr><tr><td class="lbl">${esc(L.student)}:</td><td class="val"><b>${stud}</b></td><td class="lbl">${esc(L.guardianLbl)}:</td><td class="val">${parent}</td></tr><tr><td class="lbl">${esc(L.courseClass)}:</td><td class="val"><b>${course}</b></td><td class="lbl">${esc(L.batch)}:</td><td class="val">${batch}</td></tr><tr><td class="lbl">${esc(L.mobile)}:</td><td class="val">${ph}</td><td class="lbl">${esc(L.mode)}:</td><td class="val">${pMode}</td></tr></table><table class="fee-table"><thead><tr><th>${esc(L.feeParticulars)}</th><th class="t-right">${esc(L.amount)}</th></tr></thead><tbody><tr><td>${esc(L.tuitionFee)}</td><td class="t-right">₹${money(tot)}</td></tr>${prev>0?`<tr><td>${esc(L.previous)}</td><td class="t-right">₹${money(prev)}</td></tr>`:''}<tr class="paid-row"><td>${esc(L.paidToday)}</td><td class="t-right">₹${money(paid)}</td></tr><tr class="balance-row"><td>${esc(L.balanceDue)}: ${nextDue})</td><td class="t-right">₹${money(bal)}</td></tr></tbody></table><div class="notes-box"><b>${esc(L.note)}:</b> ${notes}</div><div class="footer-sig-row"><div>${esc(L.studentSign)}</div><div class="sig-block">${esc(L.accountSign)}</div></div></div>`}
+function downloadA4PDF(){const btn=document.getElementById('btnPdf');if(typeof html2pdf!=='function'){alert('PDF library load नहीं हुई। Internet connection जाँचें और दोबारा कोशिश करें।');return}btn.disabled=true;const L=T();btn.querySelector('span').textContent=L.generating;const savedX=window.scrollX||0,savedY=window.scrollY||0;window.scrollTo(0,0);const source=document.getElementById('a4DocSheet');const clone=source.cloneNode(true);clone.removeAttribute('id');const PDF_WIDTH=680;clone.style.cssText=[`width:${PDF_WIDTH}px`,`min-width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'margin:0','padding:18px 20px','background-color:#ffffff','color:#0f172a','border:none','box-shadow:none','box-sizing:border-box'].join(';');const overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;overscroll-behavior:contain;margin:0;padding:0;';const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);const studentName=(document.getElementById('in_stud').value.trim()||'Student').replace(/[^a-zA-Z0-9-_]/g,'_');const fileName=`${mode}_${studentName}.pdf`;requestAnimationFrame(()=>setTimeout(()=>{html2pdf().set({margin:[8,10,10,10],filename:fileName,image:{type:'png',quality:1.0},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true}}).from(staging).save().then(()=>{overlay.remove();window.scrollTo(savedX,savedY);btn.disabled=false;btn.querySelector('span').textContent=L.downloadPdf}).catch(err=>{console.error('PDF export failed:',err);overlay.remove();window.scrollTo(savedX,savedY);btn.disabled=false;btn.querySelector('span').textContent=L.downloadPdf;alert('PDF नहीं बन पाई। कृपया फिर से प्रयास करें।')})},150))}
+function printDocDirect(){const w=window.open('','_blank','width=900,height=900');if(!w){alert('Print window popup blocked. कृपया popups allow करें।');return}const css=`*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{margin:0;padding:8mm;background:#fff}.doc-slip{background:#fff;color:#0f172a;border:2px solid #0f172a;border-radius:8px;padding:16px}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #4338ca;padding-bottom:10px;margin-bottom:12px;gap:10px}.doc-biz h2{margin:0;font-size:18px}.doc-biz p{margin:3px 0 0;font-size:11px;color:#475569}.doc-type-badge{background:#4338ca;color:#fff;padding:5px 11px;border-radius:5px;font-size:10px;font-weight:800}.meta-table,.fee-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px}.meta-table td,.fee-table td,.fee-table th{border:1px solid #cbd5e1;padding:5px 6px;color:#0f172a}.meta-table td.lbl{background:#f8fafc;font-weight:800;width:23%}.fee-table th{background:#e0e7ff;color:#312e81;text-align:left}.fee-table tr.paid-row td{background:#f0fdf4;color:#166534}.fee-table tr.balance-row td{background:#fef2f2;color:#b91c1c}.t-right{text-align:right}.notes-box{background:#f8fafc;border-left:3px solid #4338ca;padding:7px 10px;font-size:10.5px;margin:10px 0}.footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:800}.cert-border{border:4px double #b45309;border-radius:10px;padding:24px 20px;background:#fffbeb;text-align:center}.cert-title{display:inline-block;background:#b45309;color:#fff;padding:7px 20px;border-radius:30px;font-size:14px;font-weight:900;margin:12px 0 16px}.cert-name{font-size:22px;font-weight:900;color:#1e3a8a;border-bottom:1.5px dashed #b45309;display:inline-block;padding:3px 24px;margin:5px 0}@page{size:A4 portrait;margin:8mm} @media print{body{padding:0}.doc-slip,.cert-border{break-inside:avoid}}`;w.document.write(`<!DOCTYPE html><html lang="${curLang}" dir="${curLang==='ur'?'rtl':'ltr'}"><head><meta charset="UTF-8"><title>KaamKaj Bills - ${mode}</title><style>${css}</style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);w.document.close();w.focus();setTimeout(()=>{w.print();w.close()},500)}
+function shareWhatsApp(){const inst=document.getElementById('in_inst').value.trim()||'Institute';const stud=document.getElementById('in_stud').value.trim()||'Student';const course=document.getElementById('in_course').value.trim()||'Course';const ph=document.getElementById('in_phone').value.trim().replace(/[^0-9]/g,'');let msg;if(mode==='CERT'){msg=`🎓 ${inst}\n${T().whatsappCert}: ${document.getElementById('in_doc_no').value}\nStudent: ${stud}\nCourse: ${course}\nGenerated via KaamKaj Bills.`}else{msg=`🎓 ${inst} (${document.getElementById('in_doc_no').value})\n${T().whatsappFee}\nStudent: ${stud}\nCourse: ${course}\nPaid Today: ₹${document.getElementById('in_paid_now').value||0}\nGenerated via KaamKaj Bills.`}window.open(ph?`https://wa.me/91${ph}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank')}
+window.onload=()=>{try{if(localStorage.getItem('kkb_school_theme_v2')==='dark')document.body.classList.add('dark-mode');const savedLang=localStorage.getItem('kkb_school_lang_v2');if(savedLang&&LANGS[savedLang])curLang=savedLang}catch(e){}document.getElementById('selLang').value=curLang;document.getElementById('in_date').value=new Date().toISOString().split('T')[0];document.getElementById('in_doc_no').value='FEE-'+Math.floor(100000+Math.random()*899990);applyLanguage();renderDoc()};
 </script>
 </body>
 </html>
