@@ -6,283 +6,108 @@
 <title>Work Completion & Site Handover Certificate - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #0f172a;
-    --accent: #16a34a;
-    --accent-soft: #dcfce7;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-    --surface: #ffffff;
-    --surface-alt: #f8fafc;
-    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  body.dark-mode {
-    --accent: #22c55e;
-    --accent-soft: rgba(34, 197, 94, 0.16);
-    --ink: #f1f5f9;
-    --ink-muted: #94a3b8;
-    --border: #334155;
-    --bg: #0b1120;
-    --surface: #1e293b;
-    --surface-alt: #0f172a;
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  }
-
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
-
-  html, body {
-    margin: 0; padding: 0; width: 100%; min-height: 100vh;
-    background-color: var(--bg); color: var(--ink); overflow-x: hidden;
-    transition: background-color 0.2s, color 0.2s;
-  }
-
-  .top-nav {
-    background-color: #0f172a; color: #ffffff; padding: 12px 28px;
-    display: flex; justify-content: space-between; align-items: center; gap: 10px;
-    border-bottom: 3px solid #f59e0b; position: sticky; top: 0; z-index: 100; flex-wrap: wrap;
-  }
-  .nav-left, .nav-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .btn-home {
-    background-color: rgba(255,255,255,0.12); color: #ffffff; text-decoration: none;
-    padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2); transition: 0.2s;
-  }
-  .btn-home:hover { background-color: #16a34a; border-color: #22c55e; }
-  .nav-title { font-size: 15.5px; font-weight: 800; }
-  .btn-theme {
-    background-color: rgba(255,255,255,0.14); color: #ffffff; border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px; border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; transition: 0.2s;
-  }
-  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
-
-  .kb-wrapper {
-    width: 100%; max-width: 1540px; margin: 0 auto; padding: 20px 26px 48px 26px;
-    display: grid; grid-template-columns: minmax(420px, 1.04fr) minmax(520px, 0.96fr);
-    gap: 24px; align-items: start;
-  }
-
-  .control-box {
-    background-color: var(--surface); border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 22px 20px; box-shadow: var(--shadow);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select, textarea {
-    width: 100%; padding: 9px 11px; border: 1.5px solid var(--border); border-radius: 8px;
-    font-size: 13.5px; outline: none; color: var(--ink); background-color: var(--surface-alt);
-    transition: border-color 0.2s, background-color 0.2s;
-  }
-  textarea { resize: vertical; min-height: 65px; }
-  input:focus, select:focus, textarea:focus { border-color: var(--accent); background-color: var(--surface); box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.14); }
-
-  .section-badge {
-    background-color: var(--accent-soft); color: var(--accent); font-size: 11.5px; font-weight: 800;
-    padding: 6px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;
-    margin: 14px 0 12px 0; text-transform: uppercase; border-left: 4px solid var(--accent);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .sig-wrap { background-color: var(--surface-alt); border: 1.5px dashed var(--border); border-radius: 8px; padding: 10px; }
-  #sigCanvas {
-    border: 1px solid #94a3b8; border-radius: 6px; background-color: #ffffff;
-    cursor: crosshair; touch-action: none; width: 100%; max-width: 240px; height: 55px; display: block;
-  }
-  .btn-sm { background-color: #64748b; color: #ffffff; border: none; padding: 5px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
-
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1; min-width: 150px; padding: 13px; border: none; border-radius: 8px;
-    font-size: 13.5px; font-weight: 800; color: #ffffff; cursor: pointer; text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  .btn-pdf { background-color: #16a34a; }
-  .btn-print { background-color: #0f172a; }
-
-  .preview-panel {
-    position: sticky; top: 72px; width: 100%; background-color: var(--surface);
-    border: 1.5px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: var(--shadow);
-  }
-  .preview-label { text-align: center; font-size: 12px; font-weight: 800; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
-  .preview-viewport {
-    width: 100%; overflow-x: auto; background-color: #e2e8f0; padding: 18px 14px;
-    border-radius: 10px; border: 1px solid var(--border); display: flex; justify-content: center;
-  }
-  body.dark-mode .preview-viewport { background-color: #0f172a; }
-
-  #a4DocSheet {
-    background-color: #ffffff !important; color: #0f172a !important; width: 100%; max-width: 700px;
-    padding: 30px 28px; border: 1.5px solid #cbd5e1; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-    border-radius: 8px; box-sizing: border-box; flex-shrink: 0;
-  }
-
-  .cert-header {
-    border-bottom: 3px solid #16a34a; padding-bottom: 12px; margin-bottom: 16px;
-    display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
-  }
-  .cert-org h2 { margin: 0; font-size: 19px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
-  .cert-org p { margin: 3px 0 0; font-size: 11px; color: #475569; line-height: 1.4; }
-  .cert-badge {
-    background-color: #16a34a; color: #ffffff; padding: 6px 12px; border-radius: 5px;
-    font-size: 10.5px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
-  }
-
-  .cert-title-box { text-align: center; margin: 16px 0; }
-  .cert-title-box h1 { margin: 0; font-size: 22px; font-weight: 900; color: #16a34a; text-transform: uppercase; letter-spacing: 1px; }
-  .cert-title-box p { margin: 4px 0 0; font-size: 11.5px; color: #475569; font-weight: 700; }
-
-  .cert-meta-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 11.5px; }
-  .cert-meta-table td { padding: 5px 8px; border: 1px solid #cbd5e1; color: #0f172a; }
-  .cert-meta-table td.lbl { background-color: #f8fafc; font-weight: 700; color: #334155; width: 25%; }
-  .cert-meta-table td.val { font-weight: 600; color: #0f172a; width: 25%; }
-
-  .cert-body-text { font-size: 12px; line-height: 1.65; color: #1e293b; margin-bottom: 14px; white-space: pre-line; }
-
-  .checklist-box {
-    background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px;
-    padding: 10px 14px; font-size: 11px; line-height: 1.6; color: #334155; margin-bottom: 16px; white-space: pre-line;
-  }
-
-  .sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 11px; color: #0f172a; }
-  .sig-col { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 6px; font-weight: 700; color: #334155; }
-  .auth-sig-img { max-height: 32px; max-width: 120px; display: block; margin: 0 auto 2px auto; }
-
-  @media (max-width: 1120px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
-    .preview-panel { position: static; }
-  }
-  @media (max-width: 760px) {
-    .preview-viewport { justify-content: flex-start; padding: 10px; }
-    #a4DocSheet { min-width: 620px; }
-  }
-  @media (max-width: 600px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .top-nav { padding: 10px 14px; }
-    .nav-title { font-size: 13.5px; }
-    .control-box, .preview-panel { padding: 14px 12px; }
-  }
+:root{--primary:#0f172a;--accent:#16a34a;--accent-soft:#dcfce7;--ink:#0f172a;--ink-muted:#475569;--border:#cbd5e1;--bg:#f1f5f9;--surface:#fff;--surface-alt:#f8fafc;--shadow:0 6px 20px rgba(15,23,42,.05)}
+body.dark-mode{--accent:#22c55e;--accent-soft:rgba(34,197,94,.16);--ink:#f1f5f9;--ink-muted:#94a3b8;--border:#334155;--bg:#0b1120;--surface:#1e293b;--surface-alt:#0f172a;--shadow:0 6px 20px rgba(0,0,0,.35)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100vh;background:var(--bg);color:var(--ink);overflow-x:hidden;transition:background-color .2s,color .2s}
+.top-nav{background:#0f172a;color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2)}
+.nav-title{font-size:15px;font-weight:800}.nav-right{margin-left:auto}.lang-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700}.lang-control select{width:auto;min-width:150px;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:#1e293b;color:#fff;font-size:12px}
+.theme-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}.theme-hint{font-size:11px;color:#e2e8f0;max-width:180px;line-height:1.35}
+.kb-wrapper{width:100%;max-width:none;margin:0;padding:20px 24px 44px;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:22px;align-items:start}
+.control-box,.preview-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow);min-width:0}.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;min-width:0}
+label{font-size:11px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.3px;line-height:1.4}input,select,textarea{width:100%;min-width:0;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:border-color .2s,background-color .2s}textarea{resize:vertical;min-height:65px;line-height:1.45}input:focus,select:focus,textarea:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px rgba(22,163,74,.14)}
+.section-badge{background:var(--accent-soft);color:var(--accent);font-size:11.5px;font-weight:800;padding:7px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:14px 0 12px;text-transform:uppercase;border-left:4px solid var(--accent)}.section-badge:first-of-type{margin-top:0}
+.sig-wrap{background:var(--surface-alt);border:1.5px dashed var(--border);border-radius:8px;padding:10px}.sig-canvas-wrap{width:100%;max-width:260px;background:#fff;border-radius:6px}#sigCanvas{border:1px solid #94a3b8;border-radius:6px;background:#fff;cursor:crosshair;touch-action:none;width:100%;max-width:260px;height:64px;display:block}.btn-sm{background:#64748b;color:#fff;border:none;padding:6px 11px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;margin-top:7px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:150px;padding:13px;border:none;border-radius:8px;font-size:13.5px;font-weight:800;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.08);transition:.2s}.btn:hover{opacity:.93;transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.btn-pdf{background:#16a34a}.btn-print{background:#0f172a}
+.preview-panel{position:sticky;top:84px}.preview-label{text-align:center;font-size:12px;font-weight:800;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:16px 12px;border-radius:10px;border:1px solid var(--border);display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0f172a}
+#a4DocSheet{background:#fff!important;color:#0f172a!important;width:100%;max-width:720px;padding:30px 28px;border:1.5px solid #cbd5e1;box-shadow:0 8px 24px rgba(15,23,42,.08);border-radius:8px;box-sizing:border-box;flex-shrink:0}
+.cert-header{border-bottom:3px solid #16a34a;padding-bottom:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.cert-org{min-width:0}.cert-org h2{margin:0;font-size:19px;font-weight:900;color:#0f172a;text-transform:uppercase;overflow-wrap:anywhere}.cert-org p{margin:3px 0 0;font-size:11px;color:#475569;line-height:1.4;overflow-wrap:anywhere}.cert-badge{background:#16a34a;color:#fff;padding:6px 12px;border-radius:5px;font-size:10.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.cert-title-box{text-align:center;margin:16px 0}.cert-title-box h1{margin:0;font-size:22px;font-weight:900;color:#16a34a;text-transform:uppercase;letter-spacing:.6px}.cert-title-box p{margin:4px 0 0;font-size:11.5px;color:#475569;font-weight:700}.cert-meta-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11.5px}.cert-meta-table td{padding:5px 8px;border:1px solid #cbd5e1;color:#0f172a;overflow-wrap:anywhere}.cert-meta-table td.lbl{background:#f8fafc;font-weight:700;color:#334155;width:25%}.cert-meta-table td.val{font-weight:600;color:#0f172a;width:25%}.cert-body-text{font-size:12px;line-height:1.65;color:#1e293b;margin-bottom:14px;white-space:pre-line;overflow-wrap:anywhere}.checklist-heading{font-size:11.5px;font-weight:800;color:#0f172a;margin-bottom:4px;text-transform:uppercase}.checklist-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:10px 14px;font-size:11px;line-height:1.6;color:#334155;margin-bottom:16px;white-space:pre-line;overflow-wrap:anywhere}.declaration{font-size:10.5px;color:#475569;margin-top:12px;line-height:1.5}.sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:26px;font-size:11px;color:#0f172a;gap:20px}.sig-col{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:6px;font-weight:700;color:#334155}.auth-sig-img{max-height:32px;max-width:120px;display:block;margin:0 auto 2px;object-fit:contain}
+@media(max-width:1120px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 32px;gap:16px}.preview-panel{position:static}}@media(max-width:760px){.preview-viewport{justify-content:flex-start;padding:10px}#a4DocSheet{min-width:620px}}@media(max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}.top-nav{padding:10px 12px;align-items:flex-start}.nav-title{font-size:13px}.nav-right{width:100%;margin-left:0;justify-content:space-between}.lang-control{flex:1}.lang-control select{flex:1;min-width:120px}.theme-hint{max-width:140px}.control-box,.preview-panel{padding:14px 12px;border-radius:12px}.btn{width:100%}}
+html[dir="rtl"] body{text-align:right}html[dir="rtl"] .section-badge{border-left:0;border-right:4px solid var(--accent)}html[dir="rtl"] .notes-box{border-left:0;border-right:3.5px solid #16a34a}
+@media print{.top-nav,.control-box,.preview-label{display:none!important}.kb-wrapper{display:block!important;padding:0!important;margin:0!important}.preview-panel{position:static!important;border:0!important;padding:0!important;box-shadow:none!important}#a4DocSheet{width:100%!important;max-width:none!important;min-width:0!important;border:0!important;box-shadow:none!important;padding:0!important}}
 </style>
 </head>
 <body>
-
 <div class="top-nav">
   <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Work Completion &amp; Handover Certificate</span>
+    <a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a>
+    <span class="nav-title" data-i18n="navTitle">KaamKaj Bills • Work Completion & Handover Certificate</span>
   </div>
   <div class="nav-right">
-    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <label class="lang-control"><span>🌐 <span data-i18n="language">Language</span></span>
+      <select id="selLang" aria-label="Select language" onchange="changeLanguage(this.value)">
+        <option value="hi">हिन्दी (Hindi)</option><option value="en">English</option><option value="mr">मराठी (Marathi)</option><option value="gu">ગુજરાતી (Gujarati)</option><option value="bn">বাংলা (Bengali)</option><option value="ta">தமிழ் (Tamil)</option><option value="te">తెలుగు (Telugu)</option><option value="kn">ಕನ್ನಡ (Kannada)</option><option value="ml">മലയാളം (Malayalam)</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="or">ଓଡ଼ିଆ (Odia)</option><option value="ur">اردو (Urdu)</option>
+      </select>
+    </label>
+    <div class="theme-wrap">
+      <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+      <span class="theme-hint" data-i18n="themeHint">यहाँ से आप मोड बदल सकते हैं</span>
+    </div>
   </div>
 </div>
 
 <div class="kb-wrapper">
-  <!-- LEFT: CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Contractor / Engineering Firm Details</div>
+    <div class="section-badge" data-i18n="sec1">1. Contractor / Engineering Firm Details</div>
     <div class="grid-2">
-      <div class="field"><label>Contractor / Firm Name</label><input type="text" id="in_org" value="Apex Civil &amp; Technical Contractors" oninput="renderCert()"></div>
-      <div class="field"><label>Address &amp; Contact</label><input type="text" id="in_addr" value="Sector 21, Industrial Area | Mob: 9000000000" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="orgLabel">Contractor / Firm Name</label><input type="text" id="in_org" value="Apex Civil &amp; Technical Contractors" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="addrLabel">Address &amp; Contact</label><input type="text" id="in_addr" value="Sector 21, Industrial Area | Mob: 9000000000" oninput="renderCert()"></div>
     </div>
-
     <div class="grid-3">
-      <div class="field"><label>Certificate / Ref No.</label><input type="text" id="in_ref" oninput="renderCert()"></div>
-      <div class="field"><label>Date of Handover</label><input type="date" id="in_date" oninput="renderCert()"></div>
-      <div class="field"><label>Warranty Period</label><input type="text" id="in_warranty" value="2 Years On-Site Warranty" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="refLabel">Certificate / Ref No.</label><input type="text" id="in_ref" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="dateLabel">Date of Handover</label><input type="date" id="in_date" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="warrantyLabel">Warranty Period</label><input type="text" id="in_warranty" value="2 Years On-Site Warranty" oninput="renderCert()"></div>
     </div>
 
-    <div class="section-badge">2. Client &amp; Project Details</div>
+    <div class="section-badge" data-i18n="sec2">2. Client &amp; Project Details</div>
     <div class="grid-2">
-      <div class="field"><label>Client / Owner Name</label><input type="text" id="in_client" value="Mr. Ramesh Gupta" oninput="renderCert()"></div>
-      <div class="field"><label>Project Title / Work Name</label><input type="text" id="in_project" value="Commercial Office Fitout &amp; MEP Installation Project" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="clientLabel">Client / Owner Name</label><input type="text" id="in_client" value="Mr. Ramesh Gupta" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="projectLabel">Project Title / Work Name</label><input type="text" id="in_project" value="Commercial Office Fitout &amp; MEP Installation Project" oninput="renderCert()"></div>
     </div>
+    <div class="field"><label data-i18n="siteLabel">Site / Property Address</label><input type="text" id="in_site" value="Shop No. 4, Sunshine Plaza, Main Road" oninput="renderCert()"></div>
 
-    <div class="field"><label>Site / Property Address</label><input type="text" id="in_site" value="Shop No. 4, Sunshine Plaza, Main Road" oninput="renderCert()"></div>
+    <div class="section-badge" data-i18n="sec3">3. Completion Statement &amp; Checklist</div>
+    <div class="field"><label data-i18n="completionLabel">Completion Declaration Note</label><textarea id="in_note" oninput="renderCert()">This is to certify that all the contracted works, installations, and technical testing for the above-mentioned project have been successfully completed as per the agreed specifications, drawings, and quality standards.</textarea></div>
+    <div class="field"><label data-i18n="checklistLabel">Handover Items &amp; Remarks Checklist</label><textarea id="in_check" style="min-height:85px;" oninput="renderCert()">• All physical installations and wiring/piping tested successfully without defects.&#10;• Site cleaned, debris cleared, and operational manual handed over.&#10;• Satisfactory demonstration given to the client and maintenance team.</textarea></div>
 
-    <div class="section-badge">3. Completion Statement &amp; Checklist</div>
-    <div class="field">
-      <label>Completion Declaration Note</label>
-      <textarea id="in_note" oninput="renderCert()">This is to certify that all the contracted works, installations, and technical testing for the above-mentioned project have been successfully completed as per the agreed specifications, drawings, and quality standards.</textarea>
-    </div>
-
-    <div class="field">
-      <label>Handover Items &amp; Remarks Checklist</label>
-      <textarea id="in_check" style="min-height:85px;" oninput="renderCert()">• All physical installations and wiring/piping tested successfully without defects.&#10;• Site cleaned, debris cleared, and operational manual handed over.&#10;• Satisfactory demonstration given to the client and maintenance team.</textarea>
-    </div>
-
-    <div class="section-badge">4. Authorized Signatory</div>
+    <div class="section-badge" data-i18n="sec4">4. Authorized Signatory</div>
     <div class="grid-2">
-      <div class="field"><label>Signatory Name</label><input type="text" id="in_auth" value="Anil Sharma" oninput="renderCert()"></div>
-      <div class="field"><label>Designation</label><input type="text" id="in_desig" value="Project Manager / Director" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="signNameLabel">Signatory Name</label><input type="text" id="in_auth" value="Anil Sharma" oninput="renderCert()"></div>
+      <div class="field"><label data-i18n="designationLabel">Designation</label><input type="text" id="in_desig" value="Project Manager / Director" oninput="renderCert()"></div>
     </div>
-
-    <div class="field">
-      <label>Draw Digital Signature (Optional):</label>
-      <div class="sig-wrap">
-        <canvas id="sigCanvas" width="240" height="55"></canvas>
-        <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
-      </div>
+    <div class="field"><label data-i18n="drawSigLabel">Draw Digital Signature (Optional)</label>
+      <div class="sig-wrap"><div class="sig-canvas-wrap"><canvas id="sigCanvas" width="260" height="64"></canvas></div><button type="button" class="btn-sm" onclick="clearSig()" data-i18n="clearSig">Clear Signature</button></div>
     </div>
-
     <div class="actions">
-      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()">📥 Download Certificate PDF</button>
-      <button type="button" class="btn btn-print" onclick="printCert()">🖨️ Direct Print Certificate</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()" data-i18n="pdfBtn">📥 Download Certificate PDF</button>
+      <button type="button" class="btn btn-print" onclick="printCert()" data-i18n="printBtn">🖨️ Direct Print Certificate</button>
     </div>
   </div>
 
-  <!-- RIGHT: LIVE PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live A4 Work Completion Certificate Preview</div>
+    <div class="preview-label" data-i18n="previewTitle">Live A4 Work Completion Certificate Preview</div>
     <div class="preview-viewport">
       <div id="a4DocSheet">
         <div class="cert-header">
-          <div class="cert-org">
-            <h2 id="out_org">APEX CIVIL &amp; TECHNICAL CONTRACTORS</h2>
-            <p id="out_addr">Sector 21, Industrial Area | Mob: 9000000000</p>
-          </div>
-          <div class="cert-badge">SITE HANDOVER</div>
+          <div class="cert-org"><h2 id="out_org">APEX CIVIL &amp; TECHNICAL CONTRACTORS</h2><p id="out_addr">Sector 21, Industrial Area | Mob: 9000000000</p></div>
+          <div class="cert-badge" id="out_badge">SITE HANDOVER</div>
         </div>
-
-        <div class="cert-title-box">
-          <h1>Work Completion &amp; Handover Certificate</h1>
-          <p>Official Proof of Successful Project Delivery &amp; Client Acceptance</p>
-        </div>
-
+        <div class="cert-title-box"><h1 id="out_cert_title">Work Completion &amp; Handover Certificate</h1><p id="out_subtitle">Official Proof of Successful Project Delivery &amp; Client Acceptance</p></div>
         <table class="cert-meta-table">
-          <tr><td class="lbl">Certificate Ref No:</td><td class="val"><b id="out_ref">HC/2026/101</b></td><td class="lbl">Handover Date:</td><td class="val" id="out_date">-</td></tr>
-          <tr><td class="lbl">Client Name:</td><td class="val"><b id="out_client">Mr. Ramesh Gupta</b></td><td class="lbl">Project Name:</td><td class="val" id="out_project">Commercial Office Fitout Project</td></tr>
-          <tr><td class="lbl">Site Location:</td><td class="val" colspan="3" id="out_site">Shop No. 4, Sunshine Plaza, Main Road</td></tr>
-          <tr><td class="lbl">Warranty Terms:</td><td class="val" colspan="3"><b id="out_warranty" style="color:#16a34a;">2 Years On-Site Warranty</b></td></tr>
+          <tr><td class="lbl" id="lab_ref">Certificate Ref No:</td><td class="val"><b id="out_ref">HC/2026/101</b></td><td class="lbl" id="lab_date">Handover Date:</td><td class="val" id="out_date">-</td></tr>
+          <tr><td class="lbl" id="lab_client">Client Name:</td><td class="val"><b id="out_client">Mr. Ramesh Gupta</b></td><td class="lbl" id="lab_project">Project Name:</td><td class="val" id="out_project">Commercial Office Fitout Project</td></tr>
+          <tr><td class="lbl" id="lab_site">Site Location:</td><td class="val" colspan="3" id="out_site">Shop No. 4, Sunshine Plaza, Main Road</td></tr>
+          <tr><td class="lbl" id="lab_warranty">Warranty Terms:</td><td class="val" colspan="3"><b id="out_warranty" style="color:#16a34a;">2 Years On-Site Warranty</b></td></tr>
         </table>
-
         <div class="cert-body-text" id="out_note"></div>
-
-        <div style="font-size:11.5px;font-weight:800;color:#0f172a;margin-bottom:4px;text-transform:uppercase;">Handover Checklist &amp; Status:</div>
+        <div class="checklist-heading" id="lab_checklist">Handover Checklist &amp; Status:</div>
         <div class="checklist-box" id="out_check"></div>
-
-        <div style="font-size:10.5px;color:#475569;margin-top:12px;line-height:1.4;">
-          <b>Declaration:</b> The client has inspected the completed site and accepts the installation in good working order. Any future service requests will be governed by the stated warranty terms.
-        </div>
-
+        <div class="declaration"><b id="lab_declaration">Declaration:</b> <span id="out_declaration">The client has inspected the completed site and accepts the installation in good working order. Any future service requests will be governed by the stated warranty terms.</span></div>
         <div class="sig-row">
-          <div class="sig-col">
-            <div style="min-height:32px;"></div>
-            Client Acceptance Signature &amp; Stamp
-          </div>
-          <div class="sig-col">
-            <div style="min-height:32px; display:flex; align-items:flex-end; justify-content:center;">
-              <img id="out_sig" class="auth-sig-img" style="display:none;" alt="Signature">
-            </div>
-            <b id="out_auth">Anil Sharma</b><br>
-            <span style="font-size:9.5px; color:#475569;" id="out_desig">Project Manager / Director</span>
-          </div>
+          <div class="sig-col"><div style="min-height:32px;"></div><span id="lab_client_sign">Client Acceptance Signature &amp; Stamp</span></div>
+          <div class="sig-col"><div style="min-height:32px;display:flex;align-items:flex-end;justify-content:center;"><img id="out_sig" class="auth-sig-img" style="display:none;" alt="Signature"></div><b id="out_auth">Anil Sharma</b><br><span style="font-size:9.5px;color:#475569;" id="out_desig">Project Manager / Director</span><br><span id="lab_auth_sign" style="font-size:9.5px;color:#64748b;" data-i18n="authSign">Authorized Signatory</span></div>
         </div>
       </div>
     </div>
@@ -290,117 +115,39 @@
 </div>
 
 <script>
-  function esc(str) {
-    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+const LANGS = {
+hi:{allTools:'← सभी टूल्स',navTitle:'KaamKaj Bills • कार्य पूर्णता एवं साइट हस्तांतरण प्रमाणपत्र',language:'भाषा',themeHint:'यहाँ से आप मोड बदल सकते हैं',dark:'🌙 डार्क मोड',light:'☀️ लाइट मोड',sec1:'1. ठेकेदार / इंजीनियरिंग फर्म का विवरण',orgLabel:'ठेकेदार / फर्म का नाम',addrLabel:'पता और संपर्क',refLabel:'प्रमाणपत्र / संदर्भ संख्या',dateLabel:'हस्तांतरण की तारीख',warrantyLabel:'वारंटी अवधि',sec2:'2. ग्राहक और परियोजना का विवरण',clientLabel:'ग्राहक / मालिक का नाम',projectLabel:'परियोजना / कार्य का नाम',siteLabel:'साइट / संपत्ति का पता',sec3:'3. कार्य पूर्णता घोषणा और चेकलिस्ट',completionLabel:'कार्य पूर्णता घोषणा नोट',checklistLabel:'हस्तांतरण सामग्री और टिप्पणी चेकलिस्ट',sec4:'4. अधिकृत हस्ताक्षरकर्ता',signNameLabel:'हस्ताक्षरकर्ता का नाम',designationLabel:'पद',drawSigLabel:'डिजिटल हस्ताक्षर बनाएँ (वैकल्पिक)',clearSig:'हस्ताक्षर मिटाएँ',pdfBtn:'📥 प्रमाणपत्र PDF डाउनलोड करें',printBtn:'🖨️ प्रमाणपत्र प्रिंट करें',previewTitle:'कार्य पूर्णता प्रमाणपत्र का लाइव A4 प्रीव्यू',badge:'साइट हस्तांतरण',certTitle:'कार्य पूर्णता एवं हस्तांतरण प्रमाणपत्र',subtitle:'परियोजना सफलतापूर्वक पूरी होने और ग्राहक स्वीकृति का आधिकारिक प्रमाण',labRef:'प्रमाणपत्र संदर्भ संख्या:',labDate:'हस्तांतरण की तारीख:',labClient:'ग्राहक का नाम:',labProject:'परियोजना का नाम:',labSite:'साइट का स्थान:',labWarranty:'वारंटी की शर्तें:',checkTitle:'हस्तांतरण चेकलिस्ट और स्थिति:',declaration:'घोषणा:',declarationText:'ग्राहक ने पूर्ण किए गए साइट कार्य का निरीक्षण किया है और स्थापना को सही कार्यशील स्थिति में स्वीकार किया है। भविष्य की सेवा संबंधी माँगें बताई गई वारंटी शर्तों के अनुसार होंगी।',clientSign:'ग्राहक स्वीकृति हस्ताक्षर एवं मुहर',authSign:'अधिकृत हस्ताक्षरकर्ता',generating:'⏳ PDF तैयार हो रहा है...',pdfReady:'📥 प्रमाणपत्र PDF डाउनलोड करें',pdfError:'PDF नहीं बन पाया। कृपया इंटरनेट कनेक्शन और PDF लाइब्रेरी जाँचें।'},
+en:{allTools:'← All Tools',navTitle:'KaamKaj Bills • Work Completion & Handover Certificate',language:'Language',themeHint:'Change the display mode here',dark:'🌙 Dark Mode',light:'☀️ Light Mode',sec1:'1. Contractor / Engineering Firm Details',orgLabel:'Contractor / Firm Name',addrLabel:'Address & Contact',refLabel:'Certificate / Ref No.',dateLabel:'Date of Handover',warrantyLabel:'Warranty Period',sec2:'2. Client & Project Details',clientLabel:'Client / Owner Name',projectLabel:'Project Title / Work Name',siteLabel:'Site / Property Address',sec3:'3. Completion Statement & Checklist',completionLabel:'Completion Declaration Note',checklistLabel:'Handover Items & Remarks Checklist',sec4:'4. Authorized Signatory',signNameLabel:'Signatory Name',designationLabel:'Designation',drawSigLabel:'Draw Digital Signature (Optional)',clearSig:'Clear Signature',pdfBtn:'📥 Download Certificate PDF',printBtn:'🖨️ Direct Print Certificate',previewTitle:'Live A4 Work Completion Certificate Preview',badge:'SITE HANDOVER',certTitle:'Work Completion & Handover Certificate',subtitle:'Official Proof of Successful Project Delivery & Client Acceptance',labRef:'Certificate Ref No:',labDate:'Handover Date:',labClient:'Client Name:',labProject:'Project Name:',labSite:'Site Location:',labWarranty:'Warranty Terms:',checkTitle:'Handover Checklist & Status:',declaration:'Declaration:',declarationText:'The client has inspected the completed site and accepts the installation in good working order. Any future service requests will be governed by the stated warranty terms.',clientSign:'Client Acceptance Signature & Stamp',authSign:'Authorized Signatory',generating:'⏳ Generating PDF...',pdfReady:'📥 Download Certificate PDF',pdfError:'PDF generation failed. Please check your internet connection and the PDF library.'},
+mr:{allTools:'← सर्व टूल्स',navTitle:'KaamKaj Bills • काम पूर्णता आणि साइट हस्तांतरण प्रमाणपत्र',language:'भाषा',themeHint:'येथून मोड बदला',dark:'🌙 डार्क मोड',light:'☀️ लाईट मोड',sec1:'1. कंत्राटदार / अभियांत्रिकी फर्मची माहिती',orgLabel:'कंत्राटदार / फर्मचे नाव',addrLabel:'पत्ता आणि संपर्क',refLabel:'प्रमाणपत्र / संदर्भ क्रमांक',dateLabel:'हस्तांतरणाची तारीख',warrantyLabel:'वॉरंटी कालावधी',sec2:'2. ग्राहक आणि प्रकल्पाची माहिती',clientLabel:'ग्राहक / मालकाचे नाव',projectLabel:'प्रकल्प / कामाचे नाव',siteLabel:'साइट / मालमत्तेचा पत्ता',sec3:'3. काम पूर्णत्व घोषणा आणि तपासणी सूची',completionLabel:'काम पूर्णत्व घोषणा नोंद',checklistLabel:'हस्तांतरण साहित्य आणि नोंदींची सूची',sec4:'4. अधिकृत स्वाक्षरीकर्ता',signNameLabel:'स्वाक्षरीकर्त्याचे नाव',designationLabel:'पद',drawSigLabel:'डिजिटल स्वाक्षरी काढा (ऐच्छिक)',clearSig:'स्वाक्षरी पुसा',pdfBtn:'📥 प्रमाणपत्र PDF डाउनलोड करा',printBtn:'🖨️ प्रमाणपत्र प्रिंट करा',previewTitle:'काम पूर्णत्व प्रमाणपत्र A4 पूर्वदृश्य',badge:'साइट हस्तांतरण',certTitle:'काम पूर्णत्व आणि हस्तांतरण प्रमाणपत्र',subtitle:'प्रकल्प यशस्वीरीत्या पूर्ण झाल्याचा आणि ग्राहक स्वीकृतीचा अधिकृत पुरावा',labRef:'प्रमाणपत्र संदर्भ क्रमांक:',labDate:'हस्तांतरण तारीख:',labClient:'ग्राहकाचे नाव:',labProject:'प्रकल्पाचे नाव:',labSite:'साइटचे ठिकाण:',labWarranty:'वॉरंटी अटी:',checkTitle:'हस्तांतरण तपासणी सूची आणि स्थिती:',declaration:'घोषणा:',declarationText:'ग्राहकाने पूर्ण झालेल्या साइटची तपासणी केली असून स्थापना योग्य कार्यस्थितीत स्वीकारली आहे. भविष्यातील सेवा विनंत्या नमूद वॉरंटी अटींनुसार असतील.',clientSign:'ग्राहक स्वीकृती स्वाक्षरी आणि शिक्का',authSign:'अधिकृत स्वाक्षरीकर्ता',generating:'⏳ PDF तयार होत आहे...',pdfReady:'📥 प्रमाणपत्र PDF डाउनलोड करा',pdfError:'PDF तयार झाले नाही. इंटरनेट आणि PDF लायब्ररी तपासा.'},
+gu:{allTools:'← બધા ટૂલ્સ',navTitle:'KaamKaj Bills • કામ પૂર્ણતા અને સાઇટ હસ્તાંતરણ પ્રમાણપત્ર',language:'ભાષા',themeHint:'અહીંથી મોડ બદલી શકો છો',dark:'🌙 ડાર્ક મોડ',light:'☀️ લાઇટ મોડ',sec1:'1. કોન્ટ્રાક્ટર / એન્જિનિયરિંગ ફર્મની વિગતો',orgLabel:'કોન્ટ્રાક્ટર / ફર્મનું નામ',addrLabel:'સરનામું અને સંપર્ક',refLabel:'પ્રમાણપત્ર / સંદર્ભ નંબર',dateLabel:'હસ્તાંતરણ તારીખ',warrantyLabel:'વોરંટી સમયગાળો',sec2:'2. ક્લાયન્ટ અને પ્રોજેક્ટની વિગતો',clientLabel:'ક્લાયન્ટ / માલિકનું નામ',projectLabel:'પ્રોજેક્ટ / કામનું નામ',siteLabel:'સાઇટ / મિલકતનું સરનામું',sec3:'3. કામ પૂર્ણતાની જાહેરાત અને ચેકલિસ્ટ',completionLabel:'કામ પૂર્ણતાની જાહેરાત નોંધ',checklistLabel:'હસ્તાંતરણ વસ્તુઓ અને નોંધોની યાદી',sec4:'4. અધિકૃત સહીકર્તા',signNameLabel:'સહીકર્તાનું નામ',designationLabel:'હોદ્દો',drawSigLabel:'ડિજિટલ સહી દોરો (વૈકલ્પિક)',clearSig:'સહી સાફ કરો',pdfBtn:'📥 પ્રમાણપત્ર PDF ડાઉનલોડ કરો',printBtn:'🖨️ પ્રમાણપત્ર પ્રિન્ટ કરો',previewTitle:'કામ પૂર્ણતા પ્રમાણપત્ર A4 પૂર્વાવલોકન',badge:'સાઇટ હસ્તાંતરણ',certTitle:'કામ પૂર્ણતા અને હસ્તાંતરણ પ્રમાણપત્ર',subtitle:'પ્રોજેક્ટ સફળતાપૂર્વક પૂર્ણ થયો અને ક્લાયન્ટે સ્વીકાર્યો તેનો અધિકૃત પુરાવો',labRef:'પ્રમાણપત્ર સંદર્ભ નંબર:',labDate:'હસ્તાંતરણ તારીખ:',labClient:'ક્લાયન્ટનું નામ:',labProject:'પ્રોજેક્ટનું નામ:',labSite:'સાઇટનું સ્થળ:',labWarranty:'વોરંટીની શરતો:',checkTitle:'હસ્તાંતરણ ચેકલિસ્ટ અને સ્થિતિ:',declaration:'જાહેરાત:',declarationText:'ક્લાયન્ટે પૂર્ણ થયેલી સાઇટનું નિરીક્ષણ કર્યું છે અને સ્થાપનને યોગ્ય કાર્યસ્થિતિમાં સ્વીકાર્યું છે. ભવિષ્યની સેવા વિનંતીઓ જણાવેલી વોરંટી શરતો હેઠળ રહેશે.',clientSign:'ક્લાયન્ટ સ્વીકૃતિ સહી અને મહોર',authSign:'અધિકૃત સહીકર્તા',generating:'⏳ PDF બની રહ્યું છે...',pdfReady:'📥 પ્રમાણપત્ર PDF ડાઉનલોડ કરો',pdfError:'PDF બની શક્યું નથી. ઇન્ટરનેટ અને PDF લાઇબ્રેરી તપાસો.'},
+bn:{allTools:'← সব টুল',navTitle:'KaamKaj Bills • কাজ সম্পন্ন ও সাইট হস্তান্তর সনদ',language:'ভাষা',themeHint:'এখান থেকে মোড পরিবর্তন করুন',dark:'🌙 ডার্ক মোড',light:'☀️ লাইট মোড',sec1:'1. ঠিকাদার / ইঞ্জিনিয়ারিং প্রতিষ্ঠানের বিবরণ',orgLabel:'ঠিকাদার / প্রতিষ্ঠানের নাম',addrLabel:'ঠিকানা ও যোগাযোগ',refLabel:'সনদ / রেফারেন্স নম্বর',dateLabel:'হস্তান্তরের তারিখ',warrantyLabel:'ওয়ারেন্টির সময়কাল',sec2:'2. গ্রাহক ও প্রকল্পের বিবরণ',clientLabel:'গ্রাহক / মালিকের নাম',projectLabel:'প্রকল্প / কাজের নাম',siteLabel:'সাইট / সম্পত্তির ঠিকানা',sec3:'3. কাজ সমাপ্তির ঘোষণা ও চেকলিস্ট',completionLabel:'কাজ সমাপ্তির ঘোষণার নোট',checklistLabel:'হস্তান্তরের সামগ্রী ও মন্তব্যের তালিকা',sec4:'4. অনুমোদিত স্বাক্ষরকারী',signNameLabel:'স্বাক্ষরকারীর নাম',designationLabel:'পদবি',drawSigLabel:'ডিজিটাল স্বাক্ষর আঁকুন (ঐচ্ছিক)',clearSig:'স্বাক্ষর মুছুন',pdfBtn:'📥 সনদের PDF ডাউনলোড করুন',printBtn:'🖨️ সনদ প্রিন্ট করুন',previewTitle:'কাজ সমাপ্তির সনদের A4 প্রিভিউ',badge:'সাইট হস্তান্তর',certTitle:'কাজ সমাপ্তি ও হস্তান্তর সনদ',subtitle:'প্রকল্প সফলভাবে সম্পন্ন এবং গ্রাহকের গ্রহণযোগ্যতার সরকারি প্রমাণ',labRef:'সনদ রেফারেন্স নম্বর:',labDate:'হস্তান্তরের তারিখ:',labClient:'গ্রাহকের নাম:',labProject:'প্রকল্পের নাম:',labSite:'সাইটের অবস্থান:',labWarranty:'ওয়ারেন্টির শর্ত:',checkTitle:'হস্তান্তর চেকলিস্ট ও অবস্থা:',declaration:'ঘোষণা:',declarationText:'গ্রাহক সম্পন্ন সাইট পরিদর্শন করেছেন এবং স্থাপনাটি সঠিক কার্যকর অবস্থায় গ্রহণ করেছেন। ভবিষ্যতের পরিষেবা অনুরোধ উল্লেখিত ওয়ারেন্টির শর্ত অনুযায়ী হবে।',clientSign:'গ্রাহকের গ্রহণযোগ্যতার স্বাক্ষর ও সিল',authSign:'অনুমোদিত স্বাক্ষরকারী',generating:'⏳ PDF তৈরি হচ্ছে...',pdfReady:'📥 সনদের PDF ডাউনলোড করুন',pdfError:'PDF তৈরি হয়নি। ইন্টারনেট ও PDF লাইব্রেরি পরীক্ষা করুন।'},
+ta:{allTools:'← அனைத்து கருவிகள்',navTitle:'KaamKaj Bills • பணி நிறைவு மற்றும் தள ஒப்படைப்பு சான்றிதழ்',language:'மொழி',themeHint:'இங்கே தோற்ற முறையை மாற்றலாம்',dark:'🌙 இருண்ட முறை',light:'☀️ ஒளி முறை',sec1:'1. ஒப்பந்ததாரர் / பொறியியல் நிறுவன விவரங்கள்',orgLabel:'ஒப்பந்ததாரர் / நிறுவனத்தின் பெயர்',addrLabel:'முகவரி மற்றும் தொடர்பு',refLabel:'சான்றிதழ் / குறிப்பு எண்',dateLabel:'ஒப்படைப்பு தேதி',warrantyLabel:'உத்தரவாத காலம்',sec2:'2. வாடிக்கையாளர் மற்றும் திட்ட விவரங்கள்',clientLabel:'வாடிக்கையாளர் / உரிமையாளர் பெயர்',projectLabel:'திட்டம் / பணியின் பெயர்',siteLabel:'தளம் / சொத்து முகவரி',sec3:'3. பணி நிறைவு அறிக்கை மற்றும் சரிபார்ப்பு பட்டியல்',completionLabel:'பணி நிறைவு அறிவிப்பு குறிப்பு',checklistLabel:'ஒப்படைப்பு பொருட்கள் மற்றும் குறிப்புகள் பட்டியல்',sec4:'4. அங்கீகரிக்கப்பட்ட கையொப்பதாரர்',signNameLabel:'கையொப்பதாரர் பெயர்',designationLabel:'பதவி',drawSigLabel:'டிஜிட்டல் கையொப்பம் வரையவும் (விருப்பம்)',clearSig:'கையொப்பத்தை அழிக்கவும்',pdfBtn:'📥 சான்றிதழ் PDF பதிவிறக்கம்',printBtn:'🖨️ சான்றிதழை அச்சிடுக',previewTitle:'பணி நிறைவு சான்றிதழ் A4 முன்னோட்டம்',badge:'தள ஒப்படைப்பு',certTitle:'பணி நிறைவு மற்றும் ஒப்படைப்பு சான்றிதழ்',subtitle:'திட்டம் வெற்றிகரமாக முடிக்கப்பட்டு வாடிக்கையாளர் ஏற்றுக்கொண்டதற்கான அதிகாரப்பூர்வ சான்று',labRef:'சான்றிதழ் குறிப்பு எண்:',labDate:'ஒப்படைப்பு தேதி:',labClient:'வாடிக்கையாளர் பெயர்:',labProject:'திட்டத்தின் பெயர்:',labSite:'தளத்தின் இடம்:',labWarranty:'உத்தரவாத விதிமுறைகள்:',checkTitle:'ஒப்படைப்பு சரிபார்ப்பு பட்டியல் மற்றும் நிலை:',declaration:'அறிவிப்பு:',declarationText:'வாடிக்கையாளர் முடிக்கப்பட்ட தளத்தை ஆய்வு செய்து, நிறுவலைச் சரியான செயல்பாட்டு நிலையில் ஏற்றுக்கொண்டுள்ளார். எதிர்கால சேவை கோரிக்கைகள் குறிப்பிடப்பட்ட உத்தரவாத விதிமுறைகளுக்கு உட்பட்டவை.',clientSign:'வாடிக்கையாளர் ஒப்புதல் கையொப்பம் மற்றும் முத்திரை',authSign:'அங்கீகரிக்கப்பட்ட கையொப்பதாரர்',generating:'⏳ PDF உருவாகிறது...',pdfReady:'📥 சான்றிதழ் PDF பதிவிறக்கம்',pdfError:'PDF உருவாக்க முடியவில்லை. இணைய இணைப்பு மற்றும் PDF நூலகத்தைச் சரிபார்க்கவும்.'},
+te:{allTools:'← అన్ని టూల్స్',navTitle:'KaamKaj Bills • పని పూర్తి మరియు సైట్ హ్యాండోవర్ సర్టిఫికేట్',language:'భాష',themeHint:'ఇక్కడి నుంచి మోడ్ మార్చవచ్చు',dark:'🌙 డార్క్ మోడ్',light:'☀️ లైట్ మోడ్',sec1:'1. కాంట్రాక్టర్ / ఇంజినీరింగ్ సంస్థ వివరాలు',orgLabel:'కాంట్రాక్టర్ / సంస్థ పేరు',addrLabel:'చిరునామా మరియు సంప్రదింపు',refLabel:'సర్టిఫికేట్ / రిఫరెన్స్ నంబర్',dateLabel:'హ్యాండోవర్ తేదీ',warrantyLabel:'వారంటీ కాలం',sec2:'2. క్లయింట్ మరియు ప్రాజెక్ట్ వివరాలు',clientLabel:'క్లయింట్ / యజమాని పేరు',projectLabel:'ప్రాజెక్ట్ / పని పేరు',siteLabel:'సైట్ / ఆస్తి చిరునామా',sec3:'3. పని పూర్తి ప్రకటన మరియు చెక్‌లిస్ట్',completionLabel:'పని పూర్తి ప్రకటన గమనిక',checklistLabel:'హ్యాండోవర్ అంశాలు మరియు వ్యాఖ్యల చెక్‌లిస్ట్',sec4:'4. అధీకృత సంతకదారు',signNameLabel:'సంతకదారి పేరు',designationLabel:'హోదా',drawSigLabel:'డిజిటల్ సంతకం గీయండి (ఐచ్ఛికం)',clearSig:'సంతకం తొలగించండి',pdfBtn:'📥 సర్టిఫికేట్ PDF డౌన్‌లోడ్',printBtn:'🖨️ సర్టిఫికేట్ ప్రింట్',previewTitle:'పని పూర్తి సర్టిఫికేట్ A4 ప్రివ్యూ',badge:'సైట్ హ్యాండోవర్',certTitle:'పని పూర్తి మరియు హ్యాండోవర్ సర్టిఫికేట్',subtitle:'ప్రాజెక్ట్ విజయవంతంగా పూర్తై క్లయింట్ అంగీకరించిన అధికారిక రుజువు',labRef:'సర్టిఫికేట్ రిఫరెన్స్ నంబర్:',labDate:'హ్యాండోవర్ తేదీ:',labClient:'క్లయింట్ పేరు:',labProject:'ప్రాజెక్ట్ పేరు:',labSite:'సైట్ స్థానం:',labWarranty:'వారంటీ నిబంధనలు:',checkTitle:'హ్యాండోవర్ చెక్‌లిస్ట్ మరియు స్థితి:',declaration:'ప్రకటన:',declarationText:'క్లయింట్ పూర్తయిన సైట్‌ను పరిశీలించి, ఇన్‌స్టాలేషన్‌ను సక్రమంగా పనిచేసే స్థితిలో అంగీకరించారు. భవిష్యత్ సేవా అభ్యర్థనలు పేర్కొన్న వారంటీ నిబంధనలకు లోబడి ఉంటాయి.',clientSign:'క్లయింట్ అంగీకార సంతకం మరియు ముద్ర',authSign:'అధీకృత సంతకదారు',generating:'⏳ PDF తయారవుతోంది...',pdfReady:'📥 సర్టిఫికేట్ PDF డౌన్‌లోడ్',pdfError:'PDF తయారు కాలేదు. ఇంటర్నెట్ మరియు PDF లైబ్రరీని తనిఖీ చేయండి.'},
+kn:{allTools:'← ಎಲ್ಲಾ ಪರಿಕರಗಳು',navTitle:'KaamKaj Bills • ಕೆಲಸ ಪೂರ್ಣಗೊಳಿಸುವಿಕೆ ಮತ್ತು ಸೈಟ್ ಹಸ್ತಾಂತರ ಪ್ರಮಾಣಪತ್ರ',language:'ಭಾಷೆ',themeHint:'ಇಲ್ಲಿಂದ ಮೋಡ್ ಬದಲಾಯಿಸಬಹುದು',dark:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',light:'☀️ ಲೈಟ್ ಮೋಡ್',sec1:'1. ಗುತ್ತಿಗೆದಾರ / ಎಂಜಿನಿಯರಿಂಗ್ ಸಂಸ್ಥೆಯ ವಿವರಗಳು',orgLabel:'ಗುತ್ತಿಗೆದಾರ / ಸಂಸ್ಥೆಯ ಹೆಸರು',addrLabel:'ವಿಳಾಸ ಮತ್ತು ಸಂಪರ್ಕ',refLabel:'ಪ್ರಮಾಣಪತ್ರ / ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ',dateLabel:'ಹಸ್ತಾಂತರ ದಿನಾಂಕ',warrantyLabel:'ವಾರಂಟಿ ಅವಧಿ',sec2:'2. ಗ್ರಾಹಕ ಮತ್ತು ಯೋಜನೆಯ ವಿವರಗಳು',clientLabel:'ಗ್ರಾಹಕ / ಮಾಲೀಕರ ಹೆಸರು',projectLabel:'ಯೋಜನೆ / ಕೆಲಸದ ಹೆಸರು',siteLabel:'ಸೈಟ್ / ಆಸ್ತಿ ವಿಳಾಸ',sec3:'3. ಕೆಲಸ ಪೂರ್ಣಗೊಂಡ ಘೋಷಣೆ ಮತ್ತು ಪರಿಶೀಲನಾ ಪಟ್ಟಿ',completionLabel:'ಕೆಲಸ ಪೂರ್ಣಗೊಂಡ ಘೋಷಣೆ ಟಿಪ್ಪಣಿ',checklistLabel:'ಹಸ್ತಾಂತರ ವಸ್ತುಗಳು ಮತ್ತು ಟಿಪ್ಪಣಿಗಳ ಪಟ್ಟಿ',sec4:'4. ಅಧಿಕೃತ ಸಹಿದಾರರು',signNameLabel:'ಸಹಿದಾರರ ಹೆಸರು',designationLabel:'ಹುದ್ದೆ',drawSigLabel:'ಡಿಜಿಟಲ್ ಸಹಿ ಬರೆಯಿರಿ (ಐಚ್ಛಿಕ)',clearSig:'ಸಹಿ ಅಳಿಸಿ',pdfBtn:'📥 ಪ್ರಮಾಣಪತ್ರ PDF ಡೌನ್‌ಲೋಡ್',printBtn:'🖨️ ಪ್ರಮಾಣಪತ್ರ ಮುದ್ರಿಸಿ',previewTitle:'ಕೆಲಸ ಪೂರ್ಣಗೊಂಡ ಪ್ರಮಾಣಪತ್ರ A4 ಪೂರ್ವವೀಕ್ಷಣೆ',badge:'ಸೈಟ್ ಹಸ್ತಾಂತರ',certTitle:'ಕೆಲಸ ಪೂರ್ಣಗೊಳಿಸುವಿಕೆ ಮತ್ತು ಹಸ್ತಾಂತರ ಪ್ರಮಾಣಪತ್ರ',subtitle:'ಯೋಜನೆ ಯಶಸ್ವಿಯಾಗಿ ಪೂರ್ಣಗೊಂಡು ಗ್ರಾಹಕರು ಸ್ವೀಕರಿಸಿದ ಅಧಿಕೃತ ಸಾಕ್ಷ್ಯ',labRef:'ಪ್ರಮಾಣಪತ್ರ ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ:',labDate:'ಹಸ್ತಾಂತರ ದಿನಾಂಕ:',labClient:'ಗ್ರಾಹಕರ ಹೆಸರು:',labProject:'ಯೋಜನೆಯ ಹೆಸರು:',labSite:'ಸೈಟ್ ಸ್ಥಳ:',labWarranty:'ವಾರಂಟಿ ನಿಯಮಗಳು:',checkTitle:'ಹಸ್ತಾಂತರ ಪರಿಶೀಲನಾ ಪಟ್ಟಿ ಮತ್ತು ಸ್ಥಿತಿ:',declaration:'ಘೋಷಣೆ:',declarationText:'ಗ್ರಾಹಕರು ಪೂರ್ಣಗೊಂಡ ಸ್ಥಳವನ್ನು ಪರಿಶೀಲಿಸಿ ಸ್ಥಾಪನೆಯನ್ನು ಉತ್ತಮ ಕಾರ್ಯನಿರ್ವಹಣೆಯ ಸ್ಥಿತಿಯಲ್ಲಿ ಸ್ವೀಕರಿಸಿದ್ದಾರೆ. ಮುಂದಿನ ಸೇವಾ ವಿನಂತಿಗಳು ಸೂಚಿಸಿದ ವಾರಂಟಿ ನಿಯಮಗಳಿಗೆ ಒಳಪಟ್ಟಿರುತ್ತವೆ.',clientSign:'ಗ್ರಾಹಕರ ಸ್ವೀಕೃತಿ ಸಹಿ ಮತ್ತು ಮುದ್ರೆ',authSign:'ಅಧಿಕೃತ ಸಹಿದಾರರು',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',pdfReady:'📥 ಪ್ರಮಾಣಪತ್ರ PDF ಡೌನ್‌ಲೋಡ್',pdfError:'PDF ಸಿದ್ಧವಾಗಲಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಮತ್ತು PDF ಲೈಬ್ರರಿಯನ್ನು ಪರಿಶೀಲಿಸಿ.'},
+ml:{allTools:'← എല്ലാ ടൂളുകളും',navTitle:'KaamKaj Bills • ജോലി പൂർത്തീകരണവും സൈറ്റ് കൈമാറ്റ സർട്ടിഫിക്കറ്റും',language:'ഭാഷ',themeHint:'ഇവിടെ നിന്ന് മോഡ് മാറ്റാം',dark:'🌙 ഡാർക്ക് മോഡ്',light:'☀️ ലൈറ്റ് മോഡ്',sec1:'1. കരാറുകാരൻ / എഞ്ചിനീയറിംഗ് സ്ഥാപന വിവരങ്ങൾ',orgLabel:'കരാറുകാരൻ / സ്ഥാപനത്തിന്റെ പേര്',addrLabel:'വിലാസവും ബന്ധപ്പെടാനുള്ള വിവരവും',refLabel:'സർട്ടിഫിക്കറ്റ് / റഫറൻസ് നമ്പർ',dateLabel:'കൈമാറ്റ തീയതി',warrantyLabel:'വാറന്റി കാലയളവ്',sec2:'2. ഉപഭോക്താവിന്റെയും പദ്ധതിയുടെയും വിവരങ്ങൾ',clientLabel:'ഉപഭോക്താവ് / ഉടമയുടെ പേര്',projectLabel:'പദ്ധതി / ജോലിയുടെ പേര്',siteLabel:'സൈറ്റ് / സ്വത്ത് വിലാസം',sec3:'3. ജോലി പൂർത്തീകരണ പ്രസ്താവനയും ചെക്ക്ലിസ്റ്റും',completionLabel:'ജോലി പൂർത്തീകരണ പ്രഖ്യാപന കുറിപ്പ്',checklistLabel:'കൈമാറ്റ ഇനങ്ങളും കുറിപ്പുകളും',sec4:'4. അംഗീകൃത ഒപ്പിടുന്ന വ്യക്തി',signNameLabel:'ഒപ്പിടുന്ന വ്യക്തിയുടെ പേര്',designationLabel:'പദവി',drawSigLabel:'ഡിജിറ്റൽ ഒപ്പ് വരയ്ക്കുക (ഐച്ഛികം)',clearSig:'ഒപ്പ് മായ്ക്കുക',pdfBtn:'📥 സർട്ടിഫിക്കറ്റ് PDF ഡൗൺലോഡ്',printBtn:'🖨️ സർട്ടിഫിക്കറ്റ് പ്രിന്റ്',previewTitle:'ജോലി പൂർത്തീകരണ സർട്ടിഫിക്കറ്റ് A4 പ്രിവ്യൂ',badge:'സൈറ്റ് കൈമാറ്റം',certTitle:'ജോലി പൂർത്തീകരണവും കൈമാറ്റ സർട്ടിഫിക്കറ്റും',subtitle:'പദ്ധതി വിജയകരമായി പൂർത്തിയാക്കി ഉപഭോക്താവ് സ്വീകരിച്ചതിന്റെ ഔദ്യോഗിക തെളിവ്',labRef:'സർട്ടിഫിക്കറ്റ് റഫറൻസ് നമ്പർ:',labDate:'കൈമാറ്റ തീയതി:',labClient:'ഉപഭോക്താവിന്റെ പേര്:',labProject:'പദ്ധതിയുടെ പേര്:',labSite:'സൈറ്റിന്റെ സ്ഥലം:',labWarranty:'വാറന്റി വ്യവസ്ഥകൾ:',checkTitle:'കൈമാറ്റ ചെക്ക്ലിസ്റ്റും നിലയും:',declaration:'പ്രഖ്യാപനം:',declarationText:'പൂർത്തിയായ സൈറ്റ് ഉപഭോക്താവ് പരിശോധിക്കുകയും സ്ഥാപനം ശരിയായ പ്രവർത്തനാവസ്ഥയിൽ സ്വീകരിക്കുകയും ചെയ്തു. ഭാവിയിലെ സേവന അഭ്യർത്ഥനകൾ പറഞ്ഞിരിക്കുന്ന വാറന്റി വ്യവസ്ഥകൾക്ക് വിധേയമായിരിക്കും.',clientSign:'ഉപഭോക്തൃ അംഗീകാര ഒപ്പും മുദ്രയും',authSign:'അംഗീകൃത ഒപ്പിടുന്ന വ്യക്തി',generating:'⏳ PDF തയ്യാറാക്കുന്നു...',pdfReady:'📥 സർട്ടിഫിക്കറ്റ് PDF ഡൗൺലോഡ്',pdfError:'PDF തയ്യാറാക്കാനായില്ല. ഇന്റർനെറ്റും PDF ലൈബ്രറിയും പരിശോധിക്കുക.'},
+pa:{allTools:'← ਸਾਰੇ ਟੂਲ',navTitle:'KaamKaj Bills • ਕੰਮ ਪੂਰਾ ਅਤੇ ਸਾਈਟ ਸੌਂਪਣ ਦਾ ਸਰਟੀਫਿਕੇਟ',language:'ਭਾਸ਼ਾ',themeHint:'ਇੱਥੋਂ ਮੋਡ ਬਦਲ ਸਕਦੇ ਹੋ',dark:'🌙 ਡਾਰਕ ਮੋਡ',light:'☀️ ਲਾਈਟ ਮੋਡ',sec1:'1. ਠੇਕੇਦਾਰ / ਇੰਜੀਨੀਅਰਿੰਗ ਫਰਮ ਦੇ ਵੇਰਵੇ',orgLabel:'ਠੇਕੇਦਾਰ / ਫਰਮ ਦਾ ਨਾਮ',addrLabel:'ਪਤਾ ਅਤੇ ਸੰਪਰਕ',refLabel:'ਸਰਟੀਫਿਕੇਟ / ਹਵਾਲਾ ਨੰਬਰ',dateLabel:'ਸਾਈਟ ਸੌਂਪਣ ਦੀ ਮਿਤੀ',warrantyLabel:'ਵਾਰੰਟੀ ਮਿਆਦ',sec2:'2. ਗਾਹਕ ਅਤੇ ਪ੍ਰੋਜੈਕਟ ਦੇ ਵੇਰਵੇ',clientLabel:'ਗਾਹਕ / ਮਾਲਕ ਦਾ ਨਾਮ',projectLabel:'ਪ੍ਰੋਜੈਕਟ / ਕੰਮ ਦਾ ਨਾਮ',siteLabel:'ਸਾਈਟ / ਜਾਇਦਾਦ ਦਾ ਪਤਾ',sec3:'3. ਕੰਮ ਪੂਰਾ ਹੋਣ ਦਾ ਬਿਆਨ ਅਤੇ ਚੈਕਲਿਸਟ',completionLabel:'ਕੰਮ ਪੂਰਾ ਹੋਣ ਦੀ ਘੋਸ਼ਣਾ',checklistLabel:'ਸੌਂਪੀਆਂ ਚੀਜ਼ਾਂ ਅਤੇ ਟਿੱਪਣੀਆਂ ਦੀ ਸੂਚੀ',sec4:'4. ਅਧਿਕਾਰਤ ਦਸਤਖਤਕਰਤਾ',signNameLabel:'ਦਸਤਖਤਕਰਤਾ ਦਾ ਨਾਮ',designationLabel:'ਅਹੁਦਾ',drawSigLabel:'ਡਿਜ਼ਿਟਲ ਦਸਤਖਤ ਬਣਾਓ (ਵਿਕਲਪਿਕ)',clearSig:'ਦਸਤਖਤ ਮਿਟਾਓ',pdfBtn:'📥 ਸਰਟੀਫਿਕੇਟ PDF ਡਾਊਨਲੋਡ ਕਰੋ',printBtn:'🖨️ ਸਰਟੀਫਿਕੇਟ ਪ੍ਰਿੰਟ ਕਰੋ',previewTitle:'ਕੰਮ ਪੂਰਾ ਹੋਣ ਦੇ ਸਰਟੀਫਿਕੇਟ ਦਾ A4 ਪ੍ਰੀਵਿਊ',badge:'ਸਾਈਟ ਸੌਂਪਣਾ',certTitle:'ਕੰਮ ਪੂਰਾ ਅਤੇ ਸਾਈਟ ਸੌਂਪਣ ਦਾ ਸਰਟੀਫਿਕੇਟ',subtitle:'ਪ੍ਰੋਜੈਕਟ ਸਫਲਤਾਪੂਰਵਕ ਪੂਰਾ ਹੋਣ ਅਤੇ ਗਾਹਕ ਦੀ ਮਨਜ਼ੂਰੀ ਦਾ ਅਧਿਕਾਰਤ ਸਬੂਤ',labRef:'ਸਰਟੀਫਿਕੇਟ ਹਵਾਲਾ ਨੰਬਰ:',labDate:'ਸੌਂਪਣ ਦੀ ਮਿਤੀ:',labClient:'ਗਾਹਕ ਦਾ ਨਾਮ:',labProject:'ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ:',labSite:'ਸਾਈਟ ਦਾ ਸਥਾਨ:',labWarranty:'ਵਾਰੰਟੀ ਦੀਆਂ ਸ਼ਰਤਾਂ:',checkTitle:'ਸੌਂਪਣ ਦੀ ਚੈਕਲਿਸਟ ਅਤੇ ਸਥਿਤੀ:',declaration:'ਘੋਸ਼ਣਾ:',declarationText:'ਗਾਹਕ ਨੇ ਮੁਕੰਮਲ ਸਾਈਟ ਦੀ ਜਾਂਚ ਕੀਤੀ ਹੈ ਅਤੇ ਇੰਸਟਾਲੇਸ਼ਨ ਨੂੰ ਠੀਕ ਕੰਮ ਕਰਨ ਵਾਲੀ ਹਾਲਤ ਵਿੱਚ ਸਵੀਕਾਰ ਕੀਤਾ ਹੈ। ਭਵਿੱਖ ਦੀਆਂ ਸੇਵਾ ਬੇਨਤੀਆਂ ਦਿੱਤੀਆਂ ਵਾਰੰਟੀ ਸ਼ਰਤਾਂ ਅਨੁਸਾਰ ਹੋਣਗੀਆਂ।',clientSign:'ਗਾਹਕ ਦੀ ਮਨਜ਼ੂਰੀ ਦੇ ਦਸਤਖਤ ਅਤੇ ਮੋਹਰ',authSign:'ਅਧਿਕਾਰਤ ਦਸਤਖਤਕਰਤਾ',generating:'⏳ PDF ਬਣ ਰਹੀ ਹੈ...',pdfReady:'📥 ਸਰਟੀਫਿਕੇਟ PDF ਡਾਊਨਲੋਡ ਕਰੋ',pdfError:'PDF ਨਹੀਂ ਬਣੀ। ਇੰਟਰਨੈੱਟ ਅਤੇ PDF ਲਾਇਬ੍ਰੇਰੀ ਦੀ ਜਾਂਚ ਕਰੋ।'},
+or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',navTitle:'KaamKaj Bills • କାର୍ଯ୍ୟ ସମାପ୍ତି ଓ ସାଇଟ୍ ହସ୍ତାନ୍ତର ପ୍ରମାଣପତ୍ର',language:'ଭାଷା',themeHint:'ଏଠାରୁ ମୋଡ୍ ବଦଳାନ୍ତୁ',dark:'🌙 ଡାର୍କ ମୋଡ୍',light:'☀️ ଲାଇଟ୍ ମୋଡ୍',sec1:'1. ଠିକାଦାର / ଇଞ୍ଜିନିୟରିଂ ସଂସ୍ଥାର ବିବରଣୀ',orgLabel:'ଠିକାଦାର / ସଂସ୍ଥାର ନାମ',addrLabel:'ଠିକଣା ଓ ଯୋଗାଯୋଗ',refLabel:'ପ୍ରମାଣପତ୍ର / ସନ୍ଦର୍ଭ ନମ୍ବର',dateLabel:'ହସ୍ତାନ୍ତର ତାରିଖ',warrantyLabel:'ୱାରେଣ୍ଟି ଅବଧି',sec2:'2. ଗ୍ରାହକ ଓ ପ୍ରକଳ୍ପ ବିବରଣୀ',clientLabel:'ଗ୍ରାହକ / ମାଲିକଙ୍କ ନାମ',projectLabel:'ପ୍ରକଳ୍ପ / କାମର ନାମ',siteLabel:'ସାଇଟ୍ / ସମ୍ପତ୍ତି ଠିକଣା',sec3:'3. କାର୍ଯ୍ୟ ସମାପ୍ତି ଘୋଷଣା ଓ ଯାଞ୍ଚ ତାଲିକା',completionLabel:'କାର୍ଯ୍ୟ ସମାପ୍ତି ଘୋଷଣା ଟିପ୍ପଣୀ',checklistLabel:'ହସ୍ତାନ୍ତର ସାମଗ୍ରୀ ଓ ଟିପ୍ପଣୀ ତାଲିକା',sec4:'4. ଅଧିକୃତ ସ୍ୱାକ୍ଷରକାରୀ',signNameLabel:'ସ୍ୱାକ୍ଷରକାରୀଙ୍କ ନାମ',designationLabel:'ପଦବୀ',drawSigLabel:'ଡିଜିଟାଲ୍ ସ୍ୱାକ୍ଷର ଆଙ୍କନ୍ତୁ (ଇଚ୍ଛାଧୀନ)',clearSig:'ସ୍ୱାକ୍ଷର ହଟାନ୍ତୁ',pdfBtn:'📥 ପ୍ରମାଣପତ୍ର PDF ଡାଉନଲୋଡ୍',printBtn:'🖨️ ପ୍ରମାଣପତ୍ର ପ୍ରିଣ୍ଟ୍',previewTitle:'କାର୍ଯ୍ୟ ସମାପ୍ତି ପ୍ରମାଣପତ୍ର A4 ପୂର୍ବଦୃଶ୍ୟ',badge:'ସାଇଟ୍ ହସ୍ତାନ୍ତର',certTitle:'କାର୍ଯ୍ୟ ସମାପ୍ତି ଓ ହସ୍ତାନ୍ତର ପ୍ରମାଣପତ୍ର',subtitle:'ପ୍ରକଳ୍ପ ସଫଳତାର ସହିତ ସମାପ୍ତ ଓ ଗ୍ରାହକଙ୍କ ଗ୍ରହଣର ଅଧିକୃତ ପ୍ରମାଣ',labRef:'ପ୍ରମାଣପତ୍ର ସନ୍ଦର୍ଭ ନମ୍ବର:',labDate:'ହସ୍ତାନ୍ତର ତାରିଖ:',labClient:'ଗ୍ରାହକଙ୍କ ନାମ:',labProject:'ପ୍ରକଳ୍ପର ନାମ:',labSite:'ସାଇଟ୍ ସ୍ଥାନ:',labWarranty:'ୱାରେଣ୍ଟି ସର୍ତ୍ତାବଳୀ:',checkTitle:'ହସ୍ତାନ୍ତର ଯାଞ୍ଚ ତାଲିକା ଓ ସ୍ଥିତି:',declaration:'ଘୋଷଣା:',declarationText:'ଗ୍ରାହକ ସମାପ୍ତ ସାଇଟ୍ ଯାଞ୍ଚ କରି ସ୍ଥାପନାକୁ ଭଲ କାର୍ଯ୍ୟକ୍ଷମ ଅବସ୍ଥାରେ ଗ୍ରହଣ କରିଛନ୍ତି। ଭବିଷ୍ୟତ ସେବା ଅନୁରୋଧ ଉଲ୍ଲେଖିତ ୱାରେଣ୍ଟି ସର୍ତ୍ତ ଅନୁଯାୟୀ ହେବ।',clientSign:'ଗ୍ରାହକଙ୍କ ଗ୍ରହଣ ସ୍ୱାକ୍ଷର ଓ ମୋହର',authSign:'ଅଧିକୃତ ସ୍ୱାକ୍ଷରକାରୀ',generating:'⏳ PDF ପ୍ରସ୍ତୁତ ହେଉଛି...',pdfReady:'📥 ପ୍ରମାଣପତ୍ର PDF ଡାଉନଲୋଡ୍',pdfError:'PDF ତିଆରି ହେଲା ନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଓ PDF ଲାଇବ୍ରେରୀ ଯାଞ୍ଚ କରନ୍ତୁ।'},
+ur:{allTools:'← تمام ٹولز',navTitle:'KaamKaj Bills • کام کی تکمیل اور سائٹ حوالگی سرٹیفکیٹ',language:'زبان',themeHint:'یہاں سے ڈسپلے موڈ تبدیل کریں',dark:'🌙 ڈارک موڈ',light:'☀️ لائٹ موڈ',sec1:'1. ٹھیکیدار / انجینئرنگ فرم کی تفصیلات',orgLabel:'ٹھیکیدار / فرم کا نام',addrLabel:'پتہ اور رابطہ',refLabel:'سرٹیفکیٹ / حوالہ نمبر',dateLabel:'حوالگی کی تاریخ',warrantyLabel:'وارنٹی کی مدت',sec2:'2. کلائنٹ اور منصوبے کی تفصیلات',clientLabel:'کلائنٹ / مالک کا نام',projectLabel:'منصوبے / کام کا نام',siteLabel:'سائٹ / جائیداد کا پتہ',sec3:'3. کام کی تکمیل کا بیان اور چیک لسٹ',completionLabel:'کام کی تکمیل کا اعلامیہ',checklistLabel:'حوالگی کی اشیاء اور تبصروں کی فہرست',sec4:'4. مجاز دستخط کنندہ',signNameLabel:'دستخط کنندہ کا نام',designationLabel:'عہدہ',drawSigLabel:'ڈیجیٹل دستخط بنائیں (اختیاری)',clearSig:'دستخط صاف کریں',pdfBtn:'📥 سرٹیفکیٹ PDF ڈاؤن لوڈ کریں',printBtn:'🖨️ سرٹیفکیٹ پرنٹ کریں',previewTitle:'کام کی تکمیل کے سرٹیفکیٹ کا A4 پیش منظر',badge:'سائٹ حوالگی',certTitle:'کام کی تکمیل اور حوالگی کا سرٹیفکیٹ',subtitle:'منصوبے کی کامیاب تکمیل اور کلائنٹ کی منظوری کا سرکاری ثبوت',labRef:'سرٹیفکیٹ حوالہ نمبر:',labDate:'حوالگی کی تاریخ:',labClient:'کلائنٹ کا نام:',labProject:'منصوبے کا نام:',labSite:'سائٹ کا مقام:',labWarranty:'وارنٹی کی شرائط:',checkTitle:'حوالگی چیک لسٹ اور حالت:',declaration:'اعلان:',declarationText:'کلائنٹ نے مکمل شدہ سائٹ کا معائنہ کیا ہے اور تنصیب کو درست کام کرنے کی حالت میں قبول کیا ہے۔ مستقبل کی سروس درخواستیں درج شدہ وارنٹی شرائط کے مطابق ہوں گی۔',clientSign:'کلائنٹ کی منظوری کے دستخط اور مہر',authSign:'مجاز دستخط کنندہ',generating:'⏳ PDF تیار ہو رہی ہے...',pdfReady:'📥 سرٹیفکیٹ PDF ڈاؤن لوڈ کریں',pdfError:'PDF تیار نہیں ہو سکی۔ انٹرنیٹ اور PDF لائبریری چیک کریں۔'}
+};
+const LANG_TAGS={hi:'hi',en:'en',mr:'mr',gu:'gu',bn:'bn',ta:'ta',te:'te',kn:'kn',ml:'ml',pa:'pa',or:'or',ur:'ur'};
+let currentLang='hi';
+function tr(key){return (LANGS[currentLang]&&LANGS[currentLang][key])||LANGS.en[key]||key}
+function changeLanguage(lang){currentLang=LANGS[lang]?lang:'hi';document.documentElement.lang=LANG_TAGS[currentLang];document.documentElement.dir=currentLang==='ur'?'rtl':'ltr';try{localStorage.setItem('kkb_handover_lang',currentLang)}catch(e){};document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');el.textContent=tr(key)});document.getElementById('lab_ref').textContent=tr('labRef');document.getElementById('lab_date').textContent=tr('labDate');document.getElementById('lab_client').textContent=tr('labClient');document.getElementById('lab_project').textContent=tr('labProject');document.getElementById('lab_site').textContent=tr('labSite');document.getElementById('lab_warranty').textContent=tr('labWarranty');document.getElementById('lab_checklist').textContent=tr('checkTitle');document.getElementById('lab_declaration').textContent=tr('declaration');document.getElementById('out_badge').textContent=tr('badge');document.getElementById('out_cert_title').textContent=tr('certTitle');document.getElementById('out_subtitle').textContent=tr('subtitle');document.getElementById('out_declaration').textContent=tr('declarationText');document.getElementById('lab_client_sign').textContent=tr('clientSign');document.getElementById('lab_auth_sign').textContent=tr('authSign');updateThemeButton();}
+function updateThemeButton(){const dark=document.body.classList.contains('dark-mode');document.getElementById('btnDark').textContent=dark?tr('light'):tr('dark')}
+function toggleDarkMode(){const dark=document.body.classList.toggle('dark-mode');try{localStorage.setItem('kkb_handover_theme',dark?'dark':'light')}catch(e){}updateThemeButton()}
+function esc(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function renderCert(){document.getElementById('out_org').textContent=document.getElementById('in_org').value.trim()||'CONTRACTOR NAME';document.getElementById('out_addr').textContent=document.getElementById('in_addr').value.trim()||'-';document.getElementById('out_ref').textContent=document.getElementById('in_ref').value.trim()||'-';document.getElementById('out_date').textContent=document.getElementById('in_date').value||'-';document.getElementById('out_warranty').textContent=document.getElementById('in_warranty').value.trim()||'-';document.getElementById('out_client').textContent=document.getElementById('in_client').value.trim()||'-';document.getElementById('out_project').textContent=document.getElementById('in_project').value.trim()||'-';document.getElementById('out_site').textContent=document.getElementById('in_site').value.trim()||'-';document.getElementById('out_note').textContent=document.getElementById('in_note').value;document.getElementById('out_check').textContent=document.getElementById('in_check').value;document.getElementById('out_auth').textContent=document.getElementById('in_auth').value.trim()||'Authorized Signatory';document.getElementById('out_desig').textContent=document.getElementById('in_desig').value.trim()||'Director'}
 
-  function toggleDarkMode() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem('kkb_handover_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }
+const cvs=document.getElementById('sigCanvas'),ctx=cvs.getContext('2d');let drawing=false;
+function canvasPoint(e){const r=cvs.getBoundingClientRect();const sx=cvs.width/r.width,sy=cvs.height/r.height;return{x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy}}
+cvs.addEventListener('pointerdown',e=>{drawing=true;cvs.setPointerCapture(e.pointerId);const p=canvasPoint(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault()});cvs.addEventListener('pointermove',e=>{if(!drawing)return;const p=canvasPoint(e);ctx.lineWidth=2.2;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#0f172a';ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault()});cvs.addEventListener('pointerup',e=>{if(!drawing)return;drawing=false;syncSignature();e.preventDefault()});cvs.addEventListener('pointercancel',()=>{if(drawing){drawing=false;syncSignature()}});
+function syncSignature(){const data=cvs.toDataURL('image/png');const img=document.getElementById('out_sig');img.src=data;img.style.display=hasSignatureInk()?'block':'none'}
+function hasSignatureInk(){const d=ctx.getImageData(0,0,cvs.width,cvs.height).data;for(let i=3;i<d.length;i+=4){if(d[i]>0)return true}return false}
+function clearSig(){ctx.clearRect(0,0,cvs.width,cvs.height);const img=document.getElementById('out_sig');img.removeAttribute('src');img.style.display='none'}
 
-  function renderCert() {
-    document.getElementById('out_org').innerText = document.getElementById('in_org').value.trim() || 'CONTRACTOR NAME';
-    document.getElementById('out_addr').innerText = document.getElementById('in_addr').value.trim() || '-';
-    document.getElementById('out_ref').innerText = document.getElementById('in_ref').value.trim() || '-';
-    document.getElementById('out_date').innerText = document.getElementById('in_date').value || '-';
-    document.getElementById('out_warranty').innerText = document.getElementById('in_warranty').value.trim() || '-';
-    document.getElementById('out_client').innerText = document.getElementById('in_client').value.trim() || '-';
-    document.getElementById('out_project').innerText = document.getElementById('in_project').value.trim() || '-';
-    document.getElementById('out_site').innerText = document.getElementById('in_site').value.trim() || '-';
-    document.getElementById('out_note').innerText = document.getElementById('in_note').value;
-    document.getElementById('out_check').innerText = document.getElementById('in_check').value;
-    document.getElementById('out_auth').innerText = document.getElementById('in_auth').value.trim() || 'Authorized Signatory';
-    document.getElementById('out_desig').innerText = document.getElementById('in_desig').value.trim() || 'Director';
-  }
-
-  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
-  let draw = false;
-  function pos(e) {
-    const r = cvs.getBoundingClientRect();
-    const t = e.touches ? e.touches[0] : e;
-    return { x: t.clientX - r.left, y: t.clientY - r.top };
-  }
-  cvs.addEventListener('mousedown', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
-  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
-  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
-  cvs.addEventListener('touchstart', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
-  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
-  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
-  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
-
-  function downloadPDF() {
-    const btn = document.getElementById('btnPdf');
-    btn.disabled = true; btn.innerText = '⏳ Generating PDF...';
-    const savedX = window.scrollX || 0, savedY = window.scrollY || 0;
-    window.scrollTo(0, 0);
-
-    const source = document.getElementById('a4DocSheet');
-    const clone = source.cloneNode(true);
-    clone.removeAttribute('id');
-
-    const PDF_WIDTH = 660;
-    clone.style.cssText = `width:${PDF_WIDTH}px; min-width:${PDF_WIDTH}px; max-width:${PDF_WIDTH}px; margin:0; padding:24px 26px; background:#ffffff; color:#0f172a; border:none; box-shadow:none; box-sizing:border-box;`;
-
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `position:absolute; top:0; left:0; width:${PDF_WIDTH}px; background:#ffffff; z-index:999999; margin:0; padding:0;`;
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-
-    const clientName = (document.getElementById('in_client').value.trim() || 'Client').replace(/[^a-zA-Z0-9-_]/g, '_');
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        html2pdf().set({
-          margin: [8, 10, 10, 10],
-          filename: `Handover_Certificate_${clientName}.pdf`,
-          image: { type: 'png', quality: 1.0 },
-          html2canvas: { scale: 3, useCORS: true, scrollX: 0, scrollY: 0, width: PDF_WIDTH, windowWidth: PDF_WIDTH, backgroundColor: '#ffffff' },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
-        }).from(clone).save().then(() => {
-          wrap.remove(); window.scrollTo(savedX, savedY);
-          btn.disabled = false; btn.innerText = '📥 Download Certificate PDF';
-        }).catch(() => {
-          wrap.remove(); window.scrollTo(savedX, savedY);
-          btn.disabled = false; btn.innerText = '📥 Download Certificate PDF';
-        });
-      }, 150);
-    });
-  }
-
-  function printCert() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Certificate</title><style>
-      @page { size: A4 portrait; margin: 10mm; }
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm;color:#0f172a;background:#fff;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
-      .cert-header{border-bottom:3px solid #16a34a;padding-bottom:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start}
-      .cert-org h2{margin:0;font-size:19px;text-transform:uppercase}.cert-org p{margin:3px 0 0;font-size:10.5px;color:#475569}
-      .cert-badge{background:#16a34a;color:#fff;padding:6px 12px;border-radius:5px;font-size:10.5px;font-weight:800;text-transform:uppercase}
-      .cert-title-box{text-align:center;margin:16px 0}.cert-title-box h1{margin:0;font-size:22px;color:#16a34a;text-transform:uppercase}
-      .cert-title-box p{margin:4px 0 0;font-size:11.5px;color:#475569;font-weight:700}
-      .cert-meta-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11.5px}
-      .cert-meta-table td{padding:5px 8px;border:1px solid #cbd5e1}.cert-meta-table td.lbl{background:#f8fafc;font-weight:700;width:25%}
-      .cert-body-text{font-size:12px;line-height:1.65;margin-bottom:14px;white-space:pre-line}
-      .checklist-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:10px 14px;font-size:11px;line-height:1.6;margin-bottom:16px;white-space:pre-line}
-      .sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:26px;font-size:11px}
-      .sig-col{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:6px;font-weight:700}
-      .auth-sig-img{max-height:32px;display:block;margin:0 auto 2px}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  window.onload = () => {
-    try {
-      if (localStorage.getItem('kkb_handover_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnDark').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_ref').value = 'HC/2026/' + Math.floor(100 + Math.random() * 899);
-    renderCert();
-  };
+async function downloadPDF(){const btn=document.getElementById('btnPdf');const readyLabel=tr('pdfReady');if(typeof html2pdf!=='function'){alert(tr('pdfError'));return}btn.disabled=true;btn.textContent=tr('generating');const savedX=window.scrollX||0,savedY=window.scrollY||0;let overlay=null;try{window.scrollTo(0,0);const source=document.getElementById('a4DocSheet');const clone=source.cloneNode(true);clone.removeAttribute('id');const PDF_WIDTH=680;clone.style.cssText=[`width:${PDF_WIDTH}px`,`min-width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'margin:0','padding:24px 26px','background:#ffffff','color:#0f172a','border:none','box-shadow:none','border-radius:0','box-sizing:border-box'].join(';');const sig=clone.querySelector('#out_sig');const originalSig=document.getElementById('out_sig');if(originalSig&&originalSig.src&&originalSig.style.display!=='none'){sig.src=originalSig.src;sig.style.display='block'}overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:2147483000;overflow:auto;margin:0;padding:0;';const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,180)));const client=(document.getElementById('in_client').value.trim()||'Client').replace(/[^a-zA-Z0-9-_]/g,'_');await html2pdf().set({margin:[8,10,10,10],filename:`Handover_Certificate_${client}.pdf`,image:{type:'png',quality:1.0},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true}}).from(staging).save();}catch(err){console.error('PDF export failed:',err);alert(tr('pdfError'))}finally{if(overlay)overlay.remove();window.scrollTo(savedX,savedY);btn.disabled=false;btn.textContent=readyLabel}}
+function printCert(){const w=window.open('','_blank','width=850,height=900');if(!w){alert('Please allow pop-ups to print the certificate.');return}const content=document.getElementById('a4DocSheet').innerHTML;w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Print Certificate</title><style>@page{size:A4 portrait;margin:10mm}*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{margin:0;padding:0;color:#0f172a;background:#fff;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.cert-header{border-bottom:3px solid #16a34a;padding-bottom:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.cert-org h2{margin:0;font-size:19px;text-transform:uppercase}.cert-org p{margin:3px 0 0;font-size:10.5px;color:#475569}.cert-badge{background:#16a34a;color:#fff;padding:6px 12px;border-radius:5px;font-size:10.5px;font-weight:800;text-transform:uppercase}.cert-title-box{text-align:center;margin:16px 0}.cert-title-box h1{margin:0;font-size:22px;color:#16a34a;text-transform:uppercase}.cert-title-box p{margin:4px 0 0;font-size:11.5px;color:#475569;font-weight:700}.cert-meta-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11.5px}.cert-meta-table td{padding:5px 8px;border:1px solid #cbd5e1}.cert-meta-table td.lbl{background:#f8fafc;font-weight:700;width:25%}.cert-body-text{font-size:12px;line-height:1.65;margin-bottom:14px;white-space:pre-line}.checklist-heading{font-size:11.5px;font-weight:800;margin-bottom:4px;text-transform:uppercase}.checklist-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:10px 14px;font-size:11px;line-height:1.6;margin-bottom:16px;white-space:pre-line}.declaration{font-size:10.5px;color:#475569;margin-top:12px;line-height:1.5}.sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:26px;font-size:11px;gap:20px}.sig-col{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:6px;font-weight:700}.auth-sig-img{max-height:32px;max-width:120px;display:block;margin:0 auto 2px}</style></head><body>${content}</body></html>`);w.document.close();w.focus();setTimeout(()=>{w.print();},500)}
+window.addEventListener('load',()=>{try{const savedLang=localStorage.getItem('kkb_handover_lang');if(savedLang&&LANGS[savedLang]){document.getElementById('selLang').value=savedLang;changeLanguage(savedLang)}else{changeLanguage('hi')}if(localStorage.getItem('kkb_handover_theme')==='dark'){document.body.classList.add('dark-mode')}}catch(e){changeLanguage('hi')}updateThemeButton();document.getElementById('in_date').value=new Date().toISOString().split('T')[0];document.getElementById('in_ref').value='HC/2026/'+Math.floor(100+Math.random()*899);renderCert()});
 </script>
 </body>
 </html>
