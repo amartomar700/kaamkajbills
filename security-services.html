@@ -6,718 +6,105 @@
 <title>Security Services Duty Roster & Staff Advance Slip - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #1e3a8a;
-    --primary-dark: #172554;
-    --primary-soft: #dbeafe;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: rgba(203, 213, 225, 0.85);
-    --bg: #f1f5f9;
-    --surface: rgba(255, 255, 255, 0.92);
-    --surface-alt: rgba(248, 250, 252, 0.92);
-    --danger: #dc2626;
-    --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
-  }
-
-  body.dark-mode {
-    --primary: #60a5fa;
-    --primary-dark: #3b82f6;
-    --primary-soft: rgba(96, 165, 250, 0.16);
-    --ink: #f1f5f9;
-    --ink-muted: #94a3b8;
-    --border: rgba(51, 65, 85, 0.85);
-    --bg: #0b1120;
-    --surface: rgba(30, 41, 59, 0.92);
-    --surface-alt: rgba(15, 23, 42, 0.88);
-    --shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
-  }
-
-  * {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #dbeafe 0%, #f8fafc 48%, #fef3c7 100%);
-    color: var(--ink);
-    overflow-x: hidden;
-    position: relative;
-    transition: background 0.25s, color 0.25s;
-  }
-
-  body.dark-mode {
-    background: linear-gradient(135deg, #090d16 0%, #0f172a 55%, #172033 100%);
-  }
-
-  /* FLOATING COLOURS BACKGROUND */
-  .floating-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(50px);
-    opacity: 0.55;
-    animation: floatOrb 14s infinite alternate ease-in-out;
-  }
-  body.dark-mode .orb { opacity: 0.22; }
-  .orb-1 {
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, #1d4ed8, #60a5fa);
-    top: 4%;
-    left: -80px;
-  }
-  .orb-2 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, #f59e0b, #fde047);
-    top: 26%;
-    right: -80px;
-    animation-delay: -4s;
-  }
-  .orb-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #6366f1, #a5b4fc);
-    bottom: 8%;
-    left: 18%;
-    opacity: 0.4;
-    animation-delay: -7s;
-  }
-  .orb-4 {
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, #10b981, #34d399);
-    bottom: -40px;
-    right: 12%;
-    opacity: 0.45;
-    animation-delay: -2s;
-  }
-  @keyframes floatOrb {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(55px, -40px) scale(1.1); }
-    100% { transform: translate(-40px, 50px) scale(0.95); }
-  }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #fff;
-    padding: 12px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
-  }
-  .nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: #1e3a8a; border-color: #60a5fa; }
-  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
-  .btn-theme {
-    background: rgba(255,255,255,0.14);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .btn-theme:hover { background: rgba(255,255,255,0.24); }
-
-  /* Full-Screen Wide Split Grid Layout */
-  .kb-wrapper {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1540px;
-    margin: 0 auto;
-    padding: 22px 28px 48px 28px;
-    display: grid;
-    grid-template-columns: minmax(420px, 1.05fr) minmax(500px, 0.95fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 22px 22px;
-    box-shadow: var(--shadow);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 9px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: var(--surface-alt);
-    transition: all 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background: var(--surface);
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background: linear-gradient(135deg, #1e3a8a, #172554);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(30, 58, 138, 0.28);
-  }
-
-  /* Roster Table Controls */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
-  .items-input-table th {
-    text-align: left;
-    padding: 8px 6px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: var(--primary-soft);
-    border-bottom: 2px solid var(--border);
-  }
-  .items-input-table td { padding: 6px 4px; }
-  .btn-del-row {
-    background: #fee2e2;
-    color: var(--danger);
-    border: 1px solid #fca5a5;
-    border-radius: 7px;
-    width: 32px;
-    height: 36px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .btn-del-row:hover { background: var(--danger); color: #fff; }
-  .btn-add-row {
-    background: var(--primary-soft);
-    color: var(--primary);
-    border: 1.5px dashed var(--primary);
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1;
-    min-width: 145px;
-    padding: 13px;
-    border: none;
-    border-radius: 10px;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.94; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #1e3a8a, #172554); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  .preview-viewport {
-    width: 100%;
-    overflow-x: auto;
-    background: #e2e8f0;
-    padding: 16px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-  }
-  body.dark-mode .preview-viewport {
-    background: #0f172a;
-  }
-  #a4DocSheet {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    width: 100%;
-    max-width: 720px;
-    padding: 22px 20px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-    flex-shrink: 0;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 16px;
-    background: #ffffff;
-  }
-
-  .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 2.5px solid #1e3a8a;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .doc-biz p { margin: 3px 0 0; font-size: 11px; color: #475569; }
-  .doc-type-badge {
-    background: #1e3a8a;
-    color: #ffffff;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-weight: 800;
-    border-radius: 5px;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-
-  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
-  .meta-table td { padding: 4px 6px; border: 1px solid #cbd5e1; color: #0f172a; }
-  .meta-table td.lbl { background: #f8fafc; font-weight: 700; color: #334155; width: 24%; }
-  .meta-table td.val { font-weight: 600; color: #0f172a; width: 26%; }
-
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
-  .doc-items-table th { background: #dbeafe; color: #1e3a8a; padding: 6px; text-align: left; font-weight: 800; border: 1px solid #93c5fd; }
-  .doc-items-table td { padding: 5.5px 6px; border: 1px solid #cbd5e1; font-weight: 600; color: #0f172a; }
-  .t-center { text-align: center !important; }
-
-  .adv-highlight {
-    background: #eff6ff;
-    border: 1.5px solid #93c5fd;
-    border-radius: 6px;
-    padding: 10px 14px;
-    margin: 12px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .notes-box { background: #f8fafc; border-left: 3.5px solid #1e3a8a; padding: 7px 10px; font-size: 10.5px; color: #334155; margin: 10px 0; line-height: 1.45; }
-  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 26px; font-size: 10.5px; }
-  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  @media (max-width: 1120px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
-    .preview-panel { position: static; }
-  }
-  @media (max-width: 760px) {
-    .preview-viewport { justify-content: flex-start; padding: 10px; }
-    #a4DocSheet { min-width: 620px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .top-nav { padding: 10px 14px; }
-    .nav-title { font-size: 13.5px; }
-    .control-box, .preview-panel { padding: 14px 12px; border-radius: 12px; }
-  }
+:root{--primary:#1e3a8a;--primary-dark:#172554;--primary-soft:#dbeafe;--ink:#0f172a;--ink-muted:#475569;--border:rgba(203,213,225,.85);--bg:#f1f5f9;--surface:rgba(255,255,255,.94);--surface-alt:rgba(248,250,252,.94);--danger:#dc2626;--shadow:0 8px 28px rgba(15,23,42,.06)}
+body.dark-mode{--primary:#60a5fa;--primary-dark:#3b82f6;--primary-soft:rgba(96,165,250,.16);--ink:#f1f5f9;--ink-muted:#94a3b8;--border:rgba(51,65,85,.85);--bg:#0b1120;--surface:rgba(30,41,59,.94);--surface-alt:rgba(15,23,42,.9);--shadow:0 8px 28px rgba(0,0,0,.4)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100vh;background:linear-gradient(135deg,#dbeafe 0%,#f8fafc 48%,#fef3c7 100%);color:var(--ink);overflow-x:hidden;position:relative;transition:background .25s,color .25s}
+body.dark-mode{background:linear-gradient(135deg,#090d16 0%,#0f172a 55%,#172033 100%)}
+.floating-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}.orb{position:absolute;border-radius:50%;filter:blur(50px);opacity:.5;animation:floatOrb 14s infinite alternate ease-in-out}body.dark-mode .orb{opacity:.2}.orb-1{width:380px;height:380px;background:radial-gradient(circle,#1d4ed8,#60a5fa);top:4%;left:-80px}.orb-2{width:360px;height:360px;background:radial-gradient(circle,#f59e0b,#fde047);top:26%;right:-80px;animation-delay:-4s}.orb-3{width:400px;height:400px;background:radial-gradient(circle,#6366f1,#a5b4fc);bottom:8%;left:18%;opacity:.35;animation-delay:-7s}.orb-4{width:340px;height:340px;background:radial-gradient(circle,#10b981,#34d399);bottom:-40px;right:12%;opacity:.4;animation-delay:-2s}@keyframes floatOrb{0%{transform:translate(0,0) scale(1)}50%{transform:translate(55px,-40px) scale(1.1)}100%{transform:translate(-40px,50px) scale(.95)}}
+.top-nav{background:rgba(15,23,42,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;padding:11px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 4px 18px rgba(0,0,0,.16)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 13px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2);white-space:nowrap}.btn-home:hover{background:var(--primary)}.nav-title{font-size:15px;font-weight:800;letter-spacing:.2px}.theme-control{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.theme-help{font-size:11.5px;color:#e2e8f0;font-weight:600}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}.btn-theme:hover{background:rgba(255,255,255,.24)}.lang-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700}.lang-control select{width:auto;min-width:145px;max-width:190px;padding:7px 9px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:#1e293b;color:#fff;font-size:12px;font-weight:700}
+.kb-wrapper{position:relative;z-index:2;width:100%;max-width:none;margin:0;padding:20px 24px 44px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;align-items:start}.control-box,.preview-panel{background:var(--surface);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1.5px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}.control-box{padding:22px}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}label{font-size:11px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.35px;line-height:1.4}input,select{width:100%;min-width:0;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:all .2s}input:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(30,58,138,.14)}
+.section-badge{background:var(--primary-soft);color:var(--primary);font-size:11.5px;font-weight:800;padding:7px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:16px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary);line-height:1.4}.section-badge:first-of-type{margin-top:0}.toggle-bar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;background:var(--surface-alt);border:1px solid var(--border);padding:5px;border-radius:10px}.toggle-btn{padding:11px 9px;border:0;border-radius:8px;font-size:12px;font-weight:700;line-height:1.45;cursor:pointer;background:transparent;color:var(--ink-muted);transition:.2s}.toggle-btn.active{background:linear-gradient(135deg,#1e3a8a,#172554);color:#fff;box-shadow:0 3px 8px rgba(30,58,138,.28)}
+.items-input-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12px;min-width:620px}.items-input-table th{text-align:left;padding:9px 7px;color:var(--ink-muted);font-weight:800;background:var(--primary-soft);border-bottom:2px solid var(--border)}.items-input-table td{padding:6px 4px;border-bottom:1px solid var(--border)}.items-input-table input{padding:8px 9px;font-size:12.5px}.table-scroll{width:100%;overflow-x:auto;border:1px solid var(--border);border-radius:10px}.btn-del-row{background:#fee2e2;color:var(--danger);border:1px solid #fca5a5;border-radius:7px;width:32px;height:36px;font-weight:bold;cursor:pointer}.btn-del-row:hover{background:var(--danger);color:#fff}.btn-add-row{background:var(--primary-soft);color:var(--primary);border:1.5px dashed var(--primary);padding:10px 14px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;margin-top:9px}.btn-add-row:hover{filter:brightness(.97)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:145px;padding:13px;border:0;border-radius:10px;font-size:13.5px;font-weight:800;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:.2s}.btn:hover{opacity:.94;transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:wait;transform:none}.btn-pdf{background:linear-gradient(135deg,#1e3a8a,#172554)}.btn-print{background:linear-gradient(135deg,#334155,#0f172a)}.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d)}
+.preview-panel{position:sticky;top:78px;width:100%;padding:16px}.preview-label{text-align:center;font-size:12px;font-weight:800;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:14px 10px;border-radius:12px;border:1px solid var(--border);display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0f172a}#a4DocSheet{background:#fff!important;color:#0f172a!important;width:100%;max-width:760px;padding:22px 20px;border:1.5px solid #cbd5e1;box-shadow:0 10px 30px rgba(15,23,42,.08);border-radius:8px;box-sizing:border-box;flex-shrink:0}.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px;background:#fff;color:#0f172a}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #1e3a8a;padding-bottom:10px;margin-bottom:12px;gap:10px}.doc-biz h2{margin:0;font-size:18px;font-weight:800;color:#0f172a;text-transform:uppercase;overflow-wrap:anywhere}.doc-biz p{margin:3px 0 0;font-size:11px;color:#475569;overflow-wrap:anywhere}.doc-type-badge{background:#1e3a8a;color:#fff;padding:5px 12px;font-size:10.5px;font-weight:800;border-radius:5px;text-transform:uppercase;flex-shrink:0;max-width:48%;text-align:center}.meta-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:11px;table-layout:fixed}.meta-table td{padding:5px 6px;border:1px solid #cbd5e1;color:#0f172a;overflow-wrap:anywhere}.meta-table td.lbl{background:#f8fafc;font-weight:700;color:#334155;width:22%}.meta-table td.val{font-weight:600;color:#0f172a;width:28%}.doc-items-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:10.8px;table-layout:fixed}.doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:6px 5px;text-align:left;font-weight:800;border:1px solid #93c5fd;overflow-wrap:anywhere}.doc-items-table td{padding:6px 5px;border:1px solid #cbd5e1;font-weight:600;color:#0f172a;overflow-wrap:anywhere}.t-center{text-align:center!important}.t-right{text-align:right!important}.notes-box{background:#f8fafc;border-left:3.5px solid #1e3a8a;padding:7px 10px;font-size:10.5px;color:#334155;margin:10px 0;line-height:1.45;overflow-wrap:anywhere}.footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:10.5px;gap:12px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:700;color:#334155}
+.adv-highlight{background:#eff6ff;border:1.5px solid #93c5fd;border-radius:7px;padding:12px 14px;margin:12px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;color:#1e3a8a}.adv-amount{font-size:20px;font-weight:900;color:#1e3a8a}.declaration-box{background:#f8fafc;border:1px solid #cbd5e1;border-radius:7px;padding:10px 12px;margin:10px 0;font-size:10.5px;line-height:1.5;color:#334155}
+@media(max-width:1120px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 34px;gap:18px}.preview-panel{position:static}}
+@media(max-width:760px){.preview-viewport{justify-content:flex-start;padding:10px}#a4DocSheet{min-width:620px}.top-nav{padding:10px 14px}}
+@media(max-width:600px){.grid-2,.grid-3,.toggle-bar{grid-template-columns:1fr}.top-nav{align-items:flex-start}.nav-left,.nav-right{width:100%}.nav-right{justify-content:space-between}.nav-title{font-size:13px}.control-box,.preview-panel{padding:14px 12px;border-radius:12px}.theme-control{align-items:flex-start;flex-direction:column;gap:4px}.lang-control{flex:1}.lang-control select{flex:1;max-width:none;min-width:110px}.btn{width:100%}.footer-sig-row{gap:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-
-<!-- FLOATING COLOURS BACKGROUND -->
-<div class="floating-bg" aria-hidden="true">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
-</div>
-
-<div class="top-nav">
-  <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Security Roster &amp; Staff Advance</span>
-  </div>
+<div class="floating-bg" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div></div>
+<header class="top-nav">
+  <div class="nav-left"><a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a><span class="nav-title" data-i18n="appTitle">KaamKaj Bills • Security Roster & Staff Advance</span></div>
   <div class="nav-right">
-    <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <div class="theme-control"><span class="theme-help" data-i18n="themeHint">यहाँ से आप मोड बदल सकते हैं</span><button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 डार्क मोड</button></div>
+    <label class="lang-control"><span data-i18n="languageLabel">🌐 भाषा चुनें</span><select id="languageSelect" onchange="changeLanguage(this.value)" aria-label="Select language"><option value="hi">हिन्दी (Hindi)</option><option value="en">English</option><option value="mr">मराठी (Marathi)</option><option value="gu">ગુજરાતી (Gujarati)</option><option value="bn">বাংলা (Bengali)</option><option value="ta">தமிழ் (Tamil)</option><option value="te">తెలుగు (Telugu)</option><option value="kn">ಕನ್ನಡ (Kannada)</option><option value="ml">മലയാളം (Malayalam)</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="or">ଓଡ଼ିଆ (Odia)</option><option value="ur">اردو (Urdu)</option></select></label>
   </div>
-</div>
-
+</header>
 <div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
-  <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Slip Mode Chunein:</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnRoster" onclick="setMode('ROSTER')">🛡️ Security Guard Duty Roster</button>
-        <button type="button" class="toggle-btn" id="btnAdvance" onclick="setMode('ADVANCE')">💵 Staff Salary Advance Memo</button>
-      </div>
-    </div>
-
-    <div class="section-badge">1. Agency / Company Details</div>
-    <div class="grid-2">
-      <div class="field"><label>Security Agency / Firm Name</label><input type="text" id="in_biz" placeholder="उदा. GuardForce Security &amp; Facility Services" oninput="renderDoc()"></div>
-      <div class="field"><label>Office Address &amp; Control Room No.</label><input type="text" id="in_addr" placeholder="उदा. Sector 18, Main Road | 24x7 Control: 9000000000" oninput="renderDoc()"></div>
-    </div>
-
-    <!-- ROSTER SECTION -->
+  <section class="control-box">
+    <div style="margin-bottom:10px"><label data-i18n="modePrompt">1. स्लिप का प्रकार चुनें:</label><div class="toggle-bar"><button type="button" class="toggle-btn active" id="btnRoster" onclick="setMode('ROSTER')" data-i18n="rosterMode">🛡️ सिक्योरिटी गार्ड ड्यूटी रोस्टर</button><button type="button" class="toggle-btn" id="btnAdvance" onclick="setMode('ADVANCE')" data-i18n="advanceMode">💵 स्टाफ सैलरी एडवांस मेमो</button></div></div>
+    <div class="section-badge" data-i18n="secAgency">1. एजेंसी / कंपनी का विवरण</div>
+    <div class="grid-2"><div class="field"><label data-i18n="agencyLabel">सिक्योरिटी एजेंसी / फर्म का नाम</label><input type="text" id="in_biz" data-i18n-placeholder="agencyPh" placeholder="जैसे GuardForce Security & Facility Services" oninput="renderDoc()"></div><div class="field"><label data-i18n="addressLabel">ऑफिस का पता और कंट्रोल रूम नंबर</label><input type="text" id="in_addr" data-i18n-placeholder="addressPh" placeholder="जैसे Sector 18, Main Road | 24x7 Control: 9000000000" oninput="renderDoc()"></div></div>
     <div id="rosterSection">
-      <div class="section-badge">2. Site &amp; Shift Schedule Details</div>
-      <div class="grid-3">
-        <div class="field"><label>Roster No. (Auto)</label><input type="text" id="in_ros_no" oninput="renderDoc()"></div>
-        <div class="field"><label>Duty Date / Week</label><input type="date" id="in_ros_date" oninput="renderDoc()"></div>
-        <div class="field"><label>Field Supervisor Name</label><input type="text" id="in_sup" placeholder="उदा. Ajay Verma" oninput="renderDoc()"></div>
-      </div>
-
-      <div class="field"><label>Client Site / Society / Factory Name</label><input type="text" id="in_site" placeholder="उदा. Sunrise Co-op Housing Society, Block A" oninput="renderDoc()"></div>
-
-      <div class="section-badge">3. Guard Deployment &amp; Shift Timing</div>
-      <div style="overflow-x: auto;">
-        <table class="items-input-table">
-          <thead>
-            <tr>
-              <th style="width: 30%;">Guard / Staff Name</th>
-              <th style="width: 24%;">Post / Gate Point</th>
-              <th style="width: 24%;">Shift Timing</th>
-              <th style="width: 14%;">ID / Mobile</th>
-              <th style="width: 8%;"></th>
-            </tr>
-          </thead>
-          <tbody id="rosterInputsBody"></tbody>
-        </table>
-      </div>
-      <button type="button" class="btn-add-row" onclick="addGuardRow()">+ Naya Guard / Staff Jodein</button>
+      <div class="section-badge" data-i18n="secRoster">2. साइट और शिफ्ट शेड्यूल विवरण</div>
+      <div class="grid-3"><div class="field"><label data-i18n="rosterNoLabel">रोस्टर नंबर (ऑटो)</label><input type="text" id="in_ros_no" oninput="renderDoc()"></div><div class="field"><label data-i18n="dutyDateLabel">ड्यूटी की तारीख / सप्ताह</label><input type="date" id="in_ros_date" oninput="renderDoc()"></div><div class="field"><label data-i18n="supervisorLabel">फील्ड सुपरवाइजर का नाम</label><input type="text" id="in_sup" data-i18n-placeholder="supervisorPh" placeholder="जैसे अजय वर्मा" oninput="renderDoc()"></div></div>
+      <div class="field"><label data-i18n="siteLabel">क्लाइंट साइट / सोसायटी / फैक्ट्री का नाम</label><input type="text" id="in_site" data-i18n-placeholder="sitePh" placeholder="जैसे Sunrise Co-op Housing Society, Block A" oninput="renderDoc()"></div>
+      <div class="section-badge" data-i18n="secDeployment">3. गार्ड तैनाती और शिफ्ट का समय</div>
+      <div class="table-scroll"><table class="items-input-table"><thead><tr><th data-i18n="guardName">गार्ड / स्टाफ का नाम</th><th data-i18n="postPoint">पोस्ट / गेट पॉइंट</th><th data-i18n="shiftTiming">शिफ्ट का समय</th><th data-i18n="idMobile">आईडी / मोबाइल</th><th></th></tr></thead><tbody id="rosterInputsBody"></tbody></table></div>
+      <button type="button" class="btn-add-row" onclick="addGuardRow()" data-i18n="addGuard">+ नया गार्ड / स्टाफ जोड़ें</button>
     </div>
-
-    <!-- ADVANCE SECTION -->
-    <div id="advanceSection" style="display:none;">
-      <div class="section-badge">2. Staff Advance Payment Details</div>
-      <div class="grid-3">
-        <div class="field"><label>Voucher / Memo No.</label><input type="text" id="in_adv_no" oninput="renderDoc()"></div>
-        <div class="field"><label>Date (तारीख)</label><input type="date" id="in_adv_date" oninput="renderDoc()"></div>
-        <div class="field"><label>Deduction Month</label><input type="text" id="in_ded_month" placeholder="उदा. November 2026" oninput="renderDoc()"></div>
-      </div>
-
-      <div class="grid-2">
-        <div class="field"><label>Staff / Guard Full Name</label><input type="text" id="in_staff_name" placeholder="उदा. Rameshwar Yadav" oninput="renderDoc()"></div>
-        <div class="field"><label>Designation &amp; Employee ID</label><input type="text" id="in_staff_role" placeholder="उदा. Security Guard (ID: SG-42)" oninput="renderDoc()"></div>
-      </div>
-
-      <div class="grid-3">
-        <div class="field"><label>Advance Amount (₹)</label><input type="number" id="in_adv_amt" placeholder="3000" oninput="renderDoc()"></div>
-        <div class="field">
-          <label>Payment Mode</label>
-          <select id="in_adv_mode" onchange="renderDoc()">
-            <option value="UPI / Online">UPI / Bank Transfer</option>
-            <option value="CASH (नकद)">CASH (नकद)</option>
-          </select>
-        </div>
-        <div class="field"><label>Staff Mobile / WhatsApp</label><input type="text" id="in_staff_ph" placeholder="उदा. 9000012345" oninput="renderDoc()"></div>
-      </div>
-
-      <div class="field"><label>Purpose / Reason for Advance</label><input type="text" id="in_adv_reason" placeholder="उदा. Personal / Family Medical Emergency" oninput="renderDoc()"></div>
+    <div id="advanceSection" style="display:none">
+      <div class="section-badge" data-i18n="secAdvance">2. स्टाफ एडवांस भुगतान विवरण</div>
+      <div class="grid-3"><div class="field"><label data-i18n="voucherNoLabel">वाउचर / मेमो नंबर</label><input type="text" id="in_adv_no" oninput="renderDoc()"></div><div class="field"><label data-i18n="dateLabel">तारीख</label><input type="date" id="in_adv_date" oninput="renderDoc()"></div><div class="field"><label data-i18n="deductionMonthLabel">कटौती का महीना</label><input type="text" id="in_ded_month" data-i18n-placeholder="deductionMonthPh" placeholder="जैसे नवंबर 2026" oninput="renderDoc()"></div></div>
+      <div class="grid-2"><div class="field"><label data-i18n="staffNameLabel">स्टाफ / गार्ड का पूरा नाम</label><input type="text" id="in_staff_name" data-i18n-placeholder="staffNamePh" placeholder="जैसे रामेश्वर यादव" oninput="renderDoc()"></div><div class="field"><label data-i18n="designationLabel">पद और कर्मचारी आईडी</label><input type="text" id="in_staff_role" data-i18n-placeholder="designationPh" placeholder="जैसे Security Guard (ID: SG-42)" oninput="renderDoc()"></div></div>
+      <div class="grid-3"><div class="field"><label data-i18n="advanceAmountLabel">एडवांस राशि (₹)</label><input type="number" min="0" step="any" id="in_adv_amt" placeholder="3000" oninput="renderDoc()"></div><div class="field"><label data-i18n="paymentModeLabel">भुगतान का तरीका</label><select id="in_adv_mode" onchange="renderDoc()"><option value="upi" data-i18n="payUpi">UPI / बैंक ट्रांसफर</option><option value="cash" data-i18n="payCash">नकद</option></select></div><div class="field"><label data-i18n="staffMobileLabel">स्टाफ मोबाइल / WhatsApp</label><input type="text" id="in_staff_ph" data-i18n-placeholder="staffMobilePh" placeholder="जैसे 9000012345" oninput="renderDoc()"></div></div>
+      <div class="field"><label data-i18n="purposeLabel">एडवांस लेने का उद्देश्य / कारण</label><input type="text" id="in_adv_reason" data-i18n-placeholder="purposePh" placeholder="जैसे व्यक्तिगत / पारिवारिक मेडिकल इमरजेंसी" oninput="renderDoc()"></div>
     </div>
-
-    <div class="field" style="margin-top: 8px;"><label>Standing Instructions / Terms</label><input type="text" id="in_notes" placeholder="उदा. सभी गार्ड ड्यूटी समय से 15 मिनट पहले प्रॉपर यूनिफॉर्म में रिपोर्ट करें। बिना रिलीवर पोस्ट न छोड़ें।" oninput="renderDoc()"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
-    </div>
-  </div>
-
-  <!-- RIGHT: LIVE PREVIEW -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Duty Roster / Advance Preview</div>
-    <div class="preview-viewport">
-      <div id="a4DocSheet">
-        <div class="slip-box" id="slipPreviewContent"></div>
-      </div>
-    </div>
-  </div>
+    <div class="field" style="margin-top:8px"><label data-i18n="standingInstructionsLabel">स्थायी निर्देश / नियम</label><input type="text" id="in_notes" data-i18n-placeholder="standingInstructionsPh" placeholder="सभी गार्ड ड्यूटी समय से 15 मिनट पहले यूनिफॉर्म में रिपोर्ट करें।" oninput="renderDoc()"></div>
+    <div class="actions"><button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadA4PDF()" data-i18n="pdfBtn">📥 A4 PDF डाउनलोड करें</button><button type="button" class="btn btn-print" onclick="printDocDirect()" data-i18n="printBtn">🖨️ सीधे प्रिंट करें</button><button type="button" class="btn btn-wa" onclick="shareWhatsApp()" data-i18n="waBtn">📲 WhatsApp शेयर करें</button></div>
+  </section>
+  <section class="preview-panel"><div class="preview-label" id="previewLabel" data-i18n="rosterPreview">लाइव ड्यूटी रोस्टर प्रीव्यू</div><div class="preview-viewport"><div id="a4DocSheet"><div class="slip-box" id="slipPreviewContent"></div></div></div></section>
 </div>
-
 <script>
-  let mode = 'ROSTER';
-  let guards = [
-    { name: 'Arjun Singh', post: 'Main Entry Gate', shift: 'Day (08 AM - 08 PM)', phone: '9000011111' },
-    { name: 'Deepak Tiwari', post: 'Main Entry Gate', shift: 'Night (08 PM - 08 AM)', phone: '9000022222' }
-  ];
-
-  function esc(str) {
-    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnTheme').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem('kkb_security_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }
-
-  function setMode(m) {
-    mode = m;
-    document.getElementById('btnRoster').classList.toggle('active', m === 'ROSTER');
-    document.getElementById('btnAdvance').classList.toggle('active', m === 'ADVANCE');
-    document.getElementById('rosterSection').style.display = m === 'ROSTER' ? 'block' : 'none';
-    document.getElementById('advanceSection').style.display = m === 'ADVANCE' ? 'block' : 'none';
-    renderDoc();
-  }
-
-  function renderGuardRows() {
-    document.getElementById('rosterInputsBody').innerHTML = guards.map((g, i) => `
-      <tr>
-        <td><input value="${esc(g.name)}" oninput="guards[${i}].name=this.value;renderDoc()"></td>
-        <td><input value="${esc(g.post)}" oninput="guards[${i}].post=this.value;renderDoc()"></td>
-        <td><input value="${esc(g.shift)}" oninput="guards[${i}].shift=this.value;renderDoc()"></td>
-        <td><input value="${esc(g.phone)}" oninput="guards[${i}].phone=this.value;renderDoc()"></td>
-        <td class="t-center"><button type="button" class="btn-del-row" onclick="delGuard(${i})">✕</button></td>
-      </tr>
-    `).join('');
-  }
-  function addGuardRow() { guards.push({ name: '', post: '', shift: 'Day Shift', phone: '' }); renderGuardRows(); renderDoc(); }
-  function delGuard(i) { if (guards.length > 1) { guards.splice(i, 1); renderGuardRows(); renderDoc(); } }
-
-  function renderDoc() {
-    const biz = document.getElementById('in_biz').value.trim() || 'GUARDFORCE SECURITY SERVICES';
-    const addr = document.getElementById('in_addr').value.trim() || '24x7 Control Room | Mob: 9000000000';
-    const notes = document.getElementById('in_notes').value.trim() || 'सभी गार्ड समय से 15 मिनट पहले प्रॉपर यूनिफॉर्म में रिपोर्ट करें।';
-
-    if (mode === 'ROSTER') {
-      const rosNo = document.getElementById('in_ros_no').value.trim() || '-';
-      const dt = document.getElementById('in_ros_date').value || '-';
-      const sup = document.getElementById('in_sup').value.trim() || '-';
-      const site = document.getElementById('in_site').value.trim() || '-';
-
-      const rows = guards.map((g, i) => `
-        <tr>
-          <td class="t-center">${i+1}</td>
-          <td><b>${esc(g.name) || '-'}</b></td>
-          <td>${esc(g.post) || '-'}</td>
-          <td>${esc(g.shift) || '-'}</td>
-          <td>${esc(g.phone) || '-'}</td>
-        </tr>
-      `).join('');
-
-      document.getElementById('slipPreviewContent').innerHTML = `
-        <div class="doc-header">
-          <div class="doc-biz"><h2>${esc(biz)}</h2><p>${esc(addr)}</p></div>
-          <div class="doc-type-badge">DUTY DEPLOYMENT ROSTER</div>
-        </div>
-        <table class="meta-table">
-          <tr><td class="lbl">Roster No:</td><td class="val"><b>${esc(rosNo)}</b></td><td class="lbl">Duty Date:</td><td class="val">${esc(dt)}</td></tr>
-          <tr><td class="lbl">Client Site:</td><td class="val" colspan="3"><b>${esc(site)}</b></td></tr>
-          <tr><td class="lbl">Field Officer:</td><td class="val" colspan="3">${esc(sup)}</td></tr>
-        </table>
-        <table class="doc-items-table">
-          <thead><tr><th class="t-center" style="width:7%">#</th><th style="width:28%">Guard Name</th><th style="width:23%">Post / Point</th><th style="width:24%">Shift Timing</th><th style="width:18%">Contact</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-        <div class="notes-box"><b>Standing Orders:</b> ${esc(notes)}</div>
-        <div class="footer-sig-row"><div style="font-size:10px;color:#64748b;">Client / Society Sign</div><div class="sig-block">Field Supervisor / Agency Sign</div></div>
-      `;
-    } else {
-      const advNo = document.getElementById('in_adv_no').value.trim() || '-';
-      const dt = document.getElementById('in_adv_date').value || '-';
-      const dedM = document.getElementById('in_ded_month').value.trim() || 'Next Salary';
-      const staff = document.getElementById('in_staff_name').value.trim() || '-';
-      const role = document.getElementById('in_staff_role').value.trim() || '-';
-      const amt = parseFloat(document.getElementById('in_adv_amt').value) || 0;
-      const pMode = document.getElementById('in_adv_mode').value;
-      const reason = document.getElementById('in_adv_reason').value.trim() || 'Personal Requirement';
-
-      document.getElementById('slipPreviewContent').innerHTML = `
-        <div class="doc-header">
-          <div class="doc-biz"><h2>${esc(biz)}</h2><p>${esc(addr)}</p></div>
-          <div class="doc-type-badge">STAFF ADVANCE VOUCHER</div>
-        </div>
-        <table class="meta-table">
-          <tr><td class="lbl">Voucher No:</td><td class="val"><b>${esc(advNo)}</b></td><td class="lbl">Date:</td><td class="val">${esc(dt)}</td></tr>
-          <tr><td class="lbl">Employee Name:</td><td class="val"><b>${esc(staff)}</b></td><td class="lbl">Role / ID:</td><td class="val">${esc(role)}</td></tr>
-          <tr><td class="lbl">Payment Mode:</td><td class="val">${esc(pMode)}</td><td class="lbl">Recovery Month:</td><td class="val" style="color:#dc2626;font-weight:800;">${esc(dedM)}</td></tr>
-          <tr><td class="lbl">Reason:</td><td class="val" colspan="3">${esc(reason)}</td></tr>
-        </table>
-        <div class="adv-highlight">
-          <span style="font-size:12px;font-weight:800;color:#1e3a8a;">SALARY ADVANCE APPROVED &amp; PAID:</span>
-          <span style="font-size:18px;font-weight:900;color:#1e3a8a;">₹${amt.toLocaleString('en-IN', {minimumFractionDigits:2})}</span>
-        </div>
-        <div class="notes-box"><b>Declaration:</b> I acknowledge receipt of the above advance amount, which will be deducted from my upcoming monthly salary (${esc(dedM)}).</div>
-        <div class="footer-sig-row"><div class="sig-block">Receiver / Staff Signature</div><div class="sig-block">Authorized Manager Sign</div></div>
-      `;
-    }
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `${mode === 'ROSTER' ? 'DutyRoster' : 'StaffAdvance'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px}
-      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #1e3a8a;padding-bottom:8px;margin-bottom:10px}
-      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
-      .doc-type-badge{background:#1e3a8a;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
-      .meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
-      .meta-table td{padding:4px 6px;border:1px solid #cbd5e1}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-      .doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:5px;text-align:left;border:1px solid #93c5fd}
-      .doc-items-table td{padding:5px;border:1px solid #cbd5e1}.t-center{text-align:center}
-      .adv-highlight{background:#eff6ff;border:1.5px solid #93c5fd;padding:8px 12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;margin:10px 0}
-      .notes-box{background:#f8fafc;border-left:3px solid #1e3a8a;padding:6px 8px;font-size:10px;margin:8px 0}
-      .footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}
-      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const biz = document.getElementById('in_biz').value.trim() || 'Security Agency';
-    if (mode === 'ROSTER') {
-      const site = document.getElementById('in_site').value.trim() || 'Site';
-      const lines = guards.map((g, i) => `${i+1}. *${g.name}* - ${g.post} (${g.shift})`).join('\n');
-      const msg = `*🛡️ DUTY ROSTER (${document.getElementById('in_ros_date').value})*\n*Agency:* ${biz}\n*Site:* ${site}\n\n${lines}\n\n_Generated via KaamKaj Bills._`;
-      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-    } else {
-      const staff = document.getElementById('in_staff_name').value.trim() || 'Staff';
-      const amt = document.getElementById('in_adv_amt').value || 0;
-      const ph = document.getElementById('in_staff_ph').value.trim().replace(/[^0-9]/g, '');
-      const msg = `*💵 STAFF ADVANCE VOUCHER (${document.getElementById('in_adv_no').value})*\n*Firm:* ${biz}\n*Staff:* ${staff}\n*Advance Paid:* ₹${amt}\n\n_Generated via KaamKaj Bills._`;
-      window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-  }
-
-  window.onload = () => {
-    try {
-      if (localStorage.getItem('kkb_security_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnTheme').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('in_ros_date').value = today;
-    document.getElementById('in_adv_date').value = today;
-    document.getElementById('in_ros_no').value = 'RST-' + Math.floor(100000 + Math.random() * 899990);
-    document.getElementById('in_adv_no').value = 'ADV-' + Math.floor(100000 + Math.random() * 899990);
-    renderGuardRows();
-    renderDoc();
-  };
+const $=id=>document.getElementById(id);
+const I18N={
+hi:{allTools:'← सभी टूल्स',appTitle:'KaamKaj Bills • सिक्योरिटी रोस्टर और स्टाफ एडवांस',languageLabel:'🌐 भाषा चुनें',themeHint:'यहाँ से आप मोड बदल सकते हैं',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाइट मोड',modePrompt:'1. स्लिप का प्रकार चुनें:',rosterMode:'🛡️ सिक्योरिटी गार्ड ड्यूटी रोस्टर',advanceMode:'💵 स्टाफ सैलरी एडवांस मेमो',secAgency:'1. एजेंसी / कंपनी का विवरण',agencyLabel:'सिक्योरिटी एजेंसी / फर्म का नाम',agencyPh:'जैसे GuardForce Security & Facility Services',addressLabel:'ऑफिस का पता और कंट्रोल रूम नंबर',addressPh:'जैसे सेक्टर 18, मेन रोड | 24x7 कंट्रोल: 9000000000',secRoster:'2. साइट और शिफ्ट शेड्यूल विवरण',rosterNoLabel:'रोस्टर नंबर (ऑटो)',dutyDateLabel:'ड्यूटी की तारीख / सप्ताह',supervisorLabel:'फील्ड सुपरवाइजर का नाम',supervisorPh:'जैसे अजय वर्मा',siteLabel:'क्लाइंट साइट / सोसायटी / फैक्ट्री का नाम',sitePh:'जैसे Sunrise Co-op Housing Society, Block A',secDeployment:'3. गार्ड तैनाती और शिफ्ट का समय',guardName:'गार्ड / स्टाफ का नाम',postPoint:'पोस्ट / गेट पॉइंट',shiftTiming:'शिफ्ट का समय',idMobile:'आईडी / मोबाइल',addGuard:'+ नया गार्ड / स्टाफ जोड़ें',secAdvance:'2. स्टाफ एडवांस भुगतान विवरण',voucherNoLabel:'वाउचर / मेमो नंबर',dateLabel:'तारीख',deductionMonthLabel:'कटौती का महीना',deductionMonthPh:'जैसे नवंबर 2026',staffNameLabel:'स्टाफ / गार्ड का पूरा नाम',staffNamePh:'जैसे रामेश्वर यादव',designationLabel:'पद और कर्मचारी आईडी',designationPh:'जैसे सिक्योरिटी गार्ड (ID: SG-42)',advanceAmountLabel:'एडवांस राशि (₹)',paymentModeLabel:'भुगतान का तरीका',payUpi:'UPI / बैंक ट्रांसफर',payCash:'नकद',staffMobileLabel:'स्टाफ मोबाइल / WhatsApp',staffMobilePh:'जैसे 9000012345',purposeLabel:'एडवांस लेने का उद्देश्य / कारण',purposePh:'जैसे व्यक्तिगत / पारिवारिक मेडिकल जरूरत',standingInstructionsLabel:'स्थायी निर्देश / नियम',standingInstructionsPh:'सभी गार्ड ड्यूटी समय से 15 मिनट पहले यूनिफॉर्म में रिपोर्ट करें।',pdfBtn:'📥 A4 PDF डाउनलोड करें',printBtn:'🖨️ सीधे प्रिंट करें',waBtn:'📲 WhatsApp शेयर करें',rosterPreview:'लाइव ड्यूटी रोस्टर प्रीव्यू',advancePreview:'लाइव स्टाफ एडवांस मेमो प्रीव्यू',rosterBadge:'ड्यूटी तैनाती रोस्टर',advanceBadge:'स्टाफ एडवांस वाउचर',outRosterNo:'रोस्टर नंबर',outDutyDate:'ड्यूटी तारीख',outClientSite:'क्लाइंट साइट',outOfficer:'फील्ड अधिकारी',outGuardName:'गार्ड का नाम',outPost:'पोस्ट / पॉइंट',outShift:'शिफ्ट का समय',outContact:'संपर्क',outStandingOrders:'ड्यूटी निर्देश',outClientSign:'क्लाइंट / सोसायटी हस्ताक्षर',outSupervisorSign:'फील्ड सुपरवाइजर / एजेंसी हस्ताक्षर',outVoucherNo:'वाउचर नंबर',outDate:'तारीख',outEmployee:'कर्मचारी का नाम',outRole:'पद / आईडी',outPayment:'भुगतान का तरीका',outRecovery:'वसूली का महीना',outReason:'कारण',outAdvancePaid:'स्वीकृत और भुगतान किया गया एडवांस:',outDeclaration:'घोषणा',declarationText:'मैं स्वीकार करता/करती हूँ कि ऊपर बताई गई एडवांस राशि मुझे प्राप्त हुई है। यह राशि आगामी मासिक वेतन ({month}) से काटी जाएगी।',outReceiverSign:'प्राप्तकर्ता / स्टाफ हस्ताक्षर',outManagerSign:'अधिकृत मैनेजर हस्ताक्षर',waAgency:'एजेंसी',waSite:'साइट',waStaff:'स्टाफ',waAdvancePaid:'एडवांस भुगतान',waPurpose:'उद्देश्य',generated:'KaamKaj Bills से बनाया गया।',defaultNotes:'सभी गार्ड ड्यूटी से 15 मिनट पहले पूरी यूनिफॉर्म में रिपोर्ट करें। बिना रिलीवर के पोस्ट न छोड़ें।',generating:'⏳ PDF बनाया जा रहा है…',delete:'हटाएँ',cash:'नकद',upi:'UPI / बैंक ट्रांसफर'},
+en:{allTools:'← All Tools',appTitle:'KaamKaj Bills • Security Roster & Staff Advance',languageLabel:'🌐 Select Language',themeHint:'Change the display mode here',darkMode:'🌙 Dark Mode',lightMode:'☀️ Light Mode',modePrompt:'1. Choose Slip Type:',rosterMode:'🛡️ Security Guard Duty Roster',advanceMode:'💵 Staff Salary Advance Memo',secAgency:'1. Agency / Company Details',agencyLabel:'Security Agency / Firm Name',agencyPh:'e.g. GuardForce Security & Facility Services',addressLabel:'Office Address & Control Room No.',addressPh:'e.g. Sector 18, Main Road | 24x7 Control: 9000000000',secRoster:'2. Site & Shift Schedule Details',rosterNoLabel:'Roster No. (Auto)',dutyDateLabel:'Duty Date / Week',supervisorLabel:'Field Supervisor Name',supervisorPh:'e.g. Ajay Verma',siteLabel:'Client Site / Society / Factory Name',sitePh:'e.g. Sunrise Co-op Housing Society, Block A',secDeployment:'3. Guard Deployment & Shift Timing',guardName:'Guard / Staff Name',postPoint:'Post / Gate Point',shiftTiming:'Shift Timing',idMobile:'ID / Mobile',addGuard:'+ Add Guard / Staff',secAdvance:'2. Staff Advance Payment Details',voucherNoLabel:'Voucher / Memo No.',dateLabel:'Date',deductionMonthLabel:'Deduction Month',deductionMonthPh:'e.g. November 2026',staffNameLabel:'Staff / Guard Full Name',staffNamePh:'e.g. Rameshwar Yadav',designationLabel:'Designation & Employee ID',designationPh:'e.g. Security Guard (ID: SG-42)',advanceAmountLabel:'Advance Amount (₹)',paymentModeLabel:'Payment Mode',payUpi:'UPI / Bank Transfer',payCash:'CASH',staffMobileLabel:'Staff Mobile / WhatsApp',staffMobilePh:'e.g. 9000012345',purposeLabel:'Purpose / Reason for Advance',purposePh:'e.g. Personal / Family Medical Emergency',standingInstructionsLabel:'Standing Instructions / Terms',standingInstructionsPh:'All guards must report 15 minutes before duty in proper uniform.',pdfBtn:'📥 Download A4 PDF',printBtn:'🖨️ Direct Print',waBtn:'📲 Share on WhatsApp',rosterPreview:'Live Duty Roster Preview',advancePreview:'Live Staff Advance Memo Preview',rosterBadge:'DUTY DEPLOYMENT ROSTER',advanceBadge:'STAFF ADVANCE VOUCHER',outRosterNo:'Roster No.',outDutyDate:'Duty Date',outClientSite:'Client Site',outOfficer:'Field Officer',outGuardName:'Guard Name',outPost:'Post / Point',outShift:'Shift Timing',outContact:'Contact',outStandingOrders:'Standing Orders',outClientSign:'Client / Society Sign',outSupervisorSign:'Field Supervisor / Agency Sign',outVoucherNo:'Voucher No.',outDate:'Date',outEmployee:'Employee Name',outRole:'Role / ID',outPayment:'Payment Mode',outRecovery:'Recovery Month',outReason:'Reason',outAdvancePaid:'SALARY ADVANCE APPROVED & PAID:',outDeclaration:'Declaration',declarationText:'I acknowledge receipt of the advance amount stated above. It will be deducted from my upcoming monthly salary ({month}).',outReceiverSign:'Receiver / Staff Signature',outManagerSign:'Authorized Manager Sign',waAgency:'Agency',waSite:'Site',waStaff:'Staff',waAdvancePaid:'Advance Paid',waPurpose:'Purpose',generated:'Generated via KaamKaj Bills.',defaultNotes:'All guards must report 15 minutes before duty in proper uniform. Do not leave the post without a reliever.',generating:'⏳ Generating PDF…',delete:'Delete',cash:'CASH',upi:'UPI / Bank Transfer'},
+mr:{allTools:'← सर्व टूल्स',appTitle:'KaamKaj Bills • सुरक्षा ड्युटी रोस्टर आणि कर्मचारी अॅडव्हान्स',languageLabel:'🌐 भाषा निवडा',themeHint:'येथून स्क्रीन मोड बदला',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाईट मोड',modePrompt:'1. पावतीचा प्रकार निवडा:',rosterMode:'🛡️ सुरक्षा रक्षक ड्युटी रोस्टर',advanceMode:'💵 कर्मचारी पगार अॅडव्हान्स मेमो',secAgency:'1. एजन्सी / कंपनीची माहिती',agencyLabel:'सुरक्षा एजन्सी / फर्मचे नाव',agencyPh:'उदा. GuardForce Security & Facility Services',addressLabel:'कार्यालयाचा पत्ता आणि कंट्रोल रूम क्रमांक',addressPh:'उदा. सेक्टर 18, मुख्य रस्ता | 24x7 कंट्रोल: 9000000000',secRoster:'2. साइट आणि शिफ्ट वेळापत्रक',rosterNoLabel:'रोस्टर क्रमांक (ऑटो)',dutyDateLabel:'ड्युटी तारीख / आठवडा',supervisorLabel:'फील्ड सुपरवायझरचे नाव',supervisorPh:'उदा. अजय वर्मा',siteLabel:'क्लायंट साइट / सोसायटी / कारखान्याचे नाव',sitePh:'उदा. Sunrise Co-op Housing Society, Block A',secDeployment:'3. गार्ड तैनाती आणि शिफ्ट वेळ',guardName:'गार्ड / कर्मचाऱ्याचे नाव',postPoint:'पोस्ट / गेट पॉइंट',shiftTiming:'शिफ्टची वेळ',idMobile:'आयडी / मोबाईल',addGuard:'+ गार्ड / कर्मचारी जोडा',secAdvance:'2. कर्मचारी अॅडव्हान्स पेमेंट तपशील',voucherNoLabel:'व्हाउचर / मेमो क्रमांक',dateLabel:'तारीख',deductionMonthLabel:'कपातीचा महिना',deductionMonthPh:'उदा. नोव्हेंबर 2026',staffNameLabel:'कर्मचारी / गार्डचे पूर्ण नाव',staffNamePh:'उदा. रामेश्वर यादव',designationLabel:'पद आणि कर्मचारी आयडी',designationPh:'उदा. सुरक्षा रक्षक (ID: SG-42)',advanceAmountLabel:'अॅडव्हान्स रक्कम (₹)',paymentModeLabel:'पेमेंट पद्धत',payUpi:'UPI / बँक ट्रान्सफर',payCash:'रोख',staffMobileLabel:'कर्मचारी मोबाईल / WhatsApp',staffMobilePh:'उदा. 9000012345',purposeLabel:'अॅडव्हान्सचे कारण',purposePh:'उदा. वैयक्तिक / कौटुंबिक वैद्यकीय गरज',standingInstructionsLabel:'स्थायी सूचना / अटी',standingInstructionsPh:'सर्व गार्डनी ड्युटीच्या 15 मिनिटे आधी गणवेशात हजर राहावे.',pdfBtn:'📥 A4 PDF डाउनलोड',printBtn:'🖨️ थेट प्रिंट',waBtn:'📲 WhatsApp शेअर करा',rosterPreview:'लाइव्ह ड्युटी रोस्टर प्रिव्ह्यू',advancePreview:'लाइव्ह कर्मचारी अॅडव्हान्स प्रिव्ह्यू',rosterBadge:'ड्युटी तैनाती रोस्टर',advanceBadge:'कर्मचारी अॅडव्हान्स व्हाउचर',outRosterNo:'रोस्टर क्रमांक',outDutyDate:'ड्युटी तारीख',outClientSite:'क्लायंट साइट',outOfficer:'फील्ड अधिकारी',outGuardName:'गार्डचे नाव',outPost:'पोस्ट / पॉइंट',outShift:'शिफ्ट वेळ',outContact:'संपर्क',outStandingOrders:'ड्युटी सूचना',outClientSign:'क्लायंट / सोसायटी सही',outSupervisorSign:'फील्ड सुपरवायझर / एजन्सी सही',outVoucherNo:'व्हाउचर क्रमांक',outDate:'तारीख',outEmployee:'कर्मचारी नाव',outRole:'पद / आयडी',outPayment:'पेमेंट पद्धत',outRecovery:'वसुली महिना',outReason:'कारण',outAdvancePaid:'मंजूर आणि दिलेली अॅडव्हान्स रक्कम:',outDeclaration:'घोषणा',declarationText:'वर नमूद केलेली अॅडव्हान्स रक्कम मला मिळाली आहे. ती माझ्या पुढील मासिक पगारातून ({month}) कपात केली जाईल.',outReceiverSign:'प्राप्तकर्ता / कर्मचारी सही',outManagerSign:'अधिकृत व्यवस्थापक सही',waAgency:'एजन्सी',waSite:'साइट',waStaff:'कर्मचारी',waAdvancePaid:'अॅडव्हान्स दिली',waPurpose:'कारण',generated:'KaamKaj Bills द्वारे तयार.',defaultNotes:'सर्व गार्डनी ड्युटीच्या 15 मिनिटे आधी पूर्ण गणवेशात हजर राहावे. रिलीव्हरशिवाय पोस्ट सोडू नये.',generating:'⏳ PDF तयार होत आहे…',delete:'काढा',cash:'रोख',upi:'UPI / बँक ट्रान्सफर'},
+gu:{allTools:'← બધા ટૂલ્સ',appTitle:'KaamKaj Bills • સુરક્ષા ડ્યુટી રોસ્ટર અને સ્ટાફ એડવાન્સ',languageLabel:'🌐 ભાષા પસંદ કરો',themeHint:'અહીંથી ડિસ્પ્લે મોડ બદલો',darkMode:'🌙 ડાર્ક મોડ',lightMode:'☀️ લાઇટ મોડ',modePrompt:'1. સ્લિપનો પ્રકાર પસંદ કરો:',rosterMode:'🛡️ સિક્યુરિટી ગાર્ડ ડ્યુટી રોસ્ટર',advanceMode:'💵 સ્ટાફ પગાર એડવાન્સ મેમો',secAgency:'1. એજન્સી / કંપનીની વિગતો',agencyLabel:'સિક્યુરિટી એજન્સી / ફર્મનું નામ',agencyPh:'દા.ત. GuardForce Security & Facility Services',addressLabel:'ઓફિસનું સરનામું અને કંટ્રોલ રૂમ નંબર',addressPh:'દા.ત. સેક્ટર 18, મેઇન રોડ | 24x7 કંટ્રોલ: 9000000000',secRoster:'2. સાઇટ અને શિફ્ટ સમયપત્રક',rosterNoLabel:'રોસ્ટર નંબર (ઓટો)',dutyDateLabel:'ડ્યુટી તારીખ / અઠવાડિયું',supervisorLabel:'ફીલ્ડ સુપરવાઇઝરનું નામ',supervisorPh:'દા.ત. અજય વર્મા',siteLabel:'ક્લાયન્ટ સાઇટ / સોસાયટી / ફેક્ટરીનું નામ',sitePh:'દા.ત. Sunrise Co-op Housing Society, Block A',secDeployment:'3. ગાર્ડ તૈનાતી અને શિફ્ટ સમય',guardName:'ગાર્ડ / સ્ટાફનું નામ',postPoint:'પોસ્ટ / ગેટ પોઇન્ટ',shiftTiming:'શિફ્ટ સમય',idMobile:'ID / મોબાઇલ',addGuard:'+ ગાર્ડ / સ્ટાફ ઉમેરો',secAdvance:'2. સ્ટાફ એડવાન્સ ચુકવણી વિગતો',voucherNoLabel:'વાઉચર / મેમો નંબર',dateLabel:'તારીખ',deductionMonthLabel:'કપાતનો મહિનો',deductionMonthPh:'દા.ત. નવેમ્બર 2026',staffNameLabel:'સ્ટાફ / ગાર્ડનું પૂરું નામ',staffNamePh:'દા.ત. રમેશ્વર યાદવ',designationLabel:'હોદ્દો અને કર્મચારી ID',designationPh:'દા.ત. સિક્યુરિટી ગાર્ડ (ID: SG-42)',advanceAmountLabel:'એડવાન્સ રકમ (₹)',paymentModeLabel:'ચુકવણી પદ્ધતિ',payUpi:'UPI / બેંક ટ્રાન્સફર',payCash:'રોકડ',staffMobileLabel:'સ્ટાફ મોબાઇલ / WhatsApp',staffMobilePh:'દા.ત. 9000012345',purposeLabel:'એડવાન્સનો હેતુ / કારણ',purposePh:'દા.ત. વ્યક્તિગત / પરિવારની તબીબી જરૂરિયાત',standingInstructionsLabel:'કાયમી સૂચનાઓ / નિયમો',standingInstructionsPh:'બધા ગાર્ડે ડ્યુટીના 15 મિનિટ પહેલાં યુનિફોર્મમાં હાજર થવું.',pdfBtn:'📥 A4 PDF ડાઉનલોડ',printBtn:'🖨️ સીધું પ્રિન્ટ',waBtn:'📲 WhatsApp શેર કરો',rosterPreview:'લાઇવ ડ્યુટી રોસ્ટર પ્રિવ્યૂ',advancePreview:'લાઇવ સ્ટાફ એડવાન્સ પ્રિવ્યૂ',rosterBadge:'ડ્યુટી તૈનાતી રોસ્ટર',advanceBadge:'સ્ટાફ એડવાન્સ વાઉચર',outRosterNo:'રોસ્ટર નંબર',outDutyDate:'ડ્યુટી તારીખ',outClientSite:'ક્લાયન્ટ સાઇટ',outOfficer:'ફીલ્ડ અધિકારી',outGuardName:'ગાર્ડનું નામ',outPost:'પોસ્ટ / પોઇન્ટ',outShift:'શિફ્ટ સમય',outContact:'સંપર્ક',outStandingOrders:'ડ્યુટી સૂચનાઓ',outClientSign:'ક્લાયન્ટ / સોસાયટી સહી',outSupervisorSign:'ફીલ્ડ સુપરવાઇઝર / એજન્સી સહી',outVoucherNo:'વાઉચર નંબર',outDate:'તારીખ',outEmployee:'કર્મચારીનું નામ',outRole:'હોદ્દો / ID',outPayment:'ચુકવણી પદ્ધતિ',outRecovery:'વસૂલાતનો મહિનો',outReason:'કારણ',outAdvancePaid:'મંજૂર અને ચૂકવેલી એડવાન્સ રકમ:',outDeclaration:'ઘોષણા',declarationText:'મને ઉપર દર્શાવેલી એડવાન્સ રકમ મળી છે. આ રકમ મારા આગામી માસિક પગારમાંથી ({month}) કાપવામાં આવશે.',outReceiverSign:'મેળવનાર / સ્ટાફ સહી',outManagerSign:'અધિકૃત મેનેજર સહી',waAgency:'એજન્સી',waSite:'સાઇટ',waStaff:'સ્ટાફ',waAdvancePaid:'એડવાન્સ ચૂકવેલ',waPurpose:'હેતુ',generated:'KaamKaj Bills દ્વારા બનાવેલ.',defaultNotes:'બધા ગાર્ડે ડ્યુટીના 15 મિનિટ પહેલાં સંપૂર્ણ યુનિફોર્મમાં હાજર થવું. રિલીવર વગર પોસ્ટ છોડશો નહીં.',generating:'⏳ PDF બની રહ્યું છે…',delete:'કાઢી નાખો',cash:'રોકડ',upi:'UPI / બેંક ટ્રાન્સફર'},
+bn:{allTools:'← সব টুল',appTitle:'KaamKaj Bills • নিরাপত্তা ডিউটি রোস্টার ও স্টাফ অগ্রিম',languageLabel:'🌐 ভাষা নির্বাচন করুন',themeHint:'এখান থেকে মোড পরিবর্তন করুন',darkMode:'🌙 ডার্ক মোড',lightMode:'☀️ লাইট মোড',modePrompt:'1. স্লিপের ধরন নির্বাচন করুন:',rosterMode:'🛡️ নিরাপত্তা কর্মীর ডিউটি রোস্টার',advanceMode:'💵 কর্মচারীর বেতন অগ্রিম মেমো',secAgency:'1. এজেন্সি / কোম্পানির বিবরণ',agencyLabel:'নিরাপত্তা এজেন্সি / প্রতিষ্ঠানের নাম',agencyPh:'যেমন GuardForce Security & Facility Services',addressLabel:'অফিসের ঠিকানা ও কন্ট্রোল রুম নম্বর',addressPh:'যেমন সেক্টর 18, মেইন রোড | 24x7 কন্ট্রোল: 9000000000',secRoster:'2. সাইট ও শিফটের সময়সূচি',rosterNoLabel:'রোস্টার নম্বর (অটো)',dutyDateLabel:'ডিউটির তারিখ / সপ্তাহ',supervisorLabel:'ফিল্ড সুপারভাইজারের নাম',supervisorPh:'যেমন অজয় ভার্মা',siteLabel:'ক্লায়েন্ট সাইট / সোসাইটি / কারখানার নাম',sitePh:'যেমন Sunrise Co-op Housing Society, Block A',secDeployment:'3. গার্ড নিয়োগ ও শিফটের সময়',guardName:'গার্ড / কর্মীর নাম',postPoint:'পোস্ট / গেট পয়েন্ট',shiftTiming:'শিফটের সময়',idMobile:'আইডি / মোবাইল',addGuard:'+ নতুন গার্ড / কর্মী যোগ করুন',secAdvance:'2. কর্মচারী অগ্রিম প্রদানের বিবরণ',voucherNoLabel:'ভাউচার / মেমো নম্বর',dateLabel:'তারিখ',deductionMonthLabel:'কর্তনের মাস',deductionMonthPh:'যেমন নভেম্বর 2026',staffNameLabel:'কর্মচারী / গার্ডের পুরো নাম',staffNamePh:'যেমন রামেশ্বর যাদব',designationLabel:'পদবি ও কর্মচারী আইডি',designationPh:'যেমন নিরাপত্তা রক্ষী (ID: SG-42)',advanceAmountLabel:'অগ্রিমের পরিমাণ (₹)',paymentModeLabel:'পেমেন্টের পদ্ধতি',payUpi:'UPI / ব্যাংক ট্রান্সফার',payCash:'নগদ',staffMobileLabel:'কর্মচারীর মোবাইল / WhatsApp',staffMobilePh:'যেমন 9000012345',purposeLabel:'অগ্রিম নেওয়ার উদ্দেশ্য / কারণ',purposePh:'যেমন ব্যক্তিগত / পারিবারিক চিকিৎসার প্রয়োজন',standingInstructionsLabel:'স্থায়ী নির্দেশ / নিয়ম',standingInstructionsPh:'সব গার্ডকে ডিউটির 15 মিনিট আগে ইউনিফর্ম পরে রিপোর্ট করতে হবে।',pdfBtn:'📥 A4 PDF ডাউনলোড',printBtn:'🖨️ সরাসরি প্রিন্ট',waBtn:'📲 WhatsApp শেয়ার',rosterPreview:'লাইভ ডিউটি রোস্টার প্রিভিউ',advancePreview:'লাইভ স্টাফ অগ্রিম মেমো প্রিভিউ',rosterBadge:'ডিউটি নিয়োগ রোস্টার',advanceBadge:'স্টাফ অগ্রিম ভাউচার',outRosterNo:'রোস্টার নম্বর',outDutyDate:'ডিউটির তারিখ',outClientSite:'ক্লায়েন্ট সাইট',outOfficer:'ফিল্ড অফিসার',outGuardName:'গার্ডের নাম',outPost:'পোস্ট / পয়েন্ট',outShift:'শিফটের সময়',outContact:'যোগাযোগ',outStandingOrders:'ডিউটির নির্দেশ',outClientSign:'ক্লায়েন্ট / সোসাইটি স্বাক্ষর',outSupervisorSign:'ফিল্ড সুপারভাইজার / এজেন্সি স্বাক্ষর',outVoucherNo:'ভাউচার নম্বর',outDate:'তারিখ',outEmployee:'কর্মচারীর নাম',outRole:'পদবি / আইডি',outPayment:'পেমেন্টের পদ্ধতি',outRecovery:'আদায়ের মাস',outReason:'কারণ',outAdvancePaid:'অনুমোদিত ও প্রদান করা অগ্রিম:',outDeclaration:'ঘোষণা',declarationText:'আমি স্বীকার করছি যে উপরে উল্লেখিত অগ্রিম অর্থ আমি পেয়েছি। এটি আমার পরবর্তী মাসিক বেতন ({month}) থেকে কেটে নেওয়া হবে।',outReceiverSign:'গ্রহণকারী / কর্মচারীর স্বাক্ষর',outManagerSign:'অনুমোদিত ম্যানেজারের স্বাক্ষর',waAgency:'এজেন্সি',waSite:'সাইট',waStaff:'কর্মচারী',waAdvancePaid:'অগ্রিম প্রদান',waPurpose:'উদ্দেশ্য',generated:'KaamKaj Bills দিয়ে তৈরি।',defaultNotes:'সব গার্ডকে ডিউটির 15 মিনিট আগে সম্পূর্ণ ইউনিফর্ম পরে রিপোর্ট করতে হবে। রিলিভার ছাড়া পোস্ট ছাড়বেন না।',generating:'⏳ PDF তৈরি হচ্ছে…',delete:'মুছুন',cash:'নগদ',upi:'UPI / ব্যাংক ট্রান্সফার'},
+ta:{allTools:'← அனைத்து கருவிகள்',appTitle:'KaamKaj Bills • பாதுகாப்பு பணி அட்டவணை மற்றும் பணியாளர் முன்பணம்',languageLabel:'🌐 மொழியைத் தேர்ந்தெடுக்கவும்',themeHint:'இங்கே திரை முறையை மாற்றலாம்',darkMode:'🌙 டார்க் மோடு',lightMode:'☀️ லைட் மோடு',modePrompt:'1. சீட்டு வகையைத் தேர்ந்தெடுக்கவும்:',rosterMode:'🛡️ பாதுகாப்பு காவலர் பணி அட்டவணை',advanceMode:'💵 பணியாளர் சம்பள முன்பணச் சீட்டு',secAgency:'1. நிறுவனம் / ஏஜென்சி விவரங்கள்',agencyLabel:'பாதுகாப்பு நிறுவனம் / நிறுவனத்தின் பெயர்',agencyPh:'உதா. GuardForce Security & Facility Services',addressLabel:'அலுவலக முகவரி மற்றும் கட்டுப்பாட்டு அறை எண்',addressPh:'உதா. செக்டர் 18, மெயின் ரோடு | 24x7 கட்டுப்பாடு: 9000000000',secRoster:'2. தளம் மற்றும் ஷிப்ட் அட்டவணை விவரங்கள்',rosterNoLabel:'ரோஸ்டர் எண் (தானாக)',dutyDateLabel:'பணி தேதி / வாரம்',supervisorLabel:'கள மேற்பார்வையாளர் பெயர்',supervisorPh:'உதா. அஜய் வர்மா',siteLabel:'வாடிக்கையாளர் தளம் / சங்கம் / தொழிற்சாலை பெயர்',sitePh:'உதா. Sunrise Co-op Housing Society, Block A',secDeployment:'3. காவலர் பணியமர்த்தல் மற்றும் ஷிப்ட் நேரம்',guardName:'காவலர் / பணியாளர் பெயர்',postPoint:'பணி இடம் / நுழைவாயில்',shiftTiming:'ஷிப்ட் நேரம்',idMobile:'அடையாள எண் / மொபைல்',addGuard:'+ காவலர் / பணியாளரைச் சேர்க்கவும்',secAdvance:'2. பணியாளர் முன்பண விவரங்கள்',voucherNoLabel:'வவுச்சர் / மெமோ எண்',dateLabel:'தேதி',deductionMonthLabel:'பிடித்தம் செய்யும் மாதம்',deductionMonthPh:'உதா. நவம்பர் 2026',staffNameLabel:'பணியாளர் / காவலரின் முழுப் பெயர்',staffNamePh:'உதா. ராமேஷ்வர் யாதவ்',designationLabel:'பதவி மற்றும் பணியாளர் ID',designationPh:'உதா. பாதுகாப்பு காவலர் (ID: SG-42)',advanceAmountLabel:'முன்பணத் தொகை (₹)',paymentModeLabel:'கட்டண முறை',payUpi:'UPI / வங்கி பரிமாற்றம்',payCash:'ரொக்கம்',staffMobileLabel:'பணியாளர் மொபைல் / WhatsApp',staffMobilePh:'உதா. 9000012345',purposeLabel:'முன்பணம் பெறும் நோக்கம் / காரணம்',purposePh:'உதா. தனிப்பட்ட / குடும்ப மருத்துவத் தேவை',standingInstructionsLabel:'நிலையான அறிவுறுத்தல்கள் / விதிமுறைகள்',standingInstructionsPh:'அனைத்து காவலர்களும் பணிக்கு 15 நிமிடங்களுக்கு முன் சீருடையில் வர வேண்டும்.',pdfBtn:'📥 A4 PDF பதிவிறக்கம்',printBtn:'🖨️ நேரடியாக அச்சிடு',waBtn:'📲 WhatsApp பகிர்',rosterPreview:'நேரடி பணி அட்டவணை முன்னோட்டம்',advancePreview:'பணியாளர் முன்பண முன்னோட்டம்',rosterBadge:'பணி ஒதுக்கீட்டு அட்டவணை',advanceBadge:'பணியாளர் முன்பண வவுச்சர்',outRosterNo:'ரோஸ்டர் எண்',outDutyDate:'பணி தேதி',outClientSite:'வாடிக்கையாளர் தளம்',outOfficer:'கள அலுவலர்',outGuardName:'காவலர் பெயர்',outPost:'இடம் / புள்ளி',outShift:'ஷிப்ட் நேரம்',outContact:'தொடர்பு',outStandingOrders:'பணி அறிவுறுத்தல்கள்',outClientSign:'வாடிக்கையாளர் / சங்க கையொப்பம்',outSupervisorSign:'மேற்பார்வையாளர் / ஏஜென்சி கையொப்பம்',outVoucherNo:'வவுச்சர் எண்',outDate:'தேதி',outEmployee:'பணியாளர் பெயர்',outRole:'பதவி / ID',outPayment:'கட்டண முறை',outRecovery:'திரும்பப் பெறும் மாதம்',outReason:'காரணம்',outAdvancePaid:'ஒப்புதல் அளித்து வழங்கப்பட்ட முன்பணம்:',outDeclaration:'அறிவிப்பு',declarationText:'மேலே குறிப்பிடப்பட்ட முன்பணத் தொகையைப் பெற்றுக்கொண்டதை உறுதிப்படுத்துகிறேன். இது எனது அடுத்த மாத சம்பளத்தில் ({month}) பிடித்தம் செய்யப்படும்.',outReceiverSign:'பெறுநர் / பணியாளர் கையொப்பம்',outManagerSign:'அங்கீகரிக்கப்பட்ட மேலாளர் கையொப்பம்',waAgency:'ஏஜென்சி',waSite:'தளம்',waStaff:'பணியாளர்',waAdvancePaid:'வழங்கிய முன்பணம்',waPurpose:'நோக்கம்',generated:'KaamKaj Bills மூலம் உருவாக்கப்பட்டது.',defaultNotes:'அனைத்து காவலர்களும் பணிக்கு 15 நிமிடங்களுக்கு முன் முழு சீருடையில் வர வேண்டும். மாற்றுப் பணியாளர் இல்லாமல் இடத்தை விட்டு செல்ல வேண்டாம்.',generating:'⏳ PDF உருவாகிறது…',delete:'நீக்கு',cash:'ரொக்கம்',upi:'UPI / வங்கி பரிமாற்றம்'},
+te:{allTools:'← అన్ని టూల్స్',appTitle:'KaamKaj Bills • సెక్యూరిటీ డ్యూటీ రోస్టర్ & స్టాఫ్ అడ్వాన్స్',languageLabel:'🌐 భాషను ఎంచుకోండి',themeHint:'ఇక్కడి నుంచి మోడ్ మార్చవచ్చు',darkMode:'🌙 డార్క్ మోడ్',lightMode:'☀️ లైట్ మోడ్',modePrompt:'1. స్లిప్ రకాన్ని ఎంచుకోండి:',rosterMode:'🛡️ సెక్యూరిటీ గార్డ్ డ్యూటీ రోస్టర్',advanceMode:'💵 స్టాఫ్ జీతం అడ్వాన్స్ మెమో',secAgency:'1. ఏజెన్సీ / కంపెనీ వివరాలు',agencyLabel:'సెక్యూరిటీ ఏజెన్సీ / సంస్థ పేరు',agencyPh:'ఉదా. GuardForce Security & Facility Services',addressLabel:'ఆఫీస్ చిరునామా మరియు కంట్రోల్ రూమ్ నంబర్',addressPh:'ఉదా. సెక్టార్ 18, మెయిన్ రోడ్ | 24x7 కంట్రోల్: 9000000000',secRoster:'2. సైట్ & షిఫ్ట్ షెడ్యూల్ వివరాలు',rosterNoLabel:'రోస్టర్ నంబర్ (ఆటో)',dutyDateLabel:'డ్యూటీ తేదీ / వారం',supervisorLabel:'ఫీల్డ్ సూపర్‌వైజర్ పేరు',supervisorPh:'ఉదా. అజయ్ వర్మ',siteLabel:'క్లయింట్ సైట్ / సొసైటీ / ఫ్యాక్టరీ పేరు',sitePh:'ఉదా. Sunrise Co-op Housing Society, Block A',secDeployment:'3. గార్డ్ నియామకం & షిఫ్ట్ సమయం',guardName:'గార్డ్ / స్టాఫ్ పేరు',postPoint:'పోస్ట్ / గేట్ పాయింట్',shiftTiming:'షిఫ్ట్ సమయం',idMobile:'ID / మొబైల్',addGuard:'+ గార్డ్ / స్టాఫ్ జోడించండి',secAdvance:'2. స్టాఫ్ అడ్వాన్స్ చెల్లింపు వివరాలు',voucherNoLabel:'వౌచర్ / మెమో నంబర్',dateLabel:'తేదీ',deductionMonthLabel:'తగ్గింపు నెల',deductionMonthPh:'ఉదా. నవంబర్ 2026',staffNameLabel:'స్టాఫ్ / గార్డ్ పూర్తి పేరు',staffNamePh:'ఉదా. రామేశ్వర్ యాదవ్',designationLabel:'హోదా & ఉద్యోగి ID',designationPh:'ఉదా. సెక్యూరిటీ గార్డ్ (ID: SG-42)',advanceAmountLabel:'అడ్వాన్స్ మొత్తం (₹)',paymentModeLabel:'చెల్లింపు విధానం',payUpi:'UPI / బ్యాంక్ ట్రాన్స్‌ఫర్',payCash:'నగదు',staffMobileLabel:'స్టాఫ్ మొబైల్ / WhatsApp',staffMobilePh:'ఉదా. 9000012345',purposeLabel:'అడ్వాన్స్ కారణం',purposePh:'ఉదా. వ్యక్తిగత / కుటుంబ వైద్య అవసరం',standingInstructionsLabel:'శాశ్వత సూచనలు / నిబంధనలు',standingInstructionsPh:'అన్ని గార్డులు డ్యూటీకి 15 నిమిషాల ముందు యూనిఫారంలో హాజరు కావాలి.',pdfBtn:'📥 A4 PDF డౌన్‌లోడ్',printBtn:'🖨️ నేరుగా ప్రింట్',waBtn:'📲 WhatsApp షేర్',rosterPreview:'లైవ్ డ్యూటీ రోస్టర్ ప్రివ్యూ',advancePreview:'లైవ్ స్టాఫ్ అడ్వాన్స్ ప్రివ్యూ',rosterBadge:'డ్యూటీ నియామక రోస్టర్',advanceBadge:'స్టాఫ్ అడ్వాన్స్ వౌచర్',outRosterNo:'రోస్టర్ నంబర్',outDutyDate:'డ్యూటీ తేదీ',outClientSite:'క్లయింట్ సైట్',outOfficer:'ఫీల్డ్ అధికారి',outGuardName:'గార్డ్ పేరు',outPost:'పోస్ట్ / పాయింట్',outShift:'షిఫ్ట్ సమయం',outContact:'సంప్రదింపు',outStandingOrders:'డ్యూటీ సూచనలు',outClientSign:'క్లయింట్ / సొసైటీ సంతకం',outSupervisorSign:'ఫీల్డ్ సూపర్‌వైజర్ / ఏజెన్సీ సంతకం',outVoucherNo:'వౌచర్ నంబర్',outDate:'తేదీ',outEmployee:'ఉద్యోగి పేరు',outRole:'హోదా / ID',outPayment:'చెల్లింపు విధానం',outRecovery:'రికవరీ నెల',outReason:'కారణం',outAdvancePaid:'ఆమోదించి చెల్లించిన అడ్వాన్స్:',outDeclaration:'ప్రకటన',declarationText:'పైన పేర్కొన్న అడ్వాన్స్ మొత్తం నాకు అందిందని అంగీకరిస్తున్నాను. ఈ మొత్తం నా తదుపరి నెల జీతం ({month}) నుంచి తగ్గించబడుతుంది.',outReceiverSign:'స్వీకరించిన వ్యక్తి / స్టాఫ్ సంతకం',outManagerSign:'అధీకృత మేనేజర్ సంతకం',waAgency:'ఏజెన్సీ',waSite:'సైట్',waStaff:'స్టాఫ్',waAdvancePaid:'చెల్లించిన అడ్వాన్స్',waPurpose:'కారణం',generated:'KaamKaj Bills ద్వారా తయారు చేయబడింది.',defaultNotes:'అన్ని గార్డులు డ్యూటీకి 15 నిమిషాల ముందు పూర్తి యూనిఫారంలో హాజరు కావాలి. రిలీవర్ లేకుండా పోస్ట్ వదలవద్దు.',generating:'⏳ PDF తయారవుతోంది…',delete:'తొలగించు',cash:'నగదు',upi:'UPI / బ్యాంక్ ట్రాన్స్‌ఫర్'},
+kn:{allTools:'← ಎಲ್ಲಾ ಟೂಲ್ಸ್',appTitle:'KaamKaj Bills • ಭದ್ರತಾ ಡ್ಯೂಟಿ ರೋಸ್ಟರ್ ಮತ್ತು ಸಿಬ್ಬಂದಿ ಮುಂಗಡ',languageLabel:'🌐 ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',themeHint:'ಇಲ್ಲಿಂದ ಮೋಡ್ ಬದಲಾಯಿಸಬಹುದು',darkMode:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',lightMode:'☀️ ಲೈಟ್ ಮೋಡ್',modePrompt:'1. ಸ್ಲಿಪ್ ಪ್ರಕಾರ ಆಯ್ಕೆಮಾಡಿ:',rosterMode:'🛡️ ಭದ್ರತಾ ಗಾರ್ಡ್ ಡ್ಯೂಟಿ ರೋಸ್ಟರ್',advanceMode:'💵 ಸಿಬ್ಬಂದಿ ಸಂಬಳ ಮುಂಗಡ ಮೆಮೊ',secAgency:'1. ಏಜೆನ್ಸಿ / ಕಂಪನಿ ವಿವರಗಳು',agencyLabel:'ಭದ್ರತಾ ಏಜೆನ್ಸಿ / ಸಂಸ್ಥೆಯ ಹೆಸರು',agencyPh:'ಉದಾ. GuardForce Security & Facility Services',addressLabel:'ಕಚೇರಿ ವಿಳಾಸ ಮತ್ತು ಕಂಟ್ರೋಲ್ ರೂಮ್ ಸಂಖ್ಯೆ',addressPh:'ಉದಾ. ಸೆಕ್ಟರ್ 18, ಮುಖ್ಯ ರಸ್ತೆ | 24x7 ಕಂಟ್ರೋಲ್: 9000000000',secRoster:'2. ಸೈಟ್ ಮತ್ತು ಶಿಫ್ಟ್ ವೇಳಾಪಟ್ಟಿ ವಿವರಗಳು',rosterNoLabel:'ರೋಸ್ಟರ್ ಸಂಖ್ಯೆ (ಸ್ವಯಂ)',dutyDateLabel:'ಡ್ಯೂಟಿ ದಿನಾಂಕ / ವಾರ',supervisorLabel:'ಫೀಲ್ಡ್ ಸೂಪರ್‌ವೈಸರ್ ಹೆಸರು',supervisorPh:'ಉದಾ. ಅಜಯ್ ವರ್ಮಾ',siteLabel:'ಕ್ಲೈಂಟ್ ಸೈಟ್ / ಸೊಸೈಟಿ / ಕಾರ್ಖಾನೆ ಹೆಸರು',sitePh:'ಉದಾ. Sunrise Co-op Housing Society, Block A',secDeployment:'3. ಗಾರ್ಡ್ ನಿಯೋಜನೆ ಮತ್ತು ಶಿಫ್ಟ್ ಸಮಯ',guardName:'ಗಾರ್ಡ್ / ಸಿಬ್ಬಂದಿ ಹೆಸರು',postPoint:'ಪೋಸ್ಟ್ / ಗೇಟ್ ಪಾಯಿಂಟ್',shiftTiming:'ಶಿಫ್ಟ್ ಸಮಯ',idMobile:'ಐಡಿ / ಮೊಬೈಲ್',addGuard:'+ ಗಾರ್ಡ್ / ಸಿಬ್ಬಂದಿ ಸೇರಿಸಿ',secAdvance:'2. ಸಿಬ್ಬಂದಿ ಮುಂಗಡ ಪಾವತಿ ವಿವರಗಳು',voucherNoLabel:'ವೌಚರ್ / ಮೆಮೊ ಸಂಖ್ಯೆ',dateLabel:'ದಿನಾಂಕ',deductionMonthLabel:'ಕಡಿತದ ತಿಂಗಳು',deductionMonthPh:'ಉದಾ. ನವೆಂಬರ್ 2026',staffNameLabel:'ಸಿಬ್ಬಂದಿ / ಗಾರ್ಡ್ ಪೂರ್ಣ ಹೆಸರು',staffNamePh:'ಉದಾ. ರಾಮೇಶ್ವರ ಯಾದವ್',designationLabel:'ಹುದ್ದೆ ಮತ್ತು ಉದ್ಯೋಗಿ ID',designationPh:'ಉದಾ. ಭದ್ರತಾ ಗಾರ್ಡ್ (ID: SG-42)',advanceAmountLabel:'ಮುಂಗಡ ಮೊತ್ತ (₹)',paymentModeLabel:'ಪಾವತಿ ವಿಧಾನ',payUpi:'UPI / ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ',payCash:'ನಗದು',staffMobileLabel:'ಸಿಬ್ಬಂದಿ ಮೊಬೈಲ್ / WhatsApp',staffMobilePh:'ಉದಾ. 9000012345',purposeLabel:'ಮುಂಗಡದ ಉದ್ದೇಶ / ಕಾರಣ',purposePh:'ಉದಾ. ವೈಯಕ್ತಿಕ / ಕುಟುಂಬ ವೈದ್ಯಕೀಯ ಅಗತ್ಯ',standingInstructionsLabel:'ಶಾಶ್ವತ ಸೂಚನೆಗಳು / ನಿಯಮಗಳು',standingInstructionsPh:'ಎಲ್ಲಾ ಗಾರ್ಡ್‌ಗಳು ಡ್ಯೂಟಿಗೆ 15 ನಿಮಿಷ ಮುಂಚಿತವಾಗಿ ಯೂನಿಫಾರ್ಮ್‌ನಲ್ಲಿ ಹಾಜರಾಗಬೇಕು.',pdfBtn:'📥 A4 PDF ಡೌನ್‌ಲೋಡ್',printBtn:'🖨️ ನೇರವಾಗಿ ಪ್ರಿಂಟ್',waBtn:'📲 WhatsApp ಹಂಚಿಕೊಳ್ಳಿ',rosterPreview:'ಲೈವ್ ಡ್ಯೂಟಿ ರೋಸ್ಟರ್ ಪೂರ್ವವೀಕ್ಷಣೆ',advancePreview:'ಲೈವ್ ಸಿಬ್ಬಂದಿ ಮುಂಗಡ ಪೂರ್ವವೀಕ್ಷಣೆ',rosterBadge:'ಡ್ಯೂಟಿ ನಿಯೋಜನೆ ರೋಸ್ಟರ್',advanceBadge:'ಸಿಬ್ಬಂದಿ ಮುಂಗಡ ವೌಚರ್',outRosterNo:'ರೋಸ್ಟರ್ ಸಂಖ್ಯೆ',outDutyDate:'ಡ್ಯೂಟಿ ದಿನಾಂಕ',outClientSite:'ಕ್ಲೈಂಟ್ ಸೈಟ್',outOfficer:'ಫೀಲ್ಡ್ ಅಧಿಕಾರಿ',outGuardName:'ಗಾರ್ಡ್ ಹೆಸರು',outPost:'ಪೋಸ್ಟ್ / ಪಾಯಿಂಟ್',outShift:'ಶಿಫ್ಟ್ ಸಮಯ',outContact:'ಸಂಪರ್ಕ',outStandingOrders:'ಡ್ಯೂಟಿ ಸೂಚನೆಗಳು',outClientSign:'ಕ್ಲೈಂಟ್ / ಸೊಸೈಟಿ ಸಹಿ',outSupervisorSign:'ಫೀಲ್ಡ್ ಸೂಪರ್‌ವೈಸರ್ / ಏಜೆನ್ಸಿ ಸಹಿ',outVoucherNo:'ವೌಚರ್ ಸಂಖ್ಯೆ',outDate:'ದಿನಾಂಕ',outEmployee:'ಉದ್ಯೋಗಿ ಹೆಸರು',outRole:'ಹುದ್ದೆ / ID',outPayment:'ಪಾವತಿ ವಿಧಾನ',outRecovery:'ಮರುಪಾವತಿ ತಿಂಗಳು',outReason:'ಕಾರಣ',outAdvancePaid:'ಅನುಮೋದಿಸಿ ಪಾವತಿಸಿದ ಮುಂಗಡ:',outDeclaration:'ಘೋಷಣೆ',declarationText:'ಮೇಲೆ ತಿಳಿಸಿದ ಮುಂಗಡ ಮೊತ್ತವನ್ನು ಸ್ವೀಕರಿಸಿದ್ದೇನೆ. ಈ ಮೊತ್ತವನ್ನು ನನ್ನ ಮುಂದಿನ ತಿಂಗಳ ಸಂಬಳದಿಂದ ({month}) ಕಡಿತಗೊಳಿಸಲಾಗುತ್ತದೆ.',outReceiverSign:'ಸ್ವೀಕರಿಸುವವರು / ಸಿಬ್ಬಂದಿ ಸಹಿ',outManagerSign:'ಅಧಿಕೃತ ಮ್ಯಾನೇಜರ್ ಸಹಿ',waAgency:'ಏಜೆನ್ಸಿ',waSite:'ಸೈಟ್',waStaff:'ಸಿಬ್ಬಂದಿ',waAdvancePaid:'ಪಾವತಿಸಿದ ಮುಂಗಡ',waPurpose:'ಉದ್ದೇಶ',generated:'KaamKaj Bills ಮೂಲಕ ರಚಿಸಲಾಗಿದೆ.',defaultNotes:'ಎಲ್ಲಾ ಗಾರ್ಡ್‌ಗಳು ಡ್ಯೂಟಿಗೆ 15 ನಿಮಿಷ ಮುಂಚಿತವಾಗಿ ಪೂರ್ಣ ಯೂನಿಫಾರ್ಮ್‌ನಲ್ಲಿ ಹಾಜರಾಗಬೇಕು. ರಿಲೀವರ್ ಇಲ್ಲದೆ ಪೋಸ್ಟ್ ಬಿಡಬೇಡಿ.',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ…',delete:'ಅಳಿಸಿ',cash:'ನಗದು',upi:'UPI / ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ'},
+ml:{allTools:'← എല്ലാ ടൂളുകളും',appTitle:'KaamKaj Bills • സുരക്ഷാ ഡ്യൂട്ടി റോസ്റ്ററും സ്റ്റാഫ് അഡ്വാൻസും',languageLabel:'🌐 ഭാഷ തിരഞ്ഞെടുക്കുക',themeHint:'ഇവിടെ നിന്ന് മോഡ് മാറ്റാം',darkMode:'🌙 ഡാർക്ക് മോഡ്',lightMode:'☀️ ലൈറ്റ് മോഡ്',modePrompt:'1. സ്ലിപ്പ് തരം തിരഞ്ഞെടുക്കുക:',rosterMode:'🛡️ സുരക്ഷാ ഗാർഡ് ഡ്യൂട്ടി റോസ്റ്റർ',advanceMode:'💵 സ്റ്റാഫ് ശമ്പള അഡ്വാൻസ് മെമ്മോ',secAgency:'1. ഏജൻസി / കമ്പനി വിവരങ്ങൾ',agencyLabel:'സുരക്ഷാ ഏജൻസി / സ്ഥാപനത്തിന്റെ പേര്',agencyPh:'ഉദാ. GuardForce Security & Facility Services',addressLabel:'ഓഫീസ് വിലാസവും കൺട്രോൾ റൂം നമ്പറും',addressPh:'ഉദാ. സെക്ടർ 18, മെയിൻ റോഡ് | 24x7 കൺട്രോൾ: 9000000000',secRoster:'2. സൈറ്റും ഷിഫ്റ്റ് സമയക്രമവും',rosterNoLabel:'റോസ്റ്റർ നമ്പർ (ഓട്ടോ)',dutyDateLabel:'ഡ്യൂട്ടി തീയതി / ആഴ്ച',supervisorLabel:'ഫീൽഡ് സൂപ്പർവൈസറുടെ പേര്',supervisorPh:'ഉദാ. അജയ് വർമ്മ',siteLabel:'ക്ലയന്റ് സൈറ്റ് / സൊസൈറ്റി / ഫാക്ടറി പേര്',sitePh:'ഉദാ. Sunrise Co-op Housing Society, Block A',secDeployment:'3. ഗാർഡ് വിന്യാസവും ഷിഫ്റ്റ് സമയവും',guardName:'ഗാർഡ് / സ്റ്റാഫ് പേര്',postPoint:'പോസ്റ്റ് / ഗേറ്റ് പോയിന്റ്',shiftTiming:'ഷിഫ്റ്റ് സമയം',idMobile:'ഐഡി / മൊബൈൽ',addGuard:'+ ഗാർഡ് / സ്റ്റാഫ് ചേർക്കുക',secAdvance:'2. സ്റ്റാഫ് അഡ്വാൻസ് പേയ്‌മെന്റ് വിവരങ്ങൾ',voucherNoLabel:'വൗച്ചർ / മെമ്മോ നമ്പർ',dateLabel:'തീയതി',deductionMonthLabel:'കുറയ്ക്കുന്ന മാസം',deductionMonthPh:'ഉദാ. നവംബർ 2026',staffNameLabel:'സ്റ്റാഫ് / ഗാർഡിന്റെ പൂർണ്ണ പേര്',staffNamePh:'ഉദാ. രാമേശ്വർ യാദവ്',designationLabel:'പദവി, ജീവനക്കാരുടെ ഐഡി',designationPh:'ഉദാ. സെക്യൂരിറ്റി ഗാർഡ് (ID: SG-42)',advanceAmountLabel:'അഡ്വാൻസ് തുക (₹)',paymentModeLabel:'പേയ്മെന്റ് രീതി',payUpi:'UPI / ബാങ്ക് ട്രാൻസ്ഫർ',payCash:'പണം',staffMobileLabel:'സ്റ്റാഫ് മൊബൈൽ / WhatsApp',staffMobilePh:'ഉദാ. 9000012345',purposeLabel:'അഡ്വാൻസ് ആവശ്യത്തിന്റെ കാരണം',purposePh:'ഉദാ. വ്യക്തിഗത / കുടുംബ മെഡിക്കൽ ആവശ്യം',standingInstructionsLabel:'സ്ഥിര നിർദ്ദേശങ്ങൾ / നിബന്ധനകൾ',standingInstructionsPh:'എല്ലാ ഗാർഡുകളും ഡ്യൂട്ടിക്ക് 15 മിനിറ്റ് മുമ്പ് യൂണിഫോമിൽ റിപ്പോർട്ട് ചെയ്യണം.',pdfBtn:'📥 A4 PDF ഡൗൺലോഡ്',printBtn:'🖨️ നേരിട്ട് പ്രിന്റ്',waBtn:'📲 WhatsApp പങ്കിടുക',rosterPreview:'ലൈവ് ഡ്യൂട്ടി റോസ്റ്റർ പ്രിവ്യൂ',advancePreview:'ലൈവ് സ്റ്റാഫ് അഡ്വാൻസ് പ്രിവ്യൂ',rosterBadge:'ഡ്യൂട്ടി വിന്യാസ റോസ്റ്റർ',advanceBadge:'സ്റ്റാഫ് അഡ്വാൻസ് വൗച്ചർ',outRosterNo:'റോസ്റ്റർ നമ്പർ',outDutyDate:'ഡ്യൂട്ടി തീയതി',outClientSite:'ക്ലയന്റ് സൈറ്റ്',outOfficer:'ഫീൽഡ് ഓഫീസർ',outGuardName:'ഗാർഡ് പേര്',outPost:'പോസ്റ്റ് / പോയിന്റ്',outShift:'ഷിഫ്റ്റ് സമയം',outContact:'ബന്ധപ്പെടുക',outStandingOrders:'ഡ്യൂട്ടി നിർദ്ദേശങ്ങൾ',outClientSign:'ക്ലയന്റ് / സൊസൈറ്റി ഒപ്പ്',outSupervisorSign:'ഫീൽഡ് സൂപ്പർവൈസർ / ഏജൻസി ഒപ്പ്',outVoucherNo:'വൗച്ചർ നമ്പർ',outDate:'തീയതി',outEmployee:'ജീവനക്കാരന്റെ പേര്',outRole:'പദവി / ID',outPayment:'പേയ്മെന്റ് രീതി',outRecovery:'തിരിച്ചുപിടിക്കുന്ന മാസം',outReason:'കാരണം',outAdvancePaid:'അംഗീകരിച്ച് നൽകിയ അഡ്വാൻസ്:',outDeclaration:'പ്രഖ്യാപനം',declarationText:'മുകളിൽ പറഞ്ഞ അഡ്വാൻസ് തുക ലഭിച്ചതായി ഞാൻ സമ്മതിക്കുന്നു. ഇത് എന്റെ അടുത്ത മാസത്തെ ശമ്പളത്തിൽ നിന്ന് ({month}) കുറയ്ക്കും.',outReceiverSign:'സ്വീകരിക്കുന്നയാൾ / സ്റ്റാഫ് ഒപ്പ്',outManagerSign:'അംഗീകൃത മാനേജർ ഒപ്പ്',waAgency:'ഏജൻസി',waSite:'സൈറ്റ്',waStaff:'സ്റ്റാഫ്',waAdvancePaid:'നൽകിയ അഡ്വാൻസ്',waPurpose:'കാരണം',generated:'KaamKaj Bills ഉപയോഗിച്ച് സൃഷ്ടിച്ചത്.',defaultNotes:'എല്ലാ ഗാർഡുകളും ഡ്യൂട്ടിക്ക് 15 മിനിറ്റ് മുമ്പ് പൂർണ്ണ യൂണിഫോമിൽ എത്തണം. പകരക്കാരനില്ലാതെ പോസ്റ്റ് വിടരുത്.',generating:'⏳ PDF തയ്യാറാക്കുന്നു…',delete:'നീക്കംചെയ്യുക',cash:'പണം',upi:'UPI / ബാങ്ക് ട്രാൻസ്ഫർ'},
+pa:{allTools:'← ਸਾਰੇ ਟੂਲ',appTitle:'KaamKaj Bills • ਸੁਰੱਖਿਆ ਡਿਊਟੀ ਰੋਸਟਰ ਅਤੇ ਸਟਾਫ ਐਡਵਾਂਸ',languageLabel:'🌐 ਭਾਸ਼ਾ ਚੁਣੋ',themeHint:'ਇੱਥੋਂ ਮੋਡ ਬਦਲ ਸਕਦੇ ਹੋ',darkMode:'🌙 ਡਾਰਕ ਮੋਡ',lightMode:'☀️ ਲਾਈਟ ਮੋਡ',modePrompt:'1. ਸਲਿੱਪ ਦੀ ਕਿਸਮ ਚੁਣੋ:',rosterMode:'🛡️ ਸੁਰੱਖਿਆ ਗਾਰਡ ਡਿਊਟੀ ਰੋਸਟਰ',advanceMode:'💵 ਸਟਾਫ ਤਨਖਾਹ ਐਡਵਾਂਸ ਮੈਮੋ',secAgency:'1. ਏਜੰਸੀ / ਕੰਪਨੀ ਦੇ ਵੇਰਵੇ',agencyLabel:'ਸੁਰੱਖਿਆ ਏਜੰਸੀ / ਫਰਮ ਦਾ ਨਾਮ',agencyPh:'ਜਿਵੇਂ GuardForce Security & Facility Services',addressLabel:'ਦਫ਼ਤਰ ਦਾ ਪਤਾ ਅਤੇ ਕੰਟਰੋਲ ਰੂਮ ਨੰਬਰ',addressPh:'ਜਿਵੇਂ ਸੈਕਟਰ 18, ਮੇਨ ਰੋਡ | 24x7 ਕੰਟਰੋਲ: 9000000000',secRoster:'2. ਸਾਈਟ ਅਤੇ ਸ਼ਿਫਟ ਸਮਾਂ-ਸਾਰਣੀ',rosterNoLabel:'ਰੋਸਟਰ ਨੰਬਰ (ਆਟੋ)',dutyDateLabel:'ਡਿਊਟੀ ਦੀ ਤਾਰੀਖ / ਹਫ਼ਤਾ',supervisorLabel:'ਫੀਲਡ ਸੁਪਰਵਾਈਜ਼ਰ ਦਾ ਨਾਮ',supervisorPh:'ਜਿਵੇਂ ਅਜੈ ਵਰਮਾ',siteLabel:'ਕਲਾਇੰਟ ਸਾਈਟ / ਸੋਸਾਇਟੀ / ਫੈਕਟਰੀ ਦਾ ਨਾਮ',sitePh:'ਜਿਵੇਂ Sunrise Co-op Housing Society, Block A',secDeployment:'3. ਗਾਰਡ ਤਾਇਨਾਤੀ ਅਤੇ ਸ਼ਿਫਟ ਸਮਾਂ',guardName:'ਗਾਰਡ / ਸਟਾਫ ਦਾ ਨਾਮ',postPoint:'ਪੋਸਟ / ਗੇਟ ਪੁਆਇੰਟ',shiftTiming:'ਸ਼ਿਫਟ ਦਾ ਸਮਾਂ',idMobile:'ID / ਮੋਬਾਈਲ',addGuard:'+ ਗਾਰਡ / ਸਟਾਫ ਸ਼ਾਮਲ ਕਰੋ',secAdvance:'2. ਸਟਾਫ ਐਡਵਾਂਸ ਭੁਗਤਾਨ ਵੇਰਵੇ',voucherNoLabel:'ਵਾਊਚਰ / ਮੈਮੋ ਨੰਬਰ',dateLabel:'ਤਾਰੀਖ',deductionMonthLabel:'ਕਟੌਤੀ ਦਾ ਮਹੀਨਾ',deductionMonthPh:'ਜਿਵੇਂ ਨਵੰਬਰ 2026',staffNameLabel:'ਸਟਾਫ / ਗਾਰਡ ਦਾ ਪੂਰਾ ਨਾਮ',staffNamePh:'ਜਿਵੇਂ ਰਮੇਸ਼ਵਰ ਯਾਦਵ',designationLabel:'ਅਹੁਦਾ ਅਤੇ ਕਰਮਚਾਰੀ ID',designationPh:'ਜਿਵੇਂ ਸੁਰੱਖਿਆ ਗਾਰਡ (ID: SG-42)',advanceAmountLabel:'ਐਡਵਾਂਸ ਰਕਮ (₹)',paymentModeLabel:'ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ',payUpi:'UPI / ਬੈਂਕ ਟ੍ਰਾਂਸਫਰ',payCash:'ਨਕਦ',staffMobileLabel:'ਸਟਾਫ ਮੋਬਾਈਲ / WhatsApp',staffMobilePh:'ਜਿਵੇਂ 9000012345',purposeLabel:'ਐਡਵਾਂਸ ਦਾ ਮਕਸਦ / ਕਾਰਨ',purposePh:'ਜਿਵੇਂ ਨਿੱਜੀ / ਪਰਿਵਾਰਕ ਮੈਡੀਕਲ ਲੋੜ',standingInstructionsLabel:'ਸਥਾਈ ਹਦਾਇਤਾਂ / ਨਿਯਮ',standingInstructionsPh:'ਸਾਰੇ ਗਾਰਡ ਡਿਊਟੀ ਤੋਂ 15 ਮਿੰਟ ਪਹਿਲਾਂ ਵਰਦੀ ਵਿੱਚ ਰਿਪੋਰਟ ਕਰਨ।',pdfBtn:'📥 A4 PDF ਡਾਊਨਲੋਡ',printBtn:'🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ',waBtn:'📲 WhatsApp ਸਾਂਝਾ ਕਰੋ',rosterPreview:'ਲਾਈਵ ਡਿਊਟੀ ਰੋਸਟਰ ਪ੍ਰੀਵਿਊ',advancePreview:'ਲਾਈਵ ਸਟਾਫ ਐਡਵਾਂਸ ਪ੍ਰੀਵਿਊ',rosterBadge:'ਡਿਊਟੀ ਤਾਇਨਾਤੀ ਰੋਸਟਰ',advanceBadge:'ਸਟਾਫ ਐਡਵਾਂਸ ਵਾਊਚਰ',outRosterNo:'ਰੋਸਟਰ ਨੰਬਰ',outDutyDate:'ਡਿਊਟੀ ਦੀ ਤਾਰੀਖ',outClientSite:'ਕਲਾਇੰਟ ਸਾਈਟ',outOfficer:'ਫੀਲਡ ਅਧਿਕਾਰੀ',outGuardName:'ਗਾਰਡ ਦਾ ਨਾਮ',outPost:'ਪੋਸਟ / ਪੁਆਇੰਟ',outShift:'ਸ਼ਿਫਟ ਸਮਾਂ',outContact:'ਸੰਪਰਕ',outStandingOrders:'ਡਿਊਟੀ ਹਦਾਇਤਾਂ',outClientSign:'ਕਲਾਇੰਟ / ਸੋਸਾਇਟੀ ਦਸਤਖ਼ਤ',outSupervisorSign:'ਫੀਲਡ ਸੁਪਰਵਾਈਜ਼ਰ / ਏਜੰਸੀ ਦਸਤਖ਼ਤ',outVoucherNo:'ਵਾਊਚਰ ਨੰਬਰ',outDate:'ਤਾਰੀਖ',outEmployee:'ਕਰਮਚਾਰੀ ਦਾ ਨਾਮ',outRole:'ਅਹੁਦਾ / ID',outPayment:'ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ',outRecovery:'ਵਸੂਲੀ ਦਾ ਮਹੀਨਾ',outReason:'ਕਾਰਨ',outAdvancePaid:'ਮਨਜ਼ੂਰ ਅਤੇ ਅਦਾ ਕੀਤੀ ਐਡਵਾਂਸ ਰਕਮ:',outDeclaration:'ਘੋਸ਼ਣਾ',declarationText:'ਮੈਂ ਉੱਪਰ ਦੱਸੀ ਐਡਵਾਂਸ ਰਕਮ ਪ੍ਰਾਪਤ ਕਰਨ ਦੀ ਪੁਸ਼ਟੀ ਕਰਦਾ/ਕਰਦੀ ਹਾਂ। ਇਹ ਮੇਰੀ ਅਗਲੀ ਮਹੀਨਾਵਾਰ ਤਨਖਾਹ ({month}) ਵਿੱਚੋਂ ਕੱਟੀ ਜਾਵੇਗੀ।',outReceiverSign:'ਪ੍ਰਾਪਤਕਰਤਾ / ਸਟਾਫ ਦਸਤਖ਼ਤ',outManagerSign:'ਅਧਿਕਾਰਤ ਮੈਨੇਜਰ ਦਸਤਖ਼ਤ',waAgency:'ਏਜੰਸੀ',waSite:'ਸਾਈਟ',waStaff:'ਸਟਾਫ',waAdvancePaid:'ਐਡਵਾਂਸ ਦਿੱਤੀ',waPurpose:'ਮਕਸਦ',generated:'KaamKaj Bills ਰਾਹੀਂ ਬਣਾਇਆ ਗਿਆ।',defaultNotes:'ਸਾਰੇ ਗਾਰਡ ਡਿਊਟੀ ਤੋਂ 15 ਮਿੰਟ ਪਹਿਲਾਂ ਪੂਰੀ ਵਰਦੀ ਵਿੱਚ ਰਿਪੋਰਟ ਕਰਨ। ਰਿਲੀਵਰ ਤੋਂ ਬਿਨਾਂ ਪੋਸਟ ਨਾ ਛੱਡੋ।',generating:'⏳ PDF ਬਣ ਰਹੀ ਹੈ…',delete:'ਹਟਾਓ',cash:'ਨਕਦ',upi:'UPI / ਬੈਂਕ ਟ੍ਰਾਂਸਫਰ'},
+or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',appTitle:'KaamKaj Bills • ସୁରକ୍ଷା ଡ୍ୟୁଟି ରୋଷ୍ଟର ଓ କର୍ମଚାରୀ ଅଗ୍ରିମ',languageLabel:'🌐 ଭାଷା ବାଛନ୍ତୁ',themeHint:'ଏଠାରୁ ମୋଡ୍ ବଦଳାନ୍ତୁ',darkMode:'🌙 ଡାର୍କ ମୋଡ୍',lightMode:'☀️ ଲାଇଟ୍ ମୋଡ୍',modePrompt:'1. ସ୍ଲିପ୍ ପ୍ରକାର ବାଛନ୍ତୁ:',rosterMode:'🛡️ ସୁରକ୍ଷା ଗାର୍ଡ ଡ୍ୟୁଟି ରୋଷ୍ଟର',advanceMode:'💵 କର୍ମଚାରୀ ଦରମା ଅଗ୍ରିମ ମେମୋ',secAgency:'1. ଏଜେନ୍ସି / କମ୍ପାନୀ ବିବରଣୀ',agencyLabel:'ସୁରକ୍ଷା ଏଜେନ୍ସି / ଫାର୍ମ ନାମ',agencyPh:'ଯଥା GuardForce Security & Facility Services',addressLabel:'ଅଫିସ୍ ଠିକଣା ଓ କଣ୍ଟ୍ରୋଲ୍ ରୁମ୍ ନମ୍ବର',addressPh:'ଯଥା ସେକ୍ଟର 18, ମେନ୍ ରୋଡ୍ | 24x7 କଣ୍ଟ୍ରୋଲ୍: 9000000000',secRoster:'2. ସାଇଟ୍ ଓ ସିଫ୍ଟ ସମୟସୂଚୀ',rosterNoLabel:'ରୋଷ୍ଟର ନମ୍ବର (ଅଟୋ)',dutyDateLabel:'ଡ୍ୟୁଟି ତାରିଖ / ସପ୍ତାହ',supervisorLabel:'ଫିଲ୍ଡ ସୁପରଭାଇଜର ନାମ',supervisorPh:'ଯଥା ଅଜୟ ବର୍ମା',siteLabel:'କ୍ଲାଏଣ୍ଟ ସାଇଟ୍ / ସୋସାଇଟି / କାରଖାନା ନାମ',sitePh:'ଯଥା Sunrise Co-op Housing Society, Block A',secDeployment:'3. ଗାର୍ଡ ନିୟୋଜନ ଓ ସିଫ୍ଟ ସମୟ',guardName:'ଗାର୍ଡ / କର୍ମଚାରୀ ନାମ',postPoint:'ପୋଷ୍ଟ / ଗେଟ୍ ପଏଣ୍ଟ',shiftTiming:'ସିଫ୍ଟ ସମୟ',idMobile:'ID / ମୋବାଇଲ୍',addGuard:'+ ନୂତନ ଗାର୍ଡ / କର୍ମଚାରୀ ଯୋଡନ୍ତୁ',secAdvance:'2. କର୍ମଚାରୀ ଅଗ୍ରିମ ପେମେଣ୍ଟ ବିବରଣୀ',voucherNoLabel:'ଭାଉଚର୍ / ମେମୋ ନମ୍ବର',dateLabel:'ତାରିଖ',deductionMonthLabel:'କଟାଯିବା ମାସ',deductionMonthPh:'ଯଥା ନଭେମ୍ବର 2026',staffNameLabel:'କର୍ମଚାରୀ / ଗାର୍ଡଙ୍କ ପୂର୍ଣ୍ଣ ନାମ',staffNamePh:'ଯଥା ରାମେଶ୍ୱର ଯାଦବ',designationLabel:'ପଦବୀ ଓ କର୍ମଚାରୀ ID',designationPh:'ଯଥା ସୁରକ୍ଷା ଗାର୍ଡ (ID: SG-42)',advanceAmountLabel:'ଅଗ୍ରିମ ରାଶି (₹)',paymentModeLabel:'ପେମେଣ୍ଟ ପ୍ରକାର',payUpi:'UPI / ବ୍ୟାଙ୍କ ଟ୍ରାନ୍ସଫର୍',payCash:'ନଗଦ',staffMobileLabel:'କର୍ମଚାରୀ ମୋବାଇଲ୍ / WhatsApp',staffMobilePh:'ଯଥା 9000012345',purposeLabel:'ଅଗ୍ରିମ ନେବାର ଉଦ୍ଦେଶ୍ୟ / କାରଣ',purposePh:'ଯଥା ବ୍ୟକ୍ତିଗତ / ପରିବାର ଚିକିତ୍ସା ଆବଶ୍ୟକତା',standingInstructionsLabel:'ସ୍ଥାୟୀ ନିର୍ଦ୍ଦେଶ / ନିୟମ',standingInstructionsPh:'ସମସ୍ତ ଗାର୍ଡ ଡ୍ୟୁଟିର 15 ମିନିଟ୍ ପୂର୍ବରୁ ୟୁନିଫର୍ମରେ ଆସନ୍ତୁ।',pdfBtn:'📥 A4 PDF ଡାଉନଲୋଡ୍',printBtn:'🖨️ ସିଧା ପ୍ରିଣ୍ଟ',waBtn:'📲 WhatsApp ସେୟାର୍',rosterPreview:'ଲାଇଭ୍ ଡ୍ୟୁଟି ରୋଷ୍ଟର ପ୍ରିଭ୍ୟୁ',advancePreview:'ଲାଇଭ୍ କର୍ମଚାରୀ ଅଗ୍ରିମ ପ୍ରିଭ୍ୟୁ',rosterBadge:'ଡ୍ୟୁଟି ନିୟୋଜନ ରୋଷ୍ଟର',advanceBadge:'କର୍ମଚାରୀ ଅଗ୍ରିମ ଭାଉଚର୍',outRosterNo:'ରୋଷ୍ଟର ନମ୍ବର',outDutyDate:'ଡ୍ୟୁଟି ତାରିଖ',outClientSite:'କ୍ଲାଏଣ୍ଟ ସାଇଟ୍',outOfficer:'ଫିଲ୍ଡ ଅଧିକାରୀ',outGuardName:'ଗାର୍ଡ ନାମ',outPost:'ପୋଷ୍ଟ / ପଏଣ୍ଟ',outShift:'ସିଫ୍ଟ ସମୟ',outContact:'ଯୋଗାଯୋଗ',outStandingOrders:'ଡ୍ୟୁଟି ନିର୍ଦ୍ଦେଶ',outClientSign:'କ୍ଲାଏଣ୍ଟ / ସୋସାଇଟି ସ୍ୱାକ୍ଷର',outSupervisorSign:'ଫିଲ୍ଡ ସୁପରଭାଇଜର / ଏଜେନ୍ସି ସ୍ୱାକ୍ଷର',outVoucherNo:'ଭାଉଚର୍ ନମ୍ବର',outDate:'ତାରିଖ',outEmployee:'କର୍ମଚାରୀ ନାମ',outRole:'ପଦବୀ / ID',outPayment:'ପେମେଣ୍ଟ ପ୍ରକାର',outRecovery:'ଫେରସ୍ତ ମାସ',outReason:'କାରଣ',outAdvancePaid:'ଅନୁମୋଦିତ ଓ ପ୍ରଦାନ କରାଯାଇଥିବା ଅଗ୍ରିମ:',outDeclaration:'ଘୋଷଣା',declarationText:'ଉପରେ ଉଲ୍ଲେଖିତ ଅଗ୍ରିମ ରାଶି ମୁଁ ପାଇଛି। ଏହା ମୋର ପରବର୍ତ୍ତୀ ମାସିକ ଦରମା ({month}) ରୁ କଟାଯିବ।',outReceiverSign:'ଗ୍ରହଣକାରୀ / କର୍ମଚାରୀ ସ୍ୱାକ୍ଷର',outManagerSign:'ଅଧିକୃତ ମ୍ୟାନେଜର୍ ସ୍ୱାକ୍ଷର',waAgency:'ଏଜେନ୍ସି',waSite:'ସାଇଟ୍',waStaff:'କର୍ମଚାରୀ',waAdvancePaid:'ଅଗ୍ରିମ ପ୍ରଦାନ',waPurpose:'ଉଦ୍ଦେଶ୍ୟ',generated:'KaamKaj Bills ଦ୍ୱାରା ତିଆରି।',defaultNotes:'ସମସ୍ତ ଗାର୍ଡ ଡ୍ୟୁଟିର 15 ମିନିଟ୍ ପୂର୍ବରୁ ପୂର୍ଣ୍ଣ ୟୁନିଫର୍ମରେ ଆସନ୍ତୁ। ରିଲିଭର୍ ବିନା ପୋଷ୍ଟ ଛାଡନ୍ତୁ ନାହିଁ।',generating:'⏳ PDF ପ୍ରସ୍ତୁତ ହେଉଛି…',delete:'ବିଲୋପ କରନ୍ତୁ',cash:'ନଗଦ',upi:'UPI / ବ୍ୟାଙ୍କ ଟ୍ରାନ୍ସଫର୍'},
+ur:{allTools:'← تمام ٹولز',appTitle:'KaamKaj Bills • سیکیورٹی ڈیوٹی روسٹر اور اسٹاف ایڈوانس',languageLabel:'🌐 زبان منتخب کریں',themeHint:'یہاں سے ڈسپلے موڈ تبدیل کریں',darkMode:'🌙 ڈارک موڈ',lightMode:'☀️ لائٹ موڈ',modePrompt:'1. سلپ کی قسم منتخب کریں:',rosterMode:'🛡️ سیکیورٹی گارڈ ڈیوٹی روسٹر',advanceMode:'💵 اسٹاف تنخواہ ایڈوانس میمو',secAgency:'1. ایجنسی / کمپنی کی تفصیلات',agencyLabel:'سیکیورٹی ایجنسی / فرم کا نام',agencyPh:'مثلاً GuardForce Security & Facility Services',addressLabel:'دفتر کا پتہ اور کنٹرول روم نمبر',addressPh:'مثلاً سیکٹر 18، مین روڈ | 24x7 کنٹرول: 9000000000',secRoster:'2. سائٹ اور شفٹ شیڈول کی تفصیلات',rosterNoLabel:'روسٹر نمبر (خودکار)',dutyDateLabel:'ڈیوٹی کی تاریخ / ہفتہ',supervisorLabel:'فیلڈ سپروائزر کا نام',supervisorPh:'مثلاً اجے ورما',siteLabel:'کلائنٹ سائٹ / سوسائٹی / فیکٹری کا نام',sitePh:'مثلاً Sunrise Co-op Housing Society, Block A',secDeployment:'3. گارڈ تعیناتی اور شفٹ کا وقت',guardName:'گارڈ / اسٹاف کا نام',postPoint:'پوسٹ / گیٹ پوائنٹ',shiftTiming:'شفٹ کا وقت',idMobile:'آئی ڈی / موبائل',addGuard:'+ نیا گارڈ / اسٹاف شامل کریں',secAdvance:'2. اسٹاف ایڈوانس ادائیگی کی تفصیلات',voucherNoLabel:'واؤچر / میمو نمبر',dateLabel:'تاریخ',deductionMonthLabel:'کٹوتی کا مہینہ',deductionMonthPh:'مثلاً نومبر 2026',staffNameLabel:'اسٹاف / گارڈ کا پورا نام',staffNamePh:'مثلاً رامیشور یادو',designationLabel:'عہدہ اور ملازم آئی ڈی',designationPh:'مثلاً سیکیورٹی گارڈ (ID: SG-42)',advanceAmountLabel:'ایڈوانس رقم (₹)',paymentModeLabel:'ادائیگی کا طریقہ',payUpi:'UPI / بینک ٹرانسفر',payCash:'نقد',staffMobileLabel:'اسٹاف موبائل / WhatsApp',staffMobilePh:'مثلاً 9000012345',purposeLabel:'ایڈوانس لینے کا مقصد / وجہ',purposePh:'مثلاً ذاتی / خاندانی طبی ضرورت',standingInstructionsLabel:'مستقل ہدایات / شرائط',standingInstructionsPh:'تمام گارڈ ڈیوٹی سے 15 منٹ پہلے مکمل یونیفارم میں رپورٹ کریں۔',pdfBtn:'📥 A4 PDF ڈاؤن لوڈ کریں',printBtn:'🖨️ براہ راست پرنٹ',waBtn:'📲 WhatsApp شیئر کریں',rosterPreview:'لائیو ڈیوٹی روسٹر پیش منظر',advancePreview:'لائیو اسٹاف ایڈوانس پیش منظر',rosterBadge:'ڈیوٹی تعیناتی روسٹر',advanceBadge:'اسٹاف ایڈوانس واؤچر',outRosterNo:'روسٹر نمبر',outDutyDate:'ڈیوٹی کی تاریخ',outClientSite:'کلائنٹ سائٹ',outOfficer:'فیلڈ افسر',outGuardName:'گارڈ کا نام',outPost:'پوسٹ / پوائنٹ',outShift:'شفٹ کا وقت',outContact:'رابطہ',outStandingOrders:'ڈیوٹی ہدایات',outClientSign:'کلائنٹ / سوسائٹی کے دستخط',outSupervisorSign:'فیلڈ سپروائزر / ایجنسی کے دستخط',outVoucherNo:'واؤچر نمبر',outDate:'تاریخ',outEmployee:'ملازم کا نام',outRole:'عہدہ / آئی ڈی',outPayment:'ادائیگی کا طریقہ',outRecovery:'وصولی کا مہینہ',outReason:'وجہ',outAdvancePaid:'منظور شدہ اور ادا کردہ ایڈوانس:',outDeclaration:'اعلان',declarationText:'میں تصدیق کرتا/کرتی ہوں کہ مجھے اوپر درج ایڈوانس رقم موصول ہوئی ہے۔ یہ رقم میری اگلی ماہانہ تنخواہ ({month}) سے کاٹ لی جائے گی۔',outReceiverSign:'وصول کنندہ / اسٹاف کے دستخط',outManagerSign:'مجاز مینیجر کے دستخط',waAgency:'ایجنسی',waSite:'سائٹ',waStaff:'اسٹاف',waAdvancePaid:'ادا شدہ ایڈوانس',waPurpose:'مقصد',generated:'KaamKaj Bills کے ذریعے تیار کیا گیا۔',defaultNotes:'تمام گارڈ ڈیوٹی سے 15 منٹ پہلے مکمل یونیفارم میں رپورٹ کریں۔ متبادل گارڈ کے بغیر پوسٹ نہ چھوڑیں۔',generating:'⏳ PDF تیار ہو رہی ہے…',delete:'حذف کریں',cash:'نقد',upi:'UPI / بینک ٹرانسفر'}
+};
+let curLang='hi';let mode='ROSTER';
+const EXTRA={hi:{nextSalary:'अगला वेतन',personalRequirement:'व्यक्तिगत आवश्यकता'},en:{nextSalary:'Next Salary',personalRequirement:'Personal Requirement'},mr:{nextSalary:'पुढील पगार',personalRequirement:'वैयक्तिक गरज'},gu:{nextSalary:'આગામી પગાર',personalRequirement:'વ્યક્તિગત જરૂરિયાત'},bn:{nextSalary:'পরবর্তী বেতন',personalRequirement:'ব্যক্তিগত প্রয়োজন'},ta:{nextSalary:'அடுத்த சம்பளம்',personalRequirement:'தனிப்பட்ட தேவை'},te:{nextSalary:'తదుపరి జీతం',personalRequirement:'వ్యక్తిగత అవసరం'},kn:{nextSalary:'ಮುಂದಿನ ಸಂಬಳ',personalRequirement:'ವೈಯಕ್ತಿಕ ಅಗತ್ಯ'},ml:{nextSalary:'അടുത്ത ശമ്പളം',personalRequirement:'വ്യക്തിപരമായ ആവശ്യം'},pa:{nextSalary:'ਅਗਲੀ ਤਨਖਾਹ',personalRequirement:'ਨਿੱਜੀ ਲੋੜ'},or:{nextSalary:'ପରବର୍ତ୍ତୀ ଦରମା',personalRequirement:'ବ୍ୟକ୍ତିଗତ ଆବଶ୍ୟକତା'},ur:{nextSalary:'اگلی تنخواہ',personalRequirement:'ذاتی ضرورت'}};
+function t(key){return (I18N[curLang]&&I18N[curLang][key])||(EXTRA[curLang]&&EXTRA[curLang][key])||I18N.en[key]||(EXTRA.en&&EXTRA.en[key])||key}
+function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function safeNum(value){const n=Number.parseFloat(value);return Number.isFinite(n)&&n>0?n:0}
+function money(value){return Number(value||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+let guards=[{name:'Arjun Singh',post:'Main Entry Gate',shift:'Day (08 AM - 08 PM)',phone:'9000011111'},{name:'Deepak Tiwari',post:'Main Entry Gate',shift:'Night (08 PM - 08 AM)',phone:'9000022222'}];
+function changeLanguage(lang){curLang=I18N[lang]?lang:'hi';try{localStorage.setItem('kkb_security_lang',curLang)}catch(e){}applyLanguage();renderGuardRows();renderDoc()}
+function applyLanguage(){document.documentElement.lang=curLang;document.documentElement.dir=curLang==='ur'?'rtl':'ltr';$('languageSelect').value=curLang;document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');el.textContent=t(key)});document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.getAttribute('data-i18n-placeholder'))});$('btnTheme').textContent=document.body.classList.contains('dark-mode')?t('lightMode'):t('darkMode');$('previewLabel').textContent=mode==='ROSTER'?t('rosterPreview'):t('advancePreview')}
+function toggleTheme(){const isDark=document.body.classList.toggle('dark-mode');$('btnTheme').textContent=isDark?t('lightMode'):t('darkMode');try{localStorage.setItem('kkb_security_theme',isDark?'dark':'light')}catch(e){}}
+function setMode(nextMode){mode=nextMode;$('btnRoster').classList.toggle('active',mode==='ROSTER');$('btnAdvance').classList.toggle('active',mode==='ADVANCE');$('rosterSection').style.display=mode==='ROSTER'?'block':'none';$('advanceSection').style.display=mode==='ADVANCE'?'block':'none';$('previewLabel').textContent=mode==='ROSTER'?t('rosterPreview'):t('advancePreview');renderDoc()}
+function renderGuardRows(){$('rosterInputsBody').innerHTML=guards.map((g,i)=>`<tr><td><input aria-label="${esc(t('guardName'))}" value="${esc(g.name)}" oninput="guards[${i}].name=this.value;renderDoc()"></td><td><input aria-label="${esc(t('postPoint'))}" value="${esc(g.post)}" oninput="guards[${i}].post=this.value;renderDoc()"></td><td><input aria-label="${esc(t('shiftTiming'))}" value="${esc(g.shift)}" oninput="guards[${i}].shift=this.value;renderDoc()"></td><td><input aria-label="${esc(t('idMobile'))}" value="${esc(g.phone)}" oninput="guards[${i}].phone=this.value;renderDoc()"></td><td class="t-center"><button type="button" class="btn-del-row" aria-label="${esc(t('delete'))}" title="${esc(t('delete'))}" onclick="delGuard(${i})">✕</button></td></tr>`).join('')}
+function addGuardRow(){guards.push({name:'',post:'',shift:'Day Shift',phone:''});renderGuardRows();renderDoc()}
+function delGuard(i){if(guards.length>1){guards.splice(i,1);renderGuardRows();renderDoc()}}
+function renderDoc(){const biz=esc($('in_biz').value.trim()||'GUARDFORCE SECURITY SERVICES');const addr=esc($('in_addr').value.trim()||'24x7 Control Room | Mob: 9000000000');const notes=esc($('in_notes').value.trim()||t('defaultNotes'));
+ if(mode==='ROSTER'){
+  const rosNo=esc($('in_ros_no').value.trim()||'-'),dt=esc($('in_ros_date').value||'-'),sup=esc($('in_sup').value.trim()||'-'),site=esc($('in_site').value.trim()||'-');
+  const rows=guards.map((g,i)=>`<tr><td class="t-center">${i+1}</td><td><b>${esc(g.name)||'-'}</b></td><td>${esc(g.post)||'-'}</td><td>${esc(g.shift)||'-'}</td><td>${esc(g.phone)||'-'}</td></tr>`).join('');
+  $('slipPreviewContent').innerHTML=`<div class="doc-header"><div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div><div class="doc-type-badge">${esc(t('rosterBadge'))}</div></div><table class="meta-table"><tr><td class="lbl">${esc(t('outRosterNo'))}:</td><td class="val"><b>${rosNo}</b></td><td class="lbl">${esc(t('outDutyDate'))}:</td><td class="val">${dt}</td></tr><tr><td class="lbl">${esc(t('outClientSite'))}:</td><td class="val" colspan="3"><b>${site}</b></td></tr><tr><td class="lbl">${esc(t('outOfficer'))}:</td><td class="val" colspan="3">${sup}</td></tr></table><table class="doc-items-table"><thead><tr><th class="t-center" style="width:7%">#</th><th style="width:28%">${esc(t('outGuardName'))}</th><th style="width:23%">${esc(t('outPost'))}</th><th style="width:24%">${esc(t('outShift'))}</th><th style="width:18%">${esc(t('outContact'))}</th></tr></thead><tbody>${rows}</tbody></table><div class="notes-box"><b>${esc(t('outStandingOrders'))}:</b> ${notes}</div><div class="footer-sig-row"><div style="font-size:10px;color:#64748b">${esc(t('outClientSign'))}</div><div class="sig-block">${esc(t('outSupervisorSign'))}</div></div>`;
+ }else{
+  const advNo=esc($('in_adv_no').value.trim()||'-'),dt=esc($('in_adv_date').value||'-'),dedM=esc($('in_ded_month').value.trim()||t('nextSalary')),staff=esc($('in_staff_name').value.trim()||'-'),role=esc($('in_staff_role').value.trim()||'-'),amt=safeNum($('in_adv_amt').value),pMode=$('in_adv_mode').value==='cash'?t('cash'):t('upi'),reason=esc($('in_adv_reason').value.trim()||t('personalRequirement'));
+  const declaration=t('declarationText').replace('{month}',dedM);
+  $('slipPreviewContent').innerHTML=`<div class="doc-header"><div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div><div class="doc-type-badge">${esc(t('advanceBadge'))}</div></div><table class="meta-table"><tr><td class="lbl">${esc(t('outVoucherNo'))}:</td><td class="val"><b>${advNo}</b></td><td class="lbl">${esc(t('outDate'))}:</td><td class="val">${dt}</td></tr><tr><td class="lbl">${esc(t('outEmployee'))}:</td><td class="val"><b>${staff}</b></td><td class="lbl">${esc(t('outRole'))}:</td><td class="val">${role}</td></tr><tr><td class="lbl">${esc(t('outPayment'))}:</td><td class="val">${esc(pMode)}</td><td class="lbl">${esc(t('outRecovery'))}:</td><td class="val" style="color:#dc2626;font-weight:800">${dedM}</td></tr><tr><td class="lbl">${esc(t('outReason'))}:</td><td class="val" colspan="3">${reason}</td></tr></table><div class="adv-highlight"><span style="font-size:12px;font-weight:800">${esc(t('outAdvancePaid'))}</span><span class="adv-amount">₹${money(amt)}</span></div><div class="declaration-box"><b>${esc(t('outDeclaration'))}:</b> ${esc(declaration)}</div><div class="footer-sig-row"><div class="sig-block">${esc(t('outReceiverSign'))}</div><div class="sig-block">${esc(t('outManagerSign'))}</div></div>`;
+ }
+}
+function downloadA4PDF(){const btn=$('btnPdf');if(typeof html2pdf!=='function'){alert('PDF library could not be loaded. Please check your internet connection and try again.');return}btn.disabled=true;const oldText=btn.textContent;btn.textContent=t('generating');const clone=$('a4DocSheet').cloneNode(true);clone.removeAttribute('id');const PDF_WIDTH=680;clone.style.cssText=[`width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'min-width:0','margin:0','padding:26px 28px','background:#ffffff','color:#0f172a','border:1.5px solid #cbd5e1','border-radius:6px','box-shadow:none','box-sizing:border-box','flex-shrink:0'].join(';');const overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);const rawNo=mode==='ROSTER'?($('in_ros_no').value.trim()||'Roster'):($('in_adv_no').value.trim()||'Advance');const safeNo=rawNo.replace(/[^a-zA-Z0-9-_]/g,'')||'SecuritySlip';const filename=`${mode==='ROSTER'?'DutyRoster':'StaffAdvance'}_${safeNo}.pdf`;requestAnimationFrame(()=>setTimeout(()=>{html2pdf().set({margin:[10,12,12,12],filename,image:{type:'png',quality:1},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},pagebreak:{mode:['css','legacy'],avoid:['.slip-box']}}).from(staging).save().then(()=>{overlay.remove();btn.disabled=false;btn.textContent=oldText}).catch(err=>{console.error('PDF export failed:',err);overlay.remove();btn.disabled=false;btn.textContent=oldText;alert('PDF export failed. Please try again or use Direct Print.')})},150))}
+function printDocDirect(){const w=window.open('','_blank','width=900,height=950');if(!w){alert('Please allow pop-ups to print this slip.');return}const html=`<!DOCTYPE html><html lang="${curLang}" dir="${curLang==='ur'?'rtl':'ltr'}"><head><meta charset="UTF-8"><title>Security Services Slip</title><style>*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;padding:8mm;background:#fff;color:#0f172a}.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px;break-inside:avoid}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1e3a8a;padding-bottom:8px;margin-bottom:10px;gap:10px}.doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}.doc-type-badge{background:#1e3a8a;color:#fff;padding:4px 10px;font-size:10px;font-weight:800;border-radius:4px;max-width:48%;text-align:center}.meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px;table-layout:fixed}.meta-table td{padding:4px 6px;border:1px solid #cbd5e1;overflow-wrap:anywhere}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}.doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:10.5px;table-layout:fixed}.doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:5px;text-align:left;border:1px solid #93c5fd}.doc-items-table td{padding:5px;border:1px solid #cbd5e1;overflow-wrap:anywhere}.t-center{text-align:center}.notes-box,.declaration-box{background:#f8fafc;border:1px solid #cbd5e1;border-left:3px solid #1e3a8a;padding:7px 9px;font-size:10px;margin:8px 0;line-height:1.45}.adv-highlight{background:#eff6ff;border:1px solid #93c5fd;padding:10px 12px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin:10px 0}.adv-amount{font-size:18px;font-weight:900;color:#1e3a8a}.footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:10px;gap:12px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}@page{size:A4 portrait;margin:0}</style></head><body>${$('a4DocSheet').innerHTML}</body></html>`;w.document.write(html);w.document.close();w.focus();setTimeout(()=>w.print(),350)}
+function shareWhatsApp(){const biz=$('in_biz').value.trim()||'Security Agency';if(mode==='ROSTER'){const site=$('in_site').value.trim()||'Site';const lines=guards.map((g,i)=>`${i+1}. *${g.name||'-'}* - ${g.post||'-'} (${g.shift||'-'})`).join('\n');const msg=`*🛡️ ${t('rosterBadge')} (${ $('in_ros_date').value||'-' })*\n*${t('waAgency')}:* ${biz}\n*${t('waSite')}:* ${site}\n\n${lines}\n\n_${t('generated')}_`;window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank')}else{const staff=$('in_staff_name').value.trim()||'Staff';const amt=safeNum($('in_adv_amt').value);const ph=$('in_staff_ph').value.trim().replace(/[^0-9]/g,'');const msg=`*💵 ${t('advanceBadge')} (${ $('in_adv_no').value||'-' })*\n*${t('waAgency')}:* ${biz}\n*${t('waStaff')}:* ${staff}\n*${t('waAdvancePaid')}:* ₹${money(amt)}\n*${t('waPurpose')}:* ${$('in_adv_reason').value.trim()||'-'}\n\n_${t('generated')}_`;window.open(ph?`https://wa.me/91${ph}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank')}}
+window.addEventListener('load',()=>{try{if(localStorage.getItem('kkb_security_theme')==='dark')document.body.classList.add('dark-mode');const saved=localStorage.getItem('kkb_security_lang');if(saved&&I18N[saved])curLang=saved}catch(e){}const today=new Date().toISOString().split('T')[0];$('in_ros_date').value=today;$('in_adv_date').value=today;$('in_ros_no').value='RST-'+Math.floor(100000+Math.random()*899990);$('in_adv_no').value='ADV-'+Math.floor(100000+Math.random()*899990);$('languageSelect').value=curLang;applyLanguage();renderGuardRows();renderDoc()});
 </script>
 </body>
 </html>
