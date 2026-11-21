@@ -1,751 +1,122 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Dairy Milk & Mandi Farmer Slip - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #15803d;
-    --primary-dark: #166534;
-    --primary-soft: #dcfce7;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: rgba(203, 213, 225, 0.85);
-    --bg: #f1f5f9;
-    --surface: rgba(255, 255, 255, 0.92);
-    --surface-alt: rgba(248, 250, 252, 0.92);
-    --danger: #dc2626;
-    --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
-  }
-
-  body.dark-mode {
-    --primary: #22c55e;
-    --primary-dark: #16a34a;
-    --primary-soft: rgba(34, 197, 94, 0.16);
-    --ink: #f1f5f9;
-    --ink-muted: #94a3b8;
-    --border: rgba(51, 65, 85, 0.85);
-    --bg: #0b1120;
-    --surface: rgba(30, 41, 59, 0.92);
-    --surface-alt: rgba(15, 23, 42, 0.88);
-    --shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
-  }
-
-  * {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #dcfce7 0%, #f8fafc 48%, #fef3c7 100%);
-    color: var(--ink);
-    overflow-x: hidden;
-    position: relative;
-    transition: background 0.25s, color 0.25s;
-  }
-
-  body.dark-mode {
-    background: linear-gradient(135deg, #090d16 0%, #0f172a 55%, #172033 100%);
-  }
-
-  /* FLOATING COLOURS BACKGROUND */
-  .floating-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(50px);
-    opacity: 0.55;
-    animation: floatOrb 14s infinite alternate ease-in-out;
-  }
-  body.dark-mode .orb { opacity: 0.22; }
-  .orb-1 {
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, #22c55e, #4ade80);
-    top: 4%;
-    left: -80px;
-  }
-  .orb-2 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, #f59e0b, #fde047);
-    top: 26%;
-    right: -80px;
-    animation-delay: -4s;
-  }
-  .orb-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #0ea5e9, #38bdf8);
-    bottom: 8%;
-    left: 18%;
-    opacity: 0.4;
-    animation-delay: -7s;
-  }
-  .orb-4 {
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, #10b981, #34d399);
-    bottom: -40px;
-    right: 12%;
-    opacity: 0.45;
-    animation-delay: -2s;
-  }
-  @keyframes floatOrb {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(55px, -40px) scale(1.1); }
-    100% { transform: translate(-40px, 50px) scale(0.95); }
-  }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #fff;
-    padding: 12px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
-  }
-  .nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
-  .btn-theme {
-    background: rgba(255,255,255,0.14);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .btn-theme:hover { background: rgba(255,255,255,0.24); }
-
-  /* Full-Screen Wide Split Grid Layout */
-  .kb-wrapper {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1540px;
-    margin: 0 auto;
-    padding: 22px 28px 48px 28px;
-    display: grid;
-    grid-template-columns: minmax(420px, 1.05fr) minmax(500px, 0.95fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 22px 22px;
-    box-shadow: var(--shadow);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 9px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: var(--surface-alt);
-    transition: all 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background: var(--surface);
-    box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background: linear-gradient(135deg, #15803d, #166534);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(21, 128, 61, 0.28);
-  }
-
-  /* Table Controls */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
-  .items-input-table th {
-    text-align: left;
-    padding: 8px 6px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: var(--primary-soft);
-    border-bottom: 2px solid var(--border);
-  }
-  .items-input-table td { padding: 6px 4px; }
-  .btn-del-row {
-    background: #fee2e2;
-    color: var(--danger);
-    border: 1px solid #fca5a5;
-    border-radius: 7px;
-    width: 32px;
-    height: 36px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .btn-del-row:hover { background: var(--danger); color: #fff; }
-  .btn-add-row {
-    background: var(--primary-soft);
-    color: var(--primary);
-    border: 1.5px dashed var(--primary);
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1;
-    min-width: 145px;
-    padding: 13px;
-    border: none;
-    border-radius: 10px;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.94; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #15803d, #166534); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #0284c7, #0369a1); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  .preview-viewport {
-    width: 100%;
-    overflow-x: auto;
-    background: #e2e8f0;
-    padding: 16px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-  }
-  body.dark-mode .preview-viewport {
-    background: #0f172a;
-  }
-  #a4DocSheet {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    width: 100%;
-    max-width: 720px;
-    padding: 22px 20px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-    flex-shrink: 0;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 16px;
-    background: #ffffff;
-  }
-
-  .doc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 2.5px solid #15803d;
-    padding-bottom: 10px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .doc-biz h2 { margin: 0; font-size: 18px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .doc-biz p { margin: 3px 0 0; font-size: 11px; color: #475569; }
-  .doc-type-badge {
-    background: #15803d;
-    color: #ffffff;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-weight: 800;
-    border-radius: 5px;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-
-  .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 11px; }
-  .meta-table td { padding: 4px 6px; border: 1px solid #cbd5e1; color: #0f172a; }
-  .meta-table td.lbl { background: #f8fafc; font-weight: 700; color: #334155; width: 22%; }
-  .meta-table td.val { font-weight: 600; color: #0f172a; width: 28%; }
-
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 11px; }
-  .doc-items-table th { background: #dcfce7; color: #166534; padding: 6px; text-align: left; font-weight: 800; border: 1px solid #86efac; }
-  .doc-items-table td { padding: 5.5px 6px; border: 1px solid #cbd5e1; font-weight: 600; color: #0f172a; }
-  .t-right { text-align: right !important; }
-  .t-center { text-align: center !important; }
-
-  .summary-wrap { display: flex; justify-content: flex-end; margin: 10px 0; }
-  .summary-table { font-size: 11.5px; border-collapse: collapse; min-width: 240px; color: #0f172a; }
-  .summary-table td { padding: 4px 8px; }
-  .summary-table .total-row td { background: #dcfce7; border-top: 2px solid #15803d; font-size: 14.5px; font-weight: 800; color: #14532d; }
-
-  .notes-box { background: #f8fafc; border-left: 3.5px solid #15803d; padding: 7px 10px; font-size: 10.5px; color: #334155; margin: 10px 0; }
-  .footer-sig-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px; font-size: 10.5px; }
-  .sig-block { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  @media (max-width: 1120px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
-    .preview-panel { position: static; }
-  }
-  @media (max-width: 760px) {
-    .preview-viewport { justify-content: flex-start; padding: 10px; }
-    #a4DocSheet { min-width: 620px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .grid-4 { grid-template-columns: 1fr 1fr; }
-    .top-nav { padding: 10px 14px; }
-    .nav-title { font-size: 13.5px; }
-    .control-box, .preview-panel { padding: 14px 12px; border-radius: 12px; }
-  }
+:root{--primary:#15803d;--primary-dark:#166534;--primary-soft:#dcfce7;--ink:#0f172a;--ink-muted:#475569;--border:rgba(203,213,225,.85);--bg:#f1f5f9;--surface:rgba(255,255,255,.94);--surface-alt:rgba(248,250,252,.96);--danger:#dc2626;--shadow:0 8px 28px rgba(15,23,42,.07)}
+body.dark-mode{--primary:#22c55e;--primary-dark:#16a34a;--primary-soft:rgba(34,197,94,.16);--ink:#f1f5f9;--ink-muted:#94a3b8;--border:rgba(51,65,85,.9);--bg:#0b1120;--surface:rgba(30,41,59,.96);--surface-alt:rgba(15,23,42,.94);--shadow:0 8px 28px rgba(0,0,0,.4)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100vh;background:linear-gradient(135deg,#dcfce7 0%,#f8fafc 48%,#fef3c7 100%);color:var(--ink);overflow-x:hidden;transition:background .25s,color .25s}
+body.dark-mode{background:linear-gradient(135deg,#090d16 0%,#0f172a 55%,#172033 100%)}
+.floating-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}.orb{position:absolute;border-radius:50%;filter:blur(50px);opacity:.45;animation:floatOrb 14s infinite alternate ease-in-out}body.dark-mode .orb{opacity:.18}.orb-1{width:380px;height:380px;background:radial-gradient(circle,#22c55e,#4ade80);top:4%;left:-80px}.orb-2{width:360px;height:360px;background:radial-gradient(circle,#f59e0b,#fde047);top:26%;right:-80px;animation-delay:-4s}.orb-3{width:400px;height:400px;background:radial-gradient(circle,#0ea5e9,#38bdf8);bottom:8%;left:18%;opacity:.32;animation-delay:-7s}.orb-4{width:340px;height:340px;background:radial-gradient(circle,#10b981,#34d399);bottom:-40px;right:12%;opacity:.35;animation-delay:-2s}@keyframes floatOrb{0%{transform:translate(0,0) scale(1)}50%{transform:translate(55px,-40px) scale(1.1)}100%{transform:translate(-40px,50px) scale(.95)}}
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;padding:11px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:3px solid #f59e0b;box-shadow:0 4px 18px rgba(0,0,0,.16)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 13px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2)}.nav-title{font-size:15px;font-weight:800;letter-spacing:.2px}.lang-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:800}.lang-control select{width:auto;min-width:145px;padding:7px 9px;background:#fff;color:#0f172a;border:1px solid #94a3b8;border-radius:8px;font-size:12px;font-weight:700}.theme-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}.theme-hint{font-size:11px;color:#e2e8f0;font-weight:600}
+.kb-wrapper{position:relative;z-index:2;width:100%;max-width:none;margin:0;padding:20px 24px 44px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;align-items:start}.control-box,.preview-panel{background:var(--surface);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1.5px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}.control-box{padding:21px}.preview-panel{position:sticky;top:78px;padding:16px;min-width:0}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}label{font-size:11px;font-weight:700;color:var(--ink-muted);letter-spacing:.2px}input,select{width:100%;min-width:0;padding:10px 11px;border:1.5px solid var(--border);border-radius:9px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:all .2s}input:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(21,128,61,.14)}
+.section-badge{background:var(--primary-soft);color:var(--primary);font-size:11.5px;font-weight:800;padding:6px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:16px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary)}.section-badge:first-of-type{margin-top:0}.toggle-bar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;background:var(--surface-alt);border:1px solid var(--border);padding:5px;border-radius:10px}.toggle-btn{padding:11px 9px;border:0;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--ink-muted)}.toggle-btn.active{background:linear-gradient(135deg,#15803d,#166534);color:#fff;box-shadow:0 3px 8px rgba(21,128,61,.25)}
+.items-input-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12px;min-width:570px}.items-input-table th{text-align:left;padding:8px 6px;color:var(--ink-muted);font-weight:800;background:var(--primary-soft);border-bottom:2px solid var(--border)}.items-input-table td{padding:6px 4px}.items-input-table input{padding:8px 7px;font-size:12.5px}.table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:9px}.btn-del-row{background:#fee2e2;color:var(--danger);border:1px solid #fca5a5;border-radius:7px;width:32px;height:36px;font-weight:bold;cursor:pointer}.btn-add-row{background:var(--primary-soft);color:var(--primary);border:1.5px dashed var(--primary);padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;margin-top:8px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:145px;padding:13px;border:0;border-radius:10px;font-size:13.5px;font-weight:800;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:.2s}.btn:hover{opacity:.94;transform:translateY(-1px)}.btn:disabled{opacity:.65;cursor:wait}.btn-pdf{background:linear-gradient(135deg,#15803d,#166534)}.btn-print{background:linear-gradient(135deg,#1e293b,#0f172a)}.btn-wa{background:linear-gradient(135deg,#0284c7,#0369a1)}
+.preview-label{text-align:center;font-size:12px;font-weight:800;color:var(--ink-muted);letter-spacing:.7px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:14px 10px;border-radius:12px;border:1px solid var(--border);display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0f172a}#a4DocSheet{background:#fff!important;color:#0f172a!important;width:100%;max-width:720px;padding:22px 20px;border:1.5px solid #cbd5e1;box-shadow:0 10px 30px rgba(15,23,42,.08);border-radius:8px;box-sizing:border-box;flex-shrink:0}.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px;background:#fff}.doc-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #15803d;padding-bottom:10px;margin-bottom:12px;gap:8px;flex-wrap:wrap}.doc-biz h2{margin:0;font-size:18px;font-weight:800;color:#0f172a;text-transform:uppercase}.doc-biz p{margin:3px 0 0;font-size:11px;color:#475569}.doc-type-badge{background:#15803d;color:#fff;padding:5px 12px;font-size:11px;font-weight:800;border-radius:5px;text-transform:uppercase;flex-shrink:0}.meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}.meta-table td{padding:4px 6px;border:1px solid #cbd5e1;color:#0f172a}.meta-table td.lbl{background:#f8fafc;font-weight:700;color:#334155;width:22%}.meta-table td.val{font-weight:600;color:#0f172a;width:28%}.doc-items-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:11px}.doc-items-table th{background:#dcfce7;color:#166534;padding:6px;text-align:left;font-weight:800;border:1px solid #86efac}.doc-items-table td{padding:5.5px 6px;border:1px solid #cbd5e1;font-weight:600;color:#0f172a}.t-right{text-align:right!important}.t-center{text-align:center!important}.summary-wrap{display:flex;justify-content:flex-end;margin:10px 0}.summary-table{font-size:11.5px;border-collapse:collapse;min-width:240px;color:#0f172a}.summary-table td{padding:4px 8px}.summary-table .total-row td{background:#dcfce7;border-top:2px solid #15803d;font-size:14.5px;font-weight:800;color:#14532d}.notes-box{background:#f8fafc;border-left:3.5px solid #15803d;padding:7px 10px;font-size:10.5px;color:#334155;margin:10px 0;line-height:1.45}.footer-sig-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:10.5px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700;color:#334155}
+@media(max-width:1120px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 32px;gap:18px}.preview-panel{position:static}}@media(max-width:760px){.preview-viewport{justify-content:flex-start;padding:10px}#a4DocSheet{min-width:620px}}@media(max-width:600px){.grid-2,.grid-3,.toggle-bar{grid-template-columns:1fr}.top-nav{padding:10px 12px}.nav-title{font-size:13px}.control-box,.preview-panel{padding:13px 11px;border-radius:12px}.lang-control{width:100%;justify-content:space-between}.lang-control select{flex:1}.theme-wrap{width:100%;justify-content:space-between}.btn{min-width:100%;}}
+@media print{@page{size:A4 portrait;margin:0}body{background:#fff!important}.floating-bg,.top-nav,.control-box,.preview-label{display:none!important}.kb-wrapper{display:block!important;padding:0!important;margin:0!important}.preview-panel{position:static!important;border:0!important;box-shadow:none!important;padding:0!important}#a4DocSheet{max-width:none!important;width:100%!important;border:0!important;box-shadow:none!important;padding:12mm!important}}
+/* Urdu layout */
+html[dir="rtl"] .top-nav,html[dir="rtl"] .nav-left,html[dir="rtl"] .nav-right{direction:rtl}html[dir="rtl"] .section-badge{border-left:0;border-right:4px solid var(--primary)}html[dir="rtl"] .notes-box{border-left:0;border-right:3.5px solid #15803d}
 </style>
 </head>
 <body>
-
-<!-- FLOATING COLOURS BACKGROUND -->
-<div class="floating-bg" aria-hidden="true">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
-</div>
-
-<div class="top-nav">
-  <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Dairy &amp; Mandi Farmer Slip</span>
-  </div>
+<div class="floating-bg" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div></div>
+<header class="top-nav">
+  <div class="nav-left"><a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a><span class="nav-title" data-i18n="title">KaamKaj Bills • Dairy & Mandi Farmer Slip</span></div>
   <div class="nav-right">
-    <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <label class="lang-control"><span>🌐 <span data-i18n="language">Language</span></span><select id="sel_lang" aria-label="Select language" onchange="changeLanguage(this.value)"><option value="hi">हिन्दी (Hindi)</option><option value="en">English</option><option value="mr">मराठी (Marathi)</option><option value="gu">ગુજરાતી (Gujarati)</option><option value="bn">বাংলা (Bengali)</option><option value="ta">தமிழ் (Tamil)</option><option value="te">తెలుగు (Telugu)</option><option value="kn">ಕನ್ನಡ (Kannada)</option><option value="ml">മലയാളം (Malayalam)</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="or">ଓଡ଼ିଆ (Odia)</option><option value="ur">اردو (Urdu)</option></select></label>
+    <div class="theme-wrap"><button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button><span class="theme-hint" data-i18n="modeHint">यहाँ से आप मोड बदल सकते हैं</span></div>
   </div>
-</div>
-
-<div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
-  <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Slip Mode Chunein (पर्ची चुनें):</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnMandi" onclick="setMode('MANDI')">🌾 Mandi Fasal Bikri Parchi (मंडी आढ़त पर्ची)</button>
-        <button type="button" class="toggle-btn" id="btnDairy" onclick="setMode('DAIRY')">🥛 Dairy Milk Collection Slip (दूध संकलन पर्ची)</button>
-      </div>
-    </div>
-
-    <div class="section-badge">1. Mandi Adhat / Dairy Center Details</div>
+</header>
+<main class="kb-wrapper">
+  <section class="control-box">
+    <div style="margin-bottom:10px"><label data-i18n="chooseMode">1. पर्ची का प्रकार चुनें:</label><div class="toggle-bar"><button type="button" class="toggle-btn active" id="btnMandi" onclick="setMode('MANDI')" data-i18n="mandiMode">🌾 Mandi Crop Sale Slip</button><button type="button" class="toggle-btn" id="btnDairy" onclick="setMode('DAIRY')" data-i18n="dairyMode">🥛 Dairy Milk Collection Slip</button></div></div>
+    <div class="section-badge" data-i18n="centerSection">1. मंडी आढ़त / डेयरी केंद्र विवरण</div>
     <div class="grid-2">
-      <div class="field"><label id="lbl_biz">Adhat Firm / Dairy Kendra Name</label><input type="text" id="in_biz" placeholder="उदा. Shree Kisan Krishi Adhat / Gramin Dudh Sankalan Kendra" oninput="renderDoc()"></div>
-      <div class="field"><label>Mandi / Village Address &amp; Mobile</label><input type="text" id="in_addr" placeholder="उदा. Krishi Upaj Mandi Yard | Mob: 9000000000" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="businessLabel">आढ़त फर्म / डेयरी केंद्र का नाम</label><input type="text" id="in_biz" placeholder="उदा. Shree Kisan Krishi Adhat" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="addressLabel">मंडी / गाँव का पता और मोबाइल</label><input type="text" id="in_addr" placeholder="Krishi Upaj Mandi Yard | Mob: 9000000000" oninput="renderDoc()"></div>
     </div>
-
-    <div class="section-badge">2. Kisan (Farmer) Details</div>
+    <div class="section-badge" data-i18n="farmerSection">2. किसान का विवरण</div>
     <div class="grid-3">
-      <div class="field"><label>Parchi / Slip No. (Auto)</label><input type="text" id="in_slip_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Date (तारीख)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
-      <div class="field" id="wrap_shift" style="display:none;">
-        <label>Milk Shift / Cattle</label>
-        <select id="in_shift" onchange="renderDoc()">
-          <option value="Morning (सुबह) - Buffalo">Morning - Buffalo (भैंस)</option>
-          <option value="Evening (शाम) - Buffalo">Evening - Buffalo (भैंस)</option>
-          <option value="Morning (सुबह) - Cow">Morning - Cow (गाय)</option>
-          <option value="Evening (शाम) - Cow">Evening - Cow (गाय)</option>
-        </select>
-      </div>
-      <div class="field" id="wrap_vehicle"><label>Gaadi / Tractor No. (Optional)</label><input type="text" id="in_vehicle" placeholder="उदा. HR-26-XX-1234" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="slipNoLabel">पर्ची नंबर (ऑटो)</label><input type="text" id="in_slip_no" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="dateLabel">तारीख</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field" id="wrap_shift" style="display:none"><label data-i18n="shiftLabel">दूध की शिफ्ट / पशु</label><select id="in_shift" onchange="renderDoc()"></select></div>
+      <div class="field" id="wrap_vehicle"><label data-i18n="vehicleLabel">गाड़ी / ट्रैक्टर नंबर (वैकल्पिक)</label><input type="text" id="in_vehicle" placeholder="HR-26-XX-1234" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Kisan Name (किसान का नाम)</label><input type="text" id="in_farmer" placeholder="उदा. Rameshwar Choudhary" oninput="renderDoc()"></div>
-      <div class="field"><label>Village &amp; Mobile / WhatsApp</label><input type="text" id="in_phone" placeholder="उदा. 9000012345 (Gram: Rampur)" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="farmerLabel">किसान का नाम</label><input type="text" id="in_farmer" placeholder="Rameshwar Choudhary" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="villageMobileLabel">गाँव और मोबाइल / WhatsApp</label><input type="text" id="in_phone" placeholder="9000012345 (ग्राम: रामपुर)" oninput="renderDoc()"></div>
     </div>
-
-    <!-- MANDI SECTION -->
     <div id="mandiSection">
-      <div class="section-badge">3. Fasal / Produce Weight &amp; Auction Rate (फसल तौल व भाव)</div>
-      <div style="overflow-x: auto;">
-        <table class="items-input-table">
-          <thead>
-            <tr>
-              <th style="width: 34%;">Fasal / Commodity (फसल)</th>
-              <th style="width: 14%;">Bori (नग)</th>
-              <th style="width: 18%;">Net Weight (Quintal)</th>
-              <th style="width: 24%;">Rate / Quintal (₹)</th>
-              <th style="width: 10%;"></th>
-            </tr>
-          </thead>
-          <tbody id="mandiInputsBody"></tbody>
-        </table>
-      </div>
-      <button type="button" class="btn-add-row" onclick="addMandiRow()">+ Nayi Fasal Jodein</button>
-
-      <div class="section-badge">4. Mandi Expenses / Deductions (खर्च व कटौती ₹)</div>
-      <div class="grid-3">
-        <div class="field"><label>Hammali / Tulai (हम्माली/तुलाई ₹)</label><input type="number" id="in_hammali" placeholder="250" oninput="renderDoc()"></div>
-        <div class="field"><label>Adhat / Mandi Fee (₹)</label><input type="number" id="in_adhat" placeholder="0" oninput="renderDoc()"></div>
-        <div class="field"><label>Advance / Transport Cut (₹)</label><input type="number" id="in_adv_cut" placeholder="0" oninput="renderDoc()"></div>
-      </div>
+      <div class="section-badge" data-i18n="mandiSectionTitle">3. फसल का वजन और नीलामी भाव</div>
+      <div class="table-scroll"><table class="items-input-table"><thead><tr><th data-i18n="cropLabel">फसल / जिन्स</th><th data-i18n="bagsLabel">बोरी (नग)</th><th data-i18n="weightLabel">कुल वजन (क्विंटल)</th><th data-i18n="rateLabel">भाव / क्विंटल (₹)</th><th></th></tr></thead><tbody id="mandiInputsBody"></tbody></table></div>
+      <button type="button" class="btn-add-row" onclick="addMandiRow()" data-i18n="addCrop">+ नई फसल जोड़ें</button>
+      <div class="section-badge" data-i18n="expenseSection">4. मंडी खर्च / कटौती</div>
+      <div class="grid-3"><div class="field"><label data-i18n="hammaliLabel">हमाली / तुलाई (₹)</label><input type="number" id="in_hammali" placeholder="250" oninput="renderDoc()"></div><div class="field"><label data-i18n="adhatLabel">आढ़त / मंडी शुल्क (₹)</label><input type="number" id="in_adhat" placeholder="0" oninput="renderDoc()"></div><div class="field"><label data-i18n="advanceCutLabel">अग्रिम / परिवहन कटौती (₹)</label><input type="number" id="in_adv_cut" placeholder="0" oninput="renderDoc()"></div></div>
     </div>
-
-    <!-- DAIRY SECTION -->
-    <div id="dairySection" style="display:none;">
-      <div class="section-badge">3. Milk Quantity, FAT, SNF &amp; Rate</div>
-      <div class="grid-4">
-        <div class="field"><label>Milk Qty (Litres)</label><input type="number" step="any" id="d_qty" placeholder="25.5" oninput="calcDairy()"></div>
-        <div class="field"><label>FAT (%)</label><input type="number" step="any" id="d_fat" placeholder="6.5" oninput="calcDairy()"></div>
-        <div class="field"><label>SNF (%)</label><input type="number" step="any" id="d_snf" placeholder="8.8" oninput="calcDairy()"></div>
-        <div class="field"><label>Rate / Litre (₹)</label><input type="number" step="any" id="d_rate" placeholder="54.00" oninput="calcDairy()"></div>
-      </div>
-      <div class="grid-2">
-        <div class="field"><label>Pashu Aahar / Advance Cut (₹)</label><input type="number" id="d_ded" placeholder="0" oninput="calcDairy()"></div>
-        <div class="field"><label>Payment Mode</label>
-          <select id="d_mode" onchange="renderDoc()">
-            <option value="Bank Account Transfer">Bank Account Transfer</option>
-            <option value="CASH Paid">CASH Paid (नकद भुगतान)</option>
-          </select>
-        </div>
-      </div>
+    <div id="dairySection" style="display:none">
+      <div class="section-badge" data-i18n="dairySectionTitle">3. दूध की मात्रा, FAT, SNF और दर</div>
+      <div class="grid-3"><div class="field"><label data-i18n="milkQtyLabel">दूध की मात्रा (लीटर)</label><input type="number" step="any" id="d_qty" placeholder="25.5" oninput="calcDairy()"></div><div class="field"><label data-i18n="fatLabel">FAT (%)</label><input type="number" step="any" id="d_fat" placeholder="6.5" oninput="calcDairy()"></div><div class="field"><label data-i18n="snfLabel">SNF (%)</label><input type="number" step="any" id="d_snf" placeholder="8.8" oninput="calcDairy()"></div></div>
+      <div class="grid-2"><div class="field"><label data-i18n="rateLitreLabel">दर / लीटर (₹)</label><input type="number" step="any" id="d_rate" placeholder="54.00" oninput="calcDairy()"></div><div class="field"><label data-i18n="feedCutLabel">पशु आहार / अग्रिम कटौती (₹)</label><input type="number" id="d_ded" placeholder="0" oninput="calcDairy()"></div></div>
+      <div class="field"><label data-i18n="paymentLabel">भुगतान का तरीका</label><select id="d_mode" onchange="renderDoc()"><option value="bank">Bank Account Transfer</option><option value="cash">Cash Paid</option></select></div>
     </div>
-
-    <div class="field"><label>Remarks / Payment Note</label><input type="text" id="in_notes" placeholder="उदा. तौल व हिसाब सही पाया गया। भुगतान बैंक खाते / नकद द्वारा किया गया।" oninput="renderDoc()"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Parchi</button>
-    </div>
-  </div>
-
-  <!-- RIGHT: LIVE PREVIEW -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Kisan Parchi Preview</div>
-    <div class="preview-viewport">
-      <div id="a4DocSheet">
-        <div class="slip-box" id="slipPreviewContent"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
+    <div class="field"><label data-i18n="remarksLabel">टिप्पणी / भुगतान नोट</label><input type="text" id="in_notes" placeholder="तौल व हिसाब सही पाया गया। धन्यवाद!" oninput="renderDoc()"></div>
+    <div class="actions"><button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadA4PDF()" data-i18n="pdfBtn">📥 A4 PDF डाउनलोड करें</button><button type="button" class="btn btn-print" onclick="printDocDirect()" data-i18n="printBtn">🖨️ सीधे प्रिंट करें</button><button type="button" class="btn btn-wa" onclick="shareWhatsApp()" data-i18n="waBtn">📲 WhatsApp पर्ची</button></div>
+  </section>
+  <section class="preview-panel"><div class="preview-label" data-i18n="previewLabel">Live Kisan Parchi Preview</div><div class="preview-viewport"><div id="a4DocSheet"><div class="slip-box" id="slipPreviewContent"></div></div></div></section>
+</main>
 <script>
-  let mode = 'MANDI';
-  let crops = [
-    { name: 'Soybean (सोयाबीन)', bags: 15, qtl: 14.50, rate: 4650 }
-  ];
-
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnTheme').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem('kkb_mandi_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }
-
-  function setMode(m) {
-    mode = m;
-    document.getElementById('btnMandi').classList.toggle('active', m === 'MANDI');
-    document.getElementById('btnDairy').classList.toggle('active', m === 'DAIRY');
-    document.getElementById('mandiSection').style.display = m === 'MANDI' ? 'block' : 'none';
-    document.getElementById('dairySection').style.display = m === 'DAIRY' ? 'block' : 'none';
-    document.getElementById('wrap_shift').style.display = m === 'DAIRY' ? 'flex' : 'none';
-    document.getElementById('wrap_vehicle').style.display = m === 'MANDI' ? 'flex' : 'none';
-    document.getElementById('in_slip_no').value = (m === 'MANDI' ? 'MND-' : 'DRY-') + Math.floor(100000 + Math.random() * 899990);
-    renderDoc();
-  }
-
-  function renderMandiRows() {
-    document.getElementById('mandiInputsBody').innerHTML = crops.map((c, i) => `
-      <tr>
-        <td><input value="${c.name}" oninput="crops[${i}].name=this.value;renderDoc()"></td>
-        <td><input type="number" value="${c.bags}" oninput="crops[${i}].bags=parseFloat(this.value)||0;renderDoc()"></td>
-        <td><input type="number" step="any" value="${c.qtl}" oninput="crops[${i}].qtl=parseFloat(this.value)||0;renderDoc()"></td>
-        <td><input type="number" step="any" value="${c.rate}" oninput="crops[${i}].rate=parseFloat(this.value)||0;renderDoc()"></td>
-        <td class="t-center"><button type="button" class="btn-del-row" onclick="delCrop(${i})">✕</button></td>
-      </tr>
-    `).join('');
-  }
-  function addMandiRow() { crops.push({ name: '', bags: 0, qtl: 0, rate: 0 }); renderMandiRows(); renderDoc(); }
-  function delCrop(i) { if (crops.length > 1) { crops.splice(i, 1); renderMandiRows(); renderDoc(); } }
-  function calcDairy() { renderDoc(); }
-
-  function renderDoc() {
-    const biz = document.getElementById('in_biz').value.trim() || (mode === 'MANDI' ? 'SHREE KISAN KRISHI ADHAT COMPANY' : 'GRAMIN DUDH SANKALAN KENDRA');
-    const addr = document.getElementById('in_addr').value.trim() || 'Krishi Upaj Mandi Yard | Mob: 9000000000';
-    const slipNo = document.getElementById('in_slip_no').value.trim() || '-';
-    const dt = document.getElementById('in_date').value || '-';
-    const farmer = document.getElementById('in_farmer').value.trim() || '-';
-    const ph = document.getElementById('in_phone').value.trim() || '-';
-    const notes = document.getElementById('in_notes').value.trim() || 'तौल व हिसाब सही पाया गया। धन्यवाद!';
-
-    if (mode === 'MANDI') {
-      const veh = document.getElementById('in_vehicle').value.trim() || '-';
-      let gross = 0;
-      const rows = crops.map((c, i) => {
-        const amt = (c.qtl || 0) * (c.rate || 0);
-        gross += amt;
-        return `<tr>
-          <td class="t-center">${i+1}</td>
-          <td>${c.name || '-'}</td>
-          <td class="t-center">${c.bags}</td>
-          <td class="t-center">${c.qtl} Qtl</td>
-          <td class="t-right">₹${c.rate.toLocaleString('en-IN')}</td>
-          <td class="t-right">₹${amt.toLocaleString('en-IN', {minimumFractionDigits:2})}</td>
-        </tr>`;
-      }).join('');
-
-      const ham = parseFloat(document.getElementById('in_hammali').value) || 0;
-      const adh = parseFloat(document.getElementById('in_adhat').value) || 0;
-      const adv = parseFloat(document.getElementById('in_adv_cut').value) || 0;
-      const totDed = ham + adh + adv;
-      const net = Math.max(0, gross - totDed);
-
-      document.getElementById('slipPreviewContent').innerHTML = `
-        <div class="doc-header">
-          <div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div>
-          <div class="doc-type-badge">MANDI KISAN PARCHI</div>
-        </div>
-        <table class="meta-table">
-          <tr><td class="lbl">Parchi No:</td><td class="val"><b>${slipNo}</b></td><td class="lbl">Date:</td><td class="val">${dt}</td></tr>
-          <tr><td class="lbl">Kisan Name:</td><td class="val"><b>${farmer}</b></td><td class="lbl">Village/Mob:</td><td class="val">${ph}</td></tr>
-          <tr><td class="lbl">Vehicle No:</td><td class="val" colspan="3">${veh}</td></tr>
-        </table>
-        <table class="doc-items-table">
-          <thead><tr><th class="t-center">#</th><th>Fasal (Commodity)</th><th class="t-center">Bori</th><th class="t-center">Net Wt</th><th class="t-right">Rate/Qtl</th><th class="t-right">Amount</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-        <div class="summary-wrap">
-          <table class="summary-table">
-            <tr><td>Gross Fasal Total:</td><td class="t-right">₹${gross.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-            ${ham > 0 ? `<tr style="color:#dc2626;"><td>Hammali / Tulai:</td><td class="t-right">-₹${ham.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            ${adh > 0 ? `<tr style="color:#dc2626;"><td>Adhat / Mandi Fee:</td><td class="t-right">-₹${adh.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            ${adv > 0 ? `<tr style="color:#dc2626;"><td>Advance / Transport Cut:</td><td class="t-right">-₹${adv.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            <tr class="total-row"><td>Net Kisan Payable:</td><td class="t-right">₹${net.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-          </table>
-        </div>
-        <div class="notes-box"><b>Note:</b> ${notes}</div>
-        <div class="footer-sig-row"><div style="font-size:10px;color:#64748b;">Kisan Signature / अंगूठा</div><div class="sig-block">Munim / Adhat Authorized Sign</div></div>
-      `;
-    } else {
-      const shift = document.getElementById('in_shift').value;
-      const qty = parseFloat(document.getElementById('d_qty').value) || 0;
-      const fat = document.getElementById('d_fat').value || '-';
-      const snf = document.getElementById('d_snf').value || '-';
-      const rate = parseFloat(document.getElementById('d_rate').value) || 0;
-      const gross = qty * rate;
-      const ded = parseFloat(document.getElementById('d_ded').value) || 0;
-      const net = Math.max(0, gross - ded);
-      const pMode = document.getElementById('d_mode').value;
-
-      document.getElementById('slipPreviewContent').innerHTML = `
-        <div class="doc-header">
-          <div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div>
-          <div class="doc-type-badge">MILK COLLECTION SLIP</div>
-        </div>
-        <table class="meta-table">
-          <tr><td class="lbl">Slip No:</td><td class="val"><b>${slipNo}</b></td><td class="lbl">Date:</td><td class="val">${dt}</td></tr>
-          <tr><td class="lbl">Farmer Name:</td><td class="val"><b>${farmer}</b></td><td class="lbl">Mobile:</td><td class="val">${ph}</td></tr>
-          <tr><td class="lbl">Shift / Cattle:</td><td class="val" colspan="3">${shift}</td></tr>
-        </table>
-        <table class="doc-items-table">
-          <thead><tr><th class="t-center">Milk Qty (Ltr)</th><th class="t-center">FAT (%)</th><th class="t-center">SNF (%)</th><th class="t-right">Rate / Ltr</th><th class="t-right">Gross Amount</th></tr></thead>
-          <tbody>
-            <tr>
-              <td class="t-center"><b>${qty} Ltr</b></td>
-              <td class="t-center">${fat}%</td>
-              <td class="t-center">${snf}%</td>
-              <td class="t-right">₹${rate.toFixed(2)}</td>
-              <td class="t-right">₹${gross.toLocaleString('en-IN', {minimumFractionDigits:2})}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="summary-wrap">
-          <table class="summary-table">
-            <tr><td>Gross Milk Value:</td><td class="t-right">₹${gross.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-            ${ded > 0 ? `<tr style="color:#dc2626;"><td>Feed / Advance Cut:</td><td class="t-right">-₹${ded.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>` : ''}
-            <tr class="total-row"><td>Net Payable (${pMode}):</td><td class="t-right">₹${net.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
-          </table>
-        </div>
-        <div class="notes-box"><b>Note:</b> ${notes}</div>
-        <div class="footer-sig-row"><div style="font-size:10px;color:#64748b;">Member / Kisan Sign</div><div class="sig-block">Dairy Secretary / Operator Sign</div></div>
-      `;
-    }
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:18px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `KisanSlip_${document.getElementById('in_slip_no').value || 'Parchi'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Kisan Parchi</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px}
-      .doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #15803d;padding-bottom:8px;margin-bottom:10px}
-      .doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}
-      .doc-type-badge{background:#15803d;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}
-      .meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}
-      .meta-table td{padding:4px 6px;border:1px solid #cbd5e1}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-      .doc-items-table th{background:#dcfce7;color:#166534;padding:5px;text-align:left;border:1px solid #86efac}
-      .doc-items-table td{padding:5px;border:1px solid #cbd5e1}.t-right{text-align:right}.t-center{text-align:center}
-      .summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}.summary-table{font-size:11px;border-collapse:collapse;min-width:230px}
-      .summary-table td{padding:2px 6px}.total-row td{background:#dcfce7;border-top:2px solid #15803d;font-size:13.5px;font-weight:800;color:#14532d}
-      .notes-box{background:#f8fafc;border-left:3px solid #15803d;padding:6px 8px;font-size:10px;margin:8px 0}
-      .footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}
-      .sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const biz = document.getElementById('in_biz').value.trim() || 'Mandi / Dairy';
-    const farmer = document.getElementById('in_farmer').value.trim() || 'Kisan';
-    const slipNo = document.getElementById('in_slip_no').value;
-    const msg = `*🌾 ${mode === 'MANDI' ? 'MANDI KISAN PARCHI' : 'DAIRY MILK SLIP'} (${slipNo})*\n*Center:* ${biz}\n*Kisan:* ${farmer}\n*Date:* ${document.getElementById('in_date').value}\n\n_Generated via KaamKaj Bills._`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = () => {
-    try {
-      if (localStorage.getItem('kkb_mandi_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnTheme').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_slip_no').value = 'MND-' + Math.floor(100000 + Math.random() * 899990);
-    renderMandiRows();
-    renderDoc();
-  };
+const KEYS = `allTools|title|language|modeHint|chooseMode|mandiMode|dairyMode|centerSection|businessLabel|addressLabel|farmerSection|slipNoLabel|dateLabel|shiftLabel|vehicleLabel|farmerLabel|villageMobileLabel|mandiSectionTitle|cropLabel|bagsLabel|weightLabel|rateLabel|addCrop|expenseSection|hammaliLabel|adhatLabel|advanceCutLabel|dairySectionTitle|milkQtyLabel|fatLabel|snfLabel|rateLitreLabel|feedCutLabel|paymentLabel|bankOption|cashOption|remarksLabel|pdfBtn|printBtn|waBtn|previewLabel|mandiBadge|dairyBadge|outSlipNo|outDate|outFarmer|outVillage|outVehicle|grossCrop|hammaliOut|adhatOut|advanceCutOut|netKisan|noteLabel|farmerSign|munimSign|outShift|outMobile|outMilkQty|outFat|outSnf|outRate|outGrossMilk|feedDed|netPay|memberSign|dairySign|qtl|ltr|waMandi|waDairy|waCenter|waFarmer|waDate|generated|defaultNote|morningBuffalo|eveningBuffalo|morningCow|eveningCow|darkMode|lightMode`.split('|');
+const EN = [
+'← All Tools','KaamKaj Bills • Dairy & Mandi Farmer Slip','Language','You can change the mode here','1. Select Slip Mode:','🌾 Mandi Crop Sale Slip','🥛 Dairy Milk Collection Slip','1. Mandi Agent / Dairy Center Details','Firm / Dairy Center Name','Mandi / Village Address & Mobile','2. Farmer Details','Slip No. (Auto)','Date','Milk Shift / Cattle','Vehicle / Tractor No. (Optional)','Farmer Name','Village & Mobile / WhatsApp','3. Crop Weight & Auction Rate','Crop / Commodity','Bags','Net Weight (Quintal)','Rate / Quintal (₹)','+ Add Crop','4. Mandi Expenses / Deductions','Loading / Weighing (₹)','Commission / Mandi Fee (₹)','Advance / Transport Deduction (₹)','3. Milk Quantity, FAT, SNF & Rate','Milk Quantity (Litres)','FAT (%)','SNF (%)','Rate / Litre (₹)','Cattle Feed / Advance Deduction (₹)','Payment Mode','Bank Account Transfer','Cash Paid','Remarks / Payment Note','📥 Download A4 PDF','🖨️ Direct Print','📲 WhatsApp Slip','Live Farmer Slip Preview','MANDI FARMER SLIP','MILK COLLECTION SLIP','Slip No:','Date:','Farmer Name:','Village / Mobile:','Vehicle No:','Gross Crop Total:','Loading / Weighing:','Commission / Mandi Fee:','Advance / Transport Deduction:','Net Farmer Payable:','Note:','Farmer Signature / Thumb','Commission Agent / Authorized Sign','Shift / Cattle:','Mobile:','Milk Quantity (Litre)','FAT (%)','SNF (%)','Rate / Litre','Gross Milk Value:','Feed / Advance Deduction:','Net Payable','Member / Farmer Sign','Dairy Secretary / Operator Sign','Qtl','Ltr','MANDI FARMER SLIP','DAIRY MILK SLIP','Center:','Farmer:','Date:','Generated via KaamKaj Bills.','Weight and payment details checked. Thank you!','Morning - Buffalo','Evening - Buffalo','Morning - Cow','Evening - Cow','🌙 Dark Mode','☀️ Light Mode'
+];
+const LOCALES = {
+  en: EN,
+  hi: ['← सभी टूल','कामकाज बिल्स • डेयरी और मंडी किसान पर्ची','भाषा','यहाँ से आप मोड बदल सकते हैं','1. पर्ची का प्रकार चुनें:','🌾 मंडी फसल बिक्री पर्ची','🥛 डेयरी दूध संकलन पर्ची','1. मंडी आढ़त / डेयरी केंद्र विवरण','आढ़त फर्म / डेयरी केंद्र का नाम','मंडी / गाँव का पता और मोबाइल','2. किसान का विवरण','पर्ची नंबर (ऑटो)','तारीख','दूध की शिफ्ट / पशु','गाड़ी / ट्रैक्टर नंबर (वैकल्पिक)','किसान का नाम','गाँव और मोबाइल / WhatsApp','3. फसल का वजन और नीलामी भाव','फसल / जिन्स','बोरी (नग)','कुल वजन (क्विंटल)','भाव / क्विंटल (₹)','+ नई फसल जोड़ें','4. मंडी खर्च / कटौती','हमाली / तुलाई (₹)','आढ़त / मंडी शुल्क (₹)','अग्रिम / परिवहन कटौती (₹)','3. दूध की मात्रा, FAT, SNF और दर','दूध की मात्रा (लीटर)','FAT (%)','SNF (%)','दर / लीटर (₹)','पशु आहार / अग्रिम कटौती (₹)','भुगतान का तरीका','बैंक खाते में भुगतान','नकद भुगतान','टिप्पणी / भुगतान नोट','📥 A4 PDF डाउनलोड करें','🖨️ सीधे प्रिंट करें','📲 WhatsApp पर्ची','किसान पर्ची का लाइव प्रीव्यू','मंडी किसान पर्ची','दूध संकलन पर्ची','पर्ची नंबर:','तारीख:','किसान का नाम:','गाँव / मोबाइल:','गाड़ी नंबर:','फसल का कुल मूल्य:','हमाली / तुलाई:','आढ़त / मंडी शुल्क:','अग्रिम / परिवहन कटौती:','किसान को शुद्ध भुगतान:','नोट:','किसान के हस्ताक्षर / अंगूठा','मुनीम / आढ़त अधिकृत हस्ताक्षर','शिफ्ट / पशु:','मोबाइल:','दूध की मात्रा (लीटर)','FAT (%)','SNF (%)','दर / लीटर','दूध का कुल मूल्य:','पशु आहार / अग्रिम कटौती:','शुद्ध भुगतान','सदस्य / किसान हस्ताक्षर','डेयरी सचिव / ऑपरेटर हस्ताक्षर','क्विंटल','लीटर','मंडी किसान पर्ची','डेयरी दूध पर्ची','केंद्र:','किसान:','तारीख:','कामकाज बिल्स से बनाया गया।','तौल और भुगतान का हिसाब सही पाया गया। धन्यवाद!','सुबह - भैंस','शाम - भैंस','सुबह - गाय','शाम - गाय','🌙 डार्क मोड','☀️ लाइट मोड'],
+  mr: ['← सर्व साधने','कामकाज बिल्स • डेअरी आणि मंडी शेतकरी पावती','भाषा','येथून तुम्ही मोड बदलू शकता','1. पावतीचा प्रकार निवडा:','🌾 मंडी पीक विक्री पावती','🥛 डेअरी दूध संकलन पावती','1. आडत / डेअरी केंद्र तपशील','आडत फर्म / डेअरी केंद्राचे नाव','मंडी / गावाचा पत्ता आणि मोबाईल','2. शेतकऱ्याचा तपशील','पावती क्रमांक (ऑटो)','तारीख','दूध शिफ्ट / जनावर','गाडी / ट्रॅक्टर क्रमांक (पर्यायी)','शेतकऱ्याचे नाव','गाव आणि मोबाईल / WhatsApp','3. पीक वजन आणि लिलाव दर','पीक / माल','पोती','निव्वळ वजन (क्विंटल)','दर / क्विंटल (₹)','+ पीक जोडा','4. मंडी खर्च / कपात','हमाली / वजन (₹)','आडत / मंडी शुल्क (₹)','अ‍ॅडव्हान्स / वाहतूक कपात (₹)','3. दूध प्रमाण, FAT, SNF आणि दर','दूध प्रमाण (लिटर)','FAT (%)','SNF (%)','दर / लिटर (₹)','पशुखाद्य / अ‍ॅडव्हान्स कपात (₹)','पेमेंट पद्धत','बँक खात्यात हस्तांतरण','रोख पेमेंट','शेरा / पेमेंट नोंद','📥 A4 PDF डाउनलोड','🖨️ थेट प्रिंट','📲 WhatsApp पावती','शेतकरी पावती थेट पूर्वदृश्य','मंडी शेतकरी पावती','दूध संकलन पावती','पावती क्रमांक:','तारीख:','शेतकऱ्याचे नाव:','गाव / मोबाईल:','वाहन क्रमांक:','पीक एकूण रक्कम:','हमाली / वजन:','आडत / मंडी शुल्क:','अ‍ॅडव्हान्स / वाहतूक कपात:','शेतकऱ्याला निव्वळ देय:','नोंद:','शेतकऱ्याची सही / अंगठा','मुनीम / आडत अधिकृत सही','शिफ्ट / जनावर:','मोबाईल:','दूध प्रमाण (लिटर)','FAT (%)','SNF (%)','दर / लिटर','दुधाचे एकूण मूल्य:','पशुखाद्य / अ‍ॅडव्हान्स कपात:','निव्वळ देय','सदस्य / शेतकरी सही','डेअरी सचिव / ऑपरेटर सही','क्विंटल','लिटर','मंडी शेतकरी पावती','डेअरी दूध पावती','केंद्र:','शेतकरी:','तारीख:','कामकाज बिल्सद्वारे तयार.','वजन आणि पेमेंट तपशील तपासले. धन्यवाद!','सकाळ - म्हैस','संध्याकाळ - म्हैस','सकाळ - गाय','संध्याकाळ - गाय'],
+  gu: ['← બધા ટૂલ્સ','કામકાજ બિલ્સ • ડેરી અને મંડી ખેડૂત સ્લિપ','ભાષા','અહીંથી તમે મોડ બદલી શકો છો','1. સ્લિપનો પ્રકાર પસંદ કરો:','🌾 મંડી પાક વેચાણ સ્લિપ','🥛 ડેરી દૂધ સંગ્રહ સ્લિપ','1. મંડી આડત / ડેરી કેન્દ્રની વિગતો','આડત ફર્મ / ડેરી કેન્દ્રનું નામ','મંડી / ગામનું સરનામું અને મોબાઇલ','2. ખેડૂતની વિગતો','સ્લિપ નંબર (ઓટો)','તારીખ','દૂધની શિફ્ટ / પશુ','ગાડી / ટ્રેક્ટર નંબર (વૈકલ્પિક)','ખેડૂતનું નામ','ગામ અને મોબાઇલ / WhatsApp','3. પાકનું વજન અને હરાજીનો ભાવ','પાક / કોમોડિટી','ગૂણ','ચોખ્ખું વજન (ક્વિન્ટલ)','ભાવ / ક્વિન્ટલ (₹)','+ પાક ઉમેરો','4. મંડી ખર્ચ / કપાત','હમાલી / તોલાઈ (₹)','આડત / મંડી ફી (₹)','એડવાન્સ / પરિવહન કપાત (₹)','3. દૂધની માત્રા, FAT, SNF અને ભાવ','દૂધની માત્રા (લિટર)','FAT (%)','SNF (%)','ભાવ / લિટર (₹)','પશુ આહાર / એડવાન્સ કપાત (₹)','ચુકવણીનો પ્રકાર','બેંક ખાતામાં ટ્રાન્સફર','રોકડ ચુકવણી','નોંધ / ચુકવણી સંદેશ','📥 A4 PDF ડાઉનલોડ','🖨️ સીધી પ્રિન્ટ','📲 WhatsApp સ્લિપ','ખેડૂત સ્લિપનું લાઇવ પ્રિવ્યૂ','મંડી ખેડૂત સ્લિપ','દૂધ સંગ્રહ સ્લિપ','સ્લિપ નંબર:','તારીખ:','ખેડૂતનું નામ:','ગામ / મોબાઇલ:','વાહન નંબર:','પાકની કુલ રકમ:','હમાલી / તોલાઈ:','આડત / મંડી ફી:','એડવાન્સ / પરિવહન કપાત:','ખેડૂતને ચોખ્ખી ચૂકવણી:','નોંધ:','ખેડૂતની સહી / અંગૂઠો','મુનીમ / આડત અધિકૃત સહી','શિફ્ટ / પશુ:','મોબાઇલ:','દૂધની માત્રા (લિટર)','FAT (%)','SNF (%)','ભાવ / લિટર','દૂધનું કુલ મૂલ્ય:','પશુ આહાર / એડવાન્સ કપાત:','ચોખ્ખી ચૂકવણી','સભ્ય / ખેડૂતની સહી','ડેરી સચિવ / ઓપરેટરની સહી','ક્વિન્ટલ','લિટર','મંડી ખેડૂત સ્લિપ','ડેરી દૂધ સ્લિપ','કેન્દ્ર:','ખેડૂત:','તારીખ:','કામકાજ બિલ્સ દ્વારા બનાવેલ.','વજન અને ચુકવણીની વિગતો તપાસી. આભાર!','સવાર - ભેંસ','સાંજ - ભેંસ','સવાર - ગાય','સાંજ - ગાય'],
+  bn: ['← সব টুল','কামকাজ বিলস • ডেইরি ও মান্ডি কৃষক স্লিপ','ভাষা','এখান থেকে মোড পরিবর্তন করতে পারবেন','১. স্লিপের ধরন বেছে নিন:','🌾 মান্ডি ফসল বিক্রির স্লিপ','🥛 ডেইরি দুধ সংগ্রহের স্লিপ','১. মান্ডি আড়ত / ডেইরি কেন্দ্রের বিবরণ','আড়ত ফার্ম / ডেইরি কেন্দ্রের নাম','মান্ডি / গ্রামের ঠিকানা ও মোবাইল','২. কৃষকের বিবরণ','স্লিপ নম্বর (অটো)','তারিখ','দুধের শিফট / পশু','গাড়ি / ট্র্যাক্টর নম্বর (ঐচ্ছিক)','কৃষকের নাম','গ্রাম ও মোবাইল / WhatsApp','৩. ফসলের ওজন ও নিলামের দর','ফসল / পণ্য','বস্তা','নেট ওজন (কুইন্টাল)','দর / কুইন্টাল (₹)','+ ফসল যোগ করুন','৪. মান্ডি খরচ / কর্তন','হামালি / ওজন (₹)','আড়ত / মান্ডি ফি (₹)','অগ্রিম / পরিবহন কর্তন (₹)','৩. দুধের পরিমাণ, FAT, SNF ও দর','দুধের পরিমাণ (লিটার)','FAT (%)','SNF (%)','দর / লিটার (₹)','পশুখাদ্য / অগ্রিম কর্তন (₹)','পেমেন্টের পদ্ধতি','ব্যাঙ্ক অ্যাকাউন্ট ট্রান্সফার','নগদ পেমেন্ট','মন্তব্য / পেমেন্ট নোট','📥 A4 PDF ডাউনলোড','🖨️ সরাসরি প্রিন্ট','📲 WhatsApp স্লিপ','কৃষক স্লিপের লাইভ প্রিভিউ','মান্ডি কৃষক স্লিপ','দুধ সংগ্রহের স্লিপ','স্লিপ নম্বর:','তারিখ:','কৃষকের নাম:','গ্রাম / মোবাইল:','গাড়ির নম্বর:','ফসলের মোট মূল্য:','হামালি / ওজন:','আড়ত / মান্ডি ফি:','অগ্রিম / পরিবহন কর্তন:','কৃষকের নেট পাওনা:','নোট:','কৃষকের স্বাক্ষর / টিপসই','মুনিম / আড়ত অনুমোদিত স্বাক্ষর','শিফট / পশু:','মোবাইল:','দুধের পরিমাণ (লিটার)','FAT (%)','SNF (%)','দর / লিটার','দুধের মোট মূল্য:','পশুখাদ্য / অগ্রিম কর্তন:','নেট পাওনা','সদস্য / কৃষকের স্বাক্ষর','ডেইরি সচিব / অপারেটরের স্বাক্ষর','কুইন্টাল','লিটার','মান্ডি কৃষক স্লিপ','ডেইরি দুধ স্লিপ','কেন্দ্র:','কৃষক:','তারিখ:','কামকাজ বিলস থেকে তৈরি।','ওজন ও পেমেন্টের হিসাব পরীক্ষা করা হয়েছে। ধন্যবাদ!','সকাল - মহিষ','সন্ধ্যা - মহিষ','সকাল - গরু','সন্ধ্যা - গরু'],
+  ta: ['← அனைத்து கருவிகள்','காம்காஜ் பில்ஸ் • பால் மற்றும் மண்டி விவசாயி சீட்டு','மொழி','இங்கே இருந்து முறையை மாற்றலாம்','1. சீட்டு வகையைத் தேர்ந்தெடுக்கவும்:','🌾 மண்டி பயிர் விற்பனை சீட்டு','🥛 பால் சேகரிப்பு சீட்டு','1. மண்டி கமிஷன் / பால் மைய விவரங்கள்','நிறுவனம் / பால் மையத்தின் பெயர்','மண்டி / கிராம முகவரி மற்றும் மொபைல்','2. விவசாயி விவரங்கள்','சீட்டு எண் (தானியங்கி)','தேதி','பால் ஷிப்ட் / கால்நடை','வாகனம் / டிராக்டர் எண் (விருப்பம்)','விவசாயி பெயர்','கிராமம் மற்றும் மொபைல் / WhatsApp','3. பயிர் எடை மற்றும் ஏல விலை','பயிர் / பொருள்','மூட்டைகள்','நிகர எடை (குவிண்டால்)','விலை / குவிண்டால் (₹)','+ பயிர் சேர்க்கவும்','4. மண்டி செலவுகள் / கழிவுகள்','கூலி / எடை கட்டணம் (₹)','கமிஷன் / மண்டி கட்டணம் (₹)','முன்பணம் / போக்குவரத்து கழிவு (₹)','3. பால் அளவு, FAT, SNF மற்றும் விலை','பால் அளவு (லிட்டர்)','FAT (%)','SNF (%)','விலை / லிட்டர் (₹)','கால்நடை தீவனம் / முன்பண கழிவு (₹)','பணம் செலுத்தும் முறை','வங்கி கணக்கு பரிமாற்றம்','ரொக்கப் பணம்','குறிப்புகள் / பணக் குறிப்பு','📥 A4 PDF பதிவிறக்கம்','🖨️ நேரடி அச்சு','📲 WhatsApp சீட்டு','விவசாயி சீட்டு நேரடி முன்னோட்டம்','மண்டி விவசாயி சீட்டு','பால் சேகரிப்பு சீட்டு','சீட்டு எண்:','தேதி:','விவசாயி பெயர்:','கிராமம் / மொபைல்:','வாகன எண்:','பயிர் மொத்த தொகை:','கூலி / எடை:','கமிஷன் / மண்டி கட்டணம்:','முன்பணம் / போக்குவரத்து கழிவு:','விவசாயிக்கு நிகரத் தொகை:','குறிப்பு:','விவசாயி கையொப்பம் / கைரேகை','கணக்காளர் / அங்கீகரிக்கப்பட்ட கையொப்பம்','ஷிப்ட் / கால்நடை:','மொபைல்:','பால் அளவு (லிட்டர்)','FAT (%)','SNF (%)','விலை / லிட்டர்','மொத்த பால் மதிப்பு:','தீவனம் / முன்பண கழிவு:','நிகரத் தொகை','உறுப்பினர் / விவசாயி கையொப்பம்','பால் மைய செயலாளர் / ஆபரேட்டர் கையொப்பம்','குவிண்டால்','லிட்டர்','மண்டி விவசாயி சீட்டு','பால் சீட்டு','மையம்:','விவசாயி:','தேதி:','காம்காஜ் பில்ஸ் மூலம் உருவாக்கப்பட்டது.','எடை மற்றும் பண விவரங்கள் சரிபார்க்கப்பட்டன. நன்றி!','காலை - எருமை','மாலை - எருமை','காலை - பசு','மாலை - பசு'],
+  te: ['← అన్ని టూల్స్','కామ్‌కాజ్ బిల్స్ • డెయిరీ & మండీ రైతు స్లిప్','భాష','ఇక్కడ నుండి మోడ్ మార్చవచ్చు','1. స్లిప్ రకాన్ని ఎంచుకోండి:','🌾 మండీ పంట అమ్మకం స్లిప్','🥛 డెయిరీ పాలు సేకరణ స్లిప్','1. మండీ ఆడత్ / డెయిరీ కేంద్ర వివరాలు','సంస్థ / డెయిరీ కేంద్రం పేరు','మండీ / గ్రామ చిరునామా & మొబైల్','2. రైతు వివరాలు','స్లిప్ నంబర్ (ఆటో)','తేదీ','పాల షిఫ్ట్ / పశువు','వాహనం / ట్రాక్టర్ నంబర్ (ఐచ్ఛికం)','రైతు పేరు','గ్రామం & మొబైల్ / WhatsApp','3. పంట బరువు & వేలం ధర','పంట / వస్తువు','బస్తాలు','నికర బరువు (క్వింటాళ్లు)','ధర / క్వింటాల్ (₹)','+ పంట జోడించండి','4. మండీ ఖర్చులు / తగ్గింపులు','హమాలీ / తూకం (₹)','ఆడత్ / మండీ ఫీజు (₹)','అడ్వాన్స్ / రవాణా తగ్గింపు (₹)','3. పాల పరిమాణం, FAT, SNF & ధర','పాల పరిమాణం (లీటర్లు)','FAT (%)','SNF (%)','ధర / లీటర్ (₹)','పశు ఆహారం / అడ్వాన్స్ తగ్గింపు (₹)','చెల్లింపు విధానం','బ్యాంక్ ఖాతా బదిలీ','నగదు చెల్లింపు','వ్యాఖ్యలు / చెల్లింపు గమనిక','📥 A4 PDF డౌన్‌లోడ్','🖨️ నేరుగా ప్రింట్','📲 WhatsApp స్లిప్','రైతు స్లిప్ ప్రత్యక్ష ప్రివ్యూ','మండీ రైతు స్లిప్','పాల సేకరణ స్లిప్','స్లిప్ నంబర్:','తేదీ:','రైతు పేరు:','గ్రామం / మొబైల్:','వాహన నంబర్:','పంట మొత్తం విలువ:','హమాలీ / తూకం:','ఆడత్ / మండీ ఫీజు:','అడ్వాన్స్ / రవాణా తగ్గింపు:','రైతుకు నికర చెల్లింపు:','గమనిక:','రైతు సంతకం / వేలిముద్ర','మునీమ్ / అధీకృత సంతకం','షిఫ్ట్ / పశువు:','మొబైల్:','పాల పరిమాణం (లీటర్)','FAT (%)','SNF (%)','ధర / లీటర్','మొత్తం పాల విలువ:','పశు ఆహారం / అడ్వాన్స్ తగ్గింపు:','నికర చెల్లింపు','సభ్యుడు / రైతు సంతకం','డెయిరీ కార్యదర్శి / ఆపరేటర్ సంతకం','క్వింటాల్','లీటర్','మండీ రైతు స్లిప్','డెయిరీ పాల స్లిప్','కేంద్రం:','రైతు:','తేదీ:','కామ్‌కాజ్ బిల్స్ ద్వారా రూపొందించబడింది.','బరువు మరియు చెల్లింపు వివరాలు తనిఖీ చేయబడ్డాయి. ధన్యవాదాలు!','ఉదయం - గేదె','సాయంత్రం - గేదె','ఉదయం - ఆవు','సాయంత్రం - ఆవు'],
+  kn: ['← ಎಲ್ಲಾ ಉಪಕರಣಗಳು','ಕಾಮ್‌ಕಾಜ್ ಬಿಲ್ಸ್ • ಡೈರಿ ಮತ್ತು ಮಂಡಿ ರೈತ ಸ್ಲಿಪ್','ಭಾಷೆ','ಇಲ್ಲಿಂದ ನೀವು ಮೋಡ್ ಬದಲಾಯಿಸಬಹುದು','1. ಸ್ಲಿಪ್ ಪ್ರಕಾರ ಆಯ್ಕೆಮಾಡಿ:','🌾 ಮಂಡಿ ಬೆಳೆ ಮಾರಾಟ ಸ್ಲಿಪ್','🥛 ಡೈರಿ ಹಾಲು ಸಂಗ್ರಹ ಸ್ಲಿಪ್','1. ಮಂಡಿ ಆಢತ್ / ಡೈರಿ ಕೇಂದ್ರದ ವಿವರಗಳು','ಆಢತ್ ಸಂಸ್ಥೆ / ಡೈರಿ ಕೇಂದ್ರದ ಹೆಸರು','ಮಂಡಿ / ಗ್ರಾಮದ ವಿಳಾಸ ಮತ್ತು ಮೊಬೈಲ್','2. ರೈತರ ವಿವರಗಳು','ಸ್ಲಿಪ್ ಸಂಖ್ಯೆ (ಆಟೋ)','ದಿನಾಂಕ','ಹಾಲಿನ ಶಿಫ್ಟ್ / ಪಶು','ವಾಹನ / ಟ್ರ್ಯಾಕ್ಟರ್ ಸಂಖ್ಯೆ (ಐಚ್ಛಿಕ)','ರೈತರ ಹೆಸರು','ಗ್ರಾಮ ಮತ್ತು ಮೊಬೈಲ್ / WhatsApp','3. ಬೆಳೆ ತೂಕ ಮತ್ತು ಹರಾಜು ದರ','ಬೆಳೆ / ಸರಕು','ಚೀಲಗಳು','ನಿವ್ವಳ ತೂಕ (ಕ್ವಿಂಟಾಲ್)','ದರ / ಕ್ವಿಂಟಾಲ್ (₹)','+ ಬೆಳೆ ಸೇರಿಸಿ','4. ಮಂಡಿ ವೆಚ್ಚ / ಕಡಿತಗಳು','ಹಮಾಲಿ / ತೂಕ (₹)','ಆಢತ್ / ಮಂಡಿ ಶುಲ್ಕ (₹)','ಮುಂಗಡ / ಸಾರಿಗೆ ಕಡಿತ (₹)','3. ಹಾಲಿನ ಪ್ರಮಾಣ, FAT, SNF ಮತ್ತು ದರ','ಹಾಲಿನ ಪ್ರಮಾಣ (ಲೀಟರ್)','FAT (%)','SNF (%)','ದರ / ಲೀಟರ್ (₹)','ಪಶು ಆಹಾರ / ಮುಂಗಡ ಕಡಿತ (₹)','ಪಾವತಿ ವಿಧಾನ','ಬ್ಯಾಂಕ್ ಖಾತೆ ವರ್ಗಾವಣೆ','ನಗದು ಪಾವತಿ','ಟಿಪ್ಪಣಿ / ಪಾವತಿ ಸಂದೇಶ','📥 A4 PDF ಡೌನ್‌ಲೋಡ್','🖨️ ನೇರ ಮುದ್ರಣ','📲 WhatsApp ಸ್ಲಿಪ್','ರೈತ ಸ್ಲಿಪ್ ಲೈವ್ ಪೂರ್ವವೀಕ್ಷಣೆ','ಮಂಡಿ ರೈತ ಸ್ಲಿಪ್','ಹಾಲು ಸಂಗ್ರಹ ಸ್ಲಿಪ್','ಸ್ಲಿಪ್ ಸಂಖ್ಯೆ:','ದಿನಾಂಕ:','ರೈತರ ಹೆಸರು:','ಗ್ರಾಮ / ಮೊಬೈಲ್:','ವಾಹನ ಸಂಖ್ಯೆ:','ಬೆಳೆ ಒಟ್ಟು ಮೊತ್ತ:','ಹಮಾಲಿ / ತೂಕ:','ಆಢತ್ / ಮಂಡಿ ಶುಲ್ಕ:','ಮುಂಗಡ / ಸಾರಿಗೆ ಕಡಿತ:','ರೈತನಿಗೆ ನಿವ್ವಳ ಪಾವತಿ:','ಟಿಪ್ಪಣಿ:','ರೈತರ ಸಹಿ / ಹೆಬ್ಬೆರಳ ಗುರುತು','ಮುನೀಮ್ / ಅಧಿಕೃತ ಸಹಿ','ಶಿಫ್ಟ್ / ಪಶು:','ಮೊಬೈಲ್:','ಹಾಲಿನ ಪ್ರಮಾಣ (ಲೀಟರ್)','FAT (%)','SNF (%)','ದರ / ಲೀಟರ್','ಒಟ್ಟು ಹಾಲಿನ ಮೌಲ್ಯ:','ಪಶು ಆಹಾರ / ಮುಂಗಡ ಕಡಿತ:','ನಿವ್ವಳ ಪಾವತಿ','ಸದಸ್ಯ / ರೈತರ ಸಹಿ','ಡೈರಿ ಕಾರ್ಯದರ್ಶಿ / ಆಪರೇಟರ್ ಸಹಿ','ಕ್ವಿಂಟಾಲ್','ಲೀಟರ್','ಮಂಡಿ ರೈತ ಸ್ಲಿಪ್','ಡೈರಿ ಹಾಲು ಸ್ಲಿಪ್','ಕೇಂದ್ರ:','ರೈತ:','ದಿನಾಂಕ:','ಕಾಮ್‌ಕಾಜ್ ಬಿಲ್ಸ್ ಮೂಲಕ ರಚಿಸಲಾಗಿದೆ.','ತೂಕ ಮತ್ತು ಪಾವತಿ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಲಾಗಿದೆ. ಧನ್ಯವಾದಗಳು!','ಬೆಳಿಗ್ಗೆ - ಎಮ್ಮೆ','ಸಂಜೆ - ಎಮ್ಮೆ','ಬೆಳಿಗ್ಗೆ - ಹಸು','ಸಂಜೆ - ಹಸು'],
+  ml: ['← എല്ലാ ടൂളുകളും','കാംകാജ് ബിൽസ് • ഡയറി & മണ്ഡി കർഷക സ്ലിപ്പ്','ഭാഷ','ഇവിടെ നിന്ന് മോഡ് മാറ്റാം','1. സ്ലിപ്പ് തരം തിരഞ്ഞെടുക്കുക:','🌾 മണ്ഡി വിള വിൽപ്പന സ്ലിപ്പ്','🥛 ഡയറി പാൽ ശേഖരണ സ്ലിപ്പ്','1. മണ്ഡി ഏജന്റ് / ഡയറി കേന്ദ്ര വിശദാംശങ്ങൾ','സ്ഥാപനം / ഡയറി കേന്ദ്രത്തിന്റെ പേര്','മണ്ഡി / ഗ്രാമ വിലാസവും മൊബൈലും','2. കർഷകന്റെ വിവരങ്ങൾ','സ്ലിപ്പ് നമ്പർ (ഓട്ടോ)','തീയതി','പാൽ ഷിഫ്റ്റ് / കന്നുകാലി','വാഹനം / ട്രാക്ടർ നമ്പർ (ഓപ്ഷണൽ)','കർഷകന്റെ പേര്','ഗ്രാമവും മൊബൈൽ / WhatsApp','3. വിളയുടെ തൂക്കവും ലേല നിരക്കും','വിള / ഉൽപ്പന്നം','ചാക്കുകൾ','നെറ്റ് തൂക്കം (ക്വിന്റൽ)','നിരക്ക് / ക്വിന്റൽ (₹)','+ വിള ചേർക്കുക','4. മണ്ഡി ചെലവുകൾ / കുറവുകൾ','കൂലി / തൂക്കം (₹)','കമ്മീഷൻ / മണ്ഡി ഫീസ് (₹)','അഡ്വാൻസ് / ഗതാഗത കുറവ് (₹)','3. പാലിന്റെ അളവ്, FAT, SNF & നിരക്ക്','പാലിന്റെ അളവ് (ലിറ്റർ)','FAT (%)','SNF (%)','നിരക്ക് / ലിറ്റർ (₹)','കാലിത്തീറ്റ / അഡ്വാൻസ് കുറവ് (₹)','പേയ്മെന്റ് രീതി','ബാങ്ക് അക്കൗണ്ട് ട്രാൻസ്ഫർ','പണം നൽകി','കുറിപ്പുകൾ / പേയ്മെന്റ് കുറിപ്പ്','📥 A4 PDF ഡൗൺലോഡ്','🖨️ നേരിട്ട് പ്രിന്റ്','📲 WhatsApp സ്ലിപ്പ്','കർഷക സ്ലിപ്പ് തത്സമയ പ്രിവ്യൂ','മണ്ഡി കർഷക സ്ലിപ്പ്','പാൽ ശേഖരണ സ്ലിപ്പ്','സ്ലിപ്പ് നമ്പർ:','തീയതി:','കർഷകന്റെ പേര്:','ഗ്രാമം / മൊബൈൽ:','വാഹന നമ്പർ:','വിളയുടെ മൊത്തം തുക:','കൂലി / തൂക്കം:','കമ്മീഷൻ / മണ്ഡി ഫീസ്:','അഡ്വാൻസ് / ഗതാഗത കുറവ്:','കർഷകന് ലഭിക്കേണ്ട തുക:','കുറിപ്പ്:','കർഷകന്റെ ഒപ്പ് / വിരലടയാളം','മുനീം / അംഗീകൃത ഒപ്പ്','ഷിഫ്റ്റ് / കന്നുകാലി:','മൊബൈൽ:','പാലിന്റെ അളവ് (ലിറ്റർ)','FAT (%)','SNF (%)','നിരക്ക് / ലിറ്റർ','മൊത്തം പാലിന്റെ മൂല്യം:','തീറ്റ / അഡ്വാൻസ് കുറവ്:','ലഭിക്കേണ്ട തുക','അംഗം / കർഷകന്റെ ഒപ്പ്','ഡയറി സെക്രട്ടറി / ഓപ്പറേറ്റർ ഒപ്പ്','ക്വിന്റൽ','ലിറ്റർ','മണ്ഡി കർഷക സ്ലിപ്പ്','ഡയറി പാൽ സ്ലിപ്പ്','കേന്ദ്രം:','കർഷകൻ:','തീയതി:','കാംകാജ് ബിൽസ് വഴി സൃഷ്ടിച്ചത്.','തൂക്കവും പേയ്മെന്റ് വിവരങ്ങളും പരിശോധിച്ചു. നന്ദി!','രാവിലെ - എരുമ','വൈകുന്നേരം - എരുമ','രാവിലെ - പശു','വൈകുന്നേരം - പശു'],
+  pa: ['← ਸਾਰੇ ਟੂਲ','ਕਾਮਕਾਜ ਬਿਲਸ • ਡੇਅਰੀ ਅਤੇ ਮੰਡੀ ਕਿਸਾਨ ਪਰਚੀ','ਭਾਸ਼ਾ','ਇੱਥੋਂ ਤੁਸੀਂ ਮੋਡ ਬਦਲ ਸਕਦੇ ਹੋ','1. ਪਰਚੀ ਦੀ ਕਿਸਮ ਚੁਣੋ:','🌾 ਮੰਡੀ ਫਸਲ ਵਿਕਰੀ ਪਰਚੀ','🥛 ਡੇਅਰੀ ਦੁੱਧ ਇਕੱਠਾ ਕਰਨ ਦੀ ਪਰਚੀ','1. ਮੰਡੀ ਆੜ੍ਹਤ / ਡੇਅਰੀ ਕੇਂਦਰ ਦੇ ਵੇਰਵੇ','ਆੜ੍ਹਤ ਫਰਮ / ਡੇਅਰੀ ਕੇਂਦਰ ਦਾ ਨਾਮ','ਮੰਡੀ / ਪਿੰਡ ਦਾ ਪਤਾ ਅਤੇ ਮੋਬਾਈਲ','2. ਕਿਸਾਨ ਦੇ ਵੇਰਵੇ','ਪਰਚੀ ਨੰਬਰ (ਆਟੋ)','ਮਿਤੀ','ਦੁੱਧ ਦੀ ਸ਼ਿਫਟ / ਪਸ਼ੂ','ਗੱਡੀ / ਟਰੈਕਟਰ ਨੰਬਰ (ਵਿਕਲਪਿਕ)','ਕਿਸਾਨ ਦਾ ਨਾਮ','ਪਿੰਡ ਅਤੇ ਮੋਬਾਈਲ / WhatsApp','3. ਫਸਲ ਦਾ ਵਜ਼ਨ ਅਤੇ ਨਿਲਾਮੀ ਭਾਅ','ਫਸਲ / ਵਸਤੂ','ਬੋਰੀਆਂ','ਕੁੱਲ ਵਜ਼ਨ (ਕੁਇੰਟਲ)','ਭਾਅ / ਕੁਇੰਟਲ (₹)','+ ਫਸਲ ਜੋੜੋ','4. ਮੰਡੀ ਖਰਚੇ / ਕਟੌਤੀਆਂ','ਹਮਾਲੀ / ਤੁਲਾਈ (₹)','ਆੜ੍ਹਤ / ਮੰਡੀ ਫੀਸ (₹)','ਐਡਵਾਂਸ / ਟਰਾਂਸਪੋਰਟ ਕਟੌਤੀ (₹)','3. ਦੁੱਧ ਦੀ ਮਾਤਰਾ, FAT, SNF ਅਤੇ ਭਾਅ','ਦੁੱਧ ਦੀ ਮਾਤਰਾ (ਲੀਟਰ)','FAT (%)','SNF (%)','ਭਾਅ / ਲੀਟਰ (₹)','ਪਸ਼ੂ ਖੁਰਾਕ / ਐਡਵਾਂਸ ਕਟੌਤੀ (₹)','ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ','ਬੈਂਕ ਖਾਤੇ ਵਿੱਚ ਟ੍ਰਾਂਸਫਰ','ਨਕਦ ਭੁਗਤਾਨ','ਟਿੱਪਣੀ / ਭੁਗਤਾਨ ਨੋਟ','📥 A4 PDF ਡਾਊਨਲੋਡ','🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ','📲 WhatsApp ਪਰਚੀ','ਕਿਸਾਨ ਪਰਚੀ ਦਾ ਲਾਈਵ ਪ੍ਰੀਵਿਊ','ਮੰਡੀ ਕਿਸਾਨ ਪਰਚੀ','ਦੁੱਧ ਇਕੱਠਾ ਕਰਨ ਦੀ ਪਰਚੀ','ਪਰਚੀ ਨੰਬਰ:','ਮਿਤੀ:','ਕਿਸਾਨ ਦਾ ਨਾਮ:','ਪਿੰਡ / ਮੋਬਾਈਲ:','ਵਾਹਨ ਨੰਬਰ:','ਫਸਲ ਦੀ ਕੁੱਲ ਰਕਮ:','ਹਮਾਲੀ / ਤੁਲਾਈ:','ਆੜ੍ਹਤ / ਮੰਡੀ ਫੀਸ:','ਐਡਵਾਂਸ / ਟਰਾਂਸਪੋਰਟ ਕਟੌਤੀ:','ਕਿਸਾਨ ਨੂੰ ਬਕਾਇਆ ਰਕਮ:','ਨੋਟ:','ਕਿਸਾਨ ਦੇ ਦਸਤਖਤ / ਅੰਗੂਠਾ','ਮੁਨੀਮ / ਅਧਿਕਾਰਤ ਦਸਤਖਤ','ਸ਼ਿਫਟ / ਪਸ਼ੂ:','ਮੋਬਾਈਲ:','ਦੁੱਧ ਦੀ ਮਾਤਰਾ (ਲੀਟਰ)','FAT (%)','SNF (%)','ਭਾਅ / ਲੀਟਰ','ਦੁੱਧ ਦੀ ਕੁੱਲ ਕੀਮਤ:','ਖੁਰਾਕ / ਐਡਵਾਂਸ ਕਟੌਤੀ:','ਕੁੱਲ ਭੁਗਤਾਨ','ਮੈਂਬਰ / ਕਿਸਾਨ ਦੇ ਦਸਤਖਤ','ਡੇਅਰੀ ਸਕੱਤਰ / ਆਪਰੇਟਰ ਦੇ ਦਸਤਖਤ','ਕੁਇੰਟਲ','ਲੀਟਰ','ਮੰਡੀ ਕਿਸਾਨ ਪਰਚੀ','ਡੇਅਰੀ ਦੁੱਧ ਪਰਚੀ','ਕੇਂਦਰ:','ਕਿਸਾਨ:','ਮਿਤੀ:','ਕਾਮਕਾਜ ਬਿਲਸ ਰਾਹੀਂ ਤਿਆਰ।','ਵਜ਼ਨ ਅਤੇ ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਜਾਂਚੇ ਗਏ। ਧੰਨਵਾਦ!','ਸਵੇਰ - ਮੱਝ','ਸ਼ਾਮ - ਮੱਝ','ਸਵੇਰ - ਗਾਂ','ਸ਼ਾਮ - ਗਾਂ'],
+  or: ['← ସମସ୍ତ ଟୁଲ୍','କାମକାଜ ବିଲ୍ସ • ଡେରି ଓ ମଣ୍ଡି ଚାଷୀ ସ୍ଲିପ୍','ଭାଷା','ଏଠାରୁ ଆପଣ ମୋଡ୍ ବଦଳାଇ ପାରିବେ','1. ସ୍ଲିପ୍ ପ୍ରକାର ବାଛନ୍ତୁ:','🌾 ମଣ୍ଡି ଫସଲ ବିକ୍ରି ସ୍ଲିପ୍','🥛 ଡେରି କ୍ଷୀର ସଂଗ୍ରହ ସ୍ଲିପ୍','1. ମଣ୍ଡି ଆଢତ / ଡେରି କେନ୍ଦ୍ର ବିବରଣୀ','ଆଢତ ଫାର୍ମ / ଡେରି କେନ୍ଦ୍ର ନାମ','ମଣ୍ଡି / ଗାଁ ଠିକଣା ଓ ମୋବାଇଲ୍','2. ଚାଷୀଙ୍କ ବିବରଣୀ','ସ୍ଲିପ୍ ନମ୍ବର (ଅଟୋ)','ତାରିଖ','କ୍ଷୀର ସିଫ୍ଟ / ପଶୁ','ଗାଡ଼ି / ଟ୍ରାକ୍ଟର ନମ୍ବର (ଇଚ୍ଛାଧୀନ)','ଚାଷୀଙ୍କ ନାମ','ଗାଁ ଓ ମୋବାଇଲ୍ / WhatsApp','3. ଫସଲ ଓଜନ ଓ ନିଲାମ ଦର','ଫସଲ / ସାମଗ୍ରୀ','ବସ୍ତା','ନିଟ୍ ଓଜନ (କ୍ୱିଣ୍ଟାଲ୍)','ଦର / କ୍ୱିଣ୍ଟାଲ୍ (₹)','+ ଫସଲ ଯୋଡ଼ନ୍ତୁ','4. ମଣ୍ଡି ଖର୍ଚ୍ଚ / କଟାଯିବା','ହମାଲି / ଓଜନ (₹)','ଆଢତ / ମଣ୍ଡି ଫି (₹)','ଅଗ୍ରିମ / ପରିବହନ କଟା (₹)','3. କ୍ଷୀର ପରିମାଣ, FAT, SNF ଓ ଦର','କ୍ଷୀର ପରିମାଣ (ଲିଟର)','FAT (%)','SNF (%)','ଦର / ଲିଟର (₹)','ପଶୁ ଖାଦ୍ୟ / ଅଗ୍ରିମ କଟା (₹)','ପେମେଣ୍ଟ ପ୍ରକାର','ବ୍ୟାଙ୍କ ଖାତା ଟ୍ରାନ୍ସଫର','ନଗଦ ପେମେଣ୍ଟ','ମନ୍ତବ୍ୟ / ପେମେଣ୍ଟ ଟିପ୍ପଣୀ','📥 A4 PDF ଡାଉନଲୋଡ୍','🖨️ ସିଧା ପ୍ରିଣ୍ଟ','📲 WhatsApp ସ୍ଲିପ୍','ଚାଷୀ ସ୍ଲିପ୍ ଲାଇଭ୍ ପ୍ରିଭ୍ୟୁ','ମଣ୍ଡି ଚାଷୀ ସ୍ଲିପ୍','କ୍ଷୀର ସଂଗ୍ରହ ସ୍ଲିପ୍','ସ୍ଲିପ୍ ନମ୍ବର:','ତାରିଖ:','ଚାଷୀଙ୍କ ନାମ:','ଗାଁ / ମୋବାଇଲ୍:','ଗାଡ଼ି ନମ୍ବର:','ଫସଲ ମୋଟ ମୂଲ୍ୟ:','ହମାଲି / ଓଜନ:','ଆଢତ / ମଣ୍ଡି ଫି:','ଅଗ୍ରିମ / ପରିବହନ କଟା:','ଚାଷୀଙ୍କୁ ନିଟ୍ ପ୍ରାପ୍ୟ:','ଟିପ୍ପଣୀ:','ଚାଷୀଙ୍କ ଦସ୍ତଖତ / ଟିପଚିହ୍ନ','ମୁନିମ / ଅଧିକୃତ ଦସ୍ତଖତ','ସିଫ୍ଟ / ପଶୁ:','ମୋବାଇଲ୍:','କ୍ଷୀର ପରିମାଣ (ଲିଟର)','FAT (%)','SNF (%)','ଦର / ଲିଟର','କ୍ଷୀରର ମୋଟ ମୂଲ୍ୟ:','ପଶୁ ଖାଦ୍ୟ / ଅଗ୍ରିମ କଟା:','ନିଟ୍ ପ୍ରାପ୍ୟ','ସଦସ୍ୟ / ଚାଷୀଙ୍କ ଦସ୍ତଖତ','ଡେରି ସଚିବ / ଅପରେଟର ଦସ୍ତଖତ','କ୍ୱିଣ୍ଟାଲ୍','ଲିଟର','ମଣ୍ଡି ଚାଷୀ ସ୍ଲିପ୍','ଡେରି କ୍ଷୀର ସ୍ଲିପ୍','କେନ୍ଦ୍ର:','ଚାଷୀ:','ତାରିଖ:','କାମକାଜ ବିଲ୍ସ ଦ୍ୱାରା ତିଆରି।','ଓଜନ ଓ ପେମେଣ୍ଟ ବିବରଣୀ ଯାଞ୍ଚ କରାଗଲା। ଧନ୍ୟବାଦ!','ସକାଳ - ମଇଁଷି','ସନ୍ଧ୍ୟା - ମଇଁଷି','ସକାଳ - ଗାଈ','ସନ୍ଧ୍ୟା - ଗାଈ'],
+  ur: ['← تمام ٹولز','کام کاج بلز • ڈیری اور منڈی کسان پرچی','زبان','آپ یہاں سے موڈ تبدیل کر سکتے ہیں','1. پرچی کی قسم منتخب کریں:','🌾 منڈی فصل فروخت پرچی','🥛 ڈیری دودھ وصولی پرچی','1. منڈی آڑھت / ڈیری مرکز کی تفصیلات','آڑھت فرم / ڈیری مرکز کا نام','منڈی / گاؤں کا پتہ اور موبائل','2. کسان کی تفصیلات','پرچی نمبر (خودکار)','تاریخ','دودھ کی شفٹ / مویشی','گاڑی / ٹریکٹر نمبر (اختیاری)','کسان کا نام','گاؤں اور موبائل / WhatsApp','3. فصل کا وزن اور نیلامی نرخ','فصل / جنس','بوریاں','خالص وزن (کوئنٹل)','نرخ / کوئنٹل (₹)','+ فصل شامل کریں','4. منڈی اخراجات / کٹوتیاں','مزدوری / تولائی (₹)','آڑھت / منڈی فیس (₹)','ایڈوانس / ٹرانسپورٹ کٹوتی (₹)','3. دودھ کی مقدار، FAT، SNF اور نرخ','دودھ کی مقدار (لیٹر)','FAT (%)','SNF (%)','نرخ / لیٹر (₹)','مویشی خوراک / ایڈوانس کٹوتی (₹)','ادائیگی کا طریقہ','بینک اکاؤنٹ ٹرانسفر','نقد ادائیگی','نوٹس / ادائیگی کا پیغام','📥 A4 PDF ڈاؤن لوڈ','🖨️ براہ راست پرنٹ','📲 WhatsApp پرچی','کسان پرچی کا لائیو پیش منظر','منڈی کسان پرچی','دودھ وصولی پرچی','پرچی نمبر:','تاریخ:','کسان کا نام:','گاؤں / موبائل:','گاڑی نمبر:','فصل کی مجموعی رقم:','مزدوری / تولائی:','آڑھت / منڈی فیس:','ایڈوانس / ٹرانسپورٹ کٹوتی:','کسان کو خالص ادائیگی:','نوٹ:','کسان کے دستخط / انگوٹھا','منیم / مجاز دستخط','شفٹ / مویشی:','موبائل:','دودھ کی مقدار (لیٹر)','FAT (%)','SNF (%)','نرخ / لیٹر','دودھ کی مجموعی قیمت:','خوراک / ایڈوانس کٹوتی:','خالص ادائیگی','ممبر / کسان کے دستخط','ڈیری سیکریٹری / آپریٹر کے دستخط','کوئنٹل','لیٹر','منڈی کسان پرچی','ڈیری دودھ پرچی','مرکز:','کسان:','تاریخ:','کام کاج بلز کے ذریعے تیار کردہ۔','وزن اور ادائیگی کی تفصیلات چیک کر لی گئیں۔ شکریہ!','صبح - بھینس','شام - بھینس','صبح - گائے','شام - گائے']
+};
+const THEME_LABELS={
+  mr:['🌙 डार्क मोड','☀️ लाईट मोड'],gu:['🌙 ડાર્ક મોડ','☀️ લાઇટ મોડ'],bn:['🌙 ডার্ক মোড','☀️ লাইট মোড'],ta:['🌙 டார்க் மோடு','☀️ லைட் மோடு'],te:['🌙 డార్క్ మోడ్','☀️ లైట్ మోడ్'],kn:['🌙 ಡಾರ್ಕ್ ಮೋಡ್','☀️ ಲೈಟ್ ಮೋಡ್'],ml:['🌙 ഡാർക്ക് മോഡ്','☀️ ലൈറ്റ് മോഡ്'],pa:['🌙 ਡਾਰਕ ਮੋਡ','☀️ ਲਾਈਟ ਮੋਡ'],or:['🌙 ଡାର୍କ ମୋଡ୍','☀️ ଲାଇଟ୍ ମୋଡ୍'],ur:['🌙 ڈارک موڈ','☀️ لائٹ موڈ']
+};
+for(const [lang,labels] of Object.entries(THEME_LABELS)){LOCALES[lang].push(...labels)}
+const AMOUNT_LABEL={hi:'राशि',en:'Amount',mr:'रक्कम',gu:'રકમ',bn:'পরিমাণ',ta:'தொகை',te:'మొత్తం',kn:'ಮೊತ್ತ',ml:'തുക',pa:'ਰਕਮ',or:'ରାଶି',ur:'رقم'};
+let curLang='hi';let mode='MANDI';
+const KEY_INDEX=Object.fromEntries(KEYS.map((k,i)=>[k,i]));
+function t(k){if(k==='amount')return AMOUNT_LABEL[curLang]||'Amount';const i=KEY_INDEX[k];return i===undefined?(k):(LOCALES[curLang]?.[i]||EN[i]||k)}
+function changeLanguage(lang){if(!LOCALES[lang])lang='hi';curLang=lang;try{localStorage.setItem('kkb_mandi_lang',lang)}catch(e){}applyLanguage();renderMandiRows();renderDoc()}
+function applyLanguage(){document.documentElement.lang=curLang;document.documentElement.dir=curLang==='ur'?'rtl':'ltr';document.getElementById('sel_lang').value=curLang;document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');el.textContent=t(key)});const shift=document.getElementById('in_shift');const current=shift.value||'morningBuffalo';shift.innerHTML=[['morningBuffalo','morningBuffalo'],['eveningBuffalo','eveningBuffalo'],['morningCow','morningCow'],['eveningCow','eveningCow']].map(([v,k])=>`<option value="${v}">${t(k)}</option>`).join('');shift.value=current;const pay=document.getElementById('d_mode');const p=pay.value||'bank';pay.innerHTML=`<option value="bank">${t('bankOption')}</option><option value="cash">${t('cashOption')}</option>`;pay.value=p;document.getElementById('btnTheme').textContent=document.body.classList.contains('dark-mode')?t('lightMode'):t('darkMode')}
+function toggleTheme(){const isDark=document.body.classList.toggle('dark-mode');document.getElementById('btnTheme').textContent=isDark?t('lightMode'):t('darkMode');try{localStorage.setItem('kkb_mandi_theme',isDark?'dark':'light')}catch(e){}}
+function setMode(m){mode=m;document.getElementById('btnMandi').classList.toggle('active',m==='MANDI');document.getElementById('btnDairy').classList.toggle('active',m==='DAIRY');document.getElementById('mandiSection').style.display=m==='MANDI'?'block':'none';document.getElementById('dairySection').style.display=m==='DAIRY'?'block':'none';document.getElementById('wrap_shift').style.display=m==='DAIRY'?'flex':'none';document.getElementById('wrap_vehicle').style.display=m==='MANDI'?'flex':'none';document.getElementById('in_slip_no').value=(m==='MANDI'?'MND-':'DRY-')+Math.floor(100000+Math.random()*899990);renderDoc()}
+function esc(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function num(v){const n=parseFloat(v);return Number.isFinite(n)&&n>0?n:0}
+function money(v){return Number(v||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+let crops=[{name:'Soybean (सोयाबीन)',bags:15,qtl:14.50,rate:4650}];
+function renderMandiRows(){document.getElementById('mandiInputsBody').innerHTML=crops.map((c,i)=>`<tr><td><input aria-label="${t('cropLabel')}" value="${esc(c.name)}" oninput="crops[${i}].name=this.value;renderDoc()"></td><td><input aria-label="${t('bagsLabel')}" type="number" min="0" step="any" value="${c.bags}" oninput="crops[${i}].bags=num(this.value);renderDoc()"></td><td><input aria-label="${t('weightLabel')}" type="number" min="0" step="any" value="${c.qtl}" oninput="crops[${i}].qtl=num(this.value);renderDoc()"></td><td><input aria-label="${t('rateLabel')}" type="number" min="0" step="any" value="${c.rate}" oninput="crops[${i}].rate=num(this.value);renderDoc()"></td><td class="t-center"><button type="button" class="btn-del-row" aria-label="Delete crop" onclick="delCrop(${i})">✕</button></td></tr>`).join('')}
+function addMandiRow(){crops.push({name:'',bags:0,qtl:0,rate:0});renderMandiRows();renderDoc()}
+function delCrop(i){if(crops.length>1){crops.splice(i,1);renderMandiRows();renderDoc()}}
+function calcDairy(){renderDoc()}
+function renderDoc(){const biz=esc(document.getElementById('in_biz').value.trim()||(mode==='MANDI'?'SHREE KISAN KRISHI ADHAT COMPANY':'GRAMIN DUDH SANKALAN KENDRA'));const addr=esc(document.getElementById('in_addr').value.trim()||'Krishi Upaj Mandi Yard | Mob: 9000000000');const slipNo=esc(document.getElementById('in_slip_no').value.trim()||'-');const dt=esc(document.getElementById('in_date').value||'-');const farmer=esc(document.getElementById('in_farmer').value.trim()||'-');const ph=esc(document.getElementById('in_phone').value.trim()||'-');const notes=esc(document.getElementById('in_notes').value.trim()||t('defaultNote'));
+if(mode==='MANDI'){const veh=esc(document.getElementById('in_vehicle').value.trim()||'-');let gross=0;const rows=crops.map((c,i)=>{const qtl=num(c.qtl),rate=num(c.rate),amt=qtl*rate;gross+=amt;return `<tr><td class="t-center">${i+1}</td><td>${esc(c.name||'-')}</td><td class="t-center">${num(c.bags)}</td><td class="t-center">${qtl} ${t('qtl')}</td><td class="t-right">₹${num(rate).toLocaleString('en-IN')}</td><td class="t-right">₹${money(amt)}</td></tr>`}).join('');const ham=num(document.getElementById('in_hammali').value),adh=num(document.getElementById('in_adhat').value),adv=num(document.getElementById('in_adv_cut').value),net=Math.max(0,gross-ham-adh-adv);document.getElementById('slipPreviewContent').innerHTML=`<div class="doc-header"><div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div><div class="doc-type-badge">${t('mandiBadge')}</div></div><table class="meta-table"><tr><td class="lbl">${t('outSlipNo')}</td><td class="val"><b>${slipNo}</b></td><td class="lbl">${t('outDate')}</td><td class="val">${dt}</td></tr><tr><td class="lbl">${t('outFarmer')}</td><td class="val"><b>${farmer}</b></td><td class="lbl">${t('outVillage')}</td><td class="val">${ph}</td></tr><tr><td class="lbl">${t('outVehicle')}</td><td class="val" colspan="3">${veh}</td></tr></table><table class="doc-items-table"><thead><tr><th class="t-center">#</th><th>${t('cropLabel')}</th><th class="t-center">${t('bagsLabel')}</th><th class="t-center">${t('weightLabel')}</th><th class="t-right">${t('rateLabel')}</th><th class="t-right">${t('amount')}</th></tr></thead><tbody>${rows}</tbody></table><div class="summary-wrap"><table class="summary-table"><tr><td>${t('grossCrop')}</td><td class="t-right">₹${money(gross)}</td></tr>${ham>0?`<tr style="color:#dc2626"><td>${t('hammaliOut')}</td><td class="t-right">-₹${money(ham)}</td></tr>`:''}${adh>0?`<tr style="color:#dc2626"><td>${t('adhatOut')}</td><td class="t-right">-₹${money(adh)}</td></tr>`:''}${adv>0?`<tr style="color:#dc2626"><td>${t('advanceCutOut')}</td><td class="t-right">-₹${money(adv)}</td></tr>`:''}<tr class="total-row"><td>${t('netKisan')}</td><td class="t-right">₹${money(net)}</td></tr></table></div><div class="notes-box"><b>${t('noteLabel')}</b> ${notes}</div><div class="footer-sig-row"><div style="font-size:10px;color:#64748b">${t('farmerSign')}</div><div class="sig-block">${t('munimSign')}</div></div>`;
+}else{const shift=document.getElementById('in_shift').value;const shiftText=t(shift);const qty=num(document.getElementById('d_qty').value),fat=esc(document.getElementById('d_fat').value||'-'),snf=esc(document.getElementById('d_snf').value||'-'),rate=num(document.getElementById('d_rate').value),gross=qty*rate,ded=num(document.getElementById('d_ded').value),net=Math.max(0,gross-ded),pMode=document.getElementById('d_mode').value==='bank'?t('bankOption'):t('cashOption');document.getElementById('slipPreviewContent').innerHTML=`<div class="doc-header"><div class="doc-biz"><h2>${biz}</h2><p>${addr}</p></div><div class="doc-type-badge">${t('dairyBadge')}</div></div><table class="meta-table"><tr><td class="lbl">${t('outSlipNo')}</td><td class="val"><b>${slipNo}</b></td><td class="lbl">${t('outDate')}</td><td class="val">${dt}</td></tr><tr><td class="lbl">${t('outFarmer')}</td><td class="val"><b>${farmer}</b></td><td class="lbl">${t('outMobile')}</td><td class="val">${ph}</td></tr><tr><td class="lbl">${t('outShift')}</td><td class="val" colspan="3">${shiftText}</td></tr></table><table class="doc-items-table"><thead><tr><th class="t-center">${t('outMilkQty')}</th><th class="t-center">${t('outFat')}</th><th class="t-center">${t('outSnf')}</th><th class="t-right">${t('outRate')}</th><th class="t-right">${t('amount')}</th></tr></thead><tbody><tr><td class="t-center"><b>${qty} ${t('ltr')}</b></td><td class="t-center">${fat}%</td><td class="t-center">${snf}%</td><td class="t-right">₹${rate.toFixed(2)}</td><td class="t-right">₹${money(gross)}</td></tr></tbody></table><div class="summary-wrap"><table class="summary-table"><tr><td>${t('outGrossMilk')}</td><td class="t-right">₹${money(gross)}</td></tr>${ded>0?`<tr style="color:#dc2626"><td>${t('feedDed')}</td><td class="t-right">-₹${money(ded)}</td></tr>`:''}<tr class="total-row"><td>${t('netPay')} (${pMode}):</td><td class="t-right">₹${money(net)}</td></tr></table></div><div class="notes-box"><b>${t('noteLabel')}</b> ${notes}</div><div class="footer-sig-row"><div style="font-size:10px;color:#64748b">${t('memberSign')}</div><div class="sig-block">${t('dairySign')}</div></div>`}}
+function downloadA4PDF(){const btn=document.getElementById('btnPdf');if(typeof html2pdf!=='function'){alert('PDF library could not be loaded. Please check your internet connection and try again.');return}btn.disabled=true;const originalText=btn.textContent;btn.textContent='⏳ '+(curLang==='hi'?'PDF बनाया जा रहा है…':'Generating PDF…');const source=document.getElementById('a4DocSheet');const clone=source.cloneNode(true);clone.removeAttribute('id');const PDF_WIDTH=680;clone.style.cssText=[`width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'margin:0','padding:26px 28px','background:#ffffff','color:#0f172a','border:1.5px solid #cbd5e1','border-radius:6px','box-shadow:none','box-sizing:border-box'].join(';');const overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);const safeNo=(document.getElementById('in_slip_no').value.trim()||'KisanParchi').replace(/[^a-zA-Z0-9-_]/g,'');const filename=`${mode==='MANDI'?'MandiSlip':'DairySlip'}_${safeNo}.pdf`;requestAnimationFrame(()=>setTimeout(()=>{html2pdf().set({margin:[10,12,12,12],filename,image:{type:'png',quality:1},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true}}).from(staging).save().then(()=>{overlay.remove();btn.disabled=false;btn.textContent=originalText}).catch(err=>{console.error('PDF export failed:',err);overlay.remove();btn.disabled=false;btn.textContent=originalText;alert('PDF generation failed. Please try Direct Print → Save as PDF.')})},150))}
+function printDocDirect(){const w=window.open('','_blank','width=850,height=900');if(!w){alert('Please allow pop-ups to print this slip.');return}w.document.write(`<!DOCTYPE html><html lang="${curLang}" dir="${curLang==='ur'?'rtl':'ltr'}"><head><meta charset="UTF-8"><title>${t('title')}</title><style>*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{margin:0;padding:8mm;background:#fff;color:#0f172a}.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:16px}.doc-header{display:flex;justify-content:space-between;border-bottom:2px solid #15803d;padding-bottom:8px;margin-bottom:10px}.doc-biz h2{margin:0;font-size:17px;text-transform:uppercase}.doc-biz p{margin:2px 0 0;font-size:10.5px;color:#475569}.doc-type-badge{background:#15803d;color:#fff;padding:4px 10px;font-size:10.5px;font-weight:800;border-radius:4px}.meta-table{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px}.meta-table td{padding:4px 6px;border:1px solid #cbd5e1}.meta-table td.lbl{background:#f8fafc;font-weight:700;width:22%}.doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}.doc-items-table th{background:#dcfce7;color:#166534;padding:5px;text-align:left;border:1px solid #86efac}.doc-items-table td{padding:5px;border:1px solid #cbd5e1}.t-right{text-align:right}.t-center{text-align:center}.summary-wrap{display:flex;justify-content:flex-end;margin:8px 0}.summary-table{font-size:11px;border-collapse:collapse;min-width:230px}.summary-table td{padding:2px 6px}.total-row td{background:#dcfce7;border-top:2px solid #15803d;font-size:13.5px;font-weight:800;color:#14532d}.notes-box{background:#f8fafc;border-left:3px solid #15803d;padding:6px 8px;font-size:10px;margin:8px 0}.footer-sig-row{display:flex;justify-content:space-between;margin-top:24px;font-size:10px}.sig-block{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}@media print{@page{size:A4 portrait;margin:0}}</style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);w.document.close();w.focus();setTimeout(()=>{w.print();w.close()},400)}
+function shareWhatsApp(){const biz=document.getElementById('in_biz').value.trim()||(mode==='MANDI'?'Mandi / Dairy':'Dairy Center'),farmer=document.getElementById('in_farmer').value.trim()||'Kisan',slipNo=document.getElementById('in_slip_no').value,date=document.getElementById('in_date').value;let msg=`*🌾 ${mode==='MANDI'?t('waMandi'):t('waDairy')} (${slipNo})*\n*${t('waCenter')}* ${biz}\n*${t('waFarmer')}* ${farmer}\n*${t('waDate')}* ${date}\n\n_${t('generated')}_`;if(mode==='DAIRY'){const qty=num(document.getElementById('d_qty').value),gross=qty*num(document.getElementById('d_rate').value),ded=num(document.getElementById('d_ded').value);msg+=`\n*${t('outMilkQty')}:* ${qty} ${t('ltr')}\n*${t('netPay')}:* ₹${Math.max(0,gross-ded).toLocaleString('en-IN')}`}else{const gross=crops.reduce((s,c)=>s+num(c.qtl)*num(c.rate),0),ded=num(document.getElementById('in_hammali').value)+num(document.getElementById('in_adhat').value)+num(document.getElementById('in_adv_cut').value);msg+=`\n*${t('netKisan')}:* ₹${Math.max(0,gross-ded).toLocaleString('en-IN')}`}window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank')}
+window.onload=()=>{try{if(localStorage.getItem('kkb_mandi_theme')==='dark')document.body.classList.add('dark-mode');const savedLang=localStorage.getItem('kkb_mandi_lang');if(savedLang&&LOCALES[savedLang])curLang=savedLang}catch(e){}document.getElementById('in_date').value=new Date().toISOString().split('T')[0];document.getElementById('in_slip_no').value='MND-'+Math.floor(100000+Math.random()*899990);applyLanguage();renderMandiRows();renderDoc()};
 </script>
 </body>
 </html>
