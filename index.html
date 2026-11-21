@@ -1,682 +1,437 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f8fc">
 <title>KaamKaj Bills - Free Business Billing, Slips, ID Card & Resume Portal</title>
-  <link rel="icon" type="image/png" href="https://kaamkajbills.in/favicon-96x96.png" sizes="96x96" />
-  <link rel="icon" type="image/x-icon" href="https://kaamkajbills.in/favicon.ico" />
-  <link rel="shortcut icon" href="https://kaamkajbills.in/favicon.ico" />
-  <link rel="apple-touch-icon" sizes="180x180" href="https://kaamkajbills.in/apple-touch-icon.png" />
+<link rel="icon" type="image/png" href="https://kaamkajbills.in/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/x-icon" href="https://kaamkajbills.in/favicon.ico">
+<link rel="shortcut icon" href="https://kaamkajbills.in/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="https://kaamkajbills.in/apple-touch-icon.png">
 <meta name="description" content="KaamKaj Bills (kaamkajbills.in) - Free GST/Non-GST Invoice, Quotation, Rent Receipt, Salary Slip, Bank Application Letters, ID Card, Passport Photo Sheet aur Resume Maker.">
+<meta name="keywords" content="free invoice maker India, GST bill, quotation maker, rent receipt, salary slip, bank application, ID card maker, passport photo, resume builder, KaamKaj Bills">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://kaamkajbills.in/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="KaamKaj Bills - Free Business & Document Tools">
+<meta property="og:description" content="Free, no-login billing, receipts, bank letters, ID cards, photo sheets and resume tools for India.">
+<meta property="og:url" content="https://kaamkajbills.in/">
 <style>
-  :root {
-    --primary: #0284c7;
-    --primary-dark: #0369a1;
-    --ink: #0f172a;
-    --ink-soft: #475569;
-    --bg: #f8fafc;
-    --card: rgba(255, 255, 255, 0.88);
-    --line: rgba(203, 213, 225, 0.75);
-    --gold: #f59e0b;
-    --green: #16a34a;
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  }
-
-  * { box-sizing: border-box; font-family: var(--font); }
-  html { scroll-behavior: smooth; }
-  html, body {
-    margin: 0; padding: 0; width: 100%; min-height: 100vh;
-    background: var(--bg); color: var(--ink); overflow-x: hidden; position: relative;
-  }
-
-  /* VISIBLE FLOATING COLOURS LAYER (PAGE BACKGROUND) */
-  .floating-bg {
-    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
-  }
-  .orb {
-    position: absolute; border-radius: 50%; filter: blur(45px); opacity: 0.72;
-    animation: floatOrb 12s infinite alternate ease-in-out;
-  }
-  .orb-1 { width: 360px; height: 360px; background: radial-gradient(circle, #0ea5e9, #38bdf8); top: 8%; left: -60px; animation-duration: 11s; }
-  .orb-2 { width: 380px; height: 380px; background: radial-gradient(circle, #f59e0b, #fde047); top: 22%; right: -70px; animation-duration: 14s; animation-delay: -3s; }
-  .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, #8b5cf6, #c084fc); bottom: 18%; left: 12%; opacity: 0.55; animation-duration: 13s; animation-delay: -6s; }
-  .orb-4 { width: 360px; height: 360px; background: radial-gradient(circle, #10b981, #34d399); bottom: 4%; right: 8%; opacity: 0.65; animation-duration: 12s; animation-delay: -2s; }
-  .orb-5 { width: 280px; height: 280px; background: radial-gradient(circle, #f43f5e, #fb7185); top: 52%; left: 48%; opacity: 0.45; animation-duration: 15s; animation-delay: -4s; }
-
-  @keyframes floatOrb {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(70px, -50px) scale(1.12); }
-    66% { transform: translate(-50px, 65px) scale(0.92); }
-    100% { transform: translate(40px, 40px) scale(1.06); }
-  }
-
-  .navbar, .hero, .container, footer { position: relative; z-index: 2; }
-
-  /* FULL-WIDTH NAVBAR */
-  .navbar {
-    background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-    color: #ffffff; padding: 14px 32px; border-bottom: 3px solid var(--gold);
-    position: sticky; top: 0; z-index: 100; box-shadow: 0 6px 20px rgba(15, 23, 42, 0.15);
-  }
-  .nav-inner {
-    width: 100%; max-width: 1480px; margin: 0 auto; display: flex;
-    justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
-  }
-  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
-  .brand-logo {
-    width: 42px; height: 42px; background: linear-gradient(135deg, #fbbf24, #d97706);
-    color: var(--ink); border-radius: 10px; display: flex; align-items: center;
-    justify-content: center; font-size: 21px; font-weight: 900; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.35);
-  }
-  .brand-text h1 { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.3px; }
-  .brand-text span { font-size: 11.5px; color: #cbd5e1; display: block; }
-
-  .nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .nav-btn {
-    background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2);
-    padding: 8px 15px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s ease;
-  }
-  .nav-btn:hover { background: var(--primary); border-color: var(--primary); transform: translateY(-1px); }
-  .nav-btn-gold { background: var(--gold); color: var(--ink); border: none; }
-  .nav-btn-gold:hover { background: #fbbf24; color: var(--ink); }
-
-  /* HERO SECTION */
-  .hero {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%);
-    color: #ffffff; padding: 46px 24px 52px 24px; text-align: center; overflow: hidden;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
-  }
-  .hero-orb {
-    position: absolute; border-radius: 50%; filter: blur(35px); pointer-events: none; z-index: 1;
-    animation: heroFloat 9s infinite alternate ease-in-out;
-  }
-  .hero-orb-1 { width: 260px; height: 260px; background: rgba(56, 189, 248, 0.45); top: -60px; left: 6%; }
-  .hero-orb-2 { width: 240px; height: 240px; background: rgba(245, 158, 11, 0.45); bottom: -70px; right: 8%; animation-delay: -4s; }
-  .hero-orb-3 { width: 200px; height: 200px; background: rgba(168, 85, 247, 0.4); top: 10%; right: 28%; animation-delay: -2s; }
-  @keyframes heroFloat {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(45px, 30px) scale(1.18); }
-  }
-
-  .hero-inner { max-width: 920px; margin: 0 auto; position: relative; z-index: 2; }
-  .hero-badge {
-    display: inline-block; background: rgba(245, 158, 11, 0.2); border: 1px solid var(--gold);
-    color: #fde68a; font-size: 12.5px; font-weight: 700; padding: 6px 16px; border-radius: 50px; margin-bottom: 14px;
-  }
-  .hero h2 { margin: 0 0 12px 0; font-size: 30px; font-weight: 800; line-height: 1.3; }
-  .hero p { margin: 0 0 24px 0; font-size: 15px; color: #e2e8f0; }
-
-  .search-box { max-width: 680px; margin: 0 auto; position: relative; display: flex; align-items: center; }
-  .search-box input {
-    width: 100%; padding: 15px 20px 15px 48px; border-radius: 12px;
-    border: 2px solid rgba(255,255,255,0.25); font-size: 15px; outline: none;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); transition: 0.2s;
-  }
-  .search-box input:focus { border-color: var(--gold); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25); }
-  .search-icon { position: absolute; left: 16px; font-size: 20px; color: #64748b; }
-
-  /* CONTAINER */
-  .container { width: 100%; max-width: 1480px; margin: 0 auto; padding: 28px 32px 70px 32px; }
-
-  /* CATEGORY TABS */
-  .cat-bar {
-    display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;
-    margin-bottom: 24px; scrollbar-width: none; justify-content: flex-start;
-  }
-  .cat-bar::-webkit-scrollbar { display: none; }
-  .cat-pill {
-    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border: 1.5px solid #cbd5e1; color: var(--ink-soft); padding: 10px 18px; border-radius: 50px;
-    font-size: 13.5px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  }
-  .cat-pill:hover { border-color: var(--primary); color: var(--primary); background: #ffffff; }
-  .cat-pill.active {
-    background: linear-gradient(135deg, #0284c7, #0369a1); border-color: var(--primary);
-    color: #ffffff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-  }
-
-  /* TOOLS GRID */
-  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
-  
-  .tool-card {
-    background: var(--card); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--line); border-radius: 14px; padding: 20px;
-    display: flex; flex-direction: column; justify-content: space-between;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05); transition: all 0.25s ease;
-  }
-  .tool-card:hover {
-    transform: translateY(-4px); border-color: var(--primary);
-    background: rgba(255, 255, 255, 0.96); box-shadow: 0 12px 26px rgba(2, 132, 199, 0.15);
-  }
-
-  /* SPECIAL STYLING FOR CAFE TEMPLATE CARD */
-  .tool-card.template-card {
-    background: linear-gradient(135deg, rgba(254, 243, 199, 0.95), rgba(255, 255, 255, 0.96));
-    border: 2px dashed #f59e0b;
-    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.15);
-  }
-  .tool-card.template-card:hover {
-    border-color: #d97706;
-    background: #fffbeb;
-    box-shadow: 0 14px 30px rgba(245, 158, 11, 0.28);
-  }
-
-  .tool-top { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 12px; }
-  .tool-icon {
-    width: 48px; height: 48px; border-radius: 12px;
-    background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: var(--primary-dark);
-    display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
-  }
-  .tool-card.template-card .tool-icon {
-    background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309;
-  }
-
-  .tool-title-wrap h3 { margin: 0; font-size: 16px; font-weight: 800; color: var(--ink); line-height: 1.3; }
-  .tool-title-wrap small { display: block; font-size: 12px; font-weight: 700; color: var(--primary); margin-top: 3px; }
-  .tool-card.template-card .tool-title-wrap small { color: #b45309; }
-
-  .tool-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px 0; }
-  .tool-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 12px; }
-  
-  .tag-free { background: #f0fdf4; color: var(--green); border: 1px solid #bbf7d0; font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 6px; }
-  
-  .tag-template {
-    background: #f59e0b; color: #ffffff; border: 1px solid #d97706;
-    font-size: 11px; font-weight: 900; padding: 4px 10px; border-radius: 6px;
-    letter-spacing: 0.8px; text-transform: uppercase; box-shadow: 0 2px 5px rgba(245,158,11,0.3);
-  }
-
-  .btn-open {
-    background: var(--ink); color: #ffffff; border: none; padding: 8px 16px;
-    border-radius: 8px; font-size: 12.5px; font-weight: 700; cursor: pointer; text-decoration: none; transition: 0.2s;
-  }
-  .tool-card:hover .btn-open { background: var(--primary); }
-  .tool-card.template-card:hover .btn-open { background: #b45309; }
-
-  /* DONATION & CUSTOM REQUEST WIDE SECTION */
-  .donation-wrapper {
-    margin-top: 48px; padding-top: 36px; border-top: 2px dashed rgba(2, 132, 199, 0.35);
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: stretch;
-  }
-
-  .support-card {
-    background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid #cbd5e1; border-radius: 16px; padding: 28px 24px; text-align: center;
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06); display: flex; flex-direction: column; justify-content: space-between;
-  }
-
-  .request-card {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 249, 255, 0.9) 100%);
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 2px solid #bae6fd;
-    border-radius: 16px; padding: 28px 24px; text-align: center; box-shadow: 0 8px 25px rgba(2, 132, 199, 0.08);
-    display: flex; flex-direction: column; justify-content: space-between;
-  }
-
-  .upi-box {
-    background: rgba(248, 250, 252, 0.92); border: 2px dashed #0284c7; border-radius: 14px;
-    padding: 18px 16px; max-width: 410px; width: 100%; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  }
-
-  .upi-row {
-    background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px;
-    margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
-  }
-
-  .btn-copy-upi {
-    background: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; border-radius: 6px;
-    padding: 5px 10px; font-size: 11.5px; font-weight: 800; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
-  }
-  .btn-copy-upi:hover { background: #0284c7; color: #ffffff; border-color: #0284c7; }
-  .btn-copy-upi.copied { background: #16a34a; color: #ffffff; border-color: #16a34a; }
-
-  .btn-pay-upi {
-    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
-    background: linear-gradient(135deg, #16a34a, #15803d); color: #ffffff; text-decoration: none;
-    padding: 11px 16px; border-radius: 9px; font-size: 13.5px; font-weight: 800; margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.28); transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .btn-pay-upi:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(22, 163, 74, 0.36); }
-
-  .amt-chip {
-    background: #ffffff; border: 1px solid #cbd5e1; padding: 5px 10px; border-radius: 6px;
-    font-size: 12px; font-weight: 700; color: #334155; text-decoration: none; transition: all 0.15s ease; display: inline-block;
-  }
-  .amt-chip:hover { border-color: #0284c7; background: #f0f9ff; color: #0284c7; }
-
-  .form-box {
-    max-width: 540px; width: 100%; margin: 0 auto; background: #ffffff;
-    border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 20px 18px; text-align: left; box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-  }
-  .form-label { display: block; font-size: 11.5px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 5px; }
-  .form-input {
-    width: 100%; padding: 10px 12px; border: 1.5px solid #cbd5e1; border-radius: 8px;
-    font-size: 13.5px; outline: none; background: #fff; transition: border-color 0.2s;
-  }
-  .form-input:focus { border-color: var(--primary); }
-
-  /* FOOTER & POLICY LINKS */
-  footer {
-    background: var(--ink); color: #94a3b8; text-align: center; padding: 28px 16px; font-size: 13px; border-top: 3px solid var(--gold);
-  }
-  footer a { color: var(--gold); text-decoration: none; font-weight: 700; }
-  .footer-nav {
-    display: flex; justify-content: center; align-items: center; flex-wrap: wrap;
-    gap: 10px; margin: 14px 0 12px 0;
-  }
-  .footer-nav a {
-    color: #e2e8f0; background: rgba(255,255,255,0.08); padding: 6px 13px;
-    border-radius: 6px; font-size: 12.5px; transition: 0.2s;
-  }
-  .footer-nav a:hover { background: var(--primary); color: #ffffff; }
-
-  .footer-social {
-    display: flex; justify-content: center; align-items: center; flex-wrap: wrap;
-    gap: 10px; margin: 10px 0 14px 0;
-  }
-  .f-soc-btn {
-    display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px;
-    border-radius: 8px; color: #ffffff !important; font-size: 12.5px; font-weight: 700;
-    text-decoration: none; transition: transform 0.18s ease, opacity 0.18s ease;
-  }
-  .f-soc-btn:hover { transform: translateY(-2px); opacity: 0.92; }
-  .f-soc-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-  .f-soc-fb { background: #1877f2; }
-
-  @media (max-width: 960px) {
-    .donation-wrapper { grid-template-columns: 1fr; }
-    .navbar { padding: 12px 16px; }
-    .container { padding: 20px 16px 50px 16px; }
-  }
-
-  @media (max-width: 600px) {
-    .hero { padding: 32px 16px 38px 16px; }
-    .hero h2 { font-size: 22px; }
-    .hero p { font-size: 13.5px; }
-    .tools-grid { grid-template-columns: 1fr; }
-  }
+:root {
+  color-scheme: light;
+  --primary:#0284c7; --primary-strong:#0369a1; --primary-soft:#e0f2fe;
+  --ink:#0f172a; --ink-2:#334155; --muted:#64748b;
+  --page:#f3f7fc; --surface:rgba(255,255,255,.88); --surface-solid:#fff;
+  --line:rgba(148,163,184,.28); --line-strong:#cbd5e1;
+  --nav:#0b172b; --gold:#f59e0b; --green:#16a34a;
+  --shadow:0 12px 34px rgba(15,23,42,.07);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;
+}
+:root[data-theme="dark"] {
+  color-scheme:dark;
+  --primary:#38bdf8; --primary-strong:#0ea5e9; --primary-soft:rgba(14,165,233,.15);
+  --ink:#e5edf7; --ink-2:#cbd5e1; --muted:#9aaabe;
+  --page:#07111f; --surface:rgba(15,28,47,.88); --surface-solid:#101e31;
+  --line:rgba(148,163,184,.17); --line-strong:#33465f;
+  --nav:#050c17; --gold:#fbbf24; --green:#4ade80;
+  --shadow:0 14px 38px rgba(0,0,0,.24);
+}
+*{box-sizing:border-box;font-family:var(--font)}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{margin:0;min-height:100vh;width:100%;overflow-x:hidden;background:var(--page);color:var(--ink);transition:background .25s,color .25s}
+a{color:inherit}
+button,input,textarea,select{font:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid rgba(14,165,233,.45);outline-offset:3px}
+.floating-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;opacity:.5}
+.orb{position:absolute;border-radius:50%;filter:blur(54px);animation:floatOrb 18s infinite alternate ease-in-out}
+.orb-1{width:340px;height:340px;background:#38bdf8;top:6%;left:-110px}
+.orb-2{width:360px;height:360px;background:#fbbf24;top:25%;right:-130px;animation-delay:-4s}
+.orb-3{width:390px;height:390px;background:#a78bfa;bottom:17%;left:10%;animation-delay:-8s}
+.orb-4{width:330px;height:330px;background:#34d399;bottom:2%;right:5%;animation-delay:-3s}
+@keyframes floatOrb{0%{transform:translate(0,0) scale(1)}100%{transform:translate(45px,-30px) scale(1.12)}}
+.page-shell{position:relative;z-index:1}
+.navbar{position:sticky;top:0;z-index:100;background:rgba(7,18,34,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff;border-bottom:3px solid var(--gold);box-shadow:0 8px 26px rgba(2,8,23,.18)}
+.nav-inner{width:100%;max-width:1540px;margin:auto;padding:12px clamp(14px,3vw,34px);display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+.brand-logo{width:46px;height:46px;flex:0 0 46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#fde68a,#f59e0b);color:#172033;font-weight:950;font-size:20px;box-shadow:0 6px 16px rgba(245,158,11,.25);border:1px solid rgba(255,255,255,.4)}
+.brand-text{min-width:0}.brand-text h1{margin:0;font-size:clamp(18px,2vw,22px);line-height:1.2;letter-spacing:-.4px;font-weight:900}.brand-text span{display:block;margin-top:4px;color:#bdcadb;font-size:11px;line-height:1.35}
+.nav-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.nav-links{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 13px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;text-decoration:none;font-size:12.5px;font-weight:750;transition:.2s;white-space:nowrap}
+.nav-btn:hover{background:#0369a1;border-color:#38bdf8;transform:translateY(-1px)}
+.nav-btn-gold{background:#f59e0b;color:#172033;border-color:#f59e0b}.nav-btn-gold:hover{background:#fbbf24;color:#172033;border-color:#fbbf24}
+.header-tools{display:flex;align-items:center;gap:7px;padding-inline-start:10px;border-inline-start:1px solid rgba(255,255,255,.2)}
+.language-select{max-width:138px;min-width:112px;padding:9px 28px 9px 10px;border:1px solid rgba(255,255,255,.25);border-radius:9px;background:#17263b;color:#fff;font-size:12px;font-weight:700;cursor:pointer}
+.theme-control{display:flex;align-items:center;gap:7px}
+.theme-hint{font-size:10.5px;color:#cbd5e1;max-width:100px;line-height:1.2}
+.theme-btn{width:38px;height:38px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.1);color:#fff;display:grid;place-items:center;font-size:17px;cursor:pointer;transition:.2s}
+.theme-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+.hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;color:#fff;padding:clamp(36px,5vw,60px) 18px 46px;background:linear-gradient(128deg,#0b172b 0%,#183b79 52%,#0369a1 100%);box-shadow:0 12px 34px rgba(15,23,42,.13)}
+.hero:before,.hero:after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(32px);pointer-events:none}
+.hero:before{width:280px;height:280px;background:rgba(56,189,248,.35);top:-115px;left:8%}
+.hero:after{width:300px;height:300px;background:rgba(245,158,11,.3);right:5%;bottom:-170px}
+.hero-inner{max-width:960px;margin:auto;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border:1px solid rgba(251,191,36,.65);border-radius:50px;background:rgba(245,158,11,.14);color:#fde68a;font-size:12px;font-weight:800;letter-spacing:.15px;margin-bottom:16px}
+.hero h2{margin:0 auto 12px;max-width:890px;font-size:clamp(24px,3.2vw,38px);line-height:1.27;letter-spacing:-.6px;font-weight:900}
+.hero p{max-width:800px;margin:0 auto 24px;color:#dce8f6;font-size:clamp(13px,1.3vw,15px);line-height:1.7}
+.search-box{position:relative;display:flex;align-items:center;max-width:720px;margin:auto}
+.search-box input{width:100%;height:54px;padding:0 52px 0 18px;border:2px solid rgba(255,255,255,.34);border-radius:14px;background:#fff;color:#0f172a;box-shadow:0 12px 32px rgba(0,0,0,.22);font-size:14px;outline:none;transition:.2s}
+.search-box input:focus{border-color:#fbbf24;box-shadow:0 0 0 4px rgba(251,191,36,.18),0 12px 32px rgba(0,0,0,.2)}
+.search-icon{position:absolute;inset-inline-end:17px;color:#64748b;font-size:20px;pointer-events:none}
+.hero-stats{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:19px}
+.hero-stat{padding:6px 11px;border:1px solid rgba(255,255,255,.18);border-radius:50px;background:rgba(255,255,255,.08);color:#e5eef8;font-size:11px;font-weight:700}
+.container{width:100%;max-width:1540px;margin:auto;padding:28px clamp(14px,3vw,34px) 68px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:14px;margin-bottom:16px}
+.section-heading h2{margin:0;font-size:20px;line-height:1.25;font-weight:900;letter-spacing:-.3px}
+.section-heading p{margin:5px 0 0;color:var(--muted);font-size:12px}
+.result-count{font-size:12px;font-weight:800;color:var(--primary-strong);background:var(--primary-soft);border:1px solid var(--line);padding:7px 10px;border-radius:9px;white-space:nowrap}
+.cat-bar{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 13px;margin-bottom:18px;scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
+.cat-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:0 0 auto;padding:10px 15px;border:1px solid var(--line-strong);border-radius:50px;background:var(--surface);color:var(--ink-2);font-size:12.5px;font-weight:800;white-space:nowrap;cursor:pointer;transition:.2s;box-shadow:0 3px 10px rgba(15,23,42,.035)}
+.cat-pill:hover{border-color:var(--primary);color:var(--primary-strong);transform:translateY(-1px)}
+.cat-pill.active{background:linear-gradient(135deg,#0284c7,#075985);border-color:#0284c7;color:#fff;box-shadow:0 5px 14px rgba(2,132,199,.24)}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:17px;align-items:stretch}
+.tool-card{position:relative;min-width:0;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:19px;border:1px solid var(--line);border-radius:17px;background:var(--surface);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);box-shadow:var(--shadow);transition:transform .22s,border-color .22s,box-shadow .22s,background .22s}
+.tool-card:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#0284c7,#38bdf8,#f59e0b);opacity:0;transition:opacity .2s}
+.tool-card:hover{transform:translateY(-4px);border-color:rgba(14,165,233,.55);box-shadow:0 16px 34px rgba(2,132,199,.12);background:var(--surface-solid)}
+.tool-card:hover:before{opacity:1}
+.tool-card.template-card{background:linear-gradient(135deg,rgba(255,251,235,.97),rgba(255,255,255,.92));border:1.5px dashed #e5a00b;box-shadow:0 9px 26px rgba(245,158,11,.12)}
+:root[data-theme="dark"] .tool-card.template-card{background:linear-gradient(135deg,rgba(75,51,13,.65),rgba(20,31,48,.96));border-color:#b7791f}
+.tool-card.template-card:hover{border-color:#d97706;box-shadow:0 16px 34px rgba(245,158,11,.18)}
+.tool-top{display:flex;align-items:flex-start;gap:13px;margin-bottom:12px}
+.tool-icon{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);color:#075985;font-size:23px;box-shadow:inset 0 0 0 1px rgba(2,132,199,.08)}
+.tool-card.template-card .tool-icon{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#92400e}
+.tool-title-wrap{min-width:0}.tool-title-wrap h3{margin:1px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.42;font-weight:900;overflow-wrap:anywhere}
+.tool-title-wrap small{display:block;color:var(--primary-strong);font-size:11.5px;font-weight:800;line-height:1.4}
+.tool-card.template-card .tool-title-wrap small{color:#b45309}
+.tool-desc{margin:0 0 17px;color:var(--muted);font-size:12.5px;line-height:1.65}
+.tool-footer{display:flex;align-items:center;justify-content:space-between;gap:9px;padding-top:12px;border-top:1px solid var(--line)}
+.tag-free,.tag-template{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:7px;font-size:10px;font-weight:900;letter-spacing:.3px;white-space:nowrap}
+.tag-free{background:rgba(22,163,74,.09);color:#15803d;border:1px solid rgba(22,163,74,.25)}
+.tag-template{background:#f59e0b;color:#172033;border:1px solid #d97706;letter-spacing:.55px}
+.btn-open{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 13px;border-radius:9px;background:#0f172a;color:#fff;text-decoration:none;font-size:11.5px;font-weight:850;white-space:nowrap;transition:.2s}
+.btn-open:hover,.tool-card:hover .btn-open{background:#0284c7;transform:translateY(-1px)}
+.tool-card.template-card .btn-open{background:#92400e}.tool-card.template-card .btn-open:hover{background:#b45309}
+.empty-state{grid-column:1/-1;padding:38px 20px;text-align:center;border:1px dashed var(--line-strong);border-radius:16px;background:var(--surface);color:var(--muted)}
+.empty-state strong{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+.donation-wrapper{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:20px;margin-top:45px;padding-top:30px;border-top:1px dashed rgba(2,132,199,.4)}
+.support-card,.request-card{min-width:0;padding:clamp(20px,2.5vw,30px);border:1px solid var(--line-strong);border-radius:19px;background:var(--surface);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;justify-content:space-between}
+.request-card{border:1.5px solid rgba(56,189,248,.35);background:linear-gradient(160deg,var(--surface),rgba(224,242,254,.25))}
+.section-badge{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border-radius:50px;font-size:10.5px;font-weight:900;letter-spacing:.35px;text-transform:uppercase;margin-bottom:13px}
+.section-badge-green{color:#166534;background:#dcfce7;border:1px solid #86efac}
+.section-badge-blue{color:#075985;background:#e0f2fe;border:1px solid #7dd3fc}
+.support-card h2,.request-card h2{margin:0 0 9px;color:var(--ink);font-size:clamp(18px,2vw,22px);line-height:1.35;font-weight:900}
+.support-lead{margin:0 0 12px;color:var(--primary-strong);font-size:13px;font-weight:800;line-height:1.55}
+.support-copy,.request-copy{max-width:590px;margin:0 auto 17px;color:var(--muted);font-size:12.5px;line-height:1.75}
+.upi-box{width:100%;max-width:420px;margin:0 auto;padding:15px;border:1.5px dashed var(--primary);border-radius:15px;background:var(--primary-soft)}
+.qr-card{padding:13px;margin-bottom:11px;border:1px solid var(--line-strong);border-radius:11px;background:#fff;box-shadow:0 3px 9px rgba(0,0,0,.04)}
+.qr-card img{display:block;width:175px;height:175px;max-width:100%;margin:auto;border-radius:6px;object-fit:contain}
+.qr-title{margin-top:9px;color:#0f172a;font-size:12px;font-weight:850}.qr-subtitle{margin-top:3px;color:#64748b;font-size:10px}
+.upi-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:9px 10px;margin-bottom:10px;border:1px solid var(--line-strong);border-radius:9px;background:var(--surface-solid)}
+.upi-value{min-width:0;color:var(--ink);font-size:12px;font-weight:800;overflow-wrap:anywhere}.upi-value code{color:var(--primary-strong);font-size:13px;font-weight:900}
+.btn-copy-upi{padding:6px 10px;border:1px solid #7dd3fc;border-radius:7px;background:#e0f2fe;color:#075985;font-size:10.5px;font-weight:900;cursor:pointer;white-space:nowrap}
+.btn-copy-upi.copied{background:#16a34a;border-color:#16a34a;color:white}
+.btn-pay-upi{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-bottom:11px;padding:11px 14px;border-radius:9px;background:linear-gradient(135deg,#16a34a,#15803d);color:white;text-decoration:none;font-size:12.5px;font-weight:900;box-shadow:0 4px 12px rgba(22,163,74,.22);transition:.2s}
+.btn-pay-upi:hover{transform:translateY(-1px);box-shadow:0 7px 17px rgba(22,163,74,.28)}
+.amount-caption{margin-bottom:8px;color:var(--muted);font-size:10.5px}.amount-list{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.amt-chip{display:inline-block;padding:6px 10px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-solid);color:var(--ink-2);text-decoration:none;font-size:11px;font-weight:850;transition:.15s}
+.amt-chip:hover{border-color:var(--primary);background:var(--primary-soft);color:var(--primary-strong)}
+.support-thanks{margin:16px 0 0;color:var(--muted);font-size:11.5px;font-style:italic;line-height:1.5}
+.form-box{width:100%;max-width:560px;margin:0 auto;padding:18px;text-align:start;border:1px solid var(--line-strong);border-radius:14px;background:var(--surface-solid);box-shadow:0 4px 14px rgba(0,0,0,.035)}
+.form-group{margin-bottom:12px}.form-label{display:block;margin-bottom:6px;color:var(--ink-2);font-size:10.5px;font-weight:900;letter-spacing:.3px}
+.form-input{display:block;width:100%;padding:11px 12px;border:1.5px solid var(--line-strong);border-radius:9px;background:var(--surface-solid);color:var(--ink);font-size:12.5px;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(14,165,233,.12)}
+.form-input::placeholder{color:#94a3b8}.form-input.textarea{min-height:104px;resize:vertical}
+.form-actions{display:flex;gap:9px;flex-wrap:wrap}.btn-send,.btn-gmail{min-height:42px;padding:10px 14px;border-radius:9px;font-size:11.5px;font-weight:900;cursor:pointer;transition:.2s}
+.btn-send{flex:1 1 190px;border:1px solid #0284c7;background:#0284c7;color:#fff;box-shadow:0 4px 12px rgba(2,132,199,.2)}
+.btn-send:hover{background:#0369a1;transform:translateY(-1px)}
+.btn-gmail{flex:0 0 auto;border:1.5px solid var(--line-strong);background:var(--surface);color:var(--ink)}
+.btn-gmail:hover{border-color:var(--primary);color:var(--primary-strong)}
+.mail-note{margin-top:15px;color:var(--muted);font-size:11.5px;line-height:1.65;overflow-wrap:anywhere}
+.mail-note a{color:var(--primary-strong);font-weight:850;text-decoration:none}.mail-note a:hover{text-decoration:underline}
+footer{position:relative;z-index:2;padding:28px 16px 24px;border-top:3px solid var(--gold);background:var(--nav);color:#9aaabe;text-align:center;font-size:11.5px;line-height:1.6}
+footer p{margin:6px 0}footer strong{color:#e2e8f0}footer a{color:#fbbf24;text-decoration:none;font-weight:800}
+.footer-nav,.footer-social{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:13px 0}
+.footer-nav a{padding:7px 12px;border-radius:8px;background:rgba(255,255,255,.08);color:#e2e8f0;font-size:11px;transition:.2s}
+.footer-nav a:hover{background:#0369a1;color:#fff}
+.f-soc-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;color:#fff!important;font-size:11.5px;font-weight:850;text-decoration:none;transition:transform .18s,opacity .18s}
+.f-soc-btn:hover{transform:translateY(-2px);opacity:.92}.f-soc-ig{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)}.f-soc-fb{background:#1877f2}
+.footer-bottom{margin-top:10px;color:#8494a9;font-size:10.5px}
+:root[data-theme="dark"] .section-badge-green{background:rgba(22,163,74,.15);border-color:rgba(74,222,128,.35);color:#86efac}
+:root[data-theme="dark"] .section-badge-blue{background:rgba(14,165,233,.16);border-color:rgba(56,189,248,.35);color:#7dd3fc}
+:root[data-theme="dark"] .tag-free{color:#86efac;background:rgba(22,163,74,.12);border-color:rgba(74,222,128,.25)}
+:root[data-theme="dark"] .qr-card{border-color:#d6deea}
+:root[dir="rtl"] .brand-text{text-align:right}
+:root[dir="rtl"] .search-box input{padding:0 18px 0 52px}
+:root[dir="rtl"] .search-icon{inset-inline-end:auto;inset-inline-start:17px}
+:root[dir="rtl"] .tool-top,.rtl-safe{direction:rtl}
+@media(max-width:1050px){.nav-inner{align-items:flex-start}.nav-actions{max-width:66%}.nav-links{order:2}.header-tools{order:1;border-inline-start:0;padding:0}.nav-actions{justify-content:flex-end}}
+@media(max-width:760px){.nav-inner{flex-direction:column;align-items:stretch;gap:11px}.nav-actions{max-width:none;justify-content:space-between}.nav-links{flex:1;order:2}.header-tools{order:1;margin-inline-start:auto}.nav-btn{padding:8px 10px;font-size:11px}.brand-text span{font-size:10px}.container{padding-top:22px}.donation-wrapper{grid-template-columns:1fr;margin-top:34px}.section-heading{align-items:start;flex-direction:column;gap:8px}}
+@media(max-width:520px){.nav-actions{align-items:stretch;flex-direction:column}.header-tools{margin:0;justify-content:space-between}.nav-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.nav-btn{white-space:normal;min-height:37px}.nav-btn-gold{grid-column:1/-1}.language-select{flex:1;max-width:none}.theme-hint{max-width:170px}.hero{padding-top:33px}.hero h2{font-size:23px}.hero p{font-size:12.5px}.search-box input{height:50px;font-size:12.5px}.tools-grid{grid-template-columns:1fr;gap:12px}.tool-card{padding:16px;border-radius:14px}.tool-title-wrap h3{font-size:14.5px}.tool-desc{font-size:12px}.support-card,.request-card{padding:19px 14px}.upi-box{padding:11px}.form-box{padding:14px}.btn-gmail{flex:1 1 100%}.result-count{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-
-  <!-- FLOATING COLOURS BACKGROUND -->
-  <div class="floating-bg" aria-hidden="true">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="orb orb-4"></div>
-    <div class="orb orb-5"></div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-inner">
-      <div class="brand">
-        <div class="brand-logo">KB</div>
-        <div class="brand-text">
-          <h1>KaamKaj Bills</h1>
-          <span>100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools</span>
+<div class="floating-bg" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="orb orb-4"></div></div>
+<div class="page-shell">
+<nav class="navbar" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="KaamKaj Bills home">
+      <div class="brand-logo" aria-hidden="true">KB</div>
+      <div class="brand-text"><h1>KaamKaj Bills</h1><span data-i18n="brandLine">100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools</span></div>
+    </a>
+    <div class="nav-actions">
+      <div class="nav-links">
+        <a href="about.html" target="_self" class="nav-btn" data-i18n="about">ℹ️ About Us</a>
+        <a href="#donationSection" class="nav-btn" data-i18n="donateNav">💚 Donate / Support</a>
+        <a href="help.html" target="_self" class="nav-btn" data-i18n="help">💬 Help Bot</a>
+        <a href="support-custom-request.html" target="_self" class="nav-btn nav-btn-gold" data-i18n="customNav">✨ Support / Custom Page</a>
+      </div>
+      <div class="header-tools">
+        <select id="languageSelect" class="language-select" aria-label="Select language">
+          <option value="hi">हिन्दी</option><option value="en">English</option><option value="mr">मराठी</option><option value="gu">ગુજરાતી</option><option value="bn">বাংলা</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="pa">ਪੰਜਾਬੀ</option><option value="or">ଓଡ଼ିଆ</option><option value="ur">اردو</option>
+        </select>
+        <div class="theme-control">
+          <span class="theme-hint" data-i18n="themeHint">यहाँ से आप मोड बदल सकते हैं</span>
+          <button type="button" class="theme-btn" id="themeToggle" aria-label="Switch to dark mode" title="Change theme">🌙</button>
         </div>
       </div>
-      <div class="nav-links">
-        <a href="about.html" target="_self" class="nav-btn">ℹ️ About Us</a>
-        <a href="#donationSection" class="nav-btn">💚 Donate / Support</a>
-        <a href="help.html" target="_self" class="nav-btn">💬 Help Bot</a>
-        <a href="support-custom-request.html" target="_self" class="nav-btn nav-btn-gold">✨ Support / Custom Page</a>
-      </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
-    <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
-    <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
-    <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <div class="hero-badge">⚡ No Login • Instant A4 PDF & Direct Print • 100% Free</div>
-      <h2>हर व्यापार और काम-काज के लिए आसान बिल, रसीद और डॉक्यूमेंट टूल्स</h2>
-      <p>कोटेशन, टैक्स इनवॉइस, किराया रसीद, सैलरी स्लिप, बैंक एप्लीकेशन लेटर, ID कार्ड, पासपोर्ट फोटो शीट और रिज्यूमे—सब कुछ सेकंडों में बनाएं।</p>
-      <div class="search-box">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="टूल खोजें... जैसे: Bank Transfer, Invoice, Rent, ID Card, Resume, Salon, Tailor..." oninput="filterTools()">
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="hero-inner">
+    <div class="hero-badge" data-i18n="heroBadge">⚡ No Login • Instant A4 PDF & Direct Print • 100% Free</div>
+    <h2 id="heroTitle" data-i18n="heroTitle">हर व्यापार और काम-काज के लिए आसान बिल, रसीद और डॉक्यूमेंट टूल्स</h2>
+    <p data-i18n="heroDesc">कोटेशन, टैक्स इनवॉइस, किराया रसीद, सैलरी स्लिप, बैंक एप्लीकेशन लेटर, ID कार्ड, पासपोर्ट फोटो शीट और रिज्यूमे—सब कुछ सेकंडों में बनाएं।</p>
+    <div class="search-box"><input type="search" id="searchInput" placeholder="टूल खोजें... जैसे: Bank Transfer, Invoice, Rent, ID Card, Resume, Salon, Tailor..." data-i18n-placeholder="search" oninput="filterTools()" autocomplete="off" aria-label="Search tools"><span class="search-icon" aria-hidden="true">⌕</span></div>
+    <div class="hero-stats"><span class="hero-stat" data-i18n="statTools">24 उपयोगी टूल्स</span><span class="hero-stat" data-i18n="statLanguages">12 भारतीय भाषाएँ</span><span class="hero-stat" data-i18n="statFree">मुफ़्त • बिना लॉगिन</span></div>
+  </div>
+</section>
+
+<main class="container" id="toolsSection">
+  <div class="section-heading"><div><h2 data-i18n="directoryTitle">अपने काम का टूल चुनें</h2><p data-i18n="directorySub">कैटेगरी चुनें या सर्च बॉक्स में टूल का नाम लिखें।</p></div><span class="result-count" id="resultCount" aria-live="polite">24 टूल्स</span></div>
+  <div class="cat-bar" role="group" aria-label="Tool categories">
+    <button class="cat-pill active" data-category="ALL" onclick="setCategory('ALL', this)" data-i18n="catAll">🌟 सभी टूल्स (All)</button>
+    <button class="cat-pill" data-category="BANK" onclick="setCategory('BANK', this)" data-i18n="catBank">🏦 बैंक लेटर व एप्लीकेशन</button>
+    <button class="cat-pill" data-category="BILLING" onclick="setCategory('BILLING', this)" data-i18n="catBilling">🧾 बिल, कोटेशन व इनवॉइस</button>
+    <button class="cat-pill" data-category="SLIPS" onclick="setCategory('SLIPS', this)" data-i18n="catSlips">🎟️ रसीद, बुकिंग व जॉब स्लिप</button>
+    <button class="cat-pill" data-category="ID_PHOTO" onclick="setCategory('ID_PHOTO', this)" data-i18n="catIdPhoto">🪪 ID कार्ड व पासपोर्ट फोटो</button>
+    <button class="cat-pill" data-category="CAREER" onclick="setCategory('CAREER', this)" data-i18n="catCareer">📄 रिज्यूमे व सर्टिफिकेट</button>
+  </div>
+  <div class="tools-grid" id="toolsGrid" aria-live="polite"></div>
+
+  <section id="donationSection" class="donation-wrapper" aria-label="Support and custom requests">
+    <div class="support-card">
+      <div>
+        <div class="section-badge section-badge-green" data-i18n="supportBadge">💚 100% Free Service & Voluntary Support</div>
+        <h2 data-i18n="supportTitle">आपका विश्वास और सहयोग हमारी शक्ति है</h2>
+        <p class="support-lead" data-i18n="supportLead">KaamKaj Bills पर सभी टूल्स और पेपरवर्क हमेशा सभी के लिए बिल्कुल FREE हैं!</p>
+        <p class="support-copy" data-i18n="supportCopy">इस प्लेटफॉर्म का इस्तेमाल करने के लिए कोई फीस या सब्सक्रिप्शन चार्ज नहीं है। अगर हमारी सेवा से आपके व्यापार या काम-काज में मदद मिली है, तो आप अपनी इच्छा से छोटा-सा योगदान दे सकते हैं। आपका सहयोग सर्वर खर्च और नई सुविधाएँ तैयार करने में उपयोगी होगा।</p>
+        <div class="upi-box">
+          <div class="qr-card">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&amp;data=upi%3A%2F%2Fpay%3Fpa%3Damartomar1982%40ybl%26pn%3DKaamKaj%20Bills%26cu%3DINR" alt="KaamKaj Bills UPI QR Code" width="175" height="175" loading="lazy">
+            <div class="qr-title" data-i18n="qrTitle">Scan with Any UPI App</div><div class="qr-subtitle">PhonePe • Google Pay • Paytm • BHIM UPI</div>
+          </div>
+          <div class="upi-row"><div class="upi-value">UPI ID: <code id="upiIdText">amartomar1982@ybl</code></div><button type="button" id="copyUpiBtn" class="btn-copy-upi" onclick="copyUpiId()" data-i18n="copy">📋 Copy</button></div>
+          <a href="upi://pay?pa=amartomar1982@ybl&amp;pn=KaamKaj%20Bills&amp;cu=INR" class="btn-pay-upi" data-i18n="payUpi">📲 Pay via UPI App (PhonePe / GPay / Paytm)</a>
+          <div class="amount-caption" data-i18n="amountCaption">अपनी इच्छानुसार कोई भी सहयोग राशि चुनें:</div>
+          <div class="amount-list">
+            <a href="upi://pay?pa=amartomar1982@ybl&amp;pn=KaamKaj%20Bills&amp;am=21&amp;cu=INR" class="amt-chip">₹21</a>
+            <a href="upi://pay?pa=amartomar1982@ybl&amp;pn=KaamKaj%20Bills&amp;am=51&amp;cu=INR" class="amt-chip">₹51</a>
+            <a href="upi://pay?pa=amartomar1982@ybl&amp;pn=KaamKaj%20Bills&amp;am=101&amp;cu=INR" class="amt-chip">₹101</a>
+            <a href="upi://pay?pa=amartomar1982@ybl&amp;pn=KaamKaj%20Bills&amp;am=201&amp;cu=INR" class="amt-chip">₹201</a>
+            <a href="upi://pay?pa=amartomar1982@ybl&amp;pn=KaamKaj%20Bills&amp;cu=INR" class="amt-chip" data-i18n="anyAmount">Any Amount ❤️</a>
+          </div>
+        </div>
       </div>
+      <p class="support-thanks" data-i18n="supportThanks">“KaamKaj Bills पर भरोसा जताने और हमारी टीम का हौसला बढ़ाने के लिए आपका बहुत-बहुत धन्यवाद!”</p>
+    </div>
+
+    <div class="request-card">
+      <div>
+        <div class="section-badge section-badge-blue" data-i18n="requestBadge">✨ Custom Web Page & Feature Request</div>
+        <h2 data-i18n="requestTitle">आपको और कौन-सा नया फीचर या पर्सनल पेज चाहिए?</h2>
+        <p class="request-copy" data-i18n="requestCopy">इस वेबसाइट पर नया टूल जुड़वाने या अपने बिज़नेस/दुकान के लिए अलग पर्सनल कस्टम पेज बनवाने हेतु नीचे विवरण लिखकर भेजें।</p>
+        <div class="form-box">
+          <div class="form-group"><label class="form-label" for="req_sender_name" data-i18n="nameLabel">आपका नाम (Your Name)</label><input type="text" id="req_sender_name" class="form-input" placeholder="अपना नाम लिखें..." autocomplete="name" data-i18n-placeholder="namePlaceholder"></div>
+          <div class="form-group"><label class="form-label" for="req_sender_phone" data-i18n="phoneLabel">मोबाइल नंबर / WhatsApp</label><input type="tel" id="req_sender_phone" class="form-input" placeholder="मोबाइल नंबर लिखें..." autocomplete="tel" inputmode="tel" data-i18n-placeholder="phonePlaceholder"></div>
+          <div class="form-group"><label class="form-label" for="req_sender_msg" data-i18n="detailsLabel">आपको कैसा पेज या फीचर चाहिए? (Details)</label><textarea id="req_sender_msg" rows="4" class="form-input textarea" placeholder="अपनी जरूरत का विवरण लिखें..." data-i18n-placeholder="detailsPlaceholder"></textarea></div>
+          <div class="form-actions"><button type="button" class="btn-send" onclick="sendDirectEmail()" data-i18n="sendEmail">✉️ Direct Send Message / Email</button><button type="button" class="btn-gmail" onclick="openWebGmail()" data-i18n="openGmail">🌐 Open Gmail</button></div>
+        </div>
+      </div>
+      <div class="mail-note"><span data-i18n="orEmail">या सीधे ईमेल करें:</span> <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a><div style="margin-top:7px"><a href="support-custom-request.html" data-i18n="fullSupport">Full Support & Custom Request Page खोलें ↗</a></div><div style="margin-top:7px" data-i18n="privacyNote">आपका संदेश आपके ईमेल ऐप में तैयार होगा; यह फ़ॉर्म वेबसाइट पर डेटा सेव नहीं करता।</div></div>
     </div>
   </section>
+</main>
 
-  <!-- MAIN TOOLS DIRECTORY -->
-  <main class="container" id="toolsSection">
-    <div class="cat-bar">
-      <button class="cat-pill active" onclick="setCategory('ALL', this)">🌟 सभी टूल्स (All)</button>
-      <button class="cat-pill" onclick="setCategory('BANK', this)">🏦 बैंक लेटर व एप्लीकेशन</button>
-      <button class="cat-pill" onclick="setCategory('BILLING', this)">🧾 बिल, कोटेशन व इनवॉइस</button>
-      <button class="cat-pill" onclick="setCategory('SLIPS', this)">🎟️ रसीद, बुकिंग व जॉब स्लिप</button>
-      <button class="cat-pill" onclick="setCategory('ID_PHOTO', this)">🪪 ID कार्ड व पासपोर्ट फोटो</button>
-      <button class="cat-pill" onclick="setCategory('CAREER', this)">📄 रिज्यूमे व सर्टिफिकेट</button>
-    </div>
-
-    <div class="tools-grid" id="toolsGrid"></div>
-
-    <!-- BOTTOM DONATION & CUSTOM REQUEST SECTION -->
-    <section id="donationSection" class="donation-wrapper">
-
-      <!-- 1. VOLUNTARY SUPPORT / DONATION CARD -->
-      <div class="support-card">
-        <div>
-          <div style="display: inline-block; background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: 12px; font-weight: 700; padding: 5px 14px; border-radius: 50px; margin-bottom: 12px; text-transform: uppercase;">
-            💚 100% Free Service & Voluntary Support
-          </div>
-
-          <h2 style="font-size: 21px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0;">
-            Aapka Vishwas Aur Sahyog Hamari Shakti Hai
-          </h2>
-
-          <p style="font-size: 13.5px; color: #0284c7; font-weight: 700; margin: 0 0 12px 0;">
-            KaamKaj Bills par sabhi tools aur paper-work hamesha sabhi ke liye bilkul FREE hain!
-          </p>
-
-          <p style="font-size: 13px; color: #475569; max-width: 580px; margin: 0 auto 18px auto; line-height: 1.6;">
-            Is platform ka istemal karne ke liye koi bhi fees ya subscription charge nahi hai. Lekin agar hamari is seva se aapke vyapar ya kaam-kaj me madad mili hai, toh aap apni ichha aur santushti se hamari team ko chhota sa yogdan (Donation) de sakte hain.<br><br>
-            Aapka yeh sahyog server kharch chalane aur future me nayi suvidhayein taiyar karne me behad upyogi saabit hoga.
-          </p>
-
-          <!-- Donation / UPI Payment Box -->
-          <div class="upi-box">
-            <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
-              <img 
-                src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi%3A%2F%2Fpay%3Fpa%3Damartomar1982%40ybl%26pn%3DKaamKaj%20Bills%26cu%3DINR" 
-                alt="PhonePe UPI QR Code" 
-                style="width: 185px; height: 185px; max-width: 100%; display: block; margin: 0 auto; border-radius: 6px;"
-              >
-              <div style="margin-top: 10px; font-size: 12px; font-weight: 700; color: #0f172a;">Scan with Any UPI App</div>
-              <div style="font-size: 10.5px; color: #64748b; margin-top: 2px;">PhonePe • Google Pay • Paytm • BHIM UPI</div>
-            </div>
-
-            <div class="upi-row">
-              <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; word-break: break-all;">
-                UPI ID: <span id="upiIdText" style="color: #0284c7; font-family: monospace; font-size: 13.5px;">amartomar1982@ybl</span>
-              </div>
-              <button type="button" id="copyUpiBtn" class="btn-copy-upi" onclick="copyUpiId()">📋 Copy</button>
-            </div>
-
-            <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&cu=INR" class="btn-pay-upi">
-              📲 Pay via UPI App (PhonePe / GPay / Paytm)
-            </a>
-
-            <div style="font-size: 11.5px; color: #64748b; margin-bottom: 8px;">
-              Apni ichhanusaar koi bhi sahyog rashi chunein:
-            </div>
-            <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap;">
-              <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&am=21&cu=INR" class="amt-chip">₹21</a>
-              <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&am=51&cu=INR" class="amt-chip">₹51</a>
-              <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&am=101&cu=INR" class="amt-chip">₹101</a>
-              <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&am=201&cu=INR" class="amt-chip">₹201</a>
-              <a href="upi://pay?pa=amartomar1982@ybl&pn=KaamKaj%20Bills&cu=INR" class="amt-chip">Any Amount ❤️</a>
-            </div>
-          </div>
-        </div>
-
-        <p style="margin: 18px 0 0 0; font-size: 12px; color: #64748b; font-style: italic;">
-          "KaamKaj Bills par bharosa jatane aur hamari team ka hausla badhane ke liye aapka bohot-bohot dhanyawad!"
-        </p>
-      </div>
-
-      <!-- 2. CUSTOM REQUEST & SUGGESTION CARD -->
-      <div class="request-card">
-        <div>
-          <div style="display: inline-block; background: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; font-size: 12px; font-weight: 800; padding: 5px 14px; border-radius: 50px; margin-bottom: 12px; letter-spacing: 0.5px; text-transform: uppercase;">
-            ✨ Custom Web Page & Feature Request
-          </div>
-
-          <h3 style="margin: 0 0 10px 0; font-size: 21px; color: #0f172a; font-weight: 800; line-height: 1.3;">
-            Aapko Aur Kya Naya Feature Ya Personal Page Chahiye?
-          </h3>
-
-          <p style="margin: 0 auto 18px auto; font-size: 13.5px; color: #334155; max-width: 560px; line-height: 1.6;">
-            Agar aapko is website par koi naya tool judwana hai, ya apne business/shop ke liye <b style="color: #0284c7;">alag se personal custom page</b> banwana chahte hain, toh niche diye gaye box me likhein aur seedhe send karein!
-          </p>
-
-          <div class="form-box">
-            <div style="margin-bottom: 12px;">
-              <label class="form-label">Aapka Naam (Your Name):</label>
-              <input type="text" id="req_sender_name" class="form-input" placeholder="Apna naam likhein...">
-            </div>
-
-            <div style="margin-bottom: 12px;">
-              <label class="form-label">Mobile Number / WhatsApp:</label>
-              <input type="tel" id="req_sender_phone" class="form-input" placeholder="Mobile number likhein...">
-            </div>
-
-            <div style="margin-bottom: 16px;">
-              <label class="form-label">Aapko Kaisa Page Ya Feature Chahiye? (Details):</label>
-              <textarea id="req_sender_msg" rows="4" class="form-input" style="resize: vertical;" placeholder="Jaise: Mujhe meri dukan ke liye alag se bill page banana hai, ya naya quotation format chahiye..."></textarea>
-            </div>
-
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button type="button" onclick="sendDirectEmail()" style="flex: 1; min-width: 180px; background: #0284c7; color: #ffffff; border: none; border-radius: 8px; padding: 12px 16px; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);">
-                ✉️ Direct Send Message / Email
-              </button>
-
-              <button type="button" onclick="openWebGmail()" style="background: #f8fafc; color: #0f172a; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 14px; font-size: 13px; font-weight: 700; cursor: pointer;">
-                🌐 Open Gmail
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top: 18px; font-size: 13px; color: #64748b;">
-          Ya seedhe mail karein: <a href="mailto:kaamkajbills@gmail.com" style="color: #0284c7; font-weight: 700; text-decoration: none;">kaamkajbills@gmail.com</a>
-          <div style="margin-top: 8px;">
-            <a href="support-custom-request.html" target="_self" style="font-size: 12px; color: #0369a1; font-weight: 700; text-decoration: underline;">Full Support & Custom Request Page kholein ↗</a>
-          </div>
-        </div>
-      </div>
-
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2026 <b>KaamKaj Bills (kaamkajbills.in)</b> • Built for Indian Small Businesses, Technicians, Shops & Offices.</p>
-    
-    <div class="footer-nav">
-      <a href="index.html">🏠 Home</a>
-      <a href="about.html">ℹ️ About Us</a>
-      <a href="privacy.html">🔒 Privacy Policy</a>
-      <a href="contact.html">📞 Contact Us</a>
-    </div>
-
-    <div class="footer-social">
-      <a href="https://www.instagram.com/kaamkajbills.in/" target="_blank" rel="noopener noreferrer" class="f-soc-btn f-soc-ig">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-        Instagram
-      </a>
-      <a href="https://www.facebook.com/kaamkajbills.in" target="_blank" rel="noopener noreferrer" class="f-soc-btn f-soc-fb">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
-        </svg>
-        Facebook
-      </a>
-    </div>
-
-    <p style="margin-top: 8px;">Help & Custom Page Support: <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a></p>
-  </footer>
+<footer>
+  <p>© 2026 <strong>KaamKaj Bills (kaamkajbills.in)</strong> <span data-i18n="footerLine">• Built for Indian Small Businesses, Technicians, Shops & Offices.</span></p>
+  <div class="footer-nav"><a href="index.html" data-i18n="home">🏠 Home</a><a href="about.html" data-i18n="about">ℹ️ About Us</a><a href="privacy.html" data-i18n="privacy">🔒 Privacy Policy</a><a href="contact.html" data-i18n="contact">📞 Contact Us</a></div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/kaamkajbills.in/" target="_blank" rel="noopener noreferrer" class="f-soc-btn f-soc-ig"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Instagram</a>
+    <a href="https://www.facebook.com/kaamkajbills.in" target="_blank" rel="noopener noreferrer" class="f-soc-btn f-soc-fb"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>Facebook</a>
+  </div>
+  <p class="footer-bottom"><span data-i18n="footerHelp">Help & Custom Page Support:</span> <a href="mailto:kaamkajbills@gmail.com">kaamkajbills@gmail.com</a></p>
+</footer>
+</div>
 
 <script>
-// NOTE: cafe-template.html is placed at the VERY LAST position with a special highlighted template style
+'use strict';
+// Tool directory content intentionally stays in the supplied Hindi + English wording.
 const TOOLS_DATA = [
-  { file: 'bank-letters.html', cat: 'BANK', icon: '🏦', hi: 'ऑल-इन-वन बैंक एप्लीकेशन व लेटर जनरेटर (12 भाषाएँ', en: 'Bank Account Letter (12 Languages)', desc: 'एक शाखा से दूसरी शाखा में बैंक अकाउंट ट्रांसफर करने के लिए हिंदी, अंग्रेजी व 12 भारतीय भाषाओं में प्रिंट-रेडी एप्लीकेशन।', keys: 'bank account transfer branch change application letter hindi english' },
-  { file: 'estimate-quotationinvoce.html', cat: 'BILLING', icon: '📑', hi: 'एस्टीमेट, कोटेशन व टैक्स इनवॉइस', en: 'Estimate, Quotation, Invoice & Material List', desc: 'GST / Non-GST इनवॉइस, कोटेशन, एस्टीमेट और साइट मटेरियल लिस्ट बनाएं।', keys: 'estimate quotation invoice material list gst bill' },
-  { file: 'technician-bills.html', cat: 'BILLING', icon: '⚡', hi: 'मल्टी-ट्रेड टेक्नीशियन बिल व कोटेशन', en: 'Electrical, CCTV, AC, Plumbing & Solar Bills', desc: 'इलेक्ट्रीशियन, CCTV, AC, प्लंबिंग, पेंटिंग और सोलर काम के लेबर व मटेरियल रेट्स के साथ कोटेशन।', keys: 'technician electrician cctv ac plumbing solar carpenter waterproofing' },
-  { file: 'kirana-shop-bill.html', cat: 'BILLING', icon: '🛒', hi: 'किराना व जनरल स्टोर बिल', en: 'Kirana & Grocery Retail Shop Bill', desc: 'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं।', keys: 'kirana grocery ration shop retail bill' },
-  { file: 'stationery-xerox-bill.html', cat: 'BILLING', icon: '🖨️', hi: 'स्टेशनरी, जेरोक्स व प्रिंटिंग शॉप बिल', en: 'Stationery, Xerox & Binding Cash Memo', desc: 'फोटोकॉपी, कलर प्रिंट, स्पाइरल बाइंडिंग और स्टेशनरी सामान का कैश मेमो (11 भाषाओं में)।', keys: 'stationery xerox photocopy binding printout lamination' },
-  { file: 'beauty-parlour-salon-bill.html', cat: 'BILLING', icon: '💄', hi: 'ब्यूटी पार्लर व सैलून बिल / बुकिंग', en: 'Beauty Parlour Service Bill & Bridal Booking', desc: 'सैलून सर्विस बिल और ब्राइडल/पार्टी मेकअप अपॉइंटमेंट बुकिंग स्लिप।', keys: 'beauty parlour salon bridal makeup facial' },
-  { file: 'salary-pay-slip.html', cat: 'SLIPS', icon: '💵', hi: 'कर्मचारी सैलरी / पे स्लिप जनरेटर', en: 'Employee Monthly Salary Pay Slip', desc: 'Basic, HRA, Overtime, PF, ESIC और एडवांस कटौती के साथ सैलरी स्लिप बनाएं।', keys: 'salary pay slip payslip employee wage' },
-  { file: 'paymet-slip-rasid.html', cat: 'SLIPS', icon: '🧾', hi: 'पेमेंट रसीद व भुगतान वाउचर', en: 'Payment Receipt & Voucher (1 or 2 Slips A4)', desc: 'पैसे प्राप्त होने की रसीद (Receipt) या भुगतान वाउचर (Voucher) शब्दों में ऑटो-कन्वर्जन के साथ।', keys: 'payment receipt voucher cash rasid' },
-  { file: 'rent-receipt-generator.html', cat: 'SLIPS', icon: '🏠', hi: 'किराया रसीद (HRA व बिजली बिल सहित)', en: 'House / Shop Rent Receipt Generator', desc: 'मकान या दुकान की किराया रसीद (HRA, बिजली बिल) और 12 भारतीय भाषाओं में 11 महीने का रेंट / शॉप एग्रीमेंट (किरायानामा) बनाएं।', keys: 'rent receipt agreement kirayanama landlord tenant hra house shop 11 months' },
-  { file: 'tailoring-measurement-job-slip.html', cat: 'SLIPS', icon: '✂️', hi: 'टेलरिंग नाप व मास्टर कटिंग स्लिप', en: 'Tailoring & Boutique Measurement Job Slip', desc: 'ग्राहक के कपड़ों का इंच में नाप, डिलीवरी तारीख और कारीगर कटिंग पर्ची।', keys: 'tailor tailoring boutique measurement cutting cloth' },
-  { file: 'catering-rental-booking-slip.html', cat: 'SLIPS', icon: '🎪', hi: 'टेंट, लाइट-साउंड व कैटरिंग बुकिंग स्लिप', en: 'Tent Rental & Catering Booking Slip', desc: 'शादी-पार्टी के लिए टेंट रेंटल और हलवाई/कैटरिंग ऑर्डर की बुकिंग स्लिप।', keys: 'catering tent halwai rental lights sound booking' },
-  { file: 'mobile-electronics-repair.html', cat: 'SLIPS', icon: '📱', hi: 'मोबाइल व इलेक्ट्रॉनिक्स रिपेयर जॉब शीट', en: 'Mobile & Laptop Repair Job Token / Bill', desc: 'मोबाइल व लैपटॉप रिपेयरिंग के लिए जमा टोकन (IMEI/Lock सहित) और वारंटी डिलीवरी बिल।', keys: 'mobile laptop electronics repair job sheet token imei' },
-  { file: 'hotel-lodge-guest-slip.html', cat: 'SLIPS', icon: '🏨', hi: 'होटल व लॉज गेस्ट चेक-इन / रूम बिल', en: 'Hotel & Lodge Guest Registration & Checkout Bill', desc: 'होटल व गेस्ट हाउस के लिए चेक-इन रजिस्ट्रेशन स्लिप और रूम टैरिफ फाइनल चेक-आउट बिल।', keys: 'hotel lodge guest house room checkin checkout' },
-  { file: 'mandi.html', cat: 'SLIPS', icon: '🌾', hi: 'डेरी दूध संकलन व मंडी किसान पर्ची', en: 'Dairy Milk Collection & Mandi Crop Sale Slip', desc: 'दैनिक दूध संकलन (FAT/SNF रेट) पर्ची और मंडी फसल बिक्री आढ़त व हम्माली कटौती पर्चा।', keys: 'dairy milk fat snf mandi farmer crop kisan' },
-  { file: 'security-services.html', cat: 'SLIPS', icon: '🛡️', hi: 'सिक्योरिटी गार्ड ड्यूटी रोस्टर व एडवांस स्लिप', en: 'Staff Advance Memo & Security Duty Roster', desc: 'कर्मचारी सैलरी एडवांस पर्ची और सिक्योरिटी गार्ड शिफ्ट व पोस्ट तैनाती ड्यूटी रोस्टर।', keys: 'security guard duty roster shift staff advance' },
-  { file: 'school.html', cat: 'CAREER', icon: '🎓', hi: 'स्कूल / कोचिंग फीस रसीद व एडमिशन स्लिप', en: 'Coaching Fee Receipt, Admission & Certificate', desc: 'कोचिंग व ट्रेनिंग संस्थानों के लिए फीस रसीद, छात्र एडमिशन पर्ची और कोर्स पूर्णता सर्टिफिकेट।', keys: 'school coaching tuition fee admission student certificate' },
-  { file: 'id-card-maker.html', cat: 'ID_PHOTO', icon: '🪪', hi: 'सिंगल ID कार्ड मेकर (5 थीम व QR सहित)', en: 'Single Employee / Student ID Card Generator', desc: '5 थीम डिज़ाइन, लाइव QR कोड वेरिफिकेशन और डिजिटल साइन के साथ ID कार्ड बनाएं।', keys: 'id card identity badge single qr code' },
-  { file: 'bulk-id-card-maker.html', cat: 'ID_PHOTO', icon: '🗂️', hi: 'बल्क ID कार्ड मेकर (Excel से 100+ कार्ड)', en: 'Bulk Excel & Auto Photo-Match ID Card Maker', desc: 'Excel शीट और एक साथ कई फोटो अपलोड करके सैकड़ों ID कार्ड एक क्लिक में बनाएं।', keys: 'bulk id card excel mass identity' },
-  { file: 'passport-photo-maker.html', cat: 'ID_PHOTO', icon: '📸', hi: 'पासपोर्ट साइज फोटो शीट मेकर', en: 'Passport & Stamp Size Photo Print Sheet', desc: 'फोटो क्रॉप करें और A4 या 4x6 पेपर पर 4 से 20+ पासपोर्ट फोटो की प्रिंट शीट व PDF तैयार करें।', keys: 'passport photo sheet stamp size crop print' },
-  { file: 'cv-resume.html', cat: 'CAREER', icon: '📄', hi: 'क्रिएटिव मिनिमलिस्ट रिज्यूमे मेकर (फोटो सहित)', en: 'Creative Minimalist Resume Builder', desc: 'ऑफिस व प्राइवेट जॉब के लिए फोटो और स्किल पिल्स के साथ आधुनिक A4 रिज्यूमे बनाएं।', keys: 'cv resume biodata creative job' },
-  { file: 'technical-resume.html', cat: 'CAREER', icon: '🛠️', hi: 'टेक्निकल व फील्ड स्टाफ रिज्यूमे मेकर', en: 'Technical & ITI Field Staff Resume Builder', desc: 'इलेक्ट्रीशियन, CCTV, ITI और फील्ड इंजीनियरों के लिए टूल्स व प्रोजेक्ट हाइलाइट्स वाला रिज्यूमे।', keys: 'technical resume iti electrician engineer field' },
-  { file: 'work-completion-handover-certificate.html', cat: 'CAREER', icon: '✅', hi: 'कार्य पूर्णता व हैंडओवर सर्टिफिकेट', en: 'Work Completion & Site Handover Certificate', desc: 'ठेकेदारों और इंजीनियरों के लिए काम पूरा होने और क्लाइंट संतुष्टि हैंडओवर प्रमाण पत्र।', keys: 'work completion handover certificate contractor site' },
-  { file: 'support-custom-request.html', cat: 'ALL', icon: '✨', hi: 'कस्टम पेज रिक्वेस्ट व वॉलंटरी सपोर्ट', en: 'Request Custom Page or Support KaamKaj Bills', desc: 'अपनी दुकान या कंपनी के लिए नया कस्टम टूल बनवाने हेतु रिक्वेस्ट भेजें या वॉलंटरी सहयोग करें।', keys: 'support custom page request donate help' },
-  
-  /* CAFE TEMPLATE PLACED AT THE VERY LAST WITH A SPECIAL TEMPLATE DESIGN */
-  { file: 'cafe-template.html', cat: 'ALL', isTemplate: true, icon: '☕ ⭐', hi: 'रेस्टोरेंट व कैफे डिजिटल मेनू टेम्पलेट', en: 'Brew & Bloom Artisan Cafe & Restaurant TEMPLATE', desc: 'नोक्टर्नल कैफे, रेस्टोरेंट और बेकरी के लिए फुल-स्क्रीन इमर्सिव मेनू, WhatsApp आर्डर ट्रे और एडमिन मेनू एडिटर।', keys: 'cafe restaurant coffee menu brew bloom food bar bakery template sample' }
+  { file:'bank-letters.html',cat:'BANK',icon:'🏦',hi:'ऑल-इन-वन बैंक एप्लीकेशन व लेटर जनरेटर (12 भाषाएँ)',en:'Bank Account Letter (12 Languages)',desc:'एक शाखा से दूसरी शाखा में बैंक अकाउंट ट्रांसफर करने के लिए हिंदी, अंग्रेजी व 12 भारतीय भाषाओं में प्रिंट-रेडी एप्लीकेशन।',keys:'bank account transfer branch change application letter hindi english' },
+  { file:'estimate-quotationinvoce.html',cat:'BILLING',icon:'📑',hi:'एस्टीमेट, कोटेशन व टैक्स इनवॉइस',en:'Estimate, Quotation, Invoice & Material List',desc:'GST / Non-GST इनवॉइस, कोटेशन, एस्टीमेट और साइट मटेरियल लिस्ट बनाएं।',keys:'estimate quotation invoice material list gst bill' },
+  { file:'technician-bills.html',cat:'BILLING',icon:'⚡',hi:'मल्टी-ट्रेड टेक्नीशियन बिल व कोटेशन',en:'Electrical, CCTV, AC, Plumbing & Solar Bills',desc:'इलेक्ट्रीशियन, CCTV, AC, प्लंबिंग, पेंटिंग और सोलर काम के लेबर व मटेरियल रेट्स के साथ कोटेशन।',keys:'technician electrician cctv ac plumbing solar carpenter waterproofing' },
+  { file:'kirana-shop-bill.html',cat:'BILLING',icon:'🛒',hi:'किराना व जनरल स्टोर बिल',en:'Kirana & Grocery Retail Shop Bill',desc:'किराना दुकान के ग्राहकों के लिए आइटम-वाइज राशन व ग्रॉसरी बिल बनाएं।',keys:'kirana grocery ration shop retail bill' },
+  { file:'stationery-xerox-bill.html',cat:'BILLING',icon:'🖨️',hi:'स्टेशनरी, जेरोक्स व प्रिंटिंग शॉप बिल',en:'Stationery, Xerox & Binding Cash Memo',desc:'फोटोकॉपी, कलर प्रिंट, स्पाइरल बाइंडिंग और स्टेशनरी सामान का कैश मेमो (11 भाषाओं में)।',keys:'stationery xerox photocopy binding printout lamination' },
+  { file:'beauty-parlour-salon-bill.html',cat:'BILLING',icon:'💄',hi:'ब्यूटी पार्लर व सैलून बिल / बुकिंग',en:'Beauty Parlour Service Bill & Bridal Booking',desc:'सैलून सर्विस बिल और ब्राइडल/पार्टी मेकअप अपॉइंटमेंट बुकिंग स्लिप।',keys:'beauty parlour salon bridal makeup facial' },
+  { file:'salary-pay-slip.html',cat:'SLIPS',icon:'💵',hi:'कर्मचारी सैलरी / पे स्लिप जनरेटर',en:'Employee Monthly Salary Pay Slip',desc:'Basic, HRA, Overtime, PF, ESIC और एडवांस कटौती के साथ सैलरी स्लिप बनाएं।',keys:'salary pay slip payslip employee wage' },
+  { file:'paymet-slip-rasid.html',cat:'SLIPS',icon:'🧾',hi:'पेमेंट रसीद व भुगतान वाउचर',en:'Payment Receipt & Voucher (1 or 2 Slips A4)',desc:'पैसे प्राप्त होने की रसीद (Receipt) या भुगतान वाउचर (Voucher) शब्दों में ऑटो-कन्वर्जन के साथ।',keys:'payment receipt voucher cash rasid' },
+  { file:'rent-receipt-generator.html',cat:'SLIPS',icon:'🏠',hi:'किराया रसीद (HRA व बिजली बिल सहित)',en:'House / Shop Rent Receipt Generator',desc:'मकान या दुकान की किराया रसीद (HRA, बिजली बिल) और 12 भारतीय भाषाओं में 11 महीने का रेंट / शॉप एग्रीमेंट (किरायानामा) बनाएं।',keys:'rent receipt agreement kirayanama landlord tenant hra house shop 11 months' },
+  { file:'tailoring-measurement-job-slip.html',cat:'SLIPS',icon:'✂️',hi:'टेलरिंग नाप व मास्टर कटिंग स्लिप',en:'Tailoring & Boutique Measurement Job Slip',desc:'ग्राहक के कपड़ों का इंच में नाप, डिलीवरी तारीख और कारीगर कटिंग पर्ची।',keys:'tailor tailoring boutique measurement cutting cloth' },
+  { file:'catering-rental-booking-slip.html',cat:'SLIPS',icon:'🎪',hi:'टेंट, लाइट-साउंड व कैटरिंग बुकिंग स्लिप',en:'Tent Rental & Catering Booking Slip',desc:'शादी-पार्टी के लिए टेंट रेंटल और हलवाई/कैटरिंग ऑर्डर की बुकिंग स्लिप।',keys:'catering tent halwai rental lights sound booking' },
+  { file:'mobile-electronics-repair.html',cat:'SLIPS',icon:'📱',hi:'मोबाइल व इलेक्ट्रॉनिक्स रिपेयर जॉब शीट',en:'Mobile & Laptop Repair Job Token / Bill',desc:'मोबाइल व लैपटॉप रिपेयरिंग के लिए जमा टोकन (IMEI/Lock सहित) और वारंटी डिलीवरी बिल।',keys:'mobile laptop electronics repair job sheet token imei' },
+  { file:'hotel-lodge-guest-slip.html',cat:'SLIPS',icon:'🏨',hi:'होटल व लॉज गेस्ट चेक-इन / रूम बिल',en:'Hotel & Lodge Guest Registration & Checkout Bill',desc:'होटल व गेस्ट हाउस के लिए चेक-इन रजिस्ट्रेशन स्लिप और रूम टैरिफ फाइनल चेक-आउट बिल।',keys:'hotel lodge guest house room checkin checkout' },
+  { file:'mandi.html',cat:'SLIPS',icon:'🌾',hi:'डेरी दूध संकलन व मंडी किसान पर्ची',en:'Dairy Milk Collection & Mandi Crop Sale Slip',desc:'दैनिक दूध संकलन (FAT/SNF रेट) पर्ची और मंडी फसल बिक्री आढ़त व हम्माली कटौती पर्चा।',keys:'dairy milk fat snf mandi farmer crop kisan' },
+  { file:'security-services.html',cat:'SLIPS',icon:'🛡️',hi:'सिक्योरिटी गार्ड ड्यूटी रोस्टर व एडवांस स्लिप',en:'Staff Advance Memo & Security Duty Roster',desc:'कर्मचारी सैलरी एडवांस पर्ची और सिक्योरिटी गार्ड शिफ्ट व पोस्ट तैनाती ड्यूटी रोस्टर।',keys:'security guard duty roster shift staff advance' },
+  { file:'school.html',cat:'CAREER',icon:'🎓',hi:'स्कूल / कोचिंग फीस रसीद व एडमिशन स्लिप',en:'Coaching Fee Receipt, Admission & Certificate',desc:'कोचिंग व ट्रेनिंग संस्थानों के लिए फीस रसीद, छात्र एडमिशन पर्ची और कोर्स पूर्णता सर्टिफिकेट।',keys:'school coaching tuition fee admission student certificate' },
+  { file:'id-card-maker.html',cat:'ID_PHOTO',icon:'🪪',hi:'सिंगल ID कार्ड मेकर (5 थीम व QR सहित)',en:'Single Employee / Student ID Card Generator',desc:'5 थीम डिज़ाइन, लाइव QR कोड वेरिफिकेशन और डिजिटल साइन के साथ ID कार्ड बनाएं।',keys:'id card identity badge single qr code' },
+  { file:'bulk-id-card-maker.html',cat:'ID_PHOTO',icon:'🗂️',hi:'बल्क ID कार्ड मेकर (Excel से 100+ कार्ड)',en:'Bulk Excel & Auto Photo-Match ID Card Maker',desc:'Excel शीट और एक साथ कई फोटो अपलोड करके सैकड़ों ID कार्ड एक क्लिक में बनाएं।',keys:'bulk id card excel mass identity' },
+  { file:'passport-photo-maker.html',cat:'ID_PHOTO',icon:'📸',hi:'पासपोर्ट साइज फोटो शीट मेकर',en:'Passport & Stamp Size Photo Print Sheet',desc:'फोटो क्रॉप करें और A4 या 4x6 पेपर पर 4 से 20+ पासपोर्ट फोटो की प्रिंट शीट व PDF तैयार करें।',keys:'passport photo sheet stamp size crop print' },
+  { file:'cv-resume.html',cat:'CAREER',icon:'📄',hi:'क्रिएटिव मिनिमलिस्ट रिज्यूमे मेकर (फोटो सहित)',en:'Creative Minimalist Resume Builder',desc:'ऑफिस व प्राइवेट जॉब के लिए फोटो और स्किल पिल्स के साथ आधुनिक A4 रिज्यूमे बनाएं।',keys:'cv resume biodata creative job' },
+  { file:'technical-resume.html',cat:'CAREER',icon:'🛠️',hi:'टेक्निकल व फील्ड स्टाफ रिज्यूमे मेकर',en:'Technical & ITI Field Staff Resume Builder',desc:'इलेक्ट्रीशियन, CCTV, ITI और फील्ड इंजीनियरों के लिए टूल्स व प्रोजेक्ट हाइलाइट्स वाला रिज्यूमे।',keys:'technical resume iti electrician engineer field' },
+  { file:'work-completion-handover-certificate.html',cat:'CAREER',icon:'✅',hi:'कार्य पूर्णता व हैंडओवर सर्टिफिकेट',en:'Work Completion & Site Handover Certificate',desc:'ठेकेदारों और इंजीनियरों के लिए काम पूरा होने और क्लाइंट संतुष्टि हैंडओवर प्रमाण पत्र।',keys:'work completion handover certificate contractor site' },
+  { file:'support-custom-request.html',cat:'ALL',icon:'✨',hi:'कस्टम पेज रिक्वेस्ट व वॉलंटरी सपोर्ट',en:'Request Custom Page or Support KaamKaj Bills',desc:'अपनी दुकान या कंपनी के लिए नया कस्टम टूल बनवाने हेतु रिक्वेस्ट भेजें या वॉलंटरी सहयोग करें।',keys:'support custom page request donate help' },
+  { file:'cafe-template.html',cat:'ALL',isTemplate:true,icon:'☕ ⭐',hi:'रेस्टोरेंट व कैफे डिजिटल मेनू टेम्पलेट',en:'Brew & Bloom Artisan Cafe & Restaurant TEMPLATE',desc:'नोक्टर्नल कैफे, रेस्टोरेंट और बेकरी के लिए फुल-स्क्रीन इमर्सिव मेनू, WhatsApp आर्डर ट्रे और एडमिन मेनू एडिटर।',keys:'cafe restaurant coffee menu brew bloom food bar bakery template sample' }
 ];
 
-let currentCat = 'ALL';
+const I18N = {
+  hi:{brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools',about:'ℹ️ हमारे बारे में',donateNav:'💚 सहयोग करें',help:'💬 सहायता बॉट',customNav:'✨ सपोर्ट / कस्टम पेज',themeHint:'यहाँ से आप मोड बदल सकते हैं',heroBadge:'⚡ बिना लॉगिन • तुरंत A4 PDF और प्रिंट • 100% मुफ़्त',heroTitle:'हर व्यापार और काम-काज के लिए आसान बिल, रसीद और डॉक्यूमेंट टूल्स',heroDesc:'कोटेशन, टैक्स इनवॉइस, किराया रसीद, सैलरी स्लिप, बैंक एप्लीकेशन लेटर, ID कार्ड, पासपोर्ट फोटो शीट और रिज्यूमे—सब कुछ सेकंडों में बनाएं।',search:'टूल खोजें... जैसे: Bank Transfer, Invoice, Rent, ID Card, Resume, Salon, Tailor...',statTools:'24 उपयोगी टूल्स',statLanguages:'12 भारतीय भाषाएँ',statFree:'मुफ़्त • बिना लॉगिन',directoryTitle:'अपने काम का टूल चुनें',directorySub:'कैटेगरी चुनें या सर्च बॉक्स में टूल का नाम लिखें।',catAll:'🌟 सभी टूल्स (All)',catBank:'🏦 बैंक लेटर व एप्लीकेशन',catBilling:'🧾 बिल, कोटेशन व इनवॉइस',catSlips:'🎟️ रसीद, बुकिंग व जॉब स्लिप',catIdPhoto:'🪪 ID कार्ड व पासपोर्ट फोटो',catCareer:'📄 रिज्यूमे व सर्टिफिकेट',freeTool:'✓ मुफ़्त टूल',template:'⭐ लाइव टेम्पलेट',openTool:'टूल खोलें →',viewTemplate:'टेम्पलेट देखें ↗',notFound:'कोई टूल नहीं मिला!',tryAgain:'दूसरा शब्द लिखकर खोजें।',resultOne:'टूल',resultMany:'टूल्स',supportBadge:'💚 100% मुफ़्त सेवा और स्वैच्छिक सहयोग',supportTitle:'आपका विश्वास और सहयोग हमारी शक्ति है',supportLead:'KaamKaj Bills पर सभी टूल्स और पेपरवर्क हमेशा सभी के लिए बिल्कुल मुफ़्त हैं!',supportCopy:'इस प्लेटफॉर्म का इस्तेमाल करने के लिए कोई फीस या सब्सक्रिप्शन चार्ज नहीं है। अगर हमारी सेवा से आपके व्यापार या काम-काज में मदद मिली है, तो आप अपनी इच्छा से छोटा-सा योगदान दे सकते हैं। आपका सहयोग सर्वर खर्च और नई सुविधाएँ तैयार करने में उपयोगी होगा।',qrTitle:'किसी भी UPI ऐप से स्कैन करें',copy:'📋 कॉपी',copied:'✓ कॉपी हो गया',payUpi:'📲 UPI ऐप से भुगतान करें (PhonePe / GPay / Paytm)',amountCaption:'अपनी इच्छानुसार कोई भी सहयोग राशि चुनें:',anyAmount:'कोई भी राशि ❤️',supportThanks:'“KaamKaj Bills पर भरोसा जताने और हमारी टीम का हौसला बढ़ाने के लिए आपका बहुत-बहुत धन्यवाद!”',requestBadge:'✨ कस्टम वेब पेज और फीचर अनुरोध',requestTitle:'आपको और कौन-सा नया फीचर या पर्सनल पेज चाहिए?',requestCopy:'इस वेबसाइट पर नया टूल जुड़वाने या अपने बिज़नेस/दुकान के लिए अलग पर्सनल कस्टम पेज बनवाने हेतु नीचे विवरण लिखकर भेजें।',nameLabel:'आपका नाम',namePlaceholder:'अपना नाम लिखें...',phoneLabel:'मोबाइल नंबर / WhatsApp',phonePlaceholder:'मोबाइल नंबर लिखें...',detailsLabel:'आपको कैसा पेज या फीचर चाहिए? (विवरण)',detailsPlaceholder:'अपनी जरूरत का विवरण लिखें...',sendEmail:'✉️ ईमेल से संदेश भेजें',openGmail:'🌐 Gmail खोलें',orEmail:'या सीधे ईमेल करें:',fullSupport:'पूरा सपोर्ट और कस्टम रिक्वेस्ट पेज खोलें ↗',privacyNote:'आपका संदेश आपके ईमेल ऐप में तैयार होगा; यह फ़ॉर्म वेबसाइट पर डेटा सेव नहीं करता।',home:'🏠 होम',privacy:'🔒 प्राइवेसी पॉलिसी',contact:'📞 संपर्क करें',footerLine:'• भारतीय छोटे व्यवसायों, तकनीशियनों, दुकानों और कार्यालयों के लिए।',footerHelp:'सहायता और कस्टम पेज सपोर्ट:',missingDetails:'कृपया अपनी जरूरत का विवरण लिखें।',emailSubject:'KaamKaj Bills के लिए कस्टम पेज / फीचर अनुरोध',emailIntro:'नमस्ते KaamKaj Bills टीम,\n\nमुझे एक कस्टम पेज / फीचर चाहिए। मेरी जानकारी नीचे है:',name:'नाम',phone:'मोबाइल / WhatsApp',details:'जरूरत का विवरण',emailOutro:'\n\nकृपया मुझसे संपर्क करें।\nधन्यवाद!'},
+  en:{brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools',about:'ℹ️ About Us',donateNav:'💚 Donate / Support',help:'💬 Help Bot',customNav:'✨ Support / Custom Page',themeHint:'Switch light or dark mode here',heroBadge:'⚡ No Login • Instant A4 PDF & Direct Print • 100% Free',heroTitle:'Simple bills, receipts and document tools for every business and everyday task',heroDesc:'Create quotations, tax invoices, rent receipts, salary slips, bank letters, ID cards, passport photo sheets and resumes in seconds.',search:'Search tools... e.g. Bank Transfer, Invoice, Rent, ID Card, Resume, Salon, Tailor...',statTools:'24 useful tools',statLanguages:'12 Indian languages',statFree:'Free • No login',directoryTitle:'Choose a tool for your work',directorySub:'Select a category or type a tool name in the search box.',catAll:'🌟 All Tools',catBank:'🏦 Bank Letters & Applications',catBilling:'🧾 Bills, Quotations & Invoices',catSlips:'🎟️ Receipts, Bookings & Job Slips',catIdPhoto:'🪪 ID Cards & Passport Photos',catCareer:'📄 Resumes & Certificates',freeTool:'✓ FREE TOOL',template:'⭐ LIVE TEMPLATE',openTool:'Open Tool →',viewTemplate:'View Template ↗',notFound:'No tools found!',tryAgain:'Try searching with another word.',resultOne:'tool',resultMany:'tools',supportBadge:'💚 100% Free Service & Voluntary Support',supportTitle:'Your trust and support keep us going',supportLead:'All tools and paperwork on KaamKaj Bills are always completely FREE for everyone!',supportCopy:'There are no fees or subscription charges to use this platform. If our service has helped your business or daily work, you may contribute voluntarily. Your support helps with server costs and the development of new features.',qrTitle:'Scan with Any UPI App',copy:'📋 Copy',copied:'✓ Copied',payUpi:'📲 Pay via UPI App (PhonePe / GPay / Paytm)',amountCaption:'Choose any contribution amount you prefer:',anyAmount:'Any Amount ❤️',supportThanks:'“Thank you for trusting KaamKaj Bills and encouraging our team!”',requestBadge:'✨ Custom Web Page & Feature Request',requestTitle:'What new feature or personal page would you like?',requestCopy:'Tell us about a new tool you need or a dedicated custom page for your business or shop.',nameLabel:'Your Name',namePlaceholder:'Enter your name...',phoneLabel:'Mobile Number / WhatsApp',phonePlaceholder:'Enter your mobile number...',detailsLabel:'What page or feature do you need? (Details)',detailsPlaceholder:'Describe what you need...',sendEmail:'✉️ Send Message by Email',openGmail:'🌐 Open Gmail',orEmail:'Or email us directly:',fullSupport:'Open Full Support & Custom Request Page ↗',privacyNote:'Your message opens in your email app; this form does not save data on the website.',home:'🏠 Home',privacy:'🔒 Privacy Policy',contact:'📞 Contact Us',footerLine:'• Built for Indian small businesses, technicians, shops and offices.',footerHelp:'Help & Custom Page Support:',missingDetails:'Please describe the page or feature you need.',emailSubject:'Custom Page / Feature Request from KaamKaj Bills',emailIntro:'Hello KaamKaj Bills Team,\n\nI would like to request a custom page / feature. My details are:',name:'Name',phone:'Mobile / WhatsApp',details:'Requirement details',emailOutro:'\n\nPlease contact me.\nThank you!'},
+  mr:{about:'ℹ️ आमच्याबद्दल',donateNav:'💚 मदत / सहकार्य',help:'💬 मदत बॉट',customNav:'✨ सपोर्ट / कस्टम पेज',themeHint:'येथून लाइट किंवा डार्क मोड बदला',heroBadge:'⚡ लॉगिनची गरज नाही • झटपट A4 PDF आणि प्रिंट • पूर्णपणे मोफत',heroTitle:'प्रत्येक व्यवसायासाठी सोपी बिले, पावत्या आणि कागदपत्रांची साधने',heroDesc:'कोटेशन, टॅक्स इनव्हॉइस, भाडे पावती, पगार स्लिप, बँक पत्र, ID कार्ड, पासपोर्ट फोटो शीट आणि बायोडाटा काही सेकंदांत तयार करा.',search:'साधन शोधा... उदा. Invoice, Rent, ID Card, Resume...',statTools:'24 उपयुक्त साधने',statLanguages:'12 भारतीय भाषा',statFree:'मोफत • लॉगिन नाही',directoryTitle:'तुमच्या कामासाठी साधन निवडा',directorySub:'वर्ग निवडा किंवा सर्चमध्ये साधनाचे नाव लिहा.',catAll:'🌟 सर्व साधने',catBank:'🏦 बँक पत्रे व अर्ज',catBilling:'🧾 बिले, कोटेशन व इनव्हॉइस',catSlips:'🎟️ पावत्या, बुकिंग व जॉब स्लिप',catIdPhoto:'🪪 ID कार्ड व पासपोर्ट फोटो',catCareer:'📄 बायोडाटा व प्रमाणपत्रे',freeTool:'✓ मोफत साधन',template:'⭐ लाइव्ह टेम्पलेट',openTool:'साधन उघडा →',viewTemplate:'टेम्पलेट पहा ↗',notFound:'कोणतेही साधन सापडले नाही!',tryAgain:'दुसरा शब्द वापरून शोधा.',resultOne:'साधन',resultMany:'साधने',supportBadge:'💚 मोफत सेवा आणि स्वेच्छिक सहकार्य',supportTitle:'तुमचा विश्वास आणि सहकार्य हीच आमची ताकद',supportLead:'KaamKaj Bills वरील सर्व साधने आणि कागदपत्रे प्रत्येकासाठी नेहमी मोफत आहेत!',supportCopy:'या प्लॅटफॉर्मसाठी कोणतेही शुल्क किंवा सदस्यता नाही. आमच्या सेवेमुळे तुमच्या व्यवसायाला मदत झाली असल्यास स्वेच्छेने योगदान देऊ शकता. तुमचे सहकार्य सर्व्हर खर्च आणि नवीन सुविधा विकसित करण्यासाठी उपयोगी ठरेल.',qrTitle:'कोणत्याही UPI ॲपने स्कॅन करा',copy:'📋 कॉपी',copied:'✓ कॉपी झाले',payUpi:'📲 UPI ॲपद्वारे पैसे भरा',amountCaption:'तुमच्या इच्छेनुसार योगदानाची रक्कम निवडा:',anyAmount:'कोणतीही रक्कम ❤️',supportThanks:'“KaamKaj Bills वर विश्वास ठेवल्याबद्दल मनःपूर्वक धन्यवाद!”',requestBadge:'✨ कस्टम वेब पेज आणि फीचर विनंती',requestTitle:'तुम्हाला कोणते नवीन फीचर किंवा वैयक्तिक पेज हवे आहे?',requestCopy:'नवीन साधन किंवा तुमच्या दुकानासाठी स्वतंत्र कस्टम पेज हवे असल्यास खाली माहिती पाठवा.',nameLabel:'तुमचे नाव',namePlaceholder:'तुमचे नाव लिहा...',phoneLabel:'मोबाईल नंबर / WhatsApp',phonePlaceholder:'मोबाईल नंबर लिहा...',detailsLabel:'कोणते पेज किंवा फीचर हवे आहे?',detailsPlaceholder:'तुमची गरज लिहा...',sendEmail:'✉️ ईमेलद्वारे संदेश पाठवा',openGmail:'🌐 Gmail उघडा',orEmail:'किंवा थेट ईमेल करा:',fullSupport:'संपूर्ण सपोर्ट आणि कस्टम विनंती पेज उघडा ↗',privacyNote:'संदेश तुमच्या ईमेल ॲपमध्ये तयार होईल; वेबसाइटवर माहिती साठवली जात नाही.',home:'🏠 मुख्यपृष्ठ',privacy:'🔒 गोपनीयता धोरण',contact:'📞 संपर्क',footerLine:'• भारतीय लघु व्यवसाय, तंत्रज्ञ, दुकाने आणि कार्यालयांसाठी.',footerHelp:'मदत आणि कस्टम पेजसाठी संपर्क:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  gu:{about:'ℹ️ અમારા વિશે',donateNav:'💚 સહયોગ / દાન',help:'💬 સહાય બોટ',customNav:'✨ સપોર્ટ / કસ્ટમ પેજ',themeHint:'અહીંથી લાઇટ અથવા ડાર્ક મોડ બદલો',heroBadge:'⚡ લોગિન વગર • તરત A4 PDF અને પ્રિન્ટ • સંપૂર્ણ મફત',heroTitle:'દરેક વ્યવસાય અને રોજિંદા કામ માટે સરળ બિલ, રસીદ અને દસ્તાવેજ ટૂલ્સ',heroDesc:'ક્વોટેશન, ટેક્સ ઇન્વૉઇસ, ભાડાની રસીદ, પગાર સ્લિપ, બેંક પત્ર, ID કાર્ડ, પાસપોર્ટ ફોટો શીટ અને રિઝ્યૂમે સેકન્ડોમાં બનાવો.',search:'ટૂલ શોધો... જેમ કે Invoice, Rent, ID Card, Resume...',statTools:'24 ઉપયોગી ટૂલ્સ',statLanguages:'12 ભારતીય ભાષાઓ',statFree:'મફત • લોગિન વગર',directoryTitle:'તમારા કામનું ટૂલ પસંદ કરો',directorySub:'કેટેગરી પસંદ કરો અથવા સર્ચમાં ટૂલનું નામ લખો.',catAll:'🌟 બધા ટૂલ્સ',catBank:'🏦 બેંક પત્ર અને અરજીઓ',catBilling:'🧾 બિલ, ક્વોટેશન અને ઇન્વૉઇસ',catSlips:'🎟️ રસીદ, બુકિંગ અને જોબ સ્લિપ',catIdPhoto:'🪪 ID કાર્ડ અને પાસપોર્ટ ફોટો',catCareer:'📄 રિઝ્યૂમે અને પ્રમાણપત્ર',freeTool:'✓ મફત ટૂલ',template:'⭐ લાઇવ ટેમ્પલેટ',openTool:'ટૂલ ખોલો →',viewTemplate:'ટેમ્પલેટ જુઓ ↗',notFound:'કોઈ ટૂલ મળ્યું નથી!',tryAgain:'બીજો શબ્દ લખીને શોધો.',resultOne:'ટૂલ',resultMany:'ટૂલ્સ',supportBadge:'💚 મફત સેવા અને સ્વૈચ્છિક સહયોગ',supportTitle:'તમારો વિશ્વાસ અને સહયોગ અમારી શક્તિ છે',supportLead:'KaamKaj Bills પરના બધા ટૂલ્સ અને કાગળકામ સૌ માટે હંમેશાં મફત છે!',supportCopy:'આ પ્લેટફોર્મ વાપરવા કોઈ ફી કે સબ્સ્ક્રિપ્શન નથી. અમારી સેવાથી તમારા વ્યવસાયમાં મદદ થઈ હોય તો સ્વૈચ્છિક યોગદાન આપી શકો છો. તમારો સહયોગ સર્વર ખર્ચ અને નવી સુવિધાઓ બનાવવા ઉપયોગી થશે.',qrTitle:'કોઈપણ UPI એપથી સ્કેન કરો',copy:'📋 કોપી',copied:'✓ કોપી થયું',payUpi:'📲 UPI એપથી ચુકવણી કરો',amountCaption:'તમારી ઇચ્છા મુજબ સહયોગ રકમ પસંદ કરો:',anyAmount:'કોઈપણ રકમ ❤️',supportThanks:'“KaamKaj Bills પર વિશ્વાસ રાખવા બદલ ખૂબ ખૂબ આભાર!”',requestBadge:'✨ કસ્ટમ વેબ પેજ અને ફીચર વિનંતી',requestTitle:'તમને કયું નવું ફીચર અથવા વ્યક્તિગત પેજ જોઈએ છે?',requestCopy:'નવું ટૂલ અથવા તમારી દુકાન માટે અલગ કસ્ટમ પેજ જોઈએ હોય તો વિગતો મોકલો.',nameLabel:'તમારું નામ',namePlaceholder:'તમારું નામ લખો...',phoneLabel:'મોબાઇલ નંબર / WhatsApp',phonePlaceholder:'મોબાઇલ નંબર લખો...',detailsLabel:'તમને કયું પેજ અથવા ફીચર જોઈએ છે?',detailsPlaceholder:'તમારી જરૂરિયાત લખો...',sendEmail:'✉️ ઈમેઇલથી સંદેશ મોકલો',openGmail:'🌐 Gmail ખોલો',orEmail:'અથવા સીધો ઈમેઇલ કરો:',fullSupport:'સંપૂર્ણ સપોર્ટ અને કસ્ટમ વિનંતી પેજ ખોલો ↗',privacyNote:'સંદેશ તમારા ઈમેઇલ એપમાં તૈયાર થશે; વેબસાઇટ પર ડેટા સાચવાતો નથી.',home:'🏠 હોમ',privacy:'🔒 ગોપનીયતા નીતિ',contact:'📞 સંપર્ક',footerLine:'• ભારતીય નાના વ્યવસાયો, ટેક્નિશિયનો, દુકાનો અને કચેરીઓ માટે.',footerHelp:'સહાય અને કસ્ટમ પેજ સપોર્ટ:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  bn:{about:'ℹ️ আমাদের সম্পর্কে',donateNav:'💚 সহযোগিতা করুন',help:'💬 সহায়তা বট',customNav:'✨ সাপোর্ট / কাস্টম পেজ',themeHint:'এখান থেকে লাইট বা ডার্ক মোড বদলান',heroBadge:'⚡ লগইন নেই • তাৎক্ষণিক A4 PDF ও প্রিন্ট • সম্পূর্ণ বিনামূল্যে',heroTitle:'প্রতিটি ব্যবসা ও দৈনন্দিন কাজের জন্য সহজ বিল, রসিদ ও ডকুমেন্ট টুল',heroDesc:'কোটেশন, ট্যাক্স ইনভয়েস, বাড়িভাড়ার রসিদ, বেতন স্লিপ, ব্যাংক চিঠি, ID কার্ড, পাসপোর্ট ছবির শিট ও রিজিউমে কয়েক সেকেন্ডে তৈরি করুন।',search:'টুল খুঁজুন... যেমন Invoice, Rent, ID Card, Resume...',statTools:'২৪টি দরকারি টুল',statLanguages:'১২টি ভারতীয় ভাষা',statFree:'বিনামূল্যে • লগইন নেই',directoryTitle:'আপনার কাজের টুল বেছে নিন',directorySub:'ক্যাটাগরি বেছে নিন অথবা সার্চে টুলের নাম লিখুন।',catAll:'🌟 সব টুল',catBank:'🏦 ব্যাংক চিঠি ও আবেদন',catBilling:'🧾 বিল, কোটেশন ও ইনভয়েস',catSlips:'🎟️ রসিদ, বুকিং ও জব স্লিপ',catIdPhoto:'🪪 ID কার্ড ও পাসপোর্ট ছবি',catCareer:'📄 রিজিউমে ও সার্টিফিকেট',freeTool:'✓ বিনামূল্যের টুল',template:'⭐ লাইভ টেমপ্লেট',openTool:'টুল খুলুন →',viewTemplate:'টেমপ্লেট দেখুন ↗',notFound:'কোনও টুল পাওয়া যায়নি!',tryAgain:'অন্য শব্দ দিয়ে খুঁজুন।',resultOne:'টি টুল',resultMany:'টি টুল',supportBadge:'💚 বিনামূল্যের পরিষেবা ও স্বেচ্ছাসহায়তা',supportTitle:'আপনার বিশ্বাস ও সহযোগিতাই আমাদের শক্তি',supportLead:'KaamKaj Bills-এর সব টুল ও কাগজপত্র সবার জন্য সবসময় বিনামূল্যে!',supportCopy:'এই প্ল্যাটফর্ম ব্যবহারের জন্য কোনও ফি বা সাবস্ক্রিপশন নেই। আমাদের পরিষেবা আপনার কাজে সাহায্য করলে স্বেচ্ছায় অনুদান দিতে পারেন। আপনার সহযোগিতা সার্ভার খরচ এবং নতুন সুবিধা তৈরিতে কাজে লাগবে।',qrTitle:'যেকোনও UPI অ্যাপ দিয়ে স্ক্যান করুন',copy:'📋 কপি',copied:'✓ কপি হয়েছে',payUpi:'📲 UPI অ্যাপের মাধ্যমে পেমেন্ট করুন',amountCaption:'আপনার পছন্দমতো সহযোগিতার পরিমাণ বেছে নিন:',anyAmount:'যেকোনও পরিমাণ ❤️',supportThanks:'“KaamKaj Bills-এ আস্থা রাখার জন্য আপনাকে অসংখ্য ধন্যবাদ!”',requestBadge:'✨ কাস্টম ওয়েব পেজ ও ফিচারের অনুরোধ',requestTitle:'আপনার কী নতুন ফিচার বা ব্যক্তিগত পেজ দরকার?',requestCopy:'নতুন টুল অথবা আপনার দোকান/ব্যবসার জন্য আলাদা কাস্টম পেজ চাইলে নিচে বিবরণ পাঠান।',nameLabel:'আপনার নাম',namePlaceholder:'আপনার নাম লিখুন...',phoneLabel:'মোবাইল নম্বর / WhatsApp',phonePlaceholder:'মোবাইল নম্বর লিখুন...',detailsLabel:'কোন পেজ বা ফিচার দরকার?',detailsPlaceholder:'আপনার প্রয়োজন লিখুন...',sendEmail:'✉️ ইমেইলে বার্তা পাঠান',openGmail:'🌐 Gmail খুলুন',orEmail:'অথবা সরাসরি ইমেইল করুন:',fullSupport:'সম্পূর্ণ সাপোর্ট ও কাস্টম অনুরোধ পেজ খুলুন ↗',privacyNote:'বার্তাটি আপনার ইমেইল অ্যাপে তৈরি হবে; ওয়েবসাইটে তথ্য সংরক্ষিত হয় না।',home:'🏠 হোম',privacy:'🔒 গোপনীয়তা নীতি',contact:'📞 যোগাযোগ',footerLine:'• ভারতের ছোট ব্যবসা, প্রযুক্তিবিদ, দোকান ও অফিসের জন্য।',footerHelp:'সহায়তা ও কাস্টম পেজ সাপোর্ট:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  ta:{about:'ℹ️ எங்களைப் பற்றி',donateNav:'💚 நன்கொடை / ஆதரவு',help:'💬 உதவி பாட்',customNav:'✨ ஆதரவு / தனிப்பயன் பக்கம்',themeHint:'இங்கே ஒளி அல்லது இருள் பயன்முறையை மாற்றவும்',heroBadge:'⚡ உள்நுழைவு இல்லை • உடனடி A4 PDF மற்றும் அச்சு • முற்றிலும் இலவசம்',heroTitle:'ஒவ்வொரு வணிகத்திற்கும் அன்றாடப் பணிகளுக்கும் எளிய பில், ரசீது மற்றும் ஆவணக் கருவிகள்',heroDesc:'விலைப்புள்ளி, வரி விலைப்பட்டியல், வாடகை ரசீது, சம்பளச் சீட்டு, வங்கி கடிதம், ID அட்டை, பாஸ்போர்ட் புகைப்படத் தாள் மற்றும் ரெஸ்யூமே உருவாக்குங்கள்.',search:'கருவியைத் தேடுங்கள்... Invoice, Rent, ID Card, Resume...',statTools:'24 பயனுள்ள கருவிகள்',statLanguages:'12 இந்திய மொழிகள்',statFree:'இலவசம் • உள்நுழைவு இல்லை',directoryTitle:'உங்கள் பணிக்கான கருவியைத் தேர்ந்தெடுக்கவும்',directorySub:'வகையைத் தேர்ந்தெடுக்கவும் அல்லது தேடல் பெட்டியில் பெயரை எழுதவும்.',catAll:'🌟 அனைத்து கருவிகள்',catBank:'🏦 வங்கி கடிதங்கள் மற்றும் விண்ணப்பங்கள்',catBilling:'🧾 பில்கள், விலைப்புள்ளிகள் மற்றும் இன்வாய்ஸ்கள்',catSlips:'🎟️ ரசீதுகள், முன்பதிவு மற்றும் வேலைச் சீட்டுகள்',catIdPhoto:'🪪 ID அட்டைகள் மற்றும் பாஸ்போர்ட் புகைப்படம்',catCareer:'📄 ரெஸ்யூமே மற்றும் சான்றிதழ்கள்',freeTool:'✓ இலவச கருவி',template:'⭐ நேரடி டெம்ப்ளேட்',openTool:'கருவியைத் திறக்கவும் →',viewTemplate:'டெம்ப்ளேட்டைப் பார்க்கவும் ↗',notFound:'கருவிகள் எதுவும் இல்லை!',tryAgain:'வேறு சொல்லைக் கொண்டு தேடுங்கள்.',resultOne:'கருவி',resultMany:'கருவிகள்',supportBadge:'💚 இலவச சேவை மற்றும் விருப்ப ஆதரவு',supportTitle:'உங்கள் நம்பிக்கையும் ஆதரவும் எங்கள் பலம்',supportLead:'KaamKaj Bills-இல் உள்ள அனைத்து கருவிகளும் அனைவருக்கும் எப்போதும் இலவசம்!',supportCopy:'இந்த தளத்தைப் பயன்படுத்த கட்டணம் அல்லது சந்தா இல்லை. எங்கள் சேவை உங்கள் பணிக்கு உதவியிருந்தால் விருப்பப்படி பங்களிக்கலாம். உங்கள் ஆதரவு சர்வர் செலவுக்கும் புதிய வசதிகளை உருவாக்கவும் உதவும்.',qrTitle:'எந்த UPI செயலியிலும் ஸ்கேன் செய்யவும்',copy:'📋 நகலெடு',copied:'✓ நகலெடுக்கப்பட்டது',payUpi:'📲 UPI செயலி மூலம் பணம் செலுத்தவும்',amountCaption:'நீங்கள் விரும்பும் தொகையைத் தேர்ந்தெடுக்கவும்:',anyAmount:'எந்தத் தொகையும் ❤️',supportThanks:'“KaamKaj Bills மீது நம்பிக்கை வைத்ததற்கு மிக்க நன்றி!”',requestBadge:'✨ தனிப்பயன் இணையப் பக்கம் மற்றும் அம்சக் கோரிக்கை',requestTitle:'உங்களுக்கு என்ன புதிய அம்சம் அல்லது தனிப்பட்ட பக்கம் தேவை?',requestCopy:'புதிய கருவி அல்லது உங்கள் கடை/வணிகத்திற்கான தனிப்பட்ட பக்கம் வேண்டுமெனில் விவரங்களை அனுப்புங்கள்.',nameLabel:'உங்கள் பெயர்',namePlaceholder:'உங்கள் பெயரை எழுதவும்...',phoneLabel:'மொபைல் எண் / WhatsApp',phonePlaceholder:'மொபைல் எண்ணை எழுதவும்...',detailsLabel:'எந்தப் பக்கம் அல்லது அம்சம் தேவை?',detailsPlaceholder:'உங்கள் தேவையை எழுதவும்...',sendEmail:'✉️ மின்னஞ்சல் அனுப்பவும்',openGmail:'🌐 Gmail திறக்கவும்',orEmail:'அல்லது நேரடியாக மின்னஞ்சல் செய்யவும்:',fullSupport:'முழு ஆதரவு மற்றும் தனிப்பயன் கோரிக்கைப் பக்கத்தைத் திறக்கவும் ↗',privacyNote:'உங்கள் செய்தி மின்னஞ்சல் செயலியில் தயாராகும்; இணையதளத்தில் தகவல் சேமிக்கப்படாது.',home:'🏠 முகப்பு',privacy:'🔒 தனியுரிமைக் கொள்கை',contact:'📞 தொடர்பு',footerLine:'• இந்திய சிறு வணிகங்கள், தொழில்நுட்ப நிபுணர்கள், கடைகள் மற்றும் அலுவலகங்களுக்காக.',footerHelp:'உதவி மற்றும் தனிப்பயன் பக்க ஆதரவு:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  te:{about:'ℹ️ మా గురించి',donateNav:'💚 విరాళం / సహాయం',help:'💬 సహాయ బాట్',customNav:'✨ సహాయం / కస్టమ్ పేజీ',themeHint:'ఇక్కడ లైట్ లేదా డార్క్ మోడ్ మార్చండి',heroBadge:'⚡ లాగిన్ అవసరం లేదు • తక్షణ A4 PDF & ప్రింట్ • పూర్తిగా ఉచితం',heroTitle:'ప్రతి వ్యాపారం మరియు రోజువారీ పనుల కోసం సులభమైన బిల్లులు, రసీదులు, డాక్యుమెంట్ టూల్స్',heroDesc:'కొటేషన్, ట్యాక్స్ ఇన్వాయిస్, అద్దె రసీదు, జీతం స్లిప్, బ్యాంక్ లేఖ, ID కార్డ్, పాస్‌పోర్ట్ ఫోటో షీట్ మరియు రెజ్యూమే తయారు చేయండి.',search:'టూల్ వెతకండి... Invoice, Rent, ID Card, Resume...',statTools:'24 ఉపయోగకరమైన టూల్స్',statLanguages:'12 భారతీయ భాషలు',statFree:'ఉచితం • లాగిన్ లేదు',directoryTitle:'మీ పనికి సరిపోయే టూల్ ఎంచుకోండి',directorySub:'వర్గాన్ని ఎంచుకోండి లేదా సెర్చ్‌లో టూల్ పేరు టైప్ చేయండి.',catAll:'🌟 అన్ని టూల్స్',catBank:'🏦 బ్యాంక్ లేఖలు & దరఖాస్తులు',catBilling:'🧾 బిల్లులు, కొటేషన్లు & ఇన్వాయిస్‌లు',catSlips:'🎟️ రసీదులు, బుకింగ్ & జాబ్ స్లిప్స్',catIdPhoto:'🪪 ID కార్డులు & పాస్‌పోర్ట్ ఫోటోలు',catCareer:'📄 రెజ్యూమే & సర్టిఫికెట్లు',freeTool:'✓ ఉచిత టూల్',template:'⭐ లైవ్ టెంప్లేట్',openTool:'టూల్ తెరవండి →',viewTemplate:'టెంప్లేట్ చూడండి ↗',notFound:'టూల్స్ ఏవీ కనిపించలేదు!',tryAgain:'మరొక పదంతో వెతకండి.',resultOne:'టూల్',resultMany:'టూల్స్',supportBadge:'💚 ఉచిత సేవ & స్వచ్ఛంద సహాయం',supportTitle:'మీ నమ్మకం, సహకారమే మా బలం',supportLead:'KaamKaj Bills లోని అన్ని టూల్స్ మరియు పేపర్‌వర్క్ అందరికీ ఎప్పటికీ ఉచితం!',supportCopy:'ఈ ప్లాట్‌ఫామ్ ఉపయోగించడానికి ఎలాంటి ఫీజు లేదా సబ్‌స్క్రిప్షన్ లేదు. మా సేవ మీ పనికి ఉపయోగపడితే స్వచ్ఛందంగా సహకరించవచ్చు. మీ సహాయం సర్వర్ ఖర్చులు మరియు కొత్త ఫీచర్ల అభివృద్ధికి ఉపయోగపడుతుంది.',qrTitle:'ఏదైనా UPI యాప్‌తో స్కాన్ చేయండి',copy:'📋 కాపీ',copied:'✓ కాపీ అయింది',payUpi:'📲 UPI యాప్ ద్వారా చెల్లించండి',amountCaption:'మీకు నచ్చిన సహకార మొత్తాన్ని ఎంచుకోండి:',anyAmount:'ఏ మొత్తమైనా ❤️',supportThanks:'“KaamKaj Bills పై నమ్మకం ఉంచినందుకు ధన్యవాదాలు!”',requestBadge:'✨ కస్టమ్ వెబ్ పేజీ & ఫీచర్ అభ్యర్థన',requestTitle:'మీకు ఏ కొత్త ఫీచర్ లేదా వ్యక్తిగత పేజీ కావాలి?',requestCopy:'కొత్త టూల్ లేదా మీ షాప్/వ్యాపారం కోసం ప్రత్యేక పేజీ కావాలంటే వివరాలు పంపండి.',nameLabel:'మీ పేరు',namePlaceholder:'మీ పేరు నమోదు చేయండి...',phoneLabel:'మొబైల్ నంబర్ / WhatsApp',phonePlaceholder:'మొబైల్ నంబర్ నమోదు చేయండి...',detailsLabel:'మీకు ఏ పేజీ లేదా ఫీచర్ కావాలి?',detailsPlaceholder:'మీ అవసరాన్ని వివరించండి...',sendEmail:'✉️ ఇమెయిల్ ద్వారా పంపండి',openGmail:'🌐 Gmail తెరవండి',orEmail:'లేదా నేరుగా ఇమెయిల్ చేయండి:',fullSupport:'పూర్తి సహాయం & కస్టమ్ అభ్యర్థన పేజీ తెరవండి ↗',privacyNote:'మీ సందేశం మీ ఇమెయిల్ యాప్‌లో సిద్ధమవుతుంది; వెబ్‌సైట్‌లో డేటా సేవ్ చేయబడదు.',home:'🏠 హోమ్',privacy:'🔒 గోప్యతా విధానం',contact:'📞 సంప్రదించండి',footerLine:'• భారతీయ చిన్న వ్యాపారాలు, టెక్నీషియన్లు, దుకాణాలు మరియు కార్యాలయాల కోసం.',footerHelp:'సహాయం & కస్టమ్ పేజీ సపోర్ట్:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  kn:{about:'ℹ️ ನಮ್ಮ ಬಗ್ಗೆ',donateNav:'💚 ದೇಣಿಗೆ / ಬೆಂಬಲ',help:'💬 ಸಹಾಯ ಬಾಟ್',customNav:'✨ ಬೆಂಬಲ / ಕಸ್ಟಮ್ ಪುಟ',themeHint:'ಇಲ್ಲಿ ಲೈಟ್ ಅಥವಾ ಡಾರ್ಕ್ ಮೋಡ್ ಬದಲಾಯಿಸಿ',heroBadge:'⚡ ಲಾಗಿನ್ ಅಗತ್ಯವಿಲ್ಲ • ತಕ್ಷಣ A4 PDF ಮತ್ತು ಪ್ರಿಂಟ್ • ಸಂಪೂರ್ಣ ಉಚಿತ',heroTitle:'ಪ್ರತಿ ವ್ಯಾಪಾರ ಮತ್ತು ದೈನಂದಿನ ಕೆಲಸಗಳಿಗೆ ಸುಲಭ ಬಿಲ್, ರಸೀದಿ ಮತ್ತು ದಾಖಲೆ ಪರಿಕರಗಳು',heroDesc:'ಕೋಟೇಶನ್, ತೆರಿಗೆ ಇನ್‌ವಾಯ್ಸ್, ಬಾಡಿಗೆ ರಸೀದಿ, ಸಂಬಳ ಸ್ಲಿಪ್, ಬ್ಯಾಂಕ್ ಪತ್ರ, ID ಕಾರ್ಡ್, ಪಾಸ್‌ಪೋರ್ಟ್ ಫೋಟೋ ಶೀಟ್ ಮತ್ತು ರೆಸ್ಯೂಮ್ ರಚಿಸಿ.',search:'ಪರಿಕರ ಹುಡುಕಿ... Invoice, Rent, ID Card, Resume...',statTools:'24 ಉಪಯುಕ್ತ ಪರಿಕರಗಳು',statLanguages:'12 ಭಾರತೀಯ ಭಾಷೆಗಳು',statFree:'ಉಚಿತ • ಲಾಗಿನ್ ಇಲ್ಲ',directoryTitle:'ನಿಮ್ಮ ಕೆಲಸಕ್ಕೆ ಪರಿಕರ ಆಯ್ಕೆಮಾಡಿ',directorySub:'ವರ್ಗ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹುಡುಕಾಟದಲ್ಲಿ ಪರಿಕರದ ಹೆಸರನ್ನು ನಮೂದಿಸಿ.',catAll:'🌟 ಎಲ್ಲಾ ಪರಿಕರಗಳು',catBank:'🏦 ಬ್ಯಾಂಕ್ ಪತ್ರಗಳು ಮತ್ತು ಅರ್ಜಿಗಳು',catBilling:'🧾 ಬಿಲ್, ಕೋಟೇಶನ್ ಮತ್ತು ಇನ್‌ವಾಯ್ಸ್',catSlips:'🎟️ ರಸೀದಿ, ಬುಕ್ಕಿಂಗ್ ಮತ್ತು ಕೆಲಸದ ಸ್ಲಿಪ್',catIdPhoto:'🪪 ID ಕಾರ್ಡ್ ಮತ್ತು ಪಾಸ್‌ಪೋರ್ಟ್ ಫೋಟೋ',catCareer:'📄 ರೆಸ್ಯೂಮ್ ಮತ್ತು ಪ್ರಮಾಣಪತ್ರಗಳು',freeTool:'✓ ಉಚಿತ ಪರಿಕರ',template:'⭐ ಲೈವ್ ಟೆಂಪ್ಲೇಟ್',openTool:'ಪರಿಕರ ತೆರೆಯಿರಿ →',viewTemplate:'ಟೆಂಪ್ಲೇಟ್ ವೀಕ್ಷಿಸಿ ↗',notFound:'ಯಾವುದೇ ಪರಿಕರ ಸಿಗಲಿಲ್ಲ!',tryAgain:'ಬೇರೆ ಪದ ಬಳಸಿ ಹುಡುಕಿ.',resultOne:'ಪರಿಕರ',resultMany:'ಪರಿಕರಗಳು',supportBadge:'💚 ಉಚಿತ ಸೇವೆ ಮತ್ತು ಸ್ವಯಂಪ್ರೇರಿತ ಸಹಾಯ',supportTitle:'ನಿಮ್ಮ ನಂಬಿಕೆ ಮತ್ತು ಸಹಕಾರವೇ ನಮ್ಮ ಶಕ್ತಿ',supportLead:'KaamKaj Bills ನ ಎಲ್ಲಾ ಪರಿಕರಗಳು ಮತ್ತು ದಾಖಲೆ ಕೆಲಸಗಳು ಎಲ್ಲರಿಗೂ ಸದಾ ಉಚಿತ!',supportCopy:'ಈ ವೇದಿಕೆಯನ್ನು ಬಳಸಲು ಯಾವುದೇ ಶುಲ್ಕ ಅಥವಾ ಚಂದಾದಾರಿಕೆ ಇಲ್ಲ. ನಮ್ಮ ಸೇವೆ ನಿಮ್ಮ ಕೆಲಸಕ್ಕೆ ಸಹಾಯವಾಗಿದ್ದರೆ ಸ್ವಯಂಪ್ರೇರಿತವಾಗಿ ಕೊಡುಗೆ ನೀಡಬಹುದು. ನಿಮ್ಮ ಸಹಾಯ ಸರ್ವರ್ ವೆಚ್ಚ ಮತ್ತು ಹೊಸ ಸೌಲಭ್ಯಗಳ ಅಭಿವೃದ್ಧಿಗೆ ನೆರವಾಗುತ್ತದೆ.',qrTitle:'ಯಾವುದೇ UPI ಆಪ್ ಮೂಲಕ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ',copy:'📋 ನಕಲಿಸಿ',copied:'✓ ನಕಲಿಸಲಾಗಿದೆ',payUpi:'📲 UPI ಆಪ್ ಮೂಲಕ ಪಾವತಿಸಿ',amountCaption:'ನಿಮಗೆ ಇಷ್ಟವಾದ ಸಹಾಯದ ಮೊತ್ತ ಆಯ್ಕೆಮಾಡಿ:',anyAmount:'ಯಾವುದೇ ಮೊತ್ತ ❤️',supportThanks:'“KaamKaj Bills ಮೇಲೆ ನಂಬಿಕೆ ಇಟ್ಟಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!”',requestBadge:'✨ ಕಸ್ಟಮ್ ವೆಬ್ ಪುಟ ಮತ್ತು ವೈಶಿಷ್ಟ್ಯ ವಿನಂತಿ',requestTitle:'ನಿಮಗೆ ಯಾವ ಹೊಸ ವೈಶಿಷ್ಟ್ಯ ಅಥವಾ ವೈಯಕ್ತಿಕ ಪುಟ ಬೇಕು?',requestCopy:'ಹೊಸ ಪರಿಕರ ಅಥವಾ ನಿಮ್ಮ ಅಂಗಡಿ/ವ್ಯವಹಾರಕ್ಕೆ ಪ್ರತ್ಯೇಕ ಪುಟ ಬೇಕಿದ್ದರೆ ವಿವರಗಳನ್ನು ಕಳುಹಿಸಿ.',nameLabel:'ನಿಮ್ಮ ಹೆಸರು',namePlaceholder:'ನಿಮ್ಮ ಹೆಸರನ್ನು ನಮೂದಿಸಿ...',phoneLabel:'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ / WhatsApp',phonePlaceholder:'ಮೊಬೈಲ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ...',detailsLabel:'ಯಾವ ಪುಟ ಅಥವಾ ವೈಶಿಷ್ಟ್ಯ ಬೇಕು?',detailsPlaceholder:'ನಿಮ್ಮ ಅಗತ್ಯವನ್ನು ಬರೆಯಿರಿ...',sendEmail:'✉️ ಇಮೇಲ್ ಮೂಲಕ ಕಳುಹಿಸಿ',openGmail:'🌐 Gmail ತೆರೆಯಿರಿ',orEmail:'ಅಥವಾ ನೇರವಾಗಿ ಇಮೇಲ್ ಮಾಡಿ:',fullSupport:'ಪೂರ್ಣ ಬೆಂಬಲ ಮತ್ತು ಕಸ್ಟಮ್ ವಿನಂತಿ ಪುಟ ತೆರೆಯಿರಿ ↗',privacyNote:'ನಿಮ್ಮ ಸಂದೇಶ ಇಮೇಲ್ ಆಪ್‌ನಲ್ಲಿ ಸಿದ್ಧವಾಗುತ್ತದೆ; ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಡೇಟಾ ಉಳಿಸಲಾಗುವುದಿಲ್ಲ.',home:'🏠 ಮುಖಪುಟ',privacy:'🔒 ಗೌಪ್ಯತಾ ನೀತಿ',contact:'📞 ಸಂಪರ್ಕ',footerLine:'• ಭಾರತದ ಸಣ್ಣ ವ್ಯಾಪಾರಗಳು, ತಂತ್ರಜ್ಞರು, ಅಂಗಡಿಗಳು ಮತ್ತು ಕಚೇರಿಗಳಿಗಾಗಿ.',footerHelp:'ಸಹಾಯ ಮತ್ತು ಕಸ್ಟಮ್ ಪುಟ ಬೆಂಬಲ:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  ml:{about:'ℹ️ ഞങ്ങളെക്കുറിച്ച്',donateNav:'💚 സംഭാവന / പിന്തുണ',help:'💬 സഹായ ബോട്ട്',customNav:'✨ പിന്തുണ / കസ്റ്റം പേജ്',themeHint:'ഇവിടെ ലൈറ്റ് അല്ലെങ്കിൽ ഡാർക്ക് മോഡ് മാറ്റാം',heroBadge:'⚡ ലോഗിൻ വേണ്ട • ഉടൻ A4 PDF & പ്രിന്റ് • പൂർണ്ണമായും സൗജന്യം',heroTitle:'എല്ലാ ബിസിനസുകൾക്കും ദൈനംദിന ജോലികൾക്കും എളുപ്പമുള്ള ബിൽ, രസീത്, ഡോക്യുമെന്റ് ടൂളുകൾ',heroDesc:'ക്വട്ടേഷൻ, ടാക്സ് ഇൻവോയ്സ്, വാടക രസീത്, ശമ്പള സ്ലിപ്പ്, ബാങ്ക് കത്ത്, ID കാർഡ്, പാസ്‌പോർട്ട് ഫോട്ടോ ഷീറ്റ്, റെസ്യൂമെ എന്നിവ നിമിഷങ്ങൾക്കകം തയ്യാറാക്കാം.',search:'ടൂൾ തിരയുക... Invoice, Rent, ID Card, Resume...',statTools:'24 പ്രയോജനകരമായ ടൂളുകൾ',statLanguages:'12 ഇന്ത്യൻ ഭാഷകൾ',statFree:'സൗജന്യം • ലോഗിൻ വേണ്ട',directoryTitle:'നിങ്ങളുടെ ജോലിക്കുള്ള ടൂൾ തിരഞ്ഞെടുക്കുക',directorySub:'വിഭാഗം തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ തിരയൽ ബോക്സിൽ ടൂളിന്റെ പേര് നൽകുക.',catAll:'🌟 എല്ലാ ടൂളുകളും',catBank:'🏦 ബാങ്ക് കത്തുകളും അപേക്ഷകളും',catBilling:'🧾 ബില്ലുകൾ, ക്വട്ടേഷനുകൾ, ഇൻവോയ്സുകൾ',catSlips:'🎟️ രസീതുകൾ, ബുക്കിംഗ്, ജോബ് സ്ലിപ്പുകൾ',catIdPhoto:'🪪 ID കാർഡുകളും പാസ്‌പോർട്ട് ഫോട്ടോകളും',catCareer:'📄 റെസ്യൂമെയും സർട്ടിഫിക്കറ്റുകളും',freeTool:'✓ സൗജന്യ ടൂൾ',template:'⭐ ലൈവ് ടെംപ്ലേറ്റ്',openTool:'ടൂൾ തുറക്കുക →',viewTemplate:'ടെംപ്ലേറ്റ് കാണുക ↗',notFound:'ടൂളുകളൊന്നും കണ്ടെത്തിയില്ല!',tryAgain:'മറ്റൊരു വാക്ക് ഉപയോഗിച്ച് തിരയുക.',resultOne:'ടൂൾ',resultMany:'ടൂളുകൾ',supportBadge:'💚 സൗജന്യ സേവനവും സ്വമേധയാ പിന്തുണയും',supportTitle:'നിങ്ങളുടെ വിശ്വാസവും പിന്തുണയും ഞങ്ങളുടെ ശക്തിയാണ്',supportLead:'KaamKaj Bills-ലെ എല്ലാ ടൂളുകളും രേഖാപ്രവർത്തനങ്ങളും എല്ലാവർക്കും എപ്പോഴും സൗജന്യമാണ്!',supportCopy:'ഈ പ്ലാറ്റ്ഫോം ഉപയോഗിക്കുന്നതിന് ഫീസോ സബ്സ്ക്രിപ്ഷനോ ഇല്ല. ഞങ്ങളുടെ സേവനം നിങ്ങളുടെ ജോലിക്ക് സഹായകമായെങ്കിൽ സ്വമേധയാ സംഭാവന നൽകാം. നിങ്ങളുടെ പിന്തുണ സെർവർ ചെലവുകൾക്കും പുതിയ സൗകര്യങ്ങൾ വികസിപ്പിക്കാനും സഹായിക്കും.',qrTitle:'ഏതെങ്കിലും UPI ആപ്പിൽ സ്കാൻ ചെയ്യുക',copy:'📋 പകർത്തുക',copied:'✓ പകർത്തി',payUpi:'📲 UPI ആപ്പ് വഴി പണമടയ്ക്കുക',amountCaption:'നിങ്ങൾക്ക് ഇഷ്ടമുള്ള സംഭാവന തുക തിരഞ്ഞെടുക്കുക:',anyAmount:'ഏത് തുകയും ❤️',supportThanks:'“KaamKaj Bills-ൽ വിശ്വാസം അർപ്പിച്ചതിന് നന്ദി!”',requestBadge:'✨ കസ്റ്റം വെബ് പേജ് & ഫീച്ചർ അഭ്യർത്ഥന',requestTitle:'നിങ്ങൾക്ക് എന്ത് പുതിയ ഫീച്ചറോ വ്യക്തിഗത പേജോ വേണം?',requestCopy:'പുതിയ ടൂൾ അല്ലെങ്കിൽ നിങ്ങളുടെ കട/ബിസിനസിനായി പ്രത്യേക പേജ് വേണമെങ്കിൽ വിശദാംശങ്ങൾ അയയ്ക്കുക.',nameLabel:'നിങ്ങളുടെ പേര്',namePlaceholder:'നിങ്ങളുടെ പേര് നൽകുക...',phoneLabel:'മൊബൈൽ നമ്പർ / WhatsApp',phonePlaceholder:'മൊബൈൽ നമ്പർ നൽകുക...',detailsLabel:'ഏത് പേജ് അല്ലെങ്കിൽ ഫീച്ചറാണ് വേണ്ടത്?',detailsPlaceholder:'നിങ്ങളുടെ ആവശ്യം എഴുതുക...',sendEmail:'✉️ ഇമെയിൽ വഴി അയയ്ക്കുക',openGmail:'🌐 Gmail തുറക്കുക',orEmail:'അല്ലെങ്കിൽ നേരിട്ട് ഇമെയിൽ ചെയ്യുക:',fullSupport:'പൂർണ്ണ പിന്തുണയും കസ്റ്റം അഭ്യർത്ഥന പേജും തുറക്കുക ↗',privacyNote:'സന്ദേശം നിങ്ങളുടെ ഇമെയിൽ ആപ്പിൽ തയ്യാറാകും; വെബ്‌സൈറ്റിൽ ഡാറ്റ സൂക്ഷിക്കില്ല.',home:'🏠 ഹോം',privacy:'🔒 സ്വകാര്യതാ നയം',contact:'📞 ബന്ധപ്പെടുക',footerLine:'• ഇന്ത്യൻ ചെറുകിട ബിസിനസുകൾ, ടെക്നീഷ്യൻമാർ, കടകൾ, ഓഫീസുകൾ എന്നിവർക്കായി.',footerHelp:'സഹായവും കസ്റ്റം പേജ് പിന്തുണയും:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  pa:{about:'ℹ️ ਸਾਡੇ ਬਾਰੇ',donateNav:'💚 ਦਾਨ / ਸਹਿਯੋਗ',help:'💬 ਮਦਦ ਬੋਟ',customNav:'✨ ਸਹਿਯੋਗ / ਕਸਟਮ ਪੇਜ',themeHint:'ਇੱਥੋਂ ਲਾਈਟ ਜਾਂ ਡਾਰਕ ਮੋਡ ਬਦਲੋ',heroBadge:'⚡ ਲੌਗਇਨ ਦੀ ਲੋੜ ਨਹੀਂ • ਤੁਰੰਤ A4 PDF ਅਤੇ ਪ੍ਰਿੰਟ • ਬਿਲਕੁਲ ਮੁਫ਼ਤ',heroTitle:'ਹਰ ਕਾਰੋਬਾਰ ਅਤੇ ਰੋਜ਼ਾਨਾ ਕੰਮ ਲਈ ਆਸਾਨ ਬਿੱਲ, ਰਸੀਦ ਅਤੇ ਦਸਤਾਵੇਜ਼ ਟੂਲ',heroDesc:'ਕੋਟੇਸ਼ਨ, ਟੈਕਸ ਇਨਵੌਇਸ, ਕਿਰਾਏ ਦੀ ਰਸੀਦ, ਤਨਖਾਹ ਸਲਿੱਪ, ਬੈਂਕ ਪੱਤਰ, ID ਕਾਰਡ, ਪਾਸਪੋਰਟ ਫੋਟੋ ਸ਼ੀਟ ਅਤੇ ਰਿਜ਼ਿਊਮੇ ਬਣਾਓ।',search:'ਟੂਲ ਖੋਜੋ... Invoice, Rent, ID Card, Resume...',statTools:'24 ਲਾਭਦਾਇਕ ਟੂਲ',statLanguages:'12 ਭਾਰਤੀ ਭਾਸ਼ਾਵਾਂ',statFree:'ਮੁਫ਼ਤ • ਲੌਗਇਨ ਨਹੀਂ',directoryTitle:'ਆਪਣੇ ਕੰਮ ਲਈ ਟੂਲ ਚੁਣੋ',directorySub:'ਸ਼੍ਰੇਣੀ ਚੁਣੋ ਜਾਂ ਖੋਜ ਬਾਕਸ ਵਿੱਚ ਟੂਲ ਦਾ ਨਾਮ ਲਿਖੋ।',catAll:'🌟 ਸਾਰੇ ਟੂਲ',catBank:'🏦 ਬੈਂਕ ਪੱਤਰ ਅਤੇ ਅਰਜ਼ੀਆਂ',catBilling:'🧾 ਬਿੱਲ, ਕੋਟੇਸ਼ਨ ਅਤੇ ਇਨਵੌਇਸ',catSlips:'🎟️ ਰਸੀਦਾਂ, ਬੁਕਿੰਗ ਅਤੇ ਜੌਬ ਸਲਿੱਪ',catIdPhoto:'🪪 ID ਕਾਰਡ ਅਤੇ ਪਾਸਪੋਰਟ ਫੋਟੋ',catCareer:'📄 ਰਿਜ਼ਿਊਮੇ ਅਤੇ ਸਰਟੀਫਿਕੇਟ',freeTool:'✓ ਮੁਫ਼ਤ ਟੂਲ',template:'⭐ ਲਾਈਵ ਟੈਂਪਲੇਟ',openTool:'ਟੂਲ ਖੋਲ੍ਹੋ →',viewTemplate:'ਟੈਂਪਲੇਟ ਵੇਖੋ ↗',notFound:'ਕੋਈ ਟੂਲ ਨਹੀਂ ਮਿਲਿਆ!',tryAgain:'ਕਿਸੇ ਹੋਰ ਸ਼ਬਦ ਨਾਲ ਖੋਜੋ।',resultOne:'ਟੂਲ',resultMany:'ਟੂਲ',supportBadge:'💚 ਮੁਫ਼ਤ ਸੇਵਾ ਅਤੇ ਆਪਣੀ ਮਰਜ਼ੀ ਨਾਲ ਸਹਿਯੋਗ',supportTitle:'ਤੁਹਾਡਾ ਭਰੋਸਾ ਅਤੇ ਸਹਿਯੋਗ ਸਾਡੀ ਤਾਕਤ ਹੈ',supportLead:'KaamKaj Bills ਦੇ ਸਾਰੇ ਟੂਲ ਅਤੇ ਕਾਗਜ਼ੀ ਕੰਮ ਹਰ ਕਿਸੇ ਲਈ ਹਮੇਸ਼ਾ ਮੁਫ਼ਤ ਹਨ!',supportCopy:'ਇਸ ਪਲੇਟਫਾਰਮ ਲਈ ਕੋਈ ਫੀਸ ਜਾਂ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਨਹੀਂ ਹੈ। ਜੇ ਸਾਡੀ ਸੇਵਾ ਤੁਹਾਡੇ ਕੰਮ ਆਈ ਹੈ ਤਾਂ ਤੁਸੀਂ ਆਪਣੀ ਮਰਜ਼ੀ ਨਾਲ ਯੋਗਦਾਨ ਦੇ ਸਕਦੇ ਹੋ। ਤੁਹਾਡਾ ਸਹਿਯੋਗ ਸਰਵਰ ਖਰਚ ਅਤੇ ਨਵੀਆਂ ਸਹੂਲਤਾਂ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰੇਗਾ।',qrTitle:'ਕਿਸੇ ਵੀ UPI ਐਪ ਨਾਲ ਸਕੈਨ ਕਰੋ',copy:'📋 ਕਾਪੀ',copied:'✓ ਕਾਪੀ ਹੋ ਗਿਆ',payUpi:'📲 UPI ਐਪ ਰਾਹੀਂ ਭੁਗਤਾਨ ਕਰੋ',amountCaption:'ਆਪਣੀ ਪਸੰਦ ਦੀ ਸਹਿਯੋਗ ਰਕਮ ਚੁਣੋ:',anyAmount:'ਕੋਈ ਵੀ ਰਕਮ ❤️',supportThanks:'“KaamKaj Bills ’ਤੇ ਭਰੋਸਾ ਕਰਨ ਲਈ ਧੰਨਵਾਦ!”',requestBadge:'✨ ਕਸਟਮ ਵੈੱਬ ਪੇਜ ਅਤੇ ਫੀਚਰ ਦੀ ਬੇਨਤੀ',requestTitle:'ਤੁਹਾਨੂੰ ਕਿਹੜਾ ਨਵਾਂ ਫੀਚਰ ਜਾਂ ਨਿੱਜੀ ਪੇਜ ਚਾਹੀਦਾ ਹੈ?',requestCopy:'ਨਵਾਂ ਟੂਲ ਜਾਂ ਆਪਣੀ ਦੁਕਾਨ/ਕਾਰੋਬਾਰ ਲਈ ਵੱਖਰਾ ਪੇਜ ਚਾਹੀਦਾ ਹੈ ਤਾਂ ਵੇਰਵੇ ਭੇਜੋ।',nameLabel:'ਤੁਹਾਡਾ ਨਾਮ',namePlaceholder:'ਆਪਣਾ ਨਾਮ ਲਿਖੋ...',phoneLabel:'ਮੋਬਾਈਲ ਨੰਬਰ / WhatsApp',phonePlaceholder:'ਮੋਬਾਈਲ ਨੰਬਰ ਲਿਖੋ...',detailsLabel:'ਤੁਹਾਨੂੰ ਕਿਹੜਾ ਪੇਜ ਜਾਂ ਫੀਚਰ ਚਾਹੀਦਾ ਹੈ?',detailsPlaceholder:'ਆਪਣੀ ਲੋੜ ਲਿਖੋ...',sendEmail:'✉️ ਈਮੇਲ ਰਾਹੀਂ ਭੇਜੋ',openGmail:'🌐 Gmail ਖੋਲ੍ਹੋ',orEmail:'ਜਾਂ ਸਿੱਧਾ ਈਮੇਲ ਕਰੋ:',fullSupport:'ਪੂਰਾ ਸਹਿਯੋਗ ਅਤੇ ਕਸਟਮ ਬੇਨਤੀ ਪੇਜ ਖੋਲ੍ਹੋ ↗',privacyNote:'ਤੁਹਾਡਾ ਸੁਨੇਹਾ ਈਮੇਲ ਐਪ ਵਿੱਚ ਤਿਆਰ ਹੋਵੇਗਾ; ਵੈੱਬਸਾਈਟ ਡਾਟਾ ਸੇਵ ਨਹੀਂ ਕਰਦੀ।',home:'🏠 ਮੁੱਖ ਪੰਨਾ',privacy:'🔒 ਪਰਦੇਦਾਰੀ ਨੀਤੀ',contact:'📞 ਸੰਪਰਕ',footerLine:'• ਭਾਰਤੀ ਛੋਟੇ ਕਾਰੋਬਾਰਾਂ, ਟੈਕਨੀਸ਼ੀਅਨਾਂ, ਦੁਕਾਨਾਂ ਅਤੇ ਦਫ਼ਤਰਾਂ ਲਈ.',footerHelp:'ਮਦਦ ਅਤੇ ਕਸਟਮ ਪੇਜ ਸਹਾਇਤਾ:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  or:{about:'ℹ️ ଆମ ବିଷୟରେ',donateNav:'💚 ସହଯୋଗ / ଦାନ',help:'💬 ସହାୟତା ବଟ୍',customNav:'✨ ସହଯୋଗ / କଷ୍ଟମ୍ ପେଜ୍',themeHint:'ଏଠାରୁ ଲାଇଟ୍ କିମ୍ବା ଡାର୍କ ମୋଡ୍ ବଦଳାନ୍ତୁ',heroBadge:'⚡ ଲଗଇନ୍ ଦରକାର ନାହିଁ • ତୁରନ୍ତ A4 PDF ଓ ପ୍ରିଣ୍ଟ • ସମ୍ପୂର୍ଣ୍ଣ ମାଗଣା',heroTitle:'ପ୍ରତ୍ୟେକ ବ୍ୟବସାୟ ଓ ଦୈନନ୍ଦିନ କାମ ପାଇଁ ସହଜ ବିଲ୍, ରସିଦ ଓ ଡକ୍ୟୁମେଣ୍ଟ ଟୁଲ୍',heroDesc:'କୋଟେସନ୍, ଟ୍ୟାକ୍ସ ଇନଭଏସ୍, ଘରଭଡ଼ା ରସିଦ, ଦରମା ସ୍ଲିପ୍, ବ୍ୟାଙ୍କ ଚିଠି, ID କାର୍ଡ, ପାସପୋର୍ଟ ଫଟୋ ସିଟ୍ ଓ ରିଜ୍ୟୁମେ ତିଆରି କରନ୍ତୁ।',search:'ଟୁଲ୍ ଖୋଜନ୍ତୁ... Invoice, Rent, ID Card, Resume...',statTools:'24ଟି ଉପଯୋଗୀ ଟୁଲ୍',statLanguages:'12ଟି ଭାରତୀୟ ଭାଷା',statFree:'ମାଗଣା • ଲଗଇନ୍ ନାହିଁ',directoryTitle:'ଆପଣଙ୍କ କାମ ପାଇଁ ଟୁଲ୍ ବାଛନ୍ତୁ',directorySub:'ବର୍ଗ ବାଛନ୍ତୁ କିମ୍ବା ସର୍ଚ୍ଚରେ ଟୁଲ୍ ନାମ ଲେଖନ୍ତୁ।',catAll:'🌟 ସମସ୍ତ ଟୁଲ୍',catBank:'🏦 ବ୍ୟାଙ୍କ ଚିଠି ଓ ଆବେଦନ',catBilling:'🧾 ବିଲ୍, କୋଟେସନ୍ ଓ ଇନଭଏସ୍',catSlips:'🎟️ ରସିଦ, ବୁକିଂ ଓ ଜବ୍ ସ୍ଲିପ୍',catIdPhoto:'🪪 ID କାର୍ଡ ଓ ପାସପୋର୍ଟ ଫଟୋ',catCareer:'📄 ରିଜ୍ୟୁମେ ଓ ପ୍ରମାଣପତ୍ର',freeTool:'✓ ମାଗଣା ଟୁଲ୍',template:'⭐ ଲାଇଭ୍ ଟେମ୍ପଲେଟ୍',openTool:'ଟୁଲ୍ ଖୋଲନ୍ତୁ →',viewTemplate:'ଟେମ୍ପଲେଟ୍ ଦେଖନ୍ତୁ ↗',notFound:'କୌଣସି ଟୁଲ୍ ମିଳିଲା ନାହିଁ!',tryAgain:'ଅନ୍ୟ ଶବ୍ଦ ଦେଇ ଖୋଜନ୍ତୁ।',resultOne:'ଟୁଲ୍',resultMany:'ଟୁଲ୍',supportBadge:'💚 ମାଗଣା ସେବା ଓ ସ୍ୱେଚ୍ଛାକୃତ ସହଯୋଗ',supportTitle:'ଆପଣଙ୍କ ବିଶ୍ୱାସ ଓ ସହଯୋଗ ଆମର ଶକ୍ତି',supportLead:'KaamKaj Bills ର ସମସ୍ତ ଟୁଲ୍ ଓ କାଗଜପତ୍ର ସମସ୍ତଙ୍କ ପାଇଁ ସବୁବେଳେ ମାଗଣା!',supportCopy:'ଏହି ପ୍ଲାଟଫର୍ମ ବ୍ୟବହାର ପାଇଁ କୌଣସି ଫି କିମ୍ବା ସବ୍ସକ୍ରିପ୍ସନ୍ ନାହିଁ। ଆମ ସେବା ଆପଣଙ୍କ କାମରେ ସାହାଯ୍ୟ କରିଥିଲେ ଇଚ୍ଛାନୁସାରେ ଅବଦାନ ଦେଇପାରିବେ। ଏହା ସର୍ଭର ଖର୍ଚ୍ଚ ଓ ନୂଆ ସୁବିଧା ପାଇଁ ସହାୟକ ହେବ।',qrTitle:'ଯେକୌଣସି UPI ଆପ୍‌ରେ ସ୍କାନ୍ କରନ୍ତୁ',copy:'📋 କପି',copied:'✓ କପି ହେଲା',payUpi:'📲 UPI ଆପ୍‌ରେ ପେମେଣ୍ଟ କରନ୍ତୁ',amountCaption:'ନିଜ ଇଚ୍ଛା ଅନୁସାରେ ଅବଦାନ ରାଶି ବାଛନ୍ତୁ:',anyAmount:'ଯେକୌଣସି ରାଶି ❤️',supportThanks:'“KaamKaj Bills ଉପରେ ବିଶ୍ୱାସ ରଖିଥିବାରୁ ଧନ୍ୟବାଦ!”',requestBadge:'✨ କଷ୍ଟମ୍ ୱେବ୍ ପେଜ୍ ଓ ଫିଚର୍ ଅନୁରୋଧ',requestTitle:'ଆପଣଙ୍କୁ କେଉଁ ନୂଆ ଫିଚର୍ କିମ୍ବା ବ୍ୟକ୍ତିଗତ ପେଜ୍ ଦରକାର?',requestCopy:'ନୂଆ ଟୁଲ୍ କିମ୍ବା ନିଜ ଦୋକାନ/ବ୍ୟବସାୟ ପାଇଁ ଅଲଗା ପେଜ୍ ଦରକାର ହେଲେ ବିବରଣୀ ପଠାନ୍ତୁ।',nameLabel:'ଆପଣଙ୍କ ନାମ',namePlaceholder:'ନାମ ଲେଖନ୍ତୁ...',phoneLabel:'ମୋବାଇଲ୍ ନମ୍ବର / WhatsApp',phonePlaceholder:'ମୋବାଇଲ୍ ନମ୍ବର ଲେଖନ୍ତୁ...',detailsLabel:'କେଉଁ ପେଜ୍ କିମ୍ବା ଫିଚର୍ ଦରକାର?',detailsPlaceholder:'ଆପଣଙ୍କ ଆବଶ୍ୟକତା ଲେଖନ୍ତୁ...',sendEmail:'✉️ ଇମେଲ୍‌ରେ ପଠାନ୍ତୁ',openGmail:'🌐 Gmail ଖୋଲନ୍ତୁ',orEmail:'କିମ୍ବା ସିଧାସଳଖ ଇମେଲ୍ କରନ୍ତୁ:',fullSupport:'ପୂର୍ଣ୍ଣ ସହାୟତା ଓ କଷ୍ଟମ୍ ଅନୁରୋଧ ପେଜ୍ ଖୋଲନ୍ତୁ ↗',privacyNote:'ବାର୍ତ୍ତା ଆପଣଙ୍କ ଇମେଲ୍ ଆପ୍‌ରେ ପ୍ରସ୍ତୁତ ହେବ; ୱେବସାଇଟ୍‌ରେ ଡାଟା ସେଭ୍ ହୁଏ ନାହିଁ।',home:'🏠 ହୋମ୍',privacy:'🔒 ଗୋପନୀୟତା ନୀତି',contact:'📞 ଯୋଗାଯୋଗ',footerLine:'• ଭାରତୀୟ କ୍ଷୁଦ୍ର ବ୍ୟବସାୟ, ଟେକ୍ନିସିଆନ୍, ଦୋକାନ ଓ କାର୍ଯ୍ୟାଳୟ ପାଇଁ.',footerHelp:'ସହାୟତା ଓ କଷ୍ଟମ୍ ପେଜ୍ ସପୋର୍ଟ:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'},
+  ur:{about:'ℹ️ ہمارے بارے میں',donateNav:'💚 عطیہ / تعاون',help:'💬 مدد کا بوٹ',customNav:'✨ سپورٹ / کسٹم پیج',themeHint:'یہاں سے لائٹ یا ڈارک موڈ تبدیل کریں',heroBadge:'⚡ لاگ اِن کے بغیر • فوری A4 PDF اور پرنٹ • مکمل مفت',heroTitle:'ہر کاروبار اور روزمرہ کام کے لیے آسان بل، رسید اور دستاویز کے ٹولز',heroDesc:'کوٹیشن، ٹیکس انوائس، کرایہ رسید، تنخواہ سلپ، بینک لیٹر، ID کارڈ، پاسپورٹ فوٹو شیٹ اور ریزیومے چند سیکنڈ میں بنائیں۔',search:'ٹول تلاش کریں... Invoice, Rent, ID Card, Resume...',statTools:'24 مفید ٹولز',statLanguages:'12 بھارتی زبانیں',statFree:'مفت • لاگ اِن نہیں',directoryTitle:'اپنے کام کے لیے ٹول منتخب کریں',directorySub:'کیٹیگری منتخب کریں یا سرچ میں ٹول کا نام لکھیں۔',catAll:'🌟 تمام ٹولز',catBank:'🏦 بینک لیٹر اور درخواستیں',catBilling:'🧾 بل، کوٹیشن اور انوائس',catSlips:'🎟️ رسید، بکنگ اور جاب سلپ',catIdPhoto:'🪪 ID کارڈ اور پاسپورٹ تصاویر',catCareer:'📄 ریزیومے اور سرٹیفکیٹ',freeTool:'✓ مفت ٹول',template:'⭐ لائیو ٹیمپلیٹ',openTool:'ٹول کھولیں ←',viewTemplate:'ٹیمپلیٹ دیکھیں ↖',notFound:'کوئی ٹول نہیں ملا!',tryAgain:'کسی دوسرے لفظ سے تلاش کریں۔',resultOne:'ٹول',resultMany:'ٹولز',supportBadge:'💚 مفت سروس اور رضاکارانہ تعاون',supportTitle:'آپ کا اعتماد اور تعاون ہماری طاقت ہے',supportLead:'KaamKaj Bills کے تمام ٹولز اور کاغذی کام ہر ایک کے لیے ہمیشہ مفت ہیں!',supportCopy:'اس پلیٹ فارم کے استعمال کے لیے کوئی فیس یا سبسکرپشن نہیں ہے۔ اگر ہماری سروس نے آپ کے کام میں مدد کی ہے تو آپ اپنی مرضی سے تعاون کر سکتے ہیں۔ یہ تعاون سرور کے اخراجات اور نئی سہولیات بنانے میں مدد دے گا۔',qrTitle:'کسی بھی UPI ایپ سے اسکین کریں',copy:'📋 کاپی',copied:'✓ کاپی ہوگیا',payUpi:'📲 UPI ایپ کے ذریعے ادائیگی کریں',amountCaption:'اپنی مرضی سے تعاون کی رقم منتخب کریں:',anyAmount:'کوئی بھی رقم ❤️',supportThanks:'“KaamKaj Bills پر اعتماد کرنے کا بہت شکریہ!”',requestBadge:'✨ کسٹم ویب پیج اور فیچر کی درخواست',requestTitle:'آپ کو کون سا نیا فیچر یا ذاتی پیج چاہیے؟',requestCopy:'نیا ٹول یا اپنے کاروبار/دکان کے لیے الگ کسٹم پیج چاہیے تو تفصیلات بھیجیں۔',nameLabel:'آپ کا نام',namePlaceholder:'اپنا نام لکھیں...',phoneLabel:'موبائل نمبر / WhatsApp',phonePlaceholder:'موبائل نمبر لکھیں...',detailsLabel:'آپ کو کون سا پیج یا فیچر چاہیے؟',detailsPlaceholder:'اپنی ضرورت کی تفصیل لکھیں...',sendEmail:'✉️ ای میل کے ذریعے بھیجیں',openGmail:'🌐 Gmail کھولیں',orEmail:'یا براہ راست ای میل کریں:',fullSupport:'مکمل سپورٹ اور کسٹم درخواست کا صفحہ کھولیں ↖',privacyNote:'آپ کا پیغام آپ کی ای میل ایپ میں تیار ہوگا؛ ویب سائٹ پر ڈیٹا محفوظ نہیں ہوتا۔',home:'🏠 ہوم',privacy:'🔒 رازداری کی پالیسی',contact:'📞 رابطہ کریں',footerLine:'• ہندوستان کے چھوٹے کاروباروں، ٹیکنیشنز، دکانوں اور دفاتر کے لیے۔',footerHelp:'مدد اور کسٹم پیج سپورٹ:',brandLine:'100% Free Billing, Slips, Bank Letters, ID Cards & Resume Tools'}
+};
 
-function renderTools() {
-  const query = document.getElementById('searchInput').value.toLowerCase().trim();
-  const grid = document.getElementById('toolsGrid');
-  grid.innerHTML = '';
-
-  const filtered = TOOLS_DATA.filter(t => {
-    const matchCat = (currentCat === 'ALL' || t.cat === currentCat);
-    const matchQuery = !query || 
-      t.hi.toLowerCase().includes(query) || 
-      t.en.toLowerCase().includes(query) || 
-      t.desc.toLowerCase().includes(query) || 
-      t.keys.includes(query);
-    return matchCat && matchQuery;
+let currentCat='ALL';
+let currentLang='hi';
+const $=(id)=>document.getElementById(id);
+function tr(key){return (I18N[currentLang]&&I18N[currentLang][key])||(I18N.en&&I18N.en[key])||key;}
+function renderTools(){
+  const query=$('searchInput').value.toLocaleLowerCase().trim();
+  const grid=$('toolsGrid');
+  grid.replaceChildren();
+  const filtered=TOOLS_DATA.filter(t=>{
+    const matchCat=currentCat==='ALL'||t.cat===currentCat;
+    const haystack=[t.hi,t.en,t.desc,t.keys].join(' ').toLocaleLowerCase();
+    return matchCat&&(!query||haystack.includes(query));
   });
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:30px; background:rgba(255,255,255,0.9); border-radius:12px; border:1px solid #cbd5e1;">
-      <b>कोई टूल नहीं मिला!</b> कृपया दूसरा शब्द लिखकर खोजें।
-    </div>`;
-    return;
+  $('resultCount').textContent=`${filtered.length} ${filtered.length===1?tr('resultOne'):tr('resultMany')}`;
+  if(!filtered.length){
+    const empty=document.createElement('div');empty.className='empty-state';
+    const title=document.createElement('strong');title.textContent=tr('notFound');
+    const desc=document.createElement('span');desc.textContent=tr('tryAgain');
+    empty.append(title,desc);grid.appendChild(empty);return;
   }
-
-  filtered.forEach(t => {
-    const card = document.createElement('div');
-    card.className = 'tool-card' + (t.isTemplate ? ' template-card' : '');
-    
-    card.innerHTML = `
-      <div>
-        <div class="tool-top">
-          <div class="tool-icon">${t.icon}</div>
-          <div class="tool-title-wrap">
-            <h3>${t.hi}</h3>
-            <small>${t.en}</small>
-          </div>
-        </div>
-        <p class="tool-desc">${t.desc}</p>
-      </div>
-      <div class="tool-footer">
-        <span class="${t.isTemplate ? 'tag-template' : 'tag-free'}">${t.isTemplate ? '⭐ LIVE TEMPLATE' : '✓ FREE TOOL'}</span>
-        <a href="${t.file}" target="_self" class="btn-open">${t.isTemplate ? 'View Template ↗' : 'Open Tool →'}</a>
-      </div>
-    `;
-    grid.appendChild(card);
+  const fragment=document.createDocumentFragment();
+  filtered.forEach(t=>{
+    const card=document.createElement('article');card.className='tool-card'+(t.isTemplate?' template-card':'');
+    const content=document.createElement('div');
+    const top=document.createElement('div');top.className='tool-top';
+    const icon=document.createElement('div');icon.className='tool-icon';icon.setAttribute('aria-hidden','true');icon.textContent=t.icon;
+    const titleWrap=document.createElement('div');titleWrap.className='tool-title-wrap';
+    const title=document.createElement('h3');title.textContent=t.hi;
+    const subtitle=document.createElement('small');subtitle.textContent=t.en;
+    titleWrap.append(title,subtitle);top.append(icon,titleWrap);
+    const desc=document.createElement('p');desc.className='tool-desc';desc.textContent=t.desc;
+    content.append(top,desc);
+    const footer=document.createElement('div');footer.className='tool-footer';
+    const tag=document.createElement('span');tag.className=t.isTemplate?'tag-template':'tag-free';tag.textContent=t.isTemplate?tr('template'):tr('freeTool');
+    const link=document.createElement('a');link.className='btn-open';link.href=t.file;link.target='_self';link.textContent=t.isTemplate?tr('viewTemplate'):tr('openTool');
+    footer.append(tag,link);card.append(content,footer);fragment.appendChild(card);
   });
+  grid.appendChild(fragment);
 }
-
-function setCategory(cat, btn) {
-  currentCat = cat;
-  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
+function setCategory(cat,btn){
+  currentCat=cat;
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.toggle('active',p===btn));
   renderTools();
 }
-
-function filterTools() { renderTools(); }
-
-function copyUpiId() {
-  const upiId = document.getElementById('upiIdText').innerText.trim();
-  const btn = document.getElementById('copyUpiBtn');
-
-  function showCopied() {
-    btn.innerText = '✓ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.innerText = '📋 Copy';
-      btn.classList.remove('copied');
-    }, 2200);
-  }
-
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(upiId).then(showCopied).catch(() => {
-      fallbackCopy(upiId);
-      showCopied();
-    });
-  } else {
-    fallbackCopy(upiId);
-    showCopied();
-  }
+function filterTools(){renderTools();}
+function applyLanguage(lang){
+  currentLang=I18N[lang]?lang:'hi';
+  const langInfo={hi:['hi','ltr'],en:['en','ltr'],mr:['mr','ltr'],gu:['gu','ltr'],bn:['bn','ltr'],ta:['ta','ltr'],te:['te','ltr'],kn:['kn','ltr'],ml:['ml','ltr'],pa:['pa','ltr'],or:['or','ltr'],ur:['ur','rtl']};
+  const info=langInfo[currentLang]||langInfo.hi;
+  document.documentElement.lang=info[0];document.documentElement.dir=info[1];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.dataset.i18n;if(tr(key)!==key)el.textContent=tr(key);});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{const key=el.dataset.i18nPlaceholder;if(tr(key)!==key)el.placeholder=tr(key);});
+  $('languageSelect').value=currentLang;
+  try{localStorage.setItem('kkb-home-language',currentLang);}catch(e){}
+  renderTools();
 }
-
-function fallbackCopy(text) {
-  const tempInput = document.createElement('input');
-  tempInput.value = text;
-  document.body.appendChild(tempInput);
-  tempInput.select();
-  document.execCommand('copy');
-  document.body.removeChild(tempInput);
+function setTheme(theme){
+  const next=theme==='dark'?'dark':'light';
+  document.documentElement.dataset.theme=next;
+  const btn=$('themeToggle');
+  btn.textContent=next==='dark'?'☀️':'🌙';
+  btn.setAttribute('aria-label',next==='dark'?'Switch to light mode':'Switch to dark mode');
+  btn.title=next==='dark'?'Switch to light mode':'Switch to dark mode';
+  const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=next==='dark'?'#07111f':'#f4f8fc';
+  try{localStorage.setItem('kkb-home-theme',next);}catch(e){}
 }
-
-function getEmailPayload() {
-  const name = document.getElementById('req_sender_name').value.trim() || 'N/A';
-  const phone = document.getElementById('req_sender_phone').value.trim() || 'N/A';
-  const details = document.getElementById('req_sender_msg').value.trim();
-
-  if (!details) {
-    alert('Kripya batayein ki aapko kaisa page ya feature chahiye.');
-    return null;
-  }
-
-  const recipient = 'kaamkajbills@gmail.com';
-  const subject = `Custom Page / Feature Request from ${name}`;
-  const body = `Namaste KaamKaj Bills Team,\n\nMujhe ek custom page / feature develop karwana hai. Meri details niche hain:\n\n• Naam: ${name}\n• Mobile / WhatsApp: ${phone}\n• Requirement Details:\n${details}\n\nKripya contact karein.\nDhanyawad!`;
-
-  return { recipient, subject, body };
-}
-
-function sendDirectEmail() {
-  const payload = getEmailPayload();
-  if (!payload) return;
-
-  const mailtoUrl = `mailto:${payload.recipient}?subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
-  const a = document.createElement('a');
-  a.href = mailtoUrl;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-function openWebGmail() {
-  const payload = getEmailPayload();
-  if (!payload) return;
-
-  const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${payload.recipient}&su=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
-
-  try {
-    const a = document.createElement('a');
-    a.href = gmailUrl;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  } catch(e) {
-    if (window.top) {
-      window.top.location.href = gmailUrl;
-    } else {
-      window.location.href = gmailUrl;
+function toggleTheme(){setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');}
+async function copyUpiId(){
+  const value=$('upiIdText').textContent.trim();const btn=$('copyUpiBtn');
+  try{
+    if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(value);}
+    else{
+      const input=document.createElement('textarea');input.value=value;input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();
+      const ok=document.execCommand('copy');input.remove();if(!ok)throw new Error('Copy command failed');
     }
-  }
+    btn.textContent=tr('copied');btn.classList.add('copied');
+    window.clearTimeout(copyUpiId.timer);copyUpiId.timer=window.setTimeout(()=>{btn.textContent=tr('copy');btn.classList.remove('copied');},2200);
+  }catch(err){alert('UPI ID: '+value);}
+}
+function getEmailPayload(){
+  const name=$('req_sender_name').value.trim()||'N/A';
+  const phone=$('req_sender_phone').value.trim()||'N/A';
+  const details=$('req_sender_msg').value.trim();
+  if(!details){alert(tr('missingDetails'));$('req_sender_msg').focus();return null;}
+  const subject=`${tr('emailSubject')} - ${name}`;
+  const body=`${tr('emailIntro')}\n\n• ${tr('name')}: ${name}\n• ${tr('phone')}: ${phone}\n• ${tr('details')}:\n${details}\n${tr('emailOutro')}`;
+  return{recipient:'kaamkajbills@gmail.com',subject,body};
+}
+function sendDirectEmail(){
+  const payload=getEmailPayload();if(!payload)return;
+  const url=`mailto:${payload.recipient}?subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+  window.location.href=url;
+}
+function openWebGmail(){
+  const payload=getEmailPayload();if(!payload)return;
+  const url=`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(payload.recipient)}&su=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+  const win=window.open(url,'_blank','noopener,noreferrer');
+  if(!win)window.location.href=url;
 }
 
-window.onload = renderTools;
+$('languageSelect').addEventListener('change',e=>applyLanguage(e.target.value));
+$('themeToggle').addEventListener('click',toggleTheme);
+// Restore preferences; no account, cookies or server-side profile is used.
+try{
+  const savedTheme=localStorage.getItem('kkb-home-theme');
+  const savedLang=localStorage.getItem('kkb-home-language');
+  setTheme(savedTheme==='dark'?'dark':'light');
+  applyLanguage(I18N[savedLang]?savedLang:'hi');
+}catch(e){setTheme('light');applyLanguage('hi');}
+renderTools();
 </script>
 </body>
 </html>
