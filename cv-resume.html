@@ -2,455 +2,143 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Creative Minimalist Resume Builder - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #0284c7;
-    --primary-dark: #0369a1;
-    --primary-soft: #e0f2fe;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-  }
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-  }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
-
-  /* PC Full-Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select, textarea {
-    width: 100%;
-    padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
-  }
-  textarea { resize: vertical; min-height: 64px; }
-  input:focus, select:focus, textarea:focus {
-    border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  /* Color Accent Bar */
-  .color-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .c-pill {
-    padding: 6px 12px;
-    border: 2px solid #cbd5e1;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .c-pill.active { border-color: var(--ink); background: #f8fafc; }
-  .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
-  .btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 11.5px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-
-  #a4DocSheet {
-    background: #ffffff;
-    width: 100%;
-    padding: 26px 24px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-    color: #1e293b;
-  }
-
-  /* Resume Header */
-  .cv-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    border-bottom: 3px solid #0284c7;
-    padding-bottom: 14px;
-    margin-bottom: 14px;
-  }
-  .cv-title h1 { margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; }
-  .cv-title .role-tag { font-size: 12.5px; font-weight: 800; color: #0284c7; margin: 3px 0 6px; text-transform: uppercase; }
-  .cv-contact { font-size: 10.5px; color: #475569; line-height: 1.5; }
-  .cv-photo {
-    width: 78px;
-    height: 92px;
-    border-radius: 8px;
-    border: 2px solid #cbd5e1;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .cv-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
-
-  .cv-sec { margin-bottom: 13px; }
-  .cv-sec-title {
-    font-size: 11.5px;
-    font-weight: 900;
-    color: #0284c7;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 3px;
-    margin-bottom: 7px;
-  }
-  .cv-text { font-size: 11px; line-height: 1.55; color: #334155; margin: 0; white-space: pre-line; }
-
-  .skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-  .s-pill {
-    background: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    color: #0f172a;
-    padding: 3px 9px;
-    border-radius: 14px;
-    font-size: 10px;
-    font-weight: 700;
-  }
-
-  .cv-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .cv-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 22px; font-size: 10px; color: #64748b; }
-
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
-    .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
-  }
-  @media (max-width: 600px) {
-    .grid-2, .grid-3, .cv-grid-2 { grid-template-columns: 1fr; }
-  }
+:root{--primary:#0284c7;--primary-dark:#0369a1;--primary-soft:#e0f2fe;--ink:#0f172a;--ink-muted:#475569;--border:#cbd5e1;--bg:#f1f5f9;--surface:#fff;--surface-alt:#f8fafc;--shadow:0 6px 20px rgba(15,23,42,.05)}
+body.dark-mode{--primary:#38bdf8;--primary-dark:#0284c7;--primary-soft:rgba(56,189,248,.16);--ink:#f1f5f9;--ink-muted:#94a3b8;--border:#334155;--bg:#0b1120;--surface:#1e293b;--surface-alt:#0f172a;--shadow:0 6px 20px rgba(0,0,0,.35)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100vh;background:var(--bg);color:var(--ink);overflow-x:hidden;transition:background .2s,color .2s}
+.top-nav{background:#0f172a;color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2)}
+.nav-title{font-size:15px;font-weight:800;letter-spacing:.2px}.language-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700}.language-control select{width:auto;min-width:145px;padding:7px 9px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:#1e293b;color:#fff;font-size:12px}.theme-help{font-size:11px;color:#e2e8f0;max-width:145px;line-height:1.25}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+.kb-wrapper{width:100%;max-width:100%;margin:0;padding:20px 24px 44px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:24px;align-items:start}
+.control-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px 20px;box-shadow:var(--shadow);min-width:0}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}label{font-size:11px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.3px;line-height:1.35}
+input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:border-color .2s,background .2s}textarea{resize:vertical;min-height:64px;line-height:1.45}input:focus,select:focus,textarea:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(2,132,199,.14)}
+.section-badge{background:var(--primary-soft);color:var(--primary-dark);font-size:11.5px;font-weight:800;padding:6px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:16px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary)}.section-badge:first-of-type{margin-top:0}
+.color-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.c-pill{padding:7px 12px;border:2px solid var(--border);border-radius:20px;font-size:11.5px;font-weight:700;cursor:pointer;background:var(--surface);color:var(--ink);display:flex;align-items:center;gap:6px}.c-pill.active{border-color:var(--primary);background:var(--primary-soft)}.dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex-shrink:0}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:145px;padding:13px;border:0;border-radius:9px;font-size:13.5px;font-weight:800;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.08);transition:.2s}.btn:hover{opacity:.93;transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:wait}.btn-pdf{background:linear-gradient(135deg,#0284c7,#0369a1)}.btn-print{background:linear-gradient(135deg,#1e293b,#0f172a)}
+.preview-panel{position:sticky;top:82px;width:100%;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}.preview-label{text-align:center;font-size:11.5px;font-weight:800;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:14px;border-radius:10px;border:1px solid var(--border);display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0f172a}
+#a4DocSheet{background:#fff!important;color:#1e293b!important;width:100%;max-width:760px;padding:26px 24px;border:1.5px solid #cbd5e1;box-shadow:0 8px 24px rgba(15,23,42,.08);border-radius:8px;box-sizing:border-box;flex-shrink:0}
+.cv-header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:3px solid #0284c7;padding-bottom:14px;margin-bottom:14px}.cv-title{min-width:0}.cv-title h1{margin:0;font-size:22px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:.4px;overflow-wrap:anywhere}.role-tag{font-size:12.5px;font-weight:800;color:#0284c7;margin:3px 0 6px;text-transform:uppercase}.cv-contact{font-size:10.5px;color:#475569;line-height:1.5;overflow-wrap:anywhere}.cv-photo{width:78px;height:92px;border-radius:8px;border:2px solid #cbd5e1;overflow:hidden;flex-shrink:0;background:#e2e8f0}.cv-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+.cv-sec{margin-bottom:13px;break-inside:avoid}.cv-sec-title{font-size:11.5px;font-weight:900;color:#0284c7;text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid #e2e8f0;padding-bottom:3px;margin-bottom:7px}.cv-text{font-size:11px;line-height:1.55;color:#334155;margin:0;white-space:pre-line;overflow-wrap:anywhere}.skill-pills{display:flex;flex-wrap:wrap;gap:6px}.s-pill{background:#f1f5f9;border:1px solid #cbd5e1;color:#0f172a;padding:3px 9px;border-radius:14px;font-size:10px;font-weight:700}.cv-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cv-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-top:22px;font-size:10px;color:#64748b;line-height:1.4}.cv-footer-sign{font-weight:800;color:#0f172a;border-top:1px dashed #64748b;padding-top:3px;min-width:120px;text-align:center;overflow-wrap:anywhere}
+@media(max-width:1120px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 32px;gap:18px}.preview-panel{position:static}.preview-viewport{justify-content:flex-start}}
+@media(max-width:680px){.top-nav{padding:10px 12px}.nav-title{font-size:13px}.nav-left{flex:1}.nav-right{width:100%;justify-content:space-between}.language-control{flex:1}.theme-help{max-width:none}.grid-2,.grid-3,.cv-grid-2{grid-template-columns:1fr}.control-box,.preview-panel{padding:14px 12px}.preview-viewport{padding:8px;justify-content:flex-start}#a4DocSheet{min-width:600px}.cv-header{align-items:flex-start}.cv-title h1{font-size:20px}}
+@media print{.top-nav,.control-box,.preview-label{display:none!important}.kb-wrapper{display:block!important;padding:0!important;margin:0!important}.preview-panel{position:static!important;border:0!important;padding:0!important;box-shadow:none!important}#a4DocSheet{width:100%!important;max-width:none!important;border:0!important;box-shadow:none!important;padding:12mm!important}}
 </style>
 </head>
 <body>
-
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Creative Minimalist Resume</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left"><a href="index.html" target="_self" class="btn-home" data-i18n="back">← All Tools</a><span class="nav-title" data-i18n="navTitle">KaamKaj Bills • Creative Minimalist Resume</span></div>
+  <div class="nav-right">
+    <label class="language-control"><span>🌐 <span data-i18n="language">भाषा / Language</span></span>
+      <select id="selLanguage" onchange="changeLanguage(this.value)" aria-label="Select language">
+        <option value="hi">हिन्दी (Hindi)</option><option value="en">English</option><option value="bn">বাংলা (Bengali)</option><option value="te">తెలుగు (Telugu)</option><option value="mr">मराठी (Marathi)</option><option value="ta">தமிழ் (Tamil)</option><option value="gu">ગુજરાતી (Gujarati)</option><option value="kn">ಕನ್ನಡ (Kannada)</option><option value="ml">മലയാളം (Malayalam)</option><option value="or">ଓଡ଼ିଆ (Odia)</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="ur">اردو (Urdu)</option>
+      </select>
+    </label>
+    <span class="theme-help" data-i18n="themeHelp">यहाँ से आप Light / Dark मोड बदल सकते हैं</span>
+    <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
+  </div>
 </div>
 
 <div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Theme Accent & Profile Photo</div>
+    <div class="section-badge" data-i18n="secTheme">1. Theme Accent & Profile Photo</div>
     <div class="color-bar">
-      <button type="button" class="c-pill active" onclick="setAccent('#0284c7', this)"><span class="dot" style="background:#0284c7;"></span> Ocean Blue</button>
-      <button type="button" class="c-pill" onclick="setAccent('#0f172a', this)"><span class="dot" style="background:#0f172a;"></span> Executive Black</button>
-      <button type="button" class="c-pill" onclick="setAccent('#0f766e', this)"><span class="dot" style="background:#0f766e;"></span> Teal Green</button>
-      <button type="button" class="c-pill" onclick="setAccent('#6d28d9', this)"><span class="dot" style="background:#6d28d9;"></span> Royal Violet</button>
+      <button type="button" class="c-pill active" onclick="setAccent('#0284c7',this)"><span class="dot" style="background:#0284c7"></span><span data-i18n="ocean">Ocean Blue</span></button>
+      <button type="button" class="c-pill" onclick="setAccent('#0f172a',this)"><span class="dot" style="background:#0f172a"></span><span data-i18n="black">Executive Black</span></button>
+      <button type="button" class="c-pill" onclick="setAccent('#0f766e',this)"><span class="dot" style="background:#0f766e"></span><span data-i18n="teal">Teal Green</span></button>
+      <button type="button" class="c-pill" onclick="setAccent('#6d28d9',this)"><span class="dot" style="background:#6d28d9"></span><span data-i18n="violet">Royal Violet</span></button>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Upload Profile Photo (Optional)</label><input type="file" accept="image/*" onchange="loadPhoto(event)"></div>
-      <div class="field">
-        <label>Show Photo on Resume?</label>
-        <select id="selShowPhoto" onchange="renderCV()">
-          <option value="YES" selected>Yes (Show Photo)</option>
-          <option value="NO">No (Text-Only Minimalist)</option>
-        </select>
-      </div>
+      <div class="field"><label data-i18n="uploadPhoto">Upload Profile Photo (Optional)</label><input type="file" accept="image/*" onchange="loadPhoto(event)"></div>
+      <div class="field"><label data-i18n="showPhoto">Show Photo on Resume?</label><select id="selShowPhoto" onchange="renderCV()"><option value="YES" data-i18n="yes">Yes (Show Photo)</option><option value="NO" data-i18n="no">No (Text-Only Minimalist)</option></select></div>
     </div>
 
-    <div class="section-badge">2. Personal & Contact Details</div>
+    <div class="section-badge" data-i18n="secPersonal">2. Personal & Contact Details</div>
     <div class="grid-2">
-      <div class="field"><label>Full Name (पूरा नाम)</label><input type="text" id="in_name" placeholder="उदा. Rohan Kulkarni" oninput="renderCV()"></div>
-      <div class="field"><label>Target Job Title / Role</label><input type="text" id="in_role" placeholder="उदा. Office Executive / Operations Coordinator" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="fullName">Full Name (पूरा नाम)</label><input type="text" id="in_name" data-ph="phName" placeholder="e.g. Rohan Kulkarni" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="jobRole">Target Job Title / Role</label><input type="text" id="in_role" data-ph="phRole" placeholder="e.g. Office Executive / Operations Coordinator" oninput="renderCV()"></div>
     </div>
-
     <div class="grid-3">
-      <div class="field"><label>Mobile Number</label><input type="text" id="in_mob" placeholder="उदा. +91 98XXXXXXXX" oninput="renderCV()"></div>
-      <div class="field"><label>Email ID</label><input type="text" id="in_email" placeholder="उदा. rohan@email.com" oninput="renderCV()"></div>
-      <div class="field"><label>City & State</label><input type="text" id="in_city" placeholder="उदा. Pune, Maharashtra" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="mobile">Mobile Number</label><input type="text" id="in_mob" data-ph="phMobile" placeholder="e.g. +91 98XXXXXXXX" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="email">Email ID</label><input type="text" id="in_email" data-ph="phEmail" placeholder="e.g. rohan@email.com" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="city">City & State</label><input type="text" id="in_city" data-ph="phCity" placeholder="e.g. Pune, Maharashtra" oninput="renderCV()"></div>
     </div>
 
-    <div class="section-badge">3. Career Summary & Work Experience</div>
-    <div class="field">
-      <label>Career Objective / Profile Summary</label>
-      <textarea id="in_summary" placeholder="उदा. Dedicated and detail-oriented professional with 4+ years of experience in office administration, client billing, and team coordination." oninput="renderCV()"></textarea>
-    </div>
+    <div class="section-badge" data-i18n="secCareer">3. Career Summary & Work Experience</div>
+    <div class="field"><label data-i18n="objective">Career Objective / Profile Summary</label><textarea id="in_summary" data-ph="phSummary" placeholder="Dedicated and detail-oriented professional with 4+ years of experience..." oninput="renderCV()"></textarea></div>
+    <div class="field"><label data-i18n="workExperience">Work Experience (Role, Company, Years & Key Duties)</label><textarea id="in_exp" style="min-height:95px;" data-ph="phExperience" placeholder="Senior Executive — ABC Enterprises, Pune (2023 – Present)&#10;• Managed client invoicing, vendor coordination and MIS reports." oninput="renderCV()"></textarea></div>
 
-    <div class="field">
-      <label>Work Experience (पद, कंपनी का नाम, वर्ष और मुख्य कार्य)</label>
-      <textarea id="in_exp" style="min-height:95px;" placeholder="उदा.&#10;Senior Executive — ABC Enterprises, Pune (2023 – Present)&#10;• Managed daily client invoicing, vendor coordination, and MIS reports.&#10;&#10;Office Assistant — XYZ Traders (2021 – 2023)&#10;• Handled customer support, inventory records, and documentation." oninput="renderCV()"></textarea>
-    </div>
-
-    <div class="section-badge">4. Education, Skills & Personal Info</div>
-    <div class="field">
-      <label>Education & Qualifications</label>
-      <textarea id="in_edu" placeholder="उदा.&#10;• B.Com (Bachelor of Commerce) — Savitribai Phule Pune University (2020)&#10;• Higher Secondary (12th) — Maharashtra State Board (2017)" oninput="renderCV()"></textarea>
-    </div>
-
-    <div class="field">
-      <label>Key Skills (कॉमा से अलग करके लिखें)</label>
-      <input type="text" id="in_skills" placeholder="उदा. MS Excel, Tally Prime, Billing & GST, Client Communication, Data Entry" oninput="renderCV()">
-    </div>
-
+    <div class="section-badge" data-i18n="secEducation">4. Education, Skills & Personal Info</div>
+    <div class="field"><label data-i18n="education">Education & Qualifications</label><textarea id="in_edu" data-ph="phEducation" placeholder="B.Com — Recognized University (2020)&#10;Higher Secondary (12th) — State Board (2017)" oninput="renderCV()"></textarea></div>
+    <div class="field"><label data-i18n="skills">Key Skills (Separate with commas)</label><input type="text" id="in_skills" data-ph="phSkills" placeholder="MS Excel, Tally Prime, Billing & GST, Communication" oninput="renderCV()"></div>
     <div class="grid-2">
-      <div class="field"><label>Languages Known</label><input type="text" id="in_lang" placeholder="उदा. English, Hindi, Marathi" oninput="renderCV()"></div>
-      <div class="field"><label>Date of Birth / Gender</label><input type="text" id="in_dob" placeholder="उदा. 15 Aug 1998 | Male" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="languagesKnown">Languages Known</label><input type="text" id="in_lang" data-ph="phLanguages" placeholder="English, Hindi, Marathi" oninput="renderCV()"></div>
+      <div class="field"><label data-i18n="dobGender">Date of Birth / Gender</label><input type="text" id="in_dob" data-ph="phDob" placeholder="15 Aug 1998 | Male" oninput="renderCV()"></div>
     </div>
-
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download A4 Resume PDF</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadPDF()">📥 Download A4 Resume PDF</button>
       <button type="button" class="btn btn-print" onclick="printCV()">🖨️ Direct Print Resume</button>
     </div>
   </div>
 
-  <!-- RIGHT: LIVE A4 RESUME PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live A4 Resume Preview</div>
-    <div id="a4DocSheet">
-      <div class="cv-header" id="cvHeader">
-        <div class="cv-title">
-          <h1 id="out_name">ROHAN KULKARNI</h1>
-          <div class="role-tag" id="out_role">OFFICE EXECUTIVE & OPERATIONS COORDINATOR</div>
-          <div class="cv-contact" id="out_contact">📞 +91 98XXXXXXXX &nbsp;|&nbsp; ✉️ rohan@email.com &nbsp;|&nbsp; 📍 Pune, Maharashtra</div>
+    <div class="preview-label" data-i18n="previewTitle">Live A4 Resume Preview</div>
+    <div class="preview-viewport">
+      <div id="a4DocSheet">
+        <div class="cv-header" id="cvHeader">
+          <div class="cv-title"><h1 id="out_name">ROHAN KULKARNI</h1><div class="role-tag" id="out_role">OFFICE EXECUTIVE & OPERATIONS COORDINATOR</div><div class="cv-contact" id="out_contact">📞 +91 98XXXXXXXX | ✉️ rohan@email.com | 📍 Pune, Maharashtra</div></div>
+          <div class="cv-photo" id="photoWrap"><img id="out_photo" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='120'%3E%3Crect width='100' height='120' fill='%23e2e8f0'/%3E%3Ccircle cx='50' cy='42' r='20' fill='%2394a3b8'/%3E%3Cpath d='M18 110c0-22 64-22 64 0' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Resume photo"></div>
         </div>
-        <div class="cv-photo" id="photoWrap">
-          <img id="out_photo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='120' fill='%2394a3b8'><rect width='100' height='120' fill='%23e2e8f0'/><circle cx='50' cy='42' r='20'/><path d='M18 110 c0-22 64-22 64 0'/></svg>" alt="Photo">
+        <div class="cv-sec"><div class="cv-sec-title" id="t1" data-i18n="profileSummary">Profile Summary</div><p class="cv-text" id="out_summary">Dedicated and detail-oriented professional with strong organizational, communication, and computer skills seeking a challenging role to contribute to business growth.</p></div>
+        <div class="cv-sec"><div class="cv-sec-title" id="t2" data-i18n="workExperienceTitle">Work Experience</div><p class="cv-text" id="out_exp">• Senior Executive — ABC Enterprises, Pune (2023 – Present)
+Managed daily client billing, vendor coordination, and operational reporting.
+• Office Assistant — XYZ Traders (2021 – 2023)
+Handled customer queries, documentation, and inventory tracking.</p></div>
+        <div class="cv-sec"><div class="cv-sec-title" id="t3" data-i18n="educationTitle">Education & Qualifications</div><p class="cv-text" id="out_edu">• Bachelor's Degree — Recognized University
+• Higher Secondary (12th) & Secondary (10th) — State Board</p></div>
+        <div class="cv-sec"><div class="cv-sec-title" id="t4" data-i18n="coreSkills">Core Skills</div><div class="skill-pills" id="out_skills"></div></div>
+        <div class="cv-grid-2">
+          <div class="cv-sec"><div class="cv-sec-title" id="t5" data-i18n="languagesTitle">Languages</div><p class="cv-text" id="out_lang">English, Hindi, Marathi</p></div>
+          <div class="cv-sec"><div class="cv-sec-title" id="t6" data-i18n="personalDetails">Personal Details</div><p class="cv-text" id="out_dob">Date of Birth: 15 Aug 1998</p></div>
         </div>
-      </div>
-
-      <div class="cv-sec">
-        <div class="cv-sec-title" id="t1">Profile Summary</div>
-        <p class="cv-text" id="out_summary">Dedicated and detail-oriented professional with strong organizational, communication, and computer skills seeking a challenging role to contribute to business growth.</p>
-      </div>
-
-      <div class="cv-sec">
-        <div class="cv-sec-title" id="t2">Work Experience</div>
-        <p class="cv-text" id="out_exp">• Senior Executive — ABC Enterprises, Pune (2023 – Present)&#10;  Managed daily client billing, vendor coordination, and operational reporting.&#10;• Office Assistant — XYZ Traders (2021 – 2023)&#10;  Handled customer queries, documentation, and inventory tracking.</p>
-      </div>
-
-      <div class="cv-sec">
-        <div class="cv-sec-title" id="t3">Education & Qualifications</div>
-        <p class="cv-text" id="out_edu">• Bachelor's Degree — Recognized University&#10;• Higher Secondary (12th) & Secondary (10th) — State Board</p>
-      </div>
-
-      <div class="cv-sec">
-        <div class="cv-sec-title" id="t4">Core Skills</div>
-        <div class="skill-pills" id="out_skills"></div>
-      </div>
-
-      <div class="cv-grid-2">
-        <div class="cv-sec">
-          <div class="cv-sec-title" id="t5">Languages</div>
-          <p class="cv-text" id="out_lang">English, Hindi, Marathi</p>
-        </div>
-        <div class="cv-sec">
-          <div class="cv-sec-title" id="t6">Personal Details</div>
-          <p class="cv-text" id="out_dob">Date of Birth: 15 Aug 1998</p>
-        </div>
-      </div>
-
-      <div class="cv-footer">
-        <div>I hereby declare that the above information is true to the best of my knowledge.</div>
-        <div style="font-weight:800;color:#0f172a;border-top:1px dashed #64748b;padding-top:3px;min-width:120px;text-align:center;" id="out_sig_name">Rohan Kulkarni</div>
+        <div class="cv-footer"><div id="out_declaration" data-i18n="declaration">I hereby declare that the above information is true to the best of my knowledge.</div><div class="cv-footer-sign" id="out_sig_name">Rohan Kulkarni</div></div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  let accent = '#0284c7';
-
-  function setAccent(col, btn) {
-    accent = col;
-    document.querySelectorAll('.c-pill').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('cvHeader').style.borderBottomColor = col;
-    document.getElementById('out_role').style.color = col;
-    ['t1','t2','t3','t4','t5','t6'].forEach(id => document.getElementById(id).style.color = col);
-  }
-
-  function loadPhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => { document.getElementById('out_photo').src = ev.target.result; };
-    reader.readAsDataURL(file);
-  }
-
-  function renderCV() {
-    const name = document.getElementById('in_name').value.trim() || 'ROHAN KULKARNI';
-    const role = document.getElementById('in_role').value.trim() || 'OFFICE EXECUTIVE & OPERATIONS COORDINATOR';
-    const mob = document.getElementById('in_mob').value.trim() || '+91 98XXXXXXXX';
-    const email = document.getElementById('in_email').value.trim() || 'rohan@email.com';
-    const city = document.getElementById('in_city').value.trim() || 'Pune, Maharashtra';
-
-    document.getElementById('out_name').innerText = name;
-    document.getElementById('out_sig_name').innerText = name;
-    document.getElementById('out_role').innerText = role;
-    document.getElementById('out_contact').innerText = `📞 ${mob}  |  ✉️ ${email}  |  📍 ${city}`;
-
-    document.getElementById('photoWrap').style.display = document.getElementById('selShowPhoto').value === 'YES' ? 'block' : 'none';
-
-    const sum = document.getElementById('in_summary').value.trim();
-    if (sum) document.getElementById('out_summary').innerText = sum;
-
-    const exp = document.getElementById('in_exp').value.trim();
-    if (exp) document.getElementById('out_exp').innerText = exp;
-
-    const edu = document.getElementById('in_edu').value.trim();
-    if (edu) document.getElementById('out_edu').innerText = edu;
-
-    const skillsRaw = document.getElementById('in_skills').value.trim() || 'MS Excel, Tally Prime, Client Billing, Communication, Office Management';
-    document.getElementById('out_skills').innerHTML = skillsRaw.split(',').filter(s => s.trim()).map(s => `<span class="s-pill">${s.trim()}</span>`).join('');
-
-    document.getElementById('out_lang').innerText = document.getElementById('in_lang').value.trim() || 'English, Hindi, Marathi';
-    document.getElementById('out_dob').innerText = document.getElementById('in_dob').value.trim() || '15 Aug 1998 | Male';
-  }
-
-  function downloadPDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:24px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [8, 8, 8, 8],
-      filename: `Resume_${document.getElementById('in_name').value.trim() || 'Candidate'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printCV() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Resume</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:12mm;color:#1e293b}
-      .cv-header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:3px solid ${accent};padding-bottom:12px;margin-bottom:14px}
-      .cv-title h1{margin:0;font-size:22px;text-transform:uppercase}.cv-title .role-tag{font-size:12px;font-weight:800;color:${accent};margin:3px 0 6px;text-transform:uppercase}
-      .cv-contact{font-size:10.5px;color:#475569}.cv-photo{width:78px;height:92px;border-radius:8px;border:2px solid #cbd5e1;overflow:hidden}
-      .cv-photo img{width:100%;height:100%;object-fit:cover}
-      .cv-sec{margin-bottom:13px}.cv-sec-title{font-size:11.5px;font-weight:900;color:${accent};text-transform:uppercase;border-bottom:1px solid #e2e8f0;padding-bottom:3px;margin-bottom:7px}
-      .cv-text{font-size:11px;line-height:1.55;margin:0;white-space:pre-line}
-      .skill-pills{display:flex;flex-wrap:wrap;gap:6px}.s-pill{background:#f1f5f9;border:1px solid #cbd5e1;padding:3px 9px;border-radius:14px;font-size:10px;font-weight:700}
-      .cv-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cv-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;font-size:10px;color:#64748b}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  window.onload = renderCV;
+const LANG = {
+  hi:{back:'← सभी टूल',navTitle:'KaamKaj Bills • Resume Builder',language:'भाषा',themeHelp:'यहाँ से आप Light / Dark मोड बदल सकते हैं',dark:'🌙 डार्क मोड',light:'☀️ लाइट मोड',secTheme:'1. थीम रंग और प्रोफाइल फोटो',ocean:'ओशन ब्लू',black:'एक्जीक्यूटिव ब्लैक',teal:'टील ग्रीन',violet:'रॉयल वायलेट',uploadPhoto:'प्रोफाइल फोटो अपलोड करें (वैकल्पिक)',showPhoto:'क्या रिज्यूमे में फोटो दिखाएँ?',yes:'हाँ (फोटो दिखाएँ)',no:'नहीं (केवल टेक्स्ट)',secPersonal:'2. व्यक्तिगत और संपर्क विवरण',fullName:'पूरा नाम',jobRole:'लक्षित नौकरी / पद',mobile:'मोबाइल नंबर',email:'ईमेल आईडी',city:'शहर और राज्य',secCareer:'3. करियर सारांश और कार्य अनुभव',objective:'करियर उद्देश्य / प्रोफाइल सारांश',workExperience:'कार्य अनुभव (पद, कंपनी, वर्ष और मुख्य काम)',secEducation:'4. शिक्षा, कौशल और व्यक्तिगत जानकारी',education:'शिक्षा और योग्यताएँ',skills:'मुख्य कौशल (कॉमा से अलग लिखें)',languagesKnown:'ज्ञात भाषाएँ',dobGender:'जन्म तिथि / लिंग',previewTitle:'लाइव A4 रिज्यूमे प्रीव्यू',profileSummary:'प्रोफाइल सारांश',workExperienceTitle:'कार्य अनुभव',educationTitle:'शिक्षा और योग्यताएँ',coreSkills:'मुख्य कौशल',languagesTitle:'भाषाएँ',personalDetails:'व्यक्तिगत विवरण',declaration:'मैं घोषित करता/करती हूँ कि ऊपर दी गई जानकारी मेरी जानकारी के अनुसार सत्य है।',pdf:'📥 A4 रिज्यूमे PDF डाउनलोड करें',print:'🖨️ रिज्यूमे प्रिंट करें',generating:'⏳ PDF तैयार हो रहा है...',phName:'जैसे: रोहन कुलकर्णी',phRole:'जैसे: ऑफिस एग्जीक्यूटिव',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'पुणे, महाराष्ट्र',phSummary:'अपने करियर का संक्षिप्त परिचय लिखें...',phExperience:'पद — कंपनी का नाम (वर्ष)\nमुख्य जिम्मेदारियाँ लिखें...',phEducation:'डिग्री — विश्वविद्यालय (वर्ष)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'हिंदी, अंग्रेज़ी, मराठी',phDob:'15 अगस्त 1998 | पुरुष'},
+  en:{back:'← All Tools',navTitle:'KaamKaj Bills • Resume Builder',language:'Language',themeHelp:'Change Light / Dark mode here',dark:'🌙 Dark Mode',light:'☀️ Light Mode',secTheme:'1. Theme Accent & Profile Photo',ocean:'Ocean Blue',black:'Executive Black',teal:'Teal Green',violet:'Royal Violet',uploadPhoto:'Upload Profile Photo (Optional)',showPhoto:'Show Photo on Resume?',yes:'Yes (Show Photo)',no:'No (Text-Only Minimalist)',secPersonal:'2. Personal & Contact Details',fullName:'Full Name',jobRole:'Target Job Title / Role',mobile:'Mobile Number',email:'Email ID',city:'City & State',secCareer:'3. Career Summary & Work Experience',objective:'Career Objective / Profile Summary',workExperience:'Work Experience (Role, Company, Years & Key Duties)',secEducation:'4. Education, Skills & Personal Info',education:'Education & Qualifications',skills:'Key Skills (Separate with commas)',languagesKnown:'Languages Known',dobGender:'Date of Birth / Gender',previewTitle:'Live A4 Resume Preview',profileSummary:'Profile Summary',workExperienceTitle:'Work Experience',educationTitle:'Education & Qualifications',coreSkills:'Core Skills',languagesTitle:'Languages',personalDetails:'Personal Details',declaration:'I hereby declare that the above information is true to the best of my knowledge.',pdf:'📥 Download A4 Resume PDF',print:'🖨️ Direct Print Resume',generating:'⏳ Generating PDF...',phName:'e.g. Rohan Kulkarni',phRole:'e.g. Office Executive / Coordinator',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'Pune, Maharashtra',phSummary:'Write a short professional profile summary...',phExperience:'Role — Company (Years)\nDescribe your key responsibilities...',phEducation:'Degree — University (Year)',phSkills:'MS Excel, Tally Prime, Billing, Communication',phLanguages:'English, Hindi, Marathi',phDob:'15 Aug 1998 | Male'},
+  bn:{back:'← সব টুল',navTitle:'KaamKaj Bills • রিজিউমে বিল্ডার',language:'ভাষা',themeHelp:'এখান থেকে Light / Dark মোড বদলান',dark:'🌙 ডার্ক মোড',light:'☀️ লাইট মোড',secTheme:'1. থিমের রং ও প্রোফাইল ছবি',ocean:'ওশান ব্লু',black:'এক্সিকিউটিভ ব্ল্যাক',teal:'টিল গ্রিন',violet:'রয়্যাল ভায়োলেট',uploadPhoto:'প্রোফাইল ছবি আপলোড করুন (ঐচ্ছিক)',showPhoto:'রিজিউমেতে ছবি দেখাবেন?',yes:'হ্যাঁ (ছবি দেখান)',no:'না (শুধু লেখা)',secPersonal:'2. ব্যক্তিগত ও যোগাযোগের বিবরণ',fullName:'পূর্ণ নাম',jobRole:'কাঙ্ক্ষিত চাকরির পদ',mobile:'মোবাইল নম্বর',email:'ইমেল আইডি',city:'শহর ও রাজ্য',secCareer:'3. কর্মজীবনের সারাংশ ও কাজের অভিজ্ঞতা',objective:'ক্যারিয়ার লক্ষ্য / প্রোফাইল সারাংশ',workExperience:'কাজের অভিজ্ঞতা (পদ, কোম্পানি, বছর ও দায়িত্ব)',secEducation:'4. শিক্ষা, দক্ষতা ও ব্যক্তিগত তথ্য',education:'শিক্ষা ও যোগ্যতা',skills:'মূল দক্ষতা (কমা দিয়ে আলাদা করুন)',languagesKnown:'জানা ভাষা',dobGender:'জন্মতারিখ / লিঙ্গ',previewTitle:'লাইভ A4 রিজিউমে প্রিভিউ',profileSummary:'প্রোফাইল সারাংশ',workExperienceTitle:'কাজের অভিজ্ঞতা',educationTitle:'শিক্ষা ও যোগ্যতা',coreSkills:'মূল দক্ষতা',languagesTitle:'ভাষা',personalDetails:'ব্যক্তিগত বিবরণ',declaration:'আমি ঘোষণা করছি যে উপরের তথ্য আমার জ্ঞান অনুযায়ী সত্য।',pdf:'📥 A4 রিজিউমে PDF ডাউনলোড',print:'🖨️ রিজিউমে প্রিন্ট',generating:'⏳ PDF তৈরি হচ্ছে...',phName:'যেমন: রোহন কুলকার্নি',phRole:'যেমন: অফিস এক্সিকিউটিভ',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'পুনে, মহারাষ্ট্র',phSummary:'আপনার পেশাগত পরিচিতি লিখুন...',phExperience:'পদ — কোম্পানি (বছর)\nমূল দায়িত্ব লিখুন...',phEducation:'ডিগ্রি — বিশ্ববিদ্যালয় (বছর)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'বাংলা, হিন্দি, ইংরেজি',phDob:'15 Aug 1998 | Male'},
+  te:{back:'← అన్ని టూల్స్',navTitle:'KaamKaj Bills • రెజ్యూమ్ బిల్డర్',language:'భాష',themeHelp:'ఇక్కడ Light / Dark మోడ్ మార్చండి',dark:'🌙 డార్క్ మోడ్',light:'☀️ లైట్ మోడ్',secTheme:'1. థీమ్ రంగు & ప్రొఫైల్ ఫోటో',ocean:'ఓషన్ బ్లూ',black:'ఎగ్జిక్యూటివ్ బ్లాక్',teal:'టీల గ్రీన్',violet:'రాయల్ వైలెట్',uploadPhoto:'ప్రొఫైల్ ఫోటో అప్‌లోడ్ చేయండి (ఐచ్ఛికం)',showPhoto:'రెజ్యూమ్‌లో ఫోటో చూపించాలా?',yes:'అవును (ఫోటో చూపించు)',no:'వద్దు (టెక్స్ట్ మాత్రమే)',secPersonal:'2. వ్యక్తిగత & సంప్రదింపు వివరాలు',fullName:'పూర్తి పేరు',jobRole:'కావలసిన ఉద్యోగ హోదా',mobile:'మొబైల్ నంబర్',email:'ఈమెయిల్ ఐడి',city:'నగరం & రాష్ట్రం',secCareer:'3. కెరీర్ సారాంశం & పని అనుభవం',objective:'కెరీర్ లక్ష్యం / ప్రొఫైల్ సారాంశం',workExperience:'పని అనుభవం (హోదా, కంపెనీ, సంవత్సరాలు, బాధ్యతలు)',secEducation:'4. విద్య, నైపుణ్యాలు & వ్యక్తిగత సమాచారం',education:'విద్య & అర్హతలు',skills:'ముఖ్య నైపుణ్యాలు (కామాలతో వేరు చేయండి)',languagesKnown:'తెలిసిన భాషలు',dobGender:'పుట్టిన తేదీ / లింగం',previewTitle:'లైవ్ A4 రెజ్యూమ్ ప్రివ్యూ',profileSummary:'ప్రొఫైల్ సారాంశం',workExperienceTitle:'పని అనుభవం',educationTitle:'విద్య & అర్హతలు',coreSkills:'ముఖ్య నైపుణ్యాలు',languagesTitle:'భాషలు',personalDetails:'వ్యక్తిగత వివరాలు',declaration:'పైన ఇచ్చిన సమాచారం నా జ్ఞానం మేరకు నిజమని ప్రకటిస్తున్నాను.',pdf:'📥 A4 రెజ్యూమ్ PDF డౌన్‌లోడ్',print:'🖨️ రెజ్యూమ్ ప్రింట్',generating:'⏳ PDF తయారవుతోంది...',phName:'ఉదా. రోహన్ కులకర్ణి',phRole:'ఉదా. ఆఫీస్ ఎగ్జిక్యూటివ్',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'పుణే, మహారాష్ట్ర',phSummary:'మీ వృత్తిపరమైన పరిచయాన్ని రాయండి...',phExperience:'హోదా — కంపెనీ (సంవత్సరాలు)\nబాధ్యతలు రాయండి...',phEducation:'డిగ్రీ — విశ్వవిద్యాలయం (సంవత్సరం)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'తెలుగు, హిందీ, ఇంగ్లీష్',phDob:'15 ఆగస్టు 1998 | పురుషుడు'},
+  mr:{back:'← सर्व टूल्स',navTitle:'KaamKaj Bills • रेझ्युमे बिल्डर',language:'भाषा',themeHelp:'येथून Light / Dark मोड बदला',dark:'🌙 डार्क मोड',light:'☀️ लाईट मोड',secTheme:'1. थीम रंग आणि प्रोफाइल फोटो',ocean:'ओशन ब्लू',black:'एक्झिक्युटिव्ह ब्लॅक',teal:'टील ग्रीन',violet:'रॉयल व्हायोलेट',uploadPhoto:'प्रोफाइल फोटो अपलोड करा (ऐच्छिक)',showPhoto:'रेझ्युमेमध्ये फोटो दाखवायचा?',yes:'होय (फोटो दाखवा)',no:'नाही (फक्त मजकूर)',secPersonal:'2. वैयक्तिक आणि संपर्क तपशील',fullName:'पूर्ण नाव',jobRole:'इच्छित नोकरीचे पद',mobile:'मोबाईल क्रमांक',email:'ईमेल आयडी',city:'शहर आणि राज्य',secCareer:'3. करिअर सारांश आणि कामाचा अनुभव',objective:'करिअर उद्दिष्ट / प्रोफाइल सारांश',workExperience:'कामाचा अनुभव (पद, कंपनी, वर्षे आणि जबाबदाऱ्या)',secEducation:'4. शिक्षण, कौशल्ये आणि वैयक्तिक माहिती',education:'शिक्षण आणि पात्रता',skills:'मुख्य कौशल्ये (स्वल्पविरामाने वेगळी करा)',languagesKnown:'ज्ञात भाषा',dobGender:'जन्मतारीख / लिंग',previewTitle:'लाईव्ह A4 रेझ्युमे प्रिव्ह्यू',profileSummary:'प्रोफाइल सारांश',workExperienceTitle:'कामाचा अनुभव',educationTitle:'शिक्षण आणि पात्रता',coreSkills:'मुख्य कौशल्ये',languagesTitle:'भाषा',personalDetails:'वैयक्तिक तपशील',declaration:'वरील माहिती माझ्या माहितीनुसार सत्य असल्याचे मी घोषित करतो/करते.',pdf:'📥 A4 रेझ्युमे PDF डाउनलोड',print:'🖨️ रेझ्युमे प्रिंट करा',generating:'⏳ PDF तयार होत आहे...',phName:'उदा. रोहन कुलकर्णी',phRole:'उदा. ऑफिस एक्झिक्युटिव्ह',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'पुणे, महाराष्ट्र',phSummary:'तुमचा व्यावसायिक परिचय लिहा...',phExperience:'पद — कंपनी (वर्षे)\nमुख्य जबाबदाऱ्या लिहा...',phEducation:'पदवी — विद्यापीठ (वर्ष)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'मराठी, हिंदी, इंग्रजी',phDob:'15 ऑगस्ट 1998 | पुरुष'},
+  ta:{back:'← அனைத்து கருவிகள்',navTitle:'KaamKaj Bills • ரெஸ்யூம் பில்டர்',language:'மொழி',themeHelp:'இங்கே Light / Dark முறையை மாற்றலாம்',dark:'🌙 டார்க் மோடு',light:'☀️ லைட் மோடு',secTheme:'1. தீம் நிறம் மற்றும் சுயவிவரப் படம்',ocean:'ஓஷன் ப்ளூ',black:'எக்ஸிக்யூட்டிவ் பிளாக்',teal:'டீல் கிரீன்',violet:'ராயல் வயலெட்',uploadPhoto:'சுயவிவரப் படத்தைப் பதிவேற்றவும் (விருப்பம்)',showPhoto:'ரெஸ்யூமில் படத்தைக் காட்டவா?',yes:'ஆம் (படத்தைக் காட்டு)',no:'வேண்டாம் (உரை மட்டும்)',secPersonal:'2. தனிப்பட்ட மற்றும் தொடர்பு விவரங்கள்',fullName:'முழுப் பெயர்',jobRole:'விரும்பும் வேலைப் பதவி',mobile:'மொபைல் எண்',email:'மின்னஞ்சல் முகவரி',city:'நகரம் மற்றும் மாநிலம்',secCareer:'3. தொழில் சுருக்கம் மற்றும் பணி அனுபவம்',objective:'தொழில் நோக்கம் / சுயவிவரச் சுருக்கம்',workExperience:'பணி அனுபவம் (பதவி, நிறுவனம், ஆண்டுகள், பொறுப்புகள்)',secEducation:'4. கல்வி, திறன்கள் மற்றும் தனிப்பட்ட தகவல்',education:'கல்வி மற்றும் தகுதிகள்',skills:'முக்கிய திறன்கள் (கமாவால் பிரிக்கவும்)',languagesKnown:'தெரிந்த மொழிகள்',dobGender:'பிறந்த தேதி / பாலினம்',previewTitle:'நேரடி A4 ரெஸ்யூம் முன்னோட்டம்',profileSummary:'சுயவிவரச் சுருக்கம்',workExperienceTitle:'பணி அனுபவம்',educationTitle:'கல்வி மற்றும் தகுதிகள்',coreSkills:'முக்கிய திறன்கள்',languagesTitle:'மொழிகள்',personalDetails:'தனிப்பட்ட விவரங்கள்',declaration:'மேலே உள்ள தகவல்கள் எனக்குத் தெரிந்தவரை உண்மையானவை என்று அறிவிக்கிறேன்.',pdf:'📥 A4 ரெஸ்யூம் PDF பதிவிறக்க',print:'🖨️ ரெஸ்யூமை அச்சிடு',generating:'⏳ PDF உருவாகிறது...',phName:'எ.கா. ரோஹன் குல்கர்னி',phRole:'எ.கா. அலுவலக நிர்வாகி',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'புனே, மகாராஷ்டிரா',phSummary:'உங்கள் தொழில்முறை சுருக்கத்தை எழுதவும்...',phExperience:'பதவி — நிறுவனம் (ஆண்டுகள்)\nமுக்கிய பொறுப்புகளை எழுதவும்...',phEducation:'பட்டம் — பல்கலைக்கழகம் (ஆண்டு)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'தமிழ், இந்தி, ஆங்கிலம்',phDob:'15 ஆகஸ்ட் 1998 | ஆண்'},
+  gu:{back:'← બધા ટૂલ્સ',navTitle:'KaamKaj Bills • રિઝ્યૂમે બિલ્ડર',language:'ભાષા',themeHelp:'અહીંથી Light / Dark મોડ બદલો',dark:'🌙 ડાર્ક મોડ',light:'☀️ લાઇટ મોડ',secTheme:'1. થીમ રંગ અને પ્રોફાઇલ ફોટો',ocean:'ઓશન બ્લૂ',black:'એક્ઝિક્યુટિવ બ્લેક',teal:'ટીલ ગ્રીન',violet:'રોયલ વાયોલેટ',uploadPhoto:'પ્રોફાઇલ ફોટો અપલોડ કરો (વૈકલ્પિક)',showPhoto:'રિઝ્યૂમેમાં ફોટો બતાવવો?',yes:'હા (ફોટો બતાવો)',no:'ના (માત્ર લખાણ)',secPersonal:'2. વ્યક્તિગત અને સંપર્ક વિગતો',fullName:'પૂરું નામ',jobRole:'લક્ષિત નોકરીનું પદ',mobile:'મોબાઇલ નંબર',email:'ઈમેલ આઈડી',city:'શહેર અને રાજ્ય',secCareer:'3. કારકિર્દી સારાંશ અને કામનો અનુભવ',objective:'કારકિર્દીનો હેતુ / પ્રોફાઇલ સારાંશ',workExperience:'કામનો અનુભવ (પદ, કંપની, વર્ષ અને જવાબદારીઓ)',secEducation:'4. શિક્ષણ, કુશળતા અને વ્યક્તિગત માહિતી',education:'શિક્ષણ અને લાયકાત',skills:'મુખ્ય કુશળતા (અલ્પવિરામથી અલગ કરો)',languagesKnown:'જાણીતી ભાષાઓ',dobGender:'જન્મ તારીખ / લિંગ',previewTitle:'લાઇવ A4 રિઝ્યૂમે પ્રિવ્યૂ',profileSummary:'પ્રોફાઇલ સારાંશ',workExperienceTitle:'કામનો અનુભવ',educationTitle:'શિક્ષણ અને લાયકાત',coreSkills:'મુખ્ય કુશળતા',languagesTitle:'ભાષાઓ',personalDetails:'વ્યક્તિગત વિગતો',declaration:'ઉપર આપેલી માહિતી મારી જાણ મુજબ સાચી છે તેવી હું ઘોષણા કરું છું.',pdf:'📥 A4 રિઝ્યૂમે PDF ડાઉનલોડ',print:'🖨️ રિઝ્યૂમે પ્રિન્ટ કરો',generating:'⏳ PDF બની રહ્યું છે...',phName:'દા.ત. રોહન કુલકર્ણી',phRole:'દા.ત. ઓફિસ એક્ઝિક્યુટિવ',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'પુણે, મહારાષ્ટ્ર',phSummary:'તમારો વ્યાવસાયિક પરિચય લખો...',phExperience:'પદ — કંપની (વર્ષ)\nમુખ્ય જવાબદારીઓ લખો...',phEducation:'ડિગ્રી — યુનિવર્સિટી (વર્ષ)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'ગુજરાતી, હિન્દી, અંગ્રેજી',phDob:'15 ઓગસ્ટ 1998 | પુરુષ'},
+  kn:{back:'← ಎಲ್ಲಾ ಟೂಲ್ಸ್',navTitle:'KaamKaj Bills • ರೆಸ್ಯೂಮ್ ಬಿಲ್ಡರ್',language:'ಭಾಷೆ',themeHelp:'ಇಲ್ಲಿಂದ Light / Dark ಮೋಡ್ ಬದಲಿಸಿ',dark:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',light:'☀️ ಲೈಟ್ ಮೋಡ್',secTheme:'1. ಥೀಮ್ ಬಣ್ಣ ಮತ್ತು ಪ್ರೊಫೈಲ್ ಫೋಟೋ',ocean:'ಓಷನ್ ಬ್ಲೂ',black:'ಎಕ್ಸಿಕ್ಯೂಟಿವ್ ಬ್ಲ್ಯಾಕ್',teal:'ಟೀಲ್ ಗ್ರೀನ್',violet:'ರಾಯಲ್ ವೈಲೆಟ್',uploadPhoto:'ಪ್ರೊಫೈಲ್ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ (ಐಚ್ಛಿಕ)',showPhoto:'ರೆಸ್ಯೂಮ್‌ನಲ್ಲಿ ಫೋಟೋ ತೋರಿಸಬೇಕೇ?',yes:'ಹೌದು (ಫೋಟೋ ತೋರಿಸಿ)',no:'ಬೇಡ (ಪಠ್ಯ ಮಾತ್ರ)',secPersonal:'2. ವೈಯಕ್ತಿಕ ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳು',fullName:'ಪೂರ್ಣ ಹೆಸರು',jobRole:'ಗುರಿ ಉದ್ಯೋಗ / ಹುದ್ದೆ',mobile:'ಮೊಬೈಲ್ ಸಂಖ್ಯೆ',email:'ಇಮೇಲ್ ಐಡಿ',city:'ನಗರ ಮತ್ತು ರಾಜ್ಯ',secCareer:'3. ವೃತ್ತಿ ಸಾರಾಂಶ ಮತ್ತು ಕೆಲಸದ ಅನುಭವ',objective:'ವೃತ್ತಿ ಉದ್ದೇಶ / ಪ್ರೊಫೈಲ್ ಸಾರಾಂಶ',workExperience:'ಕೆಲಸದ ಅನುಭವ (ಹುದ್ದೆ, ಕಂಪನಿ, ವರ್ಷಗಳು ಮತ್ತು ಜವಾಬ್ದಾರಿಗಳು)',secEducation:'4. ಶಿಕ್ಷಣ, ಕೌಶಲ್ಯಗಳು ಮತ್ತು ವೈಯಕ್ತಿಕ ಮಾಹಿತಿ',education:'ಶಿಕ್ಷಣ ಮತ್ತು ಅರ್ಹತೆಗಳು',skills:'ಮುಖ್ಯ ಕೌಶಲ್ಯಗಳು (ಅಲ್ಪವಿರಾಮದಿಂದ ಬೇರ್ಪಡಿಸಿ)',languagesKnown:'ತಿಳಿದಿರುವ ಭಾಷೆಗಳು',dobGender:'ಜನ್ಮ ದಿನಾಂಕ / ಲಿಂಗ',previewTitle:'ಲೈವ್ A4 ರೆಸ್ಯೂಮ್ ಪೂರ್ವವೀಕ್ಷಣೆ',profileSummary:'ಪ್ರೊಫೈಲ್ ಸಾರಾಂಶ',workExperienceTitle:'ಕೆಲಸದ ಅನುಭವ',educationTitle:'ಶಿಕ್ಷಣ ಮತ್ತು ಅರ್ಹತೆಗಳು',coreSkills:'ಮುಖ್ಯ ಕೌಶಲ್ಯಗಳು',languagesTitle:'ಭಾಷೆಗಳು',personalDetails:'ವೈಯಕ್ತಿಕ ವಿವರಗಳು',declaration:'ಮೇಲಿನ ಮಾಹಿತಿಯು ನನ್ನ ತಿಳುವಳಿಕೆಯ ಪ್ರಕಾರ ಸತ್ಯವೆಂದು ಘೋಷಿಸುತ್ತೇನೆ.',pdf:'📥 A4 ರೆಸ್ಯೂಮ್ PDF ಡೌನ್‌ಲೋಡ್',print:'🖨️ ರೆಸ್ಯೂಮ್ ಮುದ್ರಿಸಿ',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',phName:'ಉದಾ. ರೋಹನ್ ಕುಲಕರ್ಣಿ',phRole:'ಉದಾ. ಆಫೀಸ್ ಎಕ್ಸಿಕ್ಯೂಟಿವ್',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'ಪುಣೆ, ಮಹಾರಾಷ್ಟ್ರ',phSummary:'ನಿಮ್ಮ ವೃತ್ತಿಪರ ಪರಿಚಯವನ್ನು ಬರೆಯಿರಿ...',phExperience:'ಹುದ್ದೆ — ಕಂಪನಿ (ವರ್ಷಗಳು)\nಮುಖ್ಯ ಜವಾಬ್ದಾರಿಗಳನ್ನು ಬರೆಯಿರಿ...',phEducation:'ಪದವಿ — ವಿಶ್ವವಿದ್ಯಾಲಯ (ವರ್ಷ)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'ಕನ್ನಡ, ಹಿಂದಿ, ಇಂಗ್ಲಿಷ್',phDob:'15 ಆಗಸ್ಟ್ 1998 | ಪುರುಷ'},
+  ml:{back:'← എല്ലാ ടൂളുകളും',navTitle:'KaamKaj Bills • റെസ്യൂം ബിൽഡർ',language:'ഭാഷ',themeHelp:'ഇവിടെ നിന്ന് Light / Dark മോഡ് മാറ്റാം',dark:'🌙 ഡാർക്ക് മോഡ്',light:'☀️ ലൈറ്റ് മോഡ്',secTheme:'1. തീം നിറവും പ്രൊഫൈൽ ഫോട്ടോയും',ocean:'ഓഷൻ ബ്ലൂ',black:'എക്സിക്യൂട്ടീവ് ബ്ലാക്ക്',teal:'ടീൽ ഗ്രീൻ',violet:'റോയൽ വയലറ്റ്',uploadPhoto:'പ്രൊഫൈൽ ഫോട്ടോ അപ്‌ലോഡ് ചെയ്യുക (ഐച്ഛികം)',showPhoto:'റെസ്യൂമെയിൽ ഫോട്ടോ കാണിക്കണോ?',yes:'അതെ (ഫോട്ടോ കാണിക്കുക)',no:'വേണ്ട (ടെക്സ്റ്റ് മാത്രം)',secPersonal:'2. വ്യക്തിഗതവും ബന്ധപ്പെടാനുള്ളതുമായ വിവരങ്ങൾ',fullName:'പൂർണ്ണ പേര്',jobRole:'ലക്ഷ്യമിടുന്ന ജോലി / പദവി',mobile:'മൊബൈൽ നമ്പർ',email:'ഇമെയിൽ ഐഡി',city:'നഗരവും സംസ്ഥാനവും',secCareer:'3. കരിയർ സംഗ്രഹവും പ്രവൃത്തി പരിചയവും',objective:'കരിയർ ലക്ഷ്യം / പ്രൊഫൈൽ സംഗ്രഹം',workExperience:'പ്രവൃത്തി പരിചയം (പദവി, കമ്പനി, വർഷങ്ങൾ, ചുമതലകൾ)',secEducation:'4. വിദ്യാഭ്യാസം, കഴിവുകൾ, വ്യക്തിഗത വിവരങ്ങൾ',education:'വിദ്യാഭ്യാസവും യോഗ്യതകളും',skills:'പ്രധാന കഴിവുകൾ (കോമ ഉപയോഗിച്ച് വേർതിരിക്കുക)',languagesKnown:'അറിയാവുന്ന ഭാഷകൾ',dobGender:'ജനന തീയതി / ലിംഗം',previewTitle:'ലൈവ് A4 റെസ്യൂമെ പ്രിവ്യൂ',profileSummary:'പ്രൊഫൈൽ സംഗ്രഹം',workExperienceTitle:'പ്രവൃത്തി പരിചയം',educationTitle:'വിദ്യാഭ്യാസവും യോഗ്യതകളും',coreSkills:'പ്രധാന കഴിവുകൾ',languagesTitle:'ഭാഷകൾ',personalDetails:'വ്യക്തിഗത വിവരങ്ങൾ',declaration:'മുകളിൽ നൽകിയ വിവരങ്ങൾ എന്റെ അറിവിൽ ശരിയാണെന്ന് ഞാൻ പ്രഖ്യാപിക്കുന്നു.',pdf:'📥 A4 റെസ്യൂമെ PDF ഡൗൺലോഡ്',print:'🖨️ റെസ്യൂമെ പ്രിന്റ് ചെയ്യുക',generating:'⏳ PDF തയ്യാറാക്കുന്നു...',phName:'ഉദാ. രോഹൻ കുൽക്കർണി',phRole:'ഉദാ. ഓഫീസ് എക്സിക്യൂട്ടീവ്',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'പൂനെ, മഹാരാഷ്ട്ര',phSummary:'നിങ്ങളുടെ പ്രൊഫഷണൽ പരിചയം എഴുതുക...',phExperience:'പദവി — കമ്പനി (വർഷം)\nപ്രധാന ചുമതലകൾ എഴുതുക...',phEducation:'ബിരുദം — സർവകലാശാല (വർഷം)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'മലയാളം, ഹിന്ദി, ഇംഗ്ലീഷ്',phDob:'15 ഓഗസ്റ്റ് 1998 | പുരുഷൻ'},
+  or:{back:'← ସମସ୍ତ ଟୁଲ୍',navTitle:'KaamKaj Bills • ରେଜ୍ୟୁମେ ବିଲ୍ଡର',language:'ଭାଷା',themeHelp:'ଏଠାରୁ Light / Dark ମୋଡ୍ ବଦଳାନ୍ତୁ',dark:'🌙 ଡାର୍କ ମୋଡ୍',light:'☀️ ଲାଇଟ୍ ମୋଡ୍',secTheme:'1. ଥିମ୍ ରଙ୍ଗ ଏବଂ ପ୍ରୋଫାଇଲ୍ ଫଟୋ',ocean:'ଓସନ୍ ବ୍ଲୁ',black:'ଏକ୍ଜିକ୍ୟୁଟିଭ୍ ବ୍ଲାକ୍',teal:'ଟିଲ୍ ଗ୍ରୀନ୍',violet:'ରୟାଲ୍ ଭାଏଲେଟ୍',uploadPhoto:'ପ୍ରୋଫାଇଲ୍ ଫଟୋ ଅପଲୋଡ୍ କରନ୍ତୁ (ଇଚ୍ଛାଧୀନ)',showPhoto:'ରେଜ୍ୟୁମେରେ ଫଟୋ ଦେଖାଇବେ?',yes:'ହଁ (ଫଟୋ ଦେଖାନ୍ତୁ)',no:'ନା (କେବଳ ଟେକ୍ସଟ୍)',secPersonal:'2. ବ୍ୟକ୍ତିଗତ ଏବଂ ଯୋଗାଯୋଗ ବିବରଣୀ',fullName:'ପୂର୍ଣ୍ଣ ନାମ',jobRole:'ଲକ୍ଷ୍ୟ ଚାକିରି ପଦବୀ',mobile:'ମୋବାଇଲ୍ ନମ୍ବର',email:'ଇମେଲ୍ ଆଇଡି',city:'ସହର ଏବଂ ରାଜ୍ୟ',secCareer:'3. କ୍ୟାରିୟର ସାରାଂଶ ଏବଂ କାର୍ଯ୍ୟ ଅଭିଜ୍ଞତା',objective:'କ୍ୟାରିୟର ଲକ୍ଷ୍ୟ / ପ୍ରୋଫାଇଲ୍ ସାରାଂଶ',workExperience:'କାର୍ଯ୍ୟ ଅଭିଜ୍ଞତା (ପଦବୀ, କମ୍ପାନୀ, ବର୍ଷ ଓ ଦାୟିତ୍ୱ)',secEducation:'4. ଶିକ୍ଷା, ଦକ୍ଷତା ଏବଂ ବ୍ୟକ୍ତିଗତ ସୂଚନା',education:'ଶିକ୍ଷା ଏବଂ ଯୋଗ୍ୟତା',skills:'ମୁଖ୍ୟ ଦକ୍ଷତା (କମାରେ ଅଲଗା କରନ୍ତୁ)',languagesKnown:'ଜଣା ଭାଷା',dobGender:'ଜନ୍ମ ତାରିଖ / ଲିଙ୍ଗ',previewTitle:'ଲାଇଭ୍ A4 ରେଜ୍ୟୁମେ ପ୍ରିଭ୍ୟୁ',profileSummary:'ପ୍ରୋଫାଇଲ୍ ସାରାଂଶ',workExperienceTitle:'କାର୍ଯ୍ୟ ଅଭିଜ୍ଞତା',educationTitle:'ଶିକ୍ଷା ଏବଂ ଯୋଗ୍ୟତା',coreSkills:'ମୁଖ୍ୟ ଦକ୍ଷତା',languagesTitle:'ଭାଷା',personalDetails:'ବ୍ୟକ୍ତିଗତ ବିବରଣୀ',declaration:'ଉପରୋକ୍ତ ସୂଚନା ମୋ ଜ୍ଞାନ ଅନୁସାରେ ସତ୍ୟ ବୋଲି ଘୋଷଣା କରୁଛି।',pdf:'📥 A4 ରେଜ୍ୟୁମେ PDF ଡାଉନଲୋଡ୍',print:'🖨️ ରେଜ୍ୟୁମେ ପ୍ରିଣ୍ଟ୍',generating:'⏳ PDF ତିଆରି ହେଉଛି...',phName:'ଉଦାହରଣ: ରୋହନ କୁଲକର୍ଣ୍ଣି',phRole:'ଉଦାହରଣ: ଅଫିସ୍ ଏକ୍ଜିକ୍ୟୁଟିଭ୍',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'ପୁଣେ, ମହାରାଷ୍ଟ୍ର',phSummary:'ଆପଣଙ୍କ ବୃତ୍ତିଗତ ପରିଚୟ ଲେଖନ୍ତୁ...',phExperience:'ପଦବୀ — କମ୍ପାନୀ (ବର୍ଷ)\nମୁଖ୍ୟ ଦାୟିତ୍ୱ ଲେଖନ୍ତୁ...',phEducation:'ଡିଗ୍ରୀ — ବିଶ୍ୱବିଦ୍ୟାଳୟ (ବର୍ଷ)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'ଓଡ଼ିଆ, ହିନ୍ଦୀ, ଇଂରାଜୀ',phDob:'15 ଅଗଷ୍ଟ 1998 | ପୁରୁଷ'},
+  pa:{back:'← ਸਾਰੇ ਟੂਲ',navTitle:'KaamKaj Bills • ਰਿਜ਼ਿਊਮੇ ਬਿਲਡਰ',language:'ਭਾਸ਼ਾ',themeHelp:'ਇੱਥੋਂ Light / Dark ਮੋਡ ਬਦਲੋ',dark:'🌙 ਡਾਰਕ ਮੋਡ',light:'☀️ ਲਾਈਟ ਮੋਡ',secTheme:'1. ਥੀਮ ਰੰਗ ਅਤੇ ਪ੍ਰੋਫਾਈਲ ਫੋਟੋ',ocean:'ਓਸ਼ਨ ਬਲੂ',black:'ਐਗਜ਼ਿਕਿਊਟਿਵ ਬਲੈਕ',teal:'ਟੀਲ ਗ੍ਰੀਨ',violet:'ਰੌਇਲ ਵਾਇਲਟ',uploadPhoto:'ਪ੍ਰੋਫਾਈਲ ਫੋਟੋ ਅੱਪਲੋਡ ਕਰੋ (ਵਿਕਲਪਿਕ)',showPhoto:'ਰਿਜ਼ਿਊਮੇ ਵਿੱਚ ਫੋਟੋ ਦਿਖਾਉਣੀ ਹੈ?',yes:'ਹਾਂ (ਫੋਟੋ ਦਿਖਾਓ)',no:'ਨਹੀਂ (ਸਿਰਫ਼ ਲਿਖਤ)',secPersonal:'2. ਨਿੱਜੀ ਅਤੇ ਸੰਪਰਕ ਵੇਰਵੇ',fullName:'ਪੂਰਾ ਨਾਮ',jobRole:'ਲੋੜੀਂਦਾ ਨੌਕਰੀ ਅਹੁਦਾ',mobile:'ਮੋਬਾਈਲ ਨੰਬਰ',email:'ਈਮੇਲ ਆਈਡੀ',city:'ਸ਼ਹਿਰ ਅਤੇ ਰਾਜ',secCareer:'3. ਕਰੀਅਰ ਸਾਰ ਅਤੇ ਕੰਮ ਦਾ ਤਜਰਬਾ',objective:'ਕਰੀਅਰ ਉਦੇਸ਼ / ਪ੍ਰੋਫਾਈਲ ਸਾਰ',workExperience:'ਕੰਮ ਦਾ ਤਜਰਬਾ (ਅਹੁਦਾ, ਕੰਪਨੀ, ਸਾਲ ਅਤੇ ਜ਼ਿੰਮੇਵਾਰੀਆਂ)',secEducation:'4. ਸਿੱਖਿਆ, ਹੁਨਰ ਅਤੇ ਨਿੱਜੀ ਜਾਣਕਾਰੀ',education:'ਸਿੱਖਿਆ ਅਤੇ ਯੋਗਤਾਵਾਂ',skills:'ਮੁੱਖ ਹੁਨਰ (ਕੌਮੇ ਨਾਲ ਵੱਖ ਕਰੋ)',languagesKnown:'ਜਾਣੀਆਂ ਭਾਸ਼ਾਵਾਂ',dobGender:'ਜਨਮ ਮਿਤੀ / ਲਿੰਗ',previewTitle:'ਲਾਈਵ A4 ਰਿਜ਼ਿਊਮੇ ਪ੍ਰੀਵਿਊ',profileSummary:'ਪ੍ਰੋਫਾਈਲ ਸਾਰ',workExperienceTitle:'ਕੰਮ ਦਾ ਤਜਰਬਾ',educationTitle:'ਸਿੱਖਿਆ ਅਤੇ ਯੋਗਤਾਵਾਂ',coreSkills:'ਮੁੱਖ ਹੁਨਰ',languagesTitle:'ਭਾਸ਼ਾਵਾਂ',personalDetails:'ਨਿੱਜੀ ਵੇਰਵੇ',declaration:'ਮੈਂ ਘੋਸ਼ਣਾ ਕਰਦਾ/ਕਰਦੀ ਹਾਂ ਕਿ ਉਪਰੋਕਤ ਜਾਣਕਾਰੀ ਮੇਰੀ ਜਾਣਕਾਰੀ ਅਨੁਸਾਰ ਸੱਚੀ ਹੈ।',pdf:'📥 A4 ਰਿਜ਼ਿਊਮੇ PDF ਡਾਊਨਲੋਡ',print:'🖨️ ਰਿਜ਼ਿਊਮੇ ਪ੍ਰਿੰਟ ਕਰੋ',generating:'⏳ PDF ਤਿਆਰ ਹੋ ਰਹੀ ਹੈ...',phName:'ਉਦਾਹਰਨ: ਰੋਹਨ ਕੁਲਕਰਨੀ',phRole:'ਉਦਾਹਰਨ: ਆਫਿਸ ਐਗਜ਼ਿਕਿਊਟਿਵ',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'ਪੁਣੇ, ਮਹਾਰਾਸ਼ਟਰ',phSummary:'ਆਪਣਾ ਪੇਸ਼ੇਵਰ ਸੰਖੇਪ ਲਿਖੋ...',phExperience:'ਅਹੁਦਾ — ਕੰਪਨੀ (ਸਾਲ)\nਮੁੱਖ ਜ਼ਿੰਮੇਵਾਰੀਆਂ ਲਿਖੋ...',phEducation:'ਡਿਗਰੀ — ਯੂਨੀਵਰਸਿਟੀ (ਸਾਲ)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'ਪੰਜਾਬੀ, ਹਿੰਦੀ, ਅੰਗਰੇਜ਼ੀ',phDob:'15 ਅਗਸਤ 1998 | ਪੁਰਸ਼'},
+  ur:{back:'← تمام ٹولز',navTitle:'KaamKaj Bills • ریزیومے بلڈر',language:'زبان',themeHelp:'یہاں سے Light / Dark موڈ تبدیل کریں',dark:'🌙 ڈارک موڈ',light:'☀️ لائٹ موڈ',secTheme:'1. تھیم رنگ اور پروفائل تصویر',ocean:'اوشن بلیو',black:'ایگزیکٹو بلیک',teal:'ٹیل گرین',violet:'رائل وائلٹ',uploadPhoto:'پروفائل تصویر اپ لوڈ کریں (اختیاری)',showPhoto:'کیا ریزیومے میں تصویر دکھائیں؟',yes:'ہاں (تصویر دکھائیں)',no:'نہیں (صرف متن)',secPersonal:'2. ذاتی اور رابطے کی تفصیلات',fullName:'پورا نام',jobRole:'مطلوبہ ملازمت / عہدہ',mobile:'موبائل نمبر',email:'ای میل آئی ڈی',city:'شہر اور ریاست',secCareer:'3. کیریئر کا خلاصہ اور کام کا تجربہ',objective:'کیریئر کا مقصد / پروفائل کا خلاصہ',workExperience:'کام کا تجربہ (عہدہ، کمپنی، سال اور ذمہ داریاں)',secEducation:'4. تعلیم، مہارتیں اور ذاتی معلومات',education:'تعلیم اور قابلیت',skills:'اہم مہارتیں (کوما سے الگ کریں)',languagesKnown:'معلوم زبانیں',dobGender:'تاریخ پیدائش / جنس',previewTitle:'لائیو A4 ریزیومے پیش منظر',profileSummary:'پروفائل کا خلاصہ',workExperienceTitle:'کام کا تجربہ',educationTitle:'تعلیم اور قابلیت',coreSkills:'بنیادی مہارتیں',languagesTitle:'زبانیں',personalDetails:'ذاتی تفصیلات',declaration:'میں اعلان کرتا/کرتی ہوں کہ اوپر دی گئی معلومات میرے علم کے مطابق درست ہیں۔',pdf:'📥 A4 ریزیومے PDF ڈاؤن لوڈ',print:'🖨️ ریزیومے پرنٹ کریں',generating:'⏳ PDF تیار ہو رہی ہے...',phName:'مثلاً روہن کلکرنی',phRole:'مثلاً آفس ایگزیکٹو',phMobile:'+91 98XXXXXXXX',phEmail:'rohan@email.com',phCity:'پونے، مہاراشٹر',phSummary:'اپنا پیشہ ورانہ تعارف لکھیں...',phExperience:'عہدہ — کمپنی (سال)\nاہم ذمہ داریاں لکھیں...',phEducation:'ڈگری — یونیورسٹی (سال)',phSkills:'MS Excel, Tally, Billing, Communication',phLanguages:'اردو، ہندی، انگریزی',phDob:'15 اگست 1998 | مرد'}
+};
+let currentLang='hi';
+let accent='#0284c7';
+const DEFAULTS={summary:'Dedicated and detail-oriented professional with strong organizational, communication, and computer skills seeking a challenging role to contribute to business growth.',experience:'• Senior Executive — ABC Enterprises, Pune (2023 – Present)\n  Managed daily client billing, vendor coordination, and operational reporting.\n• Office Assistant — XYZ Traders (2021 – 2023)\n  Handled customer queries, documentation, and inventory tracking.',education:'• Bachelor\'s Degree — Recognized University\n• Higher Secondary (12th) & Secondary (10th) — State Board'};
+function escHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function changeLanguage(lang){currentLang=LANG[lang]?lang:'hi';try{localStorage.setItem('kkb_resume_language',currentLang);}catch(e){}applyLanguage();}
+function applyLanguage(){const t=LANG[currentLang]||LANG.hi;document.documentElement.lang=currentLang;document.documentElement.dir=currentLang==='ur'?'rtl':'ltr';document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t[key]!==undefined)el.textContent=t[key];});document.querySelectorAll('[data-ph]').forEach(el=>{const key=el.getAttribute('data-ph');if(t[key]!==undefined)el.placeholder=t[key];});const dark=document.body.classList.contains('dark-mode');document.getElementById('btnTheme').textContent=dark?t.light:t.dark;document.getElementById('btnPdf').textContent=t.pdf;document.querySelector('.btn-print').textContent=t.print;}
+function toggleTheme(){const isDark=document.body.classList.toggle('dark-mode');try{localStorage.setItem('kkb_resume_theme',isDark?'dark':'light');}catch(e){}applyLanguage();}
+function setAccent(col,btn){accent=col;document.querySelectorAll('.c-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('cvHeader').style.borderBottomColor=col;document.getElementById('out_role').style.color=col;['t1','t2','t3','t4','t5','t6'].forEach(id=>document.getElementById(id).style.color=col);}
+function loadPhoto(e){const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){alert('Please select a valid image file.');return;}const reader=new FileReader();reader.onload=ev=>{document.getElementById('out_photo').src=ev.target.result;};reader.onerror=()=>alert('Could not read the selected image.');reader.readAsDataURL(file);}
+function renderCV(){const name=document.getElementById('in_name').value.trim()||'ROHAN KULKARNI';const role=document.getElementById('in_role').value.trim()||'OFFICE EXECUTIVE & OPERATIONS COORDINATOR';const mob=document.getElementById('in_mob').value.trim()||'+91 98XXXXXXXX';const email=document.getElementById('in_email').value.trim()||'rohan@email.com';const city=document.getElementById('in_city').value.trim()||'Pune, Maharashtra';document.getElementById('out_name').textContent=name;document.getElementById('out_sig_name').textContent=name;document.getElementById('out_role').textContent=role;document.getElementById('out_contact').textContent=`📞 ${mob} | ✉️ ${email} | 📍 ${city}`;document.getElementById('photoWrap').style.display=document.getElementById('selShowPhoto').value==='YES'?'block':'none';document.getElementById('out_summary').textContent=document.getElementById('in_summary').value.trim()||DEFAULTS.summary;document.getElementById('out_exp').textContent=document.getElementById('in_exp').value.trim()||DEFAULTS.experience;document.getElementById('out_edu').textContent=document.getElementById('in_edu').value.trim()||DEFAULTS.education;const skills=document.getElementById('in_skills').value.trim()||'MS Excel, Tally Prime, Client Billing, Communication, Office Management';document.getElementById('out_skills').innerHTML=skills.split(',').map(s=>s.trim()).filter(Boolean).map(s=>`<span class="s-pill">${escHtml(s)}</span>`).join('');document.getElementById('out_lang').textContent=document.getElementById('in_lang').value.trim()||'English, Hindi, Marathi';document.getElementById('out_dob').textContent=document.getElementById('in_dob').value.trim()||'Date of Birth: 15 Aug 1998 | Male';}
+function waitForImages(root){const imgs=Array.from(root.querySelectorAll('img'));return Promise.all(imgs.map(img=>{if(img.complete&&img.naturalWidth>0)return Promise.resolve();if(typeof img.decode==='function')return img.decode().catch(()=>{});return new Promise(resolve=>{img.onload=resolve;img.onerror=resolve;});}));}
+async function downloadPDF(){const btn=document.getElementById('btnPdf');const t=LANG[currentLang]||LANG.hi;const originalText=btn.textContent;if(typeof window.html2pdf!=='function'){alert('PDF library could not be loaded. Please check your internet connection and reload the page.');return;}btn.disabled=true;btn.textContent=t.generating;const savedX=window.scrollX||0;const savedY=window.scrollY||0;let overlay=null;try{const source=document.getElementById('a4DocSheet');const clone=source.cloneNode(true);clone.removeAttribute('id');const PDF_WIDTH=680;clone.style.cssText=[`width:${PDF_WIDTH}px`,`min-width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'margin:0','padding:24px 26px','background:#ffffff','color:#1e293b','border:none','border-radius:0','box-shadow:none','box-sizing:border-box'].join(';');overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:2147483000;background:#ffffff;overflow:auto;margin:0;padding:0;';const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);await waitForImages(clone);await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,180)));const safeName=(document.getElementById('in_name').value.trim()||'Candidate').replace(/[^a-zA-Z0-9-_]+/g,'_').replace(/^_+|_+$/g,'')||'Candidate';await html2pdf().set({margin:[8,8,8,8],filename:`Resume_${safeName}.pdf`,image:{type:'jpeg',quality:.98},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},pagebreak:{mode:['css','legacy']}}).from(staging).save();}catch(err){console.error('PDF export failed:',err);alert('PDF डाउनलोड नहीं हो पाया। कृपया दोबारा कोशिश करें।');}finally{if(overlay)overlay.remove();window.scrollTo(savedX,savedY);btn.disabled=false;btn.textContent=originalText;}}
+function printCV(){const w=window.open('','_blank','width=850,height=900');if(!w){alert('Please allow pop-ups to print the resume.');return;}const content=document.getElementById('a4DocSheet').innerHTML;w.document.write(`<!DOCTYPE html><html lang="${currentLang}"><head><meta charset="UTF-8"><title>Print Resume</title><style>*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{margin:0;padding:12mm;color:#1e293b;background:#fff}.cv-header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:3px solid ${accent};padding-bottom:12px;margin-bottom:14px}.cv-title h1{margin:0;font-size:22px;text-transform:uppercase}.role-tag{font-size:12px;font-weight:800;color:${accent};margin:3px 0 6px;text-transform:uppercase}.cv-contact{font-size:10.5px;color:#475569;line-height:1.5}.cv-photo{width:78px;height:92px;border-radius:8px;border:2px solid #cbd5e1;overflow:hidden}.cv-photo img{width:100%;height:100%;object-fit:cover}.cv-sec{margin-bottom:13px;break-inside:avoid}.cv-sec-title{font-size:11.5px;font-weight:900;color:${accent};text-transform:uppercase;border-bottom:1px solid #e2e8f0;padding-bottom:3px;margin-bottom:7px}.cv-text{font-size:11px;line-height:1.55;margin:0;white-space:pre-line}.skill-pills{display:flex;flex-wrap:wrap;gap:6px}.s-pill{background:#f1f5f9;border:1px solid #cbd5e1;padding:3px 9px;border-radius:14px;font-size:10px;font-weight:700}.cv-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.cv-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-top:24px;font-size:10px;color:#64748b}.cv-footer-sign{font-weight:800;color:#0f172a;border-top:1px dashed #64748b;padding-top:3px;min-width:120px;text-align:center}@page{size:A4;margin:0}</style></head><body dir="${currentLang==='ur'?'rtl':'ltr'}">${content}</body></html>`);w.document.close();w.focus();setTimeout(()=>{w.print();w.close();},500);}
+window.addEventListener('load',()=>{try{if(localStorage.getItem('kkb_resume_theme')==='dark')document.body.classList.add('dark-mode');const saved=localStorage.getItem('kkb_resume_language');if(saved&&LANG[saved])currentLang=saved;}catch(e){}document.getElementById('selLanguage').value=currentLang;applyLanguage();renderCV();});
 </script>
 </body>
 </html>
