@@ -1,881 +1,333 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f172a">
 <title>Passport & Stamp Size Photo Sheet Maker - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #0284c7;
-    --primary-dark: #0369a1;
-    --primary-soft: #e0f2fe;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-    --surface: #ffffff;
-    --surface-alt: #f8fafc;
-    --shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  body.dark-mode {
-    --primary: #38bdf8;
-    --primary-dark: #0284c7;
-    --primary-soft: rgba(56, 189, 248, 0.16);
-    --ink: #f1f5f9;
-    --ink-muted: #94a3b8;
-    --border: #334155;
-    --bg: #0b1120;
-    --surface: #1e293b;
-    --surface-alt: #0f172a;
-    --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  }
-
-  * {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden;
-    transition: background-color 0.2s, color 0.2s;
-  }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background-color: #0f172a;
-    color: #ffffff;
-    padding: 12px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-  }
-  .nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-home {
-    background-color: rgba(255,255,255,0.12);
-    color: #ffffff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background-color: #0284c7; border-color: #38bdf8; }
-  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
-  .btn-theme {
-    background-color: rgba(255,255,255,0.14);
-    color: #ffffff;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .btn-theme:hover { background-color: rgba(255,255,255,0.24); }
-
-  /* Full-Screen Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 1540px;
-    margin: 0 auto;
-    padding: 20px 26px 48px 26px;
-    display: grid;
-    grid-template-columns: minmax(420px, 1.02fr) minmax(520px, 0.98fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background-color: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input[type="text"], input[type="number"], select, input[type="file"] {
-    width: 100%;
-    padding: 9px 11px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background-color: var(--surface-alt);
-    transition: border-color 0.2s, background-color 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background-color: var(--surface);
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
-  }
-
-  .section-badge {
-    background-color: var(--primary-soft);
-    color: var(--primary);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 14px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  /* Cropper Preview Box */
-  .crop-stage {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background-color: var(--surface-alt);
-    border: 1.5px dashed var(--border);
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 14px;
-  }
-  .crop-frame {
-    width: 112px;
-    height: 144px;
-    border: 2px solid #0284c7;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    background-color: #ffffff;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .crop-frame img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .sliders-wrap { flex: 1; display: flex; flex-direction: column; gap: 8px; }
-  .slider-row { display: flex; flex-direction: column; gap: 3px; }
-  .slider-row-head { display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--ink-muted); }
-  .slider-ctrl { display: flex; align-items: center; gap: 6px; }
-  input[type="range"] { width: 100%; accent-color: var(--primary); cursor: pointer; margin: 0; }
-
-  .btn-step {
-    background-color: var(--surface);
-    border: 1.5px solid var(--border);
-    color: var(--ink);
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 900;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 0;
-  }
-  .btn-step:hover { border-color: var(--primary); color: var(--primary); }
-
-  .crop-btn-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 2px;
-  }
-  .btn-reset-crop {
-    background-color: var(--primary-soft);
-    color: var(--primary);
-    border: 1px solid var(--primary);
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-  .btn-reset-crop:hover { opacity: 0.9; }
-
-  /* Capacity Info Pill */
-  .cap-banner {
-    background-color: #f0fdf4;
-    border: 1px solid #86efac;
-    color: #166534;
-    border-radius: 9px;
-    padding: 9px 12px;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .btn-max-fill {
-    background-color: #16a34a;
-    color: #ffffff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 11.5px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-  .btn-max-fill:hover { background-color: #15803d; }
-
-  /* Background Color Swatches */
-  .bg-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
-  .swatch {
-    padding: 7px 12px;
-    border: 2px solid var(--border);
-    border-radius: 7px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    background-color: var(--surface-alt);
-    color: var(--ink);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .swatch.active { border-color: var(--primary); background-color: var(--primary-soft); color: var(--primary); }
-  .swatch-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #94a3b8; display: inline-block; }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1;
-    min-width: 150px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #ffffff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  .btn-pdf { background-color: #0284c7; }
-  .btn-print { background-color: #0f172a; }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-    background-color: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-
-  .preview-viewport {
-    width: 100%;
-    overflow-x: auto;
-    background-color: #e2e8f0;
-    padding: 18px 14px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-  }
-  body.dark-mode .preview-viewport {
-    background-color: #0f172a;
-  }
-
-  .photo-sheet {
-    background-color: #ffffff;
-    border: 1.5px solid #94a3b8;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-    display: grid;
-    justify-content: start;
-    align-content: start;
-    box-sizing: border-box;
-    flex-shrink: 0;
-  }
-
-  .p-tile {
-    overflow: hidden;
-    position: relative;
-    box-sizing: border-box;
-    background-color: #ffffff;
-  }
-  .p-tile img {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  @media (max-width: 1120px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
-    .preview-panel { position: static; }
-  }
-  @media (max-width: 640px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .crop-stage { flex-direction: column; align-items: stretch; }
-    .crop-frame { margin: 0 auto; }
-    .preview-viewport { justify-content: flex-start; padding: 12px; }
-    .top-nav { padding: 10px 14px; }
-    .nav-title { font-size: 13.5px; }
-    .control-box, .preview-panel { padding: 14px 12px; }
-  }
+  :root{--primary:#0284c7;--primary-dark:#0369a1;--primary-soft:#e0f2fe;--ink:#0f172a;--ink-muted:#475569;--border:#cbd5e1;--bg:#f1f5f9;--surface:#fff;--surface-alt:#f8fafc;--shadow:0 6px 20px rgba(15,23,42,.05)}
+  body.dark-mode{--primary:#38bdf8;--primary-dark:#0284c7;--primary-soft:rgba(56,189,248,.16);--ink:#f1f5f9;--ink-muted:#94a3b8;--border:#334155;--bg:#0b1120;--surface:#1e293b;--surface-alt:#0f172a;--shadow:0 6px 20px rgba(0,0,0,.35)}
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+  html,body{margin:0;padding:0;width:100%;min-height:100vh;background:var(--bg);color:var(--ink);overflow-x:hidden;transition:background-color .2s,color .2s}
+  body{min-height:100vh}
+  .top-nav{background:#0f172a;color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 4px 18px rgba(0,0,0,.14)}
+  .nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2);white-space:nowrap}
+  .btn-home:hover{background:var(--primary);border-color:var(--primary)}
+  .nav-title{font-size:15px;font-weight:800;letter-spacing:.2px}
+  .lang-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700}
+  .lang-control select{width:auto;min-width:150px;max-width:210px;padding:7px 9px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:#1e293b;color:#fff;font-size:12px}
+  .theme-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .theme-help{font-size:11px;color:#e2e8f0;max-width:180px;line-height:1.3}
+  .btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:7px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+  .btn-theme:hover{background:rgba(255,255,255,.24)}
+  .kb-wrapper{width:100%;max-width:none;margin:0;padding:18px 24px 42px;display:grid;grid-template-columns:minmax(360px,1fr) minmax(420px,1fr);gap:22px;align-items:start}
+  .control-box,.preview-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow);min-width:0}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:11px;min-width:0}
+  label{font-size:11px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.3px;line-height:1.35}
+  input[type=text],input[type=number],input[type=file],select{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;outline:none;color:var(--ink);background:var(--surface-alt);min-width:0}
+  input:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(2,132,199,.14)}
+  input[type=range]{width:100%;accent-color:var(--primary);cursor:pointer;margin:0}
+  .section-badge{background:var(--primary-soft);color:var(--primary);font-size:11.5px;font-weight:800;padding:7px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:15px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary);line-height:1.35}
+  .crop-stage{display:flex;align-items:center;gap:16px;background:var(--surface-alt);border:1.5px dashed var(--border);border-radius:12px;padding:14px;margin-bottom:14px}
+  .crop-frame{width:112px;height:144px;border:2px solid var(--primary);border-radius:6px;overflow:hidden;position:relative;background:#fff;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center}
+  .crop-frame img{width:100%;height:100%;display:block;object-fit:fill}
+  .sliders-wrap{flex:1;display:flex;flex-direction:column;gap:9px;min-width:0}.slider-row{display:flex;flex-direction:column;gap:3px}.slider-row-head{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;font-weight:700;color:var(--ink-muted)}.slider-ctrl{display:flex;align-items:center;gap:7px}
+  .btn-step{background:var(--surface);border:1.5px solid var(--border);color:var(--ink);width:28px;height:28px;border-radius:6px;font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0}
+  .btn-step:hover{border-color:var(--primary);color:var(--primary)}
+  .crop-btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}.btn-reset-crop{background:var(--primary-soft);color:var(--primary);border:1px solid var(--primary);padding:6px 10px;border-radius:6px;font-size:11px;font-weight:800;cursor:pointer}
+  .cap-banner{background:#f0fdf4;border:1px solid #86efac;color:#166534;border-radius:9px;padding:9px 12px;font-size:12px;font-weight:700;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .btn-max-fill{background:#16a34a;color:#fff;border:none;padding:6px 10px;border-radius:6px;font-size:11.5px;font-weight:800;cursor:pointer}
+  .bg-swatches{display:flex;gap:8px;flex-wrap:wrap}.swatch{padding:7px 10px;border:2px solid var(--border);border-radius:7px;font-size:11.5px;font-weight:700;cursor:pointer;background:var(--surface-alt);color:var(--ink);display:inline-flex;align-items:center;gap:6px}.swatch.active{border-color:var(--primary);background:var(--primary-soft);color:var(--primary)}.swatch-dot{width:12px;height:12px;border-radius:50%;border:1px solid #94a3b8;display:inline-block;flex-shrink:0}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+  .btn{flex:1;min-width:150px;padding:13px;border:none;border-radius:9px;font-size:13.5px;font-weight:800;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.08)}.btn:hover{opacity:.93;transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:not-allowed;transform:none}.btn-pdf{background:#0284c7}.btn-print{background:#0f172a}
+  .preview-panel{position:sticky;top:78px}.preview-label{text-align:center;font-size:12px;font-weight:800;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px}
+  .preview-viewport{width:100%;overflow:auto;background:#e2e8f0;padding:16px 12px;border-radius:10px;border:1px solid var(--border);display:flex;justify-content:center;min-height:260px}body.dark-mode .preview-viewport{background:#0f172a}
+  .photo-sheet{background:#fff;border:1.5px solid #94a3b8;box-shadow:0 8px 24px rgba(15,23,42,.12);display:grid;justify-content:start;align-content:start;box-sizing:border-box;flex-shrink:0}
+  .p-tile{overflow:hidden;position:relative;box-sizing:border-box;background:#fff}.p-tile img{width:100%;height:100%;display:block}
+  body[dir=rtl] .section-badge{border-left:0;border-right:4px solid var(--primary)}
+  body[dir=rtl] .nav-left,body[dir=rtl] .nav-right{direction:rtl}
+  @media(max-width:1050px){.kb-wrapper{grid-template-columns:1fr;padding:14px 12px 30px;gap:16px}.preview-panel{position:static}}
+  @media(max-width:700px){.top-nav{padding:10px 12px}.nav-title{font-size:13px}.nav-right{width:100%;justify-content:space-between}.lang-control{flex:1}.lang-control select{flex:1;max-width:none}.theme-help{max-width:145px}.control-box,.preview-panel{padding:14px 12px;border-radius:12px}.grid-2,.grid-3{grid-template-columns:1fr}.crop-stage{flex-direction:column;align-items:stretch}.crop-frame{margin:0 auto}.preview-viewport{justify-content:flex-start;padding:10px}.btn{width:100%}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-
 <div class="top-nav">
   <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Passport &amp; Stamp Photo Sheet Maker</span>
+    <a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a>
+    <span class="nav-title" data-i18n="appTitle">KaamKaj Bills • Passport & Stamp Photo Sheet Maker</span>
   </div>
   <div class="nav-right">
-    <button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <label class="lang-control"><span data-i18n="languageLabel">🌐 Language / भाषा</span>
+      <select id="selLanguage" aria-label="Select language" onchange="changeLanguage(this.value)">
+        <option value="hi">हिन्दी (Hindi)</option><option value="en">English</option><option value="mr">मराठी (Marathi)</option><option value="gu">ગુજરાતી (Gujarati)</option><option value="bn">বাংলা (Bengali)</option><option value="ta">தமிழ் (Tamil)</option><option value="te">తెలుగు (Telugu)</option><option value="kn">ಕನ್ನಡ (Kannada)</option><option value="ml">മലയാളം (Malayalam)</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="or">ଓଡ଼ିଆ (Odia)</option><option value="ur">اردو (Urdu)</option>
+      </select>
+    </label>
+    <div class="theme-wrap"><span class="theme-help" data-i18n="themeHelp">यहाँ से आप Light / Dark मोड बदल सकते हैं।</span><button type="button" class="btn-theme" id="btnDark" onclick="toggleDarkMode()">🌙 Dark Mode</button></div>
   </div>
 </div>
 
 <div class="kb-wrapper">
-  <!-- LEFT: PHOTO CONTROLS -->
   <div class="control-box">
-    <div class="section-badge">1. Upload Photo &amp; Zoom (- / +) Crop</div>
-    <div class="field">
-      <label>Select Portrait Photo (चेहरा स्पष्ट दिखने वाली फोटो चुनें)</label>
-      <input type="file" accept="image/*" onchange="handlePhoto(event)">
-    </div>
-
+    <div class="section-badge" data-i18n="uploadSection">1. Upload Photo & Zoom / Crop</div>
+    <div class="field"><label data-i18n="selectPhoto">Select Portrait Photo (चेहरा स्पष्ट दिखने वाली फोटो चुनें)</label><input id="photoInput" type="file" accept="image/*" onchange="handlePhoto(event)"></div>
     <div class="crop-stage">
-      <div class="crop-frame" id="cropBox">
-        <img id="cropPreviewImg" alt="Cropped Preview">
-      </div>
+      <div class="crop-frame" id="cropBox"><img id="cropPreviewImg" alt="Cropped Preview"></div>
       <div class="sliders-wrap">
-        <div class="slider-row">
-          <div class="slider-row-head"><span>🔍 Zoom (- Out / + In)</span><b id="lblZoom">100% (0%)</b></div>
-          <div class="slider-ctrl">
-            <button type="button" class="btn-step" title="Zoom Out (-)" onclick="nudgeSlider('rngZoom', -5)">−</button>
-            <input type="range" id="rngZoom" min="30" max="250" value="100" oninput="updateCrop()">
-            <button type="button" class="btn-step" title="Zoom In (+)" onclick="nudgeSlider('rngZoom', 5)">+</button>
-          </div>
-        </div>
-        <div class="slider-row">
-          <div class="slider-row-head"><span>↔️ Left / Right Position</span><b id="lblX">0%</b></div>
-          <div class="slider-ctrl">
-            <button type="button" class="btn-step" onclick="nudgeSlider('rngX', -3)">−</button>
-            <input type="range" id="rngX" min="-100" max="100" value="0" oninput="updateCrop()">
-            <button type="button" class="btn-step" onclick="nudgeSlider('rngX', 3)">+</button>
-          </div>
-        </div>
-        <div class="slider-row">
-          <div class="slider-row-head"><span>↕️ Up / Down Position</span><b id="lblY">0%</b></div>
-          <div class="slider-ctrl">
-            <button type="button" class="btn-step" onclick="nudgeSlider('rngY', -3)">−</button>
-            <input type="range" id="rngY" min="-100" max="100" value="0" oninput="updateCrop()">
-            <button type="button" class="btn-step" onclick="nudgeSlider('rngY', 3)">+</button>
-          </div>
-        </div>
-        <div class="crop-btn-row">
-          <button type="button" class="btn-reset-crop" onclick="fitWholeImage()">🖼️ Fit Full Photo (- Zoom)</button>
-          <button type="button" class="btn-reset-crop" onclick="resetCrop()">↺ Reset 100%</button>
-        </div>
+        <div class="slider-row"><div class="slider-row-head"><span data-i18n="zoom">🔍 Zoom (- Out / + In)</span><b id="lblZoom">100% (0%)</b></div><div class="slider-ctrl"><button type="button" class="btn-step" title="Zoom Out" data-i18n-title="zoomOut" onclick="nudgeSlider('rngZoom',-5)">−</button><input type="range" id="rngZoom" min="30" max="250" value="100" oninput="updateCrop()"><button type="button" class="btn-step" title="Zoom In" data-i18n-title="zoomIn" onclick="nudgeSlider('rngZoom',5)">+</button></div></div>
+        <div class="slider-row"><div class="slider-row-head"><span data-i18n="moveHorizontal">↔️ Left / Right Position</span><b id="lblX">0%</b></div><div class="slider-ctrl"><button type="button" class="btn-step" title="Move Left" data-i18n-title="moveLeft" onclick="nudgeSlider('rngX',-3)">−</button><input type="range" id="rngX" min="-100" max="100" value="0" oninput="updateCrop()"><button type="button" class="btn-step" title="Move Right" data-i18n-title="moveRight" onclick="nudgeSlider('rngX',3)">+</button></div></div>
+        <div class="slider-row"><div class="slider-row-head"><span data-i18n="moveVertical">↕️ Up / Down Position</span><b id="lblY">0%</b></div><div class="slider-ctrl"><button type="button" class="btn-step" title="Move Up" data-i18n-title="moveUp" onclick="nudgeSlider('rngY',-3)">−</button><input type="range" id="rngY" min="-100" max="100" value="0" oninput="updateCrop()"><button type="button" class="btn-step" title="Move Down" data-i18n-title="moveDown" onclick="nudgeSlider('rngY',3)">+</button></div></div>
+        <div class="crop-btn-row"><button type="button" class="btn-reset-crop" onclick="fitWholeImage()" data-i18n="fitPhoto">🖼️ Fit Full Photo (Zoom Out)</button><button type="button" class="btn-reset-crop" onclick="resetCrop()" data-i18n="resetCrop">↺ Reset 100%</button></div>
       </div>
     </div>
 
-    <div class="section-badge">2. Paper Size, Photo Size &amp; Exact Copies</div>
+    <div class="section-badge" data-i18n="paperSection">2. Paper Size, Photo Size & Copies</div>
     <div class="grid-3">
-      <div class="field">
-        <label>Paper Size (पेपर)</label>
-        <select id="selPaper" onchange="onPaperOrSizeChange()">
-          <option value="A4" selected>A4 Sheet (210 × 297 mm)</option>
-          <option value="4X6">4 × 6 Inch (101.6 × 152.4 mm)</option>
-          <option value="5X7">5 × 7 Inch (127 × 177.8 mm)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Photo Size (आकार)</label>
-        <select id="selSize" onchange="onPaperOrSizeChange()">
-          <option value="PASSPORT" selected>Passport (35 × 45 mm)</option>
-          <option value="VISA">Visa / Square (50 × 50 mm)</option>
-          <option value="STAMP">Stamp Size (25 × 30 mm)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Number of Copies</label>
-        <select id="selCount" onchange="renderSheet()"></select>
-      </div>
+      <div class="field"><label data-i18n="paperSize">Paper Size (पेपर)</label><select id="selPaper" onchange="onPaperOrSizeChange()"><option value="A4" data-i18n="paperA4">A4 Sheet (210 × 297 mm)</option><option value="4X6" data-i18n="paper4x6">4 × 6 Inch (101.6 × 152.4 mm)</option><option value="5X7" data-i18n="paper5x7">5 × 7 Inch (127 × 177.8 mm)</option></select></div>
+      <div class="field"><label data-i18n="photoSize">Photo Size (आकार)</label><select id="selSize" onchange="onPaperOrSizeChange()"><option value="PASSPORT" data-i18n="passport">Passport (35 × 45 mm)</option><option value="VISA" data-i18n="visa">Visa / Square (50 × 50 mm)</option><option value="STAMP" data-i18n="stamp">Stamp Size (25 × 30 mm)</option></select></div>
+      <div class="field"><label data-i18n="numberCopies">Number of Copies</label><select id="selCount" onchange="renderSheet()"></select></div>
     </div>
-
-    <div class="cap-banner">
-      <span id="capText">Max Capacity on A4: 25 Passport Photos (5 × 5 Grid)</span>
-      <button type="button" class="btn-max-fill" onclick="fillMaxCopies()">Fill Full Sheet</button>
-    </div>
-
+    <div class="cap-banner"><span id="capText">Max Capacity on A4</span><button type="button" class="btn-max-fill" onclick="fillMaxCopies()" data-i18n="fillFullSheet">Fill Full Sheet</button></div>
     <div class="grid-2">
-      <div class="field">
-        <label>Cut Border Style</label>
-        <select id="selBorder" onchange="renderSheet()">
-          <option value="1px solid #0f172a" selected>Thin Black Border (कटिंग लाइन)</option>
-          <option value="1px dashed #64748b">Dashed Cut Line</option>
-          <option value="none">No Border</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Background Fill Color (Zoom Out / PNG)</label>
-        <div class="bg-swatches">
-          <button type="button" class="swatch active" onclick="setBg('#ffffff', this)"><span class="swatch-dot" style="background:#ffffff;"></span> White</button>
-          <button type="button" class="swatch" onclick="setBg('#dbeafe', this)"><span class="swatch-dot" style="background:#dbeafe;"></span> Sky Blue</button>
-          <button type="button" class="swatch" onclick="setBg('#fee2e2', this)"><span class="swatch-dot" style="background:#fee2e2;"></span> Light Red</button>
-        </div>
-      </div>
+      <div class="field"><label data-i18n="cutBorder">Cut Border Style</label><select id="selBorder" onchange="renderSheet()"><option value="1px solid #0f172a" data-i18n="thinBorder">Thin Black Border (Cut Line)</option><option value="1px dashed #64748b" data-i18n="dashedBorder">Dashed Cut Line</option><option value="none" data-i18n="noBorder">No Border</option></select></div>
+      <div class="field"><label data-i18n="backgroundFill">Background Fill Color (Zoom Out / PNG)</label><div class="bg-swatches"><button type="button" class="swatch active" onclick="setBg('#ffffff',this)"><span class="swatch-dot" style="background:#fff"></span><span data-i18n="white">White</span></button><button type="button" class="swatch" onclick="setBg('#dbeafe',this)"><span class="swatch-dot" style="background:#dbeafe"></span><span data-i18n="skyBlue">Sky Blue</span></button><button type="button" class="swatch" onclick="setBg('#fee2e2',this)"><span class="swatch-dot" style="background:#fee2e2"></span><span data-i18n="lightRed">Light Red</span></button></div></div>
     </div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadSheetPDF()">📥 Download Print-Ready PDF</button>
-      <button type="button" class="btn btn-print" onclick="printSheetDirect()">🖨️ Direct Photo Print</button>
-    </div>
+    <div class="actions"><button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadSheetPDF()" data-i18n="downloadPdf">📥 Download Print-Ready PDF</button><button type="button" class="btn btn-print" onclick="printSheetDirect()" data-i18n="directPrint">🖨️ Direct Photo Print</button></div>
   </div>
 
-  <!-- RIGHT: LIVE PRINT SHEET -->
-  <div class="preview-panel">
-    <div class="preview-label" id="sheetTitle">Live Print Sheet Preview</div>
-    <div class="preview-viewport">
-      <div id="printSheetWrap">
-        <div class="photo-sheet" id="photoSheet"></div>
-      </div>
-    </div>
-  </div>
+  <div class="preview-panel"><div class="preview-label" id="sheetTitle">Live Print Sheet Preview</div><div class="preview-viewport"><div id="printSheetWrap"><div class="photo-sheet" id="photoSheet"></div></div></div></div>
 </div>
 
 <script>
-  const PAPERS = {
-    A4:    { label: 'A4', w: 210, h: 297, margin: 8, gap: 4 },
-    '4X6': { label: '4×6 Inch', w: 101.6, h: 152.4, margin: 4, gap: 3 },
-    '5X7': { label: '5×7 Inch', w: 127, h: 177.8, margin: 5, gap: 3.5 }
-  };
+const PAPERS={A4:{w:210,h:297,margin:8,gap:4},'4X6':{w:101.6,h:152.4,margin:4,gap:3},'5X7':{w:127,h:177.8,margin:5,gap:3.5}};
+const PHOTO_SIZES={PASSPORT:{w:35,h:45},VISA:{w:50,h:50},STAMP:{w:25,h:30}};
+const LANGS={
+ hi:{allTools:'← सभी टूल्स',appTitle:'KaamKaj Bills • पासपोर्ट और स्टाम्प फोटो शीट मेकर',languageLabel:'🌐 भाषा चुनें',themeHelp:'यहाँ से आप Light / Dark मोड बदल सकते हैं।',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाइट मोड',uploadSection:'1. फोटो अपलोड और ज़ूम / क्रॉप',selectPhoto:'पोर्ट्रेट फोटो चुनें (चेहरा स्पष्ट दिखना चाहिए)',zoom:'🔍 ज़ूम कम / ज़्यादा करें',moveHorizontal:'↔️ बाएँ / दाएँ स्थिति',moveVertical:'↕️ ऊपर / नीचे स्थिति',zoomOut:'ज़ूम कम करें',zoomIn:'ज़ूम बढ़ाएँ',moveLeft:'बाएँ करें',moveRight:'दाएँ करें',moveUp:'ऊपर करें',moveDown:'नीचे करें',fitPhoto:'🖼️ पूरी फोटो फिट करें',resetCrop:'↺ 100% रीसेट',paperSection:'2. पेपर साइज, फोटो साइज और कॉपी',paperSize:'पेपर साइज',paperA4:'A4 शीट (210 × 297 mm)',paper4x6:'4 × 6 इंच (101.6 × 152.4 mm)',paper5x7:'5 × 7 इंच (127 × 177.8 mm)',photoSize:'फोटो का आकार',passport:'पासपोर्ट (35 × 45 mm)',visa:'वीज़ा / चौकोर (50 × 50 mm)',stamp:'स्टाम्प साइज (25 × 30 mm)',numberCopies:'फोटो की संख्या',fillFullSheet:'पूरी शीट भरें',cutBorder:'कटिंग बॉर्डर',thinBorder:'पतली काली लाइन',dashedBorder:'डैश कटिंग लाइन',noBorder:'बॉर्डर नहीं',backgroundFill:'बैकग्राउंड रंग (ज़ूम आउट / PNG)',white:'सफेद',skyBlue:'आसमानी नीला',lightRed:'हल्का लाल',downloadPdf:'📥 प्रिंट के लिए PDF डाउनलोड',directPrint:'🖨️ सीधे फोटो प्रिंट करें',preview:'लाइव प्रिंट शीट प्रीव्यू',maxOn:'अधिकतम क्षमता',cols:'कॉलम',rows:'पंक्तियाँ',photoOne:'फोटो',photoMany:'फोटो',maxFull:'(पूरी शीट)',generating:'⏳ PDF बन रही है...',pdfDone:'📥 प्रिंट के लिए PDF डाउनलोड',noImage:'फोटो लोड नहीं हुई। पहले फोटो चुनें।',pdfMissing:'PDF लाइब्रेरी लोड नहीं हुई। इंटरनेट कनेक्शन जाँचें।',printTitle:'फोटो शीट प्रिंट',photoAlt:'फोटो'},
+ en:{allTools:'← All Tools',appTitle:'KaamKaj Bills • Passport & Stamp Photo Sheet Maker',languageLabel:'🌐 Language',themeHelp:'Change the page appearance here.',darkMode:'🌙 Dark Mode',lightMode:'☀️ Light Mode',uploadSection:'1. Upload Photo & Zoom / Crop',selectPhoto:'Select Portrait Photo (face should be clearly visible)',zoom:'🔍 Zoom Out / In',moveHorizontal:'↔️ Left / Right Position',moveVertical:'↕️ Up / Down Position',zoomOut:'Zoom Out',zoomIn:'Zoom In',moveLeft:'Move Left',moveRight:'Move Right',moveUp:'Move Up',moveDown:'Move Down',fitPhoto:'🖼️ Fit Full Photo',resetCrop:'↺ Reset 100%',paperSection:'2. Paper Size, Photo Size & Copies',paperSize:'Paper Size',paperA4:'A4 Sheet (210 × 297 mm)',paper4x6:'4 × 6 Inch (101.6 × 152.4 mm)',paper5x7:'5 × 7 Inch (127 × 177.8 mm)',photoSize:'Photo Size',passport:'Passport (35 × 45 mm)',visa:'Visa / Square (50 × 50 mm)',stamp:'Stamp Size (25 × 30 mm)',numberCopies:'Number of Copies',fillFullSheet:'Fill Full Sheet',cutBorder:'Cut Border Style',thinBorder:'Thin Black Border',dashedBorder:'Dashed Cut Line',noBorder:'No Border',backgroundFill:'Background Fill Color',white:'White',skyBlue:'Sky Blue',lightRed:'Light Red',downloadPdf:'📥 Download Print-Ready PDF',directPrint:'🖨️ Direct Photo Print',preview:'Live Print Sheet Preview',maxOn:'Maximum on',cols:'Cols',rows:'Rows',photoOne:'Photo',photoMany:'Photos',maxFull:'(Max Full Sheet)',generating:'⏳ Generating PDF...',pdfDone:'📥 Download Print-Ready PDF',noImage:'No photo loaded. Please select a photo first.',pdfMissing:'PDF library is not loaded. Check your internet connection.',printTitle:'Print Photo Sheet',photoAlt:'Photo'},
+ mr:{allTools:'← सर्व टूल्स',appTitle:'KaamKaj Bills • पासपोर्ट आणि स्टॅम्प फोटो शीट',languageLabel:'🌐 भाषा निवडा',themeHelp:'येथून Light / Dark मोड बदला.',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाईट मोड',uploadSection:'1. फोटो अपलोड आणि झूम / क्रॉप',selectPhoto:'पोर्ट्रेट फोटो निवडा (चेहरा स्पष्ट दिसावा)',zoom:'🔍 झूम कमी / जास्त',moveHorizontal:'↔️ डावी / उजवीकडील स्थिती',moveVertical:'↕️ वर / खाली स्थिती',zoomOut:'झूम कमी',zoomIn:'झूम वाढवा',moveLeft:'डावीकडे',moveRight:'उजवीकडे',moveUp:'वर',moveDown:'खाली',fitPhoto:'🖼️ पूर्ण फोटो फिट करा',resetCrop:'↺ 100% रीसेट',paperSection:'2. पेपर आकार, फोटो आकार आणि प्रती',paperSize:'पेपर आकार',paperA4:'A4 शीट (210 × 297 mm)',paper4x6:'4 × 6 इंच (101.6 × 152.4 mm)',paper5x7:'5 × 7 इंच (127 × 177.8 mm)',photoSize:'फोटो आकार',passport:'पासपोर्ट (35 × 45 mm)',visa:'व्हिसा / चौकोनी (50 × 50 mm)',stamp:'स्टॅम्प आकार (25 × 30 mm)',numberCopies:'फोटोंची संख्या',fillFullSheet:'पूर्ण शीट भरा',cutBorder:'कटिंग बॉर्डर',thinBorder:'पातळ काळी रेषा',dashedBorder:'डॅश कटिंग रेषा',noBorder:'बॉर्डर नाही',backgroundFill:'बॅकग्राउंड रंग',white:'पांढरा',skyBlue:'आकाशी निळा',lightRed:'फिकट लाल',downloadPdf:'📥 प्रिंट PDF डाउनलोड',directPrint:'🖨️ थेट फोटो प्रिंट',preview:'लाइव्ह प्रिंट शीट पूर्वदृश्य',maxOn:'कमाल क्षमता',cols:'कॉलम',rows:'ओळी',photoOne:'फोटो',photoMany:'फोटो',maxFull:'(पूर्ण शीट)',generating:'⏳ PDF तयार होत आहे...',pdfDone:'📥 प्रिंट PDF डाउनलोड',noImage:'फोटो लोड नाही. आधी फोटो निवडा.',pdfMissing:'PDF लायब्ररी लोड झाली नाही. इंटरनेट तपासा.',printTitle:'फोटो शीट प्रिंट',photoAlt:'फोटो'},
+ gu:{allTools:'← બધા ટૂલ્સ',appTitle:'KaamKaj Bills • પાસપોર્ટ અને સ્ટેમ્પ ફોટો શીટ',languageLabel:'🌐 ભાષા પસંદ કરો',themeHelp:'અહીંથી Light / Dark મોડ બદલો.',darkMode:'🌙 ડાર્ક મોડ',lightMode:'☀️ લાઇટ મોડ',uploadSection:'1. ફોટો અપલોડ અને ઝૂમ / ક્રોપ',selectPhoto:'પોર્ટ્રેટ ફોટો પસંદ કરો (ચહેરો સ્પષ્ટ દેખાવો જોઈએ)',zoom:'🔍 ઝૂમ ઓછો / વધુ',moveHorizontal:'↔️ ડાબે / જમણે સ્થિતિ',moveVertical:'↕️ ઉપર / નીચે સ્થિતિ',zoomOut:'ઝૂમ ઓછો',zoomIn:'ઝૂમ વધુ',moveLeft:'ડાબે',moveRight:'જમણે',moveUp:'ઉપર',moveDown:'નીચે',fitPhoto:'🖼️ સંપૂર્ણ ફોટો ફિટ કરો',resetCrop:'↺ 100% રીસેટ',paperSection:'2. પેપર સાઇઝ, ફોટો સાઇઝ અને નકલો',paperSize:'પેપર સાઇઝ',paperA4:'A4 શીટ (210 × 297 mm)',paper4x6:'4 × 6 ઇંચ (101.6 × 152.4 mm)',paper5x7:'5 × 7 ઇંચ (127 × 177.8 mm)',photoSize:'ફોટો સાઇઝ',passport:'પાસપોર્ટ (35 × 45 mm)',visa:'વિઝા / ચોરસ (50 × 50 mm)',stamp:'સ્ટેમ્પ સાઇઝ (25 × 30 mm)',numberCopies:'ફોટાની સંખ્યા',fillFullSheet:'આખી શીટ भरो',cutBorder:'કટિંગ બોર્ડર',thinBorder:'પાતળી કાળી લાઇન',dashedBorder:'ડેશ કટ લાઇન',noBorder:'બોર્ડર નહીં',backgroundFill:'બેકગ્રાઉન્ડ રંગ',white:'સફેદ',skyBlue:'આકાશી વાદળી',lightRed:'હળવો લાલ',downloadPdf:'📥 પ્રિન્ટ PDF ડાઉનલોડ',directPrint:'🖨️ સીધો ફોટો પ્રિન્ટ',preview:'લાઇવ પ્રિન્ટ શીટ પ્રિવ્યૂ',maxOn:'મહત્તમ ક્ષમતા',cols:'કૉલમ',rows:'હરોળ',photoOne:'ફોટો',photoMany:'ફોટા',maxFull:'(આખી શીટ)',generating:'⏳ PDF બની રહી છે...',pdfDone:'📥 પ્રિન્ટ PDF ડાઉનલોડ',noImage:'ફોટો લોડ નથી. પહેલાં ફોટો પસંદ કરો.',pdfMissing:'PDF લાઇબ્રેરી લોડ નથી. ઇન્ટરનેટ તપાસો.',printTitle:'ફોટો શીટ પ્રિન્ટ',photoAlt:'ફોટો'},
+ bn:{allTools:'← সব টুল',appTitle:'KaamKaj Bills • পাসপোর্ট ও স্ট্যাম্প ফটো শিট',languageLabel:'🌐 ভাষা নির্বাচন',themeHelp:'এখান থেকে Light / Dark মোড বদলান।',darkMode:'🌙 ডার্ক মোড',lightMode:'☀️ লাইট মোড',uploadSection:'1. ছবি আপলোড ও জুম / ক্রপ',selectPhoto:'পোর্ট্রেট ছবি নির্বাচন করুন (মুখ স্পষ্ট হতে হবে)',zoom:'🔍 জুম কম / বেশি',moveHorizontal:'↔️ বাম / ডান অবস্থান',moveVertical:'↕️ ওপর / নিচ অবস্থান',zoomOut:'জুম কমান',zoomIn:'জুম বাড়ান',moveLeft:'বামে',moveRight:'ডানে',moveUp:'ওপরে',moveDown:'নিচে',fitPhoto:'🖼️ পুরো ছবি ফিট করুন',resetCrop:'↺ 100% রিসেট',paperSection:'2. কাগজের মাপ, ছবির মাপ ও কপি',paperSize:'কাগজের মাপ',paperA4:'A4 শিট (210 × 297 mm)',paper4x6:'4 × 6 ইঞ্চি (101.6 × 152.4 mm)',paper5x7:'5 × 7 ইঞ্চি (127 × 177.8 mm)',photoSize:'ছবির মাপ',passport:'পাসপোর্ট (35 × 45 mm)',visa:'ভিসা / বর্গাকার (50 × 50 mm)',stamp:'স্ট্যাম্প সাইজ (25 × 30 mm)',numberCopies:'ছবির সংখ্যা',fillFullSheet:'পুরো শিট পূরণ করুন',cutBorder:'কাটিং বর্ডার',thinBorder:'পাতলা কালো রেখা',dashedBorder:'ড্যাশ কাট লাইন',noBorder:'বর্ডার নেই',backgroundFill:'ব্যাকগ্রাউন্ড রং',white:'সাদা',skyBlue:'আকাশি নীল',lightRed:'হালকা লাল',downloadPdf:'📥 প্রিন্ট PDF ডাউনলোড',directPrint:'🖨️ সরাসরি ছবি প্রিন্ট',preview:'লাইভ প্রিন্ট শিট প্রিভিউ',maxOn:'সর্বোচ্চ ধারণক্ষমতা',cols:'কলাম',rows:'সারি',photoOne:'ছবি',photoMany:'ছবি',maxFull:'(পুরো শিট)',generating:'⏳ PDF তৈরি হচ্ছে...',pdfDone:'📥 প্রিন্ট PDF ডাউনলোড',noImage:'ছবি লোড হয়নি। আগে ছবি নির্বাচন করুন।',pdfMissing:'PDF লাইব্রেরি লোড হয়নি। ইন্টারনেট পরীক্ষা করুন।',printTitle:'ফটো শিট প্রিন্ট',photoAlt:'ছবি'},
+ ta:{allTools:'← அனைத்து கருவிகள்',appTitle:'KaamKaj Bills • பாஸ்போர்ட் & ஸ்டாம்ப் புகைப்பட தாள்',languageLabel:'🌐 மொழியைத் தேர்ந்தெடுக்கவும்',themeHelp:'இங்கே Light / Dark முறையை மாற்றலாம்.',darkMode:'🌙 டார்க் மோடு',lightMode:'☀️ லைட் மோடு',uploadSection:'1. புகைப்படம் பதிவேற்றம் & ஜூம் / க்ராப்',selectPhoto:'போர்ட்ரெய்ட் புகைப்படத்தைத் தேர்ந்தெடுக்கவும் (முகம் தெளிவாக இருக்க வேண்டும்)',zoom:'🔍 ஜூம் குறை / அதிகரி',moveHorizontal:'↔️ இடது / வலது நிலை',moveVertical:'↕️ மேல் / கீழ் நிலை',zoomOut:'ஜூம் குறை',zoomIn:'ஜூம் அதிகரி',moveLeft:'இடது',moveRight:'வலது',moveUp:'மேல்',moveDown:'கீழ்',fitPhoto:'🖼️ முழுப் புகைப்படத்தையும் பொருத்து',resetCrop:'↺ 100% மீட்டமை',paperSection:'2. காகித அளவு, புகைப்பட அளவு & பிரதிகள்',paperSize:'காகித அளவு',paperA4:'A4 தாள் (210 × 297 mm)',paper4x6:'4 × 6 அங்குலம் (101.6 × 152.4 mm)',paper5x7:'5 × 7 அங்குலம் (127 × 177.8 mm)',photoSize:'புகைப்பட அளவு',passport:'பாஸ்போர்ட் (35 × 45 mm)',visa:'விசா / சதுரம் (50 × 50 mm)',stamp:'ஸ்டாம்ப் அளவு (25 × 30 mm)',numberCopies:'புகைப்பட எண்ணிக்கை',fillFullSheet:'முழுத் தாளையும் நிரப்பு',cutBorder:'வெட்டு விளிம்பு',thinBorder:'மெல்லிய கருப்பு கோடு',dashedBorder:'கோடு வெட்டு குறி',noBorder:'விளிம்பு இல்லை',backgroundFill:'பின்னணி நிறம்',white:'வெள்ளை',skyBlue:'வான நீலம்',lightRed:'வெளிர் சிவப்பு',downloadPdf:'📥 அச்சிட PDF பதிவிறக்கு',directPrint:'🖨️ நேரடி புகைப்பட அச்சு',preview:'நேரடி அச்சுத் தாள் முன்னோட்டம்',maxOn:'அதிகபட்சம்',cols:'நெடுவரிசைகள்',rows:'வரிசைகள்',photoOne:'புகைப்படம்',photoMany:'புகைப்படங்கள்',maxFull:'(முழுத் தாள்)',generating:'⏳ PDF உருவாகிறது...',pdfDone:'📥 அச்சிட PDF பதிவிறக்கு',noImage:'புகைப்படம் ஏற்றப்படவில்லை. முதலில் தேர்ந்தெடுக்கவும்.',pdfMissing:'PDF நூலகம் ஏற்றப்படவில்லை. இணையத்தைச் சரிபார்க்கவும்.',printTitle:'புகைப்படத் தாள் அச்சு',photoAlt:'புகைப்படம்'},
+ te:{allTools:'← అన్ని టూల్స్',appTitle:'KaamKaj Bills • పాస్‌పోర్ట్ & స్టాంప్ ఫోటో షీట్',languageLabel:'🌐 భాష ఎంచుకోండి',themeHelp:'ఇక్కడ Light / Dark మోడ్ మార్చండి.',darkMode:'🌙 డార్క్ మోడ్',lightMode:'☀️ లైట్ మోడ్',uploadSection:'1. ఫోటో అప్‌లోడ్ & జూమ్ / క్రాప్',selectPhoto:'పోర్ట్రెయిట్ ఫోటో ఎంచుకోండి (ముఖం స్పష్టంగా ఉండాలి)',zoom:'🔍 జూమ్ తగ్గించు / పెంచు',moveHorizontal:'↔️ ఎడమ / కుడి స్థానం',moveVertical:'↕️ పై / కింది స్థానం',zoomOut:'జూమ్ తగ్గించు',zoomIn:'జూమ్ పెంచు',moveLeft:'ఎడమకు',moveRight:'కుడికి',moveUp:'పైకి',moveDown:'కిందికి',fitPhoto:'🖼️ పూర్తి ఫోటోను సరిపెట్టు',resetCrop:'↺ 100% రీసెట్',paperSection:'2. పేపర్ సైజు, ఫోటో సైజు & కాపీలు',paperSize:'పేపర్ సైజు',paperA4:'A4 షీట్ (210 × 297 mm)',paper4x6:'4 × 6 అంగుళాలు (101.6 × 152.4 mm)',paper5x7:'5 × 7 అంగుళాలు (127 × 177.8 mm)',photoSize:'ఫోటో సైజు',passport:'పాస్‌పోర్ట్ (35 × 45 mm)',visa:'వీసా / చతురస్రం (50 × 50 mm)',stamp:'స్టాంప్ సైజు (25 × 30 mm)',numberCopies:'ఫోటోల సంఖ్య',fillFullSheet:'షీట్ మొత్తం నింపండి',cutBorder:'కటింగ్ బోర్డర్',thinBorder:'సన్నని నల్ల గీత',dashedBorder:'డాష్ కట్ లైన్',noBorder:'బోర్డర్ లేదు',backgroundFill:'నేపథ్య రంగు',white:'తెలుపు',skyBlue:'ఆకాశ నీలం',lightRed:'లేత ఎరుపు',downloadPdf:'📥 ప్రింట్ PDF డౌన్‌లోడ్',directPrint:'🖨️ నేరుగా ఫోటో ప్రింట్',preview:'లైవ్ ప్రింట్ షీట్ ప్రివ్యూ',maxOn:'గరిష్ఠ సామర్థ్యం',cols:'కాలమ్‌లు',rows:'వరుసలు',photoOne:'ఫోటో',photoMany:'ఫోటోలు',maxFull:'(పూర్తి షీట్)',generating:'⏳ PDF తయారవుతోంది...',pdfDone:'📥 ప్రింట్ PDF డౌన్‌లోడ్',noImage:'ఫోటో లోడ్ కాలేదు. ముందుగా ఫోటో ఎంచుకోండి.',pdfMissing:'PDF లైబ్రరీ లోడ్ కాలేదు. ఇంటర్నెట్ తనిఖీ చేయండి.',printTitle:'ఫోటో షీట్ ప్రింట్',photoAlt:'ఫోటో'},
+ kn:{allTools:'← ಎಲ್ಲಾ ಟೂಲ್‌ಗಳು',appTitle:'KaamKaj Bills • ಪಾಸ್‌ಪೋರ್ಟ್ ಮತ್ತು ಸ್ಟ್ಯಾಂಪ್ ಫೋಟೋ ಶೀಟ್',languageLabel:'🌐 ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',themeHelp:'ಇಲ್ಲಿಂದ Light / Dark ಮೋಡ್ ಬದಲಾಯಿಸಿ.',darkMode:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',lightMode:'☀️ ಲೈಟ್ ಮೋಡ್',uploadSection:'1. ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮತ್ತು ಜೂಮ್ / ಕ್ರಾಪ್',selectPhoto:'ಪೋರ್ಟ್ರೇಟ್ ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ (ಮುಖ ಸ್ಪಷ್ಟವಾಗಿರಲಿ)',zoom:'🔍 ಜೂಮ್ ಕಡಿಮೆ / ಹೆಚ್ಚು',moveHorizontal:'↔️ ಎಡ / ಬಲ ಸ್ಥಾನ',moveVertical:'↕️ ಮೇಲೆ / ಕೆಳಗೆ ಸ್ಥಾನ',zoomOut:'ಜೂಮ್ ಕಡಿಮೆ',zoomIn:'ಜೂಮ್ ಹೆಚ್ಚು',moveLeft:'ಎಡಕ್ಕೆ',moveRight:'ಬಲಕ್ಕೆ',moveUp:'ಮೇಲೆ',moveDown:'ಕೆಳಗೆ',fitPhoto:'🖼️ ಪೂರ್ಣ ಫೋಟೋ ಹೊಂದಿಸಿ',resetCrop:'↺ 100% ಮರುಹೊಂದಿಸಿ',paperSection:'2. ಪೇಪರ್ ಗಾತ್ರ, ಫೋಟೋ ಗಾತ್ರ ಮತ್ತು ಪ್ರತಿಗಳು',paperSize:'ಪೇಪರ್ ಗಾತ್ರ',paperA4:'A4 ಶೀಟ್ (210 × 297 mm)',paper4x6:'4 × 6 ಇಂಚು (101.6 × 152.4 mm)',paper5x7:'5 × 7 ಇಂಚು (127 × 177.8 mm)',photoSize:'ಫೋಟೋ ಗಾತ್ರ',passport:'ಪಾಸ್‌ಪೋರ್ಟ್ (35 × 45 mm)',visa:'ವೀಸಾ / ಚೌಕ (50 × 50 mm)',stamp:'ಸ್ಟ್ಯಾಂಪ್ ಗಾತ್ರ (25 × 30 mm)',numberCopies:'ಫೋಟೋಗಳ ಸಂಖ್ಯೆ',fillFullSheet:'ಪೂರ್ಣ ಶೀಟ್ ತುಂಬಿ',cutBorder:'ಕಟಿಂಗ್ ಬಾರ್ಡರ್',thinBorder:'ತೆಳುವಾದ ಕಪ್ಪು ಗಡಿ',dashedBorder:'ಡ್ಯಾಶ್ ಕಟ್ ಲೈನ್',noBorder:'ಬಾರ್ಡರ್ ಬೇಡ',backgroundFill:'ಹಿನ್ನೆಲೆ ಬಣ್ಣ',white:'ಬಿಳಿ',skyBlue:'ಆಕಾಶ ನೀಲಿ',lightRed:'ತಿಳಿ ಕೆಂಪು',downloadPdf:'📥 ಪ್ರಿಂಟ್ PDF ಡೌನ್‌ಲೋಡ್',directPrint:'🖨️ ನೇರ ಫೋಟೋ ಪ್ರಿಂಟ್',preview:'ಲೈವ್ ಪ್ರಿಂಟ್ ಶೀಟ್ ಪೂರ್ವವೀಕ್ಷಣೆ',maxOn:'ಗರಿಷ್ಠ ಸಾಮರ್ಥ್ಯ',cols:'ಕಾಲಮ್‌ಗಳು',rows:'ಸಾಲುಗಳು',photoOne:'ಫೋಟೋ',photoMany:'ಫೋಟೋಗಳು',maxFull:'(ಪೂರ್ಣ ಶೀಟ್)',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',pdfDone:'📥 ಪ್ರಿಂಟ್ PDF ಡೌನ್‌ಲೋಡ್',noImage:'ಫೋಟೋ ಲೋಡ್ ಆಗಿಲ್ಲ. ಮೊದಲು ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ.',pdfMissing:'PDF ಲೈಬ್ರರಿ ಲೋಡ್ ಆಗಿಲ್ಲ. ಇಂಟರ್ನೆಟ್ ಪರಿಶೀಲಿಸಿ.',printTitle:'ಫೋಟೋ ಶೀಟ್ ಪ್ರಿಂಟ್',photoAlt:'ಫೋಟೋ'},
+ ml:{allTools:'← എല്ലാ ടൂളുകളും',appTitle:'KaamKaj Bills • പാസ്‌പോർട്ട് & സ്റ്റാമ്പ് ഫോട്ടോ ഷീറ്റ്',languageLabel:'🌐 ഭാഷ തിരഞ്ഞെടുക്കുക',themeHelp:'ഇവിടെ നിന്ന് Light / Dark മോഡ് മാറ്റാം.',darkMode:'🌙 ഡാർക്ക് മോഡ്',lightMode:'☀️ ലൈറ്റ് മോഡ്',uploadSection:'1. ഫോട്ടോ അപ്‌ലോഡ് & സൂം / ക്രോപ്പ്',selectPhoto:'പോർട്രെയിറ്റ് ഫോട്ടോ തിരഞ്ഞെടുക്കുക (മുഖം വ്യക്തമായിരിക്കണം)',zoom:'🔍 സൂം കുറയ്ക്കുക / കൂട്ടുക',moveHorizontal:'↔️ ഇടത് / വലത് സ്ഥാനം',moveVertical:'↕️ മുകളിൽ / താഴെ സ്ഥാനം',zoomOut:'സൂം കുറയ്ക്കുക',zoomIn:'സൂം കൂട്ടുക',moveLeft:'ഇടത്തേക്ക്',moveRight:'വലത്തേക്ക്',moveUp:'മുകളിലേക്ക്',moveDown:'താഴേക്ക്',fitPhoto:'🖼️ മുഴുവൻ ഫോട്ടോ ഉൾക്കൊള്ളിക്കുക',resetCrop:'↺ 100% പുനഃസജ്ജമാക്കുക',paperSection:'2. പേപ്പർ വലുപ്പം, ഫോട്ടോ വലുപ്പം & പകർപ്പുകൾ',paperSize:'പേപ്പർ വലുപ്പം',paperA4:'A4 ഷീറ്റ് (210 × 297 mm)',paper4x6:'4 × 6 ഇഞ്ച് (101.6 × 152.4 mm)',paper5x7:'5 × 7 ഇഞ്ച് (127 × 177.8 mm)',photoSize:'ഫോട്ടോ വലുപ്പം',passport:'പാസ്‌പോർട്ട് (35 × 45 mm)',visa:'വിസ / ചതുരം (50 × 50 mm)',stamp:'സ്റ്റാമ്പ് വലുപ്പം (25 × 30 mm)',numberCopies:'ഫോട്ടോകളുടെ എണ്ണം',fillFullSheet:'മുഴുവൻ ഷീറ്റും നിറയ്ക്കുക',cutBorder:'കട്ടിംഗ് ബോർഡർ',thinBorder:'നേർത്ത കറുത്ത വര',dashedBorder:'ഡാഷ് കട്ട് ലൈൻ',noBorder:'ബോർഡർ വേണ്ട',backgroundFill:'പശ്ചാത്തല നിറം',white:'വെള്ള',skyBlue:'ആകാശ നീല',lightRed:'ഇളം ചുവപ്പ്',downloadPdf:'📥 പ്രിന്റ് PDF ഡൗൺലോഡ്',directPrint:'🖨️ നേരിട്ട് ഫോട്ടോ പ്രിന്റ്',preview:'ലൈവ് പ്രിന്റ് ഷീറ്റ് പ്രിവ്യൂ',maxOn:'പരമാവധി ശേഷി',cols:'നിരകൾ',rows:'വരികൾ',photoOne:'ഫോട്ടോ',photoMany:'ഫോട്ടോകൾ',maxFull:'(മുഴുവൻ ഷീറ്റ്)',generating:'⏳ PDF തയ്യാറാക്കുന്നു...',pdfDone:'📥 പ്രിന്റ് PDF ഡൗൺലോഡ്',noImage:'ഫോട്ടോ ലോഡ് ചെയ്തിട്ടില്ല. ആദ്യം ഫോട്ടോ തിരഞ്ഞെടുക്കുക.',pdfMissing:'PDF ലൈബ്രറി ലോഡ് ചെയ്തിട്ടില്ല. ഇന്റർനെറ്റ് പരിശോധിക്കുക.',printTitle:'ഫോട്ടോ ഷീറ്റ് പ്രിന്റ്',photoAlt:'ഫോട്ടോ'},
+ pa:{allTools:'← ਸਾਰੇ ਟੂਲ',appTitle:'KaamKaj Bills • ਪਾਸਪੋਰਟ ਅਤੇ ਸਟੈਂਪ ਫੋਟੋ ਸ਼ੀਟ',languageLabel:'🌐 ਭਾਸ਼ਾ ਚੁਣੋ',themeHelp:'ਇੱਥੋਂ Light / Dark ਮੋਡ ਬਦਲੋ।',darkMode:'🌙 ਡਾਰਕ ਮੋਡ',lightMode:'☀️ ਲਾਈਟ ਮੋਡ',uploadSection:'1. ਫੋਟੋ ਅੱਪਲੋਡ ਅਤੇ ਜ਼ੂਮ / ਕ੍ਰੌਪ',selectPhoto:'ਪੋਰਟਰੇਟ ਫੋਟੋ ਚੁਣੋ (ਚਿਹਰਾ ਸਾਫ਼ ਦਿਖਣਾ ਚਾਹੀਦਾ ਹੈ)',zoom:'🔍 ਜ਼ੂਮ ਘਟਾਓ / ਵਧਾਓ',moveHorizontal:'↔️ ਖੱਬੇ / ਸੱਜੇ ਸਥਿਤੀ',moveVertical:'↕️ ਉੱਪਰ / ਹੇਠਾਂ ਸਥਿਤੀ',zoomOut:'ਜ਼ੂਮ ਘਟਾਓ',zoomIn:'ਜ਼ੂਮ ਵਧਾਓ',moveLeft:'ਖੱਬੇ',moveRight:'ਸੱਜੇ',moveUp:'ਉੱਪਰ',moveDown:'ਹੇਠਾਂ',fitPhoto:'🖼️ ਪੂਰੀ ਫੋਟੋ ਫਿਟ ਕਰੋ',resetCrop:'↺ 100% ਰੀਸੈੱਟ',paperSection:'2. ਪੇਪਰ ਆਕਾਰ, ਫੋਟੋ ਆਕਾਰ ਅਤੇ ਕਾਪੀਆਂ',paperSize:'ਪੇਪਰ ਆਕਾਰ',paperA4:'A4 ਸ਼ੀਟ (210 × 297 mm)',paper4x6:'4 × 6 ਇੰਚ (101.6 × 152.4 mm)',paper5x7:'5 × 7 ਇੰਚ (127 × 177.8 mm)',photoSize:'ਫੋਟੋ ਆਕਾਰ',passport:'ਪਾਸਪੋਰਟ (35 × 45 mm)',visa:'ਵੀਜ਼ਾ / ਵਰਗ (50 × 50 mm)',stamp:'ਸਟੈਂਪ ਆਕਾਰ (25 × 30 mm)',numberCopies:'ਫੋਟੋਆਂ ਦੀ ਗਿਣਤੀ',fillFullSheet:'ਪੂਰੀ ਸ਼ੀਟ ਭਰੋ',cutBorder:'ਕਟਿੰਗ ਬਾਰਡਰ',thinBorder:'ਪਤਲੀ ਕਾਲੀ ਲਾਈਨ',dashedBorder:'ਡੈਸ਼ ਕੱਟ ਲਾਈਨ',noBorder:'ਬਾਰਡਰ ਨਹੀਂ',backgroundFill:'ਬੈਕਗ੍ਰਾਊਂਡ ਰੰਗ',white:'ਚਿੱਟਾ',skyBlue:'ਅਸਮਾਨੀ ਨੀਲਾ',lightRed:'ਹਲਕਾ ਲਾਲ',downloadPdf:'📥 ਪ੍ਰਿੰਟ PDF ਡਾਊਨਲੋਡ',directPrint:'🖨️ ਸਿੱਧੀ ਫੋਟੋ ਪ੍ਰਿੰਟ',preview:'ਲਾਈਵ ਪ੍ਰਿੰਟ ਸ਼ੀਟ ਪ੍ਰੀਵਿਊ',maxOn:'ਵੱਧ ਤੋਂ ਵੱਧ ਸਮਰੱਥਾ',cols:'ਕਾਲਮ',rows:'ਕਤਾਰਾਂ',photoOne:'ਫੋਟੋ',photoMany:'ਫੋਟੋਆਂ',maxFull:'(ਪੂਰੀ ਸ਼ੀਟ)',generating:'⏳ PDF ਬਣ ਰਹੀ ਹੈ...',pdfDone:'📥 ਪ੍ਰਿੰਟ PDF ਡਾਊਨਲੋਡ',noImage:'ਫੋਟੋ ਲੋਡ ਨਹੀਂ ਹੋਈ। ਪਹਿਲਾਂ ਫੋਟੋ ਚੁਣੋ।',pdfMissing:'PDF ਲਾਇਬ੍ਰੇਰੀ ਲੋਡ ਨਹੀਂ ਹੋਈ। ਇੰਟਰਨੈੱਟ ਜਾਂਚੋ।',printTitle:'ਫੋਟੋ ਸ਼ੀਟ ਪ੍ਰਿੰਟ',photoAlt:'ਫੋਟੋ'},
+ or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',appTitle:'KaamKaj Bills • ପାସପୋର୍ଟ ଓ ଷ୍ଟାମ୍ପ ଫଟୋ ସିଟ୍',languageLabel:'🌐 ଭାଷା ବାଛନ୍ତୁ',themeHelp:'ଏଠାରୁ Light / Dark ମୋଡ୍ ବଦଳାନ୍ତୁ।',darkMode:'🌙 ଡାର୍କ ମୋଡ୍',lightMode:'☀️ ଲାଇଟ୍ ମୋଡ୍',uploadSection:'1. ଫଟୋ ଅପଲୋଡ୍ ଏବଂ ଜୁମ୍ / କ୍ରପ୍',selectPhoto:'ପୋର୍ଟ୍ରେଟ୍ ଫଟୋ ବାଛନ୍ତୁ (ମୁହଁ ସ୍ପଷ୍ଟ ଦେଖାଯିବା ଉଚିତ)',zoom:'🔍 ଜୁମ୍ କମ୍ / ଅଧିକ',moveHorizontal:'↔️ ବାମ / ଡାହାଣ ସ୍ଥିତି',moveVertical:'↕️ ଉପର / ତଳ ସ୍ଥିତି',zoomOut:'ଜୁମ୍ କମ୍',zoomIn:'ଜୁମ୍ ଅଧିକ',moveLeft:'ବାମକୁ',moveRight:'ଡାହାଣକୁ',moveUp:'ଉପରକୁ',moveDown:'ତଳକୁ',fitPhoto:'🖼️ ପୂରା ଫଟୋ ଫିଟ୍ କରନ୍ତୁ',resetCrop:'↺ 100% ରିସେଟ୍',paperSection:'2. କାଗଜ ଆକାର, ଫଟୋ ଆକାର ଏବଂ କପି',paperSize:'କାଗଜ ଆକାର',paperA4:'A4 ସିଟ୍ (210 × 297 mm)',paper4x6:'4 × 6 ଇଞ୍ଚ (101.6 × 152.4 mm)',paper5x7:'5 × 7 ଇଞ୍ଚ (127 × 177.8 mm)',photoSize:'ଫଟୋ ଆକାର',passport:'ପାସପୋର୍ଟ (35 × 45 mm)',visa:'ଭିସା / ବର୍ଗ (50 × 50 mm)',stamp:'ଷ୍ଟାମ୍ପ ଆକାର (25 × 30 mm)',numberCopies:'ଫଟୋ ସଂଖ୍ୟା',fillFullSheet:'ପୂରା ସିଟ୍ ଭରନ୍ତୁ',cutBorder:'କଟିଂ ବର୍ଡର',thinBorder:'ପତଳା କଳା ରେଖା',dashedBorder:'ଡ୍ୟାଶ୍ କଟ୍ ଲାଇନ୍',noBorder:'ବର୍ଡର ନାହିଁ',backgroundFill:'ପୃଷ୍ଠଭୂମି ରଙ୍ଗ',white:'ଧଳା',skyBlue:'ଆକାଶୀ ନୀଳ',lightRed:'ହାଲୁକା ଲାଲ',downloadPdf:'📥 ପ୍ରିଣ୍ଟ PDF ଡାଉନଲୋଡ୍',directPrint:'🖨️ ସିଧାସଳଖ ଫଟୋ ପ୍ରିଣ୍ଟ',preview:'ଲାଇଭ୍ ପ୍ରିଣ୍ଟ ସିଟ୍ ପ୍ରିଭ୍ୟୁ',maxOn:'ସର୍ବାଧିକ କ୍ଷମତା',cols:'ସ୍ତମ୍ଭ',rows:'ଧାଡ଼ି',photoOne:'ଫଟୋ',photoMany:'ଫଟୋ',maxFull:'(ପୂରା ସିଟ୍)',generating:'⏳ PDF ତିଆରି ହେଉଛି...',pdfDone:'📥 ପ୍ରିଣ୍ଟ PDF ଡାଉନଲୋଡ୍',noImage:'ଫଟୋ ଲୋଡ୍ ହୋଇନାହିଁ। ପ୍ରଥମେ ଫଟୋ ବାଛନ୍ତୁ।',pdfMissing:'PDF ଲାଇବ୍ରେରୀ ଲୋଡ୍ ହୋଇନାହିଁ। ଇଣ୍ଟରନେଟ୍ ଯାଞ୍ଚ କରନ୍ତୁ।',printTitle:'ଫଟୋ ସିଟ୍ ପ୍ରିଣ୍ଟ',photoAlt:'ଫଟୋ'},
+ ur:{allTools:'← تمام ٹولز',appTitle:'KaamKaj Bills • پاسپورٹ اور اسٹیمپ فوٹو شیٹ میکر',languageLabel:'🌐 زبان منتخب کریں',themeHelp:'یہاں سے Light / Dark موڈ تبدیل کریں۔',darkMode:'🌙 ڈارک موڈ',lightMode:'☀️ لائٹ موڈ',uploadSection:'1. تصویر اپ لوڈ اور زوم / کراپ',selectPhoto:'پورٹریٹ تصویر منتخب کریں (چہرہ واضح ہونا چاہیے)',zoom:'🔍 زوم کم / زیادہ کریں',moveHorizontal:'↔️ بائیں / دائیں پوزیشن',moveVertical:'↕️ اوپر / نیچے پوزیشن',zoomOut:'زوم کم کریں',zoomIn:'زوم بڑھائیں',moveLeft:'بائیں',moveRight:'دائیں',moveUp:'اوپر',moveDown:'نیچے',fitPhoto:'🖼️ پوری تصویر فٹ کریں',resetCrop:'↺ 100% ری سیٹ',paperSection:'2. کاغذ کا سائز، تصویر کا سائز اور کاپیاں',paperSize:'کاغذ کا سائز',paperA4:'A4 شیٹ (210 × 297 mm)',paper4x6:'4 × 6 انچ (101.6 × 152.4 mm)',paper5x7:'5 × 7 انچ (127 × 177.8 mm)',photoSize:'تصویر کا سائز',passport:'پاسپورٹ (35 × 45 mm)',visa:'ویزا / مربع (50 × 50 mm)',stamp:'اسٹیمپ سائز (25 × 30 mm)',numberCopies:'تصاویر کی تعداد',fillFullSheet:'پوری شیٹ بھریں',cutBorder:'کٹنگ بارڈر',thinBorder:'باریک سیاہ لکیر',dashedBorder:'ڈیش کٹ لائن',noBorder:'بارڈر نہیں',backgroundFill:'پس منظر کا رنگ',white:'سفید',skyBlue:'آسمانی نیلا',lightRed:'ہلکا سرخ',downloadPdf:'📥 پرنٹ کے لیے PDF ڈاؤن لوڈ',directPrint:'🖨️ براہ راست تصویر پرنٹ',preview:'لائیو پرنٹ شیٹ پیش نظارہ',maxOn:'زیادہ سے زیادہ گنجائش',cols:'کالم',rows:'قطاریں',photoOne:'تصویر',photoMany:'تصاویر',maxFull:'(مکمل شیٹ)',generating:'⏳ PDF بن رہی ہے...',pdfDone:'📥 پرنٹ کے لیے PDF ڈاؤن لوڈ',noImage:'تصویر لوڈ نہیں ہوئی۔ پہلے تصویر منتخب کریں۔',pdfMissing:'PDF لائبریری لوڈ نہیں ہوئی۔ انٹرنیٹ چیک کریں۔',printTitle:'فوٹو شیٹ پرنٹ',photoAlt:'تصویر'}
+};
+let currentLang='hi';
+function t(key){return (LANGS[currentLang]&&LANGS[currentLang][key])||LANGS.en[key]||key;}
+function changeLanguage(lang){currentLang=LANGS[lang]?lang:'hi';applyLanguage();try{localStorage.setItem('kkb_photo_lang',currentLang)}catch(e){}}
+function applyLanguage(){
+  const dict=LANGS[currentLang]||LANGS.hi;
+  document.documentElement.lang=currentLang;document.documentElement.dir=currentLang==='ur'?'rtl':'ltr';document.body.dir=currentLang==='ur'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(dict[key]!==undefined)el.textContent=dict[key];});
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{const key=el.getAttribute('data-i18n-title');if(dict[key]!==undefined)el.title=dict[key];});
+  document.getElementById('btnDark').textContent=document.body.classList.contains('dark-mode')?t('lightMode'):t('darkMode');
+  document.getElementById('selLanguage').value=currentLang;
+  populateCopyOptions(true);renderSheet();
+}
+const DEFAULT_SVG='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="350" height="450" viewBox="0 0 350 450"><rect width="350" height="450" fill="#e2e8f0"/><circle cx="175" cy="155" r="68" fill="#64748b"/><path d="M62 420 C62 325 288 325 288 420 Z" fill="#64748b"/></svg>');
+let sourceImg=new Image();sourceImg.crossOrigin='anonymous';let croppedDataUrl='';let fillBg='#ffffff';let zoom=1,offX=0,offY=0;
+function toggleDarkMode(){const isDark=document.body.classList.toggle('dark-mode');document.getElementById('btnDark').textContent=isDark?t('lightMode'):t('darkMode');try{localStorage.setItem('kkb_photo_theme',isDark?'dark':'light')}catch(e){}}
+function nudgeSlider(id,delta){const el=document.getElementById(id);const min=parseInt(el.min,10),max=parseInt(el.max,10);el.value=Math.min(max,Math.max(min,(parseInt(el.value,10)||0)+delta));updateCrop();}
+function getLayoutMetrics(){const pKey=document.getElementById('selPaper').value,sKey=document.getElementById('selSize').value,paper=PAPERS[pKey],pSize=PHOTO_SIZES[sKey];const usableW=paper.w-paper.margin*2,usableH=paper.h-paper.margin*2;const cols=Math.max(1,Math.floor((usableW+paper.gap)/(pSize.w+paper.gap)));const rows=Math.max(1,Math.floor((usableH+paper.gap)/(pSize.h+paper.gap)));return{pKey,sKey,paper,pSize,cols,rows,maxFit:cols*rows};}
+function paperLabel(key){return t(key==='A4'?'paperA4':key==='4X6'?'paper4x6':'paper5x7').split(' (')[0];}
+function photoLabel(key){return t(key==='PASSPORT'?'passport':key==='VISA'?'visa':'stamp').split(' (')[0];}
+function populateCopyOptions(preserveCurrent=false){const{pKey,paper,pSize,cols,rows,maxFit}=getLayoutMetrics();const sel=document.getElementById('selCount'),prev=parseInt(sel.value,10);sel.innerHTML='';for(let i=1;i<=maxFit;i++){const option=document.createElement('option');option.value=String(i);option.textContent=`${i} ${i===1?t('photoOne'):t('photoMany')}${i===maxFit?' '+t('maxFull'):''}`;sel.appendChild(option);}sel.value=String(preserveCurrent&&prev>=1&&prev<=maxFit?prev:maxFit);document.getElementById('capText').textContent=`${t('maxOn')} ${paperLabel(pKey)}: ${maxFit} ${photoLabel(document.getElementById('selSize').value)} ${t('photoMany')} (${cols} ${t('cols')} × ${rows} ${t('rows')})`;}
+function fillMaxCopies(){document.getElementById('selCount').value=String(getLayoutMetrics().maxFit);renderSheet();}
+function bakeCroppedImage(){if(!sourceImg.complete||!sourceImg.naturalWidth)return;const{pSize}=getLayoutMetrics(),targetAspect=pSize.w/pSize.h,outW=Math.round(pSize.w/25.4*300),outH=Math.round(pSize.h/25.4*300);const canvas=document.createElement('canvas');canvas.width=outW;canvas.height=outH;const ctx=canvas.getContext('2d');ctx.fillStyle=fillBg;ctx.fillRect(0,0,outW,outH);const srcW=sourceImg.naturalWidth,srcH=sourceImg.naturalHeight,srcAspect=srcW/srcH;let drawW,drawH;if(srcAspect>targetAspect){drawH=outH;drawW=outH*srcAspect}else{drawW=outW;drawH=outW/srcAspect}drawW*=zoom;drawH*=zoom;const dx=(outW-drawW)/2+(offX/100)*outW,dy=(outH-drawH)/2+(offY/100)*outH;ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(sourceImg,dx,dy,drawW,drawH);croppedDataUrl=canvas.toDataURL('image/jpeg',.96);const cropBox=document.getElementById('cropBox');cropBox.style.width='112px';cropBox.style.height=Math.round(112/targetAspect)+'px';cropBox.style.backgroundColor=fillBg;document.getElementById('cropPreviewImg').src=croppedDataUrl;}
+function handlePhoto(e){const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){alert(t('selectPhoto'));e.target.value='';return;}const reader=new FileReader();reader.onload=ev=>{const img=new Image();img.onload=()=>{sourceImg=img;resetCrop();};img.onerror=()=>alert(t('noImage'));img.src=ev.target.result;};reader.onerror=()=>alert(t('noImage'));reader.readAsDataURL(file);}
+function setBg(color,btn){fillBg=color;document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('active'));btn.classList.add('active');bakeCroppedImage();renderSheet();}
+function fitWholeImage(){if(!sourceImg.complete||!sourceImg.naturalWidth)return;const{pSize}=getLayoutMetrics(),targetAspect=pSize.w/pSize.h,srcAspect=sourceImg.naturalWidth/sourceImg.naturalHeight;let pct=100;if(srcAspect>targetAspect)pct=Math.round(targetAspect/srcAspect*100);else pct=Math.round(srcAspect/targetAspect*100);document.getElementById('rngZoom').value=Math.max(30,Math.min(100,pct));document.getElementById('rngX').value=0;document.getElementById('rngY').value=0;updateCrop();}
+function resetCrop(){document.getElementById('rngZoom').value=100;document.getElementById('rngX').value=0;document.getElementById('rngY').value=0;updateCrop();}
+function updateCrop(){const raw=parseInt(document.getElementById('rngZoom').value,10)||100;zoom=raw/100;offX=parseInt(document.getElementById('rngX').value,10)||0;offY=parseInt(document.getElementById('rngY').value,10)||0;const diff=raw-100;document.getElementById('lblZoom').textContent=`${raw}% (${diff>0?'+':''}${diff}%)`;document.getElementById('lblX').textContent=`${offX>0?'+':''}${offX}%`;document.getElementById('lblY').textContent=`${offY>0?'+':''}${offY}%`;bakeCroppedImage();renderSheet();}
+function onPaperOrSizeChange(){populateCopyOptions(false);bakeCroppedImage();renderSheet();}
+function renderSheet(){const{pKey,paper,pSize,cols,maxFit}=getLayoutMetrics();let count=parseInt(document.getElementById('selCount').value,10)||maxFit;if(count>maxFit)count=maxFit;const border=document.getElementById('selBorder').value,PX_PER_MM=2.45,sheetW=Math.round(paper.w*PX_PER_MM),sheetH=Math.round(paper.h*PX_PER_MM),padPx=Math.round(paper.margin*PX_PER_MM),gapPx=Math.round(paper.gap*PX_PER_MM),tileW=Math.round(pSize.w*PX_PER_MM),tileH=Math.round(pSize.h*PX_PER_MM);const sheet=document.getElementById('photoSheet');sheet.style.width=sheetW+'px';sheet.style.minHeight=sheetH+'px';sheet.style.padding=padPx+'px';sheet.style.gap=gapPx+'px';sheet.style.gridTemplateColumns=`repeat(${cols}, ${tileW}px)`;document.getElementById('sheetTitle').textContent=`${t('preview')} (${paperLabel(pKey)} • ${count} / ${maxFit} ${photoLabel(document.getElementById('selSize').value)})`;const src=croppedDataUrl||DEFAULT_SVG;let html='';for(let i=0;i<count;i++)html+=`<div class="p-tile" style="width:${tileW}px;height:${tileH}px;border:${border};background-color:${fillBg};"><img src="${src}" alt="${t('photoAlt')} ${i+1}"></div>`;sheet.innerHTML=html;}
+function mmToCssPx(mm){return mm*(96/25.4);}
+function makePhotoSheetForExport(){
+  const {pKey,paper,pSize,cols,maxFit}=getLayoutMetrics();
+  let count=parseInt(document.getElementById('selCount').value,10)||maxFit;
+  if(count>maxFit)count=maxFit;
 
-  const PHOTO_SIZES = {
-    PASSPORT: { label: 'Passport', w: 35, h: 45 },
-    VISA:     { label: 'Visa / Square', w: 50, h: 50 },
-    STAMP:    { label: 'Stamp', w: 25, h: 30 }
-  };
+  const pxPerMm=96/25.4;
+  const pageW=Math.round(paper.w*pxPerMm);
+  const pageH=Math.round(paper.h*pxPerMm);
+  const pad=Math.round(paper.margin*pxPerMm);
+  const gap=Math.round(paper.gap*pxPerMm);
+  const tileW=Math.round(pSize.w*pxPerMm);
+  const tileH=Math.round(pSize.h*pxPerMm);
+  const border=document.getElementById('selBorder').value;
+  const src=croppedDataUrl||DEFAULT_SVG;
 
-  const DEFAULT_SVG = "data:image/svg+xml;utf8," + encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="350" height="450" viewBox="0 0 350 450">
-      <rect width="350" height="450" fill="#e2e8f0"/>
-      <circle cx="175" cy="155" r="68" fill="#64748b"/>
-      <path d="M62 420 C62 325 288 325 288 420 Z" fill="#64748b"/>
-    </svg>`
-  );
+  const pdfSheet=document.createElement('div');
+  pdfSheet.style.cssText=[
+    `width:${pageW}px`,
+    `height:${pageH}px`,
+    `min-width:${pageW}px`,
+    `max-width:${pageW}px`,
+    `padding:${pad}px`,
+    'margin:0',
+    'border:0',
+    'background:#ffffff',
+    'display:grid',
+    `grid-template-columns:repeat(${cols},${tileW}px)`,
+    `grid-auto-rows:${tileH}px`,
+    `gap:${gap}px`,
+    'justify-content:start',
+    'align-content:start',
+    'box-sizing:border-box',
+    'overflow:hidden'
+  ].join(';');
 
-  let sourceImg = new Image();
-  sourceImg.crossOrigin = 'anonymous';
-  let croppedDataUrl = '';
-  let fillBg = '#ffffff';
-  let zoom = 1, offX = 0, offY = 0;
-
-  function toggleDarkMode() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnDark').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem('kkb_photo_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }
-
-  function nudgeSlider(id, delta) {
-    const el = document.getElementById(id);
-    const min = parseInt(el.min, 10);
-    const max = parseInt(el.max, 10);
-    const next = Math.min(max, Math.max(min, (parseInt(el.value, 10) || 0) + delta));
-    el.value = next;
-    updateCrop();
-  }
-
-  function getLayoutMetrics() {
-    const pKey = document.getElementById('selPaper').value;
-    const sKey = document.getElementById('selSize').value;
-    const paper = PAPERS[pKey];
-    const pSize = PHOTO_SIZES[sKey];
-
-    const usableW = paper.w - (paper.margin * 2);
-    const usableH = paper.h - (paper.margin * 2);
-
-    const cols = Math.max(1, Math.floor((usableW + paper.gap) / (pSize.w + paper.gap)));
-    const rows = Math.max(1, Math.floor((usableH + paper.gap) / (pSize.h + paper.gap)));
-    const maxFit = cols * rows;
-
-    return { pKey, sKey, paper, pSize, cols, rows, maxFit };
-  }
-
-  function populateCopyOptions(preserveCurrent = false) {
-    const { paper, pSize, cols, rows, maxFit } = getLayoutMetrics();
-    const sel = document.getElementById('selCount');
-    const prevVal = parseInt(sel.value, 10);
-
-    const options = [];
-    for (let i = 1; i <= maxFit; i++) {
-      options.push(i);
-    }
-
-    sel.innerHTML = options.map(n => {
-      const tag = (n === maxFit) ? ` (Max Full Sheet)` : '';
-      return `<option value="${n}">${n} Photo${n === 1 ? '' : 's'}${tag}</option>`;
-    }).join('');
-
-    if (preserveCurrent && prevVal >= 1 && prevVal <= maxFit) {
-      sel.value = String(prevVal);
-    } else {
-      sel.value = String(maxFit);
-    }
-
-    document.getElementById('capText').innerText =
-      `Max on ${paper.label}: ${maxFit} ${pSize.label} Photos (${cols} Cols × ${rows} Rows)`;
-  }
-
-  function fillMaxCopies() {
-    const { maxFit } = getLayoutMetrics();
-    document.getElementById('selCount').value = String(maxFit);
-    renderSheet();
-  }
-
-  /* High-Res Aspect-Ratio Preserving Canvas Cropper (Supports Zoom Out & Zoom In) */
-  function bakeCroppedImage() {
-    if (!sourceImg.complete || !sourceImg.naturalWidth) return;
-
-    const { pSize } = getLayoutMetrics();
-    const targetAspect = pSize.w / pSize.h;
-
-    const outW = Math.round((pSize.w / 25.4) * 300);
-    const outH = Math.round((pSize.h / 25.4) * 300);
-
-    const canvas = document.createElement('canvas');
-    canvas.width = outW;
-    canvas.height = outH;
-    const ctx = canvas.getContext('2d');
-
-    ctx.fillStyle = fillBg;
-    ctx.fillRect(0, 0, outW, outH);
-
-    const srcW = sourceImg.naturalWidth;
-    const srcH = sourceImg.naturalHeight;
-    const srcAspect = srcW / srcH;
-
-    let drawW, drawH;
-    if (srcAspect > targetAspect) {
-      drawH = outH;
-      drawW = outH * srcAspect;
-    } else {
-      drawW = outW;
-      drawH = outW / srcAspect;
-    }
-
-    drawW *= zoom;
-    drawH *= zoom;
-
-    const shiftX = (offX / 100) * outW;
-    const shiftY = (offY / 100) * outH;
-
-    const dx = (outW - drawW) / 2 + shiftX;
-    const dy = (outH - drawH) / 2 + shiftY;
-
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(sourceImg, dx, dy, drawW, drawH);
-
-    croppedDataUrl = canvas.toDataURL('image/jpeg', 0.96);
-
-    const cropBox = document.getElementById('cropBox');
-    cropBox.style.width = '112px';
-    cropBox.style.height = Math.round(112 / targetAspect) + 'px';
-    cropBox.style.backgroundColor = fillBg;
-    document.getElementById('cropPreviewImg').src = croppedDataUrl;
-  }
-
-  function handlePhoto(e) {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        sourceImg = img;
-        resetCrop();
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function setBg(color, btn) {
-    fillBg = color;
-    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-    btn.classList.add('active');
-    bakeCroppedImage();
-    renderSheet();
-  }
-
-  /* Auto-calculates exact minus zoom so full photo fits inside frame without cropping */
-  function fitWholeImage() {
-    if (!sourceImg.complete || !sourceImg.naturalWidth) return;
-    const { pSize } = getLayoutMetrics();
-    const targetAspect = pSize.w / pSize.h;
-    const srcAspect = sourceImg.naturalWidth / sourceImg.naturalHeight;
-
-    let fitZoomPct = 100;
-    if (srcAspect > targetAspect) {
-      fitZoomPct = Math.round((targetAspect / srcAspect) * 100);
-    } else {
-      fitZoomPct = Math.round((srcAspect / targetAspect) * 100);
-    }
-    fitZoomPct = Math.max(30, Math.min(100, fitZoomPct));
-
-    document.getElementById('rngZoom').value = fitZoomPct;
-    document.getElementById('rngX').value = 0;
-    document.getElementById('rngY').value = 0;
-    updateCrop();
-  }
-
-  function resetCrop() {
-    document.getElementById('rngZoom').value = 100;
-    document.getElementById('rngX').value = 0;
-    document.getElementById('rngY').value = 0;
-    updateCrop();
-  }
-
-  function updateCrop() {
-    const rawZoom = parseInt(document.getElementById('rngZoom').value, 10) || 100;
-    zoom = rawZoom / 100;
-    offX = parseInt(document.getElementById('rngX').value, 10) || 0;
-    offY = parseInt(document.getElementById('rngY').value, 10) || 0;
-
-    const diff = rawZoom - 100;
-    const diffStr = diff > 0 ? `+${diff}%` : `${diff}%`;
-    document.getElementById('lblZoom').innerText = `${rawZoom}% (${diffStr})`;
-    document.getElementById('lblX').innerText = (offX > 0 ? `+${offX}%` : `${offX}%`);
-    document.getElementById('lblY').innerText = (offY > 0 ? `+${offY}%` : `${offY}%`);
-
-    bakeCroppedImage();
-    renderSheet();
-  }
-
-  function onPaperOrSizeChange() {
-    populateCopyOptions(false);
-    bakeCroppedImage();
-    renderSheet();
-  }
-
-  function renderSheet() {
-    const { paper, pSize, cols, maxFit } = getLayoutMetrics();
-    let count = parseInt(document.getElementById('selCount').value, 10) || maxFit;
-    if (count > maxFit) count = maxFit;
-    const border = document.getElementById('selBorder').value;
-
-    const PX_PER_MM = 2.45;
-    const sheetW = Math.round(paper.w * PX_PER_MM);
-    const sheetH = Math.round(paper.h * PX_PER_MM);
-    const padPx = Math.round(paper.margin * PX_PER_MM);
-    const gapPx = Math.round(paper.gap * PX_PER_MM);
-    const tileW = Math.round(pSize.w * PX_PER_MM);
-    const tileH = Math.round(pSize.h * PX_PER_MM);
-
-    const sheet = document.getElementById('photoSheet');
-    sheet.style.width = sheetW + 'px';
-    sheet.style.minHeight = sheetH + 'px';
-    sheet.style.padding = padPx + 'px';
-    sheet.style.gap = gapPx + 'px';
-    sheet.style.gridTemplateColumns = `repeat(${cols}, ${tileW}px)`;
-
-    document.getElementById('sheetTitle').innerText =
-      `Live Print Sheet (${paper.label} • ${count} of ${maxFit} Max ${pSize.label} Photos)`;
-
-    const srcToUse = croppedDataUrl || DEFAULT_SVG;
-    let html = '';
-    for (let i = 0; i < count; i++) {
-      html += `
-        <div class="p-tile" style="width:${tileW}px; height:${tileH}px; border:${border}; background-color:${fillBg};">
-          <img src="${srcToUse}" alt="Photo ${i + 1}">
-        </div>
-      `;
-    }
-    sheet.innerHTML = html;
-  }
-
-  function downloadSheetPDF() {
-    const btn = document.getElementById('btnPdf');
-    btn.disabled = true;
-    btn.innerText = '⏳ Generating PDF...';
-
-    const { pKey, paper, pSize, cols, maxFit } = getLayoutMetrics();
-    let count = parseInt(document.getElementById('selCount').value, 10) || maxFit;
-    if (count > maxFit) count = maxFit;
-    const border = document.getElementById('selBorder').value;
-
-    const savedX = window.scrollX || 0;
-    const savedY = window.scrollY || 0;
-    window.scrollTo(0, 0);
-
-    const pdfSheet = document.createElement('div');
-    pdfSheet.style.cssText = [
-      `width: ${paper.w}mm`,
-      `height: ${paper.h - 0.5}mm`,
-      `padding: ${paper.margin}mm`,
-      'background-color: #ffffff',
-      'display: grid',
-      `grid-template-columns: repeat(${cols}, ${pSize.w}mm)`,
-      `gap: ${paper.gap}mm`,
-      'justify-content: start',
-      'align-content: start',
-      'box-sizing: border-box',
-      'margin: 0'
+  for(let i=0;i<count;i++){
+    const tile=document.createElement('div');
+    tile.style.cssText=[
+      `width:${tileW}px`,
+      `height:${tileH}px`,
+      `border:${border}`,
+      `background:${fillBg}`,
+      'overflow:hidden',
+      'box-sizing:border-box',
+      'margin:0',
+      'padding:0'
     ].join(';');
-
-    const srcToUse = croppedDataUrl || DEFAULT_SVG;
-    let tilesHtml = '';
-    for (let i = 0; i < count; i++) {
-      tilesHtml += `<div style="width:${pSize.w}mm; height:${pSize.h}mm; border:${border}; background:${fillBg}; overflow:hidden; box-sizing:border-box;"><img src="${srcToUse}" style="width:100%; height:100%; display:block;"></div>`;
-    }
-    pdfSheet.innerHTML = tilesHtml;
-
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `position:absolute; top:0; left:0; width:${paper.w}mm; background:#ffffff; z-index:999999; margin:0; padding:0;`;
-    wrap.appendChild(pdfSheet);
-    document.body.appendChild(wrap);
-
-    const formatSpec = pKey === 'A4' ? 'a4' : (pKey === '4X6' ? [101.6, 152.4] : [127, 177.8]);
-
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        html2pdf().set({
-          margin: [0, 0, 0, 0],
-          filename: `PhotoSheet_${pKey}_${count}Photos.pdf`,
-          image: { type: 'png', quality: 1.0 },
-          html2canvas: {
-            scale: 3,
-            useCORS: true,
-            scrollX: 0,
-            scrollY: 0,
-            x: 0,
-            y: 0,
-            backgroundColor: '#ffffff'
-          },
-          jsPDF: { unit: 'mm', format: formatSpec, orientation: 'portrait', compress: true }
-        }).from(pdfSheet).save().then(() => {
-          wrap.remove();
-          window.scrollTo(savedX, savedY);
-          btn.disabled = false;
-          btn.innerText = '📥 Download Print-Ready PDF';
-        }).catch(() => {
-          wrap.remove();
-          window.scrollTo(savedX, savedY);
-          btn.disabled = false;
-          btn.innerText = '📥 Download Print-Ready PDF';
-        });
-      }, 150);
-    });
+    const img=document.createElement('img');
+    img.src=src;
+    img.alt='';
+    img.style.cssText='width:100%;height:100%;display:block;object-fit:fill;margin:0;padding:0;';
+    tile.appendChild(img);
+    pdfSheet.appendChild(tile);
   }
+  return {pdfSheet,pKey,paper,pSize,count,pageW,pageH};
+}
 
-  function printSheetDirect() {
-    const { paper, pSize, cols, maxFit } = getLayoutMetrics();
-    let count = parseInt(document.getElementById('selCount').value, 10) || maxFit;
-    if (count > maxFit) count = maxFit;
-    const border = document.getElementById('selBorder').value;
-    const srcToUse = croppedDataUrl || DEFAULT_SVG;
+function loadPdfFallback(src){
+  return new Promise(resolve=>{
+    const script=document.createElement('script');
+    let settled=false;
+    const finish=ok=>{if(settled)return;settled=true;script.onload=null;script.onerror=null;resolve(ok);};
+    script.src=src;
+    script.onload=()=>finish(typeof html2pdf==='function');
+    script.onerror=()=>finish(false);
+    document.head.appendChild(script);
+    setTimeout(()=>finish(typeof html2pdf==='function'),12000);
+  });
+}
 
-    let tilesHtml = '';
-    for (let i = 0; i < count; i++) {
-      tilesHtml += `<div class="tile"><img src="${srcToUse}"></div>`;
-    }
-
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Photo Sheet (${paper.label})</title><style>
-      @page { size: ${paper.w}mm ${paper.h}mm; margin: 0mm; }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        padding: ${paper.margin}mm;
-        width: ${paper.w}mm;
-        background: #ffffff;
-        display: grid;
-        grid-template-columns: repeat(${cols}, ${pSize.w}mm);
-        gap: ${paper.gap}mm;
-        justify-content: start;
-        align-content: start;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      .tile {
-        width: ${pSize.w}mm;
-        height: ${pSize.h}mm;
-        border: ${border};
-        background-color: ${fillBg};
-        overflow: hidden;
-      }
-      .tile img {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-    </style></head><body>${tilesHtml}</body></html>`);
-    w.document.close();
-    w.focus();
-    setTimeout(() => { w.print(); w.close(); }, 400);
+async function ensurePdfLibrary(){
+  if(typeof html2pdf==='function')return true;
+  const fallbacks=[
+    'https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js',
+    'https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js'
+  ];
+  for(const src of fallbacks){
+    if(await loadPdfFallback(src))return true;
   }
+  return typeof html2pdf==='function';
+}
 
-  window.onload = () => {
-    try {
-      if (localStorage.getItem('kkb_photo_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnDark').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
+async function downloadSheetPDF(){
+  const btn=document.getElementById('btnPdf');
+  const originalText=t('downloadPdf');
+  const savedX=window.scrollX||0;
+  const savedY=window.scrollY||0;
+  let overlay=null;
+  let objectUrl=null;
 
-    populateCopyOptions(false);
-    sourceImg.onload = () => {
-      bakeCroppedImage();
-      renderSheet();
+  btn.disabled=true;
+  btn.textContent=t('generating');
+
+  try{
+    const libraryReady=await ensurePdfLibrary();
+    if(!libraryReady)throw new Error('PDF library could not be loaded from the available CDNs.');
+
+    const {pdfSheet,pKey,paper,count,pageW,pageH}=makePhotoSheetForExport();
+    const paperKey=pKey==='A4'?'A4':pKey==='4X6'?'4x6':'5x7';
+    const formatSpec=pKey==='A4'?'a4':[paper.w,paper.h];
+    const filename=`PhotoSheet_${paperKey}_${count}Photos.pdf`;
+
+    // Use the proven visible overlay + relative staging export pattern.
+    // The export canvas dimensions are fixed in CSS pixels, derived from the
+    // selected paper's physical millimetre dimensions (96 CSS px per inch).
+    overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:2147483647;overflow:auto;margin:0;padding:0;';
+
+    const staging=document.createElement('div');
+    staging.style.cssText=`position:relative;top:0;left:0;width:${pageW}px;height:${pageH}px;min-width:${pageW}px;margin:0;padding:0;background:#ffffff;overflow:hidden;box-sizing:border-box;`;
+    staging.appendChild(pdfSheet);
+    overlay.appendChild(staging);
+    document.body.appendChild(overlay);
+
+    // Wait until the browser has laid out the export surface and decoded every photo.
+    await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,180)));
+    const images=[...staging.querySelectorAll('img')];
+    await Promise.all(images.map(img=>{
+      if(img.complete&&img.naturalWidth>0)return Promise.resolve();
+      if(typeof img.decode==='function')return img.decode();
+      return new Promise((resolve,reject)=>{
+        img.onload=resolve;
+        img.onerror=()=>reject(new Error('A photo could not be decoded for the PDF.'));
+      });
+    }));
+
+    const options={
+      margin:[0,0,0,0],
+      filename,
+      image:{type:'png',quality:1.0},
+      html2canvas:{
+        scale:3,
+        useCORS:true,
+        allowTaint:false,
+        backgroundColor:'#ffffff',
+        letterRendering:true,
+        scrollX:0,
+        scrollY:0,
+        x:0,
+        y:0,
+        width:pageW,
+        height:pageH,
+        windowWidth:pageW,
+        windowHeight:pageH
+      },
+      jsPDF:{unit:'mm',format:formatSpec,orientation:'portrait',compress:true}
     };
-    sourceImg.src = DEFAULT_SVG;
-  };
+
+    // Build the PDF first, then trigger a normal Blob download. This is more
+    // reliable than relying on the html2pdf worker's built-in save wrapper.
+    const pdf=await html2pdf().set(options).from(staging).toPdf().get('pdf');
+    const blob=pdf.output('blob');
+    if(!(blob instanceof Blob)||blob.size<1000)throw new Error('The generated PDF is empty.');
+
+    objectUrl=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.href=objectUrl;
+    link.download=filename;
+    link.style.display='none';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // Keep the Blob URL alive briefly while the browser starts the download.
+    setTimeout(()=>{if(objectUrl)URL.revokeObjectURL(objectUrl);},60000);
+    objectUrl=null;
+  }catch(err){
+    console.error('Photo sheet PDF download failed:',err);
+    alert('PDF डाउनलोड नहीं हो पाया। कृपया इंटरनेट कनेक्शन जाँचें और दोबारा प्रयास करें। यदि समस्या बनी रहे, तो Direct Photo Print बटन से Print → Save as PDF चुनें।');
+  }finally{
+    if(overlay)overlay.remove();
+    if(objectUrl)URL.revokeObjectURL(objectUrl);
+    window.scrollTo(savedX,savedY);
+    btn.disabled=false;
+    btn.textContent=originalText;
+  }
+}
+function printSheetDirect(){const{paper,pSize,cols,maxFit,pKey}=getLayoutMetrics();let count=parseInt(document.getElementById('selCount').value,10)||maxFit;if(count>maxFit)count=maxFit;const border=document.getElementById('selBorder').value,src=croppedDataUrl||DEFAULT_SVG;let tiles='';for(let i=0;i<count;i++)tiles+=`<div class="tile"><img src="${src}" alt=""></div>`;const w=window.open('','_blank','width=850,height=900');if(!w){alert('Please allow pop-ups to print the photo sheet.');return;}w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${t('printTitle')} (${paperLabel(pKey)})</title><style>@page{size:${paper.w}mm ${paper.h}mm;margin:0mm}*{box-sizing:border-box}html,body{margin:0;padding:0}body{width:${paper.w}mm;height:${paper.h}mm;padding:${paper.margin}mm;background:#fff;display:grid;grid-template-columns:repeat(${cols},${pSize.w}mm);gap:${paper.gap}mm;justify-content:start;align-content:start;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.tile{width:${pSize.w}mm;height:${pSize.h}mm;border:${border};background:${fillBg};overflow:hidden}.tile img{width:100%;height:100%;display:block}</style></head><body>${tiles}</body></html>`);w.document.close();w.focus();setTimeout(()=>{w.print();w.close();},450);}
+window.onload=()=>{try{if(localStorage.getItem('kkb_photo_theme')==='dark')document.body.classList.add('dark-mode');const savedLang=localStorage.getItem('kkb_photo_lang');if(savedLang&&LANGS[savedLang])currentLang=savedLang;}catch(e){}document.getElementById('selLanguage').value=currentLang;applyLanguage();sourceImg.onload=()=>{bakeCroppedImage();renderSheet();};sourceImg.onerror=()=>renderSheet();sourceImg.src=DEFAULT_SVG;};
 </script>
 </body>
 </html>
