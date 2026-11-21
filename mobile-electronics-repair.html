@@ -1,772 +1,201 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#0f172a">
 <title>Mobile & Electronics Repair Job Sheet / Bill - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
-  :root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-soft: #dbeafe;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: rgba(203, 213, 225, 0.85);
-    --bg: #f1f5f9;
-    --surface: rgba(255, 255, 255, 0.92);
-    --surface-alt: rgba(248, 250, 252, 0.92);
-    --danger: #dc2626;
-    --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
-  }
-
-  body.dark-mode {
-    --primary: #60a5fa;
-    --primary-dark: #3b82f6;
-    --primary-soft: rgba(96, 165, 250, 0.16);
-    --ink: #f1f5f9;
-    --ink-muted: #94a3b8;
-    --border: rgba(51, 65, 85, 0.85);
-    --bg: #0b1120;
-    --surface: rgba(30, 41, 59, 0.92);
-    --surface-alt: rgba(15, 23, 42, 0.88);
-    --shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
-  }
-
-  * {
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #dbeafe 0%, #f8fafc 48%, #fef3c7 100%);
-    color: var(--ink);
-    overflow-x: hidden;
-    position: relative;
-    transition: background 0.25s, color 0.25s;
-  }
-
-  body.dark-mode {
-    background: linear-gradient(135deg, #090d16 0%, #0f172a 55%, #172033 100%);
-  }
-
-  /* FLOATING COLOURS BACKGROUND */
-  .floating-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(50px);
-    opacity: 0.55;
-    animation: floatOrb 14s infinite alternate ease-in-out;
-  }
-  body.dark-mode .orb { opacity: 0.22; }
-  .orb-1 {
-    width: 380px;
-    height: 380px;
-    background: radial-gradient(circle, #3b82f6, #60a5fa);
-    top: 4%;
-    left: -80px;
-  }
-  .orb-2 {
-    width: 360px;
-    height: 360px;
-    background: radial-gradient(circle, #f59e0b, #fde047);
-    top: 26%;
-    right: -80px;
-    animation-delay: -4s;
-  }
-  .orb-3 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #8b5cf6, #c084fc);
-    bottom: 8%;
-    left: 18%;
-    opacity: 0.4;
-    animation-delay: -7s;
-  }
-  .orb-4 {
-    width: 340px;
-    height: 340px;
-    background: radial-gradient(circle, #10b981, #34d399);
-    bottom: -40px;
-    right: 12%;
-    opacity: 0.45;
-    animation-delay: -2s;
-  }
-  @keyframes floatOrb {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(55px, -40px) scale(1.1); }
-    100% { transform: translate(-40px, 50px) scale(0.95); }
-  }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    color: #fff;
-    padding: 12px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 3px solid #f59e0b;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    flex-wrap: wrap;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
-  }
-  .nav-left, .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15.5px; font-weight: 800; letter-spacing: 0.2px; }
-  .btn-theme {
-    background: rgba(255,255,255,0.14);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .btn-theme:hover { background: rgba(255,255,255,0.24); }
-
-  /* Full-Screen Wide Split Grid Layout */
-  .kb-wrapper {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 1540px;
-    margin: 0 auto;
-    padding: 22px 28px 48px 28px;
-    display: grid;
-    grid-template-columns: minmax(420px, 1.05fr) minmax(500px, 0.95fr);
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 22px 22px;
-    box-shadow: var(--shadow);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 9px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: var(--surface-alt);
-    transition: all 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background: var(--surface);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.28);
-  }
-
-  /* Quick Fault/Part Chips */
-  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
-  .chip-btn {
-    background: var(--surface-alt);
-    border: 1px solid #93c5fd;
-    color: var(--primary);
-    padding: 6px 11px;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.15s;
-  }
-  .chip-btn:hover { background: var(--primary-soft); }
-
-  /* Accessories Checkboxes */
-  .acc-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 10px 0; font-size: 12px; font-weight: 600; }
-  .acc-grid label { display: flex; align-items: center; gap: 5px; text-transform: none; color: var(--ink); cursor: pointer; }
-  .acc-grid input { width: 15px; height: 15px; }
-
-  /* Table Controls */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
-  .items-input-table th {
-    text-align: left;
-    padding: 8px 6px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: var(--primary-soft);
-    border-bottom: 2px solid var(--border);
-  }
-  .items-input-table td { padding: 6px 4px; }
-  .btn-del-row {
-    background: #fee2e2;
-    color: var(--danger);
-    border: 1px solid #fca5a5;
-    border-radius: 7px;
-    width: 32px;
-    height: 36px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .btn-del-row:hover { background: var(--danger); color: #fff; }
-  .btn-add-row {
-    background: var(--primary-soft);
-    color: var(--primary);
-    border: 1.5px dashed var(--primary);
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn {
-    flex: 1;
-    min-width: 145px;
-    padding: 13px;
-    border: none;
-    border-radius: 10px;
-    font-size: 13.5px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.94; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-    background: var(--surface);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  .preview-viewport {
-    width: 100%;
-    overflow-x: auto;
-    background: #e2e8f0;
-    padding: 16px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: center;
-  }
-  body.dark-mode .preview-viewport {
-    background: #0f172a;
-  }
-  #a4DocSheet {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    width: 100%;
-    max-width: 720px;
-    padding: 20px 18px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-    flex-shrink: 0;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 14px;
-    background: #ffffff;
-  }
-
-  .slip-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #2563eb;
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-    gap: 10px;
-  }
-  .slip-header h2 { margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .slip-header p { margin: 2px 0 0; font-size: 10px; color: #64748b; }
-  .slip-badge {
-    background: #2563eb;
-    color: #ffffff;
-    padding: 4px 10px;
-    font-size: 10px;
-    font-weight: 800;
-    border-radius: 4px;
-    text-transform: uppercase;
-    flex-shrink: 0;
-  }
-
-  .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px; }
-  .slip-table td { padding: 3.5px 3px; vertical-align: top; }
-  .slip-table td.lbl { font-weight: 700; color: #475569; width: 24%; }
-  .slip-table td.val { border-bottom: 1px dotted #94a3b8; font-weight: 600; color: #0f172a; }
-
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 10.5px; }
-  .doc-items-table th { background: #dbeafe; color: #1e3a8a; padding: 5px; text-align: left; font-weight: 800; border: 1px solid #93c5fd; }
-  .doc-items-table td { padding: 4.5px 5px; border: 1px solid #e2e8f0; font-weight: 600; color: #0f172a; }
-  .t-right { text-align: right; }
-  .t-center { text-align: center; }
-
-  .amount-highlight {
-    background: #eff6ff;
-    border: 1.2px solid #93c5fd;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px 0;
-    font-size: 11px;
-    color: #0f172a;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .notes-box { background: #f8fafc; border-left: 3px solid #2563eb; padding: 5px 8px; font-size: 10px; color: #334155; margin: 6px 0; }
-  .footer-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; font-size: 10px; }
-  .sig-card { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  .cut-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 16px 0;
-    border-top: 2px dashed #94a3b8;
-  }
-  .cut-tag { position: absolute; top: -10px; background: #fff; padding: 0 8px; font-size: 10px; font-weight: 700; color: #64748b; }
-
-  @media (max-width: 1120px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; gap: 18px; }
-    .preview-panel { position: static; }
-  }
-  @media (max-width: 760px) {
-    .preview-viewport { justify-content: flex-start; padding: 10px; }
-    #a4DocSheet { min-width: 620px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .top-nav { padding: 10px 14px; }
-    .nav-title { font-size: 13.5px; }
-    .control-box, .preview-panel { padding: 14px 12px; border-radius: 12px; }
-  }
+:root{--primary:#2563eb;--primary-dark:#1d4ed8;--primary-soft:#dbeafe;--ink:#0f172a;--ink-muted:#475569;--border:rgba(203,213,225,.85);--bg:#f1f5f9;--surface:rgba(255,255,255,.94);--surface-alt:rgba(248,250,252,.96);--danger:#dc2626;--shadow:0 8px 28px rgba(15,23,42,.07)}
+body.dark-mode{--primary:#60a5fa;--primary-dark:#3b82f6;--primary-soft:rgba(96,165,250,.16);--ink:#f1f5f9;--ink-muted:#94a3b8;--border:rgba(51,65,85,.9);--bg:#0b1120;--surface:rgba(30,41,59,.96);--surface-alt:rgba(15,23,42,.94);--shadow:0 8px 28px rgba(0,0,0,.4)}
+*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+html,body{margin:0;padding:0;width:100%;min-height:100vh;color:var(--ink);overflow-x:hidden;transition:background .25s,color .25s}
+html{background:#dbeafe}body{background:linear-gradient(135deg,#dbeafe 0%,#f8fafc 48%,#fef3c7 100%)}body.dark-mode{background:linear-gradient(135deg,#090d16 0%,#0f172a 55%,#172033 100%)}
+.top-nav{background:rgba(15,23,42,.97);color:#fff;padding:11px 22px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap;box-shadow:0 4px 18px rgba(0,0,0,.16)}
+.nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 13px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2)}.nav-title{font-size:15px;font-weight:800;letter-spacing:.2px}
+.nav-right{margin-inline-start:auto}.theme-help{font-size:12px;color:#e2e8f0;font-weight:600}.btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}.lang-control{display:flex;align-items:center;gap:7px;color:#fff;font-size:12px;font-weight:700}.lang-control select{width:auto;min-width:145px;padding:8px 9px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:#fff;color:#0f172a;font-size:12px;font-weight:700}
+.kb-wrapper{position:relative;z-index:2;width:100%;max-width:100%;margin:0;padding:18px 22px 42px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:22px;align-items:start}
+.control-box,.preview-panel{background:var(--surface);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1.5px solid var(--border);border-radius:16px;padding:20px;box-shadow:var(--shadow);min-width:0}.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}label{font-size:11px;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.35px}
+input,select{width:100%;min-width:0;padding:10px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:all .2s}input:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.section-badge{background:var(--primary-soft);color:var(--primary);font-size:11.5px;font-weight:800;padding:6px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:16px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary);max-width:100%}.section-badge:first-of-type{margin-top:0}
+.toggle-bar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:14px;background:var(--surface-alt);border:1px solid var(--border);padding:5px;border-radius:10px}.toggle-btn{padding:11px 9px;border:0;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--ink-muted);transition:.2s}.toggle-btn.active{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 3px 8px rgba(37,99,235,.28)}
+.chip-group{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 12px}.chip-btn{background:var(--surface-alt);border:1px solid #93c5fd;color:var(--primary);padding:7px 11px;border-radius:20px;font-size:11.5px;font-weight:700;cursor:pointer}.chip-btn:hover{background:var(--primary-soft)}
+.acc-grid{display:flex;flex-wrap:wrap;gap:10px 13px;margin:5px 0 12px;font-size:12px;font-weight:600}.acc-grid label{display:flex;align-items:center;gap:5px;text-transform:none;color:var(--ink);cursor:pointer}.acc-grid input{width:16px;height:16px;accent-color:var(--primary)}
+.table-scroll{width:100%;overflow-x:auto;border:1px solid var(--border);border-radius:9px}.items-input-table{width:100%;min-width:500px;border-collapse:collapse;margin-top:0;font-size:12px}.items-input-table th{text-align:left;padding:9px 7px;color:var(--ink-muted);font-weight:800;background:var(--primary-soft);border-bottom:2px solid var(--border)}.items-input-table td{padding:6px 5px;border-bottom:1px solid var(--border)}.items-input-table input{padding:8px 9px;font-size:12.5px}.btn-del-row{background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:7px;width:32px;height:35px;font-weight:bold;cursor:pointer}.btn-add-row{background:var(--primary-soft);color:var(--primary);border:1.5px dashed var(--primary);padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;margin-top:9px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}.btn{flex:1;min-width:145px;padding:13px;border:0;border-radius:10px;font-size:13.5px;font-weight:800;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.08);transition:.2s}.btn:hover{opacity:.94;transform:translateY(-1px)}.btn:disabled{opacity:.65;cursor:wait;transform:none}.btn-pdf{background:linear-gradient(135deg,#2563eb,#1d4ed8)}.btn-print{background:linear-gradient(135deg,#1e293b,#0f172a)}.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d)}
+.preview-panel{position:sticky;top:78px;width:100%}.preview-label{text-align:center;font-size:12px;font-weight:800;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px}.preview-viewport{width:100%;overflow-x:auto;background:#e2e8f0;padding:14px 10px;border-radius:12px;border:1px solid var(--border);display:flex;justify-content:center}body.dark-mode .preview-viewport{background:#0f172a}#a4DocSheet{background:#fff!important;color:#0f172a!important;width:100%;max-width:720px;padding:20px 18px;border:1.5px solid #cbd5e1;box-shadow:0 10px 30px rgba(15,23,42,.08);border-radius:8px;box-sizing:border-box;flex-shrink:0}
+.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;background:#fff;color:#0f172a;break-inside:avoid;page-break-inside:avoid}.slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #2563eb;padding-bottom:7px;margin-bottom:10px;gap:10px}.slip-header h2{margin:0;font-size:16px;font-weight:800;color:#0f172a;text-transform:uppercase;overflow-wrap:anywhere}.slip-header p{margin:3px 0 0;font-size:10px;color:#64748b;overflow-wrap:anywhere}.slip-badge{background:#2563eb;color:#fff;padding:4px 10px;font-size:10px;font-weight:800;border-radius:4px;text-transform:uppercase;flex-shrink:0;text-align:center}.slip-table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:10.5px;table-layout:fixed}.slip-table td{padding:4px 3px;vertical-align:top;overflow-wrap:anywhere}.slip-table td.lbl{font-weight:700;color:#475569;width:20%}.slip-table td.val{border-bottom:1px dotted #94a3b8;font-weight:600;color:#0f172a}.doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:10.5px}.doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:5px;border:1px solid #93c5fd;text-align:left;font-weight:800}.doc-items-table td{padding:5px;border:1px solid #e2e8f0;font-weight:600;color:#0f172a;overflow-wrap:anywhere}.t-right{text-align:right}.t-center{text-align:center}.amount-highlight{background:#eff6ff;border:1.2px solid #93c5fd;padding:7px 10px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-size:10.5px;color:#0f172a;flex-wrap:wrap;gap:6px}.notes-box{background:#f8fafc;border-left:3px solid #2563eb;padding:6px 9px;font-size:10px;color:#334155;margin:7px 0;overflow-wrap:anywhere}.footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px;gap:12px}.sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:700;color:#334155}.cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:17px 0;border-top:2px dashed #94a3b8;break-inside:avoid;page-break-inside:avoid}.cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b;white-space:nowrap}
+@media(max-width:1120px){.kb-wrapper{grid-template-columns:minmax(0,1fr);padding:14px 12px 34px;gap:16px}.preview-panel{position:static}}
+@media(max-width:760px){.preview-viewport{justify-content:flex-start;padding:10px}#a4DocSheet{min-width:620px}}
+@media(max-width:600px){.grid-2,.grid-3{grid-template-columns:minmax(0,1fr)}.toggle-bar{grid-template-columns:1fr}.top-nav{padding:10px 12px}.nav-title{font-size:13px}.nav-left{width:100%}.nav-right{width:100%;justify-content:flex-start;margin:0}.control-box,.preview-panel{padding:14px 12px;border-radius:12px}.theme-help{font-size:11px}.lang-control{flex:1}.lang-control select{flex:1;min-width:120px}.btn{width:100%;min-width:100%}}
+@media print{@page{size:A4 portrait;margin:0}body{background:#fff!important}.top-nav,.control-box,.preview-label,.floating-bg{display:none!important}.kb-wrapper{display:block!important;padding:0!important;margin:0!important}.preview-panel{position:static!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important}.preview-viewport{display:block!important;padding:0!important;border:0!important;background:#fff!important;overflow:visible!important}#a4DocSheet{width:100%!important;max-width:none!important;min-width:0!important;padding:12mm 14mm!important;border:0!important;box-shadow:none!important}}
 </style>
 </head>
 <body>
-
-<!-- FLOATING COLOURS BACKGROUND -->
-<div class="floating-bg" aria-hidden="true">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
-</div>
-
 <div class="top-nav">
   <div class="nav-left">
-    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-    <span class="nav-title">KaamKaj Bills • Mobile &amp; Electronics Repair</span>
+    <a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a>
+    <span class="nav-title" data-i18n="appTitle">KaamKaj Bills • Mobile & Electronics Repair</span>
   </div>
   <div class="nav-right">
-    <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
+    <div class="lang-control"><span data-i18n="languageLabel">🌐 भाषा / Language</span><select id="sel_lang" aria-label="Select language" onchange="changeLanguage(this.value)"><option value="hi">हिन्दी</option><option value="en">English</option><option value="mr">मराठी</option><option value="gu">ગુજરાતી</option><option value="bn">বাংলা</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option><option value="kn">ಕನ್ನಡ</option><option value="ml">മലയാളം</option><option value="pa">ਪੰਜਾਬੀ</option><option value="or">ଓଡ଼ିଆ</option><option value="ur">اردو</option></select></div>
+    <span class="theme-help" id="themeHelp" data-i18n="themeHelp">यहाँ से आप मोड बदल सकते हैं</span>
+    <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 डार्क मोड</button>
   </div>
 </div>
 
 <div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Slip Mode Chunein:</label>
-      <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnIntake" onclick="setMode('INTAKE')">📱 Repair Intake Job Sheet (2 Copies)</button>
-        <button type="button" class="toggle-btn" id="btnDelivery" onclick="setMode('DELIVERY')">🧾 Final Delivery &amp; Warranty Bill</button>
-      </div>
-    </div>
+    <div style="margin-bottom:10px"><label data-i18n="modeLabel">1. स्लिप का प्रकार चुनें:</label><div class="toggle-bar"><button type="button" class="toggle-btn active" id="btnIntake" onclick="setMode('INTAKE')">📱 Repair Intake Job Sheet (2 Copies)</button><button type="button" class="toggle-btn" id="btnDelivery" onclick="setMode('DELIVERY')">🧾 Final Delivery &amp; Warranty Bill</button></div></div>
 
-    <div class="section-badge">1. Service Center / Repair Shop Details</div>
+    <div class="section-badge" data-i18n="secShop">1. Service Center / Repair Shop Details</div>
     <div class="grid-2">
-      <div class="field"><label>Shop / Care Center Name</label><input type="text" id="in_shop" placeholder="उदा. TechCare Mobile &amp; Laptop Service" oninput="renderDoc()"></div>
-      <div class="field"><label>Address &amp; Helpline Mobile</label><input type="text" id="in_addr" placeholder="उदा. Shop No. 8, Station Market, Main Road | Mob: 9000000000" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="shopLabel">Shop / Care Center Name</label><input type="text" id="in_shop" data-i18n-placeholder="shopPh" placeholder="उदा. TechCare Mobile & Laptop Service" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="addrLabel">Address &amp; Helpline Mobile</label><input type="text" id="in_addr" data-i18n-placeholder="addrPh" placeholder="उदा. Shop No. 8, Station Market, Main Road | Mob: 9000000000" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">2. Customer &amp; Device Info</div>
+    <div class="section-badge" data-i18n="secCustomer">2. Customer &amp; Device Info</div>
     <div class="grid-3">
-      <div class="field"><label>Job Sheet / Token No.</label><input type="text" id="in_job_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Received Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
-      <div class="field"><label>Expected Delivery</label><input type="text" id="in_deliv" placeholder="उदा. Tomorrow 5 PM" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="jobLabel">Job Sheet / Token No.</label><input type="text" id="in_job_no" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="dateLabel">Received Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="deliveryLabel">Expected Delivery</label><input type="text" id="in_deliv" data-i18n-placeholder="deliveryPh" placeholder="उदा. Tomorrow 5 PM" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Customer Name</label><input type="text" id="in_cust" placeholder="उदा. Rohit Verma" oninput="renderDoc()"></div>
-      <div class="field"><label>Mobile / WhatsApp No.</label><input type="text" id="in_phone" placeholder="उदा. 9000012345" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="customerLabel">Customer Name</label><input type="text" id="in_cust" data-i18n-placeholder="customerPh" placeholder="उदा. Rohit Verma" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="phoneLabel">Mobile / WhatsApp No.</label><input type="text" id="in_phone" data-i18n-placeholder="phonePh" placeholder="उदा. 9000012345" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-3">
-      <div class="field"><label>Device Brand &amp; Model</label><input type="text" id="in_model" placeholder="उदा. Samsung Galaxy / Dell Laptop" oninput="renderDoc()"></div>
-      <div class="field"><label>IMEI / Serial No.</label><input type="text" id="in_imei" placeholder="उदा. 35892011XXXX" oninput="renderDoc()"></div>
-      <div class="field"><label>Screen Lock / PIN (Optional)</label><input type="text" id="in_lock" placeholder="उदा. 2580 / None" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="modelLabel">Device Brand &amp; Model</label><input type="text" id="in_model" data-i18n-placeholder="modelPh" placeholder="उदा. Samsung Galaxy / Dell Laptop" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="imeiLabel">IMEI / Serial No.</label><input type="text" id="in_imei" data-i18n-placeholder="imeiPh" placeholder="उदा. 35892011XXXX" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="lockLabel">Screen Lock / PIN (Optional)</label><input type="text" id="in_lock" data-i18n-placeholder="lockPh" placeholder="उदा. 2580 / None" oninput="renderDoc()"></div>
     </div>
 
-    <div class="field">
-      <label>Received Accessories (साथ में जमा सामान):</label>
+    <div class="field"><label data-i18n="accessoriesLabel">Received Accessories (साथ में जमा सामान):</label>
       <div class="acc-grid">
-        <label><input type="checkbox" class="acc-chk" value="SIM Tray" checked onchange="renderDoc()"> SIM Tray</label>
-        <label><input type="checkbox" class="acc-chk" value="Back Cover" onchange="renderDoc()"> Back Cover</label>
-        <label><input type="checkbox" class="acc-chk" value="Charger / Adapter" onchange="renderDoc()"> Charger / Adapter</label>
-        <label><input type="checkbox" class="acc-chk" value="Laptop Bag" onchange="renderDoc()"> Laptop Bag</label>
-        <label><input type="checkbox" class="acc-chk" value="Dead / No Power Condition" onchange="renderDoc()"> Dead Condition</label>
+        <label><input type="checkbox" class="acc-chk" value="SIM Tray" checked onchange="renderDoc()"><span data-i18n="accSim">SIM Tray</span></label>
+        <label><input type="checkbox" class="acc-chk" value="Back Cover" onchange="renderDoc()"><span data-i18n="accBack">Back Cover</span></label>
+        <label><input type="checkbox" class="acc-chk" value="Charger / Adapter" onchange="renderDoc()"><span data-i18n="accCharger">Charger / Adapter</span></label>
+        <label><input type="checkbox" class="acc-chk" value="Laptop Bag" onchange="renderDoc()"><span data-i18n="accBag">Laptop Bag</span></label>
+        <label><input type="checkbox" class="acc-chk" value="Dead / No Power Condition" onchange="renderDoc()"><span data-i18n="accDead">Dead Condition</span></label>
       </div>
     </div>
 
-    <div class="section-badge">3. Fault Diagnosis &amp; Repair Estimate / Parts</div>
+    <div class="section-badge" data-i18n="secDiagnosis">3. Fault Diagnosis &amp; Repair Estimate / Parts</div>
     <div class="chip-group">
-      <button type="button" class="chip-btn" onclick="quickAdd('Original OLED / IPS Display Folder Replacement', 2400)">+ Display Folder</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Original Lithium Battery Replacement', 1100)">+ Battery Change</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Charging CC Board / Jack Repair', 450)">+ Charging Jack</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Motherboard IC / Water Damage Servicing', 1500)">+ Motherboard IC</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Laptop SSD Upgrade &amp; Windows OS Install', 2200)">+ SSD &amp; Windows</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Software Flashing / FRP / Data Backup', 350)">+ Software / OS</button>
+      <button type="button" class="chip-btn" data-i18n="chipDisplay" onclick="quickAdd('Original OLED / IPS Display Folder Replacement',2400)">+ Display Folder</button>
+      <button type="button" class="chip-btn" data-i18n="chipBattery" onclick="quickAdd('Original Lithium Battery Replacement',1100)">+ Battery Change</button>
+      <button type="button" class="chip-btn" data-i18n="chipCharging" onclick="quickAdd('Charging CC Board / Jack Repair',450)">+ Charging Jack</button>
+      <button type="button" class="chip-btn" data-i18n="chipBoard" onclick="quickAdd('Motherboard IC / Water Damage Servicing',1500)">+ Motherboard IC</button>
+      <button type="button" class="chip-btn" data-i18n="chipLaptop" onclick="quickAdd('Laptop SSD Upgrade & Windows OS Install',2200)">+ SSD &amp; Windows</button>
+      <button type="button" class="chip-btn" data-i18n="chipSoftware" onclick="quickAdd('Software Flashing / FRP / Data Backup',350)">+ Software / OS</button>
     </div>
+    <div class="table-scroll"><table class="items-input-table"><thead><tr><th style="width:68%" data-i18n="problemHeader">Problem / Replaced Spare Part Description</th><th style="width:24%" data-i18n="costHeader">Estimate / Cost (₹)</th><th style="width:8%"></th></tr></thead><tbody id="itemsInputsBody"></tbody></table></div>
+    <button type="button" class="btn-add-row" onclick="addItemRow()" data-i18n="addPart">+ नया पार्ट / सर्विस चार्ज जोड़ें</button>
 
-    <div style="overflow-x: auto;">
-      <table class="items-input-table">
-        <thead>
-          <tr>
-            <th style="width: 68%;">Problem / Replaced Spare Part Description</th>
-            <th style="width: 24%;">Estimate / Cost (₹)</th>
-            <th style="width: 8%;"></th>
-          </tr>
-        </thead>
-        <tbody id="itemsInputsBody"></tbody>
-      </table>
-    </div>
-    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Naya Part / Service Charge Jodein</button>
-
-    <div class="section-badge">4. Payment, Advance &amp; Warranty Terms</div>
+    <div class="section-badge" data-i18n="secPayment">4. Payment, Advance &amp; Warranty Terms</div>
     <div class="grid-3">
-      <div class="field"><label>Advance Paid (₹)</label><input type="number" id="in_adv" placeholder="500" oninput="renderDoc()"></div>
-      <div class="field"><label>Part Warranty</label><input type="text" id="in_warr" placeholder="उदा. 3 Months Testing Warranty" oninput="renderDoc()"></div>
-      <div class="field">
-        <label>Payment Mode</label>
-        <select id="in_mode" onchange="renderDoc()">
-          <option value="UPI / Online">UPI / PhonePe / GPay</option>
-          <option value="CASH">CASH (नकद)</option>
-          <option value="Pay on Delivery">Pay on Delivery</option>
-        </select>
-      </div>
+      <div class="field"><label data-i18n="advanceLabel">Advance Paid (₹)</label><input type="number" id="in_adv" min="0" step="any" placeholder="500" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="warrantyLabel">Part Warranty</label><input type="text" id="in_warr" data-i18n-placeholder="warrantyPh" placeholder="उदा. 3 Months Testing Warranty" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="paymentLabel">Payment Mode</label><select id="in_mode" onchange="renderDoc()"><option value="UPI / Online" data-i18n="payUPI">UPI / PhonePe / GPay</option><option value="CASH" data-i18n="payCash">CASH (नकद)</option><option value="Pay on Delivery" data-i18n="payDelivery">Pay on Delivery</option></select></div>
     </div>
-    <div class="field"><label>Terms &amp; Data Disclaimer</label><input type="text" id="in_notes" placeholder="उदा. रिपेयरिंग के दौरान डेटा लॉस के लिए दुकान जिम्मेदार नहीं होगी। 30 दिन में डिवाइस ले जाएं।" oninput="renderDoc()"></div>
-
-    <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Slip</button>
-    </div>
+    <div class="field"><label data-i18n="termsLabel">Terms &amp; Data Disclaimer</label><input type="text" id="in_notes" data-i18n-placeholder="termsPh" placeholder="उदा. रिपेयरिंग के दौरान डेटा लॉस के लिए दुकान जिम्मेदार नहीं होगी। 30 दिन में डिवाइस ले जाएं।" oninput="renderDoc()"></div>
+    <div class="actions"><button type="button" class="btn btn-pdf" id="btn_pdf" onclick="downloadA4PDF()" data-i18n="downloadPDF">📥 Download A4 PDF</button><button type="button" class="btn btn-print" onclick="printDocDirect()" data-i18n="directPrint">🖨️ Direct Print</button><button type="button" class="btn btn-wa" onclick="shareWhatsApp()" data-i18n="whatsapp">📲 WhatsApp Slip</button></div>
   </div>
 
-  <!-- RIGHT: LIVE PREVIEW -->
-  <div class="preview-panel">
-    <div class="preview-label">Live Job Sheet / Bill Preview</div>
-    <div class="preview-viewport">
-      <div id="a4DocSheet">
-        <div id="slipsContainer"></div>
-      </div>
-    </div>
-  </div>
+  <div class="preview-panel"><div class="preview-label" data-i18n="previewTitle">Live Job Sheet / Bill Preview</div><div class="preview-viewport"><div id="a4DocSheet"><div id="slipsContainer"></div></div></div></div>
 </div>
 
 <script>
-  let mode = 'INTAKE';
-  let items = [
-    { desc: 'Display Folder Replacement (Original Quality)', rate: 2400 }
-  ];
+const I18N={
+hi:{allTools:'← सभी टूल्स',appTitle:'KaamKaj Bills • मोबाइल और इलेक्ट्रॉनिक्स रिपेयर',languageLabel:'🌐 भाषा चुनें',themeHelp:'यहाँ से आप मोड बदल सकते हैं',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाइट मोड',modeLabel:'1. स्लिप का प्रकार चुनें:',modeIntake:'📱 रिपेयर इनटेक जॉब शीट (2 कॉपी)',modeDelivery:'🧾 फाइनल डिलीवरी और वारंटी बिल',secShop:'1. सर्विस सेंटर / रिपेयर शॉप का विवरण',shopLabel:'दुकान / केयर सेंटर का नाम',shopPh:'जैसे TechCare Mobile & Laptop Service',addrLabel:'पता और हेल्पलाइन मोबाइल',addrPh:'जैसे दुकान नं. 8, मेन रोड | मोबाइल: 9000000000',secCustomer:'2. ग्राहक और डिवाइस की जानकारी',jobLabel:'जॉब शीट / टोकन नंबर',dateLabel:'डिवाइस जमा करने की तारीख',deliveryLabel:'डिलीवरी की संभावित तारीख',deliveryPh:'जैसे कल शाम 5 बजे',customerLabel:'ग्राहक का नाम',customerPh:'जैसे रोहित वर्मा',phoneLabel:'मोबाइल / WhatsApp नंबर',phonePh:'जैसे 9000012345',modelLabel:'डिवाइस ब्रांड और मॉडल',modelPh:'जैसे Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / सीरियल नंबर',imeiPh:'जैसे 35892011XXXX',lockLabel:'स्क्रीन लॉक / PIN (वैकल्पिक)',lockPh:'जैसे 2580 / नहीं',accessoriesLabel:'जमा किए गए साथ के सामान:',accSim:'सिम ट्रे',accBack:'बैक कवर',accCharger:'चार्जर / एडाप्टर',accBag:'लैपटॉप बैग',accDead:'डेड / पावर नहीं',secDiagnosis:'3. खराबी की जाँच और रिपेयर अनुमान / पार्ट्स',chipDisplay:'+ डिस्प्ले',chipBattery:'+ बैटरी बदलें',chipCharging:'+ चार्जिंग जैक',chipBoard:'+ मदरबोर्ड IC',chipLaptop:'+ SSD और Windows',chipSoftware:'+ सॉफ्टवेयर / OS',problemHeader:'समस्या / बदले गए पार्ट का विवरण',costHeader:'अनुमान / लागत (₹)',addPart:'+ नया पार्ट / सर्विस चार्ज जोड़ें',secPayment:'4. भुगतान, एडवांस और वारंटी की शर्तें',advanceLabel:'जमा एडवांस (₹)',warrantyLabel:'पार्ट की वारंटी',warrantyPh:'जैसे 3 महीने की टेस्टिंग वारंटी',paymentLabel:'भुगतान का तरीका',payUPI:'UPI / PhonePe / GPay',payCash:'नकद',payDelivery:'डिलीवरी पर भुगतान',termsLabel:'शर्तें और डेटा संबंधी सूचना',termsPh:'जैसे रिपेयर के दौरान डेटा लॉस के लिए दुकान जिम्मेदार नहीं होगी। 30 दिन में डिवाइस ले जाएँ।',downloadPDF:'📥 A4 PDF डाउनलोड करें',directPrint:'🖨️ सीधे प्रिंट करें',whatsapp:'📲 WhatsApp स्लिप',previewTitle:'लाइव जॉब शीट / बिल प्रीव्यू',customerReceipt:'ग्राहक रसीद',deliveryBill:'डिलीवरी और वारंटी बिल',shopCopy:'टेक्नीशियन / दुकान कॉपी',cutHere:'✂️ यहाँ से काटें (टेक्नीशियन / दुकान कॉपी)',jobToken:'जॉब टोकन',receivedDate:'जमा तारीख',deliveryShort:'डिलीवरी',customerShort:'ग्राहक',deviceShort:'डिवाइस',imeiShort:'IMEI / सीरियल नंबर',lockShort:'लॉक / PIN',accessoriesShort:'साथ जमा सामान',description:'खराबी / पार्ट / सर्विस का विवरण',charges:'चार्ज (₹)',total:'कुल राशि',advance:'एडवांस',balance:'बाकी राशि',warranty:'वारंटी',terms:'शर्तें',customerSign:'ग्राहक के हस्ताक्षर',techSign:'टेक्नीशियन / अधिकृत हस्ताक्षर',defaultWarranty:'फिजिकल / लिक्विड डैमेज पर वारंटी नहीं',defaultNotes:'रिपेयरिंग के दौरान डेटा लॉस के लिए दुकान जिम्मेदार नहीं होगी। पर्ची दिखाकर ही डिवाइस प्राप्त करें।',deviceOnly:'केवल डिवाइस',waTitle:'📱 रिपेयर जॉब शीट',waCenter:'सर्विस सेंटर',waCustomer:'ग्राहक',waDevice:'डिवाइस',waEstimate:'अनुमान',waBalance:'बाकी राशि',waGenerated:'KaamKaj Bills से बनाया गया।',generating:'⏳ PDF बन रही है…',remove:'हटाएँ'},
+en:{allTools:'← All Tools',appTitle:'KaamKaj Bills • Mobile & Electronics Repair',languageLabel:'🌐 Select Language',themeHelp:'Change the display mode here',darkMode:'🌙 Dark Mode',lightMode:'☀️ Light Mode',modeLabel:'1. Choose Slip Type:',modeIntake:'📱 Repair Intake Job Sheet (2 Copies)',modeDelivery:'🧾 Final Delivery & Warranty Bill',secShop:'1. Service Center / Repair Shop Details',shopLabel:'Shop / Care Center Name',shopPh:'e.g. TechCare Mobile & Laptop Service',addrLabel:'Address & Helpline Mobile',addrPh:'e.g. Shop 8, Main Road | Mob: 9000000000',secCustomer:'2. Customer & Device Information',jobLabel:'Job Sheet / Token No.',dateLabel:'Received Date',deliveryLabel:'Expected Delivery',deliveryPh:'e.g. Tomorrow 5 PM',customerLabel:'Customer Name',customerPh:'e.g. Rohit Verma',phoneLabel:'Mobile / WhatsApp No.',phonePh:'e.g. 9000012345',modelLabel:'Device Brand & Model',modelPh:'e.g. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / Serial No.',imeiPh:'e.g. 35892011XXXX',lockLabel:'Screen Lock / PIN (Optional)',lockPh:'e.g. 2580 / None',accessoriesLabel:'Received Accessories:',accSim:'SIM Tray',accBack:'Back Cover',accCharger:'Charger / Adapter',accBag:'Laptop Bag',accDead:'Dead / No Power',secDiagnosis:'3. Fault Diagnosis & Repair Estimate / Parts',chipDisplay:'+ Display Folder',chipBattery:'+ Battery Change',chipCharging:'+ Charging Jack',chipBoard:'+ Motherboard IC',chipLaptop:'+ SSD & Windows',chipSoftware:'+ Software / OS',problemHeader:'Problem / Replaced Spare Part Description',costHeader:'Estimate / Cost (₹)',addPart:'+ Add Part / Service Charge',secPayment:'4. Payment, Advance & Warranty Terms',advanceLabel:'Advance Paid (₹)',warrantyLabel:'Part Warranty',warrantyPh:'e.g. 3 Months Testing Warranty',paymentLabel:'Payment Mode',payUPI:'UPI / PhonePe / GPay',payCash:'CASH',payDelivery:'Pay on Delivery',termsLabel:'Terms & Data Disclaimer',termsPh:'e.g. Shop is not responsible for data loss during repair. Collect device within 30 days.',downloadPDF:'📥 Download A4 PDF',directPrint:'🖨️ Direct Print',whatsapp:'📲 WhatsApp Slip',previewTitle:'Live Job Sheet / Bill Preview',customerReceipt:'CUSTOMER RECEIPT',deliveryBill:'DELIVERY & WARRANTY BILL',shopCopy:'TECHNICIAN / SHOP COPY',cutHere:'✂️ CUT HERE (TECHNICIAN / SHOP COPY)',jobToken:'Job Token',receivedDate:'Received Date',deliveryShort:'Delivery',customerShort:'Customer',deviceShort:'Device',imeiShort:'IMEI / Serial No.',lockShort:'Lock / PIN',accessoriesShort:'Accessories',description:'Fault / Spare Part / Service Description',charges:'Charges (₹)',total:'TOTAL',advance:'ADVANCE',balance:'BALANCE DUE',warranty:'Warranty',terms:'Terms',customerSign:'Customer Signature',techSign:'Technician / Authorized Sign',defaultWarranty:'No Warranty on Physical/Liquid Damage',defaultNotes:'Shop is not responsible for data loss during repair. Show this slip to collect the device.',deviceOnly:'Device Only',waTitle:'📱 REPAIR JOB SHEET',waCenter:'Center',waCustomer:'Customer',waDevice:'Device',waEstimate:'Estimate',waBalance:'Balance Due',waGenerated:'Generated via KaamKaj Bills.',generating:'⏳ Generating PDF…',remove:'Remove'},
+mr:{allTools:'← सर्व टूल्स',appTitle:'KaamKaj Bills • मोबाईल आणि इलेक्ट्रॉनिक्स दुरुस्ती',languageLabel:'🌐 भाषा निवडा',themeHelp:'येथून स्क्रीन मोड बदला',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाईट मोड',modeLabel:'1. पावतीचा प्रकार निवडा:',modeIntake:'📱 रिपेअर इनटेक जॉब शीट (2 प्रती)',modeDelivery:'🧾 अंतिम डिलिव्हरी आणि वॉरंटी बिल',secShop:'1. सर्व्हिस सेंटर / दुरुस्ती दुकानाची माहिती',shopLabel:'दुकान / केअर सेंटरचे नाव',shopPh:'उदा. TechCare Mobile & Laptop Service',addrLabel:'पत्ता आणि हेल्पलाइन मोबाईल',addrPh:'उदा. दुकान नं. 8, मुख्य रस्ता | मोबाईल: 9000000000',secCustomer:'2. ग्राहक आणि डिव्हाइसची माहिती',jobLabel:'जॉब शीट / टोकन क्रमांक',dateLabel:'डिव्हाइस जमा तारीख',deliveryLabel:'अपेक्षित डिलिव्हरी',deliveryPh:'उदा. उद्या संध्याकाळी 5 वाजता',customerLabel:'ग्राहकाचे नाव',customerPh:'उदा. रोहित वर्मा',phoneLabel:'मोबाईल / WhatsApp क्रमांक',phonePh:'उदा. 9000012345',modelLabel:'डिव्हाइस ब्रँड आणि मॉडेल',modelPh:'उदा. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / सिरीयल क्रमांक',imeiPh:'उदा. 35892011XXXX',lockLabel:'स्क्रीन लॉक / PIN (ऐच्छिक)',lockPh:'उदा. 2580 / नाही',accessoriesLabel:'सोबत जमा केलेले सामान:',accSim:'सिम ट्रे',accBack:'बॅक कव्हर',accCharger:'चार्जर / अडॅप्टर',accBag:'लॅपटॉप बॅग',accDead:'बंद / पॉवर नाही',secDiagnosis:'3. खराबी तपासणी आणि दुरुस्ती अंदाज / पार्ट्स',chipDisplay:'+ डिस्प्ले',chipBattery:'+ बॅटरी बदल',chipCharging:'+ चार्जिंग जॅक',chipBoard:'+ मदरबोर्ड IC',chipLaptop:'+ SSD आणि Windows',chipSoftware:'+ सॉफ्टवेअर / OS',problemHeader:'समस्या / बदललेल्या पार्टचे वर्णन',costHeader:'अंदाज / खर्च (₹)',addPart:'+ नवीन पार्ट / सेवा शुल्क जोडा',secPayment:'4. पेमेंट, अॅडव्हान्स आणि वॉरंटी अटी',advanceLabel:'भरलेली अॅडव्हान्स रक्कम (₹)',warrantyLabel:'पार्ट वॉरंटी',warrantyPh:'उदा. 3 महिन्यांची टेस्टिंग वॉरंटी',paymentLabel:'पेमेंट पद्धत',payUPI:'UPI / PhonePe / GPay',payCash:'रोख',payDelivery:'डिलिव्हरीवेळी पेमेंट',termsLabel:'अटी आणि डेटा सूचना',termsPh:'उदा. दुरुस्ती दरम्यान डेटा गमावल्यास दुकान जबाबदार नाही. 30 दिवसांत डिव्हाइस घ्या.',downloadPDF:'📥 A4 PDF डाउनलोड',directPrint:'🖨️ थेट प्रिंट',whatsapp:'📲 WhatsApp पावती',previewTitle:'लाइव्ह जॉब शीट / बिल प्रिव्ह्यू',customerReceipt:'ग्राहक पावती',deliveryBill:'डिलिव्हरी आणि वॉरंटी बिल',shopCopy:'तंत्रज्ञ / दुकान प्रत',cutHere:'✂️ येथे कापा (तंत्रज्ञ / दुकान प्रत)',jobToken:'जॉब टोकन',receivedDate:'जमा तारीख',deliveryShort:'डिलिव्हरी',customerShort:'ग्राहक',deviceShort:'डिव्हाइस',imeiShort:'IMEI / सिरीयल क्रमांक',lockShort:'लॉक / PIN',accessoriesShort:'सोबतचे सामान',description:'खराबी / पार्ट / सेवा वर्णन',charges:'शुल्क (₹)',total:'एकूण',advance:'अॅडव्हान्स',balance:'बाकी रक्कम',warranty:'वॉरंटी',terms:'अटी',customerSign:'ग्राहकाची सही',techSign:'तंत्रज्ञ / अधिकृत सही',defaultWarranty:'फिजिकल / लिक्विड डॅमेजवर वॉरंटी नाही',defaultNotes:'दुरुस्ती दरम्यान डेटा गमावल्यास दुकान जबाबदार राहणार नाही. डिव्हाइस घेण्यासाठी ही पावती दाखवा.',deviceOnly:'फक्त डिव्हाइस',waTitle:'📱 रिपेअर जॉब शीट',waCenter:'सेंटर',waCustomer:'ग्राहक',waDevice:'डिव्हाइस',waEstimate:'अंदाज',waBalance:'बाकी रक्कम',waGenerated:'KaamKaj Bills द्वारे तयार.',generating:'⏳ PDF तयार होत आहे…',remove:'काढा'},
+gu:{allTools:'← બધા ટૂલ્સ',appTitle:'KaamKaj Bills • મોબાઇલ અને ઇલેક્ટ્રોનિક્સ રિપેર',languageLabel:'🌐 ભાષા પસંદ કરો',themeHelp:'અહીંથી ડિસ્પ્લે મોડ બદલો',darkMode:'🌙 ડાર્ક મોડ',lightMode:'☀️ લાઇટ મોડ',modeLabel:'1. સ્લિપનો પ્રકાર પસંદ કરો:',modeIntake:'📱 રિપેર ઇનટેક જોબ શીટ (2 નકલો)',modeDelivery:'🧾 અંતિમ ડિલિવરી અને વોરંટી બિલ',secShop:'1. સર્વિસ સેન્ટર / રિપેર શોપની વિગતો',shopLabel:'દુકાન / કેર સેન્ટરનું નામ',shopPh:'દા.ત. TechCare Mobile & Laptop Service',addrLabel:'સરનામું અને હેલ્પલાઇન મોબાઇલ',addrPh:'દા.ત. દુકાન નં. 8, મુખ્ય રોડ | મોબાઇલ: 9000000000',secCustomer:'2. ગ્રાહક અને ડિવાઇસની માહિતી',jobLabel:'જોબ શીટ / ટોકન નંબર',dateLabel:'મળ્યાની તારીખ',deliveryLabel:'અંદાજિત ડિલિવરી',deliveryPh:'દા.ત. આવતીકાલે સાંજે 5 વાગ્યે',customerLabel:'ગ્રાહકનું નામ',customerPh:'દા.ત. રોહિત વર્મા',phoneLabel:'મોબાઇલ / WhatsApp નંબર',phonePh:'દા.ત. 9000012345',modelLabel:'ડિવાઇસ બ્રાન્ડ અને મોડેલ',modelPh:'દા.ત. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / સિરિયલ નંબર',imeiPh:'દા.ત. 35892011XXXX',lockLabel:'સ્ક્રીન લોક / PIN (વૈકલ્પિક)',lockPh:'દા.ત. 2580 / નથી',accessoriesLabel:'સાથે જમા કરેલી વસ્તુઓ:',accSim:'સિમ ટ્રે',accBack:'બેક કવર',accCharger:'ચાર્જર / એડેપ્ટર',accBag:'લેપટોપ બેગ',accDead:'બંધ / પાવર નથી',secDiagnosis:'3. ખામી તપાસ અને રિપેર અંદાજ / પાર્ટ્સ',chipDisplay:'+ ડિસ્પ્લે',chipBattery:'+ બેટરી બદલો',chipCharging:'+ ચાર્જિંગ જેક',chipBoard:'+ મધરબોર્ડ IC',chipLaptop:'+ SSD અને Windows',chipSoftware:'+ સોફ્ટવેર / OS',problemHeader:'સમસ્યા / બદલેલા પાર્ટનું વર્ણન',costHeader:'અંદાજ / ખર્ચ (₹)',addPart:'+ નવો પાર્ટ / સર્વિસ ચાર્જ ઉમેરો',secPayment:'4. ચુકવણી, એડવાન્સ અને વોરંટીની શરતો',advanceLabel:'જમા એડવાન્સ (₹)',warrantyLabel:'પાર્ટ વોરંટી',warrantyPh:'દા.ત. 3 મહિનાની ટેસ્ટિંગ વોરંટી',paymentLabel:'ચુકવણીની રીત',payUPI:'UPI / PhonePe / GPay',payCash:'રોકડ',payDelivery:'ડિલિવરી સમયે ચુકવણી',termsLabel:'શરતો અને ડેટા સૂચના',termsPh:'દા.ત. રિપેર દરમિયાન ડેટા ગુમાવવા માટે દુકાન જવાબદાર નથી. 30 દિવસમાં ડિવાઇસ લઈ જાઓ.',downloadPDF:'📥 A4 PDF ડાઉનલોડ',directPrint:'🖨️ સીધું પ્રિન્ટ',whatsapp:'📲 WhatsApp સ્લિપ',previewTitle:'લાઇવ જોબ શીટ / બિલ પ્રિવ્યૂ',customerReceipt:'ગ્રાહક રસીદ',deliveryBill:'ડિલિવરી અને વોરંટી બિલ',shopCopy:'ટેકનિશિયન / દુકાન નકલ',cutHere:'✂️ અહીંથી કાપો (ટેકનિશિયન / દુકાન નકલ)',jobToken:'જોબ ટોકન',receivedDate:'મેળવ્યાની તારીખ',deliveryShort:'ડિલિવરી',customerShort:'ગ્રાહક',deviceShort:'ડિવાઇસ',imeiShort:'IMEI / સિરિયલ નંબર',lockShort:'લોક / PIN',accessoriesShort:'સાથેની વસ્તુઓ',description:'ખામી / પાર્ટ / સેવા વર્ણન',charges:'ચાર્જ (₹)',total:'કુલ',advance:'એડવાન્સ',balance:'બાકી રકમ',warranty:'વોરંટી',terms:'શરતો',customerSign:'ગ્રાહકની સહી',techSign:'ટેકનિશિયન / અધિકૃત સહી',defaultWarranty:'ફિઝિકલ / લિક્વિડ નુકસાન પર વોરંટી નથી',defaultNotes:'રિપેર દરમિયાન ડેટા ગુમાવવા માટે દુકાન જવાબદાર નથી. ડિવાઇસ લેવા આ સ્લિપ બતાવો.',deviceOnly:'ફક્ત ડિવાઇસ',waTitle:'📱 રિપેર જોબ શીટ',waCenter:'સેન્ટર',waCustomer:'ગ્રાહક',waDevice:'ડિવાઇસ',waEstimate:'અંદાજ',waBalance:'બાકી રકમ',waGenerated:'KaamKaj Bills દ્વારા બનાવેલ.',generating:'⏳ PDF બની રહી છે…',remove:'દૂર કરો'},
+bn:{allTools:'← সব টুল',appTitle:'KaamKaj Bills • মোবাইল ও ইলেকট্রনিক্স মেরামত',languageLabel:'🌐 ভাষা নির্বাচন করুন',themeHelp:'এখান থেকে ডিসপ্লে মোড বদলান',darkMode:'🌙 ডার্ক মোড',lightMode:'☀️ লাইট মোড',modeLabel:'1. স্লিপের ধরন নির্বাচন করুন:',modeIntake:'📱 রিপেয়ার ইনটেক জব শিট (2 কপি)',modeDelivery:'🧾 চূড়ান্ত ডেলিভারি ও ওয়ারেন্টি বিল',secShop:'1. সার্ভিস সেন্টার / রিপেয়ার দোকানের বিবরণ',shopLabel:'দোকান / কেয়ার সেন্টারের নাম',shopPh:'যেমন TechCare Mobile & Laptop Service',addrLabel:'ঠিকানা ও হেল্পলাইন মোবাইল',addrPh:'যেমন দোকান নং 8, মেইন রোড | মোবাইল: 9000000000',secCustomer:'2. গ্রাহক ও ডিভাইসের তথ্য',jobLabel:'জব শিট / টোকেন নম্বর',dateLabel:'জমা দেওয়ার তারিখ',deliveryLabel:'সম্ভাব্য ডেলিভারি',deliveryPh:'যেমন আগামীকাল বিকেল 5টা',customerLabel:'গ্রাহকের নাম',customerPh:'যেমন রোহিত ভার্মা',phoneLabel:'মোবাইল / WhatsApp নম্বর',phonePh:'যেমন 9000012345',modelLabel:'ডিভাইস ব্র্যান্ড ও মডেল',modelPh:'যেমন Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / সিরিয়াল নম্বর',imeiPh:'যেমন 35892011XXXX',lockLabel:'স্ক্রিন লক / PIN (ঐচ্ছিক)',lockPh:'যেমন 2580 / নেই',accessoriesLabel:'সঙ্গে জমা দেওয়া জিনিস:',accSim:'সিম ট্রে',accBack:'ব্যাক কভার',accCharger:'চার্জার / অ্যাডাপ্টার',accBag:'ল্যাপটপ ব্যাগ',accDead:'বন্ধ / পাওয়ার নেই',secDiagnosis:'3. ত্রুটি পরীক্ষা ও রিপেয়ার অনুমান / যন্ত্রাংশ',chipDisplay:'+ ডিসপ্লে',chipBattery:'+ ব্যাটারি বদল',chipCharging:'+ চার্জিং জ্যাক',chipBoard:'+ মাদারবোর্ড IC',chipLaptop:'+ SSD ও Windows',chipSoftware:'+ সফটওয়্যার / OS',problemHeader:'সমস্যা / বদলানো যন্ত্রাংশের বিবরণ',costHeader:'অনুমান / খরচ (₹)',addPart:'+ নতুন পার্ট / সার্ভিস চার্জ যোগ করুন',secPayment:'4. পেমেন্ট, অগ্রিম ও ওয়ারেন্টির শর্ত',advanceLabel:'জমা অগ্রিম (₹)',warrantyLabel:'পার্ট ওয়ারেন্টি',warrantyPh:'যেমন 3 মাসের টেস্টিং ওয়ারেন্টি',paymentLabel:'পেমেন্টের পদ্ধতি',payUPI:'UPI / PhonePe / GPay',payCash:'নগদ',payDelivery:'ডেলিভারির সময় পেমেন্ট',termsLabel:'শর্ত ও ডেটা সংক্রান্ত ঘোষণা',termsPh:'যেমন মেরামতের সময় ডেটা হারালে দোকান দায়ী নয়। 30 দিনের মধ্যে ডিভাইস নিয়ে যান।',downloadPDF:'📥 A4 PDF ডাউনলোড',directPrint:'🖨️ সরাসরি প্রিন্ট',whatsapp:'📲 WhatsApp স্লিপ',previewTitle:'লাইভ জব শিট / বিল প্রিভিউ',customerReceipt:'গ্রাহকের রসিদ',deliveryBill:'ডেলিভারি ও ওয়ারেন্টি বিল',shopCopy:'টেকনিশিয়ান / দোকানের কপি',cutHere:'✂️ এখান থেকে কাটুন (টেকনিশিয়ান / দোকানের কপি)',jobToken:'জব টোকেন',receivedDate:'জমার তারিখ',deliveryShort:'ডেলিভারি',customerShort:'গ্রাহক',deviceShort:'ডিভাইস',imeiShort:'IMEI / সিরিয়াল নম্বর',lockShort:'লক / PIN',accessoriesShort:'সঙ্গে জমা জিনিস',description:'ত্রুটি / পার্ট / সার্ভিসের বিবরণ',charges:'চার্জ (₹)',total:'মোট',advance:'অগ্রিম',balance:'বাকি টাকা',warranty:'ওয়ারেন্টি',terms:'শর্ত',customerSign:'গ্রাহকের স্বাক্ষর',techSign:'টেকনিশিয়ান / অনুমোদিত স্বাক্ষর',defaultWarranty:'ফিজিক্যাল / লিকুইড ক্ষতিতে ওয়ারেন্টি নেই',defaultNotes:'মেরামতের সময় ডেটা হারালে দোকান দায়ী নয়। ডিভাইস নিতে এই স্লিপ দেখান।',deviceOnly:'শুধু ডিভাইস',waTitle:'📱 রিপেয়ার জব শিট',waCenter:'সেন্টার',waCustomer:'গ্রাহক',waDevice:'ডিভাইস',waEstimate:'অনুমান',waBalance:'বাকি টাকা',waGenerated:'KaamKaj Bills দিয়ে তৈরি।',generating:'⏳ PDF তৈরি হচ্ছে…',remove:'সরান'},
+ta:{allTools:'← அனைத்து கருவிகள்',appTitle:'KaamKaj Bills • மொபைல் மற்றும் மின்னணு பழுது',languageLabel:'🌐 மொழியைத் தேர்ந்தெடுக்கவும்',themeHelp:'இங்கே காட்சி முறையை மாற்றலாம்',darkMode:'🌙 இருண்ட முறை',lightMode:'☀️ ஒளி முறை',modeLabel:'1. ரசீது வகையைத் தேர்ந்தெடுக்கவும்:',modeIntake:'📱 பழுது பெறும் வேலைத் தாள் (2 நகல்கள்)',modeDelivery:'🧾 இறுதி ஒப்படைப்பு மற்றும் உத்தரவாத ரசீது',secShop:'1. சேவை மையம் / பழுது கடை விவரங்கள்',shopLabel:'கடை / சேவை மையத்தின் பெயர்',shopPh:'எ.கா. TechCare Mobile & Laptop Service',addrLabel:'முகவரி மற்றும் உதவி மொபைல்',addrPh:'எ.கா. கடை எண் 8, மெயின் ரோடு | மொபைல்: 9000000000',secCustomer:'2. வாடிக்கையாளர் மற்றும் சாதன விவரங்கள்',jobLabel:'வேலைத் தாள் / டோக்கன் எண்',dateLabel:'பெற்ற தேதி',deliveryLabel:'எதிர்பார்க்கப்படும் ஒப்படைப்பு',deliveryPh:'எ.கா. நாளை மாலை 5 மணி',customerLabel:'வாடிக்கையாளர் பெயர்',customerPh:'எ.கா. ரோஹித் வர்மா',phoneLabel:'மொபைல் / WhatsApp எண்',phonePh:'எ.கா. 9000012345',modelLabel:'சாதன பிராண்ட் மற்றும் மாடல்',modelPh:'எ.கா. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / வரிசை எண்',imeiPh:'எ.கா. 35892011XXXX',lockLabel:'திரை பூட்டு / PIN (விருப்பம்)',lockPh:'எ.கா. 2580 / இல்லை',accessoriesLabel:'உடன் பெறப்பட்ட பொருட்கள்:',accSim:'சிம் தட்டு',accBack:'பின் கவர்',accCharger:'சார்ஜர் / அடாப்டர்',accBag:'லேப்டாப் பை',accDead:'இயங்கவில்லை / மின்சாரம் இல்லை',secDiagnosis:'3. பழுது கண்டறிதல் மற்றும் மதிப்பீடு / பாகங்கள்',chipDisplay:'+ திரை',chipBattery:'+ பேட்டரி மாற்றம்',chipCharging:'+ சார்ஜிங் ஜாக்',chipBoard:'+ மதர்போர்டு IC',chipLaptop:'+ SSD மற்றும் Windows',chipSoftware:'+ மென்பொருள் / OS',problemHeader:'பிரச்சினை / மாற்றிய பாக விவரம்',costHeader:'மதிப்பீடு / செலவு (₹)',addPart:'+ புதிய பாகம் / சேவை கட்டணம் சேர்க்கவும்',secPayment:'4. கட்டணம், முன்பணம் மற்றும் உத்தரவாத நிபந்தனைகள்',advanceLabel:'செலுத்திய முன்பணம் (₹)',warrantyLabel:'பாக உத்தரவாதம்',warrantyPh:'எ.கா. 3 மாத சோதனை உத்தரவாதம்',paymentLabel:'கட்டண முறை',payUPI:'UPI / PhonePe / GPay',payCash:'ரொக்கம்',payDelivery:'ஒப்படைக்கும் போது கட்டணம்',termsLabel:'நிபந்தனைகள் மற்றும் தரவு அறிவிப்பு',termsPh:'எ.கா. பழுதுபார்ப்பின் போது தரவு இழப்புக்கு கடை பொறுப்பல்ல. 30 நாட்களுக்குள் சாதனத்தைப் பெறவும்.',downloadPDF:'📥 A4 PDF பதிவிறக்கம்',directPrint:'🖨️ நேரடி அச்சு',whatsapp:'📲 WhatsApp ரசீது',previewTitle:'நேரடி வேலைத் தாள் / ரசீது முன்னோட்டம்',customerReceipt:'வாடிக்கையாளர் ரசீது',deliveryBill:'ஒப்படைப்பு மற்றும் உத்தரவாத ரசீது',shopCopy:'தொழில்நுட்ப நிபுணர் / கடை நகல்',cutHere:'✂️ இங்கே வெட்டவும் (கடை நகல்)',jobToken:'வேலை டோக்கன்',receivedDate:'பெற்ற தேதி',deliveryShort:'ஒப்படைப்பு',customerShort:'வாடிக்கையாளர்',deviceShort:'சாதனம்',imeiShort:'IMEI / வரிசை எண்',lockShort:'பூட்டு / PIN',accessoriesShort:'உடன் பெற்றவை',description:'பழுது / பாகம் / சேவை விவரம்',charges:'கட்டணம் (₹)',total:'மொத்தம்',advance:'முன்பணம்',balance:'மீதித் தொகை',warranty:'உத்தரவாதம்',terms:'நிபந்தனைகள்',customerSign:'வாடிக்கையாளர் கையொப்பம்',techSign:'தொழில்நுட்ப / அங்கீகரிக்கப்பட்ட கையொப்பம்',defaultWarranty:'உடல் / திரவ சேதத்திற்கு உத்தரவாதம் இல்லை',defaultNotes:'பழுதுபார்க்கும் போது தரவு இழப்புக்கு கடை பொறுப்பல்ல. சாதனத்தைப் பெற இந்த ரசீதைக் காட்டவும்.',deviceOnly:'சாதனம் மட்டும்',waTitle:'📱 பழுது வேலைத் தாள்',waCenter:'மையம்',waCustomer:'வாடிக்கையாளர்',waDevice:'சாதனம்',waEstimate:'மதிப்பீடு',waBalance:'மீதித் தொகை',waGenerated:'KaamKaj Bills மூலம் உருவாக்கப்பட்டது.',generating:'⏳ PDF உருவாகிறது…',remove:'நீக்கு'},
+te:{allTools:'← అన్ని టూల్స్',appTitle:'KaamKaj Bills • మొబైల్ & ఎలక్ట్రానిక్స్ రిపేర్',languageLabel:'🌐 భాషను ఎంచుకోండి',themeHelp:'ఇక్కడ డిస్‌ప్లే మోడ్ మార్చండి',darkMode:'🌙 డార్క్ మోడ్',lightMode:'☀️ లైట్ మోడ్',modeLabel:'1. స్లిప్ రకాన్ని ఎంచుకోండి:',modeIntake:'📱 రిపేర్ ఇన్‌టేక్ జాబ్ షీట్ (2 కాపీలు)',modeDelivery:'🧾 తుది డెలివరీ & వారంటీ బిల్',secShop:'1. సర్వీస్ సెంటర్ / రిపేర్ షాప్ వివరాలు',shopLabel:'షాప్ / కేర్ సెంటర్ పేరు',shopPh:'ఉదా. TechCare Mobile & Laptop Service',addrLabel:'చిరునామా & హెల్ప్‌లైన్ మొబైల్',addrPh:'ఉదా. షాప్ నం. 8, మెయిన్ రోడ్ | మొబైల్: 9000000000',secCustomer:'2. కస్టమర్ & పరికర వివరాలు',jobLabel:'జాబ్ షీట్ / టోకెన్ నంబర్',dateLabel:'స్వీకరించిన తేదీ',deliveryLabel:'అంచనా డెలివరీ',deliveryPh:'ఉదా. రేపు సాయంత్రం 5 గంటలకు',customerLabel:'కస్టమర్ పేరు',customerPh:'ఉదా. రోహిత్ వర్మ',phoneLabel:'మొబైల్ / WhatsApp నంబర్',phonePh:'ఉదా. 9000012345',modelLabel:'పరికరం బ్రాండ్ & మోడల్',modelPh:'ఉదా. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / సీరియల్ నంబర్',imeiPh:'ఉదా. 35892011XXXX',lockLabel:'స్క్రీన్ లాక్ / PIN (ఐచ్ఛికం)',lockPh:'ఉదా. 2580 / లేదు',accessoriesLabel:'తో పాటు తీసుకున్న వస్తువులు:',accSim:'SIM ట్రే',accBack:'బ్యాక్ కవర్',accCharger:'ఛార్జర్ / అడాప్టర్',accBag:'ల్యాప్‌టాప్ బ్యాగ్',accDead:'పని చేయడం లేదు / పవర్ లేదు',secDiagnosis:'3. లోప నిర్ధారణ & రిపేర్ అంచనా / భాగాలు',chipDisplay:'+ డిస్‌ప్లే',chipBattery:'+ బ్యాటరీ మార్పు',chipCharging:'+ ఛార్జింగ్ జాక్',chipBoard:'+ మదర్‌బోర్డ్ IC',chipLaptop:'+ SSD & Windows',chipSoftware:'+ సాఫ్ట్‌వేర్ / OS',problemHeader:'సమస్య / మార్చిన భాగం వివరణ',costHeader:'అంచనా / ఖర్చు (₹)',addPart:'+ కొత్త భాగం / సర్వీస్ ఛార్జ్ జోడించండి',secPayment:'4. చెల్లింపు, అడ్వాన్స్ & వారంటీ నిబంధనలు',advanceLabel:'చెల్లించిన అడ్వాన్స్ (₹)',warrantyLabel:'పార్ట్ వారంటీ',warrantyPh:'ఉదా. 3 నెలల టెస్టింగ్ వారంటీ',paymentLabel:'చెల్లింపు విధానం',payUPI:'UPI / PhonePe / GPay',payCash:'నగదు',payDelivery:'డెలివరీ సమయంలో చెల్లింపు',termsLabel:'నిబంధనలు & డేటా ప్రకటన',termsPh:'ఉదా. రిపేర్ సమయంలో డేటా నష్టానికి షాప్ బాధ్యత వహించదు. 30 రోజుల్లో పరికరం తీసుకెళ్లండి.',downloadPDF:'📥 A4 PDF డౌన్‌లోడ్',directPrint:'🖨️ డైరెక్ట్ ప్రింట్',whatsapp:'📲 WhatsApp స్లిప్',previewTitle:'లైవ్ జాబ్ షీట్ / బిల్ ప్రివ్యూ',customerReceipt:'కస్టమర్ రసీదు',deliveryBill:'డెలివరీ & వారంటీ బిల్',shopCopy:'టెక్నీషియన్ / షాప్ కాపీ',cutHere:'✂️ ఇక్కడ కత్తిరించండి (షాప్ కాపీ)',jobToken:'జాబ్ టోకెన్',receivedDate:'స్వీకరించిన తేదీ',deliveryShort:'డెలివరీ',customerShort:'కస్టమర్',deviceShort:'పరికరం',imeiShort:'IMEI / సీరియల్ నంబర్',lockShort:'లాక్ / PIN',accessoriesShort:'తో వచ్చిన వస్తువులు',description:'లోపం / భాగం / సేవ వివరణ',charges:'ఛార్జీలు (₹)',total:'మొత్తం',advance:'అడ్వాన్స్',balance:'బాకీ మొత్తం',warranty:'వారంటీ',terms:'నిబంధనలు',customerSign:'కస్టమర్ సంతకం',techSign:'టెక్నీషియన్ / అధీకృత సంతకం',defaultWarranty:'ఫిజికల్ / లిక్విడ్ డ్యామేజ్‌పై వారంటీ లేదు',defaultNotes:'రిపేర్ సమయంలో డేటా నష్టానికి షాప్ బాధ్యత వహించదు. పరికరం తీసుకోవడానికి ఈ స్లిప్ చూపండి.',deviceOnly:'పరికరం మాత్రమే',waTitle:'📱 రిపేర్ జాబ్ షీట్',waCenter:'సెంటర్',waCustomer:'కస్టమర్',waDevice:'పరికరం',waEstimate:'అంచనా',waBalance:'బాకీ మొత్తం',waGenerated:'KaamKaj Bills ద్వారా రూపొందించబడింది.',generating:'⏳ PDF తయారవుతోంది…',remove:'తొలగించు'},
+kn:{allTools:'← ಎಲ್ಲಾ ಟೂಲ್ಸ್',appTitle:'KaamKaj Bills • ಮೊಬೈಲ್ ಮತ್ತು ಎಲೆಕ್ಟ್ರಾನಿಕ್ಸ್ ರಿಪೇರಿ',languageLabel:'🌐 ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',themeHelp:'ಇಲ್ಲಿಂದ ಪ್ರದರ್ಶನ ಮೋಡ್ ಬದಲಿಸಿ',darkMode:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',lightMode:'☀️ ಲೈಟ್ ಮೋಡ್',modeLabel:'1. ಸ್ಲಿಪ್ ಪ್ರಕಾರ ಆಯ್ಕೆಮಾಡಿ:',modeIntake:'📱 ರಿಪೇರಿ ಇನ್‌ಟೇಕ್ ಜಾಬ್ ಶೀಟ್ (2 ಪ್ರತಿಗಳು)',modeDelivery:'🧾 ಅಂತಿಮ ಡೆಲಿವರಿ ಮತ್ತು ವಾರಂಟಿ ಬಿಲ್',secShop:'1. ಸರ್ವಿಸ್ ಸೆಂಟರ್ / ರಿಪೇರಿ ಅಂಗಡಿ ವಿವರಗಳು',shopLabel:'ಅಂಗಡಿ / ಕೇರ್ ಸೆಂಟರ್ ಹೆಸರು',shopPh:'ಉದಾ. TechCare Mobile & Laptop Service',addrLabel:'ವಿಳಾಸ ಮತ್ತು ಸಹಾಯವಾಣಿ ಮೊಬೈಲ್',addrPh:'ಉದಾ. ಅಂಗಡಿ ಸಂಖ್ಯೆ 8, ಮುಖ್ಯ ರಸ್ತೆ | ಮೊಬೈಲ್: 9000000000',secCustomer:'2. ಗ್ರಾಹಕ ಮತ್ತು ಸಾಧನದ ಮಾಹಿತಿ',jobLabel:'ಜಾಬ್ ಶೀಟ್ / ಟೋಕನ್ ಸಂಖ್ಯೆ',dateLabel:'ಸ್ವೀಕರಿಸಿದ ದಿನಾಂಕ',deliveryLabel:'ನಿರೀಕ್ಷಿತ ಡೆಲಿವರಿ',deliveryPh:'ಉದಾ. ನಾಳೆ ಸಂಜೆ 5 ಗಂಟೆಗೆ',customerLabel:'ಗ್ರಾಹಕರ ಹೆಸರು',customerPh:'ಉದಾ. ರೋಹಿತ್ ವರ್ಮಾ',phoneLabel:'ಮೊಬೈಲ್ / WhatsApp ಸಂಖ್ಯೆ',phonePh:'ಉದಾ. 9000012345',modelLabel:'ಸಾಧನದ ಬ್ರ್ಯಾಂಡ್ ಮತ್ತು ಮಾದರಿ',modelPh:'ಉದಾ. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / ಸರಣಿ ಸಂಖ್ಯೆ',imeiPh:'ಉದಾ. 35892011XXXX',lockLabel:'ಸ್ಕ್ರೀನ್ ಲಾಕ್ / PIN (ಐಚ್ಛಿಕ)',lockPh:'ಉದಾ. 2580 / ಇಲ್ಲ',accessoriesLabel:'ಜೊತೆಗೆ ಸ್ವೀಕರಿಸಿದ ವಸ್ತುಗಳು:',accSim:'ಸಿಮ್ ಟ್ರೇ',accBack:'ಬ್ಯಾಕ್ ಕವರ್',accCharger:'ಚಾರ್ಜರ್ / ಅಡಾಪ್ಟರ್',accBag:'ಲ್ಯಾಪ್‌ಟಾಪ್ ಬ್ಯಾಗ್',accDead:'ಕೆಲಸ ಮಾಡುತ್ತಿಲ್ಲ / ಪವರ್ ಇಲ್ಲ',secDiagnosis:'3. ದೋಷ ಪತ್ತೆ ಮತ್ತು ರಿಪೇರಿ ಅಂದಾಜು / ಭಾಗಗಳು',chipDisplay:'+ ಡಿಸ್ಪ್ಲೇ',chipBattery:'+ ಬ್ಯಾಟರಿ ಬದಲಾವಣೆ',chipCharging:'+ ಚಾರ್ಜಿಂಗ್ ಜ್ಯಾಕ್',chipBoard:'+ ಮದರ್‌ಬೋರ್ಡ್ IC',chipLaptop:'+ SSD ಮತ್ತು Windows',chipSoftware:'+ ಸಾಫ್ಟ್‌ವೇರ್ / OS',problemHeader:'ಸಮಸ್ಯೆ / ಬದಲಿಸಿದ ಭಾಗದ ವಿವರಣೆ',costHeader:'ಅಂದಾಜು / ವೆಚ್ಚ (₹)',addPart:'+ ಹೊಸ ಭಾಗ / ಸೇವಾ ಶುಲ್ಕ ಸೇರಿಸಿ',secPayment:'4. ಪಾವತಿ, ಮುಂಗಡ ಮತ್ತು ವಾರಂಟಿ ನಿಯಮಗಳು',advanceLabel:'ಪಾವತಿಸಿದ ಮುಂಗಡ (₹)',warrantyLabel:'ಭಾಗದ ವಾರಂಟಿ',warrantyPh:'ಉದಾ. 3 ತಿಂಗಳ ಪರೀಕ್ಷಾ ವಾರಂಟಿ',paymentLabel:'ಪಾವತಿ ವಿಧಾನ',payUPI:'UPI / PhonePe / GPay',payCash:'ನಗದು',payDelivery:'ಡೆಲಿವರಿ ಸಮಯದಲ್ಲಿ ಪಾವತಿ',termsLabel:'ನಿಯಮಗಳು ಮತ್ತು ಡೇಟಾ ಸೂಚನೆ',termsPh:'ಉದಾ. ರಿಪೇರಿ ವೇಳೆ ಡೇಟಾ ನಷ್ಟಕ್ಕೆ ಅಂಗಡಿ ಜವಾಬ್ದಾರಿಯಲ್ಲ. 30 ದಿನಗಳಲ್ಲಿ ಸಾಧನ ಪಡೆಯಿರಿ.',downloadPDF:'📥 A4 PDF ಡೌನ್‌ಲೋಡ್',directPrint:'🖨️ ನೇರ ಪ್ರಿಂಟ್',whatsapp:'📲 WhatsApp ಸ್ಲಿಪ್',previewTitle:'ಲೈವ್ ಜಾಬ್ ಶೀಟ್ / ಬಿಲ್ ಪೂರ್ವವೀಕ್ಷಣೆ',customerReceipt:'ಗ್ರಾಹಕರ ರಸೀದಿ',deliveryBill:'ಡೆಲಿವರಿ ಮತ್ತು ವಾರಂಟಿ ಬಿಲ್',shopCopy:'ತಂತ್ರಜ್ಞ / ಅಂಗಡಿ ಪ್ರತಿ',cutHere:'✂️ ಇಲ್ಲಿ ಕತ್ತರಿಸಿ (ಅಂಗಡಿ ಪ್ರತಿ)',jobToken:'ಜಾಬ್ ಟೋಕನ್',receivedDate:'ಸ್ವೀಕರಿಸಿದ ದಿನಾಂಕ',deliveryShort:'ಡೆಲಿವರಿ',customerShort:'ಗ್ರಾಹಕ',deviceShort:'ಸಾಧನ',imeiShort:'IMEI / ಸರಣಿ ಸಂಖ್ಯೆ',lockShort:'ಲಾಕ್ / PIN',accessoriesShort:'ಜೊತೆಗೆ ಬಂದ ವಸ್ತುಗಳು',description:'ದೋಷ / ಭಾಗ / ಸೇವೆಯ ವಿವರಣೆ',charges:'ಶುಲ್ಕ (₹)',total:'ಒಟ್ಟು',advance:'ಮುಂಗಡ',balance:'ಬಾಕಿ ಮೊತ್ತ',warranty:'ವಾರಂಟಿ',terms:'ನಿಯಮಗಳು',customerSign:'ಗ್ರಾಹಕರ ಸಹಿ',techSign:'ತಂತ್ರಜ್ಞ / ಅಧಿಕೃತ ಸಹಿ',defaultWarranty:'ಭೌತಿಕ / ದ್ರವ ಹಾನಿಗೆ ವಾರಂಟಿ ಇಲ್ಲ',defaultNotes:'ರಿಪೇರಿ ವೇಳೆ ಡೇಟಾ ನಷ್ಟಕ್ಕೆ ಅಂಗಡಿ ಜವಾಬ್ದಾರಿಯಲ್ಲ. ಸಾಧನ ಪಡೆಯಲು ಈ ಸ್ಲಿಪ್ ತೋರಿಸಿ.',deviceOnly:'ಸಾಧನ ಮಾತ್ರ',waTitle:'📱 ರಿಪೇರಿ ಜಾಬ್ ಶೀಟ್',waCenter:'ಕೇಂದ್ರ',waCustomer:'ಗ್ರಾಹಕ',waDevice:'ಸಾಧನ',waEstimate:'ಅಂದಾಜು',waBalance:'ಬಾಕಿ ಮೊತ್ತ',waGenerated:'KaamKaj Bills ಮೂಲಕ ರಚಿಸಲಾಗಿದೆ.',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ…',remove:'ತೆಗೆದುಹಾಕಿ'},
+ml:{allTools:'← എല്ലാ ടൂളുകളും',appTitle:'KaamKaj Bills • മൊബൈൽ & ഇലക്ട്രോണിക്സ് റിപ്പയർ',languageLabel:'🌐 ഭാഷ തിരഞ്ഞെടുക്കുക',themeHelp:'ഇവിടെ നിന്ന് ഡിസ്പ്ലേ മോഡ് മാറ്റാം',darkMode:'🌙 ഡാർക്ക് മോഡ്',lightMode:'☀️ ലൈറ്റ് മോഡ്',modeLabel:'1. സ്ലിപ്പ് തരം തിരഞ്ഞെടുക്കുക:',modeIntake:'📱 റിപ്പയർ ഇൻടേക്ക് ജോബ് ഷീറ്റ് (2 പകർപ്പുകൾ)',modeDelivery:'🧾 അന്തിമ ഡെലിവറി & വാറന്റി ബിൽ',secShop:'1. സർവീസ് സെന്റർ / റിപ്പയർ ഷോപ്പ് വിവരങ്ങൾ',shopLabel:'ഷോപ്പ് / കെയർ സെന്റർ പേര്',shopPh:'ഉദാ. TechCare Mobile & Laptop Service',addrLabel:'വിലാസം & ഹെൽപ്‌ലൈൻ മൊബൈൽ',addrPh:'ഉദാ. ഷോപ്പ് നമ്പർ 8, മെയിൻ റോഡ് | മൊബൈൽ: 9000000000',secCustomer:'2. ഉപഭോക്താവിന്റെയും ഉപകരണത്തിന്റെയും വിവരങ്ങൾ',jobLabel:'ജോബ് ഷീറ്റ് / ടോക്കൺ നമ്പർ',dateLabel:'ലഭിച്ച തീയതി',deliveryLabel:'പ്രതീക്ഷിക്കുന്ന ഡെലിവറി',deliveryPh:'ഉദാ. നാളെ വൈകിട്ട് 5 മണിക്ക്',customerLabel:'ഉപഭോക്താവിന്റെ പേര്',customerPh:'ഉദാ. രോഹിത് വർമ്മ',phoneLabel:'മൊബൈൽ / WhatsApp നമ്പർ',phonePh:'ഉദാ. 9000012345',modelLabel:'ഉപകരണ ബ്രാൻഡ് & മോഡൽ',modelPh:'ഉദാ. Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / സീരിയൽ നമ്പർ',imeiPh:'ഉദാ. 35892011XXXX',lockLabel:'സ്ക്രീൻ ലോക്ക് / PIN (ഓപ്ഷണൽ)',lockPh:'ഉദാ. 2580 / ഇല്ല',accessoriesLabel:'കൂടെ ലഭിച്ച സാധനങ്ങൾ:',accSim:'സിം ട്രേ',accBack:'ബാക്ക് കവർ',accCharger:'ചാർജർ / അഡാപ്റ്റർ',accBag:'ലാപ്ടോപ്പ് ബാഗ്',accDead:'പ്രവർത്തിക്കുന്നില്ല / പവർ ഇല്ല',secDiagnosis:'3. തകരാർ പരിശോധനയും റിപ്പയർ എസ്റ്റിമേറ്റും / പാർട്സും',chipDisplay:'+ ഡിസ്പ്ലേ',chipBattery:'+ ബാറ്ററി മാറ്റം',chipCharging:'+ ചാർജിംഗ് ജാക്ക്',chipBoard:'+ മദർബോർഡ് IC',chipLaptop:'+ SSD & Windows',chipSoftware:'+ സോഫ്റ്റ്‌വെയർ / OS',problemHeader:'പ്രശ്നം / മാറ്റിയ പാർട്ടിന്റെ വിവരണം',costHeader:'എസ്റ്റിമേറ്റ് / ചെലവ് (₹)',addPart:'+ പുതിയ പാർട്ട് / സർവീസ് ചാർജ് ചേർക്കുക',secPayment:'4. പേയ്മെന്റ്, അഡ്വാൻസ് & വാറന്റി നിബന്ധനകൾ',advanceLabel:'നൽകിയ അഡ്വാൻസ് (₹)',warrantyLabel:'പാർട്ട് വാറന്റി',warrantyPh:'ഉദാ. 3 മാസത്തെ ടെസ്റ്റിംഗ് വാറന്റി',paymentLabel:'പേയ്മെന്റ് രീതി',payUPI:'UPI / PhonePe / GPay',payCash:'പണം',payDelivery:'ഡെലിവറി സമയത്ത് പേയ്മെന്റ്',termsLabel:'നിബന്ധനകളും ഡാറ്റാ അറിയിപ്പും',termsPh:'ഉദാ. റിപ്പയറിനിടെ ഡാറ്റ നഷ്ടപ്പെട്ടാൽ ഷോപ്പ് ഉത്തരവാദിയല്ല. 30 ദിവസത്തിനകം ഉപകരണം വാങ്ങുക.',downloadPDF:'📥 A4 PDF ഡൗൺലോഡ്',directPrint:'🖨️ നേരിട്ട് പ്രിന്റ്',whatsapp:'📲 WhatsApp സ്ലിപ്പ്',previewTitle:'ലൈവ് ജോബ് ഷീറ്റ് / ബിൽ പ്രിവ്യൂ',customerReceipt:'ഉപഭോക്തൃ രസീത്',deliveryBill:'ഡെലിവറി & വാറന്റി ബിൽ',shopCopy:'ടെക്നീഷ്യൻ / ഷോപ്പ് കോപ്പി',cutHere:'✂️ ഇവിടെ മുറിക്കുക (ഷോപ്പ് കോപ്പി)',jobToken:'ജോബ് ടോക്കൺ',receivedDate:'ലഭിച്ച തീയതി',deliveryShort:'ഡെലിവറി',customerShort:'ഉപഭോക്താവ്',deviceShort:'ഉപകരണം',imeiShort:'IMEI / സീരിയൽ നമ്പർ',lockShort:'ലോക്ക് / PIN',accessoriesShort:'കൂടെ ലഭിച്ച സാധനങ്ങൾ',description:'തകരാർ / പാർട്ട് / സേവന വിവരണം',charges:'ചാർജ് (₹)',total:'ആകെ',advance:'അഡ്വാൻസ്',balance:'ബാക്കി തുക',warranty:'വാറന്റി',terms:'നിബന്ധനകൾ',customerSign:'ഉപഭോക്താവിന്റെ ഒപ്പ്',techSign:'ടെക്നീഷ്യൻ / അംഗീകൃത ഒപ്പ്',defaultWarranty:'ഫിസിക്കൽ / ലിക്വിഡ് കേടുപാടുകൾക്ക് വാറന്റിയില്ല',defaultNotes:'റിപ്പയറിനിടെ ഡാറ്റ നഷ്ടപ്പെട്ടാൽ ഷോപ്പ് ഉത്തരവാദിയല്ല. ഉപകരണം വാങ്ങാൻ ഈ സ്ലിപ്പ് കാണിക്കുക.',deviceOnly:'ഉപകരണം മാത്രം',waTitle:'📱 റിപ്പയർ ജോബ് ഷീറ്റ്',waCenter:'സെന്റർ',waCustomer:'ഉപഭോക്താവ്',waDevice:'ഉപകരണം',waEstimate:'എസ്റ്റിമേറ്റ്',waBalance:'ബാക്കി തുക',waGenerated:'KaamKaj Bills വഴി സൃഷ്ടിച്ചത്.',generating:'⏳ PDF തയ്യാറാക്കുന്നു…',remove:'നീക്കം ചെയ്യുക'},
+pa:{allTools:'← ਸਾਰੇ ਟੂਲ',appTitle:'KaamKaj Bills • ਮੋਬਾਈਲ ਅਤੇ ਇਲੈਕਟ੍ਰਾਨਿਕਸ ਰਿਪੇਅਰ',languageLabel:'🌐 ਭਾਸ਼ਾ ਚੁਣੋ',themeHelp:'ਇੱਥੋਂ ਡਿਸਪਲੇ ਮੋਡ ਬਦਲੋ',darkMode:'🌙 ਡਾਰਕ ਮੋਡ',lightMode:'☀️ ਲਾਈਟ ਮੋਡ',modeLabel:'1. ਸਲਿੱਪ ਦੀ ਕਿਸਮ ਚੁਣੋ:',modeIntake:'📱 ਰਿਪੇਅਰ ਇਨਟੇਕ ਜੌਬ ਸ਼ੀਟ (2 ਕਾਪੀਆਂ)',modeDelivery:'🧾 ਅੰਤਿਮ ਡਿਲਿਵਰੀ ਅਤੇ ਵਾਰੰਟੀ ਬਿੱਲ',secShop:'1. ਸਰਵਿਸ ਸੈਂਟਰ / ਰਿਪੇਅਰ ਦੁਕਾਨ ਦੇ ਵੇਰਵੇ',shopLabel:'ਦੁਕਾਨ / ਕੇਅਰ ਸੈਂਟਰ ਦਾ ਨਾਮ',shopPh:'ਜਿਵੇਂ TechCare Mobile & Laptop Service',addrLabel:'ਪਤਾ ਅਤੇ ਹੈਲਪਲਾਈਨ ਮੋਬਾਈਲ',addrPh:'ਜਿਵੇਂ ਦੁਕਾਨ ਨੰ. 8, ਮੇਨ ਰੋਡ | ਮੋਬਾਈਲ: 9000000000',secCustomer:'2. ਗਾਹਕ ਅਤੇ ਡਿਵਾਈਸ ਦੀ ਜਾਣਕਾਰੀ',jobLabel:'ਜੌਬ ਸ਼ੀਟ / ਟੋਕਨ ਨੰਬਰ',dateLabel:'ਮਿਲਣ ਦੀ ਤਾਰੀਖ',deliveryLabel:'ਅੰਦਾਜ਼ਨ ਡਿਲਿਵਰੀ',deliveryPh:'ਜਿਵੇਂ ਕੱਲ੍ਹ ਸ਼ਾਮ 5 ਵਜੇ',customerLabel:'ਗਾਹਕ ਦਾ ਨਾਮ',customerPh:'ਜਿਵੇਂ ਰੋਹਿਤ ਵਰਮਾ',phoneLabel:'ਮੋਬਾਈਲ / WhatsApp ਨੰਬਰ',phonePh:'ਜਿਵੇਂ 9000012345',modelLabel:'ਡਿਵਾਈਸ ਬ੍ਰਾਂਡ ਅਤੇ ਮਾਡਲ',modelPh:'ਜਿਵੇਂ Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / ਸੀਰੀਅਲ ਨੰਬਰ',imeiPh:'ਜਿਵੇਂ 35892011XXXX',lockLabel:'ਸਕ੍ਰੀਨ ਲੌਕ / PIN (ਵਿਕਲਪਿਕ)',lockPh:'ਜਿਵੇਂ 2580 / ਨਹੀਂ',accessoriesLabel:'ਨਾਲ ਜਮ੍ਹਾਂ ਕਰਵਾਇਆ ਸਮਾਨ:',accSim:'ਸਿਮ ਟਰੇ',accBack:'ਬੈਕ ਕਵਰ',accCharger:'ਚਾਰਜਰ / ਅਡੈਪਟਰ',accBag:'ਲੈਪਟਾਪ ਬੈਗ',accDead:'ਬੰਦ / ਪਾਵਰ ਨਹੀਂ',secDiagnosis:'3. ਖ਼ਰਾਬੀ ਜਾਂਚ ਅਤੇ ਰਿਪੇਅਰ ਅੰਦਾਜ਼ਾ / ਪਾਰਟਸ',chipDisplay:'+ ਡਿਸਪਲੇ',chipBattery:'+ ਬੈਟਰੀ ਬਦਲੋ',chipCharging:'+ ਚਾਰਜਿੰਗ ਜੈਕ',chipBoard:'+ ਮਦਰਬੋਰਡ IC',chipLaptop:'+ SSD ਅਤੇ Windows',chipSoftware:'+ ਸਾਫਟਵੇਅਰ / OS',problemHeader:'ਸਮੱਸਿਆ / ਬਦਲੇ ਪਾਰਟ ਦਾ ਵੇਰਵਾ',costHeader:'ਅੰਦਾਜ਼ਾ / ਲਾਗਤ (₹)',addPart:'+ ਨਵਾਂ ਪਾਰਟ / ਸਰਵਿਸ ਚਾਰਜ ਜੋੜੋ',secPayment:'4. ਭੁਗਤਾਨ, ਅਡਵਾਂਸ ਅਤੇ ਵਾਰੰਟੀ ਦੀਆਂ ਸ਼ਰਤਾਂ',advanceLabel:'ਜਮ੍ਹਾਂ ਅਡਵਾਂਸ (₹)',warrantyLabel:'ਪਾਰਟ ਵਾਰੰਟੀ',warrantyPh:'ਜਿਵੇਂ 3 ਮਹੀਨੇ ਦੀ ਟੈਸਟਿੰਗ ਵਾਰੰਟੀ',paymentLabel:'ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ',payUPI:'UPI / PhonePe / GPay',payCash:'ਨਕਦ',payDelivery:'ਡਿਲਿਵਰੀ ਵੇਲੇ ਭੁਗਤਾਨ',termsLabel:'ਸ਼ਰਤਾਂ ਅਤੇ ਡਾਟਾ ਬਾਰੇ ਸੂਚਨਾ',termsPh:'ਜਿਵੇਂ ਰਿਪੇਅਰ ਦੌਰਾਨ ਡਾਟਾ ਗੁੰਮਣ ਲਈ ਦੁਕਾਨ ਜ਼ਿੰਮੇਵਾਰ ਨਹੀਂ। 30 ਦਿਨਾਂ ਵਿੱਚ ਡਿਵਾਈਸ ਲੈ ਜਾਓ।',downloadPDF:'📥 A4 PDF ਡਾਊਨਲੋਡ',directPrint:'🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ',whatsapp:'📲 WhatsApp ਸਲਿੱਪ',previewTitle:'ਲਾਈਵ ਜੌਬ ਸ਼ੀਟ / ਬਿੱਲ ਪ੍ਰੀਵਿਊ',customerReceipt:'ਗਾਹਕ ਦੀ ਰਸੀਦ',deliveryBill:'ਡਿਲਿਵਰੀ ਅਤੇ ਵਾਰੰਟੀ ਬਿੱਲ',shopCopy:'ਟੈਕਨੀਸ਼ੀਅਨ / ਦੁਕਾਨ ਕਾਪੀ',cutHere:'✂️ ਇੱਥੋਂ ਕੱਟੋ (ਦੁਕਾਨ ਕਾਪੀ)',jobToken:'ਜੌਬ ਟੋਕਨ',receivedDate:'ਮਿਲਣ ਦੀ ਤਾਰੀਖ',deliveryShort:'ਡਿਲਿਵਰੀ',customerShort:'ਗਾਹਕ',deviceShort:'ਡਿਵਾਈਸ',imeiShort:'IMEI / ਸੀਰੀਅਲ ਨੰਬਰ',lockShort:'ਲੌਕ / PIN',accessoriesShort:'ਨਾਲ ਜਮ੍ਹਾਂ ਸਮਾਨ',description:'ਖ਼ਰਾਬੀ / ਪਾਰਟ / ਸੇਵਾ ਦਾ ਵੇਰਵਾ',charges:'ਚਾਰਜ (₹)',total:'ਕੁੱਲ',advance:'ਅਡਵਾਂਸ',balance:'ਬਾਕੀ ਰਕਮ',warranty:'ਵਾਰੰਟੀ',terms:'ਸ਼ਰਤਾਂ',customerSign:'ਗਾਹਕ ਦੇ ਦਸਤਖ਼ਤ',techSign:'ਟੈਕਨੀਸ਼ੀਅਨ / ਅਧਿਕਾਰਤ ਦਸਤਖ਼ਤ',defaultWarranty:'ਫਿਜ਼ੀਕਲ / ਤਰਲ ਨੁਕਸਾਨ ਉੱਤੇ ਵਾਰੰਟੀ ਨਹੀਂ',defaultNotes:'ਰਿਪੇਅਰ ਦੌਰਾਨ ਡਾਟਾ ਗੁੰਮਣ ਲਈ ਦੁਕਾਨ ਜ਼ਿੰਮੇਵਾਰ ਨਹੀਂ। ਡਿਵਾਈਸ ਲੈਣ ਲਈ ਇਹ ਸਲਿੱਪ ਦਿਖਾਓ।',deviceOnly:'ਸਿਰਫ਼ ਡਿਵਾਈਸ',waTitle:'📱 ਰਿਪੇਅਰ ਜੌਬ ਸ਼ੀਟ',waCenter:'ਸੈਂਟਰ',waCustomer:'ਗਾਹਕ',waDevice:'ਡਿਵਾਈਸ',waEstimate:'ਅੰਦਾਜ਼ਾ',waBalance:'ਬਾਕੀ ਰਕਮ',waGenerated:'KaamKaj Bills ਰਾਹੀਂ ਬਣਾਇਆ ਗਿਆ।',generating:'⏳ PDF ਬਣ ਰਹੀ ਹੈ…',remove:'ਹਟਾਓ'},
+or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',appTitle:'KaamKaj Bills • ମୋବାଇଲ୍ ଏବଂ ଇଲେକ୍ଟ୍ରୋନିକ୍ସ ମରାମତି',languageLabel:'🌐 ଭାଷା ବାଛନ୍ତୁ',themeHelp:'ଏଠାରୁ ଡିସପ୍ଲେ ମୋଡ୍ ବଦଳାନ୍ତୁ',darkMode:'🌙 ଡାର୍କ ମୋଡ୍',lightMode:'☀️ ଲାଇଟ୍ ମୋଡ୍',modeLabel:'1. ସ୍ଲିପ୍ ପ୍ରକାର ବାଛନ୍ତୁ:',modeIntake:'📱 ରିପେୟାର ଇନଟେକ୍ ଜବ୍ ସିଟ୍ (2 କପି)',modeDelivery:'🧾 ଅନ୍ତିମ ଡେଲିଭରି ଏବଂ ୱାରେଣ୍ଟି ବିଲ୍',secShop:'1. ସର୍ଭିସ୍ ସେଣ୍ଟର / ରିପେୟାର ଦୋକାନ ବିବରଣୀ',shopLabel:'ଦୋକାନ / କେୟାର ସେଣ୍ଟର ନାମ',shopPh:'ଉଦାହରଣ TechCare Mobile & Laptop Service',addrLabel:'ଠିକଣା ଏବଂ ହେଲ୍ପଲାଇନ୍ ମୋବାଇଲ୍',addrPh:'ଉଦାହରଣ ଦୋକାନ ନଂ. 8, ମୁଖ୍ୟ ରାସ୍ତା | ମୋବାଇଲ୍: 9000000000',secCustomer:'2. ଗ୍ରାହକ ଏବଂ ଡିଭାଇସ୍ ସୂଚନା',jobLabel:'ଜବ୍ ସିଟ୍ / ଟୋକେନ୍ ନମ୍ବର',dateLabel:'ଗ୍ରହଣ ତାରିଖ',deliveryLabel:'ଅନୁମାନିତ ଡେଲିଭରି',deliveryPh:'ଉଦାହରଣ ଆସନ୍ତାକାଲି ସନ୍ଧ୍ୟା 5ଟା',customerLabel:'ଗ୍ରାହକଙ୍କ ନାମ',customerPh:'ଉଦାହରଣ ରୋହିତ ବର୍ମା',phoneLabel:'ମୋବାଇଲ୍ / WhatsApp ନମ୍ବର',phonePh:'ଉଦାହରଣ 9000012345',modelLabel:'ଡିଭାଇସ୍ ବ୍ରାଣ୍ଡ ଏବଂ ମଡେଲ୍',modelPh:'ଉଦାହରଣ Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / ସିରିଏଲ୍ ନମ୍ବର',imeiPh:'ଉଦାହରଣ 35892011XXXX',lockLabel:'ସ୍କ୍ରିନ୍ ଲକ୍ / PIN (ଇଚ୍ଛାଧୀନ)',lockPh:'ଉଦାହରଣ 2580 / ନାହିଁ',accessoriesLabel:'ସହିତ ଜମା ହୋଇଥିବା ସାମଗ୍ରୀ:',accSim:'SIM ଟ୍ରେ',accBack:'ବ୍ୟାକ୍ କଭର୍',accCharger:'ଚାର୍ଜର୍ / ଆଡାପ୍ଟର୍',accBag:'ଲ୍ୟାପଟପ୍ ବ୍ୟାଗ୍',accDead:'ଚାଲୁ ନାହିଁ / ପାୱାର୍ ନାହିଁ',secDiagnosis:'3. ତ୍ରୁଟି ଯାଞ୍ଚ ଏବଂ ମରାମତି ଅନୁମାନ / ପାର୍ଟସ୍',chipDisplay:'+ ଡିସପ୍ଲେ',chipBattery:'+ ବ୍ୟାଟେରୀ ବଦଳ',chipCharging:'+ ଚାର୍ଜିଂ ଜ୍ୟାକ୍',chipBoard:'+ ମଦରବୋର୍ଡ IC',chipLaptop:'+ SSD ଏବଂ Windows',chipSoftware:'+ ସଫ୍ଟୱେର୍ / OS',problemHeader:'ସମସ୍ୟା / ବଦଳାଯାଇଥିବା ପାର୍ଟ ବିବରଣୀ',costHeader:'ଅନୁମାନ / ଖର୍ଚ୍ଚ (₹)',addPart:'+ ନୂଆ ପାର୍ଟ / ସର୍ଭିସ୍ ଚାର୍ଜ ଯୋଡନ୍ତୁ',secPayment:'4. ପେମେଣ୍ଟ, ଅଗ୍ରିମ ଏବଂ ୱାରେଣ୍ଟି ସର୍ତ୍ତ',advanceLabel:'ଜମା ଅଗ୍ରିମ (₹)',warrantyLabel:'ପାର୍ଟ ୱାରେଣ୍ଟି',warrantyPh:'ଉଦାହରଣ 3 ମାସ ଟେଷ୍ଟିଂ ୱାରେଣ୍ଟି',paymentLabel:'ପେମେଣ୍ଟ ମୋଡ୍',payUPI:'UPI / PhonePe / GPay',payCash:'ନଗଦ',payDelivery:'ଡେଲିଭରି ସମୟରେ ପେମେଣ୍ଟ',termsLabel:'ସର୍ତ୍ତ ଏବଂ ଡାଟା ସୂଚନା',termsPh:'ଉଦାହରଣ ମରାମତି ସମୟରେ ଡାଟା ହାନି ପାଇଁ ଦୋକାନ ଦାୟୀ ନୁହେଁ। 30 ଦିନ ମଧ୍ୟରେ ଡିଭାଇସ୍ ନିଅନ୍ତୁ।',downloadPDF:'📥 A4 PDF ଡାଉନଲୋଡ୍',directPrint:'🖨️ ସିଧା ପ୍ରିଣ୍ଟ',whatsapp:'📲 WhatsApp ସ୍ଲିପ୍',previewTitle:'ଲାଇଭ୍ ଜବ୍ ସିଟ୍ / ବିଲ୍ ପ୍ରିଭ୍ୟୁ',customerReceipt:'ଗ୍ରାହକ ରସିଦ',deliveryBill:'ଡେଲିଭରି ଏବଂ ୱାରେଣ୍ଟି ବିଲ୍',shopCopy:'ଟେକ୍ନିସିଆନ୍ / ଦୋକାନ କପି',cutHere:'✂️ ଏଠାରୁ କାଟନ୍ତୁ (ଦୋକାନ କପି)',jobToken:'ଜବ୍ ଟୋକେନ୍',receivedDate:'ଗ୍ରହଣ ତାରିଖ',deliveryShort:'ଡେଲିଭରି',customerShort:'ଗ୍ରାହକ',deviceShort:'ଡିଭାଇସ୍',imeiShort:'IMEI / ସିରିଏଲ୍ ନମ୍ବର',lockShort:'ଲକ୍ / PIN',accessoriesShort:'ସହିତ ମିଳିଥିବା ସାମଗ୍ରୀ',description:'ତ୍ରୁଟି / ପାର୍ଟ / ସେବା ବିବରଣୀ',charges:'ଚାର୍ଜ (₹)',total:'ମୋଟ',advance:'ଅଗ୍ରିମ',balance:'ବାକି ରାଶି',warranty:'ୱାରେଣ୍ଟି',terms:'ସର୍ତ୍ତ',customerSign:'ଗ୍ରାହକଙ୍କ ଦସ୍ତଖତ',techSign:'ଟେକ୍ନିସିଆନ୍ / ଅଧିକୃତ ଦସ୍ତଖତ',defaultWarranty:'ଫିଜିକାଲ୍ / ଲିକ୍ୱିଡ୍ କ୍ଷତି ପାଇଁ ୱାରେଣ୍ଟି ନାହିଁ',defaultNotes:'ମରାମତି ସମୟରେ ଡାଟା ହାନି ପାଇଁ ଦୋକାନ ଦାୟୀ ନୁହେଁ। ଡିଭାଇସ୍ ନେବାକୁ ଏହି ସ୍ଲିପ୍ ଦେଖାନ୍ତୁ।',deviceOnly:'କେବଳ ଡିଭାଇସ୍',waTitle:'📱 ରିପେୟାର ଜବ୍ ସିଟ୍',waCenter:'ସେଣ୍ଟର୍',waCustomer:'ଗ୍ରାହକ',waDevice:'ଡିଭାଇସ୍',waEstimate:'ଅନୁମାନ',waBalance:'ବାକି ରାଶି',waGenerated:'KaamKaj Bills ଦ୍ୱାରା ତିଆରି।',generating:'⏳ PDF ତିଆରି ହେଉଛି…',remove:'ହଟାନ୍ତୁ'},
+ur:{allTools:'تمام ٹولز ←',appTitle:'KaamKaj Bills • موبائل اور الیکٹرانکس مرمت',languageLabel:'🌐 زبان منتخب کریں',themeHelp:'یہاں سے ڈسپلے موڈ تبدیل کریں',darkMode:'🌙 ڈارک موڈ',lightMode:'☀️ لائٹ موڈ',modeLabel:'1. سلپ کی قسم منتخب کریں:',modeIntake:'📱 مرمت انٹیک جاب شیٹ (2 کاپیاں)',modeDelivery:'🧾 حتمی ڈیلیوری اور وارنٹی بل',secShop:'1. سروس سینٹر / مرمت کی دکان کی تفصیلات',shopLabel:'دکان / کیئر سینٹر کا نام',shopPh:'مثلاً TechCare Mobile & Laptop Service',addrLabel:'پتہ اور ہیلپ لائن موبائل',addrPh:'مثلاً دکان نمبر 8، مین روڈ | موبائل: 9000000000',secCustomer:'2. کسٹمر اور ڈیوائس کی معلومات',jobLabel:'جاب شیٹ / ٹوکن نمبر',dateLabel:'موصول ہونے کی تاریخ',deliveryLabel:'متوقع ڈیلیوری',deliveryPh:'مثلاً کل شام 5 بجے',customerLabel:'کسٹمر کا نام',customerPh:'مثلاً روہت ورما',phoneLabel:'موبائل / WhatsApp نمبر',phonePh:'مثلاً 9000012345',modelLabel:'ڈیوائس برانڈ اور ماڈل',modelPh:'مثلاً Samsung Galaxy / Dell Laptop',imeiLabel:'IMEI / سیریل نمبر',imeiPh:'مثلاً 35892011XXXX',lockLabel:'اسکرین لاک / PIN (اختیاری)',lockPh:'مثلاً 2580 / نہیں',accessoriesLabel:'ساتھ جمع کرائی گئی اشیاء:',accSim:'سم ٹرے',accBack:'بیک کور',accCharger:'چارجر / اڈاپٹر',accBag:'لیپ ٹاپ بیگ',accDead:'بند / پاور نہیں',secDiagnosis:'3. خرابی کی جانچ اور مرمت کا تخمینہ / پرزے',chipDisplay:'+ ڈسپلے',chipBattery:'+ بیٹری تبدیلی',chipCharging:'+ چارجنگ جیک',chipBoard:'+ مدر بورڈ IC',chipLaptop:'+ SSD اور Windows',chipSoftware:'+ سافٹ ویئر / OS',problemHeader:'مسئلہ / تبدیل شدہ پرزے کی تفصیل',costHeader:'تخمینہ / لاگت (₹)',addPart:'+ نیا پرزہ / سروس چارج شامل کریں',secPayment:'4. ادائیگی، ایڈوانس اور وارنٹی کی شرائط',advanceLabel:'جمع ایڈوانس (₹)',warrantyLabel:'پرزے کی وارنٹی',warrantyPh:'مثلاً 3 ماہ کی ٹیسٹنگ وارنٹی',paymentLabel:'ادائیگی کا طریقہ',payUPI:'UPI / PhonePe / GPay',payCash:'نقد',payDelivery:'ڈیلیوری پر ادائیگی',termsLabel:'شرائط اور ڈیٹا سے متعلق اعلان',termsPh:'مثلاً مرمت کے دوران ڈیٹا ضائع ہونے کی ذمہ داری دکان کی نہیں۔ 30 دن میں ڈیوائس لے جائیں۔',downloadPDF:'📥 A4 PDF ڈاؤن لوڈ',directPrint:'🖨️ براہ راست پرنٹ',whatsapp:'📲 WhatsApp سلپ',previewTitle:'لائیو جاب شیٹ / بل پری ویو',customerReceipt:'کسٹمر رسید',deliveryBill:'ڈیلیوری اور وارنٹی بل',shopCopy:'ٹیکنیشن / دکان کی کاپی',cutHere:'✂️ یہاں سے کاٹیں (دکان کی کاپی)',jobToken:'جاب ٹوکن',receivedDate:'موصول ہونے کی تاریخ',deliveryShort:'ڈیلیوری',customerShort:'کسٹمر',deviceShort:'ڈیوائس',imeiShort:'IMEI / سیریل نمبر',lockShort:'لاک / PIN',accessoriesShort:'ساتھ موصول اشیاء',description:'خرابی / پرزہ / سروس کی تفصیل',charges:'چارجز (₹)',total:'کل رقم',advance:'ایڈوانس',balance:'بقایا رقم',warranty:'وارنٹی',terms:'شرائط',customerSign:'کسٹمر کے دستخط',techSign:'ٹیکنیشن / مجاز دستخط',defaultWarranty:'فزیکل / لیکوئڈ نقصان پر وارنٹی نہیں',defaultNotes:'مرمت کے دوران ڈیٹا ضائع ہونے کی ذمہ داری دکان کی نہیں۔ ڈیوائس لینے کے لیے یہ سلپ دکھائیں۔',deviceOnly:'صرف ڈیوائس',waTitle:'📱 مرمت جاب شیٹ',waCenter:'سینٹر',waCustomer:'کسٹمر',waDevice:'ڈیوائس',waEstimate:'تخمینہ',waBalance:'بقایا رقم',waGenerated:'KaamKaj Bills کے ذریعے تیار کردہ۔',generating:'⏳ PDF تیار ہو رہی ہے…',remove:'ہٹائیں'}
+};
 
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.getElementById('btnTheme').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-    try { localStorage.setItem('kkb_repair_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-  }
+let mode='INTAKE';
+let curLang='hi';
+let items=[{desc:'Display Folder Replacement (Original Quality)',rate:2400}];
+const ACCESSORY_KEYS={'SIM Tray':'accSim','Back Cover':'accBack','Charger / Adapter':'accCharger','Laptop Bag':'accBag','Dead / No Power Condition':'accDead'};
+const $=id=>document.getElementById(id);
+const t=key=>(I18N[curLang]||I18N.hi)[key]||I18N.en[key]||key;
+function esc(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function money(value){return (Number(value)||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function applyLanguage(){
+  document.documentElement.lang=curLang;
+  document.documentElement.dir=curLang==='ur'?'rtl':'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const key=el.getAttribute('data-i18n');if(t(key))el.textContent=t(key);});
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.placeholder=t(el.getAttribute('data-i18n-placeholder'));});
+  $('btnTheme').textContent=document.body.classList.contains('dark-mode')?t('lightMode'):t('darkMode');
+  $('btnIntake').textContent=t('modeIntake');$('btnDelivery').textContent=t('modeDelivery');
+  document.querySelector('#in_mode option[value="UPI / Online"]').textContent=t('payUPI');
+  document.querySelector('#in_mode option[value="CASH"]').textContent=t('payCash');
+  document.querySelector('#in_mode option[value="Pay on Delivery"]').textContent=t('payDelivery');
+  renderInputRows();renderDoc();
+}
+function changeLanguage(lang){curLang=I18N[lang]?lang:'hi';try{localStorage.setItem('kkb_repair_lang',curLang);}catch(e){}applyLanguage();}
+function toggleTheme(){const isDark=document.body.classList.toggle('dark-mode');$('btnTheme').textContent=isDark?t('lightMode'):t('darkMode');try{localStorage.setItem('kkb_repair_theme',isDark?'dark':'light');}catch(e){}}
+function setMode(nextMode){mode=nextMode;$('btnIntake').classList.toggle('active',mode==='INTAKE');$('btnDelivery').classList.toggle('active',mode==='DELIVERY');$('in_job_no').value=(mode==='INTAKE'?'JOB-':'RPR-')+Math.floor(100000+Math.random()*899990);renderDoc();}
+function quickAdd(desc,rate){items.push({desc,rate});renderInputRows();renderDoc();}
+function renderInputRows(){$('itemsInputsBody').innerHTML=items.map((it,i)=>`<tr><td><input value="${esc(it.desc)}" aria-label="${esc(t('problemHeader'))}" oninput="items[${i}].desc=this.value;renderDoc()"></td><td><input type="number" min="0" step="any" value="${esc(it.rate)}" aria-label="${esc(t('costHeader'))}" oninput="items[${i}].rate=Math.max(0,parseFloat(this.value)||0);renderDoc()"></td><td class="t-center"><button type="button" class="btn-del-row" aria-label="${esc(t('remove'))}" title="${esc(t('remove'))}" onclick="delRow(${i})">✕</button></td></tr>`).join('');}
+function addItemRow(){items.push({desc:'',rate:0});renderInputRows();renderDoc();}
+function delRow(i){if(items.length>1){items.splice(i,1);renderInputRows();renderDoc();}}
+function renderDoc(){
+ const shop=$('in_shop').value.trim()||'TECHCARE MOBILE & LAPTOP SERVICE';
+ const addr=$('in_addr').value.trim()||'Main Market, City | Mob: 9000000000';
+ const jobNo=$('in_job_no').value.trim()||'-';const dt=$('in_date').value||'-';const dlv=$('in_deliv').value.trim()||'-';
+ const cust=$('in_cust').value.trim()||'-';const ph=$('in_phone').value.trim();const model=$('in_model').value.trim()||'-';const imei=$('in_imei').value.trim()||'-';const lock=$('in_lock').value.trim()||'None';
+ const warr=$('in_warr').value.trim()||t('defaultWarranty');const payMode=$('in_mode').selectedOptions[0]?.textContent||$('in_mode').value;
+ const notes=$('in_notes').value.trim()||t('defaultNotes');
+ const accValues=Array.from(document.querySelectorAll('.acc-chk:checked')).map(c=>t(ACCESSORY_KEYS[c.value])||c.value);
+ const acc=accValues.join(', ')||t('deviceOnly');
+ const tot=items.reduce((s,it)=>s+Math.max(0,Number.parseFloat(it.rate)||0),0);const adv=Math.max(0,Number.parseFloat($('in_adv').value)||0);const bal=Math.max(0,tot-adv);
+ const rowsHtml=items.map((it,i)=>`<tr><td class="t-center">${i+1}</td><td>${esc(it.desc)||'-'}</td><td class="t-right">₹${money(it.rate)}</td></tr>`).join('');
+ const buildCard=(badge,isShopCopy)=>`<div class="slip-box"><div class="slip-header"><div><h2>${esc(shop)}</h2><p>${esc(addr)}</p></div><div class="slip-badge">${esc(badge)}</div></div>
+ <table class="slip-table"><tr><td class="lbl">${esc(t('jobToken'))}:</td><td class="val"><b>${esc(jobNo)}</b> (${esc(t('receivedDate'))}: ${esc(dt)})</td><td class="lbl" style="width:20%">${esc(t('deliveryShort'))}:</td><td class="val" style="color:#1d4ed8;font-weight:800">${esc(dlv)}</td></tr>
+ <tr><td class="lbl">${esc(t('customerShort'))}:</td><td class="val">${esc(ph?`${cust} (${ph})`:cust)}</td><td class="lbl" style="width:20%">${esc(t('deviceShort'))}:</td><td class="val"><b>${esc(model)}</b></td></tr>
+ <tr><td class="lbl">${esc(t('imeiShort'))}:</td><td class="val">${esc(imei)}</td><td class="lbl" style="width:20%">${esc(t('lockShort'))}:</td><td class="val">${isShopCopy?esc(lock):'****'}</td></tr>
+ <tr><td class="lbl">${esc(t('accessoriesShort'))}:</td><td class="val" colspan="3">${esc(acc)}</td></tr></table>
+ <table class="doc-items-table"><thead><tr><th class="t-center" style="width:8%">#</th><th style="width:70%">${esc(t('description'))}</th><th class="t-right" style="width:22%">${esc(t('charges'))}</th></tr></thead><tbody>${rowsHtml}</tbody></table>
+ <div class="amount-highlight"><div><b>${esc(t('total'))}:</b> ₹${money(tot)} | <b>${esc(t('advance'))} (${esc(payMode)}):</b> ₹${money(adv)}</div><div style="color:#dc2626;font-weight:800;font-size:12px">${esc(t('balance'))}: ₹${money(bal)}</div></div>
+ <div class="notes-box"><b>${esc(t('warranty'))}:</b> ${esc(warr)}<br><b>${esc(t('terms'))}:</b> ${esc(notes)}</div>
+ <div class="footer-row"><div style="font-size:9.5px;color:#64748b">${esc(t('customerSign'))}</div><div class="sig-card">${esc(t('techSign'))}</div></div></div>`;
+ let html=buildCard(mode==='INTAKE'?t('customerReceipt'):t('deliveryBill'),false);
+ if(mode==='INTAKE')html+=`<div class="cut-divider"><span class="cut-tag">${esc(t('cutHere'))}</span></div>`+buildCard(t('shopCopy'),true);
+ $('slipsContainer').innerHTML=html;
+}
 
-  function setMode(m) {
-    mode = m;
-    document.getElementById('btnIntake').classList.toggle('active', m === 'INTAKE');
-    document.getElementById('btnDelivery').classList.toggle('active', m === 'DELIVERY');
-    document.getElementById('in_job_no').value = (m === 'INTAKE' ? 'JOB-' : 'RPR-') + Math.floor(100000 + Math.random() * 899990);
-    renderDoc();
-  }
-
-  function quickAdd(desc, rate) { items.push({ desc, rate }); renderInputRows(); renderDoc(); }
-  function renderInputRows() {
-    document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
-      <tr>
-        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
-        <td><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;renderDoc()"></td>
-        <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
-      </tr>
-    `).join('');
-  }
-  function addItemRow() { items.push({ desc: '', rate: 0 }); renderInputRows(); renderDoc(); }
-  function delRow(i) { if (items.length > 1) { items.splice(i, 1); renderInputRows(); renderDoc(); } }
-
-  function renderDoc() {
-    const shop = document.getElementById('in_shop').value.trim() || 'TECHCARE MOBILE & LAPTOP SERVICE';
-    const addr = document.getElementById('in_addr').value.trim() || 'Main Market, City | Mob: 9000000000';
-    const jobNo = document.getElementById('in_job_no').value.trim() || '-';
-    const dt = document.getElementById('in_date').value || '-';
-    const dlv = document.getElementById('in_deliv').value.trim() || '-';
-    const cust = document.getElementById('in_cust').value.trim() || '-';
-    const ph = document.getElementById('in_phone').value.trim();
-    const model = document.getElementById('in_model').value.trim() || '-';
-    const imei = document.getElementById('in_imei').value.trim() || '-';
-    const lock = document.getElementById('in_lock').value.trim() || 'None';
-    const warr = document.getElementById('in_warr').value.trim() || 'No Warranty on Physical/Liquid Damage';
-    const payMode = document.getElementById('in_mode').value;
-    const notes = document.getElementById('in_notes').value.trim() || 'रिपेयरिंग के दौरान डेटा लॉस के लिए शॉप जिम्मेदार नहीं होगी। पर्ची दिखाकर ही डिवाइस प्राप्त करें।';
-
-    const acc = Array.from(document.querySelectorAll('.acc-chk:checked')).map(c => c.value).join(', ') || 'Device Only';
-    const tot = items.reduce((s, it) => s + (parseFloat(it.rate) || 0), 0);
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    const bal = Math.max(0, tot - adv);
-
-    const rowsHtml = items.map((it, i) => `
-      <tr>
-        <td class="t-center">${i+1}</td>
-        <td>${it.desc || '-'}</td>
-        <td class="t-right">₹${(parseFloat(it.rate)||0).toLocaleString('en-IN')}</td>
-      </tr>
-    `).join('');
-
-    const buildCard = (badge, isShopCopy) => `
-      <div class="slip-box">
-        <div class="slip-header">
-          <div>
-            <h2>${shop}</h2>
-            <p>${addr}</p>
-          </div>
-          <div class="slip-badge">${badge}</div>
-        </div>
-
-        <table class="slip-table">
-          <tr>
-            <td class="lbl">Job Token:</td><td class="val"><b>${jobNo}</b> (Dt: ${dt})</td>
-            <td class="lbl" style="width:20%;">Delivery:</td><td class="val" style="color:#1d4ed8;font-weight:800;">${dlv}</td>
-          </tr>
-          <tr>
-            <td class="lbl">Customer:</td><td class="val">${ph ? `${cust} (${ph})` : cust}</td>
-            <td class="lbl" style="width:20%;">Device:</td><td class="val"><b>${model}</b></td>
-          </tr>
-          <tr>
-            <td class="lbl">IMEI / S.No:</td><td class="val">${imei}</td>
-            <td class="lbl" style="width:20%;">Lock/PIN:</td><td class="val">${isShopCopy ? lock : '****'}</td>
-          </tr>
-          <tr>
-            <td class="lbl">Accessories:</td><td class="val" colspan="3">${acc}</td>
-          </tr>
-        </table>
-
-        <table class="doc-items-table">
-          <thead>
-            <tr>
-              <th class="t-center" style="width:8%">#</th>
-              <th style="width:70%">Fault / Spare Part / Service Description</th>
-              <th class="t-right" style="width:22%">Charges (₹)</th>
-            </tr>
-          </thead>
-          <tbody>${rowsHtml}</tbody>
-        </table>
-
-        <div class="amount-highlight">
-          <div><b>TOTAL:</b> ₹${tot.toLocaleString('en-IN')} | <b>ADVANCE (${payMode}):</b> ₹${adv.toLocaleString('en-IN')}</div>
-          <div style="color:#dc2626;font-weight:800;font-size:12.5px;">BALANCE DUE: ₹${bal.toLocaleString('en-IN')}</div>
-        </div>
-
-        <div class="notes-box">
-          <b>Warranty:</b> ${warr}<br>
-          <b>Terms:</b> ${notes}
-        </div>
-
-        <div class="footer-row">
-          <div style="font-size:9.5px;color:#64748b;">Customer Signature</div>
-          <div class="sig-card">Technician / Authorized Sign</div>
-        </div>
-      </div>
-    `;
-
-    let html = buildCard(mode === 'INTAKE' ? 'CUSTOMER RECEIPT' : 'DELIVERY &amp; WARRANTY BILL', false);
-    if (mode === 'INTAKE') {
-      html += `<div class="cut-divider"><span class="cut-tag">✂️ CUT HERE (TECHNICIAN / SHOP COPY)</span></div>` + buildCard('TECHNICIAN JOB CARD', true);
-    }
-    document.getElementById('slipsContainer').innerHTML = html;
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:16px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `RepairJob_${document.getElementById('in_job_no').value || 'Device'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Job Sheet</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px}
-      .slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #2563eb;padding-bottom:6px;margin-bottom:8px}
-      .slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}
-      .slip-badge{background:#2563eb;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}
-      .slip-table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:11px}
-      .slip-table td{padding:3px}.slip-table td.lbl{font-weight:700;color:#475569;width:22%}.slip-table td.val{border-bottom:1px dotted #94a3b8}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px}
-      .doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:4px;border:1px solid #93c5fd;text-align:left}
-      .doc-items-table td{padding:4px;border:1px solid #e2e8f0;font-weight:600}
-      .t-right{text-align:right}.t-center{text-align:center}
-      .amount-highlight{background:#eff6ff;border:1.2px solid #93c5fd;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;margin:6px 0;font-size:11px}
-      .notes-box{background:#f8fafc;border-left:3px solid #2563eb;padding:5px 8px;font-size:10px;margin:6px 0}
-      .footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px}
-      .sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-      .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}
-      .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const shop = document.getElementById('in_shop').value.trim() || 'Repair Center';
-    const cust = document.getElementById('in_cust').value.trim() || 'Customer';
-    const model = document.getElementById('in_model').value.trim() || 'Device';
-    const tot = items.reduce((s, it) => s + (parseFloat(it.rate)||0), 0);
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    const ph = document.getElementById('in_phone').value.trim().replace(/[^0-9]/g, '');
-    const msg = `*📱 REPAIR JOB SHEET (${document.getElementById('in_job_no').value})*\n*Center:* ${shop}\n*Customer:* ${cust}\n*Device:* ${model}\n*Estimate:* ₹${tot} | *Advance:* ₹${adv}\n*Balance Due:* ₹${Math.max(0, tot - adv)}\n\n_Generated via KaamKaj Bills._`;
-    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = () => {
-    try {
-      if (localStorage.getItem('kkb_repair_theme') === 'dark') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('btnTheme').innerText = '☀️ Light Mode';
-      }
-    } catch (e) {}
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_job_no').value = 'JOB-' + Math.floor(100000 + Math.random() * 899990);
-    renderInputRows();
-    renderDoc();
-  };
+/* PDF EXPORT: proven visible overlay + relative staging technique. Keep staging visible during capture. */
+function downloadA4PDF(){
+ const btn=$('btn_pdf');
+ if(typeof html2pdf!=='function'){alert('PDF library could not be loaded. Please check your internet connection and try again.');return;}
+ btn.disabled=true;const originalText=btn.textContent;btn.textContent=t('generating');
+ const source=$('a4DocSheet');const clone=source.cloneNode(true);clone.removeAttribute('id');
+ const PDF_WIDTH=680;
+ clone.style.cssText=[`width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'min-width:0','margin:0','padding:26px 28px','background:#ffffff','color:#0f172a','border:1.5px solid #cbd5e1','border-radius:6px','box-shadow:none','box-sizing:border-box','flex-shrink:0'].join(';');
+ const overlay=document.createElement('div');overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+ const staging=document.createElement('div');staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;`;
+ staging.appendChild(clone);overlay.appendChild(staging);document.body.appendChild(overlay);
+ const safeJob=($('in_job_no').value.trim()||'Device').replace(/[^a-zA-Z0-9-_]/g,'')||'Device';
+ requestAnimationFrame(()=>setTimeout(()=>{
+  html2pdf().set({margin:[10,12,12,12],filename:`RepairJob_${safeJob}.pdf`,image:{type:'png',quality:1.0},html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true},pagebreak:{mode:['css','legacy'],avoid:['.slip-box','.cut-divider']}}).from(staging).save().then(()=>{overlay.remove();btn.disabled=false;btn.textContent=originalText;}).catch(err=>{console.error('PDF export failed:',err);overlay.remove();btn.disabled=false;btn.textContent=originalText;alert('PDF export failed. Please try again or use Direct Print.');});
+ },150));
+}
+function printDocDirect(){const printWindow=window.open('','_blank','width=850,height=900');if(!printWindow){alert('Please allow pop-ups to print this slip.');return;}printWindow.document.write(`<!DOCTYPE html><html lang="${curLang}" dir="${curLang==='ur'?'rtl':'ltr'}"><head><meta charset="UTF-8"><title>Repair Job Sheet</title><style>*{box-sizing:border-box;font-family:Arial,sans-serif}body{margin:0;padding:8mm}.slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px;break-inside:avoid}.slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #2563eb;padding-bottom:6px;margin-bottom:8px;gap:8px}.slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}.slip-badge{background:#2563eb;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}.slip-table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:10.5px;table-layout:fixed}.slip-table td{padding:3px;overflow-wrap:anywhere}.slip-table td.lbl{font-weight:700;color:#475569;width:20%}.slip-table td.val{border-bottom:1px dotted #94a3b8}.doc-items-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px}.doc-items-table th{background:#dbeafe;color:#1e3a8a;padding:4px;border:1px solid #93c5fd;text-align:left}.doc-items-table td{padding:4px;border:1px solid #e2e8f0;font-weight:600}.t-right{text-align:right}.t-center{text-align:center}.amount-highlight{background:#eff6ff;border:1.2px solid #93c5fd;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;flex-wrap:wrap;margin:6px 0;font-size:10.5px}.notes-box{background:#f8fafc;border-left:3px solid #2563eb;padding:5px 8px;font-size:10px;margin:6px 0}.footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px}.sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}.cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}.cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}</style></head><body>${$('a4DocSheet').innerHTML}</body></html>`);printWindow.document.close();printWindow.focus();setTimeout(()=>{printWindow.print();},350);}
+function shareWhatsApp(){const shop=$('in_shop').value.trim()||'Repair Center';const cust=$('in_cust').value.trim()||'Customer';const model=$('in_model').value.trim()||'Device';const tot=items.reduce((s,it)=>s+Math.max(0,Number.parseFloat(it.rate)||0),0);const adv=Math.max(0,Number.parseFloat($('in_adv').value)||0);const phone=$('in_phone').value.trim().replace(/[^0-9]/g,'');const msg=`*${t('waTitle')} (${ $('in_job_no').value })*\n*${t('waCenter')}:* ${shop}\n*${t('waCustomer')}:* ${cust}\n*${t('waDevice')}:* ${model}\n*${t('waEstimate')}:* ₹${money(tot)} | *${t('advance')}:* ₹${money(adv)}\n*${t('waBalance')}:* ₹${money(Math.max(0,tot-adv))}\n\n_${t('waGenerated')}_`;window.open(phone?`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');}
+window.addEventListener('load',()=>{
+ try{if(localStorage.getItem('kkb_repair_theme')==='dark')document.body.classList.add('dark-mode');const savedLang=localStorage.getItem('kkb_repair_lang');if(savedLang&&I18N[savedLang])curLang=savedLang;}catch(e){}
+ $('sel_lang').value=curLang;$('in_date').value=new Date().toISOString().split('T')[0];$('in_job_no').value='JOB-'+Math.floor(100000+Math.random()*899990);applyLanguage();
+});
 </script>
 </body>
 </html>
