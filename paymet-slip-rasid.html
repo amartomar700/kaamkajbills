@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head><style>
+<html lang="hi-IN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#eef2f8">
+  <title>KaamKaj Bills – Payment Receipt & Voucher Generator</title><style>
 @font-face {
   font-family: "Optimistic";
   font-style: normal;
@@ -2323,6 +2327,272 @@ input[type="number"]{
   }
 }
 </style>
+
+<style id="kk-responsive-theme-overrides">
+  /* Full-viewport foundation */
+  html, body, #root { width: 100%; min-height: 100%; margin: 0; }
+  html { min-height: 100%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { min-height: 100vh; min-height: 100dvh; overflow-x: hidden; }
+  #root { min-height: 100vh; min-height: 100dvh; }
+  #root > div { min-height: 100vh; min-height: 100dvh; }
+
+  /* Explicit themes – the existing form and document logic remains unchanged. */
+  html[data-theme="light"] {
+    color-scheme: light;
+    --surface: #ffffff;
+    --surface-2: #f4f7fc;
+    --bg: #eef2f8;
+    --ink: #172033;
+    --muted: #64748b;
+    --line: #dbe3ef;
+    --blue: #2563eb;
+    --navy: #10213b;
+    --green: #15803d;
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --surface: #111d31;
+    --surface-2: #192941;
+    --bg: #091321;
+    --ink: #e9f0fc;
+    --muted: #a3b3ca;
+    --line: #2a3c59;
+    --blue: #80a9ff;
+    --navy: #0d1b30;
+    --green: #61d995;
+  }
+  html[data-theme="light"] body { background: var(--bg); color: var(--ink); }
+  html[data-theme="dark"] body { background: var(--bg); color: var(--ink); }
+
+  /* Remove the old 1020px centered limit and use the available screen width. */
+  #root > div > .relative.z-10 {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: clamp(12px, 1.8vw, 24px) clamp(12px, 2.4vw, 36px) 34px;
+  }
+  #root > div > .relative.z-10 > header {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 16px;
+  }
+  #root > div > .relative.z-10 > section {
+    min-width: 0;
+    border-radius: 18px;
+  }
+  #root > div > .relative.z-10 > section:first-of-type { margin-bottom: 16px; }
+
+  /* Comfortable desktop workspace: details and live A4 preview side by side. */
+  @media (min-width: 1120px) {
+    #root > div > .relative.z-10 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(420px, .92fr);
+      column-gap: clamp(16px, 1.5vw, 24px);
+      row-gap: 18px;
+      align-items: start;
+    }
+    #root > div > .relative.z-10 > header,
+    #root > div > .relative.z-10 > section:first-of-type,
+    #root > div > .relative.z-10 > section:nth-of-type(4),
+    #root > div > .relative.z-10 > p {
+      grid-column: 1 / -1;
+    }
+    #root > div > .relative.z-10 > header,
+    #root > div > .relative.z-10 > section:first-of-type {
+      margin-bottom: 0;
+    }
+    #root > div > .relative.z-10 > section:nth-of-type(2) { grid-column: 1; grid-row: 3; }
+    #root > div > .relative.z-10 > section:nth-of-type(3) { grid-column: 2; grid-row: 3; margin-top: 0; }
+    #root > div > .relative.z-10 > section:nth-of-type(4) { grid-row: 4; }
+    #root > div > .relative.z-10 > p { grid-row: 5; }
+    #root > div > .relative.z-10 > section:nth-of-type(3) > div:last-child {
+      padding: clamp(10px, 1.3vw, 18px);
+    }
+  }
+
+  /* Form controls: clearer focus, larger touch targets, and no mobile zoom. */
+  #root input:not([type="checkbox"]):not([type="radio"]),
+  #root select,
+  #root textarea {
+    max-width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    border-radius: 11px;
+    transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+  }
+  #root input:focus, #root select:focus, #root textarea:focus {
+    outline: none;
+    border-color: #5b8cff !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.14) !important;
+  }
+  #root button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  #root button:focus-visible { outline: 3px solid rgba(59,130,246,.38); outline-offset: 2px; }
+  #root .a4-page { width: 794px; max-width: 100%; margin-inline: auto; }
+  #root .slip-box { max-width: 100%; }
+  #root table { max-width: 100%; }
+
+  /* Theme toggle shares the existing header badge; no app component logic is replaced. */
+  .kk-header-badge {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .kk-theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(37,99,235,.22);
+    border-radius: 50%;
+    background: rgba(255,255,255,.82);
+    color: #1d4ed8;
+    font: 700 19px/1 system-ui, sans-serif;
+    cursor: pointer;
+    box-shadow: 0 2px 7px rgba(15,23,42,.08);
+  }
+  .kk-theme-toggle:hover { transform: translateY(-1px); }
+  .kk-theme-help {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 150px;
+    color: #334155;
+    font: 700 10px/1.25 system-ui, sans-serif;
+    text-align: center;
+    white-space: normal;
+  }
+  html[data-theme="dark"] .kk-theme-help { color: #e1ebfa; }
+  html[data-theme="dark"] .kk-header-badge {
+    background: #1d304c !important;
+    color: #c7d9ff !important;
+    border-color: #36527c !important;
+  }
+  html[data-theme="dark"] .kk-theme-toggle {
+    background: #0c192b;
+    color: #ffdb83;
+    border-color: #496286;
+  }
+
+  /* Dark theme surfaces and controls. */
+  html[data-theme="dark"] #root [class~="bg-white"]:not(.a4-page):not(.slip-box) {
+    background-color: #17263d !important;
+  }
+  html[data-theme="dark"] #root [class~="bg-slate-50"],
+  html[data-theme="dark"] #root [class~="bg-slate-100"] {
+    background-color: #1b2b44 !important;
+  }
+  html[data-theme="dark"] #root [class~="bg-[#eef2f8]"],
+  html[data-theme="dark"] #root [class~="bg-[#edf2f8]"] {
+    background-color: #0d192b !important;
+  }
+  html[data-theme="dark"] #root [class~="bg-[#e8efff]"],
+  html[data-theme="dark"] #root [class~="bg-[#eaf0ff]"] {
+    background-color: #20385d !important;
+  }
+  html[data-theme="dark"] #root [class~="bg-[#eef2f7]"],
+  html[data-theme="dark"] #root [class~="bg-[#eef4ff]"] {
+    background-color: #22334e !important;
+  }
+  html[data-theme="dark"] #root [class~="text-slate-900"],
+  html[data-theme="dark"] #root [class~="text-slate-800"],
+  html[data-theme="dark"] #root [class~="text-slate-700"] {
+    color: #e4edf9 !important;
+  }
+  html[data-theme="dark"] #root [class~="text-slate-600"],
+  html[data-theme="dark"] #root [class~="text-slate-500"] {
+    color: #a6b8d1 !important;
+  }
+  html[data-theme="dark"] #root [class~="text-blue-700"] {
+    color: #a9c5ff !important;
+  }
+  html[data-theme="dark"] #root [class~="border-slate-100"],
+  html[data-theme="dark"] #root [class~="border-slate-200"],
+  html[data-theme="dark"] #root [class~="border-[#d5deea]"],
+  html[data-theme="dark"] #root [class~="border-[#d8e1ee]"],
+  html[data-theme="dark"] #root [class~="border-[#cbd9ff]"] {
+    border-color: #304461 !important;
+  }
+  html[data-theme="dark"] #root input:not([type="checkbox"]):not([type="radio"]),
+  html[data-theme="dark"] #root select,
+  html[data-theme="dark"] #root textarea {
+    background: #0d192b !important;
+    color: #e9f0fc !important;
+    border-color: #344967 !important;
+    color-scheme: dark;
+  }
+  html[data-theme="dark"] #root input::placeholder,
+  html[data-theme="dark"] #root textarea::placeholder { color: #8195b2 !important; opacity: 1; }
+  html[data-theme="dark"] #root option { background: #132139; color: #e9f0fc; }
+  html[data-theme="dark"] #root [class~="bg-red-50"] { background: #3a202a !important; }
+  html[data-theme="dark"] #root [class~="text-red-600"] { color: #ff9a9a !important; }
+  html[data-theme="dark"] #root [class~="text-green-700"] { color: #72e0a1 !important; }
+  html[data-theme="dark"] #root [class~="border-red-200"] { border-color: #713b49 !important; }
+
+  /* The A4 preview is deliberately kept white in both themes for accurate PDF output. */
+  html[data-theme="dark"] #root .a4-page,
+  html[data-theme="dark"] #root .slip-box {
+    background: #ffffff !important;
+    color: #172033 !important;
+    border-color: #172033;
+  }
+  html[data-theme="dark"] #root .a4-page [class~="bg-white"] { background: #ffffff !important; }
+  html[data-theme="dark"] #root .a4-page [class~="text-slate-900"] { color: #0f172a !important; }
+  html[data-theme="dark"] #root .a4-page [class~="text-slate-800"] { color: #1e293b !important; }
+  html[data-theme="dark"] #root .a4-page [class~="text-slate-700"] { color: #334155 !important; }
+  html[data-theme="dark"] #root .a4-page [class~="text-slate-600"] { color: #475569 !important; }
+  html[data-theme="dark"] #root .a4-page [class~="text-slate-500"] { color: #64748b !important; }
+  html[data-theme="dark"] #root .a4-page [class~="text-slate-400"] { color: #94a3b8 !important; }
+
+  @media (max-width: 700px) {
+    #root > div > .relative.z-10 {
+      padding: 12px 10px calc(24px + env(safe-area-inset-bottom, 0px));
+    }
+    #root > div > .relative.z-10 > header { gap: 8px; margin-bottom: 12px; }
+    #root > div > .relative.z-10 > header > div:first-child { gap: 9px; }
+    #root > div > .relative.z-10 > header > div:last-child {
+      gap: 5px;
+      padding: 5px 6px;
+      font-size: 9px;
+      letter-spacing: -.1px;
+    }
+    .kk-theme-toggle { width: 32px; height: 32px; flex-basis: 32px; font-size: 18px; }
+    .kk-theme-help { max-width: 108px; font-size: 9px; }
+    #root > div > .relative.z-10 > section { border-radius: 15px; }
+    #root > div > .relative.z-10 > section:first-of-type { padding: 17px 15px; margin-bottom: 12px; }
+    #root > div > .relative.z-10 > section:nth-of-type(2),
+    #root > div > .relative.z-10 > section:nth-of-type(3),
+    #root > div > .relative.z-10 > section:nth-of-type(4) { margin-top: 12px; }
+    #root input:not([type="checkbox"]):not([type="radio"]),
+    #root select,
+    #root textarea { min-height: 46px; font-size: 16px !important; }
+    #root > div > .relative.z-10 > section:nth-of-type(2) > div:last-child,
+    #root > div > .relative.z-10 > section:nth-of-type(3) > div:last-child,
+    #root > div > .relative.z-10 > section:nth-of-type(4) > div:last-child { padding: 12px; }
+    #root button { min-height: 42px; }
+    #root .a4-page { padding: 12px !important; }
+    #root .slip-box { padding: 11px 9px; }
+    #root .slip-table { font-size: 9.5px; }
+    #root .slip-table td { padding: 4px 2px; }
+  }
+  @media (max-width: 480px) {
+    #root > div > .relative.z-10 > header { flex-wrap: wrap; }
+    #root > div > .relative.z-10 > header > div:last-child { margin-left: auto; }
+  }
+  @media (max-width: 380px) {
+    #root > div > .relative.z-10 > header > div:last-child { font-size: 8px; gap: 4px; }
+    .kk-theme-help { max-width: 96px; font-size: 8.5px; }
+    #root > div > .relative.z-10 > header > div:first-child > div:last-child p { font-size: 10px; }
+    #root .a4-page { padding: 8px !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
+
 </head>
 <body>
   <div id="root"></div>
@@ -2372,5 +2642,264 @@ startxref
 </script>
   <script>(function(){function m(a){var h=a.getAttribute("href");if(!h)return;try{var u=new URL(h,document.baseURI);if(((u.protocol==="http:"||u.protocol==="https:")&&u.host!==location.host)||u.protocol==="mailto:"||u.protocol==="tel:"||u.protocol==="sms:"){a.target="_blank";a.rel="noopener noreferrer";}}catch(e){}}function s(){document.querySelectorAll("a[href]").forEach(m);}if(document.readyState!=="loading"){s();}else{document.addEventListener("DOMContentLoaded",s);}document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest("a[href]");if(a){m(a);}},true);})();</script>
   <script type="application/json" data-clippy-inline-media-manifest="1">{"version":1,"slots":[]}</script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
+<script id="kk-theme-toggle-runtime">
+(() => {
+  const root = document.getElementById('root');
+  const html = document.documentElement;
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  html.dataset.theme = prefersDark ? 'dark' : 'light';
+
+  function refreshThemeButton(button) {
+    const isDark = html.dataset.theme === 'dark';
+    button.textContent = isDark ? '☀' : '☾';
+    button.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    button.setAttribute('title', isDark ? 'Light mode' : 'Dark mode');
+    button.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+  }
+
+  function installThemeButton() {
+    const header = root && root.querySelector('header');
+    if (!header) return;
+    const badge = header.lastElementChild;
+    if (!badge || badge.querySelector('.kk-theme-toggle')) return;
+
+    badge.classList.add('kk-header-badge');
+    const helper = document.createElement('span');
+    helper.className = 'kk-theme-help';
+    helper.textContent = 'यहाँ से आप मोड बदल सकते हैं';
+    helper.title = 'यहाँ से आप Light और Dark Mode बदल सकते हैं';
+    helper.setAttribute('aria-hidden', 'true');
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'kk-theme-toggle';
+    button.addEventListener('click', () => {
+      html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      refreshThemeButton(button);
+    });
+    badge.appendChild(helper);
+    badge.appendChild(button);
+    refreshThemeButton(button);
+  }
+
+  if (root) {
+    const observer = new MutationObserver(installThemeButton);
+    observer.observe(root, { childList: true, subtree: true });
+    installThemeButton();
+  }
+})();
+</script>
+
+<style id="kk-i18n-style">
+  .kk-language-control{display:flex;align-items:center;gap:8px;flex:0 0 auto;padding:7px 10px;border:1px solid var(--line,#dbe3ef);border-radius:12px;background:var(--surface,#fff);color:var(--ink,#172033);box-shadow:0 3px 12px rgba(15,23,42,.07)}
+  .kk-language-control label{font:800 11px/1.2 system-ui,sans-serif;white-space:nowrap;color:inherit}
+  .kk-language-control select{min-width:118px;max-width:150px;height:30px;border:1px solid var(--line,#dbe3ef);border-radius:8px;padding:3px 7px;background:var(--surface-2,#f4f7fc);color:var(--ink,#172033);font:700 12px system-ui,sans-serif;outline:none}
+  .kk-language-control select:focus{border-color:var(--blue,#2563eb);box-shadow:0 0 0 3px rgba(37,99,235,.13)}
+  @media(max-width:640px){#root > div > .relative.z-10 > header{flex-wrap:wrap}.kk-language-control{order:3;width:100%;justify-content:flex-start}.kk-language-control select{flex:1;max-width:none}.kk-header-badge{order:2;margin-left:auto}}
+  @media(max-width:380px){.kk-language-control{padding:6px 8px}.kk-language-control label{font-size:10px}.kk-language-control select{font-size:11px;min-width:0}}
+  html[dir="rtl"] #root{direction:rtl} html[dir="rtl"] .kk-language-control{flex-direction:row-reverse} html[dir="rtl"] .kk-language-control select{direction:rtl}
+</style>
+<script id="kk-12-language-runtime">
+(() => {
+  'use strict';
+  const LANGS = [{"id":"hi","name":"हिन्दी","tag":"hi-IN"},{"id":"en","name":"English","tag":"en-IN"},{"id":"bn","name":"বাংলা","tag":"bn-IN"},{"id":"te","name":"తెలుగు","tag":"te-IN"},{"id":"mr","name":"मराठी","tag":"mr-IN"},{"id":"ta","name":"தமிழ்","tag":"ta-IN"},{"id":"gu","name":"ગુજરાતી","tag":"gu-IN"},{"id":"kn","name":"ಕನ್ನಡ","tag":"kn-IN"},{"id":"ml","name":"മലയാളം","tag":"ml-IN"},{"id":"or","name":"ଓଡ଼ିଆ","tag":"or-IN"},{"id":"pa","name":"ਪੰਜਾਬੀ","tag":"pa-IN"},{"id":"ur","name":"اردو","tag":"ur-IN"}];
+  const RAW_ITEMS = {"यहाँ से आप मोड बदल सकते हैं":["यहाँ से आप मोड बदल सकते हैं","Change the display mode here","এখান থেকে মোড পরিবর্তন করুন","ఇక్కడి నుండి మోడ్‌ను మార్చండి","येथून मोड बदला","இங்கே பயன்முறையை மாற்றலாம்","અહીંથી મોડ બદલો","ಇಲ್ಲಿಂದ ಮೋಡ್ ಬದಲಾಯಿಸಿ","ഇവിടെ നിന്ന് മോഡ് മാറ്റാം","ଏଠାରୁ ମୋଡ୍ ବଦଳାନ୍ତୁ","ਇੱਥੋਂ ਮੋਡ ਬਦਲੋ","یہاں سے موڈ تبدیل کریں"],"भाषा":["भाषा","Language","ভাষা","భాష","भाषा","மொழி","ભાષા","ಭಾಷೆ","ഭാഷ","ଭାଷା","ਭਾਸ਼ਾ","زبان"],"अपनी भाषा चुनें":["अपनी भाषा चुनें","Choose your language","আপনার ভাষা বেছে নিন","మీ భాషను ఎంచుకోండి","तुमची भाषा निवडा","உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்","તમારી ભાષા પસંદ કરો","ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ","നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക","ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ","ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ","اپنی زبان منتخب کریں"],"Switch to light mode":["लाइट मोड चालू करें","Switch to light mode","লাইট মোড চালু করুন","లైట్ మోడ్‌కు మారండి","लाईट मोड सुरू करा","ஒளி பயன்முறைக்கு மாறவும்","લાઇટ મોડ ચાલુ કરો","ಲೈಟ್ ಮೋಡ್‌ಗೆ ಬದಲಿಸಿ","ലൈറ്റ് മോഡിലേക്ക് മാറ്റുക","ଲାଇଟ୍ ମୋଡ୍‌କୁ ବଦଳାନ୍ତୁ","ਲਾਈਟ ਮੋਡ ਚਾਲੂ ਕਰੋ","لائٹ موڈ فعال کریں"],"Switch to dark mode":["डार्क मोड चालू करें","Switch to dark mode","ডার্ক মোড চালু করুন","డార్క్ మోడ్‌కు మారండి","डार्क मोड सुरू करा","இருள் பயன்முறைக்கு மாறவும்","ડાર્ક મોડ ચાલુ કરો","ಡಾರ್ಕ್ ಮೋಡ್‌ಗೆ ಬದಲಿಸಿ","ഡാർക്ക് മോഡിലേക്ക് മാറ്റുക","ଡାର୍କ ମୋଡ୍‌କୁ ବଦଳାନ୍ତୁ","ਡਾਰਕ ਮੋਡ ਚਾਲੂ ਕਰੋ","ڈارک موڈ فعال کریں"],"Light mode":["लाइट मोड","Light mode","লাইট মোড","లైట్ మోడ్","लाईट मोड","ஒளி பயன்முறை","લાઇટ મોડ","ಲೈಟ್ ಮೋಡ್","ലൈറ്റ് മോഡ്","ଲାଇଟ୍ ମୋଡ୍","ਲਾਈਟ ਮੋਡ","لائٹ موڈ"],"Dark mode":["डार्क मोड","Dark mode","ডার্ক মোড","డార్క్ మోడ్","डार्क मोड","இருள் பயன்முறை","ડાર્ક મોડ","ಡಾರ್ಕ್ ಮೋಡ್","ഡാർക്ക് മോഡ്","ଡାର୍କ ମୋଡ୍","ਡਾਰਕ ਮੋਡ","ڈارک موڈ"],"Payment documentation made simple":["भुगतान के दस्तावेज़ बनाना अब आसान","Payment documentation made simple","পেমেন্টের নথি তৈরি এখন সহজ","చెల్లింపు పత్రాల తయారీ ఇప్పుడు సులభం","पेमेंटची कागदपत्रे बनवणे आता सोपे","கட்டண ஆவணங்களை உருவாக்குவது எளிது","ચુકવણીના દસ્તાવેજો બનાવવું હવે સરળ","ಪಾವತಿ ದಾಖಲೆಗಳನ್ನು ತಯಾರಿಸುವುದು ಸುಲಭ","പണമിടപാട് രേഖകൾ തയ്യാറാക്കൽ എളുപ്പം","ଦେୟ ଦଲିଲ ତିଆରି ଏବେ ସହଜ","ਭੁਗਤਾਨ ਦੇ ਦਸਤਾਵੇਜ਼ ਬਣਾਉਣਾ ਹੁਣ ਸੌਖਾ","ادائیگی کے کاغذات بنانا اب آسان"],"RECEIPT &":["रसीद और","RECEIPT &","রসিদ ও","రసీదు మరియు","पावती आणि","ரசீது மற்றும்","રસીદ અને","ರಸೀದಿ ಮತ್ತು","രസീത് &","ରସିଦ ଓ","ਰਸੀਦ ਅਤੇ","رسید اور"]," VOUCHER STUDIO":[" वाउचर स्टूडियो"," VOUCHER STUDIO"," ভাউচার স্টুডিও"," వోచర్ స్టూడియో"," व्हाउचर स्टुडिओ"," வவுச்சர் ஸ்டுடியோ"," વાઉચર સ્ટુડિયો"," ವೋಚರ್ ಸ್ಟುಡಿಯೋ"," വൗച്ചർ സ്റ്റുഡിയോ"," ଭାଉଚର ଷ୍ଟୁଡିଓ"," ਵਾਊਚਰ ਸਟੂਡੀਓ"," واؤچر اسٹوڈیو"],"Payment Receipt & Voucher Generator":["पेमेंट रसीद और वाउचर जनरेटर","Payment Receipt & Voucher Generator","পেমেন্ট রসিদ ও ভাউচার তৈরি করুন","చెల్లింపు రసీదు మరియు వోచర్ జనరేటర్","पेमेंट पावती आणि व्हाउचर जनरेटर","கட்டண ரசீது மற்றும் வவுச்சர் உருவாக்கி","પેમેન્ટ રસીદ અને વાઉચર જનરેટર","ಪಾವತಿ ರಸೀದಿ ಮತ್ತು ವೋಚರ್ ಜನರೇಟರ್","പേയ്മെന്റ് രസീതും വൗച്ചറും തയ്യാറാക്കാം","ପେମେଣ୍ଟ ରସିଦ ଓ ଭାଉଚର ଜେନେରେଟର","ਭੁਗਤਾਨ ਰਸੀਦ ਅਤੇ ਵਾਊਚਰ ਬਣਾਓ","ادائیگی کی رسید اور واؤچر بنائیں"],"अपनी payment details भरें और तुरंत professional receipt या payment voucher तैयार करें। HD PDF डाउनलोड करें — बिना कटे, पूरा A4।":["भुगतान की जानकारी भरें और तुरंत रसीद या पेमेंट वाउचर बनाएँ। पूरी A4 HD PDF डाउनलोड करें।","Enter your payment details to create a professional receipt or payment voucher instantly. Download a complete, uncropped A4 HD PDF.","পেমেন্টের তথ্য দিয়ে সঙ্গে সঙ্গে রসিদ বা পেমেন্ট ভাউচার তৈরি করুন। সম্পূর্ণ A4 HD PDF ডাউনলোড করুন।","చెల్లింపు వివరాలను నమోదు చేసి వెంటనే రసీదు లేదా చెల్లింపు వోచర్‌ను రూపొందించండి. పూర్తి A4 HD PDF డౌన్‌లోడ్ చేయండి.","पेमेंटची माहिती भरा आणि लगेच पावती किंवा पेमेंट व्हाउचर तयार करा. पूर्ण A4 HD PDF डाउनलोड करा.","கட்டண விவரங்களை உள்ளிட்டு உடனே ரசீது அல்லது கட்டண வவுச்சரை உருவாக்கவும். முழுமையான A4 HD PDF பதிவிறக்கவும்.","ચુકવણીની વિગતો ભરીને તરત રસીદ અથવા પેમેન્ટ વાઉચર બનાવો. સંપૂર્ણ A4 HD PDF ડાઉનલોડ કરો.","ಪಾವತಿ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ ತಕ್ಷಣ ರಸೀದಿ ಅಥವಾ ಪಾವತಿ ವೋಚರ್ ರಚಿಸಿ. ಪೂರ್ಣ A4 HD PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ.","പണമടയ്ക്കൽ വിവരങ്ങൾ നൽകി ഉടൻ രസീത് അല്ലെങ്കിൽ പേയ്മെന്റ് വൗച്ചർ തയ്യാറാക്കൂ. പൂർണ്ണ A4 HD PDF ഡൗൺലോഡ് ചെയ്യൂ.","ଦେୟ ବିବରଣୀ ଦେଇ ତୁରନ୍ତ ରସିଦ କିମ୍ବା ପେମେଣ୍ଟ ଭାଉଚର ତିଆରି କରନ୍ତୁ। ସମ୍ପୂର୍ଣ୍ଣ A4 HD PDF ଡାଉନଲୋଡ୍ କରନ୍ତୁ।","ਭੁਗਤਾਨ ਦੇ ਵੇਰਵੇ ਭਰੋ ਅਤੇ ਤੁਰੰਤ ਰਸੀਦ ਜਾਂ ਭੁਗਤਾਨ ਵਾਊਚਰ ਬਣਾਓ। ਪੂਰੀ A4 HD PDF ਡਾਊਨਲੋਡ ਕਰੋ।","ادائیگی کی تفصیلات درج کرکے فوراً رسید یا ادائیگی واؤچر بنائیں۔ مکمل A4 HD PDF ڈاؤن لوڈ کریں۔"]," HD PDF • No Cut • 794 × 1122":[" HD PDF • बिना कटे • 794 × 1122"," HD PDF • No Cut • 794 × 1122"," HD PDF • কাটা ছাড়া • 794 × 1122"," HD PDF • కత్తిరింపు లేకుండా • 794 × 1122"," HD PDF • कटिंग नाही • 794 × 1122"," HD PDF • வெட்டப்படாமல் • 794 × 1122"," HD PDF • કાપ્યા વગર • 794 × 1122"," HD PDF • ಕತ್ತರಿಸದೆ • 794 × 1122"," HD PDF • മുറിയാതെ • 794 × 1122"," HD PDF • କଟା ନଯାଇ • 794 × 1122"," HD PDF • ਬਿਨਾਂ ਕੱਟੇ • 794 × 1122"," HD PDF • بغیر کٹے • 794 × 1122"]," No negative amounts":[" ऋणात्मक राशि नहीं"," No negative amounts"," ঋণাত্মক পরিমাণ নয়"," నెగటివ్ మొత్తం అనుమతించదు"," ऋण रक्कम नाही"," எதிர்மறைத் தொகை இல்லை"," નકારાત્મક રકમ નહીં"," ಋಣಾತ್ಮಕ ಮೊತ್ತಗಳಿಲ್ಲ"," നെഗറ്റീവ് തുക അനുവദിക്കില്ല"," ନକାରାତ୍ମକ ରାଶି ନାହିଁ"," ਨਕਾਰਾਤਮਕ ਰਕਮ ਨਹੀਂ"," منفی رقم نہیں"]," A4 • 1 या 2 Slips":[" A4 • 1 या 2 पर्चियाँ"," A4 • 1 or 2 slips"," A4 • ১ বা ২টি স্লিপ"," A4 • 1 లేదా 2 స్లిప్‌లు"," A4 • १ किंवा २ स्लिप्स"," A4 • 1 அல்லது 2 சீட்டுகள்"," A4 • 1 અથવા 2 સ્લિપ"," A4 • 1 ಅಥವಾ 2 ಸ್ಲಿಪ್‌ಗಳು"," A4 • 1 അല്ലെങ്കിൽ 2 സ്ലിപ്പുകൾ"," A4 • ୧ କିମ୍ବା ୨ଟି ସ୍ଲିପ୍"," A4 • 1 ਜਾਂ 2 ਸਲਿੱਪਾਂ"," A4 • ایک یا دو سلپس"],"Document Details":["दस्तावेज़ का विवरण","Document Details","নথির বিবরণ","పత్రం వివరాలు","दस्तऐवजाचा तपशील","ஆவண விவரங்கள்","દસ્તાવેજની વિગતો","ದಾಖಲೆಯ ವಿವರಗಳು","രേഖയുടെ വിവരങ്ങൾ","ଦଲିଲର ବିବରଣୀ","ਦਸਤਾਵੇਜ਼ ਦੇ ਵੇਰਵੇ","دستاویز کی تفصیلات"],"नीचे जानकारी भरते ही preview अपने-आप अपडेट होगा":["नीचे जानकारी भरते ही पूर्वावलोकन अपने-आप अपडेट होगा","The preview updates automatically as you enter details below","নিচে তথ্য দিলেই প্রিভিউ নিজে থেকেই আপডেট হবে","క్రింద వివరాలు నమోదు చేయగానే ప్రివ్యూ స్వయంచాలకంగా నవీకరించబడుతుంది","खाली माहिती भरताच पूर्वदृश्य आपोआप अपडेट होईल","கீழே விவரங்களை நிரப்பும்போது முன்னோட்டம் தானாகப் புதுப்பிக்கப்படும்","નીચે વિગતો ભરતાં જ પૂર્વાવલોકન આપમેળે અપડેટ થશે","ಕೆಳಗೆ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿದಾಗ ಪೂರ್ವವೀಕ್ಷಣೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸುತ್ತದೆ","താഴെ വിവരങ്ങൾ നൽകുമ്പോൾ പ്രിവ്യൂ സ്വയം പുതുക്കും","ତଳେ ବିବରଣୀ ଦେଲେ ପ୍ରିଭ୍ୟୁ ଆପେ ଆପେ ଅପଡେଟ୍ ହେବ","ਹੇਠਾਂ ਵੇਰਵੇ ਭਰਦੇ ਹੀ ਝਲਕ ਆਪਣੇ ਆਪ ਅੱਪਡੇਟ ਹੋਵੇਗੀ","نیچے تفصیلات درج کرتے ہی پیش نظارہ خود بخود اپ ڈیٹ ہوگا"],"LIVE FORM":["लाइव फ़ॉर्म","LIVE FORM","লাইভ ফর্ম","లైవ్ ఫారమ్","लाइव्ह फॉर्म","நேரடி படிவம்","લાઇવ ફોર્મ","ಲೈವ್ ಫಾರ್ಮ್","ലൈവ് ഫോം","ଲାଇଭ୍ ଫର୍ମ","ਲਾਈਵ ਫਾਰਮ","لائیو فارم"],"Page & document type":["पेज और दस्तावेज़ का प्रकार","Page & document type","পৃষ্ঠা ও নথির ধরন","పేజీ మరియు పత్రం రకం","पृष्ठ आणि दस्तऐवज प्रकार","பக்கம் மற்றும் ஆவண வகை","પેજ અને દસ્તાવેજનો પ્રકાર","ಪುಟ ಮತ್ತು ದಾಖಲೆ ಪ್ರಕಾರ","പേജിന്റെയും രേഖയുടെയും തരം","ପୃଷ୍ଠା ଓ ଦଲିଲର ପ୍ରକାର","ਪੰਨੇ ਅਤੇ ਦਸਤਾਵੇਜ਼ ਦੀ ਕਿਸਮ","صفحہ اور دستاویز کی قسم"],"A4 PAGE LAYOUT":["A4 पेज लेआउट","A4 PAGE LAYOUT","A4 পৃষ্ঠা বিন্যাস","A4 పేజీ లేఅవుట్","A4 पृष्ठ मांडणी","A4 பக்க அமைப்பு","A4 પેજ લેઆઉટ","A4 ಪುಟ ವಿನ್ಯಾಸ","A4 പേജ് ലേഔട്ട്","A4 ପୃଷ୍ଠା ଲେଆଉଟ୍","A4 ਪੰਨਾ ਲੇਆਉਟ","A4 صفحے کی ترتیب"]," Slip":[" पर्ची"," Slip"," স্লিপ"," స్లిప్"," स्लिप"," சீட்டு"," સ્લિપ"," ಸ್ಲಿಪ್"," സ്ലിപ്പ്"," ସ୍ଲିପ୍"," ਸਲਿੱਪ"," سلپ"]," · A4 Half":[" · A4 आधा"," · A4 Half"," · A4 অর্ধেক"," · A4 సగం"," · A4 अर्धा"," · A4 அரை"," · A4 અડધું"," · A4 ಅರ್ಧ"," · A4 പകുതി"," · A4 ଅଧା"," · A4 ਅੱਧਾ"," · A4 نصف"],"s · A4 Full":[" · A4 पूरा","s · A4 Full"," · A4 সম্পূর্ণ"," · A4 పూర్తి"," · A4 पूर्ण"," · A4 முழு"," · A4 સંપૂર્ણ"," · A4 ಪೂರ್ಣ"," · A4 പൂർണ്ണം"," · A4 ସମ୍ପୂର୍ଣ୍ଣ"," · A4 ਪੂਰਾ"," · A4 مکمل"],"DOCUMENT TYPE":["दस्तावेज़ का प्रकार","DOCUMENT TYPE","নথির ধরন","పత్రం రకం","दस्तऐवजाचा प्रकार","ஆவண வகை","દસ્તાવેજનો પ્રકાર","ದಾಖಲೆಯ ಪ್ರಕಾರ","രേഖയുടെ തരം","ଦଲିଲର ପ୍ରକାର","ਦਸਤਾਵੇਜ਼ ਦੀ ਕਿਸਮ","دستاویز کی قسم"],"↓ Payment Receipt · पैसा मिला":["↓ पेमेंट रसीद · पैसा मिला","↓ Payment Receipt · Money Received","↓ পেমেন্ট রসিদ · টাকা পাওয়া গেছে","↓ చెల్లింపు రసీదు · డబ్బు అందింది","↓ पेमेंट पावती · पैसे मिळाले","↓ கட்டண ரசீது · பணம் பெறப்பட்டது","↓ પેમેન્ટ રસીદ · પૈસા મળ્યા","↓ ಪಾವತಿ ರಸೀದಿ · ಹಣ ಸ್ವೀಕರಿಸಲಾಗಿದೆ","↓ പേയ്മെന്റ് രസീത് · പണം ലഭിച്ചു","↓ ପେମେଣ୍ଟ ରସିଦ · ଟଙ୍କା ମିଳିଲା","↓ ਭੁਗਤਾਨ ਰਸੀਦ · ਪੈਸੇ ਮਿਲੇ","↓ ادائیگی کی رسید · رقم موصول ہوئی"],"↑ Payment Voucher · पैसा दिया":["↑ पेमेंट वाउचर · पैसा दिया","↑ Payment Voucher · Money Paid","↑ পেমেন্ট ভাউচার · টাকা দেওয়া হয়েছে","↑ చెల్లింపు వోచర్ · డబ్బు చెల్లించబడింది","↑ पेमेंट व्हाउचर · पैसे दिले","↑ கட்டண வவுச்சர் · பணம் செலுத்தப்பட்டது","↑ પેમેન્ટ વાઉચર · પૈસા ચૂકવ્યા","↑ ಪಾವತಿ ವೋಚರ್ · ಹಣ ಪಾವತಿಸಲಾಗಿದೆ","↑ പേയ്മെന്റ് വൗച്ചർ · പണം നൽകി","↑ ପେମେଣ୍ଟ ଭାଉଚର · ଟଙ୍କା ଦିଆଗଲା","↑ ਭੁਗਤਾਨ ਵਾਊਚਰ · ਪੈਸੇ ਦਿੱਤੇ","↑ ادائیگی واؤچر · رقم ادا کی گئی"],"Business / shop details":["व्यवसाय / दुकान का विवरण","Business / shop details","ব্যবসা / দোকানের বিবরণ","వ్యాపారం / దుకాణం వివరాలు","व्यवसाय / दुकान तपशील","வணிகம் / கடை விவரங்கள்","વ્યવસાય / દુકાનની વિગતો","ವ್ಯಾಪಾರ / ಅಂಗಡಿ ವಿವರಗಳು","ബിസിനസ് / കടയുടെ വിവരങ്ങൾ","ବ୍ୟବସାୟ / ଦୋକାନ ବିବରଣୀ","ਕਾਰੋਬਾਰ / ਦੁਕਾਨ ਦੇ ਵੇਰਵੇ","کاروبار / دکان کی تفصیلات"],"BUSINESS / SHOP NAME":["व्यवसाय / दुकान का नाम","BUSINESS / SHOP NAME","ব্যবসা / দোকানের নাম","వ్యాపారం / దుకాణం పేరు","व्यवसाय / दुकानाचे नाव","வணிகம் / கடை பெயர்","વ્યવસાય / દુકાનનું નામ","ವ್ಯಾಪಾರ / ಅಂಗಡಿಯ ಹೆಸರು","ബിസിനസ് / കടയുടെ പേര്","ବ୍ୟବସାୟ / ଦୋକାନର ନାମ","ਕਾਰੋਬਾਰ / ਦੁਕਾਨ ਦਾ ਨਾਮ","کاروبار / دکان کا نام"],"ADDRESS / CONTACT":["पता / संपर्क","ADDRESS / CONTACT","ঠিকানা / যোগাযোগ","చిరునామా / సంప్రదింపు","पत्ता / संपर्क","முகவரி / தொடர்பு","સરનામું / સંપર્ક","ವಿಳಾಸ / ಸಂಪರ್ಕ","വിലാസം / ബന്ധപ്പെടുക","ଠିକଣା / ଯୋଗାଯୋଗ","ਪਤਾ / ਸੰਪਰਕ","پتہ / رابطہ"],"जैसे: Shree Enterprises":["जैसे: Shree Enterprises","e.g. Shree Enterprises","যেমন: Shree Enterprises","ఉదా: Shree Enterprises","उदा.: Shree Enterprises","எ.கா.: Shree Enterprises","દા.ત.: Shree Enterprises","ಉದಾ: Shree Enterprises","ഉദാ: Shree Enterprises","ଉଦାହରଣ: Shree Enterprises","ਜਿਵੇਂ: Shree Enterprises","مثلاً: Shree Enterprises"],"Address, City | Mobile":["पता, शहर | मोबाइल","Address, City | Mobile","ঠিকানা, শহর | মোবাইল","చిరునామా, నగరం | మొబైల్","पत्ता, शहर | मोबाइल","முகவரி, நகரம் | கைபேசி","સરનામું, શહેર | મોબાઇલ","ವಿಳಾಸ, ನಗರ | ಮೊಬೈಲ್","വിലാസം, നഗരം | മൊബൈൽ","ଠିକଣା, ସହର | ମୋବାଇଲ୍","ਪਤਾ, ਸ਼ਹਿਰ | ਮੋਬਾਈਲ","پتہ، شہر | موبائل"],"Slip 1 details":["पर्ची 1 का विवरण","Slip 1 details","স্লিপ ১-এর বিবরণ","స్లిప్ 1 వివరాలు","स्लिप १ तपशील","சீட்டு 1 விவரங்கள்","સ્લિપ 1 ની વિગતો","ಸ್ಲಿಪ್ 1 ವಿವರಗಳು","സ്ലിപ്പ് 1 വിവരങ്ങൾ","ସ୍ଲିପ୍ 1 ବିବରଣୀ","ਸਲਿੱਪ 1 ਦੇ ਵੇਰਵੇ","سلپ 1 کی تفصیلات"],"Slip 2 details":["पर्ची 2 का विवरण","Slip 2 details","স্লিপ ২-এর বিবরণ","స్లిప్ 2 వివరాలు","स्लिप २ तपशील","சீட்டு 2 விவரங்கள்","સ્લિપ 2 ની વિગતો","ಸ್ಲಿಪ್ 2 ವಿವರಗಳು","സ്ലിപ്പ് 2 വിവരങ്ങൾ","ସ୍ଲିପ୍ 2 ବିବରଣୀ","ਸਲਿੱਪ 2 ਦੇ ਵੇਰਵੇ","سلپ 2 کی تفصیلات"],"↳ Copy Slip 1 Data":["↳ पर्ची 1 का डेटा कॉपी करें","↳ Copy Slip 1 Data","↳ কপি স্লিপ ১-এর তথ্য","↳ స్లిప్ 1 వివరాలను కాపీ చేయండి","↳ स्लिप १ चा डेटा कॉपी करा","↳ சீட்டு 1 விவரங்களை நகலெடுக்கவும்","↳ સ્લિપ 1 ની વિગતો કૉપી કરો","↳ ಸ್ಲಿಪ್ 1 ವಿವರಗಳನ್ನು ನಕಲಿಸಿ","↳ സ്ലിപ്പ് 1 വിവരങ്ങൾ പകർത്തുക","↳ ସ୍ଲିପ୍ 1 ତଥ୍ୟ କପି କରନ୍ତୁ","↳ ਸਲਿੱਪ 1 ਦਾ ਡਾਟਾ ਕਾਪੀ ਕਰੋ","↳ سلپ 1 کی معلومات نقل کریں"],"SLIP NUMBER":["पर्ची नंबर","SLIP NUMBER","স্লিপ নম্বর","స్లిప్ నంబర్","स्लिप क्रमांक","சீட்டு எண்","સ્લિપ નંબર","ಸ್ಲಿಪ್ ಸಂಖ್ಯೆ","സ്ലിപ്പ് നമ്പർ","ସ୍ଲିପ୍ ନମ୍ବର","ਸਲਿੱਪ ਨੰਬਰ","سلپ نمبر"],"DATE":["तारीख","DATE","তারিখ","తేదీ","तारीख","தேதி","તારીખ","ದಿನಾಂಕ","തീയതി","ତାରିଖ","ਤਾਰੀਖ","تاریخ"],"PAYMENT MODE":["भुगतान का तरीका","PAYMENT MODE","পেমেন্টের মাধ্যম","చెల్లింపు విధానం","पेमेंट पद्धत","கட்டண முறை","ચુકવણીની રીત","ಪಾವತಿ ವಿಧಾನ","പണമടയ്ക്കൽ രീതി","ଦେୟ ପ୍ରଣାଳୀ","ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ","ادائیگی کا طریقہ"],"CASH (नकद)":["नकद","CASH","নগদ","నగదు","रोख","ரொக்கம்","રોકડ","ನಗದು","പണം","ନଗଦ","ਨਕਦ","نقد"],"UPI / Online":["UPI / ऑनलाइन","UPI / Online","UPI / অনলাইন","UPI / ఆన్‌లైన్","UPI / ऑनलाइन","UPI / இணையம்","UPI / ઑનલાઇન","UPI / ಆನ್‌ಲೈನ್","UPI / ഓൺലൈൻ","UPI / ଅନଲାଇନ୍","UPI / ਆਨਲਾਈਨ","UPI / آن لائن"],"Bank Transfer / NEFT":["बैंक ट्रांसफर / NEFT","Bank Transfer / NEFT","ব্যাঙ্ক ট্রান্সফার / NEFT","బ్యాంక్ బదిలీ / NEFT","बँक ट्रान्सफर / NEFT","வங்கி பரிமாற்றம் / NEFT","બેંક ટ્રાન્સફર / NEFT","ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ / NEFT","ബാങ്ക് ട്രാൻസ്ഫർ / NEFT","ବ୍ୟାଙ୍କ ଟ୍ରାନ୍ସଫର / NEFT","ਬੈਂਕ ਟ੍ਰਾਂਸਫਰ / NEFT","بینک ٹرانسفر / NEFT"],"Cheque (चेक)":["चेक","Cheque","চেক","చెక్","धनादेश","காசோலை","ચેક","ಚೆಕ್","ചെക്ക്","ଚେକ୍","ਚੈੱਕ","چیک"],"CLIENT / PARTY NAME · किससे पैसा मिला":["ग्राहक / पार्टी का नाम · किससे पैसा मिला","CLIENT / PARTY NAME · Received from","গ্রাহক / পার্টির নাম · কার কাছ থেকে টাকা পেয়েছেন","కస్టమర్ / పార్టీ పేరు · ఎవరి నుండి డబ్బు అందింది","ग्राहक / पार्टीचे नाव · कोणाकडून पैसे मिळाले","வாடிக்கையாளர் / தரப்பு பெயர் · யாரிடமிருந்து பணம் பெறப்பட்டது","ગ્રાહક / પાર્ટીનું નામ · કોની પાસેથી પૈસા મળ્યા","ಗ್ರಾಹಕ / ಪಾರ್ಟಿ ಹೆಸರು · ಯಾರಿಂದ ಹಣ ಬಂದಿದೆ","കസ്റ്റമർ / പാർട്ടിയുടെ പേര് · ആരിൽ നിന്ന് പണം ലഭിച്ചു","ଗ୍ରାହକ / ପାର୍ଟି ନାମ · କାହାଠାରୁ ଟଙ୍କା ମିଳିଲା","ਗਾਹਕ / ਪਾਰਟੀ ਦਾ ਨਾਮ · ਕਿਸ ਤੋਂ ਪੈਸੇ ਮਿਲੇ","گاہک / پارٹی کا نام · کس سے رقم ملی"],"CLIENT / PARTY NAME · Slip 2":["ग्राहक / पार्टी का नाम · पर्ची 2","CLIENT / PARTY NAME · Slip 2","গ্রাহক / পার্টির নাম · স্লিপ ২","కస్టమర్ / పార్టీ పేరు · స్లిప్ 2","ग्राहक / पार्टीचे नाव · स्लिप २","வாடிக்கையாளர் / தரப்பு பெயர் · சீட்டு 2","ગ્રાહક / પાર્ટીનું નામ · સ્લિપ 2","ಗ್ರಾಹಕ / ಪಾರ್ಟಿ ಹೆಸರು · ಸ್ಲಿಪ್ 2","കസ്റ്റമർ / പാർട്ടിയുടെ പേര് · സ്ലിപ്പ് 2","ଗ୍ରାହକ / ପାର୍ଟି ନାମ · ସ୍ଲିପ୍ 2","ਗਾਹਕ / ਪਾਰਟੀ ਦਾ ਨਾਮ · ਸਲਿੱਪ 2","گاہک / پارٹی کا نام · سلپ 2"],"PAID TO · किसको भुगतान किया":["प्राप्तकर्ता · किसको भुगतान किया","PAID TO · Recipient","যাকে টাকা দেওয়া হয়েছে","ఎవరికి చెల్లించారు","ज्यांना पैसे दिले","யாருக்கு பணம் செலுத்தப்பட்டது","કોને ચુકવણી કરી","ಯಾರಿಗೆ ಪಾವತಿಸಲಾಗಿದೆ","ആർക്കാണ് പണം നൽകിയത്","କାହାକୁ ଦେୟ ଦିଆଗଲା","ਕਿਸ ਨੂੰ ਭੁਗਤਾਨ ਕੀਤਾ","کس کو ادائیگی کی گئی"],"PAID TO · Slip 2":["प्राप्तकर्ता · पर्ची 2","PAID TO · Slip 2","প্রাপক · স্লিপ ২","చెల్లింపు పొందినవారు · స్లిప్ 2","प्राप्तकर्ता · स्लिप २","பெறுநர் · சீட்டு 2","ચુકવણી મેળવનાર · સ્લિપ 2","ಪಾವತಿ ಸ್ವೀಕರಿಸುವವರು · ಸ್ಲಿಪ್ 2","പണം സ്വീകരിച്ചവർ · സ്ലിപ്പ് 2","ଦେୟ ପାଇଥିବା ବ୍ୟକ୍ତି · ସ୍ଲିପ୍ 2","ਭੁਗਤਾਨ ਪ੍ਰਾਪਤਕਰਤਾ · ਸਲਿੱਪ 2","ادائیگی وصول کنندہ · سلپ 2"],"Party का नाम":["पार्टी का नाम","Party name","পার্টির নাম","పార్టీ పేరు","पार्टीचे नाव","தரப்பின் பெயர்","પાર્ટીનું નામ","ಪಾರ್ಟಿ ಹೆಸರು","പാർട്ടിയുടെ പേര്","ପାର୍ଟିର ନାମ","ਪਾਰਟੀ ਦਾ ਨਾਮ","پارٹی کا نام"],"CONTACT / ADDRESS (OPTIONAL)":["संपर्क / पता (वैकल्पिक)","CONTACT / ADDRESS (OPTIONAL)","যোগাযোগ / ঠিকানা (ঐচ্ছিক)","సంప్రదింపు / చిరునామా (ఐచ్ఛికం)","संपर्क / पत्ता (ऐच्छिक)","தொடர்பு / முகவரி (விருப்பம்)","સંપર્ક / સરનામું (વૈકલ્પિક)","ಸಂಪರ್ಕ / ವಿಳಾಸ (ಐಚ್ಛಿಕ)","ബന്ധപ്പെടുക / വിലാസം (ഐച്ഛികം)","ଯୋଗାଯୋଗ / ଠିକଣା (ଇଚ୍ଛାଧୀନ)","ਸੰਪਰਕ / ਪਤਾ (ਵਿਕਲਪਿਕ)","رابطہ / پتہ (اختیاری)"],"Location या phone":["स्थान या फोन नंबर","Location or phone","অবস্থান বা ফোন","ప్రాంతం లేదా ఫోన్","ठिकाण किंवा फोन","இடம் அல்லது தொலைபேசி","સ્થાન અથવા ફોન","ಸ್ಥಳ ಅಥವಾ ಫೋನ್","സ്ഥലം അല്ലെങ്കിൽ ഫോൺ","ସ୍ଥାନ କିମ୍ବା ଫୋନ୍","ਥਾਂ ਜਾਂ ਫ਼ੋਨ","مقام یا فون"],"AMOUNT (₹)":["राशि (₹)","AMOUNT (₹)","পরিমাণ (₹)","మొత్తం (₹)","रक्कम (₹)","தொகை (₹)","રકમ (₹)","ಮೊತ್ತ (₹)","തുക (₹)","ପରିମାଣ (₹)","ਰਕਮ (₹)","رقم (₹)"],"जैसे: 5000":["जैसे: 5000","e.g. 5000","যেমন: 5000","ఉదా: 5000","उदा.: 5000","எ.கா.: 5000","દા.ત.: 5000","ಉದಾ: 5000","ഉദാ: 5000","ଉଦାହରଣ: 5000","ਜਿਵੇਂ: 5000","مثلاً: 5000"],"AMOUNT IN WORDS (AUTO)":["राशि शब्दों में (ऑटो)","AMOUNT IN WORDS (AUTO)","কথায় পরিমাণ (স্বয়ংক্রিয়)","అక్షరాల్లో మొత్తం (ఆటో)","रक्कम अक्षरी (ऑटो)","தொகை வார்த்தைகளில் (தானாக)","રકમ શબ્દોમાં (આપમેળે)","ಪದಗಳಲ್ಲಿ ಮೊತ್ತ (ಸ್ವಯಂಚಾಲಿತ)","തുക വാക്കുകളിൽ (ഓട്ടോ)","ଶବ୍ଦରେ ପରିମାଣ (ସ୍ୱୟଂଚାଳିତ)","ਰਕਮ ਸ਼ਬਦਾਂ ਵਿੱਚ (ਆਟੋ)","رقم الفاظ میں (خودکار)"],"Automatic amount in words":["राशि शब्दों में अपने-आप आएगी","Automatic amount in words","পরিমাণ কথায় স্বয়ংক্রিয়ভাবে আসবে","మొత్తం అక్షరాల్లో ఆటోమేటిక్‌గా వస్తుంది","रक्कम अक्षरी आपोआप येईल","தொகை தானாக வார்த்தைகளில் வரும்","રકમ શબ્દોમાં આપમેળે આવશે","ಮೊತ್ತವು ಪದಗಳಲ್ಲಿ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಬರುತ್ತದೆ","തുക വാക്കുകളിൽ സ്വയം വരും","ପରିମାଣ ଶବ୍ଦରେ ସ୍ୱୟଂ ଆସିବ","ਰਕਮ ਸ਼ਬਦਾਂ ਵਿੱਚ ਆਪਣੇ ਆਪ ਆਵੇਗੀ","رقم خود بخود الفاظ میں آئے گی"],"PURPOSE / BILL REFERENCE":["उद्देश्य / बिल संदर्भ","PURPOSE / BILL REFERENCE","উদ্দেশ্য / বিলের তথ্য","ఉద్దేశ్యం / బిల్ సూచన","उद्देश / बिल संदर्भ","நோக்கம் / பில் குறிப்பு","હેતુ / બિલ સંદર્ભ","ಉದ್ದೇಶ / ಬಿಲ್ ಉಲ್ಲೇಖ","ഉദ്ദേശ്യം / ബിൽ റഫറൻസ്","ଉଦ୍ଦେଶ୍ୟ / ବିଲ୍ ସନ୍ଦର୍ଭ","ਮਕਸਦ / ਬਿੱਲ ਹਵਾਲਾ","مقصد / بل کا حوالہ"],"PAYMENT PURPOSE · भुगतान का कारण":["भुगतान का उद्देश्य · भुगतान का कारण","PAYMENT PURPOSE · Reason for payment","পেমেন্টের উদ্দেশ্য","చెల్లింపు కారణం","पेमेंटचा उद्देश","பணம் செலுத்திய நோக்கம்","ચુકવણીનો હેતુ","ಪಾವತಿಯ ಉದ್ದೇಶ","പണമടച്ചതിന്റെ ഉദ്ദേശ്യം","ଦେୟର ଉଦ୍ଦେଶ୍ୟ","ਭੁਗਤਾਨ ਦਾ ਮਕਸਦ","ادائیگی کا مقصد"],"Material supply / Service charges / Advance":["मटेरियल सप्लाई / सर्विस चार्ज / एडवांस","Material supply / Service charges / Advance","মাল সরবরাহ / পরিষেবা চার্জ / অগ্রিম","మెటీరియల్ సరఫరా / సేవా ఛార్జీలు / అడ్వాన్స్","मटेरियल पुरवठा / सेवा शुल्क / आगाऊ","பொருள் வழங்கல் / சேவை கட்டணம் / முன்பணம்","મટીરિયલ સપ્લાય / સર્વિસ ચાર્જ / એડવાન્સ","ವಸ್ತು ಪೂರೈಕೆ / ಸೇವಾ ಶುಲ್ಕ / ಮುಂಗಡ","സാധന വിതരണം / സേവന നിരക്ക് / അഡ്വാൻസ്","ସାମଗ୍ରୀ ଯୋଗାଣ / ସେବା ଶୁଳ୍କ / ଅଗ୍ରିମ","ਸਮਾਨ ਸਪਲਾਈ / ਸੇਵਾ ਖਰਚਾ / ਅਗਾਊਂ","سامان کی فراہمی / سروس چارجز / پیشگی"],"MONEY RECEIPT":["पैसा प्राप्ति रसीद","MONEY RECEIPT","টাকা গ্রহণের রসিদ","డబ్బు అందిన రసీదు","पैसे मिळाल्याची पावती","பணம் பெற்ற ரசீது","નાણાં મળ્યાની રસીદ","ಹಣ ಸ್ವೀಕೃತಿ ರಸೀದಿ","പണം ലഭിച്ച രസീത്","ଟଙ୍କା ପ୍ରାପ୍ତି ରସିଦ","ਪੈਸੇ ਪ੍ਰਾਪਤੀ ਰਸੀਦ","رقم وصولی کی رسید"],"PAYMENT VOUCHER":["भुगतान वाउचर","PAYMENT VOUCHER","পেমেন্ট ভাউচার","చెల్లింపు వోచర్","पेमेंट व्हाउचर","கட்டண வவுச்சர்","પેમેન્ટ વાઉચર","ಪಾವತಿ ವೋಚರ್","പേയ്മെന്റ് വൗച്ചർ","ପେମେଣ୍ଟ ଭାଉଚର","ਭੁਗਤਾਨ ਵਾਊਚਰ","ادائیگی واؤچر"]," • A4 Portrait":[" • A4 पोर्ट्रेट"," • A4 Portrait"," • A4 পোর্ট্রেট"," • A4 పోర్ట్రెయిట్"," • A4 पोर्ट्रेट"," • A4 செங்குத்து"," • A4 પોર્ટ્રેટ"," • A4 ಪೋರ್ಟ್ರೇಟ್"," • A4 പോർട്രെയ്റ്റ്"," • A4 ପୋର୍ଟ୍ରେଟ୍"," • A4 ਪੋਰਟਰੇਟ"," • A4 پورٹریٹ"],"Total: ":["कुल: ","Total: ","মোট: ","మొత్తం: ","एकूण: ","மொத்தம்: ","કુલ: ","ಒಟ್ಟು: ","ആകെ: ","ମୋଟ: ","ਕੁੱਲ: ","کل: "],"PDF बन रहा है…":["PDF बन रही है…","Generating PDF…","PDF তৈরি হচ্ছে…","PDF తయారవుతోంది…","PDF तयार होत आहे…","PDF உருவாக்கப்படுகிறது…","PDF બની રહી છે…","PDF ರಚಿಸಲಾಗುತ್ತಿದೆ…","PDF തയ്യാറാക്കുന്നു…","PDF ତିଆରି ହେଉଛି…","PDF ਬਣ ਰਹੀ ਹੈ…","PDF تیار ہو رہی ہے…"],"↓ Download HD A4 PDF":["↓ HD A4 PDF डाउनलोड करें","↓ Download HD A4 PDF","↓ HD A4 PDF ডাউনলোড করুন","↓ HD A4 PDF డౌన్‌లోడ్ చేయండి","↓ HD A4 PDF डाउनलोड करा","↓ HD A4 PDF பதிவிறக்கவும்","↓ HD A4 PDF ડાઉનલોડ કરો","↓ HD A4 PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ","↓ HD A4 PDF ഡൗൺലോഡ് ചെയ്യുക","↓ HD A4 PDF ଡାଉନଲୋଡ୍ କରନ୍ତୁ","↓ HD A4 PDF ਡਾਊਨਲੋਡ ਕਰੋ","↓ HD A4 PDF ڈاؤن لوڈ کریں"],"Saving…":["सेव हो रहा है…","Saving…","সংরক্ষণ হচ্ছে…","సేవ్ అవుతోంది…","सेव्ह होत आहे…","சேமிக்கப்படுகிறது…","સેવ થઈ રહ્યું છે…","ಉಳಿಸಲಾಗುತ್ತಿದೆ…","സേവ് ചെയ്യുന്നു…","ସେଭ୍ ହେଉଛି…","ਸੇਵ ਹੋ ਰਿਹਾ ਹੈ…","محفوظ ہو رہا ہے…"],"Save Receipt":["रसीद सेव करें","Save Receipt","রসিদ সংরক্ষণ করুন","రసీదును సేవ్ చేయండి","पावती सेव्ह करा","ரசீதைச் சேமிக்கவும்","રસીદ સેવ કરો","ರಸೀದಿಯನ್ನು ಉಳಿಸಿ","രസീത് സേവ് ചെയ്യുക","ରସିଦ ସେଭ୍ କରନ୍ତୁ","ਰਸੀਦ ਸੇਵ ਕਰੋ","رسید محفوظ کریں"],"Reset":["रीसेट करें","Reset","রিসেট করুন","రీసెట్ చేయండి","रीसेट करा","மீட்டமைக்கவும்","રીસેટ કરો","ಮರುಹೊಂದಿಸಿ","റീസെറ്റ് ചെയ്യുക","ରିସେଟ୍ କରନ୍ତୁ","ਰੀਸੈੱਟ ਕਰੋ","ری سیٹ کریں"],"PDF में वही दिखेगा जो नीचे preview में है — पूरा, बिना कटे। Negative amount अपने-आप 0 हो जाएगा।":["PDF में नीचे दिए गए पूर्वावलोकन जैसा पूरा पेज दिखेगा। ऋणात्मक राशि अपने-आप 0 हो जाएगी।","The PDF matches the preview below in full. Negative amounts are automatically set to 0.","PDF-এ নিচের প্রিভিউর মতো পুরোটা দেখা যাবে। ঋণাত্মক পরিমাণ স্বয়ংক্রিয়ভাবে ০ হবে।","PDFలో క్రింది ప్రివ్యూ పూర్తిగా కనిపిస్తుంది. నెగటివ్ మొత్తం ఆటోమేటిక్‌గా 0 అవుతుంది.","PDF मध्ये खालील पूर्वदृश्याप्रमाणे संपूर्ण पृष्ठ दिसेल. ऋण रक्कम आपोआप 0 होईल.","PDF-ல் கீழே உள்ள முன்னோட்டம் முழுமையாக வரும். எதிர்மறைத் தொகை தானாக 0 ஆகும்.","PDF માં નીચેનું પૂર્વાવલોકન સંપૂર્ણ દેખાશે. નકારાત્મક રકમ આપમેળે 0 થશે.","PDF ನಲ್ಲಿ ಕೆಳಗಿನ ಪೂರ್ವವೀಕ್ಷಣೆ ಸಂಪೂರ್ಣವಾಗಿ ಕಾಣುತ್ತದೆ. ಋಣಾತ್ಮಕ ಮೊತ್ತ ಸ್ವಯಂಚಾಲಿತವಾಗಿ 0 ಆಗುತ್ತದೆ.","PDF-ൽ താഴെയുള്ള പ്രിവ്യൂ പൂർണ്ണമായി വരും. നെഗറ്റീവ് തുക സ്വയം 0 ആകും.","PDF ରେ ତଳର ପ୍ରିଭ୍ୟୁ ସମ୍ପୂର୍ଣ୍ଣ ଦେଖାଯିବ। ନକାରାତ୍ମକ ରାଶି ଆପେ ଆପେ 0 ହେବ।","PDF ਵਿੱਚ ਹੇਠਾਂ ਦਿੱਤੀ ਝਲਕ ਪੂਰੀ ਦਿਖੇਗੀ। ਨਕਾਰਾਤਮਕ ਰਕਮ ਆਪਣੇ ਆਪ 0 ਹੋ ਜਾਵੇਗੀ।","PDF میں نیچے دیا گیا پیش نظارہ مکمل دکھائی دے گا۔ منفی رقم خود بخود 0 ہو جائے گی۔"],"Live Preview":["लाइव पूर्वावलोकन","Live Preview","লাইভ প্রিভিউ","లైవ్ ప్రివ్యూ","थेट पूर्वदृश्य","நேரடி முன்னோட்டம்","લાઇવ પૂર્વાવલોકન","ಲೈವ್ ಪೂರ್ವವೀಕ್ಷಣೆ","ലൈവ് പ്രിവ്യൂ","ଲାଇଭ୍ ପ୍ରିଭ୍ୟୁ","ਲਾਈਵ ਝਲਕ","براہ راست پیش نظارہ"],"Print-ready A4 portrait document • 794px":["प्रिंट के लिए तैयार A4 पोर्ट्रेट दस्तावेज़ • 794px","Print-ready A4 portrait document • 794px","প্রিন্টের জন্য প্রস্তুত A4 পোর্ট্রেট নথি • 794px","ప్రింట్‌కు సిద్ధమైన A4 పోర్ట్రెయిట్ పత్రం • 794px","प्रिंटसाठी तयार A4 पोर्ट्रेट दस्तऐवज • 794px","அச்சிடத் தயாரான A4 செங்குத்து ஆவணம் • 794px","પ્રિન્ટ માટે તૈયાર A4 પોર્ટ્રેટ દસ્તાવેજ • 794px","ಮುದ್ರಣಕ್ಕೆ ಸಿದ್ಧವಾದ A4 ಪೋರ್ಟ್ರೇಟ್ ದಾಖಲೆ • 794px","പ്രിന്റിന് തയ്യാറായ A4 പോർട്രെയ്റ്റ് രേഖ • 794px","ପ୍ରିଣ୍ଟ ପାଇଁ ପ୍ରସ୍ତୁତ A4 ପୋର୍ଟ୍ରେଟ୍ ଦଲିଲ • 794px","ਪ੍ਰਿੰਟ ਲਈ ਤਿਆਰ A4 ਪੋਰਟਰੇਟ ਦਸਤਾਵੇਜ਼ • 794px","پرنٹ کے لیے تیار A4 پورٹریٹ دستاویز • 794px"],"LIVE":["लाइव","LIVE","লাইভ","లైవ్","थेट","நேரடி","લાઇવ","ಲೈವ್","ലൈവ്","ଲାଇଭ୍","ਲਾਈਵ","لائیو"],"✂ CUT HERE · यहाँ से काटें":["✂ यहाँ से काटें","✂ CUT HERE","✂ এখানে কাটুন","✂ ఇక్కడ కత్తిరించండి","✂ येथे कापा","✂ இங்கே வெட்டவும்","✂ અહીં કાપો","✂ ಇಲ್ಲಿ ಕತ್ತರಿಸಿ","✂ ഇവിടെ മുറിക്കുക","✂ ଏଠାରେ କାଟନ୍ତୁ","✂ ਇੱਥੇ ਕੱਟੋ","✂ یہاں سے کاٹیں"],"Generated with KaamKaj Bills":["KaamKaj Bills के साथ बनाया गया","Generated with KaamKaj Bills","KaamKaj Bills দিয়ে তৈরি","KaamKaj Bills తో రూపొందించబడింది","KaamKaj Bills सह तयार केले","KaamKaj Bills மூலம் உருவாக்கப்பட்டது","KaamKaj Bills દ્વારા બનાવ્યું","KaamKaj Bills ಮೂಲಕ ರಚಿಸಲಾಗಿದೆ","KaamKaj Bills ഉപയോഗിച്ച് തയ്യാറാക്കിയത്","KaamKaj Bills ଦ୍ୱାରା ତିଆରି","KaamKaj Bills ਨਾਲ ਬਣਾਇਆ ਗਿਆ","KaamKaj Bills کے ذریعے تیار کردہ"],"Saved Receipts":["सेव की गई रसीदें","Saved Receipts","সংরক্ষিত রসিদ","సేవ్ చేసిన రసీదులు","सेव्ह केलेल्या पावत्या","சேமித்த ரசீதுகள்","સેવ કરેલી રસીદો","ಉಳಿಸಿದ ರಸೀದಿಗಳು","സേവ് ചെയ്ത രസീതുകൾ","ସେଭ୍ ହୋଇଥିବା ରସିଦ","ਸੇਵ ਕੀਤੀਆਂ ਰਸੀਦਾਂ","محفوظ کردہ رسیدیں"],"Saved receipts reload after refresh":["रिफ्रेश करने पर सेव की गई रसीदें फिर दिखाई देंगी","Saved receipts reload after refresh","রিফ্রেশ করলে সংরক্ষিত রসিদ আবার দেখা যাবে","రిఫ్రెష్ చేసిన తర్వాత సేవ్ చేసిన రసీదులు మళ్లీ కనిపిస్తాయి","रिफ्रेश केल्यानंतर सेव्ह केलेल्या पावत्या पुन्हा दिसतील","புதுப்பித்த பின் சேமித்த ரசீதுகள் மீண்டும் தோன்றும்","રિફ્રેશ કર્યા પછી સેવ કરેલી રસીદો ફરી દેખાશે","ರಿಫ್ರೆಶ್ ಮಾಡಿದ ನಂತರ ಉಳಿಸಿದ ರಸೀದಿಗಳು ಮತ್ತೆ ಕಾಣಿಸುತ್ತವೆ","റിഫ്രഷ് ചെയ്താൽ സേവ് ചെയ്ത രസീതുകൾ വീണ്ടും കാണാം","ରିଫ୍ରେଶ୍ ପରେ ସେଭ୍ ରସିଦ ପୁଣି ଦେଖାଯିବ","ਰਿਫ੍ਰੈਸ਼ ਕਰਨ ਤੋਂ ਬਾਅਦ ਸੇਵ ਕੀਤੀਆਂ ਰਸੀਦਾਂ ਮੁੜ ਦਿਖਣਗੀਆਂ","ریفریش کرنے کے بعد محفوظ رسیدیں دوبارہ نظر آئیں گی"]," saved":[" सेव"," saved"," সংরক্ষিত"," సేవ్ చేయబడింది"," सेव्ह"," சேமிக்கப்பட்டது"," સેવ"," ಉಳಿಸಲಾಗಿದೆ"," സേവ് ചെയ്തു"," ସେଭ୍"," ਸੇਵ"," محفوظ"],"No saved receipts yet. Fill the form and press Save Receipt.":["अभी कोई रसीद सेव नहीं है। फ़ॉर्म भरें और रसीद सेव करें।","No saved receipts yet. Fill the form and press Save Receipt.","এখনও কোনো রসিদ সংরক্ষিত নেই। ফর্ম পূরণ করে Save Receipt চাপুন।","ఇంకా రసీదులు సేవ్ కాలేదు. ఫారమ్ నింపి Save Receipt నొక్కండి.","अजून पावत्या सेव्ह केलेल्या नाहीत. फॉर्म भरा आणि Save Receipt दाबा.","இன்னும் ரசீதுகள் சேமிக்கப்படவில்லை. படிவத்தை நிரப்பி Save Receipt அழுத்தவும்.","હજુ કોઈ રસીદ સેવ નથી. ફોર્મ ભરીને Save Receipt દબાવો.","ಇನ್ನೂ ಯಾವುದೇ ರಸೀದಿಗಳನ್ನು ಉಳಿಸಿಲ್ಲ. ಫಾರ್ಮ್ ಭರ್ತಿ ಮಾಡಿ Save Receipt ಒತ್ತಿರಿ.","ഇതുവരെ രസീതുകളൊന്നും സേവ് ചെയ്തിട്ടില്ല. ഫോം പൂരിപ്പിച്ച് Save Receipt അമർത്തുക.","ଏପର୍ଯ୍ୟନ୍ତ ରସିଦ ସେଭ୍ ହୋଇନାହିଁ। ଫର୍ମ ପୂରଣ କରି Save Receipt ଦବାନ୍ତୁ।","ਹਾਲੇ ਕੋਈ ਰਸੀਦ ਸੇਵ ਨਹੀਂ ਹੋਈ। ਫਾਰਮ ਭਰੋ ਅਤੇ Save Receipt ਦਬਾਓ।","ابھی کوئی رسید محفوظ نہیں۔ فارم پُر کرکے Save Receipt دبائیں۔"],"Receipt":["रसीद","Receipt","রসিদ","రసీదు","पावती","ரசீது","રસીદ","ರಸೀದಿ","രസീത്","ରସିଦ","ਰਸੀਦ","رسید"],"Load":["लोड करें","Load","লোড করুন","లోడ్ చేయండి","लोड करा","ஏற்றவும்","લોડ કરો","ಲೋಡ್ ಮಾಡಿ","ലോഡ് ചെയ്യുക","ଲୋଡ୍ କରନ୍ତୁ","ਲੋਡ ਕਰੋ","لوڈ کریں"],"Delete":["हटाएँ","Delete","মুছে ফেলুন","తొలగించండి","हटवा","நீக்கவும்","દૂર કરો","ಅಳಿಸಿ","നീക്കം ചെയ്യുക","ଡିଲିଟ୍ କରନ୍ତୁ","ਮਿਟਾਓ","حذف کریں"],"Slip numbers इस session में memory में बनते हैं — REC-/VOUCH- + date + sequence.":["पर्ची नंबर इसी सेशन में बनते हैं — REC-/VOUCH- + तारीख + क्रमांक।","Slip numbers are generated in this session — REC-/VOUCH- + date + sequence.","এই সেশনে স্লিপ নম্বর তৈরি হয় — REC-/VOUCH- + তারিখ + ক্রম৷","ఈ సెషన్‌లో స్లిప్ నంబర్లు రూపొందుతాయి — REC-/VOUCH- + తేదీ + క్రమ సంఖ్య.","या सत्रात स्लिप क्रमांक तयार होतात — REC-/VOUCH- + तारीख + क्रमांक.","இந்த அமர்வில் சீட்டு எண்கள் உருவாக்கப்படும் — REC-/VOUCH- + தேதி + வரிசை.","આ સેશનમાં સ્લિપ નંબર બને છે — REC-/VOUCH- + તારીખ + ક્રમ.","ಈ ಸೆಷನ್‌ನಲ್ಲಿ ಸ್ಲಿಪ್ ಸಂಖ್ಯೆಗಳು ರಚನೆಯಾಗುತ್ತವೆ — REC-/VOUCH- + ದಿನಾಂಕ + ಕ್ರಮ.","ഈ സെഷനിൽ സ്ലിപ്പ് നമ്പറുകൾ സൃഷ്ടിക്കും — REC-/VOUCH- + തീയതി + ക്രമം.","ଏହି ସେସନ୍‌ରେ ସ୍ଲିପ୍ ନମ୍ବର ତିଆରି ହୁଏ — REC-/VOUCH- + ତାରିଖ + କ୍ରମ.","ਇਸ ਸੈਸ਼ਨ ਵਿੱਚ ਸਲਿੱਪ ਨੰਬਰ ਬਣਦੇ ਹਨ — REC-/VOUCH- + ਤਾਰੀਖ + ਕ੍ਰਮ.","اس سیشن میں سلپ نمبر بنتے ہیں — REC-/VOUCH- + تاریخ + ترتیب۔"],"सभी जानकारी साफ़ करें?":["क्या सभी जानकारी साफ़ करें?","Clear all information?","সব তথ্য মুছে ফেলবেন?","మొత్తం సమాచారాన్ని తొలగించాలా?","सर्व माहिती पुसायची?","அனைத்து தகவல்களையும் அழிக்கவா?","બધી માહિતી સાફ કરવી છે?","ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ತೆರವುಗೊಳಿಸಬೇಕೇ?","എല്ലാ വിവരങ്ങളും മായ്ക്കണോ?","ସମସ୍ତ ତଥ୍ୟ ହଟାଇବେ କି?","ਸਾਰੀ ਜਾਣਕਾਰੀ ਸਾਫ਼ ਕਰਨੀ ਹੈ?","کیا تمام معلومات صاف کر دیں؟"],"यह form की भरी हुई सभी जानकारी हटा देगा। यह action वापस नहीं होगा.":["यह फ़ॉर्म की सारी जानकारी हटा देगा। इस कार्रवाई को वापस नहीं किया जा सकेगा।","This will remove all information entered in the form. This action cannot be undone.","এতে ফর্মে দেওয়া সব তথ্য মুছে যাবে। এই কাজটি ফিরিয়ে নেওয়া যাবে না।","ఇది ఫారమ్‌లో నమోదు చేసిన మొత్తం సమాచారాన్ని తొలగిస్తుంది. ఈ చర్యను వెనక్కి తీసుకోలేరు.","यामुळे फॉर्ममधील सर्व माहिती हटवली जाईल. ही कृती पूर्ववत करता येणार नाही.","இது படிவத்தில் உள்ள அனைத்து தகவல்களையும் நீக்கும். இதை மீட்டெடுக்க முடியாது.","આ ફોર્મમાં ભરેલી બધી માહિતી દૂર કરશે. આ ક્રિયા પાછી ફેરવી શકાશે નહીં.","ಇದು ಫಾರ್ಮ್‌ನಲ್ಲಿ ನಮೂದಿಸಿದ ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನು ಅಳಿಸುತ್ತದೆ. ಈ ಕ್ರಮವನ್ನು ಹಿಂತಿರುಗಿಸಲಾಗುವುದಿಲ್ಲ.","ഫോമിൽ നൽകിയ എല്ലാ വിവരങ്ങളും ഇത് നീക്കും. ഈ നടപടി പഴയപടിയാക്കാനാവില്ല.","ଏହା ଫର୍ମର ସମସ୍ତ ତଥ୍ୟ ହଟାଇଦେବ। ଏହି କାର୍ଯ୍ୟକୁ ଫେରାଇ ପାରିବେ ନାହିଁ।","ਇਹ ਫਾਰਮ ਵਿੱਚ ਭਰੀ ਸਾਰੀ ਜਾਣਕਾਰੀ ਹਟਾ ਦੇਵੇਗਾ। ਇਹ ਕਾਰਵਾਈ ਵਾਪਸ ਨਹੀਂ ਹੋ ਸਕਦੀ।","یہ فارم میں درج تمام معلومات ختم کر دے گا۔ یہ عمل واپس نہیں ہو سکے گا۔"],"Cancel":["रद्द करें","Cancel","বাতিল করুন","రద్దు చేయండి","रद्द करा","ரத்துசெய்","રદ કરો","ರದ್ದುಮಾಡಿ","റദ്ദാക്കുക","ବାତିଲ୍ କରନ୍ତୁ","ਰੱਦ ਕਰੋ","منسوخ کریں"],"Clear All":["सब साफ़ करें","Clear All","সব মুছুন","అన్నీ తొలగించండి","सर्व साफ करा","அனைத்தையும் அழிக்கவும்","બધું સાફ કરો","ಎಲ್ಲವನ್ನೂ ತೆರವುಗೊಳಿಸಿ","എല്ലാം മായ്ക്കുക","ସବୁ ହଟାନ୍ତୁ","ਸਭ ਸਾਫ਼ ਕਰੋ","سب صاف کریں"],"Reset confirmation":["रीसेट की पुष्टि","Reset confirmation","রিসেট নিশ্চিত করুন","రీసెట్ నిర్ధారణ","रीसेट पुष्टी","மீட்டமைப்பு உறுதிப்படுத்தல்","રીસેટની પુષ્ટિ","ಮರುಹೊಂದಿಸುವ ದೃಢೀಕರಣ","റീസെറ്റ് സ്ഥിരീകരണം","ରିସେଟ୍ ନିଶ୍ଚିତକରଣ","ਰੀਸੈੱਟ ਦੀ ਪੁਸ਼ਟੀ","ری سیٹ کی تصدیق"],"MONEY RECEIPT (भुगतान रसीद)":["पैसा प्राप्ति रसीद","MONEY RECEIPT","টাকা গ্রহণের রসিদ","డబ్బు అందిన రసీదు","पैसे मिळाल्याची पावती","பணம் பெற்ற ரசீது","નાણાં મળ્યાની રસીદ","ಹಣ ಸ್ವೀಕೃತಿ ರಸೀದಿ","പണം ലഭിച്ച രസീത്","ଟଙ୍କା ପ୍ରାପ୍ତି ରସିଦ","ਪੈਸੇ ਪ੍ਰਾਪਤੀ ਰਸੀਦ","رقم وصولی کی رسید"],"PAYMENT VOUCHER (भुगतान पर्ची)":["भुगतान वाउचर","PAYMENT VOUCHER","পেমেন্ট ভাউচার","చెల్లింపు వోచర్","पेमेंट व्हाउचर","கட்டண வவுச்சர்","પેમેન્ટ વાઉચર","ಪಾವತಿ ವೋಚರ್","പേയ്മെന്റ് വൗച്ചർ","ପେମେଣ୍ଟ ଭାଉଚର","ਭੁਗਤਾਨ ਵਾਊਚਰ","ادائیگی واؤچر"],"Receipt / Slip No:":["रसीद / पर्ची नंबर:","Receipt / Slip No:","রসিদ / স্লিপ নম্বর:","రసీదు / స్లిప్ నంబర్:","पावती / स्लिप क्रमांक:","ரசீது / சீட்டு எண்:","રસીદ / સ્લિપ નંબર:","ರಸೀದಿ / ಸ್ಲಿಪ್ ಸಂಖ್ಯೆ:","രസീത് / സ്ലിപ്പ് നമ്പർ:","ରସିଦ / ସ୍ଲିପ୍ ନମ୍ବର:","ਰਸੀਦ / ਸਲਿੱਪ ਨੰਬਰ:","رسید / سلپ نمبر:"],"Date (तारीख):":["तारीख:","Date:","তারিখ:","తేదీ:","तारीख:","தேதி:","તારીખ:","ದಿನಾಂಕ:","തീയതി:","ତାରିଖ:","ਤਾਰੀਖ:","تاریخ:"],"Received From:":["किससे प्राप्त हुआ:","Received From:","যার কাছ থেকে পাওয়া:","ఎవరి నుండి అందింది:","कोणाकडून मिळाले:","யாரிடமிருந்து பெறப்பட்டது:","કોની પાસેથી મળ્યું:","ಯಾರಿಂದ ಸ್ವೀಕರಿಸಲಾಗಿದೆ:","ആരിൽ നിന്ന് ലഭിച്ചു:","କାହାଠାରୁ ମିଳିଲା:","ਕਿਸ ਤੋਂ ਪ੍ਰਾਪਤ ਹੋਇਆ:","کس سے موصول ہوا:"],"Paid To:":["किसको भुगतान किया:","Paid To:","যাকে দেওয়া হয়েছে:","ఎవరికి చెల్లించారు:","ज्यांना पैसे दिले:","யாருக்கு செலுத்தப்பட்டது:","કોને ચૂકવ્યું:","ಯಾರಿಗೆ ಪಾವತಿಸಲಾಗಿದೆ:","ആർക്കാണ് നൽകിയത്:","କାହାକୁ ଦିଆଗଲା:","ਕਿਸ ਨੂੰ ਦਿੱਤਾ:","کس کو ادا کیا:"],"Contact / Address:":["संपर्क / पता:","Contact / Address:","যোগাযোগ / ঠিকানা:","సంప్రదింపు / చిరునామా:","संपर्क / पत्ता:","தொடர்பு / முகவரி:","સંપર્ક / સરનામું:","ಸಂಪರ್ಕ / ವಿಳಾಸ:","ബന്ധപ്പെടുക / വിലാസം:","ଯୋଗାଯୋଗ / ଠିକଣା:","ਸੰਪਰਕ / ਪਤਾ:","رابطہ / پتہ:"],"Payment Mode:":["भुगतान का तरीका:","Payment Mode:","পেমেন্টের মাধ্যম:","చెల్లింపు విధానం:","पेमेंट पद्धत:","கட்டண முறை:","ચુકવણીની રીત:","ಪಾವತಿ ವಿಧಾನ:","പണമടയ്ക്കൽ രീതി:","ଦେୟ ପ୍ରଣାଳୀ:","ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ:","ادائیگی کا طریقہ:"],"Against Work / Bill:":["कार्य / बिल के बदले:","Against Work / Bill:","কাজ / বিলের জন্য:","పని / బిల్లుకు సంబంధించి:","काम / बिलाच्या संदर्भात:","வேலை / பில் தொடர்பாக:","કામ / બિલ સામે:","ಕೆಲಸ / ಬಿಲ್ ಸಂಬಂಧಿಸಿ:","ജോലി / ബില്ലിന് എതിരെ:","କାମ / ବିଲ୍ ବାବଦରେ:","ਕੰਮ / ਬਿੱਲ ਦੇ ਬਦਲੇ:","کام / بل کے عوض:"],"TOTAL RECEIVED AMOUNT (प्राप्त राशि):":["कुल प्राप्त राशि:","TOTAL RECEIVED AMOUNT:","মোট প্রাপ্ত অর্থ:","మొత్తం అందిన మొత్తం:","एकूण प्राप्त रक्कम:","மொத்தம் பெறப்பட்ட தொகை:","કુલ મળેલી રકમ:","ಒಟ್ಟು ಸ್ವೀಕರಿಸಿದ ಮೊತ್ತ:","ആകെ ലഭിച്ച തുക:","ମୋଟ ପ୍ରାପ୍ତ ରାଶି:","ਕੁੱਲ ਪ੍ਰਾਪਤ ਰਕਮ:","کل موصولہ رقم:"],"AMOUNT PAID (भुगतान की गई राशि):":["भुगतान की गई कुल राशि:","TOTAL AMOUNT PAID:","মোট প্রদত্ত অর্থ:","చెల్లించిన మొత్తం:","एकूण दिलेली रक्कम:","மொத்தம் செலுத்திய தொகை:","કુલ ચૂકવેલી રકમ:","ಒಟ್ಟು ಪಾವತಿಸಿದ ಮೊತ್ತ:","ആകെ നൽകിയ തുക:","ମୋଟ ଦିଆଯାଇଥିବା ରାଶି:","ਕੁੱਲ ਅਦਾ ਕੀਤੀ ਰਕਮ:","کل ادا کردہ رقم:"],"In Words (शब्दों में):":["शब्दों में:","In Words:","কথায়:","అక్షరాల్లో:","अक्षरी:","வார்த்தைகளில்:","શબ્દોમાં:","ಪದಗಳಲ್ಲಿ:","വാക്കുകളിൽ:","ଶବ୍ଦରେ:","ਸ਼ਬਦਾਂ ਵਿੱਚ:","الفاظ میں:"],"Client / Payer Signature":["ग्राहक / भुगतानकर्ता के हस्ताक्षर","Client / Payer Signature","গ্রাহক / প্রদানকারীর স্বাক্ষর","కస్టమర్ / చెల్లింపుదారుని సంతకం","ग्राहक / पैसे देणाऱ्याची सही","வாடிக்கையாளர் / செலுத்துபவர் கையொப்பம்","ગ્રાહક / ચુકવણીકર્તાની સહી","ಗ್ರಾಹಕ / ಪಾವತಿದಾರರ ಸಹಿ","കസ്റ്റമർ / പണമടച്ചയാളുടെ ഒപ്പ്","ଗ୍ରାହକ / ଦେୟକାରୀଙ୍କ ଦସ୍ତଖତ","ਗਾਹਕ / ਭੁਗਤਾਨਕਰਤਾ ਦੇ ਦਸਤਖ਼ਤ","گاہک / ادائیگی کنندہ کے دستخط"],"Receiver Signature (हस्ताक्षर)":["प्राप्तकर्ता के हस्ताक्षर","Receiver Signature","প্রাপকের স্বাক্ষর","స్వీకర్త సంతకం","प्राप्तकर्त्याची सही","பெறுநரின் கையொப்பம்","પ્રાપ્તકર્તાની સહી","ಸ್ವೀಕರಿಸುವವರ ಸಹಿ","സ്വീകരിച്ചയാളുടെ ഒപ്പ്","ଗ୍ରହୀତାଙ୍କ ଦସ୍ତଖତ","ਪ੍ਰਾਪਤਕਰਤਾ ਦੇ ਦਸਤਖ਼ਤ","وصول کنندہ کے دستخط"],"Receiver's Signature & Seal":["प्राप्तकर्ता के हस्ताक्षर और मुहर","Receiver's Signature & Seal","প্রাপকের স্বাক্ষর ও সিল","స్వీకర్త సంతకం మరియు ముద్ర","प्राप्तकर्त्याची सही आणि शिक्का","பெறுநரின் கையொப்பம் மற்றும் முத்திரை","પ્રાપ્તકર્તાની સહી અને સિક્કો","ಸ್ವೀಕರಿಸುವವರ ಸಹಿ ಮತ್ತು ಮುದ್ರೆ","സ്വീകരിച്ചയാളുടെ ഒപ്പും മുദ്രയും","ଗ୍ରହୀତାଙ୍କ ଦସ୍ତଖତ ଓ ମୋହର","ਪ੍ਰਾਪਤਕਰਤਾ ਦੇ ਦਸਤਖ਼ਤ ਅਤੇ ਮੋਹਰ","وصول کنندہ کے دستخط اور مہر"],"Authorized By / Manager":["अधिकृत व्यक्ति / मैनेजर","Authorized By / Manager","অনুমোদিত ব্যক্তি / ম্যানেজার","అధికారం పొందిన వ్యక్తి / మేనేజర్","अधिकृत व्यक्ती / व्यवस्थापक","அங்கீகரிக்கப்பட்டவர் / மேலாளர்","અધિકૃત વ્યક્તિ / મેનેજર","ಅಧಿಕೃತ ವ್ಯಕ್ತಿ / ವ್ಯವಸ್ಥಾಪಕ","അംഗീകൃത വ്യക്തി / മാനേജർ","ଅଧିକୃତ ବ୍ୟକ୍ତି / ମ୍ୟାନେଜର","ਅਧਿਕਾਰਤ ਵਿਅਕਤੀ / ਮੈਨੇਜਰ","مجاز فرد / مینیجر"],"Receipt saved.":["रसीद सेव हो गई।","Receipt saved.","রসিদ সংরক্ষিত হয়েছে।","రసీదు సేవ్ చేయబడింది.","पावती सेव्ह झाली.","ரசீது சேமிக்கப்பட்டது.","રસીદ સેવ થઈ ગઈ.","ರಸೀದಿ ಉಳಿಸಲಾಗಿದೆ.","രസീത് സേവ് ചെയ്തു.","ରସିଦ ସେଭ୍ ହୋଇଗଲା।","ਰਸੀਦ ਸੇਵ ਹੋ ਗਈ।","رسید محفوظ ہو گئی۔"],"Receipt saved":["रसीद सेव हो गई","Receipt saved","রসিদ সংরক্ষিত হয়েছে","రసీదు సేవ్ చేయబడింది","पावती सेव्ह झाली","ரசீது சேமிக்கப்பட்டது","રસીદ સેવ થઈ ગઈ","ರಸೀದಿ ಉಳಿಸಲಾಗಿದೆ","രസീത് സേവ് ചെയ്തു","ରସିଦ ସେଭ୍ ହୋଇଗଲା","ਰਸੀਦ ਸੇਵ ਹੋ ਗਈ","رسید محفوظ ہو گئی"],"Receipt save नहीं हुआ। दोबारा प्रयास करें।":["रसीद सेव नहीं हुई। फिर से कोशिश करें।","Receipt could not be saved. Please try again.","রসিদ সংরক্ষণ হয়নি। আবার চেষ্টা করুন।","రసీదు సేవ్ కాలేదు. మళ్లీ ప్రయత్నించండి.","पावती सेव्ह झाली नाही. पुन्हा प्रयत्न करा.","ரசீதைச் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.","રસીદ સેવ થઈ નથી. ફરી પ્રયાસ કરો.","ರಸೀದಿ ಉಳಿಸಲಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.","രസീത് സേവ് ചെയ്യാനായില്ല. വീണ്ടും ശ്രമിക്കുക.","ରସିଦ ସେଭ୍ ହୋଇନାହିଁ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।","ਰਸੀਦ ਸੇਵ ਨਹੀਂ ਹੋਈ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।","رسید محفوظ نہیں ہو سکی۔ دوبارہ کوشش کریں۔"],"Saved receipt loaded":["सेव की गई रसीद लोड हो गई","Saved receipt loaded","সংরক্ষিত রসিদ লোড হয়েছে","సేవ్ చేసిన రసీదు లోడ్ అయింది","सेव्ह केलेली पावती लोड झाली","சேமித்த ரசீது ஏற்றப்பட்டது","સેવ કરેલી રસીદ લોડ થઈ","ಉಳಿಸಿದ ರಸೀದಿ ಲೋಡ್ ಆಯಿತು","സേവ് ചെയ്ത രസീത് ലോഡ് ചെയ്തു","ସେଭ୍ ରସିଦ ଲୋଡ୍ ହେଲା","ਸੇਵ ਕੀਤੀ ਰਸੀਦ ਲੋਡ ਹੋ ਗਈ","محفوظ رسید لوڈ ہو گئی"],"Saved receipt deleted":["सेव की गई रसीद हटा दी गई","Saved receipt deleted","সংরক্ষিত রসিদ মুছে ফেলা হয়েছে","సేవ్ చేసిన రసీదు తొలగించబడింది","सेव्ह केलेली पावती हटवली","சேமித்த ரசீது நீக்கப்பட்டது","સેવ કરેલી રસીદ દૂર થઈ","ಉಳಿಸಿದ ರಸೀದಿ ಅಳಿಸಲಾಗಿದೆ","സേവ് ചെയ്ത രസീത് നീക്കം ചെയ്തു","ସେଭ୍ ରସିଦ ଡିଲିଟ୍ ହେଲା","ਸੇਵ ਕੀਤੀ ਰਸੀਦ ਮਿਟਾ ਦਿੱਤੀ ਗਈ","محفوظ رسید حذف کر دی گئی"],"Slip 1 details copied to Slip 2":["पर्ची 1 का विवरण पर्ची 2 में कॉपी हो गया","Slip 1 details copied to Slip 2","স্লিপ ১-এর তথ্য স্লিপ ২-এ কপি হয়েছে","స్లిప్ 1 వివరాలు స్లిప్ 2కి కాపీ అయ్యాయి","स्लिप १ चा तपशील स्लिप २ मध्ये कॉपी झाला","சீட்டு 1 விவரங்கள் சீட்டு 2-க்கு நகலெடுக்கப்பட்டன","સ્લિપ 1 ની વિગતો સ્લિપ 2 માં કૉપી થઈ","ಸ್ಲಿಪ್ 1 ವಿವರಗಳನ್ನು ಸ್ಲಿಪ್ 2ಕ್ಕೆ ನಕಲಿಸಲಾಗಿದೆ","സ്ലിപ്പ് 1 വിവരങ്ങൾ സ്ലിപ്പ് 2-ലേക്ക് പകർത്തി","ସ୍ଲିପ୍ 1 ବିବରଣୀ ସ୍ଲିପ୍ 2 କୁ କପି ହେଲା","ਸਲਿੱਪ 1 ਦੇ ਵੇਰਵੇ ਸਲਿੱਪ 2 ਵਿੱਚ ਕਾਪੀ ਹੋ ਗਏ","سلپ 1 کی تفصیلات سلپ 2 میں نقل ہو گئیں"],"Form reset हो गया":["फ़ॉर्म रीसेट हो गया","Form has been reset","ফর্ম রিসেট হয়েছে","ఫారమ్ రీసెట్ అయింది","फॉर्म रीसेट झाला","படிவம் மீட்டமைக்கப்பட்டது","ફોર્મ રીસેટ થઈ ગયું","ಫಾರ್ಮ್ ಮರುಹೊಂದಿಸಲಾಗಿದೆ","ഫോം റീസെറ്റ് ചെയ്തു","ଫର୍ମ ରିସେଟ୍ ହୋଇଗଲା","ਫਾਰਮ ਰੀਸੈੱਟ ਹੋ ਗਿਆ","فارم ری سیٹ ہو گیا"],"PDF तैयार हो रहा है…":["PDF तैयार हो रही है…","Preparing PDF…","PDF প্রস্তুত হচ্ছে…","PDF సిద్ధమవుతోంది…","PDF तयार होत आहे…","PDF தயாராகிறது…","PDF તૈયાર થઈ રહી છે…","PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ…","PDF തയ്യാറാകുന്നു…","PDF ପ୍ରସ୍ତୁତ ହେଉଛି…","PDF ਤਿਆਰ ਹੋ ਰਹੀ ਹੈ…","PDF تیار ہو رہی ہے…"],"PDF डाउनलोड हो गया":["PDF डाउनलोड हो गई","PDF downloaded successfully","PDF ডাউনলোড হয়েছে","PDF డౌన్‌లోడ్ అయింది","PDF डाउनलोड झाली","PDF பதிவிறக்கப்பட்டது","PDF ડાઉનલોડ થઈ ગઈ","PDF ಡೌನ್‌ಲೋಡ್ ಆಗಿದೆ","PDF ഡൗൺലോഡ് ചെയ്തു","PDF ଡାଉନଲୋଡ୍ ହୋଇଗଲା","PDF ਡਾਊਨਲੋਡ ਹੋ ਗਈ","PDF ڈاؤن لوڈ ہو گئی"],"PDF नहीं बन पाया। दोबारा प्रयास करें।":["PDF नहीं बन सकी। फिर से कोशिश करें।","Could not create the PDF. Please try again.","PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।","PDF రూపొందించలేకపోయాం. మళ్లీ ప్రయత్నించండి.","PDF तयार होऊ शकली नाही. पुन्हा प्रयत्न करा.","PDF உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.","PDF બની શકી નથી. ફરી પ્રયાસ કરો.","PDF ರಚಿಸಲಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.","PDF തയ്യാറാക്കാനായില്ല. വീണ്ടും ശ്രമിക്കുക.","PDF ତିଆରି ହୋଇପାରିଲା ନାହିଁ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।","PDF ਨਹੀਂ ਬਣ ਸਕੀ। ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।","PDF نہیں بن سکی۔ دوبارہ کوشش کریں۔"],"Amount too large":["राशि बहुत बड़ी है","Amount too large","পরিমাণ অনেক বড়","మొత్తం చాలా పెద్దది","रक्कम खूप मोठी आहे","தொகை மிக அதிகம்","રકમ ખૂબ મોટી છે","ಮೊತ್ತ ತುಂಬಾ ದೊಡ್ಡದಾಗಿದೆ","തുക വളരെ വലുതാണ്","ପରିମାଣ ବହୁତ ବଡ଼","ਰਕਮ ਬਹੁਤ ਵੱਡੀ ਹੈ","رقم بہت زیادہ ہے"],"Zero Rupees Only":["शून्य रुपये मात्र","Zero Rupees Only","শূন্য টাকা মাত্র","సున్నా రూపాయలు మాత్రమే","शून्य रुपये फक्त","பூஜ்யம் ரூபாய் மட்டும்","શૂન્ય રૂપિયા માત્ર","ಶೂನ್ಯ ರೂಪಾಯಿ ಮಾತ್ರ","പൂജ്യം രൂപ മാത്രം","ଶୂନ୍ୟ ଟଙ୍କା ମାତ୍ର","ਜ਼ੀਰੋ ਰੁਪਏ ਕੇਵਲ","صرف صفر روپے"],"BUSINESS / FIRM NAME":["व्यवसाय / फर्म का नाम","BUSINESS / FIRM NAME","ব্যবসা / প্রতিষ্ঠানের নাম","వ్యాపారం / సంస్థ పేరు","व्यवसाय / फर्मचे नाव","வணிகம் / நிறுவனத்தின் பெயர்","વ્યવસાય / પેઢીનું નામ","ವ್ಯಾಪಾರ / ಸಂಸ್ಥೆಯ ಹೆಸರು","ബിസിനസ് / സ്ഥാപനത്തിന്റെ പേര്","ବ୍ୟବସାୟ / ଫାର୍ମର ନାମ","ਕਾਰੋਬਾਰ / ਫਰਮ ਦਾ ਨਾਮ","کاروبار / فرم کا نام"],"Address, City & Contact Details":["पता, शहर और संपर्क विवरण","Address, City & Contact Details","ঠিকানা, শহর ও যোগাযোগের বিবরণ","చిరునామా, నగరం మరియు సంప్రదింపు వివరాలు","पत्ता, शहर आणि संपर्क तपशील","முகவரி, நகரம் மற்றும் தொடர்பு விவரங்கள்","સરનામું, શહેર અને સંપર્ક વિગતો","ವಿಳಾಸ, ನಗರ ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳು","വിലാസം, നഗരം, ബന്ധപ്പെടാനുള്ള വിവരങ്ങൾ","ଠିକଣା, ସହର ଓ ଯୋଗାଯୋଗ ବିବରଣୀ","ਪਤਾ, ਸ਼ਹਿਰ ਅਤੇ ਸੰਪਰਕ ਵੇਰਵੇ","پتہ، شہر اور رابطے کی تفصیلات"],"Saved receipts could not be loaded yet. Your current form still works.":["सेव की गई रसीदें अभी लोड नहीं हो सकीं। आपका मौजूदा फ़ॉर्म काम करता रहेगा।","Saved receipts could not be loaded yet. Your current form still works.","সংরক্ষিত রসিদ এখনো লোড করা যায়নি। আপনার বর্তমান ফর্ম কাজ করছে।","సేవ్ చేసిన రసీదులు ఇంకా లోడ్ కాలేదు. మీ ప్రస్తుత ఫారమ్ పనిచేస్తుంది.","सेव्ह केलेल्या पावत्या अजून लोड झालेल्या नाहीत. तुमचा सध्याचा फॉर्म सुरू राहील.","சேமித்த ரசீதுகளை இன்னும் ஏற்ற முடியவில்லை. தற்போதைய படிவம் தொடர்ந்து செயல்படும்.","સેવ કરેલી રસીદો હજી લોડ થઈ નથી. તમારું હાલનું ફોર્મ કામ કરતું રહેશે.","ಉಳಿಸಿದ ರಸೀದಿಗಳನ್ನು ಇನ್ನೂ ಲೋಡ್ ಮಾಡಲಾಗಿಲ್ಲ. ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಫಾರ್ಮ್ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ.","സേവ് ചെയ്ത രസീതുകൾ ഇതുവരെ ലോഡ് ചെയ്യാനായില്ല. നിലവിലെ ഫോം പ്രവർത്തിക്കും.","ସେଭ୍ ହୋଇଥିବା ରସିଦ ଏପର୍ଯ୍ୟନ୍ତ ଲୋଡ୍ ହୋଇନାହିଁ। ଆପଣଙ୍କ ଫର୍ମ କାମ କରିବ।","ਸੇਵ ਕੀਤੀਆਂ ਰਸੀਦਾਂ ਹਾਲੇ ਲੋਡ ਨਹੀਂ ਹੋਈਆਂ। ਤੁਹਾਡਾ ਮੌਜੂਦਾ ਫਾਰਮ ਕੰਮ ਕਰਦਾ ਰਹੇਗਾ।","محفوظ رسیدیں ابھی لوڈ نہیں ہو سکیں۔ آپ کا موجودہ فارم کام کرتا رہے گا۔"],"Could not save this receipt.":["यह रसीद सेव नहीं हो सकी।","Could not save this receipt.","এই রসিদ সংরক্ষণ করা যায়নি।","ఈ రసీదును సేవ్ చేయలేకపోయాం.","ही पावती सेव्ह करता आली नाही.","இந்த ரசீதைச் சேமிக்க முடியவில்லை.","આ રસીદ સેવ થઈ શકી નથી.","ಈ ರಸೀದಿಯನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ.","ഈ രസീത് സേവ് ചെയ്യാനായില്ല.","ଏହି ରସିଦ ସେଭ୍ ହୋଇପାରିଲା ନାହିଁ।","ਇਹ ਰਸੀਦ ਸੇਵ ਨਹੀਂ ਹੋ ਸਕੀ।","یہ رسید محفوظ نہیں ہو سکی۔"],"Could not delete this receipt.":["यह रसीद हटाई नहीं जा सकी।","Could not delete this receipt.","এই রসিদ মুছে ফেলা যায়নি।","ఈ రసీదును తొలగించలేకపోయాం.","ही पावती हटवता आली नाही.","இந்த ரசீதை நீக்க முடியவில்லை.","આ રસીદ દૂર થઈ શકી નથી.","ಈ ರಸೀದಿಯನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ.","ഈ രസീത് നീക്കം ചെയ്യാനായില്ല.","ଏହି ରସିଦ ଡିଲିଟ୍ ହୋଇପାରିଲା ନାହିଁ।","ਇਹ ਰਸੀਦ ਮਿਟਾਈ ਨਹੀਂ ਜਾ ਸਕੀ।","یہ رسید حذف نہیں ہو سکی۔"]};
+  const ITEMS = Object.fromEntries(Object.entries(RAW_ITEMS).map(([key,value]) => [key.trim(), value]));
+  const LANG_INDEX = Object.fromEntries(LANGS.map((l,i)=>[l.id,i]));
+  const root = document.getElementById('root');
+  const html = document.documentElement;
+  const textOriginal = new WeakMap();
+  const textApplied = new WeakMap();
+  const attrOriginal = new WeakMap();
+  const attrApplied = new WeakMap();
+  let locale = 'hi';
+  try { const saved = localStorage.getItem('kkBillsLanguage'); if (saved && LANG_INDEX[saved] !== undefined) locale = saved; } catch (_) {}
+
+  function preserveSpace(source, translated) {
+    const leading = (source.match(/^\s*/) || [''])[0];
+    const trailing = (source.match(/\s*$/) || [''])[0];
+    return leading + translated.trim() + trailing;
+  }
+  function translate(source, language=locale) {
+    if (typeof source !== 'string') return source;
+    const trimmed = source.trim();
+    const item = ITEMS[trimmed];
+    if (!item) return source;
+    const translated = item[LANG_INDEX[language]];
+    return translated === undefined ? source : preserveSpace(source, translated);
+  }
+  function translateTextNode(node) {
+    const current = node.nodeValue;
+    if (!current || !current.trim()) return;
+    let original = textOriginal.get(node);
+    const previous = textApplied.get(node);
+    if (original === undefined || (previous !== undefined && current !== previous)) {
+      original = current;
+      textOriginal.set(node, original);
+    }
+    const next = translate(original);
+    if (next !== current) node.nodeValue = next;
+    textApplied.set(node, next);
+  }
+  const ATTRS = ['placeholder','title','aria-label','aria-description'];
+  function translateAttributes(el) {
+    let originals = attrOriginal.get(el);
+    let applied = attrApplied.get(el);
+    if (!originals) { originals = {}; attrOriginal.set(el, originals); }
+    if (!applied) { applied = {}; attrApplied.set(el, applied); }
+    for (const name of ATTRS) {
+      if (!el.hasAttribute(name)) continue;
+      const current = el.getAttribute(name);
+      if (originals[name] === undefined || (applied[name] !== undefined && current !== applied[name])) originals[name] = current;
+      const next = translate(originals[name]);
+      if (next !== current) el.setAttribute(name, next);
+      applied[name] = next;
+    }
+  }
+  function translateTree(scope=root) {
+    if (!scope) return;
+    const walker = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+      const parent = node.parentElement;
+      if (!parent || parent.closest('.kk-language-control,script,style,textarea')) continue;
+      translateTextNode(node);
+    }
+    const elements = scope.querySelectorAll ? scope.querySelectorAll('*') : [];
+    elements.forEach(el => {
+      if (el.closest('.kk-language-control')) return;
+      translateAttributes(el);
+      if (el.tagName === 'OPTION') {
+        if (!el.hasAttribute('data-kk-original-value')) {
+          el.setAttribute('data-kk-original-value', el.getAttribute('value') ?? el.textContent);
+        }
+        const originalValue = el.getAttribute('data-kk-original-value');
+        if (!el.hasAttribute('value') || el.value !== originalValue) el.value = originalValue;
+      }
+    });
+    scope.querySelectorAll && scope.querySelectorAll('select:not(.kk-language-select)').forEach(sel => {
+      const chosen = sel.getAttribute('data-kk-selected-value') ?? sel.value;
+      if (chosen) { sel.setAttribute('data-kk-selected-value', chosen); sel.value = chosen; }
+    });
+  }
+  function installLanguageControl() {
+    if (!root) return;
+    const header = root.querySelector('header');
+    if (!header || header.querySelector('.kk-language-control')) return;
+    const badge = header.lastElementChild;
+    if (!badge) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'kk-language-control';
+    const label = document.createElement('label');
+    label.htmlFor = 'kk-language-select';
+    label.textContent = translate('भाषा');
+    const select = document.createElement('select');
+    select.id = 'kk-language-select';
+    select.className = 'kk-language-select';
+    select.setAttribute('aria-label', translate('अपनी भाषा चुनें'));
+    select.title = translate('अपनी भाषा चुनें');
+    LANGS.forEach(l => {
+      const option = document.createElement('option');
+      option.value = l.id;
+      option.textContent = l.name;
+      select.appendChild(option);
+    });
+    select.value = locale;
+    select.addEventListener('change', () => setLocale(select.value));
+    wrap.append(label, select);
+    header.insertBefore(wrap, badge);
+    updateLocaleControl();
+  }
+  function updateLocaleControl() {
+    const select = document.getElementById('kk-language-select');
+    const label = document.querySelector('.kk-language-control label');
+    if (select) {
+      select.value = locale;
+      const ariaText = translate('अपनी भाषा चुनें');
+      if (select.getAttribute('aria-label') !== ariaText) select.setAttribute('aria-label', ariaText);
+      if (select.title !== ariaText) select.title = ariaText;
+    }
+    const labelText = translate('भाषा');
+    if (label && label.textContent !== labelText) label.textContent = labelText;
+    const helper = root && root.querySelector('.kk-theme-help');
+    if (helper) {
+      const helperText = translate('यहाँ से आप मोड बदल सकते हैं');
+      if (helper.textContent !== helperText) helper.textContent = helperText;
+      if (helper.title !== helperText) helper.title = helperText;
+    }
+  }
+  function setLocale(next) {
+    if (LANG_INDEX[next] === undefined) return;
+    locale = next;
+    try { localStorage.setItem('kkBillsLanguage', locale); } catch (_) {}
+    const info = LANGS[LANG_INDEX[locale]];
+    html.lang = info.tag;
+    html.dir = locale === 'ur' ? 'rtl' : 'ltr';
+    document.title = 'KaamKaj Bills – ' + translate('Payment Receipt & Voucher Generator');
+    translateTree(root);
+    updateLocaleControl();
+    updateThemeLabels();
+    // Restore controlled select values after their visible option labels change.
+    root && root.querySelectorAll('select:not(.kk-language-select)').forEach(sel => {
+      const val = sel.getAttribute('data-kk-selected-value');
+      if (val !== null) sel.value = val;
+    });
+  }
+  function updateThemeLabels() {
+    const button = root && root.querySelector('.kk-theme-toggle');
+    if (!button) return;
+    const dark = html.dataset.theme === 'dark';
+    const aria = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    const title = dark ? 'Light mode' : 'Dark mode';
+    const ariaText = translate(aria);
+    const titleText = translate(title);
+    if (button.getAttribute('aria-label') !== ariaText) button.setAttribute('aria-label', ariaText);
+    if (button.title !== titleText) button.setAttribute('title', titleText);
+  }
+
+  // Translate static canvas labels as well, so the downloaded PDF follows the selected language.
+  try {
+    const proto = window.CanvasRenderingContext2D && CanvasRenderingContext2D.prototype;
+    if (proto && !proto.__kkI18nWrapped && typeof proto.fillText === 'function') {
+      const nativeFillText = proto.fillText;
+      proto.fillText = function(text, ...args) {
+        const translated = typeof text === 'string' ? translate(text) : text;
+        return nativeFillText.call(this, translated, ...args);
+      };
+      Object.defineProperty(proto, '__kkI18nWrapped', {value:true});
+    }
+  } catch (_) {}
+
+  if (root) {
+    const observer = new MutationObserver(records => {
+      let shouldTranslate = false;
+      for (const record of records) {
+        if (record.target && record.target.closest && record.target.closest('.kk-language-control')) continue;
+        shouldTranslate = true;
+        break;
+      }
+      if (shouldTranslate) {
+        installLanguageControl();
+        translateTree(root);
+        updateLocaleControl();
+        updateThemeLabels();
+      }
+    });
+    observer.observe(root, {subtree:true, childList:true, characterData:true, attributes:true, attributeFilter:ATTRS});
+    const boot = () => {
+      installLanguageControl();
+      translateTree(root);
+      updateLocaleControl();
+      updateThemeLabels();
+      if (locale !== 'hi') setLocale(locale);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once:true});
+    else boot();
+  }
+  window.kkBillsI18n = {setLanguage:setLocale, getLanguage:()=>locale, translate};
+})();
+</script>
+
+</body>
 </html>
