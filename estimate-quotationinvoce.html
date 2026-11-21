@@ -64,6 +64,10 @@
     border: none;
     cursor: pointer;
   }
+  .nav-pill:disabled, .btn-gold:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
 
   /* Hero Banner (Tally Style) */
   .hero-banner {
@@ -469,6 +473,38 @@
     cursor: pointer;
   }
 
+  /* Live A4 Preview Section */
+  .preview-wrapper {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 2px dashed #cbd5e1;
+  }
+  .preview-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--brand-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .preview-scroll {
+    overflow-x: auto;
+    background: #f1f5f9;
+    padding: 16px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+  }
+  #a4DocSheet {
+    max-width: 794px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  }
+
   @media (max-width: 820px) {
     .doc-mode-bar { grid-template-columns: repeat(2, 1fr); }
   }
@@ -478,6 +514,7 @@
     .hero-banner h1 { font-size: 22px; }
     .main-paper { padding: 20px 14px; }
     .top-meta-grid, .parties-grid, .bottom-calc-grid, .party-row-2 { grid-template-columns: 1fr; gap: 14px; }
+    .preview-scroll { padding: 8px; }
   }
 </style>
 </head>
@@ -486,7 +523,7 @@
 <nav class="saas-nav">
   <a href="index.html" target="_self" class="btn-back">← All Tools</a>
   <div class="brand-logo">KaamKaj <span>Bills</span></div>
-  <button type="button" class="nav-pill" onclick="downloadCleanPDF()">Download PDF ↗</button>
+  <button type="button" class="nav-pill" id="navPdfBtn" onclick="downloadCleanPDF()">Download PDF ↗</button>
 </nav>
 
 <div class="hero-banner">
@@ -525,25 +562,25 @@
       <div>
         <div class="u-field">
           <label id="lbl_doc_no">Invoice Number*</label>
-          <input type="text" id="inv_no" value="INV-2026-101">
+          <input type="text" id="inv_no" value="INV-2026-101" oninput="updateLivePreview()">
         </div>
         <div class="u-field">
           <label id="lbl_po_no">Buyer's Ref / PO Order No.</label>
-          <input type="text" id="inv_po" placeholder="e.g. PO-8842 / Site Ref">
+          <input type="text" id="inv_po" placeholder="e.g. PO-8842 / Site Ref" oninput="updateLivePreview()">
         </div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="u-field">
             <label id="lbl_doc_date">Invoice Date*</label>
-            <input type="date" id="inv_date">
+            <input type="date" id="inv_date" onchange="updateLivePreview()">
           </div>
           <div class="u-field" id="valid_until_wrap" style="display:none;">
             <label id="lbl_valid_date">Valid Until / Work Date</label>
-            <input type="date" id="inv_valid_date">
+            <input type="date" id="inv_valid_date" onchange="updateLivePreview()">
           </div>
         </div>
         <div class="u-field">
           <label>Mode / Terms of Payment</label>
-          <select id="inv_mode">
+          <select id="inv_mode" onchange="updateLivePreview()">
             <option value="UPI / Online Transfer">UPI / Online Transfer</option>
             <option value="CASH">CASH</option>
             <option value="NEFT / RTGS / Cheque">NEFT / RTGS / Cheque</option>
@@ -564,11 +601,11 @@
         </label>
         <div class="u-field">
           <label id="lbl_dispatch">Dispatched Through / Site / Work Scope</label>
-          <input type="text" id="inv_disp" placeholder="e.g. Porter / Site Location / Work Details">
+          <input type="text" id="inv_disp" placeholder="e.g. Porter / Site Location / Work Details" oninput="updateLivePreview()">
         </div>
         <div class="u-field">
           <label>Place of Supply / State</label>
-          <input type="text" id="inv_dest" value="" placeholder="e.g. Delhi (07)">
+          <input type="text" id="inv_dest" value="" placeholder="e.g. Delhi (07)" oninput="updateLivePreview()">
         </div>
       </div>
     </div>
@@ -577,29 +614,29 @@
     <div class="parties-grid">
       <div class="party-card">
         <h3 id="hdr_from">Invoice From <span>(Your Business Details)</span></h3>
-        <div class="u-field"><label>Your Business / Contractor Name*</label><input type="text" id="from_name" value="" placeholder="e.g. Apex Tech & Services"></div>
-        <div class="u-field"><label>Address Line 1</label><input type="text" id="from_addr1" value="" placeholder="e.g. Shop No. 12, Main Market Road"></div>
+        <div class="u-field"><label>Your Business / Contractor Name*</label><input type="text" id="from_name" value="" placeholder="e.g. Apex Tech & Services" oninput="updateLivePreview()"></div>
+        <div class="u-field"><label>Address Line 1</label><input type="text" id="from_addr1" value="" placeholder="e.g. Shop No. 12, Main Market Road" oninput="updateLivePreview()"></div>
         <div class="party-row-2">
-          <div class="u-field"><label>City &amp; State</label><input type="text" id="from_city" value="" placeholder="e.g. New Delhi, Delhi - 110001"></div>
-          <div class="u-field"><label>Phone / Mobile</label><input type="text" id="from_mob" value="" placeholder="e.g. 9800000000"></div>
+          <div class="u-field"><label>City &amp; State</label><input type="text" id="from_city" value="" placeholder="e.g. New Delhi, Delhi - 110001" oninput="updateLivePreview()"></div>
+          <div class="u-field"><label>Phone / Mobile</label><input type="text" id="from_mob" value="" placeholder="e.g. 9800000000" oninput="updateLivePreview()"></div>
         </div>
         <div class="party-row-2">
-          <div class="u-field"><label>Your GSTIN (Optional)</label><input type="text" id="from_gst" placeholder="27XXXXX0000X1Z5"></div>
-          <div class="u-field"><label>UPI ID (For Payment)</label><input type="text" id="from_upi" placeholder="business@ybl"></div>
+          <div class="u-field"><label>Your GSTIN (Optional)</label><input type="text" id="from_gst" placeholder="27XXXXX0000X1Z5" oninput="updateLivePreview()"></div>
+          <div class="u-field"><label>UPI ID (For Payment)</label><input type="text" id="from_upi" placeholder="business@ybl" oninput="updateLivePreview()"></div>
         </div>
       </div>
 
       <div class="party-card">
-        <h3 id="hdr_to">Invoice For <span>(Client\'s Details)</span></h3>
-        <div class="u-field"><label>Client / Company Name*</label><input type="text" id="to_name" placeholder="e.g. Sharma Trading Co."></div>
-        <div class="u-field"><label>Client / Site Address</label><input type="text" id="to_addr1" placeholder="Street, Area, Landmark"></div>
+        <h3 id="hdr_to">Invoice For <span>(Client's Details)</span></h3>
+        <div class="u-field"><label>Client / Company Name*</label><input type="text" id="to_name" placeholder="e.g. Sharma Trading Co." oninput="updateLivePreview()"></div>
+        <div class="u-field"><label>Client / Site Address</label><input type="text" id="to_addr1" placeholder="Street, Area, Landmark" oninput="updateLivePreview()"></div>
         <div class="party-row-2">
-          <div class="u-field"><label>City &amp; State</label><input type="text" id="to_city" placeholder="e.g. Bengaluru, Karnataka"></div>
-          <div class="u-field"><label>Client Phone / WhatsApp</label><input type="text" id="to_mob" placeholder="9876543210"></div>
+          <div class="u-field"><label>City &amp; State</label><input type="text" id="to_city" placeholder="e.g. Bengaluru, Karnataka" oninput="updateLivePreview()"></div>
+          <div class="u-field"><label>Client Phone / WhatsApp</label><input type="text" id="to_mob" placeholder="9876543210" oninput="updateLivePreview()"></div>
         </div>
         <div class="party-row-2">
-          <div class="u-field"><label>Client GSTIN (Optional)</label><input type="text" id="to_gst" placeholder="27XXXXX1111X1Z2"></div>
-          <div class="u-field"><label>Client Email (Optional)</label><input type="text" id="to_email" placeholder="client@email.com"></div>
+          <div class="u-field"><label>Client GSTIN (Optional)</label><input type="text" id="to_gst" placeholder="27XXXXX1111X1Z2" oninput="updateLivePreview()"></div>
+          <div class="u-field"><label>Client Email (Optional)</label><input type="text" id="to_email" placeholder="client@email.com" oninput="updateLivePreview()"></div>
         </div>
       </div>
     </div>
@@ -669,7 +706,7 @@
     <!-- Terms & Conditions -->
     <div class="terms-dashed">
       <label>Terms and Conditions / Work Notes</label>
-      <input type="text" id="inv_terms" value="1. Goods once sold will not be taken back. 2. Subject to local jurisdiction. 3. E. & O.E.">
+      <input type="text" id="inv_terms" value="1. Goods once sold will not be taken back. 2. Subject to local jurisdiction. 3. E. & O.E." oninput="updateLivePreview()">
     </div>
 
     <!-- Action Buttons -->
@@ -678,10 +715,24 @@
       <button type="button" class="btn-outline" onclick="printCleanA4()">🖨️ Direct Print</button>
       <button type="button" class="btn-wa" id="btnShareWa" onclick="shareWA()">📲 WhatsApp Bill</button>
     </div>
+
+    <!-- Live A4 Document Preview (Source for PDF Export) -->
+    <div class="preview-wrapper">
+      <div class="preview-label">
+        <span>📄 Live A4 Document Preview</span>
+        <span style="font-weight:500; color:#64748b; text-transform:none;">Exact layout exported to A4 PDF</span>
+      </div>
+      <div class="preview-scroll">
+        <div id="a4DocSheet">
+          <div id="invoiceDocContent"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
+  const $ = id => document.getElementById(id);
   let docType = 'INVOICE';
   let logoDataUrl = '';
   let items = [
@@ -796,34 +847,34 @@
     const cfg = DOC_CONFIG[type];
 
     ['INVOICE', 'QUOTATION', 'ESTIMATE', 'LABOUR', 'PROFORMA'].forEach(t => {
-      document.getElementById('tab_' + t).classList.toggle('active', t === type);
+      $('tab_' + t).classList.toggle('active', t === type);
     });
 
-    document.getElementById('docTopTitle').innerText = cfg.title;
-    document.getElementById('lbl_doc_no').innerText = cfg.noLabel;
-    document.getElementById('lbl_doc_date').innerText = cfg.dateLabel;
-    document.getElementById('hdr_from').innerHTML = cfg.fromHeader;
-    document.getElementById('hdr_to').innerHTML = cfg.toHeader;
-    document.getElementById('btnDownloadPdf').innerText = cfg.pdfBtn;
-    document.getElementById('btnShareWa').innerText = cfg.waBtn;
-    document.getElementById('valid_until_wrap').style.display = cfg.showValid ? 'block' : 'none';
-    document.getElementById('inv_terms').value = cfg.defaultTerms;
+    $('docTopTitle').innerText = cfg.title;
+    $('lbl_doc_no').innerText = cfg.noLabel;
+    $('lbl_doc_date').innerText = cfg.dateLabel;
+    $('hdr_from').innerHTML = cfg.fromHeader;
+    $('hdr_to').innerHTML = cfg.toHeader;
+    $('btnDownloadPdf').innerText = cfg.pdfBtn;
+    $('btnShareWa').innerText = cfg.waBtn;
+    $('valid_until_wrap').style.display = cfg.showValid ? 'block' : 'none';
+    $('inv_terms').value = cfg.defaultTerms;
 
     // Update table headers for Labour vs Product
-    document.getElementById('th_desc').innerText = type === 'LABOUR' ? 'Labour Work / Service Description*' : 'Product / Service Description*';
-    document.getElementById('th_hsn').innerText = type === 'LABOUR' ? 'SAC / Unit' : 'HSN/SAC';
-    document.getElementById('th_qty').innerText = type === 'LABOUR' ? 'Days / Qty*' : 'Qty*';
+    $('th_desc').innerText = type === 'LABOUR' ? 'Labour Work / Service Description*' : 'Product / Service Description*';
+    $('th_hsn').innerText = type === 'LABOUR' ? 'SAC / Unit' : 'HSN/SAC';
+    $('th_qty').innerText = type === 'LABOUR' ? 'Days / Qty*' : 'Qty*';
 
     // GST options & column appear ONLY on Tax Invoice (INVOICE)
     const isTaxInvoice = (type === 'INVOICE');
-    document.getElementById('gstTypeGroup').style.display = isTaxInvoice ? 'flex' : 'none';
+    $('gstTypeGroup').style.display = isTaxInvoice ? 'flex' : 'none';
     document.querySelectorAll('.gst-col').forEach(el => {
       el.style.display = isTaxInvoice ? '' : 'none';
     });
 
     // Update doc number prefix
     const randNum = Math.floor(100000 + Math.random() * 899990);
-    document.getElementById('inv_no').value = `${cfg.prefix}-${randNum}`;
+    $('inv_no').value = `${cfg.prefix}-${randNum}`;
 
     // Render preset chips
     renderPresetChips();
@@ -832,7 +883,7 @@
 
   function renderPresetChips() {
     const cfg = DOC_CONFIG[docType];
-    const box = document.getElementById('presetChips');
+    const box = $('presetChips');
     box.innerHTML = cfg.presets.map((p, idx) =>
       `<button type="button" class="preset-chip" onclick="addPresetItem(${idx})">+ ${p.name} (₹${p.rate})</button>`
     ).join('');
@@ -857,25 +908,26 @@
     const r = new FileReader();
     r.onload = ev => {
       logoDataUrl = ev.target.result;
-      const img = document.getElementById('logoPreview');
+      const img = $('logoPreview');
       img.src = logoDataUrl;
       img.style.display = 'block';
-      document.getElementById('logoPlaceholder').style.display = 'none';
+      $('logoPlaceholder').style.display = 'none';
+      updateLivePreview();
     };
     r.readAsDataURL(f);
   }
 
   function renderTable() {
     const isTaxInvoice = (docType === 'INVOICE');
-    document.getElementById('itemsBody').innerHTML = items.map((it, i) => {
+    $('itemsBody').innerHTML = items.map((it, i) => {
       const base = (it.qty || 0) * (it.rate || 0);
       const afterDisc = base - (base * (it.disc || 0) / 100);
       const effectiveGst = Number(it.gst) || 0;
       return `
         <tr>
           <td class="t-center"><b>${i+1}</b></td>
-          <td><input value="${it.name.replace(/"/g, '&quot;')}" placeholder="Description" oninput="items[${i}].name=this.value"></td>
-          <td><input value="${(it.hsn||'').replace(/"/g, '&quot;')}" placeholder="${docType === 'LABOUR' ? 'Day/Pt' : 'HSN'}" oninput="items[${i}].hsn=this.value"></td>
+          <td><input value="${it.name.replace(/"/g, '&quot;')}" placeholder="Description" oninput="items[${i}].name=this.value;updateLivePreview()"></td>
+          <td><input value="${(it.hsn||'').replace(/"/g, '&quot;')}" placeholder="${docType === 'LABOUR' ? 'Day/Pt' : 'HSN'}" oninput="items[${i}].hsn=this.value;updateLivePreview()"></td>
           <td class="gst-col">
             <select style="width:100%; border:none; border-bottom:1.5px solid #cbd5e1; padding:6px 2px; font-size:12.5px; font-weight:700; background:transparent; outline:none; text-align:center;" onchange="items[${i}].gst=parseFloat(this.value)||0;recalc()">
               <option value="0" ${effectiveGst===0?'selected':''}>0%</option>
@@ -933,30 +985,32 @@
       const tax = isNoGst ? 0 : (taxable * (it.gst || 0) / 100);
       sub += taxable;
       totalTax += tax;
-      const cell = document.getElementById(`row_amt_${i}`);
+      const cell = $(`row_amt_${i}`);
       if (cell) cell.innerHTML = `<b>₹${taxable.toLocaleString('en-IN', {minimumFractionDigits:2})}</b>`;
     });
 
-    const extra = Math.max(0, parseFloat(document.getElementById('extra_charge').value) || 0);
+    const extra = Math.max(0, parseFloat($('extra_charge').value) || 0);
     const grand = Math.round(sub + totalTax + extra);
-    const adv = Math.max(0, parseFloat(document.getElementById('adv_received').value) || 0);
+    const adv = Math.max(0, parseFloat($('adv_received').value) || 0);
     const bal = Math.max(0, grand - adv);
 
-    document.getElementById('lbl_sub').innerText = '₹' + sub.toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('row_cgst').style.display = isIntra ? 'flex' : 'none';
-    document.getElementById('row_sgst').style.display = isIntra ? 'flex' : 'none';
-    document.getElementById('row_igst').style.display = (!isIntra && !isNoGst) ? 'flex' : 'none';
-    document.getElementById('row_extra').style.display = extra > 0 ? 'flex' : 'none';
-    document.getElementById('row_adv').style.display = adv > 0 ? 'flex' : 'none';
-    document.getElementById('row_bal').style.display = adv > 0 ? 'flex' : 'none';
+    $('lbl_sub').innerText = '₹' + sub.toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('row_cgst').style.display = isIntra ? 'flex' : 'none';
+    $('row_sgst').style.display = isIntra ? 'flex' : 'none';
+    $('row_igst').style.display = (!isIntra && !isNoGst) ? 'flex' : 'none';
+    $('row_extra').style.display = extra > 0 ? 'flex' : 'none';
+    $('row_adv').style.display = adv > 0 ? 'flex' : 'none';
+    $('row_bal').style.display = adv > 0 ? 'flex' : 'none';
 
-    document.getElementById('lbl_cgst').innerText = '₹' + (totalTax / 2).toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('lbl_sgst').innerText = '₹' + (totalTax / 2).toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('lbl_igst').innerText = '₹' + totalTax.toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('lbl_extra').innerText = '₹' + extra.toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('lbl_grand').innerText = '₹' + grand.toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('lbl_adv').innerText = '-₹' + adv.toLocaleString('en-IN', {minimumFractionDigits:2});
-    document.getElementById('lbl_bal').innerText = '₹' + bal.toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_cgst').innerText = '₹' + (totalTax / 2).toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_sgst').innerText = '₹' + (totalTax / 2).toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_igst').innerText = '₹' + totalTax.toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_extra').innerText = '₹' + extra.toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_grand').innerText = '₹' + grand.toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_adv').innerText = '-₹' + adv.toLocaleString('en-IN', {minimumFractionDigits:2});
+    $('lbl_bal').innerText = '₹' + bal.toLocaleString('en-IN', {minimumFractionDigits:2});
+
+    updateLivePreview();
   }
 
   function escHtml(str) {
@@ -969,8 +1023,8 @@
     const isTaxInvoice = (docType === 'INVOICE');
     const isIntra = isTaxInvoice && (taxMode === 'INTRA');
     const isNoGst = !isTaxInvoice;
-    const extra = Math.max(0, parseFloat(document.getElementById('extra_charge').value) || 0);
-    const adv = Math.max(0, parseFloat(document.getElementById('adv_received').value) || 0);
+    const extra = Math.max(0, parseFloat($('extra_charge').value) || 0);
+    const adv = Math.max(0, parseFloat($('adv_received').value) || 0);
     let sub = 0, totalTax = 0;
 
     const rowsHtml = items.map((it, i) => {
@@ -995,8 +1049,8 @@
 
     const grand = Math.round(sub + totalTax + extra);
     const bal = Math.max(0, grand - adv);
-    const upi = document.getElementById('from_upi').value.trim();
-    const validDt = document.getElementById('inv_valid_date').value;
+    const upi = $('from_upi').value.trim();
+    const validDt = $('inv_valid_date').value;
 
     const docShortLabel = docType === 'INVOICE' ? 'Invoice' :
                           docType === 'QUOTATION' ? 'Quotation' :
@@ -1004,42 +1058,42 @@
                           docType === 'LABOUR' ? 'Labour Bill' : 'Proforma';
 
     return `
-      <div style="font-family:-apple-system,sans-serif; color:#0f172a; padding:18px; border:1.5px solid #066399; border-radius:8px; background:#fff; width:100%; box-sizing:border-box;">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2.5px solid #066399; padding-bottom:12px; margin-bottom:14px; gap:12px;">
+      <div class="doc-sheet-inner" style="font-family:-apple-system,sans-serif; color:#0f172a; padding:18px; border:1.5px solid #066399; border-radius:8px; background:#fff; width:100%; box-sizing:border-box;">
+        <div class="doc-header-row" style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2.5px solid #066399; padding-bottom:12px; margin-bottom:14px; gap:12px;">
           <div style="display:flex; gap:12px; align-items:center;">
             ${logoDataUrl ? `<img src="${logoDataUrl}" style="max-height:54px; max-width:110px; object-fit:contain;">` : ''}
             <div>
-              <h2 style="margin:0; font-size:18px; color:#066399; text-transform:uppercase;">${escHtml(document.getElementById('from_name').value || 'BUSINESS NAME')}</h2>
-              <p style="margin:3px 0 0; font-size:11px; color:#475569;">${escHtml(document.getElementById('from_addr1').value)}, ${escHtml(document.getElementById('from_city').value)}</p>
-              <p style="margin:2px 0 0; font-size:11px; color:#475569;">Mob: ${escHtml(document.getElementById('from_mob').value)} ${document.getElementById('from_gst').value ? `| GSTIN: <b>${escHtml(document.getElementById('from_gst').value)}</b>` : ''}</p>
+              <h2 style="margin:0; font-size:18px; color:#066399; text-transform:uppercase;">${escHtml($('from_name').value || 'BUSINESS NAME')}</h2>
+              <p style="margin:3px 0 0; font-size:11px; color:#475569;">${escHtml($('from_addr1').value)}, ${escHtml($('from_city').value)}</p>
+              <p style="margin:2px 0 0; font-size:11px; color:#475569;">Mob: ${escHtml($('from_mob').value)} ${$('from_gst').value ? `| GSTIN: <b>${escHtml($('from_gst').value)}</b>` : ''}</p>
             </div>
           </div>
           <div style="text-align:right; flex-shrink:0;">
             <span style="background:#066399; color:#fff; padding:4px 12px; border-radius:4px; font-size:11px; font-weight:800;">${cfg.title}</span>
-            <p style="margin:6px 0 0; font-size:11px;"><b>${docShortLabel} No:</b> ${escHtml(document.getElementById('inv_no').value)}</p>
-            <p style="margin:2px 0 0; font-size:11px;"><b>Date:</b> ${escHtml(document.getElementById('inv_date').value)}</p>
+            <p style="margin:6px 0 0; font-size:11px;"><b>${docShortLabel} No:</b> ${escHtml($('inv_no').value)}</p>
+            <p style="margin:2px 0 0; font-size:11px;"><b>Date:</b> ${escHtml($('inv_date').value)}</p>
             ${(cfg.showValid && validDt) ? `<p style="margin:2px 0 0; font-size:11px;"><b>Valid Until:</b> ${escHtml(validDt)}</p>` : ''}
           </div>
         </div>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; font-size:11px;">
+        <div class="doc-parties-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; font-size:11px;">
           <div style="background:#f2f8fd; border:1px solid #cde4f7; padding:10px; border-radius:6px;">
             <b style="color:#066399; display:block; margin-bottom:4px;">${docType === 'INVOICE' ? 'BILLED TO (CLIENT):' : 'PREPARED FOR (CLIENT):'}</b>
-            <b>${escHtml(document.getElementById('to_name').value || 'Walk-in Customer')}</b><br>
-            ${escHtml(document.getElementById('to_addr1').value)} ${escHtml(document.getElementById('to_city').value)}<br>
-            ${document.getElementById('to_mob').value ? `Mob: ${escHtml(document.getElementById('to_mob').value)}` : ''}
-            ${document.getElementById('to_gst').value ? `<br>GSTIN: <b>${escHtml(document.getElementById('to_gst').value)}</b>` : ''}
+            <b>${escHtml($('to_name').value || 'Walk-in Customer')}</b><br>
+            ${escHtml($('to_addr1').value)} ${escHtml($('to_city').value)}<br>
+            ${$('to_mob').value ? `Mob: ${escHtml($('to_mob').value)}` : ''}
+            ${$('to_gst').value ? `<br>GSTIN: <b>${escHtml($('to_gst').value)}</b>` : ''}
           </div>
           <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:6px;">
             <b style="color:#0f172a; display:block; margin-bottom:4px;">WORK &amp; PAYMENT DETAILS:</b>
-            <b>Payment Terms:</b> ${escHtml(document.getElementById('inv_mode').value)}<br>
-            <b>Ref / PO No:</b> ${escHtml(document.getElementById('inv_po').value || '-')}<br>
-            <b>Scope / Dispatch:</b> ${escHtml(document.getElementById('inv_disp').value || '-')}<br>
-            <b>Place of Supply:</b> ${escHtml(document.getElementById('inv_dest').value)}
+            <b>Payment Terms:</b> ${escHtml($('inv_mode').value)}<br>
+            <b>Ref / PO No:</b> ${escHtml($('inv_po').value || '-')}<br>
+            <b>Scope / Dispatch:</b> ${escHtml($('inv_disp').value || '-')}<br>
+            <b>Place of Supply:</b> ${escHtml($('inv_dest').value)}
           </div>
         </div>
 
-        <table style="width:100%; border-collapse:collapse; font-size:11px; margin-bottom:12px;">
+        <table class="doc-items-table" style="width:100%; border-collapse:collapse; font-size:11px; margin-bottom:12px;">
           <thead>
             <tr style="background:#066399; color:#fff;">
               <th style="padding:6px; border:1px solid #066399;">#</th>
@@ -1054,10 +1108,10 @@
           <tbody>${rowsHtml}</tbody>
         </table>
 
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+        <div class="doc-bottom-row" style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
           <div style="font-size:10.5px; color:#334155; max-width:54%;">
             ${upi ? `<div style="background:#fefce8; border:1px solid #fde047; padding:6px 10px; border-radius:5px; margin-bottom:6px;"><b>Pay via UPI:</b> ${escHtml(upi)}</div>` : ''}
-            <b>Terms &amp; Conditions:</b><br>${escHtml(document.getElementById('inv_terms').value)}
+            <b>Terms &amp; Conditions:</b><br>${escHtml($('inv_terms').value)}
           </div>
           <table style="font-size:11.5px; border-collapse:collapse; min-width:235px;">
             <tr><td style="padding:4px 8px;">${isNoGst ? 'Subtotal:' : 'Taxable Subtotal:'}</td><td style="padding:4px 8px; text-align:right;">₹${sub.toLocaleString('en-IN', {minimumFractionDigits:2})}</td></tr>
@@ -1080,36 +1134,157 @@
           </table>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:28px; font-size:10.5px;">
+        <div class="doc-sig-row" style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:28px; font-size:10.5px;">
           <div style="color:#64748b;">Client / Receiver Signature</div>
-          <div style="text-align:center; border-top:1.5px dashed #475569; padding-top:4px; min-width:170px; font-weight:700;">For ${escHtml(document.getElementById('from_name').value || 'Authorized Signatory')}</div>
+          <div style="text-align:center; border-top:1.5px dashed #475569; padding-top:4px; min-width:170px; font-weight:700;">For ${escHtml($('from_name').value || 'Authorized Signatory')}</div>
         </div>
       </div>
     `;
   }
 
-  function downloadCleanPDF() {
+  function updateLivePreview() {
+    const target = $('invoiceDocContent');
+    if (target) {
+      target.innerHTML = buildCleanInvoiceHTML();
+    }
+  }
+
+  async function downloadCleanPDF() {
+    updateLivePreview();
     const cfg = DOC_CONFIG[docType];
+    const mainBtn = $('btnDownloadPdf');
+    const navBtn = $('navPdfBtn');
+    const originalMainText = mainBtn ? mainBtn.textContent : cfg.pdfBtn;
+    const originalNavText = navBtn ? navBtn.textContent : 'Download PDF ↗';
+    const source = $('a4DocSheet');
+
+    if (!source || !$('invoiceDocContent').innerHTML.trim()) {
+      alert('कृपया PDF डाउनलोड करने से पहले बिल/डॉक्यूमेंट का विवरण भरें।');
+      return;
+    }
+
+    if (typeof html2pdf === 'undefined') {
+      alert('PDF library उपलब्ध नहीं है। कृपया इंटरनेट कनेक्शन जाँचें और पुनः प्रयास करें।');
+      return;
+    }
+
+    if (mainBtn) {
+      mainBtn.disabled = true;
+      mainBtn.textContent = '⏳ Generating PDF...';
+    }
+    if (navBtn) {
+      navBtn.disabled = true;
+      navBtn.textContent = '⏳ PDF...';
+    }
+
+    const PDF_WIDTH = 680;
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.dir = document.documentElement.dir || 'ltr';
+    const copiedContainer = clone.querySelector('#invoiceDocContent');
+    if (copiedContainer) copiedContainer.removeAttribute('id');
+    clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+
+    clone.style.cssText = [
+      `width:${PDF_WIDTH}px`,
+      `max-width:${PDF_WIDTH}px`,
+      `min-width:${PDF_WIDTH}px`,
+      'margin:0',
+      'padding:0',
+      'background:#ffffff',
+      'color:#0f172a',
+      'border:none',
+      'border-radius:0',
+      'box-shadow:none',
+      'box-sizing:border-box',
+      'overflow:visible'
+    ].join(';');
+
+    const exportStyle = document.createElement('style');
+    exportStyle.textContent = `
+      .pdf-export-sheet, .pdf-export-sheet * { box-sizing:border-box !important; }
+      .pdf-export-sheet .doc-sheet-inner {
+        width:100% !important; max-width:100% !important; margin:0 !important;
+        padding:18px !important; overflow:visible !important;
+        border:1.5px solid #066399 !important; border-radius:8px !important;
+        background:#ffffff !important; color:#0f172a !important;
+      }
+      .pdf-export-sheet .doc-header-row {
+        display:flex !important; justify-content:space-between !important;
+        align-items:flex-start !important; gap:12px !important;
+      }
+      .pdf-export-sheet .doc-parties-grid {
+        display:grid !important; grid-template-columns:1fr 1fr !important;
+        gap:12px !important; font-size:11px !important;
+      }
+      .pdf-export-sheet .doc-items-table {
+        width:100% !important; border-collapse:collapse !important; font-size:11px !important;
+      }
+      .pdf-export-sheet .doc-items-table tr {
+        break-inside:avoid !important; page-break-inside:avoid !important;
+      }
+      .pdf-export-sheet .doc-bottom-row {
+        display:flex !important; justify-content:space-between !important;
+        align-items:flex-start !important; gap:16px !important;
+        break-inside:avoid !important; page-break-inside:avoid !important;
+      }
+      .pdf-export-sheet .doc-sig-row {
+        display:flex !important; justify-content:space-between !important;
+        align-items:flex-end !important; margin-top:28px !important;
+        break-inside:avoid !important; page-break-inside:avoid !important;
+      }
+    `;
+    clone.classList.add('pdf-export-sheet');
+
     const overlay = document.createElement('div');
-    overlay.style.cssText = 'position:fixed; top:0; left:0; width:100vw; height:100vh; background:#ffffff; z-index:99999; overflow:auto; margin:0; padding:0;';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+
     const staging = document.createElement('div');
-    staging.style.cssText = 'position:relative; top:0; left:0; width:680px; margin:0; padding:0; background:#ffffff;';
-    staging.innerHTML = buildCleanInvoiceHTML();
+    staging.style.cssText = `position:relative;top:0;left:0;width:${PDF_WIDTH}px;min-width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;color:#0f172a;`;
+    staging.appendChild(clone);
     overlay.appendChild(staging);
+    document.head.appendChild(exportStyle);
     document.body.appendChild(overlay);
 
-    const cleanNo = (document.getElementById('inv_no').value || 'Doc').replace(/[^a-zA-Z0-9-_]/g, '');
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        html2pdf().set({
-          margin: [10, 12, 10, 12],
-          filename: `${cfg.filePrefix}_${cleanNo}.pdf`,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, x: 0, y: 0, width: 680, windowWidth: 680, backgroundColor: '#ffffff' },
-          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        }).from(staging).save().then(() => overlay.remove()).catch(() => overlay.remove());
-      }, 120);
-    });
+    const cleanNo = ($('inv_no').value.trim() || 'Doc').replace(/[^a-zA-Z0-9-_]/g, '_');
+    const filename = `${cfg.filePrefix}_${cleanNo}.pdf`;
+
+    try {
+      await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 150)));
+
+      await html2pdf().set({
+        margin: [10, 12, 12, 12],
+        filename,
+        image: { type: 'png', quality: 1.0 },
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          letterRendering: true,
+          scrollX: 0,
+          scrollY: 0,
+          x: 0,
+          y: 0,
+          width: PDF_WIDTH,
+          windowWidth: PDF_WIDTH,
+          backgroundColor: '#ffffff'
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+      }).from(staging).save();
+    } catch (error) {
+      console.error('Invoice PDF export failed:', error);
+      alert('PDF generate नहीं हो पाया। कृपया दोबारा प्रयास करें या Direct Print में Save as PDF चुनें।');
+    } finally {
+      overlay.remove();
+      exportStyle.remove();
+      if (mainBtn) {
+        mainBtn.disabled = false;
+        mainBtn.textContent = originalMainText;
+      }
+      if (navBtn) {
+        navBtn.disabled = false;
+        navBtn.textContent = originalNavText;
+      }
+    }
   }
 
   function printCleanA4() {
@@ -1121,36 +1296,28 @@
 
   function shareWA() {
     const cfg = DOC_CONFIG[docType];
-    const biz = document.getElementById('from_name').value || 'Business';
-    const inv = document.getElementById('inv_no').value;
-    const tot = document.getElementById('lbl_grand').innerText;
-    const ph = document.getElementById('to_mob').value.replace(/[^0-9]/g, '');
+    const biz = $('from_name').value || 'Business';
+    const inv = $('inv_no').value;
+    const tot = $('lbl_grand').innerText;
+    const ph = $('to_mob').value.replace(/[^0-9]/g, '');
     let itemLines = '';
     items.forEach((it, idx) => {
-      if (it.name) itemLines += `${idx+1}. ${it.name} (${it.qty} × ₹${it.rate})
-`;
+      if (it.name) itemLines += `${idx+1}. ${it.name} (${it.qty} × ₹${it.rate})\n`;
     });
-    const msg = `*🧾 ${cfg.title} (${inv})*
-*From:* ${biz}
-*Client:* ${document.getElementById('to_name').value || 'Customer'}
-
-${itemLines}-------------------------
-*Total Amount:* ${tot}
-
-_Generated via KaamKaj Bills._`;
+    const msg = `*🧾 ${cfg.title} (${inv})*\n*From:* ${biz}\n*Client:* ${$('to_name').value || 'Customer'}\n\n${itemLines}-------------------------\n*Total Amount:* ${tot}\n\n_Generated via KaamKaj Bills._`;
     window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
   // Local Storage Profile Persistence
   function saveProfileLocal() {
     const data = {
-      from_name: document.getElementById('from_name').value,
-      from_addr1: document.getElementById('from_addr1').value,
-      from_city: document.getElementById('from_city').value,
-      from_mob: document.getElementById('from_mob').value,
-      from_gst: document.getElementById('from_gst').value,
-      from_upi: document.getElementById('from_upi').value,
-      inv_dest: document.getElementById('inv_dest').value,
+      from_name: $('from_name').value,
+      from_addr1: $('from_addr1').value,
+      from_city: $('from_city').value,
+      from_mob: $('from_mob').value,
+      from_gst: $('from_gst').value,
+      from_upi: $('from_upi').value,
+      inv_dest: $('inv_dest').value,
       logoDataUrl: logoDataUrl
     };
     try {
@@ -1169,14 +1336,14 @@ _Generated via KaamKaj Bills._`;
       if (!raw) return;
       const d = JSON.parse(raw);
       ['from_name', 'from_addr1', 'from_city', 'from_mob', 'from_gst', 'from_upi', 'inv_dest'].forEach(k => {
-        if (d[k] !== undefined) document.getElementById(k).value = d[k];
+        if (d[k] !== undefined) $(k).value = d[k];
       });
       if (d.logoDataUrl) {
         logoDataUrl = d.logoDataUrl;
-        const img = document.getElementById('logoPreview');
+        const img = $('logoPreview');
         img.src = logoDataUrl;
         img.style.display = 'block';
-        document.getElementById('logoPlaceholder').style.display = 'none';
+        $('logoPlaceholder').style.display = 'none';
       }
     } catch (e) {}
   }
@@ -1185,24 +1352,25 @@ _Generated via KaamKaj Bills._`;
     if (confirm('Delete saved business profile and logo?')) {
       localStorage.removeItem('kkb_gst_profile_v1');
       logoDataUrl = '';
-      document.getElementById('logoPreview').style.display = 'none';
-      document.getElementById('logoPlaceholder').style.display = 'block';
+      $('logoPreview').style.display = 'none';
+      $('logoPlaceholder').style.display = 'block';
+      updateLivePreview();
       alert('Saved data cleared.');
     }
   }
 
   function newDocument() {
     const cfg = DOC_CONFIG[docType];
-    document.getElementById('inv_no').value = `${cfg.prefix}-${Math.floor(100000 + Math.random() * 899990)}`;
-    document.getElementById('inv_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('to_name').value = '';
-    document.getElementById('to_addr1').value = '';
-    document.getElementById('to_city').value = '';
-    document.getElementById('to_mob').value = '';
-    document.getElementById('to_gst').value = '';
-    document.getElementById('to_email').value = '';
-    document.getElementById('extra_charge').value = 0;
-    document.getElementById('adv_received').value = 0;
+    $('inv_no').value = `${cfg.prefix}-${Math.floor(100000 + Math.random() * 899990)}`;
+    $('inv_date').value = new Date().toISOString().split('T')[0];
+    $('to_name').value = '';
+    $('to_addr1').value = '';
+    $('to_city').value = '';
+    $('to_mob').value = '';
+    $('to_gst').value = '';
+    $('to_email').value = '';
+    $('extra_charge').value = 0;
+    $('adv_received').value = 0;
     items = [{ name: '', hsn: '', gst: docType === 'ESTIMATE' || docType === 'LABOUR' ? 0 : 18, qty: 1, rate: 0, disc: 0 }];
     renderTable();
   }
@@ -1210,17 +1378,17 @@ _Generated via KaamKaj Bills._`;
   function resetCurrentForm() {
     if (confirm('Clear current items and reset amounts?')) {
       items = [{ name: '', hsn: '', gst: docType === 'ESTIMATE' || docType === 'LABOUR' ? 0 : 18, qty: 1, rate: 0, disc: 0 }];
-      document.getElementById('extra_charge').value = 0;
-      document.getElementById('adv_received').value = 0;
+      $('extra_charge').value = 0;
+      $('adv_received').value = 0;
       renderTable();
     }
   }
 
   window.onload = () => {
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('inv_date').value = today;
+    $('inv_date').value = today;
     const next15 = new Date(Date.now() + 15 * 86400000).toISOString().split('T')[0];
-    document.getElementById('inv_valid_date').value = next15;
+    $('inv_valid_date').value = next15;
 
     loadProfileLocal();
     setDocType('INVOICE');
