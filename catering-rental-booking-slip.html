@@ -2,593 +2,365 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Catering, Tent & Event Rental Booking Slip - KaamKaj Bills</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   :root {
-    --primary: #d97706;
-    --primary-dark: #b45309;
-    --primary-soft: #fef3c7;
-    --ink: #0f172a;
-    --ink-muted: #475569;
-    --border: #cbd5e1;
-    --bg: #f1f5f9;
-    --danger: #dc2626;
+    --primary:#d97706; --primary-dark:#b45309; --primary-soft:#fef3c7;
+    --ink:#0f172a; --ink-muted:#475569; --border:#cbd5e1; --bg:#f1f5f9;
+    --surface:#fff; --surface-alt:#f8fafc; --danger:#dc2626;
+    --shadow:0 6px 20px rgba(15,23,42,.06);
   }
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100%;
-    background: var(--bg);
-    color: var(--ink);
-    overflow-x: hidden !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+  body.dark-mode {
+    --primary:#fbbf24; --primary-dark:#f59e0b; --primary-soft:rgba(245,158,11,.16);
+    --ink:#f1f5f9; --ink-muted:#cbd5e1; --border:#334155; --bg:#0b1120;
+    --surface:#172033; --surface-alt:#111827; --danger:#f87171;
+    --shadow:0 8px 24px rgba(0,0,0,.32);
   }
-  ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
-
-  /* Top Navigation Bar */
-  .top-nav {
-    background: var(--ink);
-    color: #fff;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid var(--primary);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .btn-home {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-    text-decoration: none;
-    padding: 7px 14px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 700;
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: 0.2s;
-  }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
-
-  /* PC Full-Wide Split Grid Layout */
-  .kb-wrapper {
-    width: 100%;
-    max-width: 100%;
-    padding: 18px 24px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 24px;
-    align-items: start;
-  }
-
-  /* Left Control Box */
-  .control-box {
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
-  }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
-
-  input, select {
-    width: 100%;
-    padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 13.5px;
-    outline: none;
-    color: var(--ink);
-    background: #f8fafc;
-    transition: all 0.2s;
-  }
-  input:focus, select:focus {
-    border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14);
-  }
-
-  .section-badge {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    font-size: 11.5px;
-    font-weight: 800;
-    padding: 6px 12px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin: 16px 0 12px 0;
-    text-transform: uppercase;
-    border-left: 4px solid var(--primary);
-  }
-  .section-badge:first-of-type { margin-top: 0; }
-
-  .toggle-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 14px;
-    background: #f1f5f9;
-    border: 1px solid var(--border);
-    padding: 5px;
-    border-radius: 10px;
-  }
-  .toggle-btn {
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--ink-muted);
-    transition: 0.2s;
-  }
-  .toggle-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.28);
-  }
-
-  /* Quick Chips */
-  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px 0; }
-  .chip-btn {
-    background: #ffffff;
-    border: 1px solid #fbbf24;
-    color: var(--primary-dark);
-    padding: 5px 11px;
-    border-radius: 20px;
-    font-size: 11.5px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.15s;
-  }
-  .chip-btn:hover { background: var(--primary-soft); }
-
-  /* Table Controls */
-  .items-input-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 12px; }
-  .items-input-table th {
-    text-align: left;
-    padding: 8px 6px;
-    color: var(--ink-muted);
-    font-weight: 800;
-    background: #fffbeb;
-    border-bottom: 2px solid var(--border);
-  }
-  .items-input-table td { padding: 6px 4px; }
-  .btn-del-row {
-    background: #fee2e2;
-    color: var(--danger);
-    border: 1px solid #fca5a5;
-    border-radius: 6px;
-    width: 32px;
-    height: 36px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .btn-del-row:hover { background: var(--danger); color: #fff; }
-  .btn-add-row {
-    background: var(--primary-soft);
-    color: var(--primary-dark);
-    border: 1.5px dashed #f59e0b;
-    padding: 9px 14px;
-    border-radius: 8px;
-    font-size: 12.5px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 8px;
-  }
-
-  /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
-  .btn {
-    flex: 1;
-    min-width: 140px;
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 800;
-    color: #fff;
-    cursor: pointer;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    transition: 0.2s;
-  }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
-  .btn-pdf { background: linear-gradient(135deg, #d97706, #b45309); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
-  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
-
-  /* Right Sticky Preview Panel */
-  .preview-panel {
-    position: sticky;
-    top: 72px;
-    width: 100%;
-  }
-  .preview-label {
-    text-align: center;
-    font-size: 11.5px;
-    font-weight: 800;
-    color: var(--ink-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
-  }
-  #a4DocSheet {
-    background: #ffffff;
-    width: 100%;
-    padding: 20px 18px;
-    border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    border-radius: 8px;
-    box-sizing: border-box;
-  }
-
-  .slip-box {
-    border: 1.5px solid #0f172a;
-    border-radius: 8px;
-    padding: 14px;
-    background: #ffffff;
-  }
-
-  .slip-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 6px;
-    margin-bottom: 10px;
-  }
-  .slip-header h2 { margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; text-transform: uppercase; }
-  .slip-header p { margin: 2px 0 0; font-size: 10px; color: #64748b; }
-  .slip-badge {
-    background: var(--primary);
-    color: #ffffff;
-    padding: 3px 9px;
-    font-size: 10px;
-    font-weight: 800;
-    border-radius: 4px;
-    text-transform: uppercase;
-  }
-
-  .slip-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; font-size: 11px; }
-  .slip-table td { padding: 3.5px 3px; vertical-align: top; }
-  .slip-table td.lbl { font-weight: 700; color: #475569; width: 25%; }
-  .slip-table td.val { border-bottom: 1px dotted #94a3b8; font-weight: 600; color: #0f172a; }
-
-  .doc-items-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 10.5px; }
-  .doc-items-table th { background: #fef3c7; color: #92400e; padding: 5px; text-align: left; font-weight: 800; border: 1px solid #fcd34d; }
-  .doc-items-table td { padding: 4.5px 5px; border: 1px solid #e2e8f0; font-weight: 600; }
-  .t-right { text-align: right; }
-  .t-center { text-align: center; }
-
-  .amount-highlight {
-    background: #fffbeb;
-    border: 1.2px solid #fcd34d;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 8px 0;
-    font-size: 11px;
-  }
-  .notes-box { background: #f8fafc; border-left: 3px solid var(--primary); padding: 5px 8px; font-size: 10px; color: #334155; margin: 6px 0; }
-  .footer-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 14px; font-size: 10px; }
-  .sig-card { width: 44%; text-align: center; border-top: 1.5px dashed #475569; padding-top: 4px; font-weight: 700; color: #334155; }
-
-  .cut-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin: 16px 0;
-    border-top: 2px dashed #94a3b8;
-  }
-  .cut-tag { position: absolute; top: -10px; background: #fff; padding: 0 8px; font-size: 10px; font-weight: 700; color: #64748b; }
-
-  @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
-    .preview-panel { position: static; }
-    .top-nav { padding: 10px 12px; }
-  }
-  @media (max-width: 600px) {
-    .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+  html,body{margin:0!important;padding:0!important;width:100%;min-height:100%;background:var(--bg);color:var(--ink);overflow-x:hidden;scrollbar-width:none;transition:background .2s,color .2s}
+  ::-webkit-scrollbar{display:none;width:0;height:0}
+  .top-nav{background:#0f172a;color:#fff;padding:11px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:3px solid #f59e0b;position:sticky;top:0;z-index:100;flex-wrap:wrap}
+  .nav-left,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn-home{background:rgba(255,255,255,.12);color:#fff;text-decoration:none;padding:8px 13px;border-radius:8px;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.2);white-space:nowrap}
+  .nav-title{font-size:15px;font-weight:800;letter-spacing:.2px}
+  .lang-control{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:#fff}
+  .lang-control select{width:auto;min-width:145px;padding:7px 9px;border:1px solid #64748b;border-radius:8px;background:#fff;color:#0f172a;font-size:12px;font-weight:700}
+  .theme-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .theme-help{font-size:11px;color:#e2e8f0;font-weight:600}
+  .btn-theme{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.25);padding:7px 11px;border-radius:8px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .kb-wrapper{width:100%;max-width:100%;padding:18px 22px 36px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:22px;align-items:start}
+  .control-box{min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:20px;box-shadow:var(--shadow)}
+  .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;min-width:0}
+  label{font-size:11px;font-weight:800;color:var(--ink-muted);letter-spacing:.25px}
+  input,select{width:100%;min-width:0;padding:10px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:13.5px;outline:none;color:var(--ink);background:var(--surface-alt);transition:.2s}
+  input:focus,select:focus{border-color:var(--primary);background:var(--surface);box-shadow:0 0 0 3px rgba(217,119,6,.14)}
+  .section-badge{background:var(--primary-soft);color:var(--primary-dark);font-size:11.5px;font-weight:900;padding:7px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px;margin:16px 0 12px;text-transform:uppercase;border-left:4px solid var(--primary)}
+  .section-badge:first-of-type{margin-top:0}
+  .toggle-bar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:7px 0 14px;background:var(--surface-alt);border:1px solid var(--border);padding:5px;border-radius:10px}
+  .toggle-btn{padding:11px 9px;border:0;border-radius:7px;font-size:12px;font-weight:800;cursor:pointer;background:transparent;color:var(--ink-muted);transition:.2s}
+  .toggle-btn.active{background:var(--primary);color:#fff;box-shadow:0 3px 8px rgba(217,119,6,.25)}
+  .chip-group{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 12px}
+  .chip-btn{background:var(--surface);border:1px solid #fbbf24;color:var(--primary-dark);padding:7px 11px;border-radius:20px;font-size:11.5px;font-weight:800;cursor:pointer}
+  .chip-btn:hover{background:var(--primary-soft)}
+  .table-scroll{width:100%;overflow-x:auto;border:1px solid var(--border);border-radius:9px}
+  .items-input-table{width:100%;min-width:540px;border-collapse:collapse;font-size:12px;margin-top:0}
+  .items-input-table th{text-align:left;padding:9px 6px;color:var(--ink-muted);font-weight:900;background:var(--surface-alt);border-bottom:2px solid var(--border)}
+  .items-input-table td{padding:6px 4px;border-bottom:1px solid var(--border)}
+  .items-input-table input{padding:8px;font-size:12.5px}
+  .btn-del-row{background:rgba(220,38,38,.12);color:var(--danger);border:1px solid rgba(220,38,38,.3);border-radius:6px;width:32px;height:35px;font-weight:bold;cursor:pointer}
+  .btn-add-row{background:var(--primary-soft);color:var(--primary-dark);border:1.5px dashed var(--primary);padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:800;cursor:pointer;margin-top:9px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+  .btn{flex:1;min-width:145px;padding:13px 12px;border:0;border-radius:9px;font-size:13.5px;font-weight:900;color:#fff;cursor:pointer;text-align:center;box-shadow:0 4px 10px rgba(0,0,0,.1);transition:.2s}
+  .btn:hover{opacity:.94;transform:translateY(-1px)}.btn:disabled{opacity:.6;cursor:wait;transform:none}
+  .btn-pdf{background:linear-gradient(135deg,#d97706,#b45309)}.btn-print{background:linear-gradient(135deg,#334155,#0f172a)}.btn-wa{background:linear-gradient(135deg,#16a34a,#15803d)}
+  .preview-panel{position:sticky;top:82px;width:100%;min-width:0}
+  .preview-label{text-align:center;font-size:11.5px;font-weight:900;color:var(--ink-muted);letter-spacing:.7px;margin-bottom:10px}
+  #a4DocSheet{background:#fff!important;color:#0f172a!important;width:100%;padding:20px 18px;border:1.5px solid #cbd5e1;box-shadow:var(--shadow);border-radius:9px;box-sizing:border-box}
+  .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;background:#fff;color:#0f172a;break-inside:avoid;page-break-inside:avoid}
+  .slip-header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:2px solid var(--primary);padding-bottom:7px;margin-bottom:10px}
+  .slip-header h2{margin:0;font-size:16px;font-weight:900;color:#0f172a;text-transform:uppercase;overflow-wrap:anywhere}
+  .slip-header p{margin:3px 0 0;font-size:10px;color:#64748b;overflow-wrap:anywhere}
+  .slip-badge{background:var(--primary);color:#fff;padding:4px 9px;font-size:9.5px;font-weight:900;border-radius:4px;text-transform:uppercase;text-align:center;flex-shrink:0}
+  .slip-table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:10.5px;table-layout:fixed}
+  .slip-table td{padding:4px 3px;vertical-align:top;overflow-wrap:anywhere}
+  .slip-table td.lbl{font-weight:800;color:#475569;width:23%}.slip-table td.val{border-bottom:1px dotted #94a3b8;font-weight:650;color:#0f172a}
+  .doc-items-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:10px;table-layout:fixed}
+  .doc-items-table th{background:#fef3c7;color:#92400e;padding:5px 4px;text-align:left;font-weight:900;border:1px solid #fcd34d;overflow-wrap:anywhere}
+  .doc-items-table td{padding:5px 4px;border:1px solid #e2e8f0;font-weight:650;color:#0f172a;overflow-wrap:anywhere}
+  .t-right{text-align:right}.t-center{text-align:center}
+  .amount-highlight{background:#fffbeb;border:1.2px solid #fcd34d;padding:7px 9px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;gap:8px;margin:8px 0;font-size:10.5px;color:#0f172a}
+  .notes-box{background:#f8fafc;border-left:3px solid var(--primary);padding:6px 8px;font-size:10px;color:#334155;margin:7px 0;overflow-wrap:anywhere}
+  .footer-row{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:14px;font-size:10px;color:#64748b}
+  .sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:5px;font-weight:800;color:#334155;overflow-wrap:anywhere}
+  .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:17px 0;border-top:2px dashed #94a3b8;break-inside:avoid}
+  .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:9.5px;font-weight:800;color:#64748b}
+  @media(max-width:1050px){.kb-wrapper{grid-template-columns:1fr;padding:13px 10px 28px;gap:17px}.preview-panel{position:static}.top-nav{padding:10px 13px}}
+  @media(max-width:620px){.nav-title{font-size:13px}.nav-right{width:100%;justify-content:space-between}.grid-2,.grid-3{grid-template-columns:1fr}.toggle-bar{grid-template-columns:1fr}.control-box{padding:14px 12px}.actions .btn{width:100%;min-width:100%}.lang-control{flex:1}.lang-control select{flex:1;min-width:0}.theme-wrap{justify-content:flex-start}.theme-help{max-width:190px}.slip-box{padding:10px}.slip-header h2{font-size:13px}.slip-table{font-size:9px}.doc-items-table{font-size:9px}.amount-highlight{font-size:9px;align-items:flex-start}.sig-card{width:48%}}
+  @media print{
+    @page{size:A4 portrait;margin:0}
+    body{background:#fff!important;margin:0!important;padding:0!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    .top-nav,.control-box,.preview-label{display:none!important}
+    .kb-wrapper{display:block!important;padding:0!important;margin:0!important}
+    .preview-panel{position:static!important;width:100%!important}
+    #a4DocSheet{border:0!important;box-shadow:none!important;border-radius:0!important;padding:12mm 14mm!important;width:100%!important}
   }
 </style>
 </head>
 <body>
-
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Catering & Tent Rental Slip</span>
-  <span style="width: 60px;"></span>
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home" data-i18n="allTools">← All Tools</a>
+    <span class="nav-title" data-i18n="navTitle">KaamKaj Bills • Catering & Tent Rental Slip</span>
+  </div>
+  <div class="nav-right">
+    <label class="lang-control"><span>🌐 <span data-i18n="language">Language / भाषा</span></span>
+      <select id="languageSelect" onchange="changeLanguage(this.value)" aria-label="Select language">
+        <option value="hi">हिन्दी (Hindi)</option><option value="en">English</option><option value="bn">বাংলা (Bengali)</option>
+        <option value="te">తెలుగు (Telugu)</option><option value="mr">मराठी (Marathi)</option><option value="ta">தமிழ் (Tamil)</option>
+        <option value="gu">ગુજરાતી (Gujarati)</option><option value="kn">ಕನ್ನಡ (Kannada)</option><option value="ml">മലയാളം (Malayalam)</option>
+        <option value="or">ଓଡ଼ିଆ (Odia)</option><option value="pa">ਪੰਜਾਬੀ (Punjabi)</option><option value="ur">اردو (Urdu)</option>
+      </select>
+    </label>
+    <div class="theme-wrap">
+      <span class="theme-help" id="themeHelp">यहाँ से आप मोड बदल सकते हैं</span>
+      <button type="button" class="btn-theme" id="btnThemeToggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    </div>
+  </div>
 </div>
 
 <div class="kb-wrapper">
-  <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
-    <div style="margin-bottom: 10px;">
-      <label>1. Print Slip Copies (A4 पर कितनी प्रतियां?):</label>
+    <div style="margin-bottom:10px">
+      <label data-i18n="copiesLabel">1. Print Slip Copies (A4 पर कितनी प्रतियां?):</label>
       <div class="toggle-bar">
-        <button type="button" class="toggle-btn active" id="btnOne" onclick="setCopies(1)">📄 1 Copy (Client Booking Slip)</button>
-        <button type="button" class="toggle-btn" id="btnTwo" onclick="setCopies(2)">📑 2 Copies (Client + Store/Godown)</button>
+        <button type="button" class="toggle-btn active" id="btnOne" onclick="setCopies(1)" data-i18n="oneCopy">📄 1 Copy (Client Booking Slip)</button>
+        <button type="button" class="toggle-btn" id="btnTwo" onclick="setCopies(2)" data-i18n="twoCopies">📑 2 Copies (Client + Store/Godown)</button>
       </div>
     </div>
 
-    <div class="section-badge">1. Tent House / Catering Agency Details</div>
+    <div class="section-badge" data-i18n="agencySection">1. Tent House / Catering Agency Details</div>
     <div class="grid-2">
-      <div class="field"><label>Agency / Caterer Name</label><input type="text" id="in_biz" placeholder="उदा. Mangal Murti Tent, Sound & Caterers" oninput="renderDoc()"></div>
-      <div class="field"><label>Office Address & Mobile</label><input type="text" id="in_addr" placeholder="उदा. Station Road, City | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="agencyName">Agency / Caterer Name</label><input type="text" id="in_biz" placeholder="उदा. Mangal Murti Tent, Sound & Caterers" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="agencyAddress">Office Address & Mobile</label><input type="text" id="in_addr" placeholder="उदा. Station Road, City | Mob: 98XXXXXXXX" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">2. Event & Customer Booking Details</div>
+    <div class="section-badge" data-i18n="bookingSection">2. Event & Customer Booking Details</div>
     <div class="grid-3">
-      <div class="field"><label>Booking No. (Auto)</label><input type="text" id="in_bk_no" oninput="renderDoc()"></div>
-      <div class="field"><label>Booking Date</label><input type="date" id="in_bk_date" oninput="renderDoc()"></div>
-      <div class="field"><label>Event / Function Date</label><input type="date" id="in_ev_date" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="bookingNo">Booking No. (Auto)</label><input type="text" id="in_bk_no" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="bookingDate">Booking Date</label><input type="date" id="in_bk_date" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="eventDate">Event / Function Date</label><input type="date" id="in_ev_date" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Customer / Host Name</label><input type="text" id="in_cust" placeholder="उदा. Rajeshwar Sharma" oninput="renderDoc()"></div>
-      <div class="field"><label>Customer Mobile / WhatsApp</label><input type="text" id="in_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="customerName">Customer / Host Name</label><input type="text" id="in_cust" placeholder="उदा. Rajeshwar Sharma" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="customerPhone">Customer Mobile / WhatsApp</label><input type="text" id="in_phone" placeholder="उदा. 9876543210" oninput="renderDoc()"></div>
     </div>
-
     <div class="grid-2">
-      <div class="field"><label>Event Venue / Hall Address</label><input type="text" id="in_venue" placeholder="उदा. Shubham Lawns / Plot No. 12" oninput="renderDoc()"></div>
-      <div class="field"><label>Function Type & Timing</label><input type="text" id="in_func" placeholder="उदा. Marriage Reception (Evening 7 PM)" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="venue">Event Venue / Hall Address</label><input type="text" id="in_venue" placeholder="उदा. Shubham Lawns / Plot No. 12" oninput="renderDoc()"></div>
+      <div class="field"><label data-i18n="functionType">Function Type & Timing</label><input type="text" id="in_func" placeholder="उदा. Marriage Reception (Evening 7 PM)" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">3. Rental Items / Catering Menu Packages</div>
+    <div class="section-badge" data-i18n="itemsSection">3. Rental Items / Catering Menu Packages</div>
     <div class="chip-group">
-      <button type="button" class="chip-btn" onclick="quickAdd('Waterproof Mandap / Pandal Setup', 1, 'Set', 12000)">+ Mandap Set</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Plastic / Banquet Chairs with Cover', 100, 'Nos', 15)">+ 100 Chairs</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Round / Buffet Serving Tables', 10, 'Nos', 150)">+ Tables</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('DJ Sound System & LED Stage Lights', 1, 'Set', 6500)">+ DJ & Lights</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Silent Diesel Generator (15 KVA)', 1, 'Day', 3500)">+ Generator</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Full Veg Catering Thali Package', 150, 'Plates', 280)">+ Catering Thali</button>
-      <button type="button" class="chip-btn" onclick="quickAdd('Halwai & Serving Staff Charges', 1, 'Team', 4500)">+ Halwai Staff</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Waterproof Mandap / Pandal Setup',1,'Set',12000)" data-i18n="chipMandap">+ Mandap Set</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Plastic / Banquet Chairs with Cover',100,'Nos',15)" data-i18n="chipChairs">+ 100 Chairs</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Round / Buffet Serving Tables',10,'Nos',150)" data-i18n="chipTables">+ Tables</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('DJ Sound System & LED Stage Lights',1,'Set',6500)" data-i18n="chipDj">+ DJ & Lights</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Silent Diesel Generator (15 KVA)',1,'Day',3500)" data-i18n="chipGenerator">+ Generator</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Full Veg Catering Thali Package',150,'Plates',280)" data-i18n="chipThali">+ Catering Thali</button>
+      <button type="button" class="chip-btn" onclick="quickAdd('Halwai & Serving Staff Charges',1,'Team',4500)" data-i18n="chipStaff">+ Halwai Staff</button>
     </div>
 
-    <div style="overflow-x: auto;">
+    <div class="table-scroll">
       <table class="items-input-table">
-        <thead>
-          <tr>
-            <th style="width: 44%;">Item / Menu Package</th>
-            <th style="width: 16%;">Qty / Plates</th>
-            <th style="width: 16%;">Unit / Days</th>
-            <th style="width: 18%;">Rate (₹)</th>
-            <th style="width: 6%;"></th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th style="width:44%" data-i18n="itemMenu">Item / Menu Package</th><th style="width:16%" data-i18n="quantity">Qty / Plates</th>
+          <th style="width:16%" data-i18n="unitDays">Unit / Days</th><th style="width:18%" data-i18n="rate">Rate (₹)</th><th style="width:6%"></th>
+        </tr></thead>
         <tbody id="itemsInputsBody"></tbody>
       </table>
     </div>
-    <button type="button" class="btn-add-row" onclick="addItemRow()">+ Naya Item / Package Jodein</button>
+    <button type="button" class="btn-add-row" onclick="addItemRow()" data-i18n="addItem">+ Add New Item / Package</button>
 
-    <div class="section-badge">4. Advance, Balance & Terms</div>
+    <div class="section-badge" data-i18n="termsSection">4. Advance, Balance & Terms</div>
     <div class="grid-3">
-      <div class="field"><label>Discount (₹)</label><input type="number" id="in_disc" placeholder="0" oninput="calcTotals()"></div>
-      <div class="field"><label>Advance Deposit (₹)</label><input type="number" id="in_adv" placeholder="5000" oninput="calcTotals()"></div>
-      <div class="field">
-        <label>Payment Mode</label>
-        <select id="in_mode" onchange="renderDoc()">
-          <option value="UPI / Online">UPI / Bank Transfer</option>
-          <option value="CASH (नकद)">CASH (नकद)</option>
-          <option value="Cheque">Cheque</option>
-        </select>
+      <div class="field"><label data-i18n="discount">Discount (₹)</label><input type="number" id="in_disc" min="0" step="any" placeholder="0" oninput="calcTotals()"></div>
+      <div class="field"><label data-i18n="advance">Advance Deposit (₹)</label><input type="number" id="in_adv" min="0" step="any" placeholder="5000" oninput="calcTotals()"></div>
+      <div class="field"><label data-i18n="paymentMode">Payment Mode</label>
+        <select id="in_mode" onchange="renderDoc()"><option value="UPI / Online">UPI / Bank Transfer</option><option value="CASH (नकद)">CASH (नकद)</option><option value="Cheque">Cheque</option></select>
       </div>
     </div>
-    <div class="field"><label>Booking Terms & Damage Policy</label><input type="text" id="in_notes" placeholder="उदा. किराये के सामान की टूट-फूट की जिम्मेदारी ग्राहक की होगी। शेष राशि कार्यक्रम से पूर्व देय है।" oninput="renderDoc()"></div>
+    <div class="field"><label data-i18n="bookingTerms">Booking Terms & Damage Policy</label><input type="text" id="in_notes" placeholder="उदा. किराये के सामान की टूट-फूट की जिम्मेदारी ग्राहक की होगी। शेष राशि कार्यक्रम से पूर्व देय है।" oninput="renderDoc()"></div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Slip</button>
+      <button type="button" class="btn btn-pdf" id="btnPdf" onclick="downloadA4PDF()" data-i18n="downloadPdf">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()" data-i18n="directPrint">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()" data-i18n="whatsappSlip">📲 WhatsApp Slip</button>
     </div>
   </div>
 
-  <!-- RIGHT: LIVE PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live Booking Slip Preview</div>
-    <div id="a4DocSheet">
-      <div id="slipsContainer"></div>
-    </div>
+    <div class="preview-label" data-i18n="previewLabel">Live Booking Slip Preview</div>
+    <div id="a4DocSheet"><div id="slipsContainer"></div></div>
   </div>
 </div>
 
 <script>
   let copyCount = 1;
+  let currentLang = 'hi';
   let items = [
-    { desc: 'Waterproof Mandap & Stage Decoration', qty: 1, unit: 'Set', rate: 12000 },
-    { desc: 'Banquet Chairs with Ribbon Cover', qty: 100, unit: 'Nos', rate: 15 }
+    { desc:'Waterproof Mandap & Stage Decoration', qty:1, unit:'Set', rate:12000 },
+    { desc:'Banquet Chairs with Ribbon Cover', qty:100, unit:'Nos', rate:15 }
   ];
+  const LANG_KEY = 'kkb_catering_language_v1';
+  const THEME_KEY = 'kkb_catering_theme_v1';
 
-  function setCopies(n) {
-    copyCount = n;
-    document.getElementById('btnOne').classList.toggle('active', n === 1);
-    document.getElementById('btnTwo').classList.toggle('active', n === 2);
-    renderDoc();
-  }
-
-  function quickAdd(desc, qty, unit, rate) { items.push({ desc, qty, unit, rate }); renderInputRows(); calcTotals(); }
-  function renderInputRows() {
-    document.getElementById('itemsInputsBody').innerHTML = items.map((it, i) => `
-      <tr>
-        <td><input value="${it.desc}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
-        <td><input type="number" step="any" value="${it.qty}" oninput="items[${i}].qty=parseFloat(this.value)||0;calcTotals()"></td>
-        <td><input value="${it.unit}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
-        <td><input type="number" step="any" value="${it.rate}" oninput="items[${i}].rate=parseFloat(this.value)||0;calcTotals()"></td>
-        <td class="t-center"><button type="button" class="btn-del-row" onclick="delRow(${i})">✕</button></td>
-      </tr>
-    `).join('');
-  }
-  function addItemRow() { items.push({ desc: '', qty: 1, unit: 'Nos', rate: 0 }); renderInputRows(); calcTotals(); }
-  function delRow(i) { if (items.length > 1) { items.splice(i, 1); renderInputRows(); calcTotals(); } }
-  function calcTotals() { renderDoc(); }
-
-  function renderDoc() {
-    const biz = document.getElementById('in_biz').value.trim() || 'MANGAL MURTI TENT & CATERERS';
-    const addr = document.getElementById('in_addr').value.trim() || 'Station Road, City | Mob: 98XXXXXXXX';
-    const bkNo = document.getElementById('in_bk_no').value.trim() || '-';
-    const bkDt = document.getElementById('in_bk_date').value || '-';
-    const evDt = document.getElementById('in_ev_date').value || '-';
-    const cust = document.getElementById('in_cust').value.trim() || '-';
-    const ph = document.getElementById('in_phone').value.trim();
-    const venue = document.getElementById('in_venue').value.trim() || '-';
-    const func = document.getElementById('in_func').value.trim() || '-';
-    const mode = document.getElementById('in_mode').value;
-    const notes = document.getElementById('in_notes').value.trim() || 'किराये के सामान की सुरक्षा व समय पर वापसी की जिम्मेदारी ग्राहक की होगी।';
-
-    const sub = items.reduce((s, it) => s + (it.qty * it.rate), 0);
-    const disc = parseFloat(document.getElementById('in_disc').value) || 0;
-    const tot = Math.max(0, sub - disc);
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    const bal = Math.max(0, tot - adv);
-
-    const rowsHtml = items.map((it, i) => `
-      <tr>
-        <td class="t-center">${i+1}</td>
-        <td>${it.desc || '-'}</td>
-        <td class="t-center">${it.qty} ${it.unit}</td>
-        <td class="t-right">₹${it.rate.toLocaleString('en-IN')}</td>
-        <td class="t-right">₹${(it.qty * it.rate).toLocaleString('en-IN')}</td>
-      </tr>
-    `).join('');
-
-    const buildSlip = (badge) => `
-      <div class="slip-box">
-        <div class="slip-header">
-          <div>
-            <h2>${biz}</h2>
-            <p>${addr}</p>
-          </div>
-          <div class="slip-badge">${badge}</div>
-        </div>
-
-        <table class="slip-table">
-          <tr>
-            <td class="lbl">Booking No:</td><td class="val"><b>${bkNo}</b> (Dt: ${bkDt})</td>
-            <td class="lbl" style="width:22%;">Event Date:</td><td class="val" style="color:#b45309;font-weight:800;">${evDt}</td>
-          </tr>
-          <tr>
-            <td class="lbl">Customer:</td><td class="val">${ph ? `${cust} (${ph})` : cust}</td>
-            <td class="lbl" style="width:22%;">Function:</td><td class="val">${func}</td>
-          </tr>
-          <tr>
-            <td class="lbl">Venue:</td><td class="val" colspan="3">${venue}</td>
-          </tr>
-        </table>
-
-        <table class="doc-items-table">
-          <thead>
-            <tr>
-              <th class="t-center" style="width:7%">#</th>
-              <th style="width:47%">Rental Item / Menu Package</th>
-              <th class="t-center" style="width:16%">Qty</th>
-              <th class="t-right" style="width:14%">Rate</th>
-              <th class="t-right" style="width:16%">Amount</th>
-            </tr>
-          </thead>
-          <tbody>${rowsHtml}</tbody>
-        </table>
-
-        <div class="amount-highlight">
-          <div><b>NET TOTAL:</b> ₹${tot.toLocaleString('en-IN')} | <b>ADVANCE (${mode}):</b> ₹${adv.toLocaleString('en-IN')}</div>
-          <div style="color:#dc2626;font-weight:800;font-size:12.5px;">BALANCE DUE: ₹${bal.toLocaleString('en-IN')}</div>
-        </div>
-
-        <div class="notes-box"><b>Terms:</b> ${notes}</div>
-
-        <div class="footer-row">
-          <div style="font-size:9.5px;color:#64748b;">Customer Signature</div>
-          <div class="sig-card">Authorized Signatory (${biz})</div>
-        </div>
-      </div>
-    `;
-
-    let html = buildSlip('CUSTOMER BOOKING SLIP');
-    if (copyCount === 2) {
-      html += `<div class="cut-divider"><span class="cut-tag">✂️ CUT HERE (GODOWN / STORE COPY)</span></div>` + buildSlip('STORE / GODOWN COPY');
-    }
-    document.getElementById('slipsContainer').innerHTML = html;
-  }
-
-  function downloadA4PDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:16px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [6, 6, 6, 6],
-      filename: `BookingSlip_${document.getElementById('in_bk_no').value || 'Event'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
-  }
-
-  function printDocDirect() {
-    const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Booking Slip</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:8mm}
-      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px}
-      .slip-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #d97706;padding-bottom:6px;margin-bottom:8px}
-      .slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}
-      .slip-badge{background:#d97706;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}
-      .slip-table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:11px}
-      .slip-table td{padding:3px}.slip-table td.lbl{font-weight:700;color:#475569;width:22%}.slip-table td.val{border-bottom:1px dotted #94a3b8}
-      .doc-items-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10.5px}
-      .doc-items-table th{background:#fef3c7;color:#92400e;padding:4px;border:1px solid #fcd34d;text-align:left}
-      .doc-items-table td{padding:4px;border:1px solid #e2e8f0;font-weight:600}
-      .t-right{text-align:right}.t-center{text-align:center}
-      .amount-highlight{background:#fffbeb;border:1.2px solid #fcd34d;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;margin:6px 0;font-size:11px}
-      .notes-box{background:#f8fafc;border-left:3px solid #d97706;padding:5px 8px;font-size:10px;margin:6px 0}
-      .footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px}
-      .sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
-      .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}
-      .cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
-    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
-  }
-
-  function shareWhatsApp() {
-    const biz = document.getElementById('in_biz').value.trim() || 'Tent & Caterers';
-    const cust = document.getElementById('in_cust').value.trim() || 'Customer';
-    const evDt = document.getElementById('in_ev_date').value || '-';
-    const sub = items.reduce((s, it) => s + (it.qty * it.rate), 0);
-    const disc = parseFloat(document.getElementById('in_disc').value) || 0;
-    const adv = parseFloat(document.getElementById('in_adv').value) || 0;
-    const bal = Math.max(0, (sub - disc) - adv);
-    const ph = document.getElementById('in_phone').value.trim().replace(/[^0-9]/g, '');
-    const msg = `*🎪 EVENT / CATERING BOOKING (${document.getElementById('in_bk_no').value})*\n*Agency:* ${biz}\n*Client:* ${cust}\n*Event Date:* ${evDt}\n*Total:* ₹${sub - disc} | *Advance:* ₹${adv}\n*Balance Due:* ₹${bal}\n\n_Generated via KaamKaj Bills._`;
-    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-  }
-
-  window.onload = () => {
-    const d = new Date();
-    document.getElementById('in_bk_date').value = d.toISOString().split('T')[0];
-    d.setDate(d.getDate() + 10);
-    document.getElementById('in_ev_date').value = d.toISOString().split('T')[0];
-    document.getElementById('in_bk_no').value = 'BKG-' + Math.floor(100000 + Math.random() * 899990);
-    renderInputRows();
-    renderDoc();
+  const T = {
+    hi:{allTools:'← सभी टूल्स',navTitle:'KaamKaj Bills • कैटरिंग और टेंट बुकिंग पर्ची',language:'भाषा',themeHelp:'यहाँ से आप मोड बदल सकते हैं',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाइट मोड',copiesLabel:'1. प्रिंट स्लिप की प्रतियाँ (A4 पर कितनी प्रतियाँ?):',oneCopy:'📄 1 प्रति (ग्राहक बुकिंग पर्ची)',twoCopies:'📑 2 प्रतियाँ (ग्राहक + स्टोर/गोदाम)',agencySection:'1. टेंट हाउस / कैटरिंग एजेंसी का विवरण',agencyName:'एजेंसी / कैटरर का नाम',agencyAddress:'ऑफिस का पता और मोबाइल',bookingSection:'2. कार्यक्रम और ग्राहक बुकिंग विवरण',bookingNo:'बुकिंग नंबर (ऑटो)',bookingDate:'बुकिंग की तारीख',eventDate:'कार्यक्रम की तारीख',customerName:'ग्राहक / मेजबान का नाम',customerPhone:'ग्राहक मोबाइल / व्हाट्सऐप',venue:'कार्यक्रम स्थल / हॉल का पता',functionType:'कार्यक्रम का प्रकार और समय',itemsSection:'3. किराये का सामान / कैटरिंग मेन्यू पैकेज',chipMandap:'+ मंडप सेट',chipChairs:'+ 100 कुर्सियाँ',chipTables:'+ टेबल',chipDj:'+ DJ और लाइट',chipGenerator:'+ जनरेटर',chipThali:'+ कैटरिंग थाली',chipStaff:'+ हलवाई स्टाफ',itemMenu:'सामान / मेन्यू पैकेज',quantity:'मात्रा / प्लेट',unitDays:'इकाई / दिन',rate:'दर (₹)',addItem:'+ नया सामान / पैकेज जोड़ें',termsSection:'4. एडवांस, बकाया और शर्तें',discount:'छूट (₹)',advance:'जमा एडवांस (₹)',paymentMode:'भुगतान का तरीका',bookingTerms:'बुकिंग की शर्तें और नुकसान की नीति',downloadPdf:'📥 A4 PDF डाउनलोड करें',directPrint:'🖨️ सीधे प्रिंट करें',whatsappSlip:'📲 व्हाट्सऐप पर्ची',previewLabel:'बुकिंग पर्ची का लाइव प्रीव्यू',bookingSlip:'ग्राहक बुकिंग पर्ची',storeSlip:'स्टोर / गोदाम प्रति',cutHere:'✂️ यहाँ से काटें (स्टोर / गोदाम प्रति)',bookingNoOut:'बुकिंग नंबर:',bookingDateOut:'बुकिंग तारीख:',eventDateOut:'कार्यक्रम की तारीख:',customerOut:'ग्राहक:',functionOut:'कार्यक्रम:',venueOut:'स्थान:',itemOut:'किराये का सामान / मेन्यू पैकेज',qtyOut:'मात्रा',rateOut:'दर',amountOut:'राशि',netTotal:'कुल राशि:',advanceOut:'एडवांस',balanceDue:'बाकी राशि:',termsOut:'शर्तें:',customerSign:'ग्राहक के हस्ताक्षर',authorizedSign:'अधिकृत हस्ताक्षर',defaultNotes:'किराये के सामान की सुरक्षा और समय पर वापसी की जिम्मेदारी ग्राहक की होगी।',generating:'⏳ PDF बन रही है...',pdfError:'PDF नहीं बन पाई। कृपया दोबारा प्रयास करें।',payOptions:['UPI / ऑनलाइन','नकद','चेक']},
+    en:{allTools:'← All Tools',navTitle:'KaamKaj Bills • Catering & Tent Rental Slip',language:'Language',themeHelp:'Change the display mode here',darkMode:'🌙 Dark Mode',lightMode:'☀️ Light Mode',copiesLabel:'1. Print Slip Copies (How many on A4?):',oneCopy:'📄 1 Copy (Client Booking Slip)',twoCopies:'📑 2 Copies (Client + Store/Godown)',agencySection:'1. Tent House / Catering Agency Details',agencyName:'Agency / Caterer Name',agencyAddress:'Office Address & Mobile',bookingSection:'2. Event & Customer Booking Details',bookingNo:'Booking No. (Auto)',bookingDate:'Booking Date',eventDate:'Event / Function Date',customerName:'Customer / Host Name',customerPhone:'Customer Mobile / WhatsApp',venue:'Event Venue / Hall Address',functionType:'Function Type & Timing',itemsSection:'3. Rental Items / Catering Menu Packages',chipMandap:'+ Mandap Set',chipChairs:'+ 100 Chairs',chipTables:'+ Tables',chipDj:'+ DJ & Lights',chipGenerator:'+ Generator',chipThali:'+ Catering Thali',chipStaff:'+ Halwai Staff',itemMenu:'Item / Menu Package',quantity:'Qty / Plates',unitDays:'Unit / Days',rate:'Rate (₹)',addItem:'+ Add New Item / Package',termsSection:'4. Advance, Balance & Terms',discount:'Discount (₹)',advance:'Advance Deposit (₹)',paymentMode:'Payment Mode',bookingTerms:'Booking Terms & Damage Policy',downloadPdf:'📥 Download A4 PDF',directPrint:'🖨️ Direct Print',whatsappSlip:'📲 WhatsApp Slip',previewLabel:'Live Booking Slip Preview',bookingSlip:'CUSTOMER BOOKING SLIP',storeSlip:'STORE / GODOWN COPY',cutHere:'✂️ CUT HERE (STORE / GODOWN COPY)',bookingNoOut:'Booking No:',bookingDateOut:'Booking Date:',eventDateOut:'Event Date:',customerOut:'Customer:',functionOut:'Function:',venueOut:'Venue:',itemOut:'Rental Item / Menu Package',qtyOut:'Qty',rateOut:'Rate',amountOut:'Amount',netTotal:'NET TOTAL:',advanceOut:'ADVANCE',balanceDue:'BALANCE DUE:',termsOut:'Terms:',customerSign:'Customer Signature',authorizedSign:'Authorized Signatory',defaultNotes:'The customer is responsible for the safety and timely return of rental items.',generating:'⏳ Generating PDF...',pdfError:'PDF could not be generated. Please try again.',payOptions:['UPI / Online','Cash','Cheque']},
+    bn:{allTools:'← সব টুল',navTitle:'KaamKaj Bills • ক্যাটারিং ও টেন্ট বুকিং স্লিপ',language:'ভাষা',themeHelp:'এখান থেকে মোড পরিবর্তন করুন',darkMode:'🌙 ডার্ক মোড',lightMode:'☀️ লাইট মোড',copiesLabel:'১. প্রিন্ট কপি (A4-এ কতটি?):',oneCopy:'📄 ১ কপি (গ্রাহকের বুকিং স্লিপ)',twoCopies:'📑 ২ কপি (গ্রাহক + স্টোর)',agencySection:'১. টেন্ট হাউস / ক্যাটারিং সংস্থার বিবরণ',agencyName:'সংস্থা / ক্যাটারারের নাম',agencyAddress:'অফিসের ঠিকানা ও মোবাইল',bookingSection:'২. অনুষ্ঠান ও গ্রাহকের বুকিং বিবরণ',bookingNo:'বুকিং নম্বর (স্বয়ংক্রিয়)',bookingDate:'বুকিংয়ের তারিখ',eventDate:'অনুষ্ঠানের তারিখ',customerName:'গ্রাহক / আয়োজকের নাম',customerPhone:'গ্রাহকের মোবাইল / হোয়াটসঅ্যাপ',venue:'অনুষ্ঠানের স্থান / হলের ঠিকানা',functionType:'অনুষ্ঠানের ধরন ও সময়',itemsSection:'৩. ভাড়ার সামগ্রী / ক্যাটারিং মেনু প্যাকেজ',chipMandap:'+ মণ্ডপ সেট',chipChairs:'+ ১০০টি চেয়ার',chipTables:'+ টেবিল',chipDj:'+ DJ ও লাইট',chipGenerator:'+ জেনারেটর',chipThali:'+ ক্যাটারিং থালি',chipStaff:'+ রাঁধুনি কর্মী',itemMenu:'সামগ্রী / মেনু প্যাকেজ',quantity:'পরিমাণ / প্লেট',unitDays:'একক / দিন',rate:'দর (₹)',addItem:'+ নতুন সামগ্রী / প্যাকেজ যোগ করুন',termsSection:'৪. অগ্রিম, বকেয়া ও শর্তাবলি',discount:'ছাড় (₹)',advance:'জমা অগ্রিম (₹)',paymentMode:'পেমেন্টের মাধ্যম',bookingTerms:'বুকিংয়ের শর্ত ও ক্ষতির নীতি',downloadPdf:'📥 A4 PDF ডাউনলোড',directPrint:'🖨️ সরাসরি প্রিন্ট',whatsappSlip:'📲 হোয়াটসঅ্যাপ স্লিপ',previewLabel:'বুকিং স্লিপের লাইভ প্রিভিউ',bookingSlip:'গ্রাহকের বুকিং স্লিপ',storeSlip:'স্টোর / গুদাম কপি',cutHere:'✂️ এখানে কাটুন (স্টোর কপি)',bookingNoOut:'বুকিং নম্বর:',bookingDateOut:'বুকিংয়ের তারিখ:',eventDateOut:'অনুষ্ঠানের তারিখ:',customerOut:'গ্রাহক:',functionOut:'অনুষ্ঠান:',venueOut:'স্থান:',itemOut:'ভাড়ার সামগ্রী / মেনু প্যাকেজ',qtyOut:'পরিমাণ',rateOut:'দর',amountOut:'মোট',netTotal:'মোট পরিমাণ:',advanceOut:'অগ্রিম',balanceDue:'বাকি:',termsOut:'শর্ত:',customerSign:'গ্রাহকের স্বাক্ষর',authorizedSign:'অনুমোদিত স্বাক্ষর',defaultNotes:'ভাড়ার সামগ্রীর নিরাপত্তা ও সময়মতো ফেরতের দায়িত্ব গ্রাহকের।',generating:'⏳ PDF তৈরি হচ্ছে...',pdfError:'PDF তৈরি করা যায়নি। আবার চেষ্টা করুন।',payOptions:['UPI / অনলাইন','নগদ','চেক']},
+    te:{allTools:'← అన్ని టూల్స్',navTitle:'KaamKaj Bills • క్యాటరింగ్ & టెంట్ బుకింగ్ స్లిప్',language:'భాష',themeHelp:'ఇక్కడ నుండి మోడ్ మార్చండి',darkMode:'🌙 డార్క్ మోడ్',lightMode:'☀️ లైట్ మోడ్',copiesLabel:'1. ప్రింట్ కాపీలు (A4లో ఎన్ని?):',oneCopy:'📄 1 కాపీ (కస్టమర్ బుకింగ్ స్లిప్)',twoCopies:'📑 2 కాపీలు (కస్టమర్ + స్టోర్)',agencySection:'1. టెంట్ హౌస్ / క్యాటరింగ్ ఏజెన్సీ వివరాలు',agencyName:'ఏజెన్సీ / క్యాటరర్ పేరు',agencyAddress:'ఆఫీస్ చిరునామా & మొబైల్',bookingSection:'2. ఈవెంట్ & కస్టమర్ బుకింగ్ వివరాలు',bookingNo:'బుకింగ్ నంబర్ (ఆటో)',bookingDate:'బుకింగ్ తేదీ',eventDate:'ఈవెంట్ తేదీ',customerName:'కస్టమర్ / హోస్ట్ పేరు',customerPhone:'కస్టమర్ మొబైల్ / వాట్సాప్',venue:'ఈవెంట్ వేదిక / హాల్ చిరునామా',functionType:'కార్యక్రమం రకం & సమయం',itemsSection:'3. అద్దె వస్తువులు / క్యాటరింగ్ మెనూ ప్యాకేజీలు',chipMandap:'+ మండపం సెట్',chipChairs:'+ 100 కుర్చీలు',chipTables:'+ టేబుల్స్',chipDj:'+ DJ & లైట్లు',chipGenerator:'+ జనరేటర్',chipThali:'+ క్యాటరింగ్ థాళీ',chipStaff:'+ వంట సిబ్బంది',itemMenu:'వస్తువు / మెనూ ప్యాకేజీ',quantity:'పరిమాణం / ప్లేట్లు',unitDays:'యూనిట్ / రోజులు',rate:'ధర (₹)',addItem:'+ కొత్త వస్తువు / ప్యాకేజీ జోడించండి',termsSection:'4. అడ్వాన్స్, బ్యాలెన్స్ & నిబంధనలు',discount:'డిస్కౌంట్ (₹)',advance:'అడ్వాన్స్ డిపాజిట్ (₹)',paymentMode:'చెల్లింపు విధానం',bookingTerms:'బుకింగ్ నిబంధనలు & నష్టం విధానం',downloadPdf:'📥 A4 PDF డౌన్‌లోడ్',directPrint:'🖨️ నేరుగా ప్రింట్',whatsappSlip:'📲 వాట్సాప్ స్లిప్',previewLabel:'లైవ్ బుకింగ్ స్లిప్ ప్రివ్యూ',bookingSlip:'కస్టమర్ బుకింగ్ స్లిప్',storeSlip:'స్టోర్ / గోడౌన్ కాపీ',cutHere:'✂️ ఇక్కడ కట్ చేయండి (స్టోర్ కాపీ)',bookingNoOut:'బుకింగ్ నం:',bookingDateOut:'బుకింగ్ తేదీ:',eventDateOut:'ఈవెంట్ తేదీ:',customerOut:'కస్టమర్:',functionOut:'కార్యక్రమం:',venueOut:'వేదిక:',itemOut:'అద్దె వస్తువు / మెనూ ప్యాకేజీ',qtyOut:'పరిమాణం',rateOut:'ధర',amountOut:'మొత్తం',netTotal:'మొత్తం:',advanceOut:'అడ్వాన్స్',balanceDue:'బకాయి:',termsOut:'నిబంధనలు:',customerSign:'కస్టమర్ సంతకం',authorizedSign:'అధికార సంతకం',defaultNotes:'అద్దె వస్తువుల భద్రత మరియు సమయానికి తిరిగి ఇవ్వడం కస్టమర్ బాధ్యత.',generating:'⏳ PDF తయారవుతోంది...',pdfError:'PDF తయారు కాలేదు. మళ్లీ ప్రయత్నించండి.',payOptions:['UPI / ఆన్‌లైన్','నగదు','చెక్']},
+    mr:{allTools:'← सर्व टूल्स',navTitle:'KaamKaj Bills • केटरिंग आणि टेंट बुकिंग पावती',language:'भाषा',themeHelp:'येथून मोड बदलू शकता',darkMode:'🌙 डार्क मोड',lightMode:'☀️ लाइट मोड',copiesLabel:'1. प्रिंट प्रती (A4 वर किती?):',oneCopy:'📄 1 प्रत (ग्राहक बुकिंग पावती)',twoCopies:'📑 2 प्रती (ग्राहक + स्टोअर)',agencySection:'1. टेंट हाऊस / केटरिंग एजन्सी तपशील',agencyName:'एजन्सी / केटररचे नाव',agencyAddress:'कार्यालयाचा पत्ता आणि मोबाईल',bookingSection:'2. कार्यक्रम आणि ग्राहक बुकिंग तपशील',bookingNo:'बुकिंग क्रमांक (ऑटो)',bookingDate:'बुकिंग तारीख',eventDate:'कार्यक्रमाची तारीख',customerName:'ग्राहक / यजमानाचे नाव',customerPhone:'ग्राहक मोबाईल / व्हॉट्सअॅप',venue:'कार्यक्रम स्थळ / हॉलचा पत्ता',functionType:'कार्यक्रमाचा प्रकार आणि वेळ',itemsSection:'3. भाड्याचे साहित्य / केटरिंग मेनू पॅकेज',chipMandap:'+ मंडप सेट',chipChairs:'+ 100 खुर्च्या',chipTables:'+ टेबल',chipDj:'+ DJ आणि लाईट',chipGenerator:'+ जनरेटर',chipThali:'+ केटरिंग थाळी',chipStaff:'+ हलवाई कर्मचारी',itemMenu:'साहित्य / मेनू पॅकेज',quantity:'प्रमाण / प्लेट्स',unitDays:'एकक / दिवस',rate:'दर (₹)',addItem:'+ नवीन साहित्य / पॅकेज जोडा',termsSection:'4. आगाऊ रक्कम, बाकी आणि अटी',discount:'सूट (₹)',advance:'आगाऊ जमा (₹)',paymentMode:'पेमेंट पद्धत',bookingTerms:'बुकिंगच्या अटी आणि नुकसान धोरण',downloadPdf:'📥 A4 PDF डाउनलोड',directPrint:'🖨️ थेट प्रिंट',whatsappSlip:'📲 व्हॉट्सअॅप पावती',previewLabel:'बुकिंग पावतीचे थेट पूर्वदृश्य',bookingSlip:'ग्राहक बुकिंग पावती',storeSlip:'स्टोअर / गोदाम प्रत',cutHere:'✂️ येथे कापा (स्टोअर प्रत)',bookingNoOut:'बुकिंग क्रमांक:',bookingDateOut:'बुकिंग तारीख:',eventDateOut:'कार्यक्रम तारीख:',customerOut:'ग्राहक:',functionOut:'कार्यक्रम:',venueOut:'स्थळ:',itemOut:'भाड्याचे साहित्य / मेनू पॅकेज',qtyOut:'प्रमाण',rateOut:'दर',amountOut:'रक्कम',netTotal:'एकूण रक्कम:',advanceOut:'आगाऊ',balanceDue:'बाकी रक्कम:',termsOut:'अटी:',customerSign:'ग्राहकाची सही',authorizedSign:'अधिकृत सही',defaultNotes:'भाड्याच्या साहित्याची सुरक्षितता आणि वेळेवर परत करण्याची जबाबदारी ग्राहकाची असेल.',generating:'⏳ PDF तयार होत आहे...',pdfError:'PDF तयार झाले नाही. पुन्हा प्रयत्न करा.',payOptions:['UPI / ऑनलाइन','रोख','चेक']},
+    ta:{allTools:'← அனைத்து கருவிகள்',navTitle:'KaamKaj Bills • கேட்டரிங் & டென்ட் முன்பதிவு சீட்டு',language:'மொழி',themeHelp:'இங்கிருந்து காட்சிமுறையை மாற்றலாம்',darkMode:'🌙 டார்க் மோடு',lightMode:'☀️ லைட் மோடு',copiesLabel:'1. அச்சு பிரதிகள் (A4-ல் எத்தனை?):',oneCopy:'📄 1 பிரதி (வாடிக்கையாளர் சீட்டு)',twoCopies:'📑 2 பிரதிகள் (வாடிக்கையாளர் + ஸ்டோர்)',agencySection:'1. டென்ட் ஹவுஸ் / கேட்டரிங் நிறுவன விவரங்கள்',agencyName:'நிறுவனம் / கேட்டரர் பெயர்',agencyAddress:'அலுவலக முகவரி மற்றும் மொபைல்',bookingSection:'2. நிகழ்ச்சி மற்றும் வாடிக்கையாளர் முன்பதிவு விவரங்கள்',bookingNo:'முன்பதிவு எண் (தானாக)',bookingDate:'முன்பதிவு தேதி',eventDate:'நிகழ்ச்சி தேதி',customerName:'வாடிக்கையாளர் / ஏற்பாட்டாளர் பெயர்',customerPhone:'வாடிக்கையாளர் மொபைல் / வாட்ஸ்அப்',venue:'நிகழ்ச்சி இடம் / மண்டப முகவரி',functionType:'நிகழ்ச்சி வகை மற்றும் நேரம்',itemsSection:'3. வாடகைப் பொருட்கள் / கேட்டரிங் மெனு தொகுப்புகள்',chipMandap:'+ மண்டபம்',chipChairs:'+ 100 நாற்காலிகள்',chipTables:'+ மேசைகள்',chipDj:'+ DJ & விளக்குகள்',chipGenerator:'+ ஜெனரேட்டர்',chipThali:'+ கேட்டரிங் உணவு',chipStaff:'+ சமையல் ஊழியர்கள்',itemMenu:'பொருள் / மெனு தொகுப்பு',quantity:'அளவு / தட்டுகள்',unitDays:'அலகு / நாட்கள்',rate:'விலை (₹)',addItem:'+ புதிய பொருள் / தொகுப்பு சேர்க்கவும்',termsSection:'4. முன்பணம், மீதி மற்றும் நிபந்தனைகள்',discount:'தள்ளுபடி (₹)',advance:'முன்பணம் (₹)',paymentMode:'கட்டண முறை',bookingTerms:'முன்பதிவு நிபந்தனைகள் மற்றும் சேதக் கொள்கை',downloadPdf:'📥 A4 PDF பதிவிறக்கம்',directPrint:'🖨️ நேரடி அச்சு',whatsappSlip:'📲 வாட்ஸ்அப் சீட்டு',previewLabel:'முன்பதிவு சீட்டு முன்னோட்டம்',bookingSlip:'வாடிக்கையாளர் முன்பதிவு சீட்டு',storeSlip:'ஸ்டோர் / கிடங்கு பிரதி',cutHere:'✂️ இங்கே வெட்டவும் (ஸ்டோர் பிரதி)',bookingNoOut:'முன்பதிவு எண்:',bookingDateOut:'முன்பதிவு தேதி:',eventDateOut:'நிகழ்ச்சி தேதி:',customerOut:'வாடிக்கையாளர்:',functionOut:'நிகழ்ச்சி:',venueOut:'இடம்:',itemOut:'வாடகைப் பொருள் / மெனு தொகுப்பு',qtyOut:'அளவு',rateOut:'விலை',amountOut:'தொகை',netTotal:'மொத்தம்:',advanceOut:'முன்பணம்',balanceDue:'மீதித் தொகை:',termsOut:'நிபந்தனைகள்:',customerSign:'வாடிக்கையாளர் கையொப்பம்',authorizedSign:'அங்கீகரிக்கப்பட்ட கையொப்பம்',defaultNotes:'வாடகைப் பொருட்களின் பாதுகாப்பு மற்றும் சரியான நேரத்தில் திருப்பித் தருவது வாடிக்கையாளரின் பொறுப்பு.',generating:'⏳ PDF உருவாகிறது...',pdfError:'PDF உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.',payOptions:['UPI / ஆன்லைன்','ரொக்கம்','காசோலை']},
+    gu:{allTools:'← બધા ટૂલ્સ',navTitle:'KaamKaj Bills • કેટરિંગ અને ટેન્ટ બુકિંગ સ્લિપ',language:'ભાષા',themeHelp:'અહીંથી મોડ બદલી શકો છો',darkMode:'🌙 ડાર્ક મોડ',lightMode:'☀️ લાઇટ મોડ',copiesLabel:'1. પ્રિન્ટ નકલો (A4 પર કેટલી?):',oneCopy:'📄 1 નકલ (ગ્રાહક બુકિંગ સ્લિપ)',twoCopies:'📑 2 નકલો (ગ્રાહક + સ્ટોર)',agencySection:'1. ટેન્ટ હાઉસ / કેટરિંગ એજન્સીની વિગતો',agencyName:'એજન્સી / કેટરરનું નામ',agencyAddress:'ઓફિસનું સરનામું અને મોબાઇલ',bookingSection:'2. ઇવેન્ટ અને ગ્રાહક બુકિંગ વિગતો',bookingNo:'બુકિંગ નંબર (ઓટો)',bookingDate:'બુકિંગ તારીખ',eventDate:'ઇવેન્ટ તારીખ',customerName:'ગ્રાહક / યજમાનનું નામ',customerPhone:'ગ્રાહક મોબાઇલ / વોટ્સએપ',venue:'ઇવેન્ટ સ્થળ / હોલનું સરનામું',functionType:'કાર્યક્રમનો પ્રકાર અને સમય',itemsSection:'3. ભાડાની વસ્તુઓ / કેટરિંગ મેનૂ પેકેજ',chipMandap:'+ મંડપ સેટ',chipChairs:'+ 100 ખુરશીઓ',chipTables:'+ ટેબલ',chipDj:'+ DJ અને લાઇટ',chipGenerator:'+ જનરેટર',chipThali:'+ કેટરિંગ થાળી',chipStaff:'+ હલવાઈ સ્ટાફ',itemMenu:'વસ્તુ / મેનૂ પેકેજ',quantity:'જથ્થો / પ્લેટ',unitDays:'એકમ / દિવસ',rate:'દર (₹)',addItem:'+ નવી વસ્તુ / પેકેજ ઉમેરો',termsSection:'4. એડવાન્સ, બાકી અને શરતો',discount:'ડિસ્કાઉન્ટ (₹)',advance:'એડવાન્સ જમા (₹)',paymentMode:'ચુકવણીનો પ્રકાર',bookingTerms:'બુકિંગની શરતો અને નુકસાન નીતિ',downloadPdf:'📥 A4 PDF ડાઉનલોડ',directPrint:'🖨️ સીધી પ્રિન્ટ',whatsappSlip:'📲 વોટ્સએપ સ્લિપ',previewLabel:'બુકિંગ સ્લિપનું લાઇવ પ્રિવ્યૂ',bookingSlip:'ગ્રાહક બુકિંગ સ્લિપ',storeSlip:'સ્ટોર / ગોડાઉન નકલ',cutHere:'✂️ અહીંથી કાપો (સ્ટોર નકલ)',bookingNoOut:'બુકિંગ નંબર:',bookingDateOut:'બુકિંગ તારીખ:',eventDateOut:'ઇવેન્ટ તારીખ:',customerOut:'ગ્રાહક:',functionOut:'કાર્યક્રમ:',venueOut:'સ્થળ:',itemOut:'ભાડાની વસ્તુ / મેનૂ પેકેજ',qtyOut:'જથ્થો',rateOut:'દર',amountOut:'રકમ',netTotal:'કુલ રકમ:',advanceOut:'એડવાન્સ',balanceDue:'બાકી રકમ:',termsOut:'શરતો:',customerSign:'ગ્રાહકની સહી',authorizedSign:'અધિકૃત સહી',defaultNotes:'ભાડાની વસ્તુઓની સુરક્ષા અને સમયસર પરત કરવાની જવાબદારી ગ્રાહકની રહેશે.',generating:'⏳ PDF બની રહી છે...',pdfError:'PDF બની શકી નથી. ફરી પ્રયાસ કરો.',payOptions:['UPI / ઓનલાઈન','રોકડ','ચેક']},
+    kn:{allTools:'← ಎಲ್ಲಾ ಟೂಲ್ಸ್',navTitle:'KaamKaj Bills • ಕ್ಯಾಟರಿಂಗ್ ಮತ್ತು ಟೆಂಟ್ ಬುಕಿಂಗ್ ಸ್ಲಿಪ್',language:'ಭಾಷೆ',themeHelp:'ಇಲ್ಲಿಂದ ಮೋಡ್ ಬದಲಾಯಿಸಬಹುದು',darkMode:'🌙 ಡಾರ್ಕ್ ಮೋಡ್',lightMode:'☀️ ಲೈಟ್ ಮೋಡ್',copiesLabel:'1. ಪ್ರಿಂಟ್ ಪ್ರತಿಗಳು (A4 ನಲ್ಲಿ ಎಷ್ಟು?):',oneCopy:'📄 1 ಪ್ರತಿ (ಗ್ರಾಹಕ ಬುಕಿಂಗ್ ಸ್ಲಿಪ್)',twoCopies:'📑 2 ಪ್ರತಿಗಳು (ಗ್ರಾಹಕ + ಸ್ಟೋರ್)',agencySection:'1. ಟೆಂಟ್ ಹೌಸ್ / ಕ್ಯಾಟರಿಂಗ್ ಏಜೆನ್ಸಿ ವಿವರಗಳು',agencyName:'ಏಜೆನ್ಸಿ / ಕ್ಯಾಟರರ್ ಹೆಸರು',agencyAddress:'ಕಚೇರಿ ವಿಳಾಸ ಮತ್ತು ಮೊಬೈಲ್',bookingSection:'2. ಕಾರ್ಯಕ್ರಮ ಮತ್ತು ಗ್ರಾಹಕ ಬುಕಿಂಗ್ ವಿವರಗಳು',bookingNo:'ಬುಕಿಂಗ್ ಸಂಖ್ಯೆ (ಸ್ವಯಂ)',bookingDate:'ಬುಕಿಂಗ್ ದಿನಾಂಕ',eventDate:'ಕಾರ್ಯಕ್ರಮದ ದಿನಾಂಕ',customerName:'ಗ್ರಾಹಕ / ಆತಿಥೇಯರ ಹೆಸರು',customerPhone:'ಗ್ರಾಹಕರ ಮೊಬೈಲ್ / ವಾಟ್ಸಾಪ್',venue:'ಕಾರ್ಯಕ್ರಮ ಸ್ಥಳ / ಹಾಲ್ ವಿಳಾಸ',functionType:'ಕಾರ್ಯಕ್ರಮದ ವಿಧ ಮತ್ತು ಸಮಯ',itemsSection:'3. ಬಾಡಿಗೆ ವಸ್ತುಗಳು / ಕ್ಯಾಟರಿಂಗ್ ಮೆನು ಪ್ಯಾಕೇಜ್',chipMandap:'+ ಮಂಟಪ ಸೆಟ್',chipChairs:'+ 100 ಕುರ್ಚಿಗಳು',chipTables:'+ ಮೇಜುಗಳು',chipDj:'+ DJ ಮತ್ತು ಲೈಟ್ಸ್',chipGenerator:'+ ಜನರೇಟರ್',chipThali:'+ ಕ್ಯಾಟರಿಂಗ್ ಊಟ',chipStaff:'+ ಅಡುಗೆ ಸಿಬ್ಬಂದಿ',itemMenu:'ವಸ್ತು / ಮೆನು ಪ್ಯಾಕೇಜ್',quantity:'ಪ್ರಮಾಣ / ಪ್ಲೇಟುಗಳು',unitDays:'ಘಟಕ / ದಿನಗಳು',rate:'ದರ (₹)',addItem:'+ ಹೊಸ ವಸ್ತು / ಪ್ಯಾಕೇಜ್ ಸೇರಿಸಿ',termsSection:'4. ಮುಂಗಡ, ಬಾಕಿ ಮತ್ತು ಷರತ್ತುಗಳು',discount:'ರಿಯಾಯಿತಿ (₹)',advance:'ಮುಂಗಡ ಠೇವಣಿ (₹)',paymentMode:'ಪಾವತಿ ವಿಧಾನ',bookingTerms:'ಬುಕಿಂಗ್ ಷರತ್ತುಗಳು ಮತ್ತು ಹಾನಿ ನೀತಿ',downloadPdf:'📥 A4 PDF ಡೌನ್‌ಲೋಡ್',directPrint:'🖨️ ನೇರ ಪ್ರಿಂಟ್',whatsappSlip:'📲 ವಾಟ್ಸಾಪ್ ಸ್ಲಿಪ್',previewLabel:'ಲೈವ್ ಬುಕಿಂಗ್ ಸ್ಲಿಪ್ ಪೂರ್ವವೀಕ್ಷಣೆ',bookingSlip:'ಗ್ರಾಹಕ ಬುಕಿಂಗ್ ಸ್ಲಿಪ್',storeSlip:'ಸ್ಟೋರ್ / ಗೋದಾಮು ಪ್ರತಿ',cutHere:'✂️ ಇಲ್ಲಿ ಕತ್ತರಿಸಿ (ಸ್ಟೋರ್ ಪ್ರತಿ)',bookingNoOut:'ಬುಕಿಂಗ್ ಸಂಖ್ಯೆ:',bookingDateOut:'ಬುಕಿಂಗ್ ದಿನಾಂಕ:',eventDateOut:'ಕಾರ್ಯಕ್ರಮದ ದಿನಾಂಕ:',customerOut:'ಗ್ರಾಹಕ:',functionOut:'ಕಾರ್ಯಕ್ರಮ:',venueOut:'ಸ್ಥಳ:',itemOut:'ಬಾಡಿಗೆ ವಸ್ತು / ಮೆನು ಪ್ಯಾಕೇಜ್',qtyOut:'ಪ್ರಮಾಣ',rateOut:'ದರ',amountOut:'ಮೊತ್ತ',netTotal:'ಒಟ್ಟು:',advanceOut:'ಮುಂಗಡ',balanceDue:'ಬಾಕಿ ಮೊತ್ತ:',termsOut:'ಷರತ್ತುಗಳು:',customerSign:'ಗ್ರಾಹಕರ ಸಹಿ',authorizedSign:'ಅಧಿಕೃತ ಸಹಿ',defaultNotes:'ಬಾಡಿಗೆ ವಸ್ತುಗಳ ಸುರಕ್ಷತೆ ಮತ್ತು ಸಮಯಕ್ಕೆ ಹಿಂತಿರುಗಿಸುವ ಜವಾಬ್ದಾರಿ ಗ್ರಾಹಕರದು.',generating:'⏳ PDF ಸಿದ್ಧವಾಗುತ್ತಿದೆ...',pdfError:'PDF ಸಿದ್ಧವಾಗಲಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',payOptions:['UPI / ಆನ್‌ಲೈನ್','ನಗದು','ಚೆಕ್']},
+    ml:{allTools:'← എല്ലാ ടൂളുകളും',navTitle:'KaamKaj Bills • കാറ്ററിംഗ് & ടെന്റ് ബുക്കിംഗ് സ്ലിപ്പ്',language:'ഭാഷ',themeHelp:'ഇവിടെ നിന്ന് മോഡ് മാറ്റാം',darkMode:'🌙 ഡാർക്ക് മോഡ്',lightMode:'☀️ ലൈറ്റ് മോഡ്',copiesLabel:'1. പ്രിന്റ് കോപ്പികൾ (A4-ൽ എത്ര?):',oneCopy:'📄 1 കോപ്പി (ഉപഭോക്തൃ ബുക്കിംഗ് സ്ലിപ്പ്)',twoCopies:'📑 2 കോപ്പികൾ (ഉപഭോക്താവ് + സ്റ്റോർ)',agencySection:'1. ടെന്റ് ഹൗസ് / കാറ്ററിംഗ് ഏജൻസി വിവരങ്ങൾ',agencyName:'ഏജൻസി / കാറ്ററർ പേര്',agencyAddress:'ഓഫീസ് വിലാസവും മൊബൈലും',bookingSection:'2. പരിപാടി, ഉപഭോക്തൃ ബുക്കിംഗ് വിവരങ്ങൾ',bookingNo:'ബുക്കിംഗ് നമ്പർ (ഓട്ടോ)',bookingDate:'ബുക്കിംഗ് തീയതി',eventDate:'പരിപാടിയുടെ തീയതി',customerName:'ഉപഭോക്താവ് / ആതിഥേയന്റെ പേര്',customerPhone:'ഉപഭോക്തൃ മൊബൈൽ / വാട്ട്‌സ്ആപ്പ്',venue:'പരിപാടി സ്ഥലം / ഹാൾ വിലാസം',functionType:'പരിപാടിയുടെ തരം, സമയം',itemsSection:'3. വാടക സാധനങ്ങൾ / കാറ്ററിംഗ് മെനു പാക്കേജുകൾ',chipMandap:'+ മണ്ഡപം സെറ്റ്',chipChairs:'+ 100 കസേരകൾ',chipTables:'+ മേശകൾ',chipDj:'+ DJ & ലൈറ്റുകൾ',chipGenerator:'+ ജനറേറ്റർ',chipThali:'+ കാറ്ററിംഗ് ഊണ്',chipStaff:'+ പാചക ജീവനക്കാർ',itemMenu:'സാധനം / മെനു പാക്കേജ്',quantity:'അളവ് / പ്ലേറ്റുകൾ',unitDays:'യൂണിറ്റ് / ദിവസങ്ങൾ',rate:'നിരക്ക് (₹)',addItem:'+ പുതിയ സാധനം / പാക്കേജ് ചേർക്കുക',termsSection:'4. അഡ്വാൻസ്, ബാക്കി, നിബന്ധനകൾ',discount:'കിഴിവ് (₹)',advance:'അഡ്വാൻസ് നിക്ഷേപം (₹)',paymentMode:'പണമടയ്ക്കൽ രീതി',bookingTerms:'ബുക്കിംഗ് നിബന്ധനകളും നാശനഷ്ട നയവും',downloadPdf:'📥 A4 PDF ഡൗൺലോഡ്',directPrint:'🖨️ നേരിട്ട് പ്രിന്റ്',whatsappSlip:'📲 വാട്ട്‌സ്ആപ്പ് സ്ലിപ്പ്',previewLabel:'ലൈവ് ബുക്കിംഗ് സ്ലിപ്പ് പ്രിവ്യൂ',bookingSlip:'ഉപഭോക്തൃ ബുക്കിംഗ് സ്ലിപ്പ്',storeSlip:'സ്റ്റോർ / ഗോഡൗൺ കോപ്പി',cutHere:'✂️ ഇവിടെ മുറിക്കുക (സ്റ്റോർ കോപ്പി)',bookingNoOut:'ബുക്കിംഗ് നമ്പർ:',bookingDateOut:'ബുക്കിംഗ് തീയതി:',eventDateOut:'പരിപാടി തീയതി:',customerOut:'ഉപഭോക്താവ്:',functionOut:'പരിപാടി:',venueOut:'സ്ഥലം:',itemOut:'വാടക സാധനം / മെനു പാക്കേജ്',qtyOut:'അളവ്',rateOut:'നിരക്ക്',amountOut:'തുക',netTotal:'ആകെ തുക:',advanceOut:'അഡ്വാൻസ്',balanceDue:'ബാക്കി തുക:',termsOut:'നിബന്ധനകൾ:',customerSign:'ഉപഭോക്താവിന്റെ ഒപ്പ്',authorizedSign:'അധികൃത ഒപ്പ്',defaultNotes:'വാടക സാധനങ്ങളുടെ സുരക്ഷയും സമയബന്ധിതമായ തിരിച്ചുനൽകലും ഉപഭോക്താവിന്റെ ഉത്തരവാദിത്തമാണ്.',generating:'⏳ PDF തയ്യാറാക്കുന്നു...',pdfError:'PDF തയ്യാറാക്കാനായില്ല. വീണ്ടും ശ്രമിക്കുക.',payOptions:['UPI / ഓൺലൈൻ','പണം','ചെക്ക്']},
+    or:{allTools:'← ସମସ୍ତ ଟୁଲ୍',navTitle:'KaamKaj Bills • କ୍ୟାଟରିଂ ଓ ଟେଣ୍ଟ ବୁକିଂ ସ୍ଲିପ୍',language:'ଭାଷା',themeHelp:'ଏଠାରୁ ମୋଡ୍ ବଦଳାନ୍ତୁ',darkMode:'🌙 ଡାର୍କ ମୋଡ୍',lightMode:'☀️ ଲାଇଟ୍ ମୋଡ୍',copiesLabel:'1. ପ୍ରିଣ୍ଟ କପି (A4 ରେ କେତୋଟି?):',oneCopy:'📄 1 କପି (ଗ୍ରାହକ ବୁକିଂ ସ୍ଲିପ୍)',twoCopies:'📑 2 କପି (ଗ୍ରାହକ + ଷ୍ଟୋର୍)',agencySection:'1. ଟେଣ୍ଟ ହାଉସ୍ / କ୍ୟାଟରିଂ ଏଜେନ୍ସି ବିବରଣୀ',agencyName:'ଏଜେନ୍ସି / କ୍ୟାଟରର୍ ନାମ',agencyAddress:'ଅଫିସ୍ ଠିକଣା ଓ ମୋବାଇଲ୍',bookingSection:'2. କାର୍ଯ୍ୟକ୍ରମ ଓ ଗ୍ରାହକ ବୁକିଂ ବିବରଣୀ',bookingNo:'ବୁକିଂ ନମ୍ବର (ସ୍ୱୟଂଚାଳିତ)',bookingDate:'ବୁକିଂ ତାରିଖ',eventDate:'କାର୍ଯ୍ୟକ୍ରମ ତାରିଖ',customerName:'ଗ୍ରାହକ / ଆୟୋଜକଙ୍କ ନାମ',customerPhone:'ଗ୍ରାହକ ମୋବାଇଲ୍ / ହ୍ୱାଟସଆପ୍',venue:'କାର୍ଯ୍ୟକ୍ରମ ସ୍ଥାନ / ହଲ୍ ଠିକଣା',functionType:'କାର୍ଯ୍ୟକ୍ରମ ପ୍ରକାର ଓ ସମୟ',itemsSection:'3. ଭଡ଼ା ସାମଗ୍ରୀ / କ୍ୟାଟରିଂ ମେନୁ ପ୍ୟାକେଜ୍',chipMandap:'+ ମଣ୍ଡପ ସେଟ୍',chipChairs:'+ 100 ଚେୟାର୍',chipTables:'+ ଟେବୁଲ୍',chipDj:'+ DJ ଓ ଲାଇଟ୍',chipGenerator:'+ ଜେନେରେଟର୍',chipThali:'+ କ୍ୟାଟରିଂ ଥାଳି',chipStaff:'+ ରୋଷେଇ କର୍ମଚାରୀ',itemMenu:'ସାମଗ୍ରୀ / ମେନୁ ପ୍ୟାକେଜ୍',quantity:'ପରିମାଣ / ପ୍ଲେଟ୍',unitDays:'ଏକକ / ଦିନ',rate:'ଦର (₹)',addItem:'+ ନୂଆ ସାମଗ୍ରୀ / ପ୍ୟାକେଜ୍ ଯୋଡ଼ନ୍ତୁ',termsSection:'4. ଅଗ୍ରିମ, ବାକି ଓ ସର୍ତ୍ତାବଳୀ',discount:'ରିହାତି (₹)',advance:'ଅଗ୍ରିମ ଜମା (₹)',paymentMode:'ଦେୟ ପ୍ରଣାଳୀ',bookingTerms:'ବୁକିଂ ସର୍ତ୍ତ ଓ କ୍ଷତି ନୀତି',downloadPdf:'📥 A4 PDF ଡାଉନଲୋଡ୍',directPrint:'🖨️ ସିଧା ପ୍ରିଣ୍ଟ',whatsappSlip:'📲 ହ୍ୱାଟସଆପ୍ ସ୍ଲିପ୍',previewLabel:'ଲାଇଭ୍ ବୁକିଂ ସ୍ଲିପ୍ ପ୍ରିଭ୍ୟୁ',bookingSlip:'ଗ୍ରାହକ ବୁକିଂ ସ୍ଲିପ୍',storeSlip:'ଷ୍ଟୋର୍ / ଗୋଦାମ କପି',cutHere:'✂️ ଏଠାରେ କାଟନ୍ତୁ (ଷ୍ଟୋର୍ କପି)',bookingNoOut:'ବୁକିଂ ନମ୍ବର:',bookingDateOut:'ବୁକିଂ ତାରିଖ:',eventDateOut:'କାର୍ଯ୍ୟକ୍ରମ ତାରିଖ:',customerOut:'ଗ୍ରାହକ:',functionOut:'କାର୍ଯ୍ୟକ୍ରମ:',venueOut:'ସ୍ଥାନ:',itemOut:'ଭଡ଼ା ସାମଗ୍ରୀ / ମେନୁ ପ୍ୟାକେଜ୍',qtyOut:'ପରିମାଣ',rateOut:'ଦର',amountOut:'ରାଶି',netTotal:'ମୋଟ ରାଶି:',advanceOut:'ଅଗ୍ରିମ',balanceDue:'ବାକି ରାଶି:',termsOut:'ସର୍ତ୍ତ:',customerSign:'ଗ୍ରାହକଙ୍କ ଦସ୍ତଖତ',authorizedSign:'ଅଧିକୃତ ଦସ୍ତଖତ',defaultNotes:'ଭଡ଼ା ସାମଗ୍ରୀର ସୁରକ୍ଷା ଓ ସମୟରେ ଫେରାଇବା ଗ୍ରାହକଙ୍କ ଦାୟିତ୍ୱ।',generating:'⏳ PDF ତିଆରି ହେଉଛି...',pdfError:'PDF ତିଆରି ହୋଇପାରିଲା ନାହିଁ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।',payOptions:['UPI / ଅନଲାଇନ୍','ନଗଦ','ଚେକ୍']},
+    pa:{allTools:'← ਸਾਰੇ ਟੂਲ',navTitle:'KaamKaj Bills • ਕੈਟਰਿੰਗ ਅਤੇ ਟੈਂਟ ਬੁਕਿੰਗ ਸਲਿੱਪ',language:'ਭਾਸ਼ਾ',themeHelp:'ਇੱਥੋਂ ਮੋਡ ਬਦਲ ਸਕਦੇ ਹੋ',darkMode:'🌙 ਡਾਰਕ ਮੋਡ',lightMode:'☀️ ਲਾਈਟ ਮੋਡ',copiesLabel:'1. ਪ੍ਰਿੰਟ ਕਾਪੀਆਂ (A4 ਉੱਤੇ ਕਿੰਨੀਆਂ?):',oneCopy:'📄 1 ਕਾਪੀ (ਗਾਹਕ ਬੁਕਿੰਗ ਸਲਿੱਪ)',twoCopies:'📑 2 ਕਾਪੀਆਂ (ਗਾਹਕ + ਸਟੋਰ)',agencySection:'1. ਟੈਂਟ ਹਾਊਸ / ਕੈਟਰਿੰਗ ਏਜੰਸੀ ਦੇ ਵੇਰਵੇ',agencyName:'ਏਜੰਸੀ / ਕੈਟਰਰ ਦਾ ਨਾਮ',agencyAddress:'ਦਫ਼ਤਰ ਦਾ ਪਤਾ ਅਤੇ ਮੋਬਾਈਲ',bookingSection:'2. ਸਮਾਗਮ ਅਤੇ ਗਾਹਕ ਬੁਕਿੰਗ ਵੇਰਵੇ',bookingNo:'ਬੁਕਿੰਗ ਨੰਬਰ (ਆਟੋ)',bookingDate:'ਬੁਕਿੰਗ ਦੀ ਮਿਤੀ',eventDate:'ਸਮਾਗਮ ਦੀ ਮਿਤੀ',customerName:'ਗਾਹਕ / ਮੇਜ਼ਬਾਨ ਦਾ ਨਾਮ',customerPhone:'ਗਾਹਕ ਮੋਬਾਈਲ / ਵਟਸਐਪ',venue:'ਸਮਾਗਮ ਸਥਾਨ / ਹਾਲ ਦਾ ਪਤਾ',functionType:'ਸਮਾਗਮ ਦੀ ਕਿਸਮ ਅਤੇ ਸਮਾਂ',itemsSection:'3. ਕਿਰਾਏ ਦੀਆਂ ਚੀਜ਼ਾਂ / ਕੈਟਰਿੰਗ ਮੀਨੂ ਪੈਕੇਜ',chipMandap:'+ ਮੰਡਪ ਸੈੱਟ',chipChairs:'+ 100 ਕੁਰਸੀਆਂ',chipTables:'+ ਮੇਜ਼',chipDj:'+ DJ ਅਤੇ ਲਾਈਟਾਂ',chipGenerator:'+ ਜਨਰੇਟਰ',chipThali:'+ ਕੈਟਰਿੰਗ ਥਾਲੀ',chipStaff:'+ ਹਲਵਾਈ ਸਟਾਫ',itemMenu:'ਚੀਜ਼ / ਮੀਨੂ ਪੈਕੇਜ',quantity:'ਮਾਤਰਾ / ਪਲੇਟਾਂ',unitDays:'ਇਕਾਈ / ਦਿਨ',rate:'ਰੇਟ (₹)',addItem:'+ ਨਵੀਂ ਚੀਜ਼ / ਪੈਕੇਜ ਸ਼ਾਮਲ ਕਰੋ',termsSection:'4. ਅਡਵਾਂਸ, ਬਕਾਇਆ ਅਤੇ ਸ਼ਰਤਾਂ',discount:'ਛੂਟ (₹)',advance:'ਅਡਵਾਂਸ ਜਮ੍ਹਾਂ (₹)',paymentMode:'ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ',bookingTerms:'ਬੁਕਿੰਗ ਦੀਆਂ ਸ਼ਰਤਾਂ ਅਤੇ ਨੁਕਸਾਨ ਨੀਤੀ',downloadPdf:'📥 A4 PDF ਡਾਊਨਲੋਡ',directPrint:'🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ',whatsappSlip:'📲 ਵਟਸਐਪ ਸਲਿੱਪ',previewLabel:'ਲਾਈਵ ਬੁਕਿੰਗ ਸਲਿੱਪ ਪ੍ਰੀਵਿਊ',bookingSlip:'ਗਾਹਕ ਬੁਕਿੰਗ ਸਲਿੱਪ',storeSlip:'ਸਟੋਰ / ਗੋਦਾਮ ਕਾਪੀ',cutHere:'✂️ ਇੱਥੋਂ ਕੱਟੋ (ਸਟੋਰ ਕਾਪੀ)',bookingNoOut:'ਬੁਕਿੰਗ ਨੰਬਰ:',bookingDateOut:'ਬੁਕਿੰਗ ਮਿਤੀ:',eventDateOut:'ਸਮਾਗਮ ਮਿਤੀ:',customerOut:'ਗਾਹਕ:',functionOut:'ਸਮਾਗਮ:',venueOut:'ਸਥਾਨ:',itemOut:'ਕਿਰਾਏ ਦੀ ਚੀਜ਼ / ਮੀਨੂ ਪੈਕੇਜ',qtyOut:'ਮਾਤਰਾ',rateOut:'ਰੇਟ',amountOut:'ਰਕਮ',netTotal:'ਕੁੱਲ ਰਕਮ:',advanceOut:'ਅਡਵਾਂਸ',balanceDue:'ਬਕਾਇਆ ਰਕਮ:',termsOut:'ਸ਼ਰਤਾਂ:',customerSign:'ਗਾਹਕ ਦੇ ਦਸਤਖ਼ਤ',authorizedSign:'ਅਧਿਕਾਰਤ ਦਸਤਖ਼ਤ',defaultNotes:'ਕਿਰਾਏ ਦੀਆਂ ਚੀਜ਼ਾਂ ਦੀ ਸੁਰੱਖਿਆ ਅਤੇ ਸਮੇਂ ਸਿਰ ਵਾਪਸੀ ਦੀ ਜ਼ਿੰਮੇਵਾਰੀ ਗਾਹਕ ਦੀ ਹੋਵੇਗੀ।',generating:'⏳ PDF ਬਣ ਰਹੀ ਹੈ...',pdfError:'PDF ਨਹੀਂ ਬਣ ਸਕੀ। ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',payOptions:['UPI / ਆਨਲਾਈਨ','ਨਕਦ','ਚੈੱਕ']},
+    ur:{allTools:'← تمام ٹولز',navTitle:'KaamKaj Bills • کیٹرنگ اور ٹینٹ بکنگ سلپ',language:'زبان',themeHelp:'یہاں سے موڈ تبدیل کریں',darkMode:'🌙 ڈارک موڈ',lightMode:'☀️ لائٹ موڈ',copiesLabel:'1. پرنٹ کاپیاں (A4 پر کتنی؟):',oneCopy:'📄 1 کاپی (گاہک بکنگ سلپ)',twoCopies:'📑 2 کاپیاں (گاہک + اسٹور)',agencySection:'1. ٹینٹ ہاؤس / کیٹرنگ ایجنسی کی تفصیلات',agencyName:'ایجنسی / کیٹرر کا نام',agencyAddress:'دفتر کا پتہ اور موبائل',bookingSection:'2. تقریب اور گاہک کی بکنگ کی تفصیلات',bookingNo:'بکنگ نمبر (خودکار)',bookingDate:'بکنگ کی تاریخ',eventDate:'تقریب کی تاریخ',customerName:'گاہک / میزبان کا نام',customerPhone:'گاہک موبائل / واٹس ایپ',venue:'تقریب کی جگہ / ہال کا پتہ',functionType:'تقریب کی قسم اور وقت',itemsSection:'3. کرائے کا سامان / کیٹرنگ مینو پیکجز',chipMandap:'+ منڈپ سیٹ',chipChairs:'+ 100 کرسیاں',chipTables:'+ میزیں',chipDj:'+ DJ اور لائٹس',chipGenerator:'+ جنریٹر',chipThali:'+ کیٹرنگ تھالی',chipStaff:'+ باورچی عملہ',itemMenu:'سامان / مینو پیکیج',quantity:'تعداد / پلیٹس',unitDays:'اکائی / دن',rate:'شرح (₹)',addItem:'+ نیا سامان / پیکیج شامل کریں',termsSection:'4. ایڈوانس، بقایا اور شرائط',discount:'رعایت (₹)',advance:'ایڈوانس جمع (₹)',paymentMode:'ادائیگی کا طریقہ',bookingTerms:'بکنگ کی شرائط اور نقصان کی پالیسی',downloadPdf:'📥 A4 PDF ڈاؤن لوڈ',directPrint:'🖨️ براہ راست پرنٹ',whatsappSlip:'📲 واٹس ایپ سلپ',previewLabel:'بکنگ سلپ کا لائیو پیش نظارہ',bookingSlip:'گاہک کی بکنگ سلپ',storeSlip:'اسٹور / گودام کاپی',cutHere:'✂️ یہاں سے کاٹیں (اسٹور کاپی)',bookingNoOut:'بکنگ نمبر:',bookingDateOut:'بکنگ تاریخ:',eventDateOut:'تقریب کی تاریخ:',customerOut:'گاہک:',functionOut:'تقریب:',venueOut:'مقام:',itemOut:'کرائے کا سامان / مینو پیکیج',qtyOut:'تعداد',rateOut:'شرح',amountOut:'رقم',netTotal:'کل رقم:',advanceOut:'ایڈوانس',balanceDue:'بقایا رقم:',termsOut:'شرائط:',customerSign:'گاہک کے دستخط',authorizedSign:'مجاز دستخط',defaultNotes:'کرائے کے سامان کی حفاظت اور وقت پر واپسی کی ذمہ داری گاہک کی ہوگی۔',generating:'⏳ PDF بن رہی ہے...',pdfError:'PDF نہیں بن سکی۔ دوبارہ کوشش کریں۔',payOptions:['UPI / آن لائن','نقد','چیک']}
   };
+
+  const $ = id => document.getElementById(id);
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const num = value => { const n = Number.parseFloat(value); return Number.isFinite(n) && n > 0 ? n : 0; };
+  const money = value => Number(value || 0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const tr = () => T[currentLang] || T.hi;
+
+  function applyLanguage(){
+    const L = tr();
+    document.querySelectorAll('[data-i18n]').forEach(el => { const key=el.getAttribute('data-i18n'); if(L[key]) el.textContent=L[key]; });
+    $('themeHelp').textContent=L.themeHelp;
+    $('languageSelect').value=currentLang;
+    document.documentElement.lang=currentLang;
+    document.documentElement.dir=currentLang==='ur'?'rtl':'ltr';
+    const pay=$('in_mode');
+    const selected=pay.value;
+    const opts=L.payOptions || T.en.payOptions;
+    pay.options[0].text=opts[0]; pay.options[1].text=opts[1]; pay.options[2].text=opts[2];
+    pay.value=selected;
+    const dark=document.body.classList.contains('dark-mode');
+    $('btnThemeToggle').textContent=dark?L.lightMode:L.darkMode;
+    renderDoc();
+  }
+  function changeLanguage(lang){ currentLang=T[lang]?lang:'hi'; try{localStorage.setItem(LANG_KEY,currentLang)}catch(e){} applyLanguage(); }
+  function toggleDarkMode(){
+    const dark=document.body.classList.toggle('dark-mode');
+    try{localStorage.setItem(THEME_KEY,dark?'dark':'light')}catch(e){}
+    $('btnThemeToggle').textContent=dark?tr().lightMode:tr().darkMode;
+  }
+  function setCopies(n){copyCount=n;$('btnOne').classList.toggle('active',n===1);$('btnTwo').classList.toggle('active',n===2);renderDoc();}
+  function quickAdd(desc,qty,unit,rate){items.push({desc,qty,unit,rate});renderInputRows();calcTotals();}
+  function renderInputRows(){
+    $('itemsInputsBody').innerHTML=items.map((it,i)=>`<tr>
+      <td><input aria-label="Item description" value="${esc(it.desc)}" oninput="items[${i}].desc=this.value;renderDoc()"></td>
+      <td><input aria-label="Quantity" type="number" min="0" step="any" value="${num(it.qty)}" oninput="items[${i}].qty=num(this.value);calcTotals()"></td>
+      <td><input aria-label="Unit" value="${esc(it.unit)}" oninput="items[${i}].unit=this.value;renderDoc()"></td>
+      <td><input aria-label="Rate" type="number" min="0" step="any" value="${num(it.rate)}" oninput="items[${i}].rate=num(this.value);calcTotals()"></td>
+      <td class="t-center"><button type="button" class="btn-del-row" aria-label="Delete item" onclick="delRow(${i})">✕</button></td>
+    </tr>`).join('');
+  }
+  function addItemRow(){items.push({desc:'',qty:1,unit:'Nos',rate:0});renderInputRows();calcTotals();}
+  function delRow(i){if(items.length>1){items.splice(i,1);renderInputRows();calcTotals();}else{items[0]={desc:'',qty:1,unit:'Nos',rate:0};renderInputRows();calcTotals();}}
+  function calcTotals(){
+    const subtotal=items.reduce((s,it)=>s+(num(it.qty)*num(it.rate)),0);
+    let disc=num($('in_disc').value); if(disc>subtotal){disc=subtotal;$('in_disc').value=String(disc)}
+    if($('in_disc').value!=='' && Number($('in_disc').value)<0)$('in_disc').value='0';
+    if($('in_adv').value!=='' && Number($('in_adv').value)<0)$('in_adv').value='0';
+    renderDoc();
+  }
+  function renderDoc(){
+    const L=tr();
+    const biz=$('in_biz').value.trim()||'MANGAL MURTI TENT & CATERERS';
+    const addr=$('in_addr').value.trim()||'Station Road, City | Mob: 98XXXXXXXX';
+    const bkNo=$('in_bk_no').value.trim()||'-';
+    const bkDt=$('in_bk_date').value||'-';
+    const evDt=$('in_ev_date').value||'-';
+    const cust=$('in_cust').value.trim()||'-';
+    const ph=$('in_phone').value.trim();
+    const venue=$('in_venue').value.trim()||'-';
+    const func=$('in_func').value.trim()||'-';
+    const mode=$('in_mode').selectedOptions[0]?.text||$('in_mode').value;
+    const notes=$('in_notes').value.trim()||L.defaultNotes;
+    const sub=items.reduce((s,it)=>s+num(it.qty)*num(it.rate),0);
+    const disc=Math.min(num($('in_disc').value),sub);
+    const total=Math.max(0,sub-disc); const adv=num($('in_adv').value); const bal=Math.max(0,total-adv);
+    const rows=items.map((it,i)=>`<tr><td class="t-center">${i+1}</td><td>${esc(it.desc)||'-'}</td><td class="t-center">${num(it.qty)} ${esc(it.unit)}</td><td class="t-right">₹${num(it.rate).toLocaleString('en-IN')}</td><td class="t-right">₹${money(num(it.qty)*num(it.rate))}</td></tr>`).join('');
+    const buildSlip=badge=>`<div class="slip-box">
+      <div class="slip-header"><div><h2>${esc(biz)}</h2><p>${esc(addr)}</p></div><div class="slip-badge">${esc(badge)}</div></div>
+      <table class="slip-table">
+        <tr><td class="lbl">${esc(L.bookingNoOut)}</td><td class="val"><b>${esc(bkNo)}</b> (${esc(L.bookingDateOut)} ${esc(bkDt)})</td><td class="lbl" style="width:22%">${esc(L.eventDateOut)}</td><td class="val" style="color:#b45309;font-weight:900">${esc(evDt)}</td></tr>
+        <tr><td class="lbl">${esc(L.customerOut)}</td><td class="val">${esc(ph?`${cust} (${ph})`:cust)}</td><td class="lbl" style="width:22%">${esc(L.functionOut)}</td><td class="val">${esc(func)}</td></tr>
+        <tr><td class="lbl">${esc(L.venueOut)}</td><td class="val" colspan="3">${esc(venue)}</td></tr>
+      </table>
+      <table class="doc-items-table"><thead><tr><th class="t-center" style="width:7%">#</th><th style="width:47%">${esc(L.itemOut)}</th><th class="t-center" style="width:16%">${esc(L.qtyOut)}</th><th class="t-right" style="width:14%">${esc(L.rateOut)}</th><th class="t-right" style="width:16%">${esc(L.amountOut)}</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="amount-highlight"><div><b>${esc(L.netTotal)}</b> ₹${money(total)} | <b>${esc(L.advanceOut)} (${esc(mode)}):</b> ₹${money(adv)}</div><div style="color:#dc2626;font-weight:900;font-size:12px;white-space:nowrap">${esc(L.balanceDue)} ₹${money(bal)}</div></div>
+      <div class="notes-box"><b>${esc(L.termsOut)}</b> ${esc(notes)}</div>
+      <div class="footer-row"><div>${esc(L.customerSign)}</div><div class="sig-card">${esc(L.authorizedSign)} (${esc(biz)})</div></div>
+    </div>`;
+    let html=buildSlip(L.bookingSlip);
+    if(copyCount===2) html+=`<div class="cut-divider"><span class="cut-tag">${esc(L.cutHere)}</span></div>`+buildSlip(L.storeSlip);
+    $('slipsContainer').innerHTML=html;
+  }
+
+  /* Proven PDF export pattern: visible white overlay + relative staging element. */
+  function downloadA4PDF(){
+    const btn=$('btnPdf');
+    if(typeof html2pdf!=='function'){alert('PDF library load नहीं हुई। इंटरनेट कनेक्शन जाँचें और पेज दोबारा खोलें।');return;}
+    btn.disabled=true; const oldText=btn.textContent; btn.textContent=tr().generating;
+    const source=$('a4DocSheet');
+    const clone=source.cloneNode(true); clone.removeAttribute('id');
+    const PDF_WIDTH=680;
+    clone.style.cssText=[
+      `width:${PDF_WIDTH}px`,`max-width:${PDF_WIDTH}px`,'margin:0','padding:22px 24px',
+      'background:#ffffff','color:#0f172a','border:1.5px solid #cbd5e1',
+      'border-radius:6px','box-shadow:none','box-sizing:border-box'
+    ].join(';');
+    const overlay=document.createElement('div');
+    overlay.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+    const staging=document.createElement('div');
+    staging.style.cssText=`position:relative;top:0;left:0;width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;--primary:#d97706;--primary-dark:#b45309;--primary-soft:#fef3c7;`;
+    staging.appendChild(clone); overlay.appendChild(staging); document.body.appendChild(overlay);
+    const rawNo=$('in_bk_no').value.trim()||'Event';
+    const safeNo=rawNo.replace(/[^a-zA-Z0-9-_]/g,'')||'Event';
+    const filename=`BookingSlip_${safeNo}.pdf`;
+    requestAnimationFrame(()=>setTimeout(()=>{
+      html2pdf().set({
+        margin:[10,12,12,12],filename,
+        image:{type:'png',quality:1.0},
+        html2canvas:{scale:3,useCORS:true,letterRendering:true,scrollX:0,scrollY:0,x:0,y:0,width:PDF_WIDTH,windowWidth:PDF_WIDTH,backgroundColor:'#ffffff'},
+        jsPDF:{unit:'mm',format:'a4',orientation:'portrait',compress:true}
+      }).from(staging).save().then(()=>{
+        overlay.remove();btn.disabled=false;btn.textContent=oldText;
+      }).catch(error=>{
+        console.error('PDF export failed:',error);overlay.remove();btn.disabled=false;btn.textContent=oldText;alert(tr().pdfError);
+      });
+    },150));
+  }
+
+  function printDocDirect(){
+    const w=window.open('','_blank','width=850,height=900');
+    if(!w){alert('Print window blocked. Please allow pop-ups for this page.');return;}
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Print Booking Slip</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{margin:0;padding:8mm;background:#fff;color:#0f172a}
+      .slip-box{border:1.5px solid #0f172a;border-radius:8px;padding:14px;margin-bottom:8px;break-inside:avoid}
+      .slip-header{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:2px solid #d97706;padding-bottom:6px;margin-bottom:8px}
+      .slip-header h2{margin:0;font-size:15px}.slip-header p{margin:2px 0 0;font-size:10px;color:#64748b}.slip-badge{background:#d97706;color:#fff;padding:3px 8px;font-size:10px;font-weight:800;border-radius:4px}
+      .slip-table{width:100%;border-collapse:collapse;margin-bottom:6px;font-size:10px;table-layout:fixed}.slip-table td{padding:3px;overflow-wrap:anywhere}.slip-table td.lbl{font-weight:700;color:#475569;width:23%}.slip-table td.val{border-bottom:1px dotted #94a3b8}
+      .doc-items-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:10px;table-layout:fixed}.doc-items-table th{background:#fef3c7;color:#92400e;padding:4px;border:1px solid #fcd34d;text-align:left}.doc-items-table td{padding:4px;border:1px solid #e2e8f0;font-weight:600;overflow-wrap:anywhere}
+      .t-right{text-align:right}.t-center{text-align:center}.amount-highlight{background:#fffbeb;border:1.2px solid #fcd34d;padding:6px 10px;border-radius:6px;display:flex;justify-content:space-between;gap:8px;margin:6px 0;font-size:10px}
+      .notes-box{background:#f8fafc;border-left:3px solid #d97706;padding:5px 8px;font-size:10px;margin:6px 0}.footer-row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px;font-size:10px}.sig-card{width:44%;text-align:center;border-top:1.5px dashed #475569;padding-top:4px;font-weight:700}
+      .cut-divider{display:flex;align-items:center;justify-content:center;position:relative;margin:14px 0;border-top:2px dashed #94a3b8}.cut-tag{position:absolute;top:-10px;background:#fff;padding:0 8px;font-size:10px;font-weight:700;color:#64748b}
+      @page{size:A4 portrait;margin:8mm}@media print{body{padding:0}}
+    </style></head><body>${$('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close();w.focus();setTimeout(()=>{w.print();w.close();},450);
+  }
+  function shareWhatsApp(){
+    const biz=$('in_biz').value.trim()||'Tent & Caterers';const cust=$('in_cust').value.trim()||'Customer';const evDt=$('in_ev_date').value||'-';
+    const sub=items.reduce((s,it)=>s+num(it.qty)*num(it.rate),0);const disc=Math.min(num($('in_disc').value),sub);const adv=num($('in_adv').value);const total=Math.max(0,sub-disc);const bal=Math.max(0,total-adv);
+    const ph=$('in_phone').value.trim().replace(/[^0-9]/g,'');
+    const lines=items.map((it,i)=>`${i+1}. ${it.desc} (${num(it.qty)} ${it.unit}) = ₹${(num(it.qty)*num(it.rate)).toLocaleString('en-IN')}`).join('\n');
+    const msg=`*🎪 EVENT / CATERING BOOKING (${ $('in_bk_no').value })*\n*Agency:* ${biz}\n*Client:* ${cust}\n*Event Date:* ${evDt}\n\n${lines}\n\n*Total:* ₹${total.toLocaleString('en-IN')} | *Advance:* ₹${adv.toLocaleString('en-IN')}\n*Balance Due:* ₹${bal.toLocaleString('en-IN')}\n\n_Generated via KaamKaj Bills._`;
+    const url=ph?`https://wa.me/91${ph}?text=${encodeURIComponent(msg)}`:`https://wa.me/?text=${encodeURIComponent(msg)}`;window.open(url,'_blank');
+  }
+  window.addEventListener('load',()=>{
+    const d=new Date();$('in_bk_date').value=d.toISOString().split('T')[0];d.setDate(d.getDate()+10);$('in_ev_date').value=d.toISOString().split('T')[0];
+    $('in_bk_no').value='BKG-'+Math.floor(100000+Math.random()*899990);
+    try{const lang=localStorage.getItem(LANG_KEY);if(lang&&T[lang])currentLang=lang;if(localStorage.getItem(THEME_KEY)==='dark')document.body.classList.add('dark-mode')}catch(e){}
+    $('languageSelect').value=currentLang;renderInputRows();applyLanguage();
+  });
 </script>
 </body>
 </html>
