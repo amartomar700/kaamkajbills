@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,7 +14,28 @@
     --ink-muted: #475569;
     --border: #cbd5e1;
     --bg: #f1f5f9;
+    --card-bg: #ffffff;
+    --input-bg: #f8fafc;
+    --toggle-bg: #f1f5f9;
+    --nav-bg: #0f172a;
+    --shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
   }
+
+  [data-theme="dark"] {
+    --primary: #38bdf8;
+    --primary-dark: #0284c7;
+    --primary-soft: rgba(56, 189, 248, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: #334155;
+    --bg: #020617;
+    --card-bg: #0f172a;
+    --input-bg: #1e293b;
+    --toggle-bg: #1e293b;
+    --nav-bg: #090d16;
+    --shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  }
+
   html, body {
     margin: 0 !important;
     padding: 0 !important;
@@ -24,18 +45,24 @@
     overflow-x: hidden !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
+    transition: background 0.25s, color 0.25s;
   }
   ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
-  * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", "Noto Sans Gujarati", "Noto Sans Gurmukhi", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Oriya", "Noto Nastaliq Urdu", sans-serif;
+  }
 
   /* Top Navigation Bar */
   .top-nav {
-    background: var(--ink);
+    background: var(--nav-bg);
     color: #fff;
-    padding: 12px 24px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
     border-bottom: 3px solid #f59e0b;
     position: sticky;
     top: 0;
@@ -45,15 +72,46 @@
     background: rgba(255,255,255,0.12);
     color: #fff;
     text-decoration: none;
-    padding: 7px 14px;
+    padding: 7px 13px;
     border-radius: 6px;
     font-size: 13px;
     font-weight: 700;
     border: 1px solid rgba(255,255,255,0.2);
     transition: 0.2s;
+    white-space: nowrap;
   }
-  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
-  .nav-title { font-size: 15px; font-weight: 800; letter-spacing: 0.3px; }
+  .btn-home:hover { background: #1e3a8a; border-color: #38bdf8; }
+  .nav-title { font-size: 14.5px; font-weight: 800; letter-spacing: 0.3px; text-align: center; }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lang-select {
+    background: #1e293b;
+    color: #fff;
+    border: 1px solid #475569;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    width: auto;
+  }
+  .theme-btn {
+    background: #1e293b;
+    color: #fbbf24;
+    border: 1px solid #475569;
+    padding: 6px 11px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+  }
+  .theme-btn:hover { background: #334155; }
 
   /* PC Full-Wide Split Grid Layout */
   .kb-wrapper {
@@ -68,11 +126,11 @@
 
   /* Left Control Box */
   .control-box {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 22px 20px;
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+    box-shadow: var(--shadow);
   }
 
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -84,24 +142,24 @@
   input, select, textarea {
     width: 100%;
     padding: 9px 11px;
-    border: 1.5px solid #cbd5e1;
+    border: 1.5px solid var(--border);
     border-radius: 8px;
     font-size: 13.5px;
     outline: none;
     color: var(--ink);
-    background: #f8fafc;
+    background: var(--input-bg);
     transition: all 0.2s;
   }
-  textarea { resize: vertical; min-height: 68px; }
+  textarea { resize: vertical; min-height: 76px; }
   input:focus, select:focus, textarea:focus {
     border-color: var(--primary);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.14);
+    background: var(--card-bg);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
   }
 
   .section-badge {
     background: var(--primary-soft);
-    color: var(--primary-dark);
+    color: var(--primary);
     font-size: 11.5px;
     font-weight: 800;
     padding: 6px 12px;
@@ -111,7 +169,7 @@
     gap: 6px;
     margin: 16px 0 12px 0;
     text-transform: uppercase;
-    border-left: 4px solid var(--primary);
+    border-inline-start: 4px solid var(--primary);
   }
   .section-badge:first-of-type { margin-top: 0; }
 
@@ -120,7 +178,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-bottom: 14px;
-    background: #f1f5f9;
+    background: var(--toggle-bg);
     border: 1px solid var(--border);
     padding: 5px;
     border-radius: 10px;
@@ -137,17 +195,21 @@
     transition: 0.2s;
   }
   .toggle-btn.active {
-    background: var(--primary);
+    background: #1e3a8a;
     color: #ffffff;
     box-shadow: 0 3px 8px rgba(30, 58, 138, 0.28);
   }
+  [data-theme="dark"] .toggle-btn.active {
+    background: #0284c7;
+    color: #ffffff;
+  }
 
   /* Signature Pad */
-  .sig-wrap { background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px; }
+  .sig-wrap { background: var(--input-bg); border: 1.5px dashed var(--border); border-radius: 8px; padding: 10px; }
   #sigCanvas {
     border: 1px solid #94a3b8;
     border-radius: 6px;
-    background: #fff;
+    background: #ffffff;
     cursor: crosshair;
     touch-action: none;
     width: 100%;
@@ -155,30 +217,31 @@
     height: 55px;
     display: block;
   }
-  .btn-sm { background: #64748b; color: #fff; border: none; padding: 4px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 5px; }
+  .btn-sm { background: #64748b; color: #fff; border: none; padding: 5px 10px; border-radius: 5px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 6px; }
 
   /* Actions */
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid #e2e8f0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
   .btn {
     flex: 1;
     min-width: 140px;
     padding: 13px;
     border: none;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
     color: #fff;
     cursor: pointer;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     transition: 0.2s;
   }
-  .btn:hover { opacity: 0.93; transform: translateY(-1px); }
+  .btn:hover:not(:disabled) { opacity: 0.93; transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.65; cursor: not-allowed; }
   .btn-pdf { background: linear-gradient(135deg, #1e3a8a, #172554); }
-  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-print { background: linear-gradient(135deg, #334155, #0f172a); }
   .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
 
-  /* Right Sticky Preview Panel */
+  /* Right Sticky Preview Panel - Always crisp white paper */
   .preview-panel {
     position: sticky;
     top: 72px;
@@ -199,7 +262,7 @@
     width: 100%;
     padding: 32px 28px;
     border: 1.5px solid #cbd5e1;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
     border-radius: 8px;
     box-sizing: border-box;
     color: #0f172a;
@@ -234,18 +297,18 @@
     font-size: 11.5px;
     font-weight: 700;
     color: #334155;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
   }
 
   .cert-heading {
     text-align: center;
-    margin: 14px 0 22px 0;
+    margin: 12px 0 20px 0;
   }
   .cert-heading span {
     font-size: 15px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 0.8px;
     border-bottom: 2px solid #0f172a;
     padding-bottom: 4px;
     color: #0f172a;
@@ -261,12 +324,13 @@
 
   .resp-box {
     background: #f8fafc;
-    border-left: 3.5px solid #1e3a8a;
+    border-inline-start: 3.5px solid #1e3a8a;
     padding: 10px 14px;
     margin: 14px 0;
     font-size: 11.5px;
     line-height: 1.65;
     white-space: pre-line;
+    color: #0f172a;
   }
 
   .sig-section {
@@ -276,8 +340,8 @@
     margin-top: 38px;
   }
   .seal-circle {
-    width: 82px;
-    height: 82px;
+    width: 84px;
+    height: 84px;
     border: 1.5px dashed #64748b;
     border-radius: 50%;
     display: flex;
@@ -287,119 +351,138 @@
     font-size: 9px;
     font-weight: 700;
     color: #64748b;
+    padding: 4px;
   }
   .auth-block {
-    text-align: left;
-    min-width: 190px;
+    text-align: start;
+    min-width: 195px;
     font-size: 11.5px;
     line-height: 1.5;
+    color: #0f172a;
   }
   .auth-block img { max-height: 36px; display: block; margin-bottom: 4px; }
 
   @media (max-width: 960px) {
-    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 8px; gap: 16px; }
+    .kb-wrapper { grid-template-columns: 1fr; padding: 12px 10px; gap: 16px; }
     .preview-panel { position: static; }
     .top-nav { padding: 10px 12px; }
   }
   @media (max-width: 600px) {
     .toggle-bar, .grid-2, .grid-3 { grid-template-columns: 1fr; }
     #a4DocSheet { padding: 20px 16px; }
+    .nav-title { width: 100%; order: 3; font-size: 13px; text-align: start; }
   }
 </style>
 </head>
 <body>
 
 <div class="top-nav">
-  <a href="index.html" target="_self" class="btn-home">← All Tools</a>
-  <span class="nav-title">KaamKaj Bills • Experience & Relieving Certificate</span>
-  <span style="width: 60px;"></span>
+  <a href="index.html" target="_self" class="btn-home" id="ui_all_tools">← All Tools</a>
+  <span class="nav-title" id="ui_nav_title">KaamKaj Bills • Experience & Relieving Certificate</span>
+  <div class="nav-controls">
+    <select id="langSelect" class="lang-select" onchange="changeLanguage(this.value)" aria-label="Select Language">
+      <option value="en" selected>🌐 English</option>
+      <option value="hi">हिन्दी (Hindi)</option>
+      <option value="mr">मराठी (Marathi)</option>
+      <option value="gu">ગુજરાતી (Gujarati)</option>
+      <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+      <option value="bn">বাংলা (Bengali)</option>
+      <option value="ta">தமிழ் (Tamil)</option>
+      <option value="te">తెలుగు (Telugu)</option>
+      <option value="kn">ಕನ್ನಡ (Kannada)</option>
+      <option value="ml">മലയാളം (Malayalam)</option>
+      <option value="or">ଓଡ଼ିଆ (Odia)</option>
+      <option value="ur">اردو (Urdu)</option>
+    </select>
+    <button type="button" class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙 Dark</button>
+  </div>
 </div>
 
 <div class="kb-wrapper">
   <!-- LEFT: FORM CONTROLS -->
   <div class="control-box">
     <div style="margin-bottom: 10px;">
-      <label>1. Certificate Type Chunein:</label>
+      <label id="ui_lbl_cert_type">1. Select Certificate Type:</label>
       <div class="toggle-bar">
         <button type="button" class="toggle-btn active" id="btnBoth" onclick="setType('BOTH')">📜 Experience + Relieving Letter</button>
         <button type="button" class="toggle-btn" id="btnExpOnly" onclick="setType('EXP')">🏅 Experience Certificate Only</button>
       </div>
     </div>
 
-    <div class="section-badge">1. Company / Organization Letterhead Details</div>
+    <div class="section-badge" id="ui_sec_1">1. Company / Organization Letterhead Details</div>
     <div class="grid-2">
-      <div class="field"><label>Company / Firm Name</label><input type="text" id="in_org" value="Maruthi Technologies" oninput="renderDoc()"></div>
-      <div class="field"><label>Company Reg / GST / Website</label><input type="text" id="in_reg" value="Pune, Maharashtra | www.kaamkajbills.in" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_org">Company / Firm Name</label><input type="text" id="in_org" value="Apex Tech Solutions" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_reg">Company Reg / GST / Website</label><input type="text" id="in_reg" value="Sector 18, Mumbai, Maharashtra | www.example.com" oninput="renderDoc()"></div>
     </div>
 
     <div class="grid-2">
-      <div class="field"><label>Reference / Certificate No.</label><input type="text" id="in_ref" oninput="renderDoc()"></div>
-      <div class="field"><label>Issue Date (जारी करने की तिथि)</label><input type="date" id="in_date" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_ref">Reference / Certificate No.</label><input type="text" id="in_ref" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_date">Issue Date</label><input type="date" id="in_date" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">2. Employee & Tenure Details</div>
+    <div class="section-badge" id="ui_sec_2">2. Employee & Tenure Details</div>
     <div class="grid-3">
       <div class="field">
-        <label>Salutation</label>
+        <label id="ui_lbl_sal">Salutation</label>
         <select id="in_sal" onchange="renderDoc()">
-          <option value="Mr." selected>Mr. (श्री)</option>
-          <option value="Ms.">Ms. (सुश्री)</option>
-          <option value="Mrs.">Mrs. (श्रीमती)</option>
+          <option value="Mr." selected>Mr. / श्री</option>
+          <option value="Ms.">Ms. / सुश्री</option>
+          <option value="Mrs.">Mrs. / श्रीमती</option>
         </select>
       </div>
-      <div class="field"><label>Employee Full Name</label><input type="text" id="in_emp" value="Munal Kumar" oninput="renderDoc()"></div>
-      <div class="field"><label>Employee ID / Code</label><input type="text" id="in_emp_id" value="MT-EMP-04" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_emp">Employee Full Name</label><input type="text" id="in_emp" value="Amit Verma" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_emp_id">Employee ID / Code</label><input type="text" id="in_emp_id" value="EMP-1042" oninput="renderDoc()"></div>
     </div>
 
     <div class="grid-3">
-      <div class="field"><label>Designation / Role</label><input type="text" id="in_role" value="Senior Electrical & CCTV Technician" oninput="renderDoc()"></div>
-      <div class="field"><label>Date of Joining</label><input type="date" id="in_doj" value="2023-04-01" oninput="renderDoc()"></div>
-      <div class="field"><label>Last Working Date</label><input type="date" id="in_lwd" value="2026-10-31" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_role">Designation / Role</label><input type="text" id="in_role" value="Senior Technical Executive" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_doj">Date of Joining</label><input type="date" id="in_doj" value="2023-04-01" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_lwd">Last Working Date</label><input type="date" id="in_lwd" value="2026-10-31" oninput="renderDoc()"></div>
     </div>
 
-    <div class="section-badge">3. Key Responsibilities & Conduct</div>
+    <div class="section-badge" id="ui_sec_3">3. Key Responsibilities & Conduct</div>
     <div class="field">
-      <label>Key Roles & Responsibilities (मुख्य कार्य विवरण)</label>
-      <textarea id="in_resp" oninput="renderDoc()">• Installation, testing, and commissioning of IP CCTV surveillance systems, NVR/DVR setups, and LAN networks.
-• Execution of commercial & residential electrical wiring, switchboard panels, and site troubleshooting.
-• Maintaining client service logs and ensuring timely project handover.</textarea>
+      <label id="ui_lbl_resp">Key Roles & Responsibilities</label>
+      <textarea id="in_resp" oninput="renderDoc()">• Managing client project installations, system configuration, and technical support.
+• Coordinating with field teams and ensuring quality compliance and timely handover.
+• Maintaining operational records and daily service reports.</textarea>
     </div>
 
     <div class="grid-2">
-      <div class="field"><label>Authorized Signatory Name</label><input type="text" id="in_auth_name" value="Amar Singh Tomar" oninput="renderDoc()"></div>
-      <div class="field"><label>Signatory Designation</label><input type="text" id="in_auth_role" value="Proprietor / Authorized Signatory" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_auth_name">Authorized Signatory Name</label><input type="text" id="in_auth_name" value="Rajesh Mehta" oninput="renderDoc()"></div>
+      <div class="field"><label id="ui_lbl_auth_role">Signatory Designation</label><input type="text" id="in_auth_role" value="HR Manager / Authorized Signatory" oninput="renderDoc()"></div>
     </div>
 
     <div class="field">
-      <label>Draw Digital Signature (Optional):</label>
+      <label id="ui_lbl_sig">Draw Digital Signature (Optional):</label>
       <div class="sig-wrap">
         <canvas id="sigCanvas" width="240" height="55"></canvas>
-        <button type="button" class="btn-sm" onclick="clearSig()">Clear Signature</button>
+        <button type="button" class="btn-sm" id="ui_btn_clear_sig" onclick="clearSig()">Clear Signature</button>
       </div>
     </div>
 
     <div class="actions">
-      <button type="button" class="btn btn-pdf" onclick="downloadPDF()">📥 Download Official PDF</button>
-      <button type="button" class="btn btn-print" onclick="printDoc()">🖨️ Direct Print</button>
-      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
+      <button type="button" class="btn btn-pdf" id="ui_btn_pdf" onclick="downloadA4PDF()">📥 Download Official PDF</button>
+      <button type="button" class="btn btn-print" id="ui_btn_print" onclick="printDoc()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" id="ui_btn_wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
     </div>
   </div>
 
   <!-- RIGHT: LIVE A4 CERTIFICATE PREVIEW -->
   <div class="preview-panel">
-    <div class="preview-label">Live Official Letterhead Preview</div>
+    <div class="preview-label" id="ui_preview_label">Live Official Letterhead Preview</div>
     <div id="a4DocSheet">
       <div class="lh-header">
         <div class="lh-org">
-          <h1 id="out_org">MARUTHI TECHNOLOGIES</h1>
-          <p id="out_reg">Pune, Maharashtra | www.kaamkajbills.in</p>
+          <h1 id="out_org">APEX TECH SOLUTIONS</h1>
+          <p id="out_reg">Sector 18, Mumbai, Maharashtra | www.example.com</p>
         </div>
-        <div class="lh-badge">OFFICIAL RECORD</div>
+        <div class="lh-badge" id="doc_badge">OFFICIAL RECORD</div>
       </div>
 
       <div class="ref-row">
-        <div>Ref No: <span id="out_ref">EXP/2026/104</span></div>
-        <div>Date: <span id="out_date">-</span></div>
+        <div><span id="doc_ref_lbl">Ref No:</span> <span id="out_ref">EXP/2026/104</span></div>
+        <div><span id="doc_date_lbl">Date:</span> <span id="out_date">-</span></div>
       </div>
 
       <div class="cert-heading">
@@ -407,36 +490,30 @@
       </div>
 
       <div class="letter-body">
-        <p style="font-weight:800; text-align:center; letter-spacing:0.6px; margin-bottom:16px;">TO WHOMSOEVER IT MAY CONCERN</p>
+        <p style="font-weight:800; text-align:center; letter-spacing:0.6px; margin-bottom:16px;" id="doc_concern">TO WHOMSOEVER IT MAY CONCERN</p>
 
-        <p>
-          This is to certify that <b id="out_emp_full">Mr. Munal Kumar</b> (Employee ID: <b id="out_emp_id">MT-EMP-04</b>) was employed with <b id="out_org_body">Maruthi Technologies</b> as <b id="out_role">Senior Electrical & CCTV Technician</b> from <b id="out_doj">01-04-2023</b> to <b id="out_lwd">31-10-2026</b>.
-        </p>
+        <p id="out_cert_para"></p>
 
         <div class="resp-box">
-          <b>Key Responsibilities Handled:</b><br>
+          <b id="doc_resp_hdr">Key Responsibilities Handled:</b><br>
           <span id="out_resp"></span>
         </div>
 
-        <p id="out_relieve_para">
-          He/She has been relieved from his/her duties with effect from the closing hours of <b id="out_lwd_2">31-10-2026</b> upon acceptance of resignation, and all dues have been settled in full and final.
-        </p>
+        <p id="out_relieve_para"></p>
 
-        <p>
-          During his/her tenure with us, we found <b id="out_emp_short">Mr. Munal Kumar</b> to be sincere, hardworking, and honest in discharging assigned responsibilities. We wish him/her all the very best in future professional endeavors.
-        </p>
+        <p id="out_conduct_para"></p>
       </div>
 
       <div class="sig-section">
-        <div class="seal-circle">COMPANY<br>OFFICIAL<br>STAMP</div>
+        <div class="seal-circle" id="doc_seal">COMPANY<br>OFFICIAL<br>STAMP</div>
         <div class="auth-block">
-          <div>For <b id="out_org_sig">Maruthi Technologies</b>,</div>
+          <div id="out_for_org"></div>
           <div style="min-height:38px; display:flex; align-items:flex-end;">
             <img id="out_sig" style="display:none;" alt="Signature">
           </div>
           <div style="border-top:1.5px solid #0f172a; padding-top:4px;">
-            <b id="out_auth_name">Amar Singh Tomar</b><br>
-            <span style="font-size:10px; color:#475569;" id="out_auth_role">Proprietor / Authorized Signatory</span>
+            <b id="out_auth_name">Rajesh Mehta</b><br>
+            <span style="font-size:10px; color:#475569;" id="out_auth_role">HR Manager / Authorized Signatory</span>
           </div>
         </div>
       </div>
@@ -445,14 +522,613 @@
 </div>
 
 <script>
+  const $ = id => document.getElementById(id);
   let certType = 'BOTH';
+  let currentLang = 'en';
 
-  function setType(t) {
-    certType = t;
-    document.getElementById('btnBoth').classList.toggle('active', t === 'BOTH');
-    document.getElementById('btnExpOnly').classList.toggle('active', t === 'EXP');
-    document.getElementById('out_title').innerText = t === 'BOTH' ? 'EXPERIENCE & RELIEVING CERTIFICATE' : 'EXPERIENCE CERTIFICATE';
-    document.getElementById('out_relieve_para').style.display = t === 'BOTH' ? 'block' : 'none';
+  const TRANSLATIONS = {
+    en: {
+      dir: 'ltr',
+      allTools: '← All Tools',
+      navTitle: 'KaamKaj Bills • Experience & Relieving Certificate',
+      lblCertType: '1. Select Certificate Type:',
+      btnBoth: '📜 Experience + Relieving Letter',
+      btnExpOnly: '🏅 Experience Certificate Only',
+      sec1: '1. Company / Organization Letterhead Details',
+      lblOrg: 'Company / Firm Name',
+      lblReg: 'Company Reg / GST / Website',
+      lblRef: 'Reference / Certificate No.',
+      lblDate: 'Issue Date',
+      sec2: '2. Employee & Tenure Details',
+      lblSal: 'Salutation',
+      lblEmp: 'Employee Full Name',
+      lblEmpId: 'Employee ID / Code',
+      lblRole: 'Designation / Role',
+      lblDoj: 'Date of Joining',
+      lblLwd: 'Last Working Date',
+      sec3: '3. Key Responsibilities & Conduct',
+      lblResp: 'Key Roles & Responsibilities',
+      lblAuthName: 'Authorized Signatory Name',
+      lblAuthRole: 'Signatory Designation',
+      lblSig: 'Draw Digital Signature (Optional):',
+      btnClearSig: 'Clear Signature',
+      btnPdf: '📥 Download Official PDF',
+      btnPrint: '🖨️ Direct Print',
+      btnWa: '📲 WhatsApp Share',
+      previewLabel: 'Live Official Letterhead Preview',
+      salMap: { 'Mr.': 'Mr.', 'Ms.': 'Ms.', 'Mrs.': 'Mrs.' },
+      docBadge: 'OFFICIAL RECORD',
+      docRef: 'Ref No:',
+      docDate: 'Date:',
+      titleBoth: 'EXPERIENCE & RELIEVING CERTIFICATE',
+      titleExp: 'EXPERIENCE CERTIFICATE',
+      concern: 'TO WHOMSOEVER IT MAY CONCERN',
+      respHdr: 'Key Responsibilities Handled:',
+      seal: 'COMPANY<br>OFFICIAL<br>STAMP',
+      forOrg: org => `For <b>${org}</b>,`,
+      certPara: (emp, id, org, role, doj, lwd) => `This is to certify that <b>${emp}</b> (Employee ID: <b>${id}</b>) was employed with <b>${org}</b> as <b>${role}</b> from <b>${doj}</b> to <b>${lwd}</b>.`,
+      relievePara: lwd => `He/She has been relieved from his/her duties with effect from the closing hours of <b>${lwd}</b> upon acceptance of resignation, and all dues have been settled in full and final.`,
+      conductPara: emp => `During his/her tenure with us, we found <b>${emp}</b> to be sincere, hardworking, and honest in discharging assigned responsibilities. We wish him/her all the very best in future professional endeavors.`,
+      waTitle: 'EXPERIENCE CERTIFICATE ISSUED',
+      waComp: 'Company', waEmp: 'Employee', waRole: 'Designation', waRef: 'Ref No'
+    },
+    hi: {
+      dir: 'ltr',
+      allTools: '← सभी टूल्स',
+      navTitle: 'KaamKaj Bills • अनुभव एवं कार्यमुक्ति प्रमाण पत्र',
+      lblCertType: '1. प्रमाण पत्र का प्रकार चुनें:',
+      btnBoth: '📜 अनुभव + रिलीविंग लेटर',
+      btnExpOnly: '🏅 केवल अनुभव प्रमाण पत्र',
+      sec1: '1. कंपनी / संस्था का विवरण',
+      lblOrg: 'कंपनी / फर्म का नाम',
+      lblReg: 'पंजीकरण / GST / पता / वेबसाइट',
+      lblRef: 'संदर्भ / प्रमाण पत्र क्रमांक',
+      lblDate: 'जारी करने की तिथि',
+      sec2: '2. कर्मचारी एवं कार्यकाल विवरण',
+      lblSal: 'संबोधन',
+      lblEmp: 'कर्मचारी का पूरा नाम',
+      lblEmpId: 'कर्मचारी आईडी / कोड',
+      lblRole: 'पदनाम (Designation)',
+      lblDoj: 'कार्यग्रहण तिथि (Joining)',
+      lblLwd: 'अंतिम कार्य दिवस (Last Date)',
+      sec3: '3. मुख्य जिम्मेदारियाँ एवं आचरण',
+      lblResp: 'मुख्य कार्य एवं जिम्मेदारियाँ',
+      lblAuthName: 'अधिकृत हस्ताक्षरकर्ता का नाम',
+      lblAuthRole: 'हस्ताक्षरकर्ता का पदनाम',
+      lblSig: 'डिजिटल हस्ताक्षर करें (वैकल्पिक):',
+      btnClearSig: 'हस्ताक्षर मिटाएं',
+      btnPdf: '📥 PDF डाउनलोड करें',
+      btnPrint: '🖨️ डायरेक्ट प्रिंट',
+      btnWa: '📲 WhatsApp शेयर',
+      previewLabel: 'लाइव ऑफिशियल लेटरहेड प्रिव्यू',
+      salMap: { 'Mr.': 'श्री', 'Ms.': 'सुश्री', 'Mrs.': 'श्रीमती' },
+      docBadge: 'आधिकारिक अभिलेख',
+      docRef: 'संदर्भ क्र.:',
+      docDate: 'दिनांक:',
+      titleBoth: 'अनुभव एवं कार्यमुक्ति प्रमाण पत्र',
+      titleExp: 'अनुभव प्रमाण पत्र',
+      concern: 'संबंधित अधिकारी के सूचनार्थ',
+      respHdr: 'निभाई गई मुख्य जिम्मेदारियाँ:',
+      seal: 'संस्था की<br>आधिकारिक<br>मुहर',
+      forOrg: org => `कृते <b>${org}</b>,`,
+      certPara: (emp, id, org, role, doj, lwd) => `यह प्रमाणित किया जाता है कि <b>${emp}</b> (कर्मचारी आईडी: <b>${id}</b>) ने <b>${org}</b> में <b>${role}</b> के पद पर दिनांक <b>${doj}</b> से <b>${lwd}</b> तक सफलतापूर्वक कार्य किया है।`,
+      relievePara: lwd => `उनका त्यागपत्र स्वीकार करते हुए उन्हें दिनांक <b>${lwd}</b> के कार्य समय समाप्ति से सभी कर्तव्यों से कार्यमुक्त (Relieve) कर दिया गया है तथा उनका समस्त बकाया हिसाब पूर्ण एवं अंतिम रूप से चुकता कर दिया गया है।`,
+      conductPara: emp => `हमारे साथ कार्यकाल के दौरान हमने <b>${emp}</b> को अपने दायित्वों के प्रति अत्यंत ईमानदार, मेहनती और कर्तव्यनिष्ठ पाया। हम उनके उज्ज्वल भविष्य की कामना करते हैं।`,
+      waTitle: 'अनुभव प्रमाण पत्र जारी',
+      waComp: 'कंपनी', waEmp: 'कर्मचारी', waRole: 'पदनाम', waRef: 'संदर्भ क्र.'
+    },
+    mr: {
+      dir: 'ltr',
+      allTools: '← सर्व टूल्स',
+      navTitle: 'KaamKaj Bills • अनुभव व कार्यमुक्ती प्रमाणपत्र',
+      lblCertType: '1. प्रमाणपत्राचा प्रकार निवडा:',
+      btnBoth: '📜 अनुभव + कार्यमुक्ती पत्र',
+      btnExpOnly: '🏅 फक्त अनुभव प्रमाणपत्र',
+      sec1: '1. कंपनी / संस्थेचा तपशील',
+      lblOrg: 'कंपनी / संस्थेचे नाव',
+      lblReg: 'नोंदणी / GST / पत्ता / वेबसाइट',
+      lblRef: 'संदर्भ / प्रमाणपत्र क्रमांक',
+      lblDate: 'दिनांक',
+      sec2: '2. कर्मचारी आणि कार्यकाळ तपशील',
+      lblSal: 'संबोधन',
+      lblEmp: 'कर्मचाऱ्याचे पूर्ण नाव',
+      lblEmpId: 'कर्मचारी आयडी / कोड',
+      lblRole: 'पदनाम (Designation)',
+      lblDoj: 'रुजू झाल्याची तारीख',
+      lblLwd: 'शेवटचा कामाचा दिवस',
+      sec3: '3. मुख्य जबाबदाऱ्या आणि वर्तणूक',
+      lblResp: 'मुख्य कामे आणि जबाबदाऱ्या',
+      lblAuthName: 'अधिकृत स्वाक्षरी करणाऱ्याचे नाव',
+      lblAuthRole: 'स्वाक्षरी करणाऱ्याचे पद',
+      lblSig: 'डिजिटल स्वाक्षरी करा (ऐच्छिक):',
+      btnClearSig: 'स्वाक्षरी पुसा',
+      btnPdf: '📥 PDF डाउनलोड करा',
+      btnPrint: '🖨️ थेट प्रिंट करा',
+      btnWa: '📲 WhatsApp शेअर',
+      previewLabel: 'लाइव्ह अधिकृत लेटरहेड प्रिव्यू',
+      salMap: { 'Mr.': 'श्री.', 'Ms.': 'कु.', 'Mrs.': 'सौ.' },
+      docBadge: 'अधिकृत नोंद',
+      docRef: 'संदर्भ क्र.:',
+      docDate: 'दिनांक:',
+      titleBoth: 'अनुभव व कार्यमुक्ती प्रमाणपत्र',
+      titleExp: 'अनुभव प्रमाणपत्र',
+      concern: 'संबंधितांच्या माहितीसाठी प्रमाणपत्र',
+      respHdr: 'सांभाळलेल्या मुख्य जबाबदाऱ्या:',
+      seal: 'कंपनीचा<br>अधिकृत<br>शिक्का',
+      forOrg: org => `<b>${org}</b> करिता,`,
+      certPara: (emp, id, org, role, doj, lwd) => `प्रमाणित करण्यात येते की, <b>${emp}</b> (कर्मचारी आयडी: <b>${id}</b>) यांनी <b>${org}</b> मध्ये <b>${role}</b> या पदावर दिनांक <b>${doj}</b> पासून <b>${lwd}</b> पर्यंत सेवा बजावली आहे.`,
+      relievePara: lwd => `त्यांचा राजीनामा मंजूर करून त्यांना दिनांक <b>${lwd}</b> रोजी कार्यालयीन वेळेनंतर सर्व जबाबदाऱ्यांतून कार्यमुक्त करण्यात आले असून त्यांचे सर्व देणे पूर्णपणे चुकते करण्यात आले आहे.`,
+      conductPara: emp => `आमच्या संस्थेतील कार्यकाळात <b>${emp}</b> हे अत्यंत प्रामाणिक, मेहनती आणि जबाबदार असल्याचे आढळून आले. आम्ही त्यांना पुढील व्यावसायिक वाटचालीस हार्दिक शुभेच्छा देतो.`,
+      waTitle: 'अनुभव प्रमाणपत्र जारी',
+      waComp: 'कंपनी', waEmp: 'कर्मचारी', waRole: 'पदनाम', waRef: 'संदर्भ क्र.'
+    },
+    gu: {
+      dir: 'ltr',
+      allTools: '← બધા ટૂલ્સ',
+      navTitle: 'KaamKaj Bills • અનુભવ અને કાર્યમુક્તિ પ્રમાણપત્ર',
+      lblCertType: '1. પ્રમાણપત્રનો પ્રકાર પસંદ કરો:',
+      btnBoth: '📜 અનુભવ + રિલીવિંગ લેટર',
+      btnExpOnly: '🏅 ફક્ત અનુભવ પ્રમાણપત્ર',
+      sec1: '1. કંપની / સંસ્થાની વિગતો',
+      lblOrg: 'કંપની / પેઢીનું નામ',
+      lblReg: 'નોંધણી / GST / સરનામું / વેબસાઇટ',
+      lblRef: 'સંદર્ભ / પ્રમાણપત્ર નં.',
+      lblDate: 'તારીખ',
+      sec2: '2. કર્મચારી અને કાર્યકાળની વિગતો',
+      lblSal: 'સંબોધન',
+      lblEmp: 'કર્મચારીનું પૂરું નામ',
+      lblEmpId: 'કર્મચારી આઈડી / કોડ',
+      lblRole: 'હોદ્દો (Designation)',
+      lblDoj: 'જોડાયા તારીખ',
+      lblLwd: 'છેલ્લો કાર્ય દિવસ',
+      sec3: '3. મુખ્ય જવાબદારીઓ અને વર્તણૂક',
+      lblResp: 'મુખ્ય કાર્યો અને જવાબદારીઓ',
+      lblAuthName: 'અધિકૃત સહી કરનારનું નામ',
+      lblAuthRole: 'સહી કરનારનો હોદ્દો',
+      lblSig: 'ડિજિટલ સહી કરો (વૈકલ્પિક):',
+      btnClearSig: 'સહી ભૂંસો',
+      btnPdf: '📥 PDF ડાઉનલોડ કરો',
+      btnPrint: '🖨️ ડાયરેક્ટ પ્રિન્ટ',
+      btnWa: '📲 WhatsApp શેર',
+      previewLabel: 'લાઈવ ઓફિશિયલ લેટરહેડ પ્રિવ્યૂ',
+      salMap: { 'Mr.': 'શ્રી', 'Ms.': 'કુ.', 'Mrs.': 'શ્રીમતી' },
+      docBadge: 'સત્તાવાર રેકોર્ડ',
+      docRef: 'સંદર્ભ નં.:',
+      docDate: 'તારીખ:',
+      titleBoth: 'અનુભવ અને કાર્યમુક્તિ પ્રમાણપત્ર',
+      titleExp: 'અનુભવ પ્રમાણપત્ર',
+      concern: 'સંબંધિત અધિકારીશ્રી જોગ',
+      respHdr: 'નિભાવેલી મુખ્ય જવાબદારીઓ:',
+      seal: 'કંપનીનો<br>સત્તાવાર<br>સિક્કો',
+      forOrg: org => `<b>${org}</b> વતી,`,
+      certPara: (emp, id, org, role, doj, lwd) => `આથી પ્રમાણિત કરવામાં આવે છે કે <b>${emp}</b> (કર્મચારી આઈડી: <b>${id}</b>) એ <b>${org}</b> માં <b>${role}</b> તરીકે તારીખ <b>${doj}</b> થી <b>${lwd}</b> સુધી ફરજ બજાવી છે.`,
+      relievePara: lwd => `તેમનું રાજીનામું સ્વીકારીને તારીખ <b>${lwd}</b> ના રોજ કામકાજના કલાકો પૂર્ણ થયે તેમને ફરજ પરથી મુક્ત કરવામાં આવ્યા છે અને તમામ હિસાબ પૂર્ણ ચૂકતે કરવામાં આવ્યો છે.`,
+      conductPara: emp => `અમારી સાથેના કાર્યકાળ દરમિયાન <b>${emp}</b> ને અમે નિષ્ઠાવાન, મહેનતુ અને પ્રામાણિક જણાયા છે. અમે તેમના ઉજ્જવળ ભવિષ્ય માટે શુભેચ્છા પાઠવીએ છીએ.`,
+      waTitle: 'અનુભવ પ્રમાણપત્ર જારી',
+      waComp: 'કંપની', waEmp: 'કર્મચારી', waRole: 'હોદ્દો', waRef: 'સંદર્ભ નં.'
+    },
+    pa: {
+      dir: 'ltr',
+      allTools: '← ਸਾਰੇ ਟੂਲ',
+      navTitle: 'KaamKaj Bills • ਤਜਰਬਾ ਅਤੇ ਕਾਰਜ-ਮੁਕਤੀ ਸਰਟੀਫਿਕੇਟ',
+      lblCertType: '1. ਸਰਟੀਫਿਕੇਟ ਦੀ ਕਿਸਮ ਚੁਣੋ:',
+      btnBoth: '📜 ਤਜਰਬਾ + ਰਿਲੀਵਿੰਗ ਪੱਤਰ',
+      btnExpOnly: '🏅 ਸਿਰਫ਼ ਤਜਰਬਾ ਸਰਟੀਫਿਕੇਟ',
+      sec1: '1. ਕੰਪਨੀ / ਸੰਸਥਾ ਦੇ ਵੇਰਵੇ',
+      lblOrg: 'ਕੰਪਨੀ / ਫਰਮ ਦਾ ਨਾਮ',
+      lblReg: 'ਰਜਿਸਟ੍ਰੇਸ਼ਨ / GST / ਪਤਾ / ਵੈੱਬਸਾਈਟ',
+      lblRef: 'ਹਵਾਲਾ / ਸਰਟੀਫਿਕੇਟ ਨੰ.',
+      lblDate: 'ਜਾਰੀ ਕਰਨ ਦੀ ਮਿਤੀ',
+      sec2: '2. ਕਰਮਚਾਰੀ ਅਤੇ ਕਾਰਜਕਾਲ ਦੇ ਵੇਰਵੇ',
+      lblSal: 'ਸੰਬੋਧਨ',
+      lblEmp: 'ਕਰਮਚਾਰੀ ਦਾ ਪੂਰਾ ਨਾਮ',
+      lblEmpId: 'ਕਰਮਚਾਰੀ ਆਈ.ਡੀ. / ਕੋਡ',
+      lblRole: 'ਅਹੁਦਾ (Designation)',
+      lblDoj: 'ਸ਼ਾਮਲ ਹੋਣ ਦੀ ਮਿਤੀ',
+      lblLwd: 'ਆਖਰੀ ਕੰਮਕਾਜੀ ਦਿਨ',
+      sec3: '3. ਮੁੱਖ ਜ਼ਿੰਮੇਵਾਰੀਆਂ ਅਤੇ ਆਚਰਣ',
+      lblResp: 'ਮੁੱਖ ਕੰਮ ਅਤੇ ਜ਼ਿੰਮੇਵਾਰੀਆਂ',
+      lblAuthName: 'ਅਧਿਕਾਰਤ ਦਸਤਖਤਕਾਰ ਦਾ ਨਾਮ',
+      lblAuthRole: 'ਦਸਤਖਤਕਾਰ ਦਾ ਅਹੁਦਾ',
+      lblSig: 'ਡਿਜੀਟਲ ਦਸਤਖਤ ਕਰੋ (ਵਿਕਲਪਿਕ):',
+      btnClearSig: 'ਦਸਤਖਤ ਮਿਟਾਓ',
+      btnPdf: '📥 PDF ਡਾਊਨਲੋਡ ਕਰੋ',
+      btnPrint: '🖨️ ਸਿੱਧਾ ਪ੍ਰਿੰਟ',
+      btnWa: '📲 WhatsApp ਸਾਂਝਾ ਕਰੋ',
+      previewLabel: 'ਲਾਈਵ ਅਧਿਕਾਰਤ ਲੈਟਰਹੈੱਡ ਪ੍ਰੀਵਿਊ',
+      salMap: { 'Mr.': 'ਸ੍ਰੀ', 'Ms.': 'ਕੁਮਾਰੀ', 'Mrs.': 'ਸ੍ਰੀਮਤੀ' },
+      docBadge: 'ਅਧਿਕਾਰਤ ਰਿਕਾਰਡ',
+      docRef: 'ਹਵਾਲਾ ਨੰ.:',
+      docDate: 'ਮਿਤੀ:',
+      titleBoth: 'ਤਜਰਬਾ ਅਤੇ ਕਾਰਜ-ਮੁਕਤੀ ਸਰਟੀਫਿਕੇਟ',
+      titleExp: 'ਤਜਰਬਾ ਸਰਟੀਫਿਕੇਟ',
+      concern: 'ਸਬੰਧਤ ਅਧਿਕਾਰੀ ਦੇ ਧਿਆਨ ਹਿੱਤ',
+      respHdr: 'ਨਿਭਾਈਆਂ ਗਈਆਂ ਮੁੱਖ ਜ਼ਿੰਮੇਵਾਰੀਆਂ:',
+      seal: 'ਕੰਪਨੀ ਦੀ<br>ਅਧਿਕਾਰਤ<br>ਮੋਹਰ',
+      forOrg: org => `ਵੱਲੋਂ <b>${org}</b>,`,
+      certPara: (emp, id, org, role, doj, lwd) => `ਇਹ ਤਸਦੀਕ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਕਿ <b>${emp}</b> (ਕਰਮਚਾਰੀ ਆਈ.ਡੀ.: <b>${id}</b>) ਨੇ <b>${org}</b> ਵਿੱਚ <b>${role}</b> ਵਜੋਂ ਮਿਤੀ <b>${doj}</b> ਤੋਂ <b>${lwd}</b> ਤੱਕ ਸੇਵਾ ਨਿਭਾਈ ਹੈ।`,
+      relievePara: lwd => `ਉਨ੍ਹਾਂ ਦਾ ਅਸਤੀਫਾ ਪ੍ਰਵਾਨ ਕਰਦੇ ਹੋਏ ਮਿਤੀ <b>${lwd}</b> ਦੇ ਕੰਮਕਾਜੀ ਸਮੇਂ ਦੀ ਸਮਾਪਤੀ ਤੋਂ ਉਨ੍ਹਾਂ ਨੂੰ ਸਾਰੀਆਂ ਜ਼ਿੰਮੇਵਾਰੀਆਂ ਤੋਂ ਮੁਕਤ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ ਅਤੇ ਸਾਰਾ ਬਕਾਇਆ ਹਿਸਾਬ ਪੂਰਾ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।`,
+      conductPara: emp => `ਸਾਡੇ ਨਾਲ ਕਾਰਜਕਾਲ ਦੌਰਾਨ ਅਸੀਂ <b>${emp}</b> ਨੂੰ ਇਮਾਨਦਾਰ, ਮਿਹਨਤੀ ਅਤੇ ਜ਼ਿੰਮੇਵਾਰ ਪਾਇਆ। ਅਸੀਂ ਉਨ੍ਹਾਂ ਦੇ ਸੁਨਹਿਰੀ ਭਵਿੱਖ ਦੀ ਕਾਮਨਾ ਕਰਦੇ ਹਾਂ।`,
+      waTitle: 'ਤਜਰਬਾ ਸਰਟੀਫਿਕੇਟ ਜਾਰੀ',
+      waComp: 'ਕੰਪਨੀ', waEmp: 'ਕਰਮਚਾਰੀ', waRole: 'ਅਹੁਦਾ', waRef: 'ਹਵਾਲਾ ਨੰ.'
+    },
+    bn: {
+      dir: 'ltr',
+      allTools: '← সব টুলস',
+      navTitle: 'KaamKaj Bills • অভিজ্ঞতা ও অব্যাহতি শংসাপত্র',
+      lblCertType: '1. শংসাপত্রের ধরন নির্বাচন করুন:',
+      btnBoth: '📜 অভিজ্ঞতা + রিলিভিং লেটার',
+      btnExpOnly: '🏅 শুধুমাত্র অভিজ্ঞতা শংসাপত্র',
+      sec1: '1. কোম্পানি / প্রতিষ্ঠানের বিবরণ',
+      lblOrg: 'কোম্পানি / প্রতিষ্ঠানের নাম',
+      lblReg: 'রেজিস্ট্রেশন / GST / ঠিকানা / ওয়েবসাইট',
+      lblRef: 'রেফারেন্স / শংসাপত্র নং',
+      lblDate: 'ইস্যু তারিখ',
+      sec2: '2. কর্মচারী ও কর্মকালের বিবরণ',
+      lblSal: 'সম্বোধন',
+      lblEmp: 'কর্মচারীর সম্পূর্ণ নাম',
+      lblEmpId: 'কর্মচারী আইডি / কোড',
+      lblRole: 'পদবি (Designation)',
+      lblDoj: 'যোগদানের তারিখ',
+      lblLwd: 'শেষ কর্মদিবস',
+      sec3: '3. প্রধান দায়িত্ব ও আচরণ',
+      lblResp: 'প্রধান কাজ ও দায়িত্বসমূহ',
+      lblAuthName: 'অনুমোদিত স্বাক্ষরকারীর নাম',
+      lblAuthRole: 'স্বাক্ষরকারীর পদবি',
+      lblSig: 'ডিজিটাল স্বাক্ষর করুন (ঐচ্ছিক):',
+      btnClearSig: 'স্বাক্ষর মুছুন',
+      btnPdf: '📥 PDF ডাউনলোড করুন',
+      btnPrint: '🖨️ সরাসরি প্রিন্ট',
+      btnWa: '📲 WhatsApp শেয়ার',
+      previewLabel: 'লাইভ অফিশিয়াল লেটারহেড প্রিভিউ',
+      salMap: { 'Mr.': 'শ্রী', 'Ms.': 'কুমারী', 'Mrs.': 'শ্রীমতী' },
+      docBadge: 'অফিশিয়াল রেকর্ড',
+      docRef: 'রেফারেন্স নং:',
+      docDate: 'তারিখ:',
+      titleBoth: 'অভিজ্ঞতা ও অব্যাহতি শংসাপত্র',
+      titleExp: 'অভিজ্ঞতা শংসাপত্র',
+      concern: 'সংশ্লিষ্ট কর্তৃপক্ষের অবগতির জন্য',
+      respHdr: 'পালিত প্রধান দায়িত্বসমূহ:',
+      seal: 'কোম্পানির<br>অফিশিয়াল<br>সিলমোহর',
+      forOrg: org => `<b>${org}</b>-এর পক্ষে,`,
+      certPara: (emp, id, org, role, doj, lwd) => `এই মর্মে প্রত্যয়ন করা যাচ্ছে যে, <b>${emp}</b> (কর্মচারী আইডি: <b>${id}</b>) <b>${org}</b>-এ <b>${role}</b> পদে <b>${doj}</b> তারিখ থেকে <b>${lwd}</b> তারিখ পর্যন্ত কর্মরত ছিলেন।`,
+      relievePara: lwd => `তাঁর পদত্যাগপত্র গৃহীত হওয়ায় <b>${lwd}</b> তারিখের কর্মঘণ্টা শেষে তাঁকে সমস্ত দায়িত্ব থেকে অব্যাহতি দেওয়া হয়েছে এবং সমস্ত পাওনা চূড়ান্তভাবে মিটিয়ে দেওয়া হয়েছে।`,
+      conductPara: emp => `আমাদের প্রতিষ্ঠানে কর্মরত থাকাকালীন আমরা <b>${emp}</b>-কে অত্যন্ত নিষ্ঠাবান, পরিশ্রমী এবং সৎ হিসেবে পেয়েছি। আমরা তাঁর ভবিষ্যৎ কর্মজীবনের সর্বাঙ্গীণ সাফল্য কামনা করি।`,
+      waTitle: 'অভিজ্ঞতা শংসাপত্র ইস্যু করা হয়েছে',
+      waComp: 'কোম্পানি', waEmp: 'কর্মচারী', waRole: 'পদবি', waRef: 'রেফারেন্স নং'
+    },
+    ta: {
+      dir: 'ltr',
+      allTools: '← அனைத்து கருவிகள்',
+      navTitle: 'KaamKaj Bills • பணி அனுபவம் & விடுவிப்பு சான்றிதழ்',
+      lblCertType: '1. சான்றிதழ் வகையைத் தேர்ந்தெடுக்கவும்:',
+      btnBoth: '📜 பணி அனுபவம் + விடுவிப்பு கடிதம்',
+      btnExpOnly: '🏅 பணி அனுபவச் சான்றிதழ் மட்டும்',
+      sec1: '1. நிறுவனம் / அமைப்பு விவரங்கள்',
+      lblOrg: 'நிறுவனத்தின் பெயர்',
+      lblReg: 'பதிவு எண் / GST / முகவரி / இணையதளம்',
+      lblRef: 'குறிப்பு / சான்றிதழ் எண்',
+      lblDate: 'வழங்கப்பட்ட தேதி',
+      sec2: '2. பணியாளர் மற்றும் பணிக்கால விவரங்கள்',
+      lblSal: 'மரியாதைச் சொல்',
+      lblEmp: 'பணியாளரின் முழுப் பெயர்',
+      lblEmpId: 'பணியாளர் எண் (ID)',
+      lblRole: 'பதவி (Designation)',
+      lblDoj: 'பணியில் சேர்ந்த தேதி',
+      lblLwd: 'கடைசி பணி நாள்',
+      sec3: '3. முக்கியப் பொறுப்புகள் மற்றும் நன்னடத்தை',
+      lblResp: 'முக்கியப் பணிகள் மற்றும் பொறுப்புகள்',
+      lblAuthName: 'அங்கீகரிக்கப்பட்ட கையொப்பமிடுபவர் பெயர்',
+      lblAuthRole: 'கையொப்பமிடுபவர் பதவி',
+      lblSig: 'டிஜிட்டல் கையொப்பம் இடவும் (விருப்பத்திற்குரியது):',
+      btnClearSig: 'கையொப்பத்தை அழி',
+      btnPdf: '📥 PDF பதிவிறக்கவும்',
+      btnPrint: '🖨️ நேரடி அச்சு',
+      btnWa: '📲 WhatsApp பகிர்வு',
+      previewLabel: 'நேரடி அதிகாரப்பூர்வ லெட்டர்ஹெட் முன்னோட்டம்',
+      salMap: { 'Mr.': 'திரு.', 'Ms.': 'செல்வி.', 'Mrs.': 'திருமதி.' },
+      docBadge: 'அதிகாரப்பூர்வ ஆவணம்',
+      docRef: 'குறிப்பு எண்:',
+      docDate: 'தேதி:',
+      titleBoth: 'பணி அனுபவம் மற்றும் விடுவிப்பு சான்றிதழ்',
+      titleExp: 'பணி அனுபவச் சான்றிதழ்',
+      concern: 'தொடர்புடைய அதிகாரிகளின் கவனத்திற்கு',
+      respHdr: 'கையாளப்பட்ட முக்கியப் பொறுப்புகள்:',
+      seal: 'நிறுவனத்தின்<br>அதிகாரப்பூர்வ<br>முத்திரை',
+      forOrg: org => `<b>${org}</b> சார்பாக,`,
+      certPara: (emp, id, org, role, doj, lwd) => `<b>${emp}</b> (பணியாளர் எண்: <b>${id}</b>) அவர்கள் <b>${org}</b> நிறுவனத்தில் <b>${role}</b> ஆக <b>${doj}</b> முதல் <b>${lwd}</b> வரை பணியாற்றினார் என்பதை இதன் மூலம் சான்றளிக்கிறோம்.`,
+      relievePara: lwd => `அவரது ராஜினாமா ஏற்றுக்கொள்ளப்பட்டதைத் தொடர்ந்து, <b>${lwd}</b> பணி நேரம் முடிவடைந்தவுடன் அவர் அனைத்துப் பொறுப்புகளிலிருந்தும் விடுவிக்கப்பட்டார் மற்றும் அனைத்து நிலுவைத் தொகையும் முழுமையாகத் தீர்க்கப்பட்டது.`,
+      conductPara: emp => `எங்களுடன் பணியாற்றிய காலத்தில் <b>${emp}</b> அவர்கள் நேர்மையானவராகவும், கடின உழைப்பாளியாகவும், பொறுப்புணர்வு மிக்கவராகவும் திகழ்ந்தார். அவரது எதிர்காலத் தொழில் வாழ்க்கை சிறக்க வாழ்த்துகிறோம்.`,
+      waTitle: 'பணி அனுபவச் சான்றிதழ் வழங்கப்பட்டது',
+      waComp: 'நிறுவனம்', waEmp: 'பணியாளர்', waRole: 'பதவி', waRef: 'குறிப்பு எண்'
+    },
+    te: {
+      dir: 'ltr',
+      allTools: '← అన్ని టూల్స్',
+      navTitle: 'KaamKaj Bills • అనుభవం & రిలీవింగ్ సర్టిఫికేట్',
+      lblCertType: '1. సర్టిఫికేట్ రకాన్ని ఎంచుకోండి:',
+      btnBoth: '📜 అనుభవం + రిలీవింగ్ లెటర్',
+      btnExpOnly: '🏅 అనుభవ ధృవీకరణ పత్రం మాత్రమే',
+      sec1: '1. కంపెనీ / సంస్థ వివరాలు',
+      lblOrg: 'కంపెనీ / సంస్థ పేరు',
+      lblReg: 'రిజిస్ట్రేషన్ / GST / చిరునామా / వెబ్‌సైట్',
+      lblRef: 'రిఫరెన్స్ / సర్టిఫికేట్ నం.',
+      lblDate: 'జారీ చేసిన తేదీ',
+      sec2: '2. ఉద్యోగి & పని కాలం వివరాలు',
+      lblSal: 'సంబోధన',
+      lblEmp: 'ఉద్యోగి పూర్తి పేరు',
+      lblEmpId: 'ఉద్యోగి ఐడి / కోడ్',
+      lblRole: 'హోదా (Designation)',
+      lblDoj: 'చేరిన తేదీ',
+      lblLwd: 'చివరి పని దినం',
+      sec3: '3. ముఖ్య బాధ్యతలు & ప్రవర్తన',
+      lblResp: 'ముఖ్య విధులు & బాధ్యతలు',
+      lblAuthName: 'అధీకృత సంతకందారు పేరు',
+      lblAuthRole: 'సంతకందారు హోదా',
+      lblSig: 'డిజిటల్ సంతకం చేయండి (ఐచ్ఛికం):',
+      btnClearSig: 'సంతకం క్లియర్ చేయండి',
+      btnPdf: '📥 PDF డౌన్‌లోడ్ చేయండి',
+      btnPrint: '🖨️ డైరెక్ట్ ప్రింట్',
+      btnWa: '📲 WhatsApp షేర్',
+      previewLabel: 'లైవ్ అఫీషియల్ లెటర్‌హెడ్ ప్రివ్యూ',
+      salMap: { 'Mr.': 'శ్రీ', 'Ms.': 'కుమారి', 'Mrs.': 'శ్రీమతి' },
+      docBadge: 'అధికారిక రికార్డు',
+      docRef: 'రిఫరెన్స్ నం.:',
+      docDate: 'తేదీ:',
+      titleBoth: 'అనుభవం మరియు రిలీవింగ్ సర్టిఫికేట్',
+      titleExp: 'అనుభవ ధృవీకరణ పత్రం',
+      concern: 'సంబంధిత అధికారుల సమాచారార్థం',
+      respHdr: 'నిర్వహించిన ముఖ్య బాధ్యతలు:',
+      seal: 'కంపెనీ<br>అధికారిక<br>ముద్ర',
+      forOrg: org => `<b>${org}</b> తరపున,`,
+      certPara: (emp, id, org, role, doj, lwd) => `<b>${emp}</b> (ఉద్యోగి ఐడి: <b>${id}</b>) గారు <b>${org}</b> సంస్థలో <b>${role}</b> హోదాలో <b>${doj}</b> నుండి <b>${lwd}</b> వరకు పనిచేశారని దీని ద్వారా ధృవీకరించడమైనది.`,
+      relievePara: lwd => `వారి రాజీనామా ఆమోదించబడినందున, <b>${lwd}</b> పని వేళలు ముగిసినప్పటి నుండి వారిని విధుల నుండి విడుదల (Relieve) చేయడమైనది మరియు అన్ని బకాయిలు పూర్తిగా చెల్లించబడ్డాయి.`,
+      conductPara: emp => `మా సంస్థలో పనిచేసిన కాలంలో <b>${emp}</b> గారు నిజాయితీపరులుగా, కష్టపడి పనిచేసేవారుగా మరియు బాధ్యతాయుతంగా వ్యవహరించారు. వారి భవిష్యత్తు వృత్తి జీవితం విజయవంతం కావాలని మేము ఆకాంక్షిస్తున్నాము.`,
+      waTitle: 'అనుభవ ధృవీకరణ పత్రం జారీ చేయబడింది',
+      waComp: 'కంపెనీ', waEmp: 'ఉద్యోగి', waRole: 'హోదా', waRef: 'రిఫరెన్స్ నం.'
+    },
+    kn: {
+      dir: 'ltr',
+      allTools: '← ಎಲ್ಲಾ ಟೂಲ್ಸ್',
+      navTitle: 'KaamKaj Bills • ಅನುಭವ ಮತ್ತು ಬಿಡುಗಡೆ ಪ್ರಮಾಣಪತ್ರ',
+      lblCertType: '1. ಪ್ರಮಾಣಪತ್ರದ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ:',
+      btnBoth: '📜 ಅನುಭವ + ಬಿಡುಗಡೆ ಪತ್ರ',
+      btnExpOnly: '🏅 ಅನುಭವ ಪ್ರಮಾಣಪತ್ರ ಮಾತ್ರ',
+      sec1: '1. ಕಂಪನಿ / ಸಂಸ್ಥೆಯ ವಿವರಗಳು',
+      lblOrg: 'ಕಂಪನಿ / ಸಂಸ್ಥೆಯ ಹೆಸರು',
+      lblReg: 'ನೋಂದಣಿ / GST / ವಿಳಾಸ / ವೆಬ್‌ಸೈಟ್',
+      lblRef: 'ಉಲ್ಲೇಖ / ಪ್ರಮಾಣಪತ್ರ ಸಂಖ್ಯೆ',
+      lblDate: 'ದಿನಾಂಕ',
+      sec2: '2. ಉದ್ಯೋಗಿ ಮತ್ತು ಸೇವಾವಧಿ ವಿವರಗಳು',
+      lblSal: 'ಸಂಬೋಧನೆ',
+      lblEmp: 'ಉದ್ಯೋಗಿಯ ಪೂರ್ಣ ಹೆಸರು',
+      lblEmpId: 'ಉದ್ಯೋಗಿ ಐಡಿ / ಕೋಡ್',
+      lblRole: 'ಹುದ್ದೆ (Designation)',
+      lblDoj: 'ಸೇರಿದ ದಿನಾಂಕ',
+      lblLwd: 'ಕೊನೆಯ ಕೆಲಸದ ದಿನ',
+      sec3: '3. ಪ್ರಮುಖ ಜವಾಬ್ದಾರಿಗಳು ಮತ್ತು ನಡವಳಿಕೆ',
+      lblResp: 'ಪ್ರಮುಖ ಕೆಲಸಗಳು ಮತ್ತು ಜವಾಬ್ದಾರಿಗಳು',
+      lblAuthName: 'ಅಧಿಕೃತ ಸಹಿದಾರರ ಹೆಸರು',
+      lblAuthRole: 'ಸಹಿದಾರರ ಹುದ್ದೆ',
+      lblSig: 'ಡಿಜಿಟಲ್ ಸಹಿ ಮಾಡಿ (ಐಚ್ಛಿಕ):',
+      btnClearSig: 'ಸಹಿ ಅಳಿಸಿ',
+      btnPdf: '📥 PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
+      btnPrint: '🖨️ ನೇರ ಪ್ರಿಂಟ್',
+      btnWa: '📲 WhatsApp ಹಂಚಿಕೆ',
+      previewLabel: 'ಲೈವ್ ಅಧಿಕೃತ ಲೆಟರ್‌ಹೆಡ್ ಮುನ್ನೋಟ',
+      salMap: { 'Mr.': 'ಶ್ರೀ', 'Ms.': 'ಕುಮಾರಿ', 'Mrs.': 'ಶ್ರೀಮತಿ' },
+      docBadge: 'ಅಧಿಕೃತ ದಾಖಲೆ',
+      docRef: 'ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ:',
+      docDate: 'ದಿನಾಂಕ:',
+      titleBoth: 'ಅನುಭವ ಮತ್ತು ಬಿಡುಗಡೆ ಪ್ರಮಾಣಪತ್ರ',
+      titleExp: 'ಅನುಭವ ಪ್ರಮಾಣಪತ್ರ',
+      concern: 'ಸಂಬಂಧಪಟ್ಟ ಅಧಿಕಾರಿಗಳ ಮಾಹಿತಿಗಾಗಿ',
+      respHdr: 'ನಿರ್ವಹಿಸಿದ ಪ್ರಮುಖ ಜವಾಬ್ದಾರಿಗಳು:',
+      seal: 'ಕಂಪನಿಯ<br>ಅಧಿಕೃತ<br>ಮುದ್ರೆ',
+      forOrg: org => `<b>${org}</b> ಪರವಾಗಿ,`,
+      certPara: (emp, id, org, role, doj, lwd) => `<b>${emp}</b> (ಉದ್ಯೋಗಿ ಐಡಿ: <b>${id}</b>) ಅವರು <b>${org}</b> ಸಂಸ್ಥೆಯಲ್ಲಿ <b>${role}</b> ಆಗಿ <b>${doj}</b> ರಿಂದ <b>${lwd}</b> ರವರೆಗೆ ಸೇವೆ ಸಲ್ಲಿಸಿದ್ದಾರೆ ಎಂದು ಈ ಮೂಲಕ ಪ್ರಮಾಣೀಕರಿಸಲಾಗುತ್ತದೆ.`,
+      relievePara: lwd => `ಅವರ ರಾಜೀನಾಮೆಯನ್ನು ಅಂಗೀಕರಿಸಲಾಗಿದ್ದು, <b>${lwd}</b> ರ ಕೆಲಸದ ಅವಧಿ ಮುಗಿದ ನಂತರ ಅವರನ್ನು ಎಲ್ಲಾ ಕರ್ತವ್ಯಗಳಿಂದ ಬಿಡುಗಡೆಗೊಳಿಸಲಾಗಿದೆ ಮತ್ತು ಎಲ್ಲಾ ಬಾಕಿ ಹಣವನ್ನು ಪೂರ್ಣವಾಗಿ ಪಾವತಿಸಲಾಗಿದೆ.`,
+      conductPara: emp => `ನಮ್ಮ ಸಂಸ್ಥೆಯ ಸೇವಾವಧಿಯಲ್ಲಿ <b>${emp}</b> ಅವರು ಪ್ರಾಮಾಣಿಕ, ಶ್ರಮಜೀವಿ ಮತ್ತು ಜವಾಬ್ದಾರಿಯುತ ವ್ಯಕ್ತಿಯಾಗಿದ್ದರು. ಅವರ ಮುಂದಿನ ವೃತ್ತಿಜೀವನಕ್ಕೆ ನಾವು ಶುಭ ಹಾರೈಸುತ್ತೇವೆ.`,
+      waTitle: 'ಅನುಭವ ಪ್ರಮಾಣಪತ್ರ ನೀಡಲಾಗಿದೆ',
+      waComp: 'ಕಂಪನಿ', waEmp: 'ಉದ್ಯೋಗಿ', waRole: 'ಹುದ್ದೆ', waRef: 'ಉಲ್ಲೇಖ ಸಂಖ್ಯೆ'
+    },
+    ml: {
+      dir: 'ltr',
+      allTools: '← എല്ലാ ടൂളുകളും',
+      navTitle: 'KaamKaj Bills • പ്രവൃത്തിപരിചയ & വിടുതൽ സർട്ടിഫിക്കറ്റ്',
+      lblCertType: '1. സർട്ടിഫിക്കറ്റ് തരം തിരഞ്ഞെടുക്കുക:',
+      btnBoth: '📜 പ്രവൃത്തിപരിചയ + വിടുതൽ കത്ത്',
+      btnExpOnly: '🏅 പ്രവൃത്തിപരിചയ സർട്ടിഫിക്കറ്റ് മാത്രം',
+      sec1: '1. കമ്പനി / സ്ഥാപനത്തിന്റെ വിവരങ്ങൾ',
+      lblOrg: 'കമ്പനി / സ്ഥാപനത്തിന്റെ പേര്',
+      lblReg: 'രജിസ്ട്രേഷൻ / GST / വിലാസം / വെബ്സൈറ്റ്',
+      lblRef: 'റഫറൻസ് / സർട്ടിഫിക്കറ്റ് നമ്പർ',
+      lblDate: 'തീയതി',
+      sec2: '2. ജീവനക്കാരന്റെയും സേവന കാലയളവിന്റെയും വിവരങ്ങൾ',
+      lblSal: 'സംബോധന',
+      lblEmp: 'ജീവനക്കാരന്റെ മുഴുവൻ പേര്',
+      lblEmpId: 'ജീവനക്കാരന്റെ ഐഡി / കോഡ്',
+      lblRole: 'തസ്തിക (Designation)',
+      lblDoj: 'ജോലിയിൽ പ്രവേശിച്ച തീയതി',
+      lblLwd: 'അവസാന പ്രവൃത്തി ദിവസം',
+      sec3: '3. പ്രധാന ഉത്തരവാദിത്തങ്ങളും സ്വഭാവവും',
+      lblResp: 'പ്രധാന ജോലികളും ഉത്തരവാദിത്തങ്ങളും',
+      lblAuthName: 'അംഗീകൃത ഒപ്പിടുന്നയാളുടെ പേര്',
+      lblAuthRole: 'ഒപ്പിടുന്നയാളുടെ തസ്തിക',
+      lblSig: 'ഡിജിറ്റൽ ഒപ്പ് ഇടുക (ഐച്ഛികം):',
+      btnClearSig: 'ഒപ്പ് മായ്ക്കുക',
+      btnPdf: '📥 PDF ഡൗൺലോഡ് ചെയ്യുക',
+      btnPrint: '🖨️ നേരിട്ട് പ്രിന്റ് ചെയ്യുക',
+      btnWa: '📲 WhatsApp ഷെയർ',
+      previewLabel: 'ലൈവ് ഒഫീഷ്യൽ ലെറ്റർഹെഡ് പ്രിവ്യൂ',
+      salMap: { 'Mr.': 'ശ്രീ.', 'Ms.': 'കുമാരി.', 'Mrs.': 'ശ്രീമതി.' },
+      docBadge: 'ഔദ്യോഗിക രേഖ',
+      docRef: 'റഫറൻസ് നമ്പർ:',
+      docDate: 'തീയതി:',
+      titleBoth: 'പ്രവൃത്തിപരിചയ & വിടുതൽ സർട്ടിഫിക്കറ്റ്',
+      titleExp: 'പ്രവൃത്തിപരിചയ സർട്ടിഫിക്കറ്റ്',
+      concern: 'ബന്ധപ്പെട്ട അധികാരികളുടെ അറിവിലേക്കായി',
+      respHdr: 'നിർവഹിച്ച പ്രധാന ഉത്തരവാദിത്തങ്ങൾ:',
+      seal: 'കമ്പനിയുടെ<br>ഔദ്യോഗിക<br>മുദ്ര',
+      forOrg: org => `<b>${org}</b>-ന് വേണ്ടി,`,
+      certPara: (emp, id, org, role, doj, lwd) => `<b>${emp}</b> (ജീവനക്കാരന്റെ ഐഡി: <b>${id}</b>) <b>${org}</b> എന്ന സ്ഥാപനത്തിൽ <b>${role}</b> ആയി <b>${doj}</b> മുതൽ <b>${lwd}</b> വരെ സേവനമനുഷ്ഠിച്ചിട്ടുണ്ടെന്ന് ഇതിനാൽ സാക്ഷ്യപ്പെടുത്തുന്നു.`,
+      relievePara: lwd => `അദ്ദേഹത്തിന്റെ/അവരുടെ രാജി സ്വീകരിച്ചതിനെത്തുടർന്ന്, <b>${lwd}</b> പ്രവൃത്തി സമയം അവസാനിച്ചതോടെ എല്ലാ ചുമതലകളിൽ നിന്നും വിടുതൽ നൽകിയിട്ടുണ്ട്, കൂടാതെ എല്ലാ ആനുകൂല്യങ്ങളും പൂർണ്ണമായി തീർപ്പാക്കിയിട്ടുണ്ട്.`,
+      conductPara: emp => `ഞങ്ങളോടൊപ്പമുള്ള സേവന കാലയളവിൽ <b>${emp}</b> ആത്മാർത്ഥതയുള്ളവരും കഠിനാധ്വാനിയും സത്യസന്ധനുമാണെന്ന് ഞങ്ങൾ കണ്ടെത്തി. അദ്ദേഹത്തിന്റെ/അവരുടെ ഭാവി ഉദ്യമങ്ങൾക്ക് എല്ലാവിധ ആശംസകളും നേരുന്നു.`,
+      waTitle: 'പ്രവൃത്തിപരിചയ സർട്ടിഫിക്കറ്റ് നൽകി',
+      waComp: 'കമ്പനി', waEmp: 'ജീവനക്കാരൻ', waRole: 'തസ്തിക', waRef: 'റഫറൻസ് നമ്പർ'
+    },
+    or: {
+      dir: 'ltr',
+      allTools: '← ସମସ୍ତ ଟୁଲ୍ସ',
+      navTitle: 'KaamKaj Bills • ଅଭିଜ୍ଞତା ଏବଂ କାର୍ଯ୍ୟମୁକ୍ତି ପ୍ରମାଣପତ୍ର',
+      lblCertType: '1. ପ୍ରମାଣପତ୍ର ପ୍ରକାର ବାଛନ୍ତୁ:',
+      btnBoth: '📜 ଅଭିଜ୍ଞତା + ରିଲିଭିଂ ଲେଟର',
+      btnExpOnly: '🏅 କେବଳ ଅଭିଜ୍ଞତା ପ୍ରମାଣପତ୍ର',
+      sec1: '1. କମ୍ପାନୀ / ଅନୁଷ୍ଠାନର ବିବରଣୀ',
+      lblOrg: 'କମ୍ପାନୀ / ସଂସ୍ଥାର ନାମ',
+      lblReg: 'ପଞ୍ଜୀକରଣ / GST / ଠିକଣା / ୱେବସାଇଟ୍',
+      lblRef: 'ସନ୍ଦର୍ଭ / ପ୍ରମାଣପତ୍ର ନଂ',
+      lblDate: 'ତାରିଖ',
+      sec2: '2. କର୍ମଚାରୀ ଏବଂ କାର୍ଯ୍ୟକାଳ ବିବରଣୀ',
+      lblSal: 'ସମ୍ବୋଧନ',
+      lblEmp: 'କର୍ମଚାରୀଙ୍କ ସମ୍ପୂର୍ଣ୍ଣ ନାମ',
+      lblEmpId: 'କର୍ମଚାରୀ ଆଇଡି / କୋଡ୍',
+      lblRole: 'ପଦବୀ (Designation)',
+      lblDoj: 'ଯୋଗଦାନ ତାରିଖ',
+      lblLwd: 'ଶେଷ କାର୍ଯ୍ୟ ଦିବସ',
+      sec3: '3. ମୁଖ୍ୟ ଦାୟିତ୍ୱ ଏବଂ ଆଚରଣ',
+      lblResp: 'ମୁଖ୍ୟ କାର୍ଯ୍ୟ ଏବଂ ଦାୟିତ୍ୱ',
+      lblAuthName: 'ଅଧିକୃତ ସ୍ୱାକ୍ଷରକାରୀଙ୍କ ନାମ',
+      lblAuthRole: 'ସ୍ୱାକ୍ଷରକାରୀଙ୍କ ପଦବୀ',
+      lblSig: 'ଡିଜିଟାଲ୍ ସ୍ୱାକ୍ଷର କରନ୍ତୁ (ବୈକଳ୍ପିକ):',
+      btnClearSig: 'ସ୍ୱାକ୍ଷର ଲିଭାନ୍ତୁ',
+      btnPdf: '📥 PDF ଡାଉନଲୋଡ୍ କରନ୍ତୁ',
+      btnPrint: '🖨️ ସିଧାସଳଖ ପ୍ରିଣ୍ଟ',
+      btnWa: '📲 WhatsApp ସେୟାର',
+      previewLabel: 'ଲାଇଭ୍ ଅଫିସିଆଲ୍ ଲେଟରହେଡ୍ ପ୍ରିଭ୍ୟୁ',
+      salMap: { 'Mr.': 'ଶ୍ରୀ', 'Ms.': 'ସୁଶ୍ରୀ', 'Mrs.': 'ଶ୍ରୀମତୀ' },
+      docBadge: 'ସରକାରୀ / ଆଧିକାରିକ ରେକର୍ଡ',
+      docRef: 'ସନ୍ଦର୍ଭ ନଂ:',
+      docDate: 'ତାରିଖ:',
+      titleBoth: 'ଅଭିଜ୍ଞତା ଏବଂ କାର୍ଯ୍ୟମୁକ୍ତି ପ୍ରମାଣପତ୍ର',
+      titleExp: 'ଅଭିଜ୍ଞତା ପ୍ରମାଣପତ୍ର',
+      concern: 'ସମ୍ପୃକ୍ତ ଅଧିକାରୀଙ୍କ ଅବଗତି ନିମନ୍ତେ',
+      respHdr: 'ନିର୍ବାହ କରିଥିବା ମୁଖ୍ୟ ଦାୟିତ୍ୱ:',
+      seal: 'କମ୍ପାନୀର<br>ଆଧିକାରିକ<br>ମୋହର',
+      forOrg: org => `<b>${org}</b> ପକ୍ଷରୁ,`,
+      certPara: (emp, id, org, role, doj, lwd) => `ଏତଦ୍ୱାରା ପ୍ରମାଣିତ କରାଯାଉଛି ଯେ <b>${emp}</b> (କର୍ମଚାରୀ ଆଇଡି: <b>${id}</b>) <b>${org}</b> ରେ <b>${role}</b> ପଦବୀରେ ତାରିଖ <b>${doj}</b> ଠାରୁ <b>${lwd}</b> ପର୍ଯ୍ୟନ୍ତ କାର୍ଯ୍ୟ କରିଛନ୍ତି।`,
+      relievePara: lwd => `ତାଙ୍କ ଇସ୍ତଫାପତ୍ର ଗ୍ରହଣ କରାଯାଇ ତାରିଖ <b>${lwd}</b> ର କାର୍ଯ୍ୟ ସମୟ ଶେଷ ହେବା ପରେ ତାଙ୍କୁ ସମସ୍ତ ଦାୟିତ୍ୱରୁ କାର୍ଯ୍ୟମୁକ୍ତ କରାଯାଇଛି ଏବଂ ସମସ୍ତ ବକେୟା ପାଉଣା ସମ୍ପୂର୍ଣ୍ଣ ଭାବେ ପଇଠ କରାଯାଇଛି।`,
+      conductPara: emp => `ଆମ ସଂସ୍ଥାରେ କାର୍ଯ୍ୟକାଳ ମଧ୍ୟରେ ଆମେ <b>${emp}</b> ଙ୍କୁ ଅତ୍ୟନ୍ତ ସଚ୍ଚୋଟ, ପରିଶ୍ରମୀ ଏବଂ କର୍ତ୍ତବ୍ୟନିଷ୍ଠ ପାଇଛୁ। ଆମେ ତାଙ୍କର ଉଜ୍ଜ୍ୱଳ ଭବିଷ୍ୟତ କାମନା କରୁଛୁ।`,
+      waTitle: 'ଅଭିଜ୍ଞତା ପ୍ରମାଣପତ୍ର ଜାରି ହୋଇଛି',
+      waComp: 'କମ୍ପାନୀ', waEmp: 'କର୍ମଚାରୀ', waRole: 'ପଦବୀ', waRef: 'ସନ୍ଦର୍ଭ ନଂ'
+    },
+    ur: {
+      dir: 'rtl',
+      allTools: '← تمام ٹولز',
+      navTitle: 'KaamKaj Bills • تجربہ اور ریلیونگ سرٹیفکیٹ',
+      lblCertType: '1. سرٹیفکیٹ کی قسم منتخب کریں:',
+      btnBoth: '📜 تجربہ + ریلیونگ لیٹر',
+      btnExpOnly: '🏅 صرف تجربہ سرٹیفکیٹ',
+      sec1: '1. کمپنی / ادارے کی تفصیلات',
+      lblOrg: 'کمپنی / فرم کا نام',
+      lblReg: 'رجسٹریشن / GST / پتہ / ویب سائٹ',
+      lblRef: 'حوالہ / سرٹیفکیٹ نمبر',
+      lblDate: 'تاریخ اجراء',
+      sec2: '2. ملازم اور مدت ملازمت کی تفصیلات',
+      lblSal: 'خطاب',
+      lblEmp: 'ملازم کا پورا نام',
+      lblEmpId: 'ملازم آئی ڈی / کوڈ',
+      lblRole: 'عہدہ (Designation)',
+      lblDoj: 'شمولیت کی تاریخ',
+      lblLwd: 'آخری کام کا دن',
+      sec3: '3. اہم ذمہ داریاں اور کردار',
+      lblResp: 'اہم فرائض اور ذمہ داریاں',
+      lblAuthName: 'مجاز دستخط کنندہ کا نام',
+      lblAuthRole: 'دستخط کنندہ کا عہدہ',
+      lblSig: 'ڈیجیٹل دستخط کریں (اختیاری):',
+      btnClearSig: 'دستخط صاف کریں',
+      btnPdf: '📥 PDF ڈاؤن لوڈ کریں',
+      btnPrint: '🖨️ براہ راست پرنٹ',
+      btnWa: '📲 WhatsApp شیئر',
+      previewLabel: 'لائیو آفیشل لیٹر ہیڈ پری ویو',
+      salMap: { 'Mr.': 'جناب', 'Ms.': 'محترمہ', 'Mrs.': 'محترمہ' },
+      docBadge: 'سرکاری ریکارڈ',
+      docRef: 'حوالہ نمبر:',
+      docDate: 'تاریخ:',
+      titleBoth: 'تجربہ اور ریلیونگ سرٹیفکیٹ',
+      titleExp: 'تجربہ سرٹیفکیٹ',
+      concern: 'متعلقہ حکام کی اطلاع کے لیے',
+      respHdr: 'انجام دی گئی اہم ذمہ داریاں:',
+      seal: 'کمپنی کی<br>آفیشل<br>مہر',
+      forOrg: org => `منجانب <b>${org}</b>،`,
+      certPara: (emp, id, org, role, doj, lwd) => `تصدیق کی جاتی ہے کہ <b>${emp}</b> (ملازم آئی ڈی: <b>${id}</b>) نے <b>${org}</b> میں بطور <b>${role}</b> مورخہ <b>${doj}</b> سے <b>${lwd}</b> تک خدمات انجام دی ہیں۔`,
+      relievePara: lwd => `ان کا استعفیٰ منظور کرتے ہوئے مورخہ <b>${lwd}</b> کے دفتری اوقات کے اختتام پر انہیں تمام فرائض سے سبکدوش (Relieve) کر دیا گیا ہے اور تمام واجبات مکمل طور پر ادا کر دیے گئے ہیں۔`,
+      conductPara: emp => `ہمارے ساتھ مدت ملازمت کے دوران ہم نے <b>${emp}</b> کو انتہائی مخلص، محنتی اور ایماندار پایا۔ ہم ان کے روشن مستقبل کے لیے نیک خواہشات کا اظہار کرتے ہیں۔`,
+      waTitle: 'تجربہ سرٹیفکیٹ جاری کیا گیا',
+      waComp: 'کمپنی', waEmp: 'ملازم', waRole: 'عہدہ', waRef: 'حوالہ نمبر'
+    }
+  };
+
+  function toggleTheme() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const next = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('kb_cert_theme', next);
+    $('themeToggleBtn').textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
+  }
+
+  function changeLanguage(lang) {
+    currentLang = TRANSLATIONS[lang] ? lang : 'en';
+    const t = TRANSLATIONS[currentLang];
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = t.dir;
+
+    $('ui_all_tools').textContent = t.allTools;
+    $('ui_nav_title').textContent = t.navTitle;
+    $('ui_lbl_cert_type').textContent = t.lblCertType;
+    $('btnBoth').textContent = t.btnBoth;
+    $('btnExpOnly').textContent = t.btnExpOnly;
+    $('ui_sec_1').textContent = t.sec1;
+    $('ui_lbl_org').textContent = t.lblOrg;
+    $('ui_lbl_reg').textContent = t.lblReg;
+    $('ui_lbl_ref').textContent = t.lblRef;
+    $('ui_lbl_date').textContent = t.lblDate;
+    $('ui_sec_2').textContent = t.sec2;
+    $('ui_lbl_sal').textContent = t.lblSal;
+    $('ui_lbl_emp').textContent = t.lblEmp;
+    $('ui_lbl_emp_id').textContent = t.lblEmpId;
+    $('ui_lbl_role').textContent = t.lblRole;
+    $('ui_lbl_doj').textContent = t.lblDoj;
+    $('ui_lbl_lwd').textContent = t.lblLwd;
+    $('ui_sec_3').textContent = t.sec3;
+    $('ui_lbl_resp').textContent = t.lblResp;
+    $('ui_lbl_auth_name').textContent = t.lblAuthName;
+    $('ui_lbl_auth_role').textContent = t.lblAuthRole;
+    $('ui_lbl_sig').textContent = t.lblSig;
+    $('ui_btn_clear_sig').textContent = t.btnClearSig;
+    $('ui_btn_pdf').textContent = t.btnPdf;
+    $('ui_btn_print').textContent = t.btnPrint;
+    $('ui_btn_wa').textContent = t.btnWa;
+    $('ui_preview_label').textContent = t.previewLabel;
+
+    $('doc_badge').textContent = t.docBadge;
+    $('doc_ref_lbl').textContent = t.docRef;
+    $('doc_date_lbl').textContent = t.docDate;
+    $('doc_concern').textContent = t.concern;
+    $('doc_resp_hdr').textContent = t.respHdr;
+    $('doc_seal').innerHTML = t.seal;
+
+    setType(certType);
+    renderDoc();
+  }
+
+  function setType(tMode) {
+    certType = tMode;
+    const t = TRANSLATIONS[currentLang];
+    $('btnBoth').classList.toggle('active', tMode === 'BOTH');
+    $('btnExpOnly').classList.toggle('active', tMode === 'EXP');
+    $('out_title').textContent = tMode === 'BOTH' ? t.titleBoth : t.titleExp;
+    $('out_relieve_para').style.display = tMode === 'BOTH' ? 'block' : 'none';
   }
 
   function fmtDate(dStr) {
@@ -461,100 +1137,197 @@
     return `${d}-${m}-${y}`;
   }
 
+  function escHtml(str) {
+    return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  }
+
   function renderDoc() {
-    const org = document.getElementById('in_org').value.trim() || 'ORGANIZATION NAME';
-    const reg = document.getElementById('in_reg').value.trim() || 'Office Address & Contact';
-    const ref = document.getElementById('in_ref').value.trim() || '-';
-    const dt = fmtDate(document.getElementById('in_date').value);
-    const sal = document.getElementById('in_sal').value;
-    const emp = document.getElementById('in_emp').value.trim() || 'Employee Name';
-    const empId = document.getElementById('in_emp_id').value.trim() || '-';
-    const role = document.getElementById('in_role').value.trim() || 'Designation';
-    const doj = fmtDate(document.getElementById('in_doj').value);
-    const lwd = fmtDate(document.getElementById('in_lwd').value);
+    const t = TRANSLATIONS[currentLang];
+    const org = $('in_org').value.trim() || 'ORGANIZATION NAME';
+    const reg = $('in_reg').value.trim() || 'Office Address & Contact';
+    const ref = $('in_ref').value.trim() || '-';
+    const dt = fmtDate($('in_date').value);
+    const salKey = $('in_sal').value;
+    const sal = (t.salMap && t.salMap[salKey]) ? t.salMap[salKey] : salKey;
+    const emp = $('in_emp').value.trim() || 'Employee Name';
+    const empFull = `${sal} ${emp}`;
+    const empId = $('in_emp_id').value.trim() || '-';
+    const role = $('in_role').value.trim() || 'Designation';
+    const doj = fmtDate($('in_doj').value);
+    const lwd = fmtDate($('in_lwd').value);
 
-    document.getElementById('out_org').innerText = org;
-    document.getElementById('out_org_body').innerText = org;
-    document.getElementById('out_org_sig').innerText = org;
-    document.getElementById('out_reg').innerText = reg;
-    document.getElementById('out_ref').innerText = ref;
-    document.getElementById('out_date').innerText = dt;
+    $('out_org').textContent = org;
+    $('out_reg').textContent = reg;
+    $('out_ref').textContent = ref;
+    $('out_date').textContent = dt;
 
-    document.getElementById('out_emp_full').innerText = `${sal} ${emp}`;
-    document.getElementById('out_emp_short').innerText = `${sal} ${emp}`;
-    document.getElementById('out_emp_id').innerText = empId;
-    document.getElementById('out_role').innerText = role;
-    document.getElementById('out_doj').innerText = doj;
-    document.getElementById('out_lwd').innerText = lwd;
-    document.getElementById('out_lwd_2').innerText = lwd;
+    $('out_cert_para').innerHTML = t.certPara(escHtml(empFull), escHtml(empId), escHtml(org), escHtml(role), escHtml(doj), escHtml(lwd));
+    $('out_relieve_para').innerHTML = t.relievePara(escHtml(lwd));
+    $('out_conduct_para').innerHTML = t.conductPara(escHtml(empFull));
+    $('out_for_org').innerHTML = t.forOrg(escHtml(org));
 
-    document.getElementById('out_resp').innerText = document.getElementById('in_resp').value;
-    document.getElementById('out_auth_name').innerText = document.getElementById('in_auth_name').value.trim() || 'Authorized Signatory';
-    document.getElementById('out_auth_role').innerText = document.getElementById('in_auth_role').value.trim() || 'Director / Manager';
+    $('out_resp').textContent = $('in_resp').value;
+    $('out_auth_name').textContent = $('in_auth_name').value.trim() || 'Authorized Signatory';
+    $('out_auth_role').textContent = $('in_auth_role').value.trim() || 'HR Manager / Director';
   }
 
   // Signature Pad
-  const cvs = document.getElementById('sigCanvas'), ctx = cvs.getContext('2d');
+  const cvs = $('sigCanvas'), ctx = cvs.getContext('2d');
   let draw = false;
   function pos(e) {
     const r = cvs.getBoundingClientRect();
-    const t = e.touches ? e.touches[0] : e;
-    return { x: t.clientX - r.left, y: t.clientY - r.top };
+    const touch = e.touches ? e.touches[0] : e;
+    return { x: touch.clientX - r.left, y: touch.clientY - r.top };
   }
   cvs.addEventListener('mousedown', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
-  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); });
-  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  cvs.addEventListener('mousemove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.strokeStyle = '#0f172a'; ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  window.addEventListener('mouseup', () => { if (draw) { draw = false; const img = $('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
   cvs.addEventListener('touchstart', e => { draw = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); }, { passive: false });
-  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
-  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = document.getElementById('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
-  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); document.getElementById('out_sig').style.display = 'none'; }
+  cvs.addEventListener('touchmove', e => { if (!draw) return; const p = pos(e); ctx.lineWidth = 2; ctx.strokeStyle = '#0f172a'; ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); }, { passive: false });
+  window.addEventListener('touchend', () => { if (draw) { draw = false; const img = $('out_sig'); img.src = cvs.toDataURL(); img.style.display = 'block'; } });
+  function clearSig() { ctx.clearRect(0, 0, cvs.width, cvs.height); $('out_sig').style.display = 'none'; }
 
-  function downloadPDF() {
-    const clone = document.getElementById('a4DocSheet').cloneNode(true);
-    clone.style.cssText = 'width:700px;margin:0 auto;padding:30px;background:#fff;border:none;box-shadow:none;';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'position:fixed;top:0;left:0;width:740px;z-index:999999;background:#fff;';
-    wrap.appendChild(clone);
-    document.body.appendChild(wrap);
-    html2pdf().set({
-      margin: [8, 8, 8, 8],
-      filename: `Experience_Certificate_${document.getElementById('in_emp').value.trim() || 'Employee'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, width: 740, windowWidth: 740 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  // Proven Visible-Overlay + Relative-Staging A4 PDF Export
+  async function downloadA4PDF() {
+    const btn = $('ui_btn_pdf');
+    const originalButtonText = btn ? btn.textContent : '';
+    const source = $('a4DocSheet');
+
+    if (!source || !source.innerHTML.trim()) {
+      alert('Please fill certificate details before downloading PDF.');
+      return;
+    }
+
+    if (typeof html2pdf === 'undefined') {
+      alert('PDF library is unavailable. Please check your internet connection and try again.');
+      return;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⏳ Generating PDF...';
+    }
+
+    const PDF_WIDTH = 680;
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+    clone.dir = document.documentElement.dir || 'ltr';
+
+    clone.style.cssText = [
+      `width:${PDF_WIDTH}px`,
+      `max-width:${PDF_WIDTH}px`,
+      `min-width:${PDF_WIDTH}px`,
+      'margin:0',
+      'padding:32px 34px',
+      'background:#ffffff',
+      'color:#0f172a',
+      'border:1.5px solid #cbd5e1',
+      'border-radius:6px',
+      'box-shadow:none',
+      'box-sizing:border-box',
+      'overflow:visible'
+    ].join(';');
+
+    const exportStyle = document.createElement('style');
+    exportStyle.textContent = `
+      .pdf-export-sheet, .pdf-export-sheet * { box-sizing:border-box !important; }
+      .pdf-export-sheet .lh-header { display:flex !important; justify-content:space-between !important; align-items:flex-start !important; gap:12px !important; border-bottom:3px solid #1e3a8a !important; padding-bottom:12px !important; margin-bottom:16px !important; }
+      .pdf-export-sheet .lh-org h1 { margin:0 !important; font-size:21px !important; color:#1e3a8a !important; }
+      .pdf-export-sheet .lh-org p { margin:3px 0 0 !important; font-size:11.5px !important; color:#475569 !important; }
+      .pdf-export-sheet .ref-row { display:flex !important; justify-content:space-between !important; font-size:12px !important; margin-bottom:22px !important; color:#334155 !important; }
+      .pdf-export-sheet .cert-heading { text-align:center !important; margin:14px 0 22px !important; }
+      .pdf-export-sheet .cert-heading span { font-size:16px !important; color:#0f172a !important; border-bottom:2px solid #0f172a !important; padding-bottom:4px !important; }
+      .pdf-export-sheet .letter-body { font-size:13px !important; line-height:1.9 !important; color:#1e293b !important; }
+      .pdf-export-sheet .resp-box { background:#f8fafc !important; border-inline-start:3.5px solid #1e3a8a !important; padding:11px 14px !important; font-size:12px !important; color:#0f172a !important; }
+      .pdf-export-sheet .sig-section { display:flex !important; justify-content:space-between !important; align-items:flex-end !important; margin-top:44px !important; }
+    `;
+    clone.classList.add('pdf-export-sheet');
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+
+    const staging = document.createElement('div');
+    staging.style.cssText = `position:relative;top:0;left:0;width:${PDF_WIDTH}px;min-width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;color:#0f172a;`;
+    staging.appendChild(clone);
+    overlay.appendChild(staging);
+    document.head.appendChild(exportStyle);
+    document.body.appendChild(overlay);
+
+    const empClean = ($('in_emp').value.trim() || 'Employee').replace(/[^a-zA-Z0-9-_]/g, '_');
+    const refClean = ($('in_ref').value.trim() || 'Cert').replace(/[^a-zA-Z0-9-_]/g, '_');
+    const filename = `Experience_Certificate_${empClean}_${refClean}.pdf`;
+
+    try {
+      await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 150)));
+
+      await html2pdf().set({
+        margin: [10, 12, 12, 12],
+        filename,
+        image: { type: 'png', quality: 1.0 },
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          letterRendering: true,
+          scrollX: 0,
+          scrollY: 0,
+          x: 0,
+          y: 0,
+          width: PDF_WIDTH,
+          windowWidth: PDF_WIDTH,
+          backgroundColor: '#ffffff'
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+      }).from(staging).save();
+    } catch (error) {
+      console.error('Certificate PDF export failed:', error);
+      alert('PDF generate नहीं हो पाया। कृपया दोबारा प्रयास करें या Direct Print में Save as PDF चुनें।');
+    } finally {
+      overlay.remove();
+      exportStyle.remove();
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = originalButtonText || TRANSLATIONS[currentLang].btnPdf;
+      }
+    }
   }
 
   function printDoc() {
+    const dir = document.documentElement.dir || 'ltr';
     const w = window.open('', '_blank', 'width=850,height=900');
-    w.document.write(`<!DOCTYPE html><html><head><title>Print Certificate</title><style>
-      *{box-sizing:border-box;font-family:-apple-system,sans-serif}body{margin:0;padding:15mm;color:#0f172a}
+    w.document.write(`<!DOCTYPE html><html dir="${dir}"><head><title>Print Certificate</title><style>
+      *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}body{margin:0;padding:15mm;color:#0f172a}
       .lh-header{border-bottom:3px solid #1e3a8a;padding-bottom:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:flex-start}
       .lh-org h1{margin:0;font-size:20px;color:#1e3a8a;text-transform:uppercase}.lh-org p{margin:3px 0 0;font-size:11px;color:#475569}
       .lh-badge{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a;padding:4px 10px;border-radius:4px;font-size:10px;font-weight:800}
       .ref-row{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;margin-bottom:22px}
       .cert-heading{text-align:center;margin:14px 0 22px}.cert-heading span{font-size:15px;font-weight:900;text-transform:uppercase;border-bottom:2px solid #0f172a;padding-bottom:4px}
       .letter-body{font-size:12.5px;line-height:1.85;text-align:justify}.letter-body p{margin:0 0 14px}
-      .resp-box{background:#f8fafc;border-left:3.5px solid #1e3a8a;padding:10px 14px;margin:14px 0;font-size:11.5px;line-height:1.65;white-space:pre-line}
+      .resp-box{background:#f8fafc;border-inline-start:3.5px solid #1e3a8a;padding:10px 14px;margin:14px 0;font-size:11.5px;line-height:1.65;white-space:pre-line}
       .sig-section{display:flex;justify-content:space-between;align-items:flex-end;margin-top:42px}
-      .seal-circle{width:82px;height:82px;border:1.5px dashed #64748b;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9px;font-weight:700;color:#64748b}
-      .auth-block{min-width:190px;font-size:11.5px;line-height:1.5}.auth-block img{max-height:36px;display:block;margin-bottom:4px}
-    </style></head><body>${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+      .seal-circle{width:84px;height:84px;border:1.5px dashed #64748b;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:9px;font-weight:700;color:#64748b}
+      .auth-block{min-width:195px;font-size:11.5px;line-height:1.5}.auth-block img{max-height:36px;display:block;margin-bottom:4px}
+    </style></head><body>${$('a4DocSheet').innerHTML}</body></html>`);
     w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 400);
   }
 
   function shareWhatsApp() {
-    const org = document.getElementById('in_org').value.trim() || 'Company';
-    const emp = document.getElementById('in_emp').value.trim() || 'Employee';
-    const role = document.getElementById('in_role').value.trim() || 'Role';
-    const msg = `*📜 EXPERIENCE CERTIFICATE ISSUED*\n*Company:* ${org}\n*Employee:* ${emp}\n*Designation:* ${role}\n*Ref No:* ${document.getElementById('in_ref').value}\n\n_Generated via KaamKaj Bills._`;
+    const t = TRANSLATIONS[currentLang];
+    const org = $('in_org').value.trim() || 'Company';
+    const emp = $('in_emp').value.trim() || 'Employee';
+    const role = $('in_role').value.trim() || 'Role';
+    const msg = `*📜 ${t.waTitle}*\n*${t.waComp}:* ${org}\n*${t.waEmp}:* ${emp}\n*${t.waRole}:* ${role}\n*${t.waRef}:* ${$('in_ref').value}\n\n_Generated via KaamKaj Bills._`;
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
   window.onload = () => {
-    document.getElementById('in_date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('in_ref').value = 'EXP/2026/' + Math.floor(100 + Math.random() * 899);
-    renderDoc();
+    const savedTheme = localStorage.getItem('kb_cert_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    $('themeToggleBtn').textContent = savedTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+
+    $('in_date').value = new Date().toISOString().split('T')[0];
+    $('in_ref').value = 'EXP/2026/' + Math.floor(100 + Math.random() * 899);
+    changeLanguage('en');
   };
 </script>
 </body>
