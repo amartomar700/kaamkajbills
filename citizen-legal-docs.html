@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="hi" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citizen & Legal Document Generator (12 Indian Languages) | KaamKaj Bills</title>
+  <meta name="description" content="Vehicle sale agreement, self-declaration affidavit, experience letter, transport bilty aur medical fitness certificate banayein 12 Indian languages mein - KaamKaj Bills." />
+
+  <!-- Crisp Indic, Latin & Urdu Fonts for HD PDF & Print -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Required html2pdf.js 0.10.1 Bundle -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --primary-light: #1e293b;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --emerald: #10b981;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --input-bg: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --badge-bg: #e0f2fe;
+      --badge-text: #0369a1;
+    }
+
+    body.dark-mode {
+      --bg: #0b1120;
+      --card: #1e293b;
+      --input-bg: #0f172a;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --badge-bg: rgba(2, 132, 199, 0.22);
+      --badge-text: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Noto Sans Gujarati',
+                   'Noto Sans Gurmukhi', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada',
+                   'Noto Sans Malayalam', 'Noto Sans Oriya', 'Noto Nastaliq Urdu', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background 0.25s, color 0.25s;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top App Navigation Bar */
+    .app-navbar {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2);
+    }
+    .nav-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-title h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .brand-tag {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .theme-btn, .nav-home-link {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .theme-btn:hover, .nav-home-link:hover { background: rgba(255, 255, 255, 0.18); }
+
+    .lang-picker {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .lang-picker span { font-size: 0.84rem; color: #0f172a; font-weight: 700; }
+    .lang-picker select {
+      border: none;
+      background: transparent;
+      color: #0f172a;
+      font-size: 0.84rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+      padding: 3px 2px;
+    }
+
+    /* Main Workspace Layout */
+    .kb-workspace {
+      max-width: 1300px;
+      margin: 20px auto;
+      padding: 0 14px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .ctrl-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Tool Selector Grid (5 Tools) */
+    .tool-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .tool-btn {
+      padding: 11px 8px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.35;
+      transition: all 0.18s ease;
+    }
+    .tool-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .tool-btn.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-color: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.28);
+    }
+
+    .sec-badge {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 4px 0 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .fld { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .fld label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .fld input, .fld select, .fld textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      background: var(--input-bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .fld input:focus, .fld select:focus, .fld textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+    }
+    .fld textarea { min-height: 75px; resize: vertical; }
+
+    .form-footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .save-status {
+      font-size: 0.76rem;
+      color: var(--emerald);
+      font-weight: 700;
+    }
+    .btn-reset {
+      padding: 9px 14px;
+      background: var(--input-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-reset:hover { border-color: #ef4444; color: #ef4444; }
+
+    /* ==================== PREVIEW CARD & TOOLBAR ==================== */
+    .preview-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .preview-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .preview-toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .btn-action:active { transform: scale(0.98); }
+    .btn-pdf { background: var(--emerald); box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25); }
+    .btn-print { background: var(--accent); box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25); }
+    .btn-action:hover { opacity: 0.93; }
+
+    /* ==================== A4 DOCUMENT PAPER (ALWAYS WHITE FOR PRINT/PDF) ==================== */
+    .preview-scroll-box {
+      width: 100%;
+      background: #cbd5e1;
+      padding: 14px;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+
+    #a4DocSheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 794px;
+      margin: 0 auto;
+      padding: 34px 30px;
+      border: 2px solid #0f172a;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      border-radius: 2px;
+      color: #0f172a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 980px;
+    }
+
+    .doc-hdr {
+      text-align: center;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .doc-org {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .doc-sub {
+      margin: 4px 0 10px;
+      font-size: 11.5px;
+      color: #475569;
+      font-weight: 600;
+    }
+    .doc-title-badge {
+      display: inline-block;
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 16px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .meta-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .meta-tbl td {
+      padding: 7px 6px;
+      vertical-align: top;
+      border-bottom: 1px dashed #cbd5e1;
+      word-break: break-word;
+    }
+    .meta-tbl td.lbl {
+      font-weight: 700;
+      color: #334155;
+      width: 36%;
+    }
+    .meta-tbl td.val {
+      color: #0f172a;
+      font-weight: 600;
+      width: 64%;
+    }
+
+    .doc-body-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 14px 0;
+      font-size: 12.5px;
+      line-height: 1.7;
+      color: #0f172a;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .decl-box {
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      padding: 10px 14px;
+      font-size: 11.5px;
+      color: #166534;
+      line-height: 1.6;
+      margin: 14px 0;
+    }
+
+    .sig-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 56px;
+      padding-top: 10px;
+      font-size: 11.5px;
+      gap: 20px;
+    }
+    .sig-card {
+      width: 44%;
+      text-align: center;
+      border-top: 1.5px solid #334155;
+      padding-top: 6px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    @media (max-width: 980px) {
+      .kb-workspace { grid-template-columns: 1fr; margin-top: 14px; }
+    }
+
+    @media (max-width: 640px) {
+      .app-navbar { padding: 12px 14px; }
+      .brand-title h1 { font-size: 1rem; }
+      .tool-selector-grid { grid-template-columns: 1fr 1fr; }
+      .g2, .g3 { grid-template-columns: 1fr; }
+      .preview-scroll-box { padding: 6px; }
+      #a4DocSheet { padding: 18px 14px; min-height: auto; }
+      .doc-org { font-size: 16px; }
+      .meta-tbl td.lbl { width: 42%; font-size: 11px; }
+      .meta-tbl td.val { width: 58%; font-size: 11.5px; }
+      .sig-grid { margin-top: 40px; font-size: 10.5px; }
+      .actions { width: 100%; }
+      .actions .btn-action { flex: 1; justify-content: center; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 10mm; }
+      html, body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+      body * { visibility: hidden !important; }
+      #a4DocSheet, #a4DocSheet * { visibility: visible !important; }
+      #a4DocSheet {
+        position: fixed !important; left: 0 !important; top: 0 !important;
+        width: 100% !important; max-width: 100% !important; min-height: 270mm !important;
+        margin: 0 !important; padding: 12mm !important;
+        border: 2px solid #0f172a !important; box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-navbar">
+    <div class="nav-inner">
+      <div class="brand-title">
+        <h1>KaamKaj Bills</h1>
+        <span class="brand-tag">Citizen & Legal Suite</span>
+      </div>
+      <div class="nav-controls">
+        <div class="lang-picker">
+          <span>🌐 <span id="ui_lang_label">भाषा:</span></span>
+          <select id="sel_lang" onchange="changeLanguage(this.value)">
+            <option value="hi" selected>हिन्दी (Hindi)</option>
+            <option value="en">English</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+            <option value="ur">اردو (Urdu)</option>
+          </select>
+        </div>
+        <button type="button" class="theme-btn" id="btn_theme" onclick="toggleTheme()">🌙 Dark</button>
+        <a href="https://kaamkajbills.in" class="nav-home-link">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main 2-Column Workspace -->
+  <main class="kb-workspace">
+
+    <!-- Left: Form Controls (5 Legal & Citizen Tools) -->
+    <section class="ctrl-card">
+      <div class="tool-selector-grid">
+        <button type="button" class="tool-btn active" id="btn_t_VEHICLE" onclick="switchTool('VEHICLE', this)">🚗 1. Vehicle Sale</button>
+        <button type="button" class="tool-btn" id="btn_t_AFFIDAVIT" onclick="switchTool('AFFIDAVIT', this)">📑 2. Self-Declaration</button>
+        <button type="button" class="tool-btn" id="btn_t_EXPERIENCE" onclick="switchTool('EXPERIENCE', this)">💼 3. Experience Letter</button>
+        <button type="button" class="tool-btn" id="btn_t_BILTY" onclick="switchTool('BILTY', this)">🚚 4. Transport Bilty</button>
+        <button type="button" class="tool-btn" id="btn_t_MEDICAL" onclick="switchTool('MEDICAL', this)">🩺 5. Medical Fitness</button>
+      </div>
+
+      <div id="dynamic_form_fields"></div>
+
+      <div class="form-footer-actions">
+        <span class="save-status" id="save_indicator">✓ Auto-saved locally</span>
+        <button type="button" class="btn-reset" onclick="resetCurrentForm()">🔄 Clear Form</button>
+      </div>
+    </section>
+
+    <!-- Right: Live A4 Preview + Attached Print & HD PDF Buttons -->
+    <section class="preview-card">
+      <div class="preview-toolbar">
+        <div class="preview-toolbar-title">📄 A4 Live Document Preview</div>
+        <div class="actions">
+          <button type="button" class="btn-action btn-print" id="btn_ui_print" onclick="printDocDirect()">🖨️ Direct Print</button>
+          <button type="button" class="btn-action btn-pdf" id="btn_ui_pdf" onclick="downloadA4PDF()">📥 Download HD PDF</button>
+        </div>
+      </div>
+
+      <div class="preview-scroll-box">
+        <div id="a4DocSheet">
+          <div id="docContentContainer">
+            <div class="doc-hdr">
+              <h2 class="doc-org" id="out_hdr_org">-</h2>
+              <p class="doc-sub" id="out_hdr_sub">-</p>
+              <div class="doc-title-badge" id="out_hdr_badge">-</div>
+            </div>
+
+            <table class="meta-tbl" id="out_meta_body"></table>
+
+            <div class="doc-body-box" id="out_main_body"></div>
+
+            <div class="decl-box" id="out_decl_box"></div>
+          </div>
+
+          <div class="sig-grid">
+            <div class="sig-card" id="out_sig_left"></div>
+            <div class="sig-card" id="out_sig_right"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  let currentTool = 'VEHICLE';
+  let curLang = 'hi';
+  const STORAGE_KEY = 'kb_citizen_legal_v2';
+
+  const I18N = {
+    hi: {
+      langLabel: "भाषा:",
+      pdfBtn: "📥 HD PDF डाउनलोड",
+      printBtn: "🖨️ सीधा प्रिंट करें",
+      t1: "🚗 1. वाहन बिक्री अनुबंध (Vehicle Sale)",
+      t2: "📑 2. स्व-घोषणा / शपथ पत्र (Affidavit)",
+      t3: "💼 3. अनुभव प्रमाण पत्र (Experience)",
+      t4: "🚚 4. ट्रांसपोर्ट बिल्टी व चालान",
+      t5: "🩺 5. मेडिकल फिटनेस व अवकाश",
+      decl: "घोषणा: मैं प्रमाणित करता/करती हूँ कि ऊपर दी गई संपूर्ण जानकारी मेरे ज्ञान अनुसार पूर्णतः सत्य व सही है।",
+      sig1: "आवेदक / प्रथम पक्ष हस्ताक्षर",
+      sig2: "अधिकृत हस्ताक्षर व मोहर / सत्यापनकर्ता",
+      enterDetails: "कृपया PDF डाउनलोड करने से पहले आवश्यक विवरण भरें।",
+      labels: {
+        address: "पूरा पता (Address)",
+        seller: "विक्रेता का नाम (बेचने वाला)",
+        sellerAddr: "विक्रेता का पता व मोबाइल",
+        buyer: "क्रेता का नाम (खरीदने वाला)",
+        buyerAddr: "क्रेता का पता व मोबाइल",
+        vNo: "गाड़ी नंबर (Vehicle Reg No.)",
+        vModel: "गाड़ी मॉडल / मेक",
+        vChassis: "चेसिस / इंजन नंबर",
+        saleAmt: "बिक्री राशि (₹)",
+        saleDate: "हैंडओवर तारीख",
+        payMode: "भुगतान माध्यम (नकद / UPI)",
+        decName: "घोषणाकर्ता का नाम",
+        decParent: "पिता / पति का नाम",
+        decAge: "उम्र / जन्म तारीख",
+        purpose: "उद्देश्य (पता / आय / गैप प्रूफ)",
+        statement: "घोषणा का मुख्य विवरण",
+        compName: "कंपनी / फर्म का नाम",
+        compAddr: "कंपनी का पता व फोन",
+        empName: "कर्मचारी का नाम",
+        empRole: "पद / काम (Designation)",
+        empId: "कर्मचारी कोड (वैकल्पिक)",
+        joinDate: "ज्वाइनिंग तारीख",
+        relDate: "कार्यमुक्ति तारीख",
+        issueDate: "जारी करने की तारीख",
+        remarks: "कार्य आचरण / परफॉरमेंस रिमार्क",
+        transName: "ट्रांसपोर्ट एजेंसी / कंपनी",
+        driver: "ड्राइवर का नाम व मोबाइल",
+        lrNo: "बिल्टी / LR नंबर",
+        sender: "कंसाइनर (माल भेजने वाला)",
+        receiver: "कंसाइनी (माल पाने वाला)",
+        goods: "सामान / पैकेज का विवरण",
+        weight: "कुल वजन (किलो / टन)",
+        freight: "भाड़ा रकम (Freight ₹)",
+        docName: "डॉक्टर / क्लिनिक का नाम",
+        docReg: "रजिस्ट्रेशन नंबर व पता",
+        patName: "मरीज / अभ्यर्थी का नाम",
+        patAge: "उम्र / लिंग (Age/Gender)",
+        diagnosis: "बीमारी / डायग्नोसिस",
+        rest: "आराम की अवधि (Days)"
+      }
+    },
+    en: {
+      langLabel: "Language:",
+      pdfBtn: "📥 Download HD PDF",
+      printBtn: "🖨️ Direct Print",
+      t1: "🚗 1. Vehicle Sale Deed",
+      t2: "📑 2. Self-Declaration",
+      t3: "💼 3. Experience Letter",
+      t4: "🚚 4. Transport Bilty",
+      t5: "🩺 5. Medical Fitness",
+      decl: "Declaration: I hereby solemnly affirm that the particulars furnished above are true and correct to the best of my knowledge.",
+      sig1: "Applicant / First Party Sign",
+      sig2: "Authorized Signatory & Seal",
+      enterDetails: "Please enter the details before downloading the PDF.",
+      labels: {
+        address: "Full Address",
+        seller: "Seller Full Name", sellerAddr: "Seller Address & Mobile",
+        buyer: "Buyer Full Name", buyerAddr: "Buyer Address & Mobile",
+        vNo: "Vehicle Registration No.", vModel: "Make & Model", vChassis: "Chassis / Engine No.",
+        saleAmt: "Agreed Sale Amount (₹)", saleDate: "Handover Date", payMode: "Payment Mode (CASH/UPI)",
+        decName: "Declarant Full Name", decParent: "Father / Spouse Name", decAge: "Age / DOB",
+        purpose: "Purpose of Declaration", statement: "Main Declaration Text",
+        compName: "Firm / Company Name", compAddr: "Address & Contact",
+        empName: "Employee Full Name", empRole: "Designation / Role", empId: "Employee Code (Optional)",
+        joinDate: "Joining Date", relDate: "Relieving Date", issueDate: "Issue Date",
+        remarks: "Conduct & Performance Remarks", transName: "Transport Carrier Name",
+        driver: "Driver Name & Mobile", lrNo: "Bilty / LR Number",
+        sender: "Consignor (Sender)", receiver: "Consignee (Receiver)",
+        goods: "Packages / Goods Details", weight: "Total Weight (Kg/Tons)", freight: "Freight Charges (₹)",
+        docName: "Doctor / Clinic Name", docReg: "Doctor Reg No. & Address",
+        patName: "Patient Name", patAge: "Age / Gender", diagnosis: "Diagnosis / Illness",
+        rest: "Recommended Rest Period"
+      }
+    },
+    mr: {
+      langLabel: "भाषा:", pdfBtn: "📥 HD PDF डाउनलोड", printBtn: "🖨️ प्रिंट काढा",
+      t1: "🚗 १. वाहन विक्री करार", t2: "📑 २. स्वयं-घोषणापत्र", t3: "💼 ३. अनुभव प्रमाणपत्र",
+      t4: "🚚 ४. ट्रान्सपोर्ट पावती (बिल्टी)", t5: "🩺 ५. वैद्यकीय तंदुरुस्ती",
+      decl: "घोषणा: मी घोषित करतो/करते की वर दिलेली सर्व माहिती माझ्या माहितीनुसार खरी आणि बरोबर आहे.",
+      sig1: "अर्जदार / प्रथम पक्ष स्वाक्षरी", sig2: "अधिकृत स्वाक्षरी व शिक्का",
+      enterDetails: "कृपया PDF डाउनलोड करण्यापूर्वी तपशील भरा.",
+      labels: {
+        address: "पूर्ण पत्ता", seller: "विक्रेत्याचे नाव", sellerAddr: "विक्रेत्याचा पत्ता व फोन",
+        buyer: "खरेदीदाराचे नाव", buyerAddr: "खरेदीदाराचा पत्ता व फोन", vNo: "गाडी क्रमांक (Reg No.)",
+        vModel: "मॉडेल / कंपनी", vChassis: "चेसिस / इंजिन नंबर", saleAmt: "विक्री रक्कम (₹)",
+        saleDate: "हस्तांतरण तारीख", payMode: "पेमेंट मोड (रोख/UPI)", decName: "घोषणा देणाऱ्याचे नाव",
+        decParent: "वडील / पतीचे नाव", decAge: "वय", purpose: "उद्देश / कारण",
+        statement: "घोषणा तपशील", compName: "कंपनी / फर्मचे नाव", compAddr: "कंपनी पत्ता व संपर्क",
+        empName: "कर्मचाऱ्याचे नाव", empRole: "पद / काम", empId: "कर्मचारी कोड",
+        joinDate: "रुजू तारीख", relDate: "कार्यमुक्त तारीख", issueDate: "देण्याची तारीख",
+        remarks: "कामकाज शेरा", transName: "ट्रान्सपोर्ट एजन्सी", driver: "चालकाचे नाव व फोन",
+        lrNo: "बिल्टी / LR नंबर", sender: "माल पाठवणारा", receiver: "माल स्वीकारणारा",
+        goods: "मालाचा तपशील", weight: "वजन (किलो)", freight: "भाडे रक्कम (₹)",
+        docName: "डॉक्टर / क्लिनिकचे नाव", docReg: "नोंदणी क्रमांक व पत्ता", patName: "रुग्णाचे नाव",
+        patAge: "वय / लिंग", diagnosis: "आजार", rest: "विश्रांती कालावधी"
+      }
+    },
+    gu: {
+      langLabel: "ભાષા:", pdfBtn: "📥 HD PDF ડાઉનલોડ", printBtn: "🖨️ પ્રિન્ટ કરો",
+      t1: "🚗 ૧. વાહન વેચાણ કરાર", t2: "📑 ૨. સ્વ-જાહેરાત પત્ર", t3: "💼 ૩. અનુભવ પ્રમાણપત્ર",
+      t4: "🚚 ૪. ટ્રાન્સપોર્ટ બિલ્ટી", t5: "🩺 ૫. મેડિકલ ફિટનેસ",
+      decl: "જાહેરાત: હું પ્રમાણિત કરું છું કે ઉપર આપેલી તમામ વિગતો મારી જાણ મુજબ સાચી અને સચોટ છે.",
+      sig1: "અરજદારની સહી", sig2: "અધિકૃત સહી અને સિક્કો",
+      enterDetails: "કૃપા કરીને PDF ડાઉનલોડ કરતા પહેલા વિગતો ભરો.",
+      labels: {
+        address: "પૂરું સરનામું", seller: "વેચનારનું નામ", sellerAddr: "વેચનારનું સરનામું",
+        buyer: "ખરીદનારનું નામ", buyerAddr: "ખરીદનારનું સરનામું", vNo: "ગાડી નંબર (Reg No.)",
+        vModel: "મોડેલ / કંપની", vChassis: "ચેસીસ / એન્જિન નંબર", saleAmt: "વેચાણ રકમ (₹)",
+        saleDate: "સોંપણી તારીખ", payMode: "ચૂકવણી પદ્ધતિ", decName: "જાહેર કરનારનું નામ",
+        decParent: "પિતા / પતિનું નામ", decAge: "ઉંમર", purpose: "હેતુ / વિષય",
+        statement: "મુખ્ય વિગત", compName: "પેઢી / કંપનીનું નામ", compAddr: "સરનામું અને સંપર્ક",
+        empName: "કર્મચારીનું નામ", empRole: "હોદ્દો / કામ", empId: "કર્મચારી કોડ",
+        joinDate: "જોડાવાની તારીખ", relDate: "છૂટા થવાની તારીખ", issueDate: "ઇશ્યૂ તારીખ",
+        remarks: "કામગીરી અભિપ્રાય", transName: "ટ્રાન્સપોર્ટ એજન્સી", driver: "ડ્રાઈવરનું નામ",
+        lrNo: "બિલ્ટી નંબર", sender: "માલ મોકલનાર", receiver: "માલ મેળવનાર",
+        goods: "માલસામાન વિગત", weight: "કુલ વજન", freight: "ભાડું (₹)",
+        docName: "ડૉક્ટરનું નામ", docReg: "રજીસ્ટ્રેશન નંબર", patName: "દર્દીનું નામ",
+        patAge: "ઉંમર / જાતિ", diagnosis: "બીમારીનું નિદાન", rest: "આરામ સમયગાળો"
+      }
+    },
+    bn: {
+      langLabel: "ভাষা:", pdfBtn: "📥 HD PDF ডাউনলোড", printBtn: "🖨️ প্রিন্ট করুন",
+      t1: "🚗 ১. গাড়ি বিক্রয় চুক্তি", t2: "📑 ২. স্ব-ঘোষণাপত্র", t3: "💼 ৩. অভিজ্ঞতা প্রশংসাপত্র",
+      t4: "🚚 ৪. পরিবহন বিলটি ও চালান", t5: "🩺 ৫. মেডিকেল ফিটনেস",
+      decl: "ঘোষণা: আমি ঘোষণা করছি যে উপরে প্রদত্ত সমস্ত তথ্য আমার জ্ঞানমতে সম্পূর্ণ সত্য ও সঠিক।",
+      sig1: "আবেদনকারীর স্বাক্ষর", sig2: "অনুমোদিত স্বাক্ষর ও সিল",
+      enterDetails: "PDF ডাউনলোড করার আগে অনুগ্রহ করে বিবরণ লিখুন।",
+      labels: {
+        address: "সম্পূর্ণ ঠিকানা", seller: "বিক্রেতার নাম", sellerAddr: "বিক্রেতার ঠিকানা",
+        buyer: "ক্রেতার নাম", buyerAddr: "ক্রেতার ঠিকানা", vNo: "গাড়ির নম্বর",
+        vModel: "মডেল / মেক", vChassis: "চেসিস / ইঞ্জিন নং", saleAmt: "বিক্রয় মূল্য (₹)",
+        saleDate: "হস্তান্তর তারিখ", payMode: "মূল্য পরিশোধ পদ্ধতি", decName: "ঘোষণাকারীর নাম",
+        decParent: "পিতা / স্বামীর নাম", decAge: "বয়স", purpose: "উদ্দেশ্য / বিষয়",
+        statement: "ঘোষণার বিবরণ", compName: "সংস্থার নাম", compAddr: "ঠিকানা ও যোগাযোগ",
+        empName: "কর্মীর নাম", empRole: "পদবী / দায়িত্ব", empId: "কর্মী আইডি",
+        joinDate: "যোগদানের তারিখ", relDate: "অব্যাহতির তারিখ", issueDate: "প্রদানের তারিখ",
+        remarks: "কাজের মূল্যায়ন", transName: "পরিবহন সংস্থা", driver: "চালকের নাম ও ফোন",
+        lrNo: "বিলটি নম্বর", sender: "প্রেরক", receiver: "প্রাপক",
+        goods: "মালের বিবরণ", weight: "মোট ওজন", freight: "ভাড়া (₹)",
+        docName: "চিকিৎসকের নাম", docReg: "রেজিস্ট্রেশন নং", patName: "রোগীর নাম",
+        patAge: "বয়স / লিঙ্গ", diagnosis: "অসুস্থতার কারণ", rest: "বিশ্রামের সময়সীমা"
+      }
+    },
+    ta: {
+      langLabel: "மொழி:", pdfBtn: "📥 HD PDF பதிவிறக்கு", printBtn: "🖨️ அச்சிடுக",
+      t1: "🚗 1. வாகன விற்பனை ஒப்பந்தம்", t2: "📑 2. சுய பிரகடனம்", t3: "💼 3. பணி அனுபவச் சான்றிதழ்",
+      t4: "🚚 4. லாரி ரசீது & சலான்", t5: "🩺 5. மருத்துவ தகுதிச் சான்றிதழ்",
+      decl: "பிரகடனம்: மேலே உள்ள அனைத்து விவரங்களும் எனது அறிவுக்கு எட்டிய வரை உண்மையானவை என உறுதியளிக்கிறேன்.",
+      sig1: "விண்ணப்பதாரர் கையொப்பம்", sig2: "அங்கீகரிக்கப்பட்ட கையொப்பம்",
+      enterDetails: "PDF பதிவிறக்கும் முன் விவரங்களை உள்ளிடவும்.",
+      labels: {
+        address: "முழு முகவரி", seller: "விற்பனையாளர்", sellerAddr: "விற்பனையாளர் முகவரி",
+        buyer: "வாங்குபவர்", buyerAddr: "வாங்குபவர் முகவரி", vNo: "வாகன எண்",
+        vModel: "வாகன மாடல்", vChassis: "சேஸிஸ் எண்", saleAmt: "விற்பனை தொகை (₹)",
+        saleDate: "ஒப்படைப்பு தேதி", payMode: "பணம் செலுத்தும் முறை", decName: "பெயர்",
+        decParent: "தந்தை / கணவர் பெயர்", decAge: "வயது", purpose: "நோக்கம்",
+        statement: "விவரம்", compName: "நிறுவன பெயர்", compAddr: "நிறுவன முகவரி",
+        empName: "பணியாளர் பெயர்", empRole: "பதவி", empId: "பணியாளர் எண்",
+        joinDate: "சேர்ந்த தேதி", relDate: "விலகிய தேதி", issueDate: "வழங்கப்பட்ட தேதி",
+        remarks: "பணி மதிப்பீடு", transName: "போக்குவரத்து நிறுவனம்", driver: "ஓட்டுநர் பெயர்",
+        lrNo: "ரசீது எண்", sender: "அனுப்புநர்", receiver: "பெறுநர்",
+        goods: "பொருட்கள் விவரம்", weight: "எடை", freight: "வாடகை (₹)",
+        docName: "மருத்துவர் பெயர்", docReg: "பதிவு எண்", patName: "நோயாளி பெயர்",
+        patAge: "வயது / பாலினம்", diagnosis: "நோய் விவரம்", rest: "ஓய்வு காலம்"
+      }
+    },
+    te: {
+      langLabel: "భాష:", pdfBtn: "📥 HD PDF డౌన్‌లోడ్", printBtn: "🖨️ ప్రింట్ చేయండి",
+      t1: "🚗 1. వాహన విక్రయ ఒప్పందం", t2: "📑 2. స్వీయ ధృవీకరణ పత్రం", t3: "💼 3. అనుభవ ధృవీకరణ పత్రం",
+      t4: "🚚 4. ట్రాన్స్‌పోర్ట్ బిల్టీ", t5: "🩺 5. మెడికల్ ఫిట్‌నెస్",
+      decl: "ప్రకటన: పైన పేర్కొన్న వివరాలన్నీ నా పరిజ్ఞానం మేరకు పూర్తిగా సత్యమైనవని ధృవీకరిస్తున్నాను.",
+      sig1: "దరఖాస్తుదారు సంతకం", sig2: "అధికారిక సంతకం & సీలు",
+      enterDetails: "PDF డౌన్‌లోడ్ చేసే ముందు దయచేసి వివరాలను నమోదు చేయండి.",
+      labels: {
+        address: "పూర్తి చిరునామా", seller: "విక్రేత పేరు", sellerAddr: "విక్రేత చిరునామా",
+        buyer: "కొనుగోలుదారు పేరు", buyerAddr: "కొనుగోలుదారు చిరునామా", vNo: "వాహనం నంబర్",
+        vModel: "మోడల్", vChassis: "ఛాసిస్ నంబర్", saleAmt: "విక్రయ మొత్తం (₹)",
+        saleDate: "అప్పగింత తేదీ", payMode: "చెల్లింపు విధానం", decName: "పేరు",
+        decParent: "తండ్రి / భర్త పేరు", decAge: "వయస్సు", purpose: "ఉద్దేశ్యం",
+        statement: "వివరణ", compName: "సంస్థ పేరు", compAddr: "చిరునామా",
+        empName: "ఉద్యోగి పేరు", empRole: "హోదా", empId: "ఉద్యోగి ఐడీ",
+        joinDate: "చేరిన తేదీ", relDate: "విడుదలైన తేదీ", issueDate: "జారీ చేసిన తేదీ",
+        remarks: "పనితీరు వ్యాఖ్యలు", transName: "ట్రాన్స్‌పోర్ట్ ఏజెన్సీ", driver: "డ్రైవర్ పేరు",
+        lrNo: "బిల్టీ నంబర్", sender: "పంపిణీదారు", receiver: "స్వీకర్త",
+        goods: "సరుకు వివరాలు", weight: "బరువు", freight: "రవాణా ఛార్జీ (₹)",
+        docName: "వైద్యుడి పేరు", docReg: "రిజిస్ట్రేషన్ నంబర్", patName: "రోగి పేరు",
+        patAge: "వయస్సు / లింగం", diagnosis: "అనారోగ్యం", rest: "విశ్రాంతి సమయం"
+      }
+    },
+    kn: {
+      langLabel: "ಭಾಷೆ:", pdfBtn: "📥 HD PDF ಡೌನ್‌ಲೋಡ್", printBtn: "🖨️ ಪ್ರಿಂಟ್ ಮಾಡಿ",
+      t1: "🚗 1. ವಾಹನ ಮಾರಾಟ ಒಪ್ಪಂದ", t2: "📑 2. ಸ್ವಯಂ ಘೋಷಣಾಪತ್ರ", t3: "💼 3. ಅನುಭವ ಪ್ರಮಾಣಪತ್ರ",
+      t4: "🚚 4. ಸಾರಿಗೆ ಬಿಲ್ಟಿ", t5: "🩺 5. ವೈದ್ಯಕೀಯ ಫಿಟ್ನೆಸ್",
+      decl: "ಘೋಷಣೆ: ಮೇಲೆ ಒದಗಿಸಲಾದ ಎಲ್ಲಾ ವಿವರಗಳು ನನ್ನ ತಿಳುವಳಿಕೆಯಂತೆ ಸಂಪೂರ್ಣ ಸತ್ಯವೆಂದು ಘೋಷಿಸುತ್ತೇನೆ.",
+      sig1: "ಅರ್ಜಿದಾರರ ಸಹಿ", sig2: "ಅಧಿಕೃತ ಸಹಿ ಮತ್ತು ಮೊಹರು",
+      enterDetails: "PDF ಡೌನ್‌ಲೋಡ್ ಮಾಡುವ ಮೊದಲು ದಯವಿಟ್ಟು ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.",
+      labels: {
+        address: "ಪೂರ್ಣ ವಿಳಾಸ", seller: "ಮಾರಾಟಗಾರರ ಹೆಸರು", sellerAddr: "ಮಾರಾಟಗಾರರ ವಿಳಾಸ",
+        buyer: "ಖರೀದಿದಾರರ ಹೆಸರು", buyerAddr: "ಖರೀದಿದಾರರ ವಿಳಾಸ", vNo: "ವಾಹನ ನೋಂದಣಿ ಸಂಖ್ಯೆ",
+        vModel: "ಮಾದರಿ", vChassis: "ಚಾಸಿಸ್ ಸಂಖ್ಯೆ", saleAmt: "ಮಾರಾಟ ಮೊತ್ತ (₹)",
+        saleDate: "ಹಸ್ತಾಂತರ ದಿನಾಂಕ", payMode: "ಪಾವತಿ ವಿಧಾನ", decName: "ಹೆಸರು",
+        decParent: "ತಂದೆ / ಪತಿಯ ಹೆಸರು", decAge: "ವಯಸ್ಸು", purpose: "ಉದ್ದೇಶ",
+        statement: "ವಿವರಣೆ", compName: "ಸಂಸ್ಥೆಯ ಹೆಸರು", compAddr: "ವಿಳಾಸ ಮತ್ತು ಸಂಪರ್ಕ",
+        empName: "ಉದ್ಯೋಗಿ ಹೆಸರು", empRole: "ಹುದ್ದೆ", empId: "ಉದ್ಯೋಗಿ ಕೋಡ್",
+        joinDate: "ಸೇರಿದ ದಿನಾಂಕ", relDate: "ಬಿಡುಗಡೆ ದಿನಾಂಕ", issueDate: "ನೀಡಿದ ದಿನಾಂಕ",
+        remarks: "ಕಾರ್ಯಕ್ಷಮತೆ ಅಭಿಪ್ರಾಯ", transName: "ಸಾರಿಗೆ ಸಂಸ್ಥೆ", driver: "ಚಾಲಕನ ಹೆಸರು",
+        lrNo: "ಬಿಲ್ಟಿ ಸಂಖ್ಯೆ", sender: "ರವಾನೆದಾರ", receiver: "ಸ್ವೀಕರಿಸುವವರು",
+        goods: "ಸರಕುಗಳ ವಿವರ", weight: "ತೂಕ", freight: "ಭಾಡಿಗೆ (₹)",
+        docName: "ವೈದ್ಯರ ಹೆಸರು", docReg: "ನೋಂದಣಿ ಸಂಖ್ಯೆ", patName: "ರೋಗಿಯ ಹೆಸರು",
+        patAge: "ವಯಸ್ಸು / ಲಿಂಗ", diagnosis: "ಕಾಯಿಲೆ ವಿವರ", rest: "ವಿಶ್ರಾಂತಿ ಅವಧಿ"
+      }
+    },
+    ml: {
+      langLabel: "ഭാഷ:", pdfBtn: "📥 HD PDF ഡൗൺലോഡ്", printBtn: "🖨️ പ്രിന്റ് ചെയ്യുക",
+      t1: "🚗 1. വാഹന വിൽപ്പന കരാർ", t2: "📑 2. സത്യപ്രസ്താവന", t3: "💼 3. പ്രവൃത്തിപരിചയ പത്രം",
+      t4: "🚚 4. ട്രാൻസ്പോർട്ട് ബിൽറ്റി", t5: "🩺 5. മെഡിക്കൽ ഫിറ്റ്നസ്",
+      decl: "പ്രഖ്യാപനം: മുകളിൽ നൽകിയിരിക്കുന്ന വിവരങ്ങൾ പൂർണ്ണമായും സത്യമാണെന്ന് ഞാൻ ഇതിനാൽ സാക്ഷ്യപ്പെടുത്തുന്നു.",
+      sig1: "അപേക്ഷകന്റെ ഒപ്പ്", sig2: "അധികൃത ഒപ്പും സീലും",
+      enterDetails: "PDF ഡൗൺലോഡ് ചെയ്യുന്നതിന് മുമ്പ് വിവരങ്ങൾ നൽകുക.",
+      labels: {
+        address: "പൂർണ്ണ വിലാസം", seller: "വിൽപ്പനക്കാരന്റെ പേര്", sellerAddr: "വിലാസം",
+        buyer: "വാങ്ങുന്നയാളുടെ പേര്", buyerAddr: "വിലാസം", vNo: "വാഹന നമ്പർ",
+        vModel: "മോഡൽ", vChassis: "ഷാസി നമ്പർ", saleAmt: "വില (₹)",
+        saleDate: "കൈമാറ്റ തീയതി", payMode: "പണമിടപാട് രീതി", decName: "പേര്",
+        decParent: "പിതാവ് / ഭർത്താവ്", decAge: "പ്രായം", purpose: "ആവശ്യം",
+        statement: "പ്രസ്താവന", compName: "സ്ഥാപനത്തിന്റെ പേര്", compAddr: "വിലാസം",
+        empName: "ജീവനക്കാരന്റെ പേര്", empRole: "തസ്തിക", empId: "ഐഡി",
+        joinDate: "ചേർന്ന തീയതി", relDate: "പിരിഞ്ഞ തീയതി", issueDate: "നൽകിയ തീയതി",
+        remarks: "പ്രവർത്തന വിലയിരുത്തൽ", transName: "ട്രാൻസ്പോർട്ട് ഏജൻസി", driver: "ഡ്രൈവർ പേര്",
+        lrNo: "ബിൽറ്റി നമ്പർ", sender: "അയച്ചയാൾ", receiver: "സ്വീകർത്താവ്",
+        goods: "സാധനങ്ങളുടെ വിവരം", weight: "ഭാരം", freight: "ചരക്കുകൂലി (₹)",
+        docName: "ഡോക്ടറുടെ പേര്", docReg: "രജിസ്ട്രേഷൻ നമ്പർ", patName: "രോഗിയുടെ പേര്",
+        patAge: "പ്രായം / ലിംഗം", diagnosis: "രോഗവിവരം", rest: "വിശ്രമ കാലയളവ്"
+      }
+    },
+    pa: {
+      langLabel: "ਭਾਸ਼ਾ:", pdfBtn: "📥 HD PDF ਡਾਊਨਲੋਡ", printBtn: "🖨️ ਪ੍ਰਿੰਟ ਕਰੋ",
+      t1: "🚗 1. ਵਾਹਨ ਵਿਕਰੀ ਇਕਰਾਰਨਾਮਾ", t2: "📑 2. ਸਵੈ-ਘੋਸ਼ਣਾ ਪੱਤਰ", t3: "💼 3. ਤਜਰਬਾ ਸਰਟੀਫਿਕੇਟ",
+      t4: "🚚 4. ਟਰਾਂਸਪੋਰਟ ਬਿਲਟੀ", t5: "🩺 5. ਮੈਡੀਕਲ ਫਿਟਨੈਸ",
+      decl: "ਘੋਸ਼ਣਾ: ਮੈਂ ਤਸਦੀਕ ਕਰਦਾ/ਕਰਦੀ ਹਾਂ ਕਿ ਉੱਪਰ ਦਿੱਤੀ ਜਾਣਕਾਰੀ ਮੇਰੇ ਗਿਆਨ ਅਨੁਸਾਰ ਬਿਲਕੁਲ ਸੱਚ ਹੈ।",
+      sig1: "ਬਿਨੈਕਾਰ ਦੇ ਦਸਤਖਤ", sig2: "ਅਧਿਕਾਰਤ ਦਸਤਖਤ ਅਤੇ ਮੋਹਰ",
+      enterDetails: "ਕਿਰਪਾ ਕਰਕੇ PDF ਡਾਊਨਲੋਡ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਵੇਰਵੇ ਦਰਜ ਕਰੋ।",
+      labels: {
+        address: "ਪੂਰਾ ਪਤਾ", seller: "ਵੇਚਣ ਵਾਲੇ ਦਾ ਨਾਮ", sellerAddr: "ਵੇਚਣ ਵਾਲੇ ਦਾ ਪਤਾ",
+        buyer: "ਖਰੀਦਦਾਰ ਦਾ ਨਾਮ", buyerAddr: "ਖਰੀਦਦਾਰ ਦਾ ਪਤਾ", vNo: "ਗੱਡੀ ਦਾ ਨੰਬਰ",
+        vModel: "ਮਾਡਲ", vChassis: "ਚੈਸੀ ਨੰਬਰ", saleAmt: "ਕੁੱਲ ਰਕਮ (₹)",
+        saleDate: "ਹਵਾਲਗੀ ਮਿਤੀ", payMode: "ਭੁਗਤਾਨ ਦਾ ਤਰੀਕਾ", decName: "ਨਾਮ",
+        decParent: "ਪਿਤਾ / ਪਤੀ ਦਾ ਨਾਮ", decAge: "ਉਮਰ", purpose: "ਮਕਸਦ",
+        statement: "ਘੋਸ਼ਣਾ ਦਾ ਵੇਰਵਾ", compName: "ਫਰਮ / ਕੰਪਨੀ ਦਾ ਨਾਮ", compAddr: "ਪਤਾ ਅਤੇ ਸੰਪਰਕ",
+        empName: "ਮੁਲਾਜ਼ਮ ਦਾ ਨਾਮ", empRole: "ਅਹੁਦਾ", empId: "ਮੁਲਾਜ਼ਮ ਆਈਡੀ",
+        joinDate: "ਜੁਆਇਨਿੰਗ ਮਿਤੀ", relDate: "ਛੱਡਣ ਦੀ ਮਿਤੀ", issueDate: "ਜਾਰੀ ਕਰਨ ਦੀ ਮਿਤੀ",
+        remarks: "ਕੰਮ ਦਾ ਮੁਲਾਂਕਣ", transName: "ਟਰਾਂਸਪੋਰਟ ਕੰਪਨੀ", driver: "ਡਰਾਈਵਰ ਦਾ ਨਾਮ",
+        lrNo: "ਬਿਲਟੀ ਨੰਬਰ", sender: "ਭੇਜਣ ਵਾਲਾ", receiver: "ਪ੍ਰਾਪਤਕਰਤਾ",
+        goods: "ਮਾਲ ਦਾ ਵੇਰਵਾ", weight: "ਕੁੱਲ ਵਜ਼ਨ", freight: "ਭਾੜਾ (₹)",
+        docName: "ਡਾਕਟਰ ਦਾ ਨਾਮ", docReg: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਨੰਬਰ", patName: "ਮਰੀਜ਼ ਦਾ ਨਾਮ",
+        patAge: "ਉਮਰ / ਲਿੰਗ", diagnosis: "ਬਿਮਾਰੀ", rest: "ਆਰਾਮ ਦੀ ਮਿਆਦ"
+      }
+    },
+    or: {
+      langLabel: "ଭାଷା:", pdfBtn: "📥 HD PDF ଡାଉନଲୋଡ୍", printBtn: "🖨️ ପ୍ରିଣ୍ଟ କରନ୍ତୁ",
+      t1: "🚗 ୧. ଗାଡ଼ି ବିକ୍ରୟ ଚୁକ୍ତି", t2: "📑 ୨. ସ୍ୱୟଂ ଘୋଷଣାପତ୍ର", t3: "💼 ୩. ଅଭିଜ୍ଞତା ପ୍ରମାଣପତ୍ର",
+      t4: "🚚 ୪. ପରିବହନ ବିଲ୍ଟି", t5: "🩺 ୫. ଡାକ୍ତରୀ ପ୍ରମାଣପତ୍ର",
+      decl: "ଘୋଷଣା: ମୁଁ ଏତଦ୍ୱାରା ଘୋଷଣା କରୁଛି ଯେ ଉପରେ ପ୍ରଦତ୍ତ ସମସ୍ତ ବିବରଣୀ ସତ୍ୟ ଏବଂ ସଠିକ୍ ଅଟେ।",
+      sig1: "ଆବେଦନକାରୀଙ୍କ ସ୍ୱାକ୍ଷର", sig2: "ଅଧିକୃତ ସ୍ୱାକ୍ଷର ଓ ମୋହର",
+      enterDetails: "PDF ଡାଉନଲୋଡ୍ କରିବା ପୂର୍ବରୁ ଦୟାକରି ବିବରଣୀ ଦିଅନ୍ତୁ।",
+      labels: {
+        address: "ସମ୍ପୂର୍ଣ୍ଣ ଠିକଣା", seller: "ବିକ୍ରେତାଙ୍କ ନାମ", sellerAddr: "ବିକ୍ରେତାଙ୍କ ଠିକଣା",
+        buyer: "କ୍ରେତାଙ୍କ ନାମ", buyerAddr: "କ୍ରେତାଙ୍କ ଠିକଣା", vNo: "ଗାଡ଼ି ନମ୍ବର",
+        vModel: "ମଡେଲ୍", vChassis: "ଚେସିସ୍ ନମ୍ବର", saleAmt: "ମୂଲ୍ୟ (₹)",
+        saleDate: "ହସ୍ତାନ୍ତର ତାରିଖ", payMode: "ପୈଠ ପଦ୍ଧତି", decName: "ନାମ",
+        decParent: "ପିତା / ସ୍ୱାମୀଙ୍କ ନାମ", decAge: "ବୟସ", purpose: "ଉଦ୍ଦେଶ୍ୟ",
+        statement: "ବିବରଣୀ", compName: "ସଂସ୍ଥାର ନାମ", compAddr: "ଠିକଣା ଓ ଯୋଗାଯୋଗ",
+        empName: "କର୍ମଚାରୀଙ୍କ ନାମ", empRole: "ପଦବୀ", empId: "କୋଡ୍",
+        joinDate: "ଯୋଗଦାନ ତାରିଖ", relDate: "ଅବ୍ୟାହତି ତାରିଖ", issueDate: "ପ୍ରଦାନ ତାରିଖ",
+        remarks: "କାର୍ଯ୍ୟ ମୂଲ୍ୟାଙ୍କନ", transName: "ପରିବହନ ସଂସ୍ଥା", driver: "ଚାଳକଙ୍କ ନାମ",
+        lrNo: "ବିଲ୍ଟି ନମ୍ବର", sender: "ପ୍ରେରକ", receiver: "ପ୍ରାପକ",
+        goods: "ସାମଗ୍ରୀ ବିବରଣୀ", weight: "ଓଜନ", freight: "ଭଡ଼ା (₹)",
+        docName: "ଡାକ୍ତରଙ୍କ ନାମ", docReg: "ପଞ୍ଜୀକରଣ ନମ୍ବର", patName: "ରୋଗୀଙ୍କ ନାମ",
+        patAge: "ବୟସ / ଲିଙ୍ଗ", diagnosis: "ରୋଗ ବିବରଣୀ", rest: "ବିଶ୍ରାମ ଅବଧି"
+      }
+    },
+    ur: {
+      langLabel: "زبان:", pdfBtn: "📥 HD PDF ڈاؤن لوڈ", printBtn: "🖨️ پرنٹ کریں",
+      t1: "🚗 1. گاڑی کی فروخت کا معاہدہ", t2: "📑 2. حلف نامہ / اقرار نامہ", t3: "💼 3. تجربہ سرٹیفکیٹ",
+      t4: "🚚 4. ٹرانسپورٹ بلٹی و چالان", t5: "🩺 5. میڈیکل فٹنس سرٹیفکیٹ",
+      decl: "اقرار نامہ: میں تصدیق کرتا/کرتی ہوں کہ اوپر دی گئی تمام معلومات میرے علم کے مطابق بالکل درست ہیں۔",
+      sig1: "درخواست گزار کے دستخط", sig2: "مجاز دستخط اور مہر",
+      enterDetails: "براہ کرم پی ڈی ایف ڈاؤن لوڈ کرنے سے پہلے تفصیلات درج کریں۔",
+      labels: {
+        address: "مکمل پتہ", seller: "فروخت کنندہ کا نام", sellerAddr: "فروخت کنندہ کا پتہ",
+        buyer: "خریدار کا نام", buyerAddr: "خریدار کا پتہ", vNo: "گاڑی نمبر",
+        vModel: "ماڈل", vChassis: "چیسس / انجن نمبر", saleAmt: "فروخت کی رقم (₹)",
+        saleDate: "حوالگی کی تاریخ", payMode: "ادائیگی کا طریقہ", decName: "نام",
+        decParent: "والد / شوہر کا نام", decAge: "عمر", purpose: "مقصد",
+        statement: "بیان کی تفصیل", compName: "کمپنی / فرم کا نام", compAddr: "پتہ اور رابطہ",
+        empName: "ملازم کا نام", empRole: "عہدہ", empId: "ملازم کوڈ",
+        joinDate: "شمولیت کی تاریخ", relDate: "فراغت کی تاریخ", issueDate: "اجراء کی تاریخ",
+        remarks: "کارکردگی", transName: "ٹرانسپورٹ کمپنی", driver: "ڈرائیور کا نام",
+        lrNo: "بلٹی نمبر", sender: "بھیجنے والا", receiver: "وصول کرنے والا",
+        goods: "سامان کی تفصیل", weight: "کل وزن", freight: "کرایہ (₹)",
+        docName: "ڈاکٹر / کلینک کا نام", docReg: "رجسٹریشن نمبر", patName: "مریض کا نام",
+        patAge: "عمر / جنس", diagnosis: "بیماری", rest: "آرام کی مدت"
+      }
+    }
+  };
+
+  function t(key) {
+    const obj = I18N[curLang] || I18N['hi'];
+    return obj[key] || I18N['hi'][key] || '';
+  }
+
+  function getL() {
+    return I18N[curLang] || I18N['hi'];
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    $('btn_theme').innerText = isDark ? '☀️ Light' : '🌙 Dark';
+    localStorage.setItem('kb_theme', isDark ? 'dark' : 'light');
+  }
+
+  function switchTool(tool, btn) {
+    currentTool = tool;
+    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    buildFormFields();
+    loadSavedData();
+    renderDocument();
+  }
+
+  function changeLanguage(lang) {
+    curLang = lang;
+    document.documentElement.dir = (lang === 'ur') ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+
+    const l = getL();
+    $('ui_lang_label').innerText = l.langLabel;
+    $('btn_ui_pdf').innerText = l.pdfBtn;
+    $('btn_ui_print').innerText = l.printBtn;
+
+    $('btn_t_VEHICLE').innerText = l.t1;
+    $('btn_t_AFFIDAVIT').innerText = l.t2;
+    $('btn_t_EXPERIENCE').innerText = l.t3;
+    $('btn_t_BILTY').innerText = l.t4;
+    $('btn_t_MEDICAL').innerText = l.t5;
+
+    const snapshot = captureFormValues();
+    buildFormFields();
+    restoreFormValues(snapshot);
+    renderDocument();
+  }
+
+  function captureFormValues() {
+    const data = {};
+    document.querySelectorAll('#dynamic_form_fields input, #dynamic_form_fields textarea').forEach(el => {
+      if (el.id) data[el.id] = el.value;
+    });
+    return data;
+  }
+
+  function restoreFormValues(data) {
+    Object.keys(data).forEach(id => {
+      const el = $(id);
+      if (el && data[id] !== undefined) el.value = data[id];
+    });
+  }
+
+  function saveDataLocally() {
+    try {
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      const current = captureFormValues();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...existing, ...current }));
+      const ind = $('save_indicator');
+      if (ind) {
+        ind.innerText = '✓ Saved';
+        setTimeout(() => { ind.innerText = '✓ Auto-saved locally'; }, 1000);
+      }
+    } catch (e) {}
+  }
+
+  function loadSavedData() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      restoreFormValues(saved);
+    } catch (e) {}
+  }
+
+  function resetCurrentForm() {
+    const today = new Date().toISOString().split('T')[0];
+    document.querySelectorAll('#dynamic_form_fields input, #dynamic_form_fields textarea').forEach(el => {
+      el.value = (el.type === 'date') ? today : '';
+    });
+    localStorage.removeItem(STORAGE_KEY);
+    renderDocument();
+  }
+
+  function onFieldInput() {
+    saveDataLocally();
+    renderDocument();
+  }
+
+  function buildFormFields() {
+    const box = $('dynamic_form_fields');
+    const today = new Date().toISOString().split('T')[0];
+    const L = getL().labels;
+
+    if (currentTool === 'VEHICLE') {
+      box.innerHTML = `
+        <div class="sec-badge">${getL().t1}</div>
+        <div class="g2">
+          <div class="fld"><label>${L.seller}</label><input id="f_seller" placeholder="${L.seller}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.sellerAddr}</label><input id="f_seller_addr" placeholder="${L.sellerAddr}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g2">
+          <div class="fld"><label>${L.buyer}</label><input id="f_buyer" placeholder="${L.buyer}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.buyerAddr}</label><input id="f_buyer_addr" placeholder="${L.buyerAddr}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.vNo}</label><input id="f_v_no" placeholder="MH-12-AB-1234" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.vModel}</label><input id="f_v_model" placeholder="Model / Make" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.vChassis}</label><input id="f_v_chassis" placeholder="Chassis / Engine No." oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.saleAmt}</label><input type="number" id="f_sale_amt" placeholder="45000" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.saleDate}</label><input type="date" id="f_date" value="${today}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.payMode}</label><input id="f_pay_mode" placeholder="CASH / UPI / Bank" oninput="onFieldInput()"></div>
+        </div>
+      `;
+    } else if (currentTool === 'AFFIDAVIT') {
+      box.innerHTML = `
+        <div class="sec-badge">${getL().t2}</div>
+        <div class="g3">
+          <div class="fld"><label>${L.decName}</label><input id="f_dec_name" placeholder="${L.decName}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.decParent}</label><input id="f_dec_parent" placeholder="${L.decParent}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.decAge}</label><input id="f_dec_age" placeholder="eg. 30" oninput="onFieldInput()"></div>
+        </div>
+        <div class="fld"><label>${L.address}</label><input id="f_address" placeholder="${L.address}" oninput="onFieldInput()"></div>
+        <div class="g2">
+          <div class="fld"><label>${L.purpose}</label><input id="f_purpose" placeholder="${L.purpose}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.issueDate}</label><input type="date" id="f_date" value="${today}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="fld"><label>${L.statement}</label><textarea id="f_statement" placeholder="${L.statement}" oninput="onFieldInput()"></textarea></div>
+      `;
+    } else if (currentTool === 'EXPERIENCE') {
+      box.innerHTML = `
+        <div class="sec-badge">${getL().t3}</div>
+        <div class="g2">
+          <div class="fld"><label>${L.compName}</label><input id="f_comp_name" placeholder="${L.compName}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.compAddr}</label><input id="f_comp_addr" placeholder="${L.compAddr}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.empName}</label><input id="f_emp_name" placeholder="${L.empName}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.empRole}</label><input id="f_emp_role" placeholder="${L.empRole}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.empId}</label><input id="f_emp_id" placeholder="EMP-001" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.joinDate}</label><input type="date" id="f_join_date" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.relDate}</label><input type="date" id="f_rel_date" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.issueDate}</label><input type="date" id="f_date" value="${today}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="fld"><label>${L.remarks}</label><input id="f_remarks" placeholder="${L.remarks}" oninput="onFieldInput()"></div>
+      `;
+    } else if (currentTool === 'BILTY') {
+      box.innerHTML = `
+        <div class="sec-badge">${getL().t4}</div>
+        <div class="g2">
+          <div class="fld"><label>${L.transName}</label><input id="f_trans_name" placeholder="${L.transName}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.driver}</label><input id="f_driver" placeholder="${L.driver}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.vNo}</label><input id="f_v_no" placeholder="MH-12-CZ-4321" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.lrNo}</label><input id="f_lr_no" placeholder="LR-1001" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.issueDate}</label><input type="date" id="f_date" value="${today}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g2">
+          <div class="fld"><label>${L.sender}</label><input id="f_sender" placeholder="${L.sender}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.receiver}</label><input id="f_receiver" placeholder="${L.receiver}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.goods}</label><input id="f_goods" placeholder="${L.goods}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.weight}</label><input id="f_weight" placeholder="350 Kg" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.freight}</label><input type="number" id="f_freight" placeholder="2500" oninput="onFieldInput()"></div>
+        </div>
+      `;
+    } else if (currentTool === 'MEDICAL') {
+      box.innerHTML = `
+        <div class="sec-badge">${getL().t5}</div>
+        <div class="g2">
+          <div class="fld"><label>${L.docName}</label><input id="f_doc_name" placeholder="${L.docName}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.docReg}</label><input id="f_doc_reg" placeholder="${L.docReg}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g3">
+          <div class="fld"><label>${L.patName}</label><input id="f_pat_name" placeholder="${L.patName}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.patAge}</label><input id="f_pat_age" placeholder="28 Yrs / Male" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.issueDate}</label><input type="date" id="f_date" value="${today}" oninput="onFieldInput()"></div>
+        </div>
+        <div class="g2">
+          <div class="fld"><label>${L.diagnosis}</label><input id="f_diagnosis" placeholder="${L.diagnosis}" oninput="onFieldInput()"></div>
+          <div class="fld"><label>${L.rest}</label><input id="f_rest" placeholder="eg. 5 Days" oninput="onFieldInput()"></div>
+        </div>
+      `;
+    }
+  }
+
+  function getVal(id) {
+    const el = $(id);
+    return el ? el.value.trim() : '';
+  }
+
+  function renderDocument() {
+    const dateVal = getVal('f_date') || new Date().toISOString().split('T')[0];
+    const metaTable = $('out_meta_body');
+    const mainBody = $('out_main_body');
+    const L = getL();
+
+    $('out_decl_box').innerHTML = `<b>${L.decl}</b>`;
+    $('out_sig_left').innerHTML = L.sig1;
+    $('out_sig_right').innerHTML = L.sig2;
+
+    if (currentTool === 'VEHICLE') {
+      $('out_hdr_org').innerText = L.t1.replace(/^[^\s]+\s/, '');
+      $('out_hdr_sub').innerText = "Mutual Sale & Responsibility Transfer Agreement";
+      $('out_hdr_badge').innerText = "SALE AGREEMENT DEED";
+
+      metaTable.innerHTML = `
+        <tr><td class="lbl">${L.labels.vNo}:</td><td class="val" style="font-size:13.5px;color:#0284c7;font-weight:800;">${getVal('f_v_no') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.vModel} / Chassis:</td><td class="val">${getVal('f_v_model') || '-'} | Chassis: ${getVal('f_v_chassis') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.seller}:</td><td class="val">${getVal('f_seller') || '-'} (${getVal('f_seller_addr') || '-'})</td></tr>
+        <tr><td class="lbl">${L.labels.buyer}:</td><td class="val">${getVal('f_buyer') || '-'} (${getVal('f_buyer_addr') || '-'})</td></tr>
+        <tr><td class="lbl">${L.labels.saleAmt}:</td><td class="val">₹${parseFloat(getVal('f_sale_amt')||0).toLocaleString('en-IN')} (${getVal('f_pay_mode') || 'CASH'})</td></tr>
+        <tr><td class="lbl">${L.labels.saleDate}:</td><td class="val">${dateVal}</td></tr>
+      `;
+      mainBody.innerText = "1. The Seller confirms receipt of the agreed consideration and has delivered physical custody of the vehicle along with relevant vehicle papers.\n2. From this date and time, the Buyer takes full legal custody and agrees to complete the official transfer in RTO records.";
+    } else if (currentTool === 'AFFIDAVIT') {
+      $('out_hdr_org').innerText = L.t2.replace(/^[^\s]+\s/, '');
+      $('out_hdr_sub').innerText = "Standard Official Declaration Format";
+      $('out_hdr_badge').innerText = "SELF-DECLARATION";
+
+      metaTable.innerHTML = `
+        <tr><td class="lbl">${L.labels.decName}:</td><td class="val">${getVal('f_dec_name') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.decParent}:</td><td class="val">${getVal('f_dec_parent') || '-'} (Age: ${getVal('f_dec_age') || '-'})</td></tr>
+        <tr><td class="lbl">${L.labels.address}:</td><td class="val">${getVal('f_address') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.purpose}:</td><td class="val">${getVal('f_purpose') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.issueDate}:</td><td class="val">${dateVal}</td></tr>
+      `;
+      mainBody.innerText = getVal('f_statement') || "I, the above-named deponent, do hereby solemnly affirm that the statements made herein are true to the best of my knowledge and belief, and nothing material has been concealed.";
+    } else if (currentTool === 'EXPERIENCE') {
+      const comp = getVal('f_comp_name') || 'ENTERPRISE / FIRM NAME';
+      $('out_hdr_org').innerText = comp;
+      $('out_hdr_sub').innerText = getVal('f_comp_addr') || 'Corporate Address & Contact';
+      $('out_hdr_badge').innerText = L.t3.replace(/^[^\s]+\s/, '');
+
+      metaTable.innerHTML = `
+        <tr><td class="lbl">${L.labels.empName}:</td><td class="val">${getVal('f_emp_name') || '-'} (ID: ${getVal('f_emp_id') || 'N/A'})</td></tr>
+        <tr><td class="lbl">${L.labels.empRole}:</td><td class="val">${getVal('f_emp_role') || '-'}</td></tr>
+        <tr><td class="lbl">Tenure:</td><td class="val">From: ${getVal('f_join_date') || '-'} To: ${getVal('f_rel_date') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.issueDate}:</td><td class="val">${dateVal}</td></tr>
+      `;
+      mainBody.innerText = `To Whomsoever It May Concern,\n\nThis is to certify that the employee named above was actively employed with us during the specified tenure. During this tenure, their conduct and service execution were found satisfactory.\n\n${getVal('f_remarks') || 'We wish them success in their future endeavors.'}`;
+    } else if (currentTool === 'BILTY') {
+      const trans = getVal('f_trans_name') || 'ROAD TRANSPORT CARRIER';
+      $('out_hdr_org').innerText = trans;
+      $('out_hdr_sub').innerText = "Consignment Note & Delivery Challan";
+      $('out_hdr_badge').innerText = L.t4.replace(/^[^\s]+\s/, '');
+
+      metaTable.innerHTML = `
+        <tr><td class="lbl">${L.labels.lrNo}:</td><td class="val" style="color:#0284c7;font-weight:800;">${getVal('f_lr_no') || '-'} | Date: ${dateVal}</td></tr>
+        <tr><td class="lbl">${L.labels.vNo} / Driver:</td><td class="val">${getVal('f_v_no') || '-'} | Driver: ${getVal('f_driver') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.sender}:</td><td class="val">${getVal('f_sender') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.receiver}:</td><td class="val">${getVal('f_receiver') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.goods}:</td><td class="val">${getVal('f_goods') || '-'} (Weight: ${getVal('f_weight') || '-'})</td></tr>
+        <tr><td class="lbl">${L.labels.freight}:</td><td class="val">₹${parseFloat(getVal('f_freight')||0).toLocaleString('en-IN')}</td></tr>
+      `;
+      mainBody.innerText = "Goods received in good condition for delivery to the consignee stated above. Delivery is subject to standard carrier risk and applicable transportation guidelines.";
+    } else if (currentTool === 'MEDICAL') {
+      const doc = getVal('f_doc_name') || 'HEALTH CLINIC / HOSPITAL';
+      $('out_hdr_org').innerText = doc;
+      $('out_hdr_sub').innerText = getVal('f_doc_reg') || 'Practitioner Registration Details';
+      $('out_hdr_badge').innerText = L.t5.replace(/^[^\s]+\s/, '');
+
+      metaTable.innerHTML = `
+        <tr><td class="lbl">${L.labels.patName}:</td><td class="val">${getVal('f_pat_name') || '-'} (${getVal('f_pat_age') || '-'})</td></tr>
+        <tr><td class="lbl">${L.labels.diagnosis}:</td><td class="val">${getVal('f_diagnosis') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.rest}:</td><td class="val">${getVal('f_rest') || '-'}</td></tr>
+        <tr><td class="lbl">${L.labels.issueDate}:</td><td class="val">${dateVal}</td></tr>
+      `;
+      mainBody.innerText = "This is to certify that I have medically examined the individual named above. In my professional clinical opinion, they required absence for the recommended period and are now certified fit to resume duties.";
+    }
+  }
+
+  /* ==================== PROVEN A4 PDF EXPORT (VISIBLE OVERLAY + RELATIVE STAGING) ==================== */
+  async function downloadA4PDF() {
+    const btn = document.querySelector('.actions .btn-pdf');
+    const originalButtonText = btn ? btn.textContent : '';
+    const source = $('a4DocSheet');
+
+    if (!source || !$('docContentContainer').innerHTML.trim()) {
+      alert(t('enterDetails') || 'Please enter the details before downloading the PDF.');
+      return;
+    }
+
+    if (typeof html2pdf === 'undefined') {
+      alert('PDF library is unavailable. Please check your internet connection and try again.');
+      return;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⏳ Generating PDF...';
+    }
+
+    const PDF_WIDTH = 680;
+    const clone = source.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.dir = document.documentElement.dir || 'ltr';
+
+    // Remove all duplicate IDs inside clone to prevent DOM conflicts
+    clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+
+    clone.style.cssText = [
+      `width:${PDF_WIDTH}px`,
+      `max-width:${PDF_WIDTH}px`,
+      `min-width:${PDF_WIDTH}px`,
+      'min-height:960px',
+      'margin:0',
+      'padding:26px 28px',
+      'background:#ffffff',
+      'color:#0f172a',
+      'border:2px solid #0f172a',
+      'border-radius:2px',
+      'box-shadow:none',
+      'box-sizing:border-box',
+      'overflow:visible',
+      'display:flex',
+      'flex-direction:column',
+      'justify-content:space-between'
+    ].join(';');
+
+    const exportStyle = document.createElement('style');
+    exportStyle.textContent = `
+      .pdf-export-sheet, .pdf-export-sheet * { box-sizing:border-box !important; }
+      .pdf-export-sheet .doc-hdr { text-align:center !important; border-bottom:2px solid #0f172a !important; padding-bottom:10px !important; margin-bottom:14px !important; }
+      .pdf-export-sheet .doc-org { margin:0 !important; font-size:18px !important; font-weight:800 !important; color:#0f172a !important; }
+      .pdf-export-sheet .doc-sub { margin:4px 0 8px !important; font-size:11px !important; color:#475569 !important; }
+      .pdf-export-sheet .doc-title-badge { font-size:11px !important; padding:4px 14px !important; background:#0f172a !important; color:#ffffff !important; }
+      .pdf-export-sheet .meta-tbl { width:100% !important; table-layout:fixed !important; font-size:11.5px !important; border-collapse:collapse !important; }
+      .pdf-export-sheet .meta-tbl td { padding:6px 5px !important; font-size:11.5px !important; word-break:break-word !important; }
+      .pdf-export-sheet .meta-tbl td.lbl { width:36% !important; font-weight:700 !important; color:#334155 !important; }
+      .pdf-export-sheet .meta-tbl td.val { width:64% !important; font-weight:600 !important; color:#0f172a !important; }
+      .pdf-export-sheet .doc-body-box { font-size:12px !important; line-height:1.65 !important; padding:14px !important; background:#f8fafc !important; border:1px solid #cbd5e1 !important; color:#0f172a !important; }
+      .pdf-export-sheet .decl-box { font-size:11px !important; padding:9px 12px !important; background:#f0fdf4 !important; color:#166534 !important; }
+      .pdf-export-sheet .sig-grid { display:flex !important; justify-content:space-between !important; margin-top:48px !important; font-size:11px !important; }
+      .pdf-export-sheet .sig-card { width:44% !important; text-align:center !important; border-top:1.5px solid #334155 !important; padding-top:5px !important; }
+    `;
+    clone.classList.add('pdf-export-sheet');
+
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+
+    const staging = document.createElement('div');
+    staging.style.cssText = `position:relative;top:0;left:0;width:${PDF_WIDTH}px;min-width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;color:#0f172a;`;
+    staging.appendChild(clone);
+    overlay.appendChild(staging);
+    document.head.appendChild(exportStyle);
+    document.body.appendChild(overlay);
+
+    const filename = `KaamKaj_${currentTool}.pdf`;
+
+    try {
+      await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 150)));
+
+      await html2pdf().set({
+        margin: [10, 12, 12, 12],
+        filename,
+        image: { type: 'png', quality: 1.0 },
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          letterRendering: true,
+          scrollX: 0,
+          scrollY: 0,
+          x: 0,
+          y: 0,
+          width: PDF_WIDTH,
+          windowWidth: PDF_WIDTH,
+          backgroundColor: '#ffffff'
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+      }).from(staging).save();
+    } catch (error) {
+      console.error('Legal Document PDF export failed:', error);
+      alert('PDF generate नहीं हो पाया। कृपया दोबारा प्रयास करें या Direct Print में Save as PDF चुनें।');
+    } finally {
+      overlay.remove();
+      exportStyle.remove();
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = originalButtonText || t('pdfBtn');
+      }
+    }
+  }
+
+  function printDocDirect() {
+    window.focus();
+    window.print();
+  }
+
+  window.onload = function() {
+    if (localStorage.getItem('kb_theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      $('btn_theme').innerText = '☀️ Light';
+    }
+    buildFormFields();
+    loadSavedData();
+    renderDocument();
+  };
+</script>
+
+</body>
+</html>
