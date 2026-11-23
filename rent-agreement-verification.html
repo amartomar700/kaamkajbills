@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="hi" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rent Agreement & Tenant Police Verification (12 Languages) | KaamKaj Bills</title>
+  <meta name="description" content="House & Shop Rent Agreement Deed aur Tenant Police Verification Intimation banayein 12 Indian languages mein - KaamKaj Bills." />
+
+  <!-- Crisp Indic, Latin & Urdu Fonts for HD PDF & Print -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Noto+Sans:wght@400;600;700;800&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Required html2pdf.js 0.10.1 Bundle -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0f172a;
+      --primary-light: #1e293b;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --emerald: #10b981;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --input-bg: #ffffff;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #64748b;
+      --badge-bg: #e0f2fe;
+      --badge-text: #0369a1;
+    }
+
+    body.dark-mode {
+      --bg: #0b1120;
+      --card: #1e293b;
+      --input-bg: #0f172a;
+      --border: #334155;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --badge-bg: rgba(2, 132, 199, 0.22);
+      --badge-text: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Bengali', 'Noto Sans Gujarati',
+                   'Noto Sans Gurmukhi', 'Noto Sans Tamil', 'Noto Sans Telugu', 'Noto Sans Kannada',
+                   'Noto Sans Malayalam', 'Noto Sans Oriya', 'Noto Nastaliq Urdu', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background 0.25s, color 0.25s;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top App Navigation Bar */
+    .app-navbar {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.2);
+    }
+    .nav-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-title h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+    .brand-tag {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .theme-btn, .nav-home-link {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .theme-btn:hover, .nav-home-link:hover { background: rgba(255, 255, 255, 0.18); }
+
+    .lang-picker {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
+    .lang-picker span { font-size: 0.84rem; color: #0f172a; font-weight: 700; }
+    .lang-picker select {
+      border: none;
+      background: transparent;
+      color: #0f172a;
+      font-size: 0.84rem;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+      padding: 3px 2px;
+    }
+
+    /* Main Workspace Layout */
+    .kb-workspace {
+      max-width: 1300px;
+      margin: 20px auto;
+      padding: 0 14px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .ctrl-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    /* Mode Selector Grid (2 Tabs) */
+    .mode-selector-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .tool-btn {
+      padding: 12px 10px;
+      background: var(--input-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+      text-align: center;
+      line-height: 1.35;
+      transition: all 0.18s ease;
+    }
+    .tool-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .tool-btn.active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      border-color: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.28);
+    }
+
+    .sec-badge {
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 6px 0 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .fld { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .fld label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .fld input, .fld select, .fld textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      background: var(--input-bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .fld input:focus, .fld select:focus, .fld textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+    }
+    .fld textarea { min-height: 75px; resize: vertical; }
+
+    .form-footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .save-status {
+      font-size: 0.76rem;
+      color: var(--emerald);
+      font-weight: 700;
+    }
+    .btn-reset {
+      padding: 9px 14px;
+      background: var(--input-bg);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-reset:hover { border-color: #ef4444; color: #ef4444; }
+
+    /* ==================== PREVIEW CARD & TOOLBAR ==================== */
+    .preview-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 6px 24px rgba(15, 23, 42, 0.06);
+    }
+
+    .preview-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .preview-toolbar-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .btn-action:active { transform: scale(0.98); }
+    .btn-pdf { background: var(--emerald); box-shadow: 0 3px 10px rgba(16, 185, 129, 0.25); }
+    .btn-print { background: var(--accent); box-shadow: 0 3px 10px rgba(2, 132, 199, 0.25); }
+    .btn-action:hover { opacity: 0.93; }
+
+    /* ==================== A4 DOCUMENT PAPER (ALWAYS WHITE FOR PRINT/PDF) ==================== */
+    .preview-scroll-box {
+      width: 100%;
+      background: #cbd5e1;
+      padding: 14px;
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+
+    #a4DocSheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 794px;
+      margin: 0 auto;
+      padding: 32px 30px;
+      border: 2px solid #0f172a;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+      border-radius: 2px;
+      color: #0f172a;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 980px;
+    }
+
+    .doc-hdr {
+      text-align: center;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .doc-org {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+    .doc-sub {
+      margin: 4px 0 10px;
+      font-size: 11.5px;
+      color: #475569;
+      font-weight: 600;
+    }
+    .doc-title-badge {
+      display: inline-block;
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 16px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .meta-tbl {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: 12px;
+    }
+    .meta-tbl td {
+      padding: 6.5px 6px;
+      vertical-align: top;
+      border-bottom: 1px dashed #cbd5e1;
+      word-break: break-word;
+    }
+    .meta-tbl td.lbl {
+      font-weight: 700;
+      color: #334155;
+      width: 36%;
+    }
+    .meta-tbl td.val {
+      color: #0f172a;
+      font-weight: 600;
+      width: 64%;
+    }
+
+    .doc-body-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 12px 0;
+      font-size: 12px;
+      line-height: 1.68;
+      color: #0f172a;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+
+    .decl-box {
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      padding: 10px 14px;
+      font-size: 11.5px;
+      color: #166534;
+      line-height: 1.55;
+      margin: 12px 0;
+    }
+
+    .sig-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 48px;
+      padding-top: 10px;
+      font-size: 11.5px;
+      gap: 20px;
+    }
+    .sig-card {
+      width: 44%;
+      text-align: center;
+      border-top: 1.5px solid #334155;
+      padding-top: 6px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .witness-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 26px;
+      font-size: 11px;
+      color: #475569;
+      gap: 20px;
+    }
+    .witness-box {
+      width: 45%;
+    }
+
+    @media (max-width: 980px) {
+      .kb-workspace { grid-template-columns: 1fr; margin-top: 14px; }
+    }
+
+    @media (max-width: 640px) {
+      .app-navbar { padding: 12px 14px; }
+      .brand-title h1 { font-size: 1rem; }
+      .mode-selector-grid, .g2, .g3 { grid-template-columns: 1fr; }
+      .preview-scroll-box { padding: 6px; }
+      #a4DocSheet { padding: 18px 14px; min-height: auto; }
+      .doc-org { font-size: 16px; }
+      .meta-tbl td.lbl { width: 42%; font-size: 11px; }
+      .meta-tbl td.val { width: 58%; font-size: 11.5px; }
+      .actions { width: 100%; }
+      .actions .btn-action { flex: 1; justify-content: center; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 10mm; }
+      html, body { background: #ffffff !important; margin: 0 !important; padding: 0 !important; }
+      body * { visibility: hidden !important; }
+      #a4DocSheet, #a4DocSheet * { visibility: visible !important; }
+      #a4DocSheet {
+        position: fixed !important; left: 0 !important; top: 0 !important;
+        width: 100% !important; max-width: 100% !important; min-height: 270mm !important;
+        margin: 0 !important; padding: 12mm !important;
+        border: 2px solid #0f172a !important; box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-navbar">
+    <div class="nav-inner">
+      <div class="brand-title">
+        <h1>KaamKaj Bills</h1>
+        <span class="brand-tag">Rent Agreement & Police Verification</span>
+      </div>
+      <div class="nav-controls">
+        <div class="lang-picker">
+          <span>🌐 <span id="ui_lang_label">भाषा:</span></span>
+          <select id="sel_lang" onchange="changeLanguage(this.value)">
+            <option value="hi" selected>हिन्दी (Hindi)</option>
+            <option value="en">English</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="or">ଓଡ଼ିଆ (Odia)</option>
+            <option value="ur">اردو (Urdu)</option>
+          </select>
+        </div>
+        <button type="button" class="theme-btn" id="btn_theme" onclick="toggleTheme()">🌙 Dark</button>
+        <a href="index.html" class="nav-home-link">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main 2-Column Workspace -->
+  <main class="kb-workspace">
+
+    <!-- Left: Form Controls -->
+    <section class="ctrl-card">
+      <div class="mode-selector-grid">
+        <button type="button" class="tool-btn active" id="btn_m_AGREEMENT" onclick="switchMode('AGREEMENT', this)">📜 1. Full Rent Agreement (किरायानामा)</button>
+        <button type="button" class="tool-btn" id="btn_m_POLICE" onclick="switchMode('POLICE', this)">👮 2. Tenant Police Verification</button>
+      </div>
+
+      <div id="dynamic_form_fields"></div>
+
+      <div class="form-footer-actions">
+        <span class="save-status" id="save_indicator">✓ Auto-saved locally</span>
+        <button type="button" class="btn-reset" onclick="resetCurrentForm()">🔄 Clear Form</button>
+      </div>
+    </section>
+
+    <!-- Right: Live A4 Preview + Attached Print & HD PDF Buttons -->
+    <section class="preview-card">
+      <div class="preview-toolbar">
+        <div class="preview-toolbar-title">📄 A4 Live Document Preview</div>
+        <div class="actions">
+          <button type="button" class="btn-action btn-print" id="btn_ui_print" onclick="printDocDirect()">🖨️ Direct Print</button>
+          <button type="button" class="btn-action btn-pdf" id="btn_ui_pdf" onclick="downloadA4PDF()">📥 Download HD PDF</button>
+        </div>
+      </div>
+
+      <div class="preview-scroll-box">
+        <div id="a4DocSheet">
+          <div id="docContentContainer">
+            <div class="doc-hdr">
+              <h2 class="doc-org" id="out_hdr_org">-</h2>
+              <p class="doc-sub" id="out_hdr_sub">-</p>
+              <div class="doc-title-badge" id="out_hdr_badge">-</div>
+            </div>
+
+            <table class="meta-tbl" id="out_meta_body"></table>
+
+            <div class="doc-body-box" id="out_main_body"></div>
+
+            <div class="decl-box" id="out_decl_box"></div>
+          </div>
+
+          <div>
+            <div class="sig-grid">
+              <div class="sig-card" id="out_sig_left"></div>
+              <div class="sig-card" id="out_sig_right"></div>
+            </div>
+            <div class="witness-row" id="out_witness_row"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  let currentMode = 'AGREEMENT';
+  let curLang = 'hi';
+  const STORAGE_KEY = 'kb_rent_agreement_v2';
+
+  const I18N = {
+    hi: {
+      langLabel: "भाषा:",
+      pdfBtn: "📥 HD PDF डाउनलोड",
+      printBtn: "🖨️ सीधा प्रिंट करें",
+      m1: "📜 1. मकान / दुकान किरायानामा (Rent Agreement)",
+      m2: "👮 2. किरायेदार पुलिस वेरिफिकेशन (Police Verification)",
+      decl: "घोषणा: दोनों पक्षों ने उपरोक्त सभी शर्तों को पढ़ व समझकर बिना किसी दबाव के अपनी सहमति प्रदान की है।",
+      sig1: "मकान मालिक हस्ताक्षर (First Party)",
+      sig2: "किरायेदार हस्ताक्षर (Second Party)",
+      w1: "गवाह 1 (Witness 1): ___________________",
+      w2: "गवाह 2 (Witness 2): ___________________",
+      enterDetails: "कृपया PDF डाउनलोड करने से पहले आवश्यक विवरण भरें।",
+      labels: {
+        propType: "संपत्ति का प्रकार (मकान / दुकान / ऑफिस)",
+        owner: "मकान मालिक का नाम",
+        ownerFather: "मालिक के पिता का नाम",
+        ownerPhone: "मालिक का मोबाइल नंबर",
+        ownerAddr: "मकान मालिक का स्थायी पता",
+        address: "किराये की संपत्ति का पूरा पता",
+        tName: "किरायेदार का पूरा नाम",
+        tFather: "किरायेदार के पिता का नाम",
+        tPhone: "किरायेदार मोबाइल नंबर",
+        tPerm: "किरायेदार का स्थायी मूल निवास पता",
+        tId: "पहचान पत्र (Voter ID / DL / PAN)",
+        tJob: "नौकरी / व्यवसाय का विवरण",
+        tDate: "किराया शुरू होने की तारीख",
+        duration: "करार की अवधि (जैसे 11 महीने)",
+        tRent: "मासिक किराया (₹)",
+        deposit: "सिक्योरिटी डिपॉजिट / अग्रिम राशि (₹)",
+        notice: "नोटिस पीरियड (जैसे 1 महीना)",
+        policeStation: "नजदीकी पुलिस थाना (Police Station)",
+        extraTerms: "अतिरिक्त शर्तें (बिजली / पानी / रखरखाव)"
+      }
+    },
+    en: {
+      langLabel: "Language:",
+      pdfBtn: "📥 Download HD PDF",
+      printBtn: "🖨️ Direct Print",
+      m1: "📜 1. House / Shop Rent Agreement Deed",
+      m2: "👮 2. Tenant Police Verification Form",
+      decl: "Declaration: Both parties have read, understood, and mutually agreed to all terms and conditions stated above.",
+      sig1: "Landlord / Owner Sign (First Party)",
+      sig2: "Tenant Sign (Second Party)",
+      w1: "Witness 1: ___________________________",
+      w2: "Witness 2: ___________________________",
+      enterDetails: "Please enter the details before downloading the PDF.",
+      labels: {
+        propType: "Property Type (House / Shop / Office)",
+        owner: "Landlord / Owner Name",
+        ownerFather: "Owner Father's Name",
+        ownerPhone: "Owner Contact Number",
+        ownerAddr: "Owner Permanent Address",
+        address: "Rented Property Full Address",
+        tName: "Tenant Full Name",
+        tFather: "Tenant Father's Name",
+        tPhone: "Tenant Mobile Number",
+        tPerm: "Tenant Permanent Native Address",
+        tId: "Identity Document (Voter ID / DL / PAN)",
+        tJob: "Occupation & Workplace",
+        tDate: "Tenancy Start Date",
+        duration: "Agreement Duration (e.g. 11 Months)",
+        tRent: "Monthly Rent (₹)",
+        deposit: "Security Deposit (₹)",
+        notice: "Notice Period (e.g. 1 Month)",
+        policeStation: "Jurisdiction Police Station",
+        extraTerms: "Additional Clauses (Electricity / Maintenance)"
+      }
+    },
+    mr: {
+      langLabel: "भाषा:", pdfBtn: "📥 HD PDF डाउनलोड", printBtn: "🖨️ प्रिंट काढा",
+      m1: "📜 १. घर / दुकान भाडे करारनामा (Rent Agreement)", m2: "👮 २. भाडेकरू पोलीस पडताळणी फॉर्म",
+      decl: "घोषणा: दोन्ही पक्षांनी वरील सर्व अटी वाचून व समजून घेऊन स्वेच्छेने संमती दिली आहे.",
+      sig1: "घरमालकाची स्वाक्षरी (प्रथम पक्ष)", sig2: "भाडेकरूची स्वाक्षरी (द्वितीय पक्ष)",
+      w1: "साक्षीदार १: ___________________________", w2: "साक्षीदार २: ___________________________",
+      enterDetails: "कृपया PDF डाउनलोड करण्यापूर्वी तपशील भरा.",
+      labels: {
+        propType: "मालमत्तेचा प्रकार (घर / दुकान / ऑफिस)", owner: "घरमालकाचे पूर्ण नाव", ownerFather: "मालकाच्या वडिलांचे नाव",
+        ownerPhone: "मालकाचा मोबाईल नंबर", ownerAddr: "मालकाचा कायमचा पत्ता", address: "भाड्याच्या जागेचा पूर्ण पत्ता",
+        tName: "भाडेकरूचे पूर्ण नाव", tFather: "भाडेकरूच्या वडिलांचे नाव", tPhone: "भाडेकरू मोबाईल नंबर",
+        tPerm: "भाडेकरूचा मूळ गावचा पत्ता", tId: "ओळखपत्र (Voter ID / DL / PAN)", tJob: "नोकरी / व्यवसायाचा तपशील",
+        tDate: "भाडे करार सुरू होण्याची तारीख", duration: "करार कालावधी (उदा. ११ महिने)", tRent: "मासिक भाडे (₹)",
+        deposit: "अनामत रक्कम / डिपॉझिट (₹)", notice: "नोटीस कालावधी (उदा. १ महिना)",
+        policeStation: "जवळचे पोलीस स्टेशन", extraTerms: "इतर अटी (वीज / पाणी / देखभाल)"
+      }
+    },
+    gu: {
+      langLabel: "ભાષા:", pdfBtn: "📥 HD PDF ડાઉનલોડ", printBtn: "🖨️ પ્રિન્ટ કરો",
+      m1: "📜 ૧. મકાન / દુકાન ભાડા કરાર (Rent Agreement)", m2: "👮 ૨. ભાડુઆત પોલીસ વેરિફિકેશન",
+      decl: "જાહેરાત: બંને પક્ષોએ ઉપરની તમામ શરતો વાંચી અને સમજીને સંમતિ આપી છે.",
+      sig1: "મકાન માલિકની સહી", sig2: "ભાડુઆતની સહી",
+      w1: "સાક્ષી ૧: ___________________________", w2: "સાક્ષી ૨: ___________________________",
+      enterDetails: "કૃપા કરીને PDF ડાઉનલોડ કરતા પહેલા વિગતો ભરો.",
+      labels: {
+        propType: "મિલકતનો પ્રકાર (મકાન / દુકાન)", owner: "મકાન માલિકનું નામ", ownerFather: "માલિકના પિતાનું નામ",
+        ownerPhone: "માલિકનો મોબાઈલ", ownerAddr: "માલિકનું કાય
