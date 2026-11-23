@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Account - KaamKaj Bills</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { margin: 0; background: #f1f5f9; color: #1e293b; }
+    .login-wrap {
+      max-width: 400px; margin: 90px auto; background: #fff; padding: 30px;
+      border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;
+    }
+    .login-wrap h2 { margin-top: 0; color: #0f172a; }
+    input, textarea, select {
+      width: 100%; padding: 12px; margin: 10px 0; border: 1.5px solid #cbd5e1;
+      border-radius: 8px; font-size: 15px;
+    }
+    button {
+      padding: 10px 16px; border: none; border-radius: 8px; font-size: 14px;
+      font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    .btn-primary { background: #2563eb; color: #fff; width: 100%; padding: 12px; font-size: 16px; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-approve { background: #16a34a; color: #fff; }
+    .btn-hide { background: #d97706; color: #fff; }
+    .btn-del { background: #dc2626; color: #fff; }
+    .btn-save { background: #0284c7; color: #fff; }
+
+    .dashboard { display: none; max-width: 1050px; margin: 0 auto; padding: 20px 16px; }
+    .topbar {
+      background: #0f172a; color: #fff; padding: 16px 20px; border-radius: 10px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+    .tab-btn { background: #e2e8f0; color: #334155; padding: 10px 18px; }
+    .tab-btn.active { background: #2563eb; color: #fff; }
+
+    .card {
+      background: #fff; padding: 18px; border-radius: 10px; margin-bottom: 16px;
+      border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+    .badge.Pending, .badge.New { background: #fef3c7; color: #92400e; }
+    .badge.Approved, .badge.Completed { background: #dcfce7; color: #166534; }
+    .badge.Hidden { background: #e2e8f0; color: #475569; }
+
+    .reply-box { background: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 12px; border: 1px solid #e2e8f0; }
+    .reply-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .switch-label { display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; font-size: 14px; }
+    .switch-label input { width: 18px; height: 18px; margin: 0; }
+    .action-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<div class="login-wrap" id="loginBox">
+  <h2>KaamKaj Bills Admin</h2>
+  <p style="color:#64748b; font-size:14px;">आगे बढ़ने के लिए एडमिन पासवर्ड दर्ज करें</p>
+  <input type="password" id="adminPass" placeholder="Enter Password" />
+  <button class="btn-primary" id="loginBtn" onclick="loginAdmin()">Login</button>
+  <p id="loginErr" style="color:#dc2626; font-size:14px; margin-top:10px;"></p>
+</div>
+
+<div class="dashboard" id="dashboard">
+  <div class="topbar">
+    <div>
+      <strong style="font-size:18px;">KaamKaj Bills — Account Panel</strong>
+      <div style="font-size:13px; color:#94a3b8;">Reviews, Custom Page Requests & Security</div>
+    </div>
+    <div style="display:flex; gap:10px;">
+      <button onclick="fetchDashboardData()" style="background:#334155; color:#fff;">↻ Refresh</button>
+      <button onclick="logout()" style="background:#dc2626; color:#fff;">Logout</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('reviewsTab', this)">Client Reviews (<span id="countRev">0</span>)</button>
+    <button class="tab-btn" onclick="switchTab('requestsTab', this)">Custom Page Requests (<span id="countReq">0</span>)</button>
+    <button class="tab-btn" onclick="switchTab('securityTab', this)">Change Password</button>
+  </div>
+
+  <div id="reviewsTab"></div>
+  <div id="requestsTab" style="display:none;"></div>
+
+  <div id="securityTab" style="display:none;">
+    <div class="card" style="max-width:450px;">
+      <h3 style="margin-top:0;">एडमिन पासवर्ड बदलें (Change Password)</h3>
+      <label>नया पासवर्ड (New Password):</label>
+      <input type="password" id="newPassInput" placeholder="नया पासवर्ड लिखें" />
+      <label>पासवर्ड कन्फर्म करें (Confirm Password):</label>
+      <input type="password" id="confirmPassInput" placeholder="दोबारा नया पासवर्ड लिखें" />
+      <button class="btn-primary" onclick="changeAdminPassword()">पासवर्ड अपडेट करें</button>
+      <p id="passMsg" style="font-size:14px; margin-top:10px;"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXEhnFRIK4izUsnz2LqghUSm0ocC-r14cFFaFIsAd3EHuRZeqKqE-S9AACsM7ZJtDk/exec";
+  let SESSION_PASSWORD = "";
+
+  async function loginAdmin() {
+    const pass = document.getElementById("adminPass").value;
+    const err = document.getElementById("loginErr");
+    const btn = document.getElementById("loginBtn");
+    if (!pass) { err.textContent = "कृपया पासवर्ड डालें।"; return; }
+
+    btn.disabled = true; btn.textContent = "Checking..."; err.textContent = "";
+    SESSION_PASSWORD = pass;
+    const ok = await fetchDashboardData();
+    btn.disabled = false; btn.textContent = "Login";
+
+    if (ok) {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+    } else {
+      SESSION_PASSWORD = "";
+      err.textContent = "गलत पासवर्ड! कृपया सही पासवर्ड डालें।";
+    }
+  }
+
+  async function fetchDashboardData() {
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "adminLogin", password: SESSION_PASSWORD })
+      });
+      const data = await res.json();
+      if (data.status !== "success") return false;
+
+      renderReviews(data.reviews);
+      renderRequests(data.requests);
+      return true;
+    } catch (e) {
+      alert("Server connection error!");
+      return false;
+    }
+  }
+
+  function renderReviews(reviews) {
+    document.getElementById("countRev").textContent = reviews.length;
+    const box = document.getElementById("reviewsTab");
+    if (reviews.length === 0) {
+      box.innerHTML = `<div class="card">अभी कोई रिव्यू नहीं आया है।</div>`;
+      return;
+    }
+    box.innerHTML = reviews.map(r => `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong>${esc(r.name)}</strong> • <span style="color:#2563eb; font-size:13px;">${esc(r.tool)}</span>
+            <div style="color:#f59e0b; font-size:16px;">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)} <small style="color:#64748b;">(${esc(r.date)})</small></div>
+          </div>
+          <span class="badge ${esc(r.status)}">${esc(r.status)}</span>
+        </div>
+        <p style="margin:10px 0; font-size:15px;">${esc(r.feedback)}</p>
+
+        <div class="reply-box">
+          <label style="font-size:13px; font-weight:600;">आपका रिप्लाई (Admin Reply):</label>
+          <textarea id="reply_${r.id}" rows="2" placeholder="यूजर के फीडबैक का जवाब यहां लिखें...">${esc(r.adminReply)}</textarea>
+          <div class="reply-controls">
+            <label class="switch-label">
+              <input type="checkbox" id="showReply_${r.id}" ${r.showReply ? "checked" : ""} onchange="saveReply('${r.id}')" />
+              Show Reply on Public Page (ON / OFF)
+            </label>
+            <button class="btn-save" onclick="saveReply('${r.id}')">Save Reply</button>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button class="btn-approve" onclick="updateRevStatus('${r.id}', 'Approved')">✓ Approve & Publish</button>
+          <button class="btn-hide" onclick="updateRevStatus('${r.id}', 'Hidden')">Hide</button>
+          <button class="btn-del" onclick="deleteReview('${r.id}')">Delete</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function renderRequests(requests) {
+    document.getElementById("countReq").textContent = requests.length;
+    const box = document.getElementById("requestsTab");
+    if (requests.length === 0) {
+      box.innerHTML = `<div class="card">अभी कोई कस्टमाइज पेज रिक्वेस्ट नहीं आई है।</div>`;
+      return;
+    }
+    box.innerHTML = requests.map(req => `
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div>
+            <strong>${esc(req.name)}</strong> (<span style="color:#2563eb;">${esc(req.email)}</span>)
+            <div style="font-size:12px; color:#64748b;">${esc(req.date)}</div>
+          </div>
+          <span class="badge ${esc(req.status)}">${esc(req.status)}</span>
+        </div>
+        <p style="margin:10px 0; background:#f8fafc; padding:10px; border-radius:6px;">${esc(req.details)}</p>
+        <div class="action-row">
+          <button class="btn-approve" onclick="updateReqStatus('${req.id}', 'Completed')">Mark Completed</button>
+          <button class="btn-hide" onclick="updateReqStatus('${req.id}', 'New')">Mark New</button>
+          <button class="btn-del" onclick="deleteRequest('${req.id}')">Delete</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  async function saveReply(id) {
+    const replyText = document.getElementById(`reply_${id}`).value;
+    const showFlag = document.getElementById(`showReply_${id}`).checked;
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "updateReview", password: SESSION_PASSWORD,
+        id: id, adminReply: replyText, showReply: showFlag
+      })
+    });
+    fetchDashboardData();
+  }
+
+  async function updateRevStatus(id, status) {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "updateReview", password: SESSION_PASSWORD,
+        id: id, newStatus: status
+      })
+    });
+    fetchDashboardData();
+  }
+
+  async function deleteReview(id) {
+    if (!confirm("क्या आप वाकई इस रिव्यू को डिलीट करना चाहते हैं?")) return;
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "updateReview", password: SESSION_PASSWORD,
+        id: id, subAction: "delete"
+      })
+    });
+    fetchDashboardData();
+  }
+
+  async function updateReqStatus(id, status) {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "updateRequest", password: SESSION_PASSWORD,
+        id: id, newStatus: status
+      })
+    });
+    fetchDashboardData();
+  }
+
+  async function deleteRequest(id) {
+    if (!confirm("क्या आप वाकई इस रिक्वेस्ट को डिलीट करना चाहते हैं?")) return;
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "updateRequest", password: SESSION_PASSWORD,
+        id: id, subAction: "delete"
+      })
+    });
+    fetchDashboardData();
+  }
+
+  async function changeAdminPassword() {
+    const p1 = document.getElementById("newPassInput").value.trim();
+    const p2 = document.getElementById("confirmPassInput").value.trim();
+    const msg = document.getElementById("passMsg");
+    if (p1.length < 4) { msg.style.color = "#dc2626"; msg.textContent = "कम से कम 4 अक्षर का पासवर्ड रखें।"; return; }
+    if (p1 !== p2) { msg.style.color = "#dc2626"; msg.textContent = "दोनों पासवर्ड मेल नहीं खा रहे हैं!"; return; }
+
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "changePassword", password: SESSION_PASSWORD, newPassword: p1 })
+    });
+    const data = await res.json();
+    if (data.status === "success") {
+      SESSION_PASSWORD = p1;
+      msg.style.color = "#16a34a";
+      msg.textContent = data.message;
+      document.getElementById("newPassInput").value = "";
+      document.getElementById("confirmPassInput").value = "";
+    } else {
+      msg.style.color = "#dc2626";
+      msg.textContent = data.message;
+    }
+  }
+
+  function switchTab(tabId, btn) {
+    ["reviewsTab", "requestsTab", "securityTab"].forEach(id => {
+      document.getElementById(id).style.display = (id === tabId) ? "block" : "none";
+    });
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+  }
+
+  function logout() {
+    SESSION_PASSWORD = "";
+    document.getElementById("adminPass").value = "";
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginBox").style.display = "block";
+  }
+
+  function esc(str) {
+    return String(str || "").replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+</script>
+</body>
+</html>
