@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>All-in-One AMC &amp; Service Contract Generator (12 Languages) - KaamKaj Bills</title>
+<meta name="description" content="Free Annual Maintenance Contract (AMC) & Service Agreement Generator in 12 Indian Languages for CCTV, Electrical, Solar, AC, Fire Alarm, RO & IT Networking. Download A4 PDF & Print.">
+<link rel="canonical" href="https://kaamkajbills.in/amc-contract.html">
+
+<!-- Favicon Tags -->
+<link rel="icon" type="image/png" href="https://kaamkajbills.in/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/x-icon" href="https://kaamkajbills.in/favicon.ico" />
+<link rel="shortcut icon" href="https://kaamkajbills.in/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://kaamkajbills.in/apple-touch-icon.png" />
+
+<!-- Google Fonts for 12 Indian Scripts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root {
+    --primary: #0284c7;
+    --primary-dark: #0369a1;
+    --primary-soft: #e0f2fe;
+    --ink: #0f172a;
+    --ink-muted: #475569;
+    --border: rgba(203, 213, 225, 0.85);
+    --bg: #f1f5f9;
+    --surface: rgba(255, 255, 255, 0.92);
+    --surface-alt: rgba(248, 250, 252, 0.92);
+    --success: #16a34a;
+    --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+  }
+
+  body.dark-mode {
+    --primary: #38bdf8;
+    --primary-dark: #0284c7;
+    --primary-soft: rgba(56, 189, 248, 0.16);
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --border: rgba(51, 65, 85, 0.85);
+    --bg: #0b1120;
+    --surface: rgba(30, 41, 59, 0.92);
+    --surface-alt: rgba(15, 23, 42, 0.88);
+    --shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+  }
+
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", "Noto Sans Gujarati", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Gurmukhi", "Noto Sans Oriya", sans-serif;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0f2fe 0%, #f8fafc 48%, #fef3c7 100%);
+    color: var(--ink);
+    overflow-x: hidden;
+    position: relative;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  body.dark-mode {
+    background: linear-gradient(135deg, #090d16 0%, #0f172a 55%, #172033 100%);
+  }
+
+  .floating-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.5;
+    animation: floatOrb 14s infinite alternate ease-in-out;
+  }
+  body.dark-mode .orb { opacity: 0.2; }
+  .orb-1 { width: 380px; height: 380px; background: radial-gradient(circle, #0ea5e9, #38bdf8); top: 4%; left: -80px; }
+  .orb-2 { width: 360px; height: 360px; background: radial-gradient(circle, #f59e0b, #fde047); top: 26%; right: -80px; animation-delay: -4s; }
+  .orb-3 { width: 360px; height: 360px; background: radial-gradient(circle, #10b981, #34d399); bottom: -40px; right: 12%; opacity: 0.45; animation-delay: -2s; }
+  @keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(55px, -40px) scale(1.1); }
+    100% { transform: translate(-40px, 50px) scale(0.95); }
+  }
+
+  .top-nav {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    padding: 12px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 3px solid #f59e0b;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+  }
+  .nav-left, .nav-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn-home {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-home:hover { background: var(--primary); border-color: var(--primary); }
+  .nav-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .btn-theme {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .kb-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 20px 26px 48px 26px;
+    display: grid;
+    grid-template-columns: minmax(430px, 1.02fr) minmax(520px, 0.98fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .control-box {
+    background: var(--surface);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+  label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    font-size: 13.5px;
+    outline: none;
+    color: var(--ink);
+    background: var(--surface-alt);
+    transition: all 0.2s;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14);
+  }
+
+  .section-badge {
+    background: var(--primary-soft);
+    color: var(--primary);
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 14px 0 10px 0;
+    text-transform: uppercase;
+    border-left: 4px solid var(--primary);
+  }
+  .section-badge:first-of-type { margin-top: 0; }
+
+  /* Preset Chips */
+  .preset-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .preset-chip {
+    background: var(--surface-alt);
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .preset-chip:hover, .preset-chip.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  /* Equipment Rows */
+  .item-row {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr 0.6fr auto;
+    gap: 6px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .btn-del {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    border-radius: 7px;
+    padding: 8px 10px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .btn-add {
+    background: var(--primary-soft);
+    color: var(--primary);
+    border: 1.5px dashed var(--primary);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  .btn-pdf { background: linear-gradient(135deg, #0284c7, #0369a1); }
+  .btn-print { background: linear-gradient(135deg, #1e293b, #0f172a); }
+  .btn-wa { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+  /* Right Sticky Preview Panel */
+  .preview-panel {
+    position: sticky;
+    top: 70px;
+    width: 100%;
+    background: var(--surface);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+  }
+  .preview-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-label { font-size: 12px; font-weight: 800; color: var(--ink-muted); text-transform: uppercase; }
+  .preview-mini-actions { display: flex; gap: 8px; }
+  .btn-mini {
+    border: none;
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    cursor: pointer;
+  }
+  .btn-mini-pdf { background: #0284c7; }
+  .btn-mini-print { background: #0f172a; }
+
+  .preview-viewport {
+    width: 100%;
+    overflow-x: auto;
+    background: #e2e8f0;
+    padding: 16px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+  }
+  body.dark-mode .preview-viewport { background: #0f172a; }
+
+  #a4DocSheet {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    width: 680px;
+    max-width: 100%;
+    padding: 20px 22px;
+    border: 1.5px solid #cbd5e1;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 6px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .urdu-rtl {
+    font-family: 'Noto Nastaliq Urdu', serif !important;
+    direction: rtl;
+    text-align: right;
+    line-height: 2.1 !important;
+  }
+
+  /* AMC DOCUMENT STYLING */
+  .amc-box {
+    border: 2px solid #0f172a;
+    padding: 18px 20px;
+    background: #ffffff;
+  }
+  .amc-top-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2.5px solid #0f172a;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    gap: 10px;
+  }
+  .amc-provider h2 { margin: 0; font-size: 17px; font-weight: 900; color: #0f172a; text-transform: uppercase; }
+  .amc-provider p { margin: 2px 0 0; font-size: 10.5px; color: #475569; }
+  .amc-tag {
+    background: #0f172a;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 10.5px;
+    font-weight: 800;
+    border-radius: 4px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .amc-doc-title {
+    text-align: center;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 6px;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #0f172a;
+  }
+  .amc-parties {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+  .party-card {
+    border: 1px solid #cbd5e1;
+    padding: 8px 10px;
+    border-radius: 4px;
+    background: #f8fafc;
+  }
+  .party-card h4 { margin: 0 0 4px; font-size: 10.5px; text-transform: uppercase; color: #0369a1; }
+  .amc-meta-strip {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+    border: 1px solid #0f172a;
+    padding: 6px 10px;
+    font-size: 10.8px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: #fffbeb;
+  }
+  .amc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+  .amc-table th {
+    background: #0f172a;
+    color: #fff;
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 10.5px;
+  }
+  .amc-table td {
+    border: 1px solid #cbd5e1;
+    padding: 5px 8px;
+  }
+  .amc-clauses {
+    margin: 6px 0 12px 18px;
+    padding: 0;
+    font-size: 10.8px;
+    line-height: 1.55;
+  }
+  .amc-clauses li { margin-bottom: 4px; page-break-inside: avoid; }
+  .amc-fee-box {
+    border: 1.5px solid #16a34a;
+    background: #f0fdf4;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #166534;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .amc-sig-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+    font-size: 10.8px;
+    page-break-inside: avoid;
+  }
+  .sig-line {
+    border-top: 1.5px solid #0f172a;
+    padding-top: 4px;
+    text-align: center;
+    font-weight: 800;
+  }
+
+  @media (max-width: 1120px) {
+    .kb-wrapper { grid-template-columns: 1fr; padding: 14px 12px 36px 12px; }
+    .preview-panel { position: static; }
+  }
+  @media (max-width: 760px) {
+    .preview-viewport { justify-content: flex-start; padding: 10px; }
+    #a4DocSheet { min-width: 650px; }
+  }
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .item-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="floating-bg" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<div class="top-nav">
+  <div class="nav-left">
+    <a href="index.html" target="_self" class="btn-home">← All Tools</a>
+    <span class="nav-title">
+      <img src="favicon-96x96.png" alt="KB" width="26" height="26" style="border-radius:50%; background:#fff;">
+      KaamKaj Bills • All-in-One AMC &amp; Service Contract (12 Languages)
+    </span>
+  </div>
+  <div class="nav-right">
+    <button type="button" class="btn-theme" id="btnTheme" onclick="toggleTheme()">🌙 Dark Mode</button>
+  </div>
+</div>
+
+<div class="kb-wrapper">
+  <!-- LEFT: CONTROLS -->
+  <div class="control-box">
+    <div class="section-badge">1. Quick Trade Preset &amp; Language</div>
+    <label>Select Service / Trade Preset (1-Click Auto-Fill):</label>
+    <div class="preset-bar">
+      <button type="button" class="preset-chip active" onclick="applyPreset('CCTV', this)">📹 CCTV &amp; Security</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('ELEC', this)">⚡ Electrical &amp; LT Panel</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('SOLAR', this)">☀️ Solar Plant &amp; Cleaning</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('AC', this)">❄️ AC &amp; HVAC</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('FIRE', this)">🚨 Fire Alarm &amp; Biometric</button>
+      <button type="button" class="preset-chip" onclick="applyPreset('IT', this)">💻 Computer &amp; LAN</button>
+    </div>
+
+    <div class="grid-2">
+      <div class="field">
+        <label>Contract Language (12 Languages)</label>
+        <select id="in_lang" onchange="renderAMC()">
+          <option value="en">1. English</option>
+          <option value="hi">2. हिंदी (Hindi)</option>
+          <option value="mr">3. मराठी (Marathi)</option>
+          <option value="gu">4. ગુજરાતી (Gujarati)</option>
+          <option value="bn">5. বাংলা (Bengali)</option>
+          <option value="ta">6. தமிழ் (Tamil)</option>
+          <option value="te">7. తెలుగు (Telugu)</option>
+          <option value="kn">8. ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">9. മലയാളം (Malayalam)</option>
+          <option value="pa">10. ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="or">11. ଓଡ଼ିଆ (Odia)</option>
+          <option value="ur">12. اردو (Urdu)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>AMC Contract Type</label>
+        <select id="in_amc_type" onchange="renderAMC()">
+          <option value="Non-Comprehensive AMC (Service & Labour Only)">Non-Comprehensive (Labour Only)</option>
+          <option value="Comprehensive AMC (With Spare Parts)">Comprehensive (With Spare Parts)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-badge">2. Service Provider (Contractor) Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Company / Firm Name</label><input type="text" id="in_comp" placeholder="e.g. Kalyani Electrical & Services" oninput="renderAMC()"></div>
+      <div class="field"><label>Contact Person &amp; Phone</label><input type="text" id="in_comp_ph" placeholder="e.g. Amar Singh • 9876543210" oninput="renderAMC()"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label>Office Address</label><input type="text" id="in_comp_addr" placeholder="e.g. Warje, Pune, Maharashtra" oninput="renderAMC()"></div>
+      <div class="field"><label>GSTIN / Registration No. (Optional)</label><input type="text" id="in_comp_gst" placeholder="e.g. 27XXXXX1234X1Z5" oninput="renderAMC()"></div>
+    </div>
+
+    <div class="section-badge">3. Client / Site Details</div>
+    <div class="grid-2">
+      <div class="field"><label>Client / Society / Company Name</label><input type="text" id="in_client" placeholder="e.g. Shanti Niketan Co-op Society" oninput="renderAMC()"></div>
+      <div class="field"><label>Client Phone / WhatsApp</label><input type="text" id="in_client_ph" placeholder="e.g. 9000012345" oninput="renderAMC()"></div>
+    </div>
+    <div class="field"><label>Site / Installation Address</label><input type="text" id="in_client_addr" placeholder="e.g. Kothrud, Pune" oninput="renderAMC()"></div>
+
+    <div class="section-badge">4. Equipment / Systems Covered</div>
+    <div id="itemsContainer"></div>
+    <button type="button" class="btn-add" onclick="addItem()">+ Add Equipment / System Row</button>
+
+    <div class="section-badge">5. Schedule, Fees &amp; Terms</div>
+    <div class="grid-3">
+      <div class="field"><label>Contract No.</label><input type="text" id="in_doc_no" oninput="renderAMC()"></div>
+      <div class="field"><label>Start Date</label><input type="date" id="in_start" onchange="renderAMC()"></div>
+      <div class="field"><label>End Date (1 Year)</label><input type="date" id="in_end" onchange="renderAMC()"></div>
+    </div>
+
+    <div class="grid-3">
+      <div class="field">
+        <label>Preventive Visits</label>
+        <select id="in_visits" onchange="renderAMC()">
+          <option value="4 Quarterly Visits (Every 3 Months)">4 Quarterly Visits</option>
+          <option value="12 Monthly Visits (Every Month)">12 Monthly Visits</option>
+          <option value="6 Bi-Monthly Visits (Every 2 Months)">6 Bi-Monthly Visits</option>
+          <option value="2 Half-Yearly Visits (Every 6 Months)">2 Half-Yearly Visits</option>
+        </select>
+      </div>
+      <div class="field"><label>Breakdown Response Time</label><input type="text" id="in_resp" value="Within 24 Hours" oninput="renderAMC()"></div>
+      <div class="field"><label>Annual AMC Amount (₹)</label><input type="number" id="in_fee" placeholder="12000" oninput="renderAMC()"></div>
+    </div>
+
+    <div class="field">
+      <label>Scope of Work / Special Notes</label>
+      <textarea id="in_scope" rows="2" oninput="renderAMC()"></textarea>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-pdf" onclick="downloadA4PDF()">📥 Download A4 PDF</button>
+      <button type="button" class="btn btn-print" onclick="printDocDirect()">🖨️ Direct Print</button>
+      <button type="button" class="btn btn-wa" onclick="shareWhatsApp()">📲 WhatsApp Share</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: LIVE PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-toolbar">
+      <div class="preview-label">Live A4 AMC Contract Preview</div>
+      <div class="preview-mini-actions">
+        <button type="button" class="btn-mini btn-mini-pdf" onclick="downloadA4PDF()">📥 Download PDF</button>
+        <button type="button" class="btn-mini btn-mini-print" onclick="printDocDirect()">🖨️ Print</button>
+      </div>
+    </div>
+
+    <div class="preview-viewport">
+      <div id="a4DocSheet">
+        <div id="amcPreviewContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let equipmentList = [];
+
+  const PRESETS = {
+    CCTV: {
+      scope: 'Complete checking of IP/HD Cameras, DVR/NVR recording health, HDD status, BNC/RJ45 connectors, SMPS power supply, camera lens cleaning, and mobile view configuration.',
+      items: [
+        { name: 'IP / HD Dome & Bullet Cameras', model: 'CP Plus / Hikvision', qty: '16 Nos' },
+        { name: '16-Ch NVR / DVR with Surveillance HDD', model: '4TB Storage', qty: '1 Set' },
+        { name: 'PoE Switch / SMPS Power Supply & Rack', model: '16-Port', qty: '1 Lot' }
+      ]
+    },
+    ELEC: {
+      scope: 'Preventive inspection of Main LT Panel, MCCB/MCB tightness, earthing pit resistance check, DB dressing, common area lighting, and emergency fault troubleshooting.',
+      items: [
+        { name: 'Main LT Distribution Panel & Busbar', model: '3-Phase', qty: '1 Panel' },
+        { name: 'Floor Sub-DBs, MCB & RCCB Breakers', model: 'ABB / Schneider', qty: '6 Nos' },
+        { name: 'Earthing Pits & Common Passage Lights', model: 'Copper / GI', qty: '1 Lot' }
+      ]
+    },
+    SOLAR: {
+      scope: 'Scheduled Low-TDS water panel cleaning, DC/AC junction box inspection, inverter generation & grid sync check, earthing & lightning arrestor testing, and structure bolt tightening.',
+      items: [
+        { name: 'Solar PV Modules (Mono PERC / Bifacial)', model: '10 kW Rooftop', qty: '20 Panels' },
+        { name: 'On-Grid Solar Inverter & AC/DC DB', model: '3-Phase', qty: '1 Set' },
+        { name: 'Earthing Pits & Lightning Arrestor (LA)', model: 'Copper Bonded', qty: '3 Pits' }
+      ]
+    },
+    AC: {
+      scope: 'Jet pump indoor/outdoor coil cleaning, air filter wash, gas pressure check, drain pipe flushing, electrical relay & compressor amp check.',
+      items: [
+        { name: 'Split / Cassette Air Conditioners', model: '1.5 / 2.0 Ton', qty: '5 Units' },
+        { name: 'Outdoor Condenser Units & Copper Piping', model: 'Inverter Series', qty: '5 Units' }
+      ]
+    },
+    FIRE: {
+      scope: 'Smoke & heat detector sensitivity testing, fire alarm control panel battery backup check, hooter & MCP testing, biometric attendance/access lock calibration.',
+      items: [
+        { name: 'Fire Alarm Control Panel & Battery', model: '4-Zone', qty: '1 Set' },
+        { name: 'Smoke Detectors, MCP & Hooters', model: 'Conventional', qty: '18 Nos' },
+        { name: 'Biometric Access Control & EM Lock', model: 'Face / Finger', qty: '2 Doors' }
+      ]
+    },
+    IT: {
+      scope: 'Desktop/Laptop OS optimization, antivirus & malware cleanup, LAN cabling & Wi-Fi router health check, printer maintenance, and local network sharing support.',
+      items: [
+        { name: 'Office Desktop PCs & Workstations', model: 'Windows 10/11', qty: '8 Units' },
+        { name: 'Network Router, Switch & Wi-Fi Access Points', model: 'Gigabit LAN', qty: '1 Lot' }
+      ]
+    }
+  };
+
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.getElementById('btnTheme').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+  }
+
+  function applyPreset(key, btn) {
+    document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const p = PRESETS[key];
+    document.getElementById('in_scope').value = p.scope;
+    equipmentList = JSON.parse(JSON.stringify(p.items));
+    renderItemInputs();
+    renderAMC();
+  }
+
+  function addItem() {
+    equipmentList.push({ name: '', model: '', qty: '1 No' });
+    renderItemInputs();
+    renderAMC();
+  }
+
+  function removeItem(idx) {
+    equipmentList.splice(idx, 1);
+    renderItemInputs();
+    renderAMC();
+  }
+
+  function updateItem(idx, field, val) {
+    equipmentList[idx][field] = val;
+    renderAMC();
+  }
+
+  function renderItemInputs() {
+    const box = document.getElementById('itemsContainer');
+    box.innerHTML = equipmentList.map((it, i) => `
+      <div class="item-row">
+        <input type="text" placeholder="Equipment / System Name" value="${it.name}" oninput="updateItem(${i}, 'name', this.value)">
+        <input type="text" placeholder="Make / Capacity" value="${it.model}" oninput="updateItem(${i}, 'model', this.value)">
+        <input type="text" placeholder="Qty" value="${it.qty}" oninput="updateItem(${i}, 'qty', this.value)">
+        <button type="button" class="btn-del" onclick="removeItem(${i})">✕</button>
+      </div>
+    `).join('');
+  }
+
+  function getLangText(lang, d) {
+    const map = {
+      en: {
+        title: `ANNUAL MAINTENANCE CONTRACT (AMC)`,
+        p1: `SERVICE PROVIDER (FIRST PARTY)`, p2: `CLIENT / CUSTOMER (SECOND PARTY)`,
+        cNo: `Contract No`, period: `Period`, type: `Type`,
+        th1: `#`, th2: `Equipment / System Description`, th3: `Make / Spec`, th4: `Qty`,
+        scopeH: `Scope of Maintenance:`,
+        clauses: [
+          `<b>Preventive Maintenance:</b> The Service Provider shall carry out <b>${d.visits}</b> during the contract period to ensure smooth and trouble-free operation of the listed systems.`,
+          `<b>Breakdown Support:</b> In case of any technical fault, emergency breakdown calls shall be attended <b>${d.resp}</b> during working hours.`,
+          `<b>Spare Parts Policy:</b> Under <b>${d.amcType}</b>, consumable items, physical/water damage, lightning, or high-voltage burnouts are chargeable separately unless explicitly covered.`,
+          `<b>Payment Terms:</b> Total Annual AMC fee of <b>₹${d.fee}</b> (Taxes extra if applicable) is payable 100% in advance upon signing this agreement.`,
+          `<b>Validity & Termination:</b> This contract is valid from <b>${d.start}</b> to <b>${d.end}</b> and may be renewed mutually before expiry.`
+        ],
+        feeLbl: `Total Annual AMC Contract Value:`,
+        sig1: `For ${d.comp}<br>(Authorized Signatory)`, sig2: `For ${d.client}<br>(Client Signature & Stamp)`
+      },
+      hi: {
+        title: `वार्षिक रखरखाव अनुबंध (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `सेवा प्रदाता (प्रथम पक्ष)`, p2: `ग्राहक / संस्था (द्वितीय पक्ष)`,
+        cNo: `अनुबंध क्र.`, period: `अवधि`, type: `प्रकार`,
+        th1: `क्र.`, th2: `उपकरण / सिस्टम विवरण`, th3: `मॉडल / क्षमता`, th4: `मात्रा`,
+        scopeH: `रखरखाव कार्य का विवरण (Scope of Work):`,
+        clauses: [
+          `<b>नियमित सर्विस (Preventive Maintenance):</b> अनुबंध अवधि के दौरान सिस्टम को सुचारू रूप से चलाने हेतु <b>${d.visits}</b> की जाएंगी।`,
+          `<b>ब्रेकडाउन सपोर्ट:</b> किसी भी तकनीकी खराबी की सूचना मिलने पर <b>${d.resp}</b> के भीतर इंजीनियर द्वारा विजिट की जाएगी।`,
+          `<b>स्पेयर पार्ट्स नियम:</b> यह अनुबंध <b>${d.amcType}</b> के अंतर्गत है। भौतिक टूट-फूट, पानी, आकाशीय बिजली या हाई-वोल्टेज से होने वाले नुकसान का खर्च अलग से देय होगा।`,
+          `<b>भुगतान शर्तें:</b> वार्षिक AMC शुल्क <b>₹${d.fee}</b> का भुगतान अनुबंध के समय अग्रिम (Advance) किया जाएगा।`,
+          `<b>वैधता:</b> यह अनुबंध दिनांक <b>${d.start}</b> से <b>${d.end}</b> तक प्रभावी रहेगा।`
+        ],
+        feeLbl: `कुल वार्षिक AMC शुल्क:`,
+        sig1: `हस्ताक्षर सेवा प्रदाता<br>(${d.comp})`, sig2: `हस्ताक्षर ग्राहक / संस्था<br>(${d.client})`
+      },
+      mr: {
+        title: `वार्षिक देखभाल करारनामा (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `सेवा पुरवठादार (प्रथम पक्ष)`, p2: `ग्राहक / संस्था (द्वितीय पक्ष)`,
+        cNo: `करार क्र.`, period: `कालावधी`, type: `प्रकार`,
+        th1: `क्र.`, th2: `यंत्रणा / उपकरण तपशील`, th3: `मॉडेल / क्षमता`, th4: `नग`,
+        scopeH: `देखभाल कामाची व्याप्ती (Scope):`,
+        clauses: [
+          `<b>नियमित तपासणी:</b> करार कालावधीत यंत्रणा सुरळीत चालण्यासाठी <b>${d.visits}</b> केल्या जातील.`,
+          `<b>ब्रेकडाउन सर्व्हिस:</b> तांत्रिक बिघाड झाल्यास तक्रार मिळाल्यापासून <b>${d.resp}</b> आत दुरुस्ती सेवा दिली जाईल.`,
+          `<b>स्पेअर पार्ट्स धोरण:</b> हा करार <b>${d.amcType}</b> अंतर्गत आहे. नैसर्गिक आपत्ती, वीज किंवा मोडतोड झाल्यास सुट्या भागांचा खर्च स्वतंत्र राहील.`,
+          `<b>देयक अटी:</b> वार्षिक AMC शुल्क <b>₹${d.fee}</b> करार करताना आगाऊ भरायचे आहे.`,
+          `<b>मुदत:</b> हा करार दिनांक <b>${d.start}</b> ते <b>${d.end}</b> पर्यंत लागू राहील.`
+        ],
+        feeLbl: `एकूण वार्षिक AMC शुल्क:`,
+        sig1: `सेवा पुरवठादार सही<br>(${d.comp})`, sig2: `ग्राहक सही व शिक्का<br>(${d.client})`
+      },
+      gu: {
+        title: `વાર્ષિક જાળવણી કરાર (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `સર્વિસ પ્રોવાઈડર (પ્રથમ પક્ષ)`, p2: `ગ્રાહક / સંસ્થા (દ્વિતીય પક્ષ)`,
+        cNo: `કરાર નં.`, period: `સમયગાળો`, type: `પ્રકાર`,
+        th1: `ક્રમ`, th2: `ઉપકરણ / સિસ્ટમ વિગત`, th3: `મોડેલ`, th4: `જથ્થો`,
+        scopeH: `કામની વિગત (Scope of Work):`,
+        clauses: [
+          `<b>નિયમિત સર્વિસ:</b> કરાર દરમિયાન સિસ્ટમ યોગ્ય રીતે ચાલે તે માટે <b>${d.visits}</b> કરવામાં આવશે.`,
+          `<b>બ્રેકડાઉન સપોર્ટ:</b> કોઈ પણ ટેકનિકલ ખામીની ફરિયાદ મળ્યે <b>${d.resp}</b> માં સર્વિસ આપવામાં આવશે.`,
+          `<b>સ્પેર પાર્ટ્સ નિયમ:</b> આ કરાર <b>${d.amcType}</b> હેઠળ છે. ભૌતિક નુકસાન કે હાઈ-વોલ્ટેજથી થયેલ નુકસાનનો ખર્ચ અલગથી ચૂકવવાનો રહેશે.`,
+          `<b>ચુકવણી શરતો:</b> વાર્ષિક AMC ફી <b>₹${d.fee}</b> કરાર સમયે એડવાન્સ ચૂકવવાની રહેશે.`,
+          `<b>માન્યતા:</b> આ કરાર તારીખ <b>${d.start}</b> થી <b>${d.end}</b> સુધી અમલમાં રહેશે.`
+        ],
+        feeLbl: `કુલ વાર્ષિક AMC ફી:`,
+        sig1: `સર્વિસ પ્રોવાઈડર સહી<br>(${d.comp})`, sig2: `ગ્રાહક સહી અને સિક્કો<br>(${d.client})`
+      },
+      bn: {
+        title: `বার্ষিক রক্ষণাবেক্ষণ চুক্তি (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `সার্ভিস প্রোভাইডার (প্রথম পক্ষ)`, p2: `গ্রাহক / প্রতিষ্ঠান (দ্বিতীয় পক্ষ)`,
+        cNo: `চুক্তি নং`, period: `মেয়াদ`, type: `ধরন`,
+        th1: `নং`, th2: `যন্ত্রপাতি / সিস্টেমের বিবরণ`, th3: `মডেল`, th4: `সংখ্যা`,
+        scopeH: `কাজের পরিধি (Scope of Work):`,
+        clauses: [
+          `<b>নিয়মিত সার্ভিস:</b> চুক্তির মেয়াদে সিস্টেম সচল রাখতে <b>${d.visits}</b> প্রদান করা হবে।`,
+          `<b>ব্রেকডাউন সাপোর্ট:</b> কোনো যান্ত্রিক ত্রুটি দেখা দিলে অভিযোগ পাওয়ার <b>${d.resp}</b>-এর মধ্যে মেরামত করা হবে।`,
+          `<b>স্পেয়ার পার্টস নীতি:</b> এই চুক্তি <b>${d.amcType}</b>-এর আওতাভুক্ত। বাহ্যিক ক্ষতি বা ভোল্টেজ জনিত ক্ষতির খরচ আলাদাভাবে প্রদেয়।`,
+          `<b>পেমেন্ট শর্তাবলী:</b> বার্ষিক AMC ফি <b>₹${d.fee}</b> চুক্তির শুরুতে অগ্রিম প্রদান করতে হবে।`,
+          `<b>মেয়াদকাল:</b> এই চুক্তি <b>${d.start}</b> থেকে <b>${d.end}</b> পর্যন্ত কার্যকর থাকবে।`
+        ],
+        feeLbl: `মোট বার্ষিক AMC ফি:`,
+        sig1: `সার্ভিস প্রোভাইডার স্বাক্ষর<br>(${d.comp})`, sig2: `গ্রাহকের স্বাক্ষর ও সিল<br>(${d.client})`
+      },
+      ta: {
+        title: `வருடாந்திர பராமரிப்பு ஒப்பந்தம் (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `சேவை வழங்குநர் (முதல் தரப்பு)`, p2: `வாடிக்கையாளர் (இரண்டாம் தரப்பு)`,
+        cNo: `ஒப்பந்த எண்`, period: `காலம்`, type: `வகை`,
+        th1: `எண்`, th2: `கருவி / அமைப்பு விவரம்`, th3: `மாடல்`, th4: `அளவு`,
+        scopeH: `பராமரிப்பு பணிகளின் விவரம்:`,
+        clauses: [
+          `<b>வழக்கமான பராமரிப்பு:</b> ஒப்பந்த காலத்தில் கருவிகள் சீராக இயங்க <b>${d.visits}</b> மேற்கொள்ளப்படும்.`,
+          `<b>பழுதுபார்ப்பு சேவை:</b> தொழில்நுட்ப கோளாறு ஏற்பட்டால் புகார் அளித்த <b>${d.resp}</b>-க்குள் சரிசெய்யப்படும்.`,
+          `<b>உதிரிபாகங்கள் விதி:</b> இந்த ஒப்பந்தம் <b>${d.amcType}</b> அடிப்படையிலானது. இயற்கை சேதம் அல்லது மின்னழுத்த பாதிப்புகளுக்கு தனிக் கட்டணம் வசூலிக்கப்படும்.`,
+          `<b>கட்டண விதி:</b> வருடாந்திர AMC கட்டணம் <b>₹${d.fee}</b> ஒப்பந்தத்தின் போது முன்பணமாக செலுத்த வேண்டும்.`,
+          `<b>செல்லுபடியாகும் காலம்:</b> இந்த ஒப்பந்தம் <b>${d.start}</b> முதல் <b>${d.end}</b> வரை செல்லுபடியாகும்.`
+        ],
+        feeLbl: `மொத்த வருடாந்திர AMC கட்டணம்:`,
+        sig1: `சேவை வழங்குநர் கையொப்பம்<br>(${d.comp})`, sig2: `வாடிக்கையாளர் கையொப்பம்<br>(${d.client})`
+      },
+      te: {
+        title: `వార్షిక నిర్వహణ ఒప్పందం (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `సర్వీస్ ప్రొవైడర్ (మొదటి పక్షం)`, p2: `క్లయింట్ / కస్టమర్ (రెండవ పక్షం)`,
+        cNo: `ఒప్పందం నం.`, period: `కాలపరిమితి`, type: `రకం`,
+        th1: `క్ర.సం`, th2: `పరికరం / సిస్టమ్ వివరాలు`, th3: `మోడల్`, th4: `పరిమాణం`,
+        scopeH: `నిర్వహణ పని వివరాలు (Scope):`,
+        clauses: [
+          `<b>సాధారణ సర్వీస్:</b> ఒప్పంద కాలంలో పరికరాలు సక్రమంగా పనిచేయడానికి <b>${d.visits}</b> నిర్వహించబడతాయి.`,
+          `<b>బ్రేక్‌డౌన్ సపోర్ట్:</b> ఏదైనా సాంకేతిక లోపం తలెత్తితే ఫిర్యాదు అందిన <b>${d.resp}</b> లోపు పరిష్కరించబడుతుంది.`,
+          `<b>స్పేర్ పార్ట్స్ నియమం:</b> ఈ ఒప్పందం <b>${d.amcType}</b> కిందకు వస్తుంది. భౌతిక నష్టం లేదా అధిక వోల్టేజ్ నష్టాలకు అదనపు ఛార్జీలు వర్తిస్తాయి.`,
+          `<b>చెల్లింపు నిబంధనలు:</b> వార్షిక AMC రుసుము <b>₹${d.fee}</b> ఒప్పంద సమయంలో ముందుగా చెల్లించాలి.`,
+          `<b>చెల్లుబాటు:</b> ఈ ఒప్పందం <b>${d.start}</b> నుండి <b>${d.end}</b> వరకు అమలులో ఉంటుంది.`
+        ],
+        feeLbl: `మొత్తం వార్షిక AMC రుసుము:`,
+        sig1: `సర్వీస్ ప్రొవైడర్ సంతకం<br>(${d.comp})`, sig2: `క్లయింట్ సంతకం & స్టాంప్<br>(${d.client})`
+      },
+      kn: {
+        title: `ವಾರ್ಷಿಕ ನಿರ್ವಹಣಾ ಒಪ್ಪಂದ (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `ಸೇವಾ ಪೂರೈಕೆದಾರರು (ಮೊದಲ ಪಕ್ಷ)`, p2: `ಗ್ರಾಹಕರು / ಸಂಸ್ಥೆ (ಎರಡನೇ ಪಕ್ಷ)`,
+        cNo: `ಒಪ್ಪಂದ ಸಂ.`, period: `ಅವಧಿ`, type: `ವಿಧ`,
+        th1: `ಕ್ರ.ಸಂ`, th2: `ಉಪಕರಣ / ಸಿಸ್ಟಮ್ ವಿವರ`, th3: `ಮಾದರಿ`, th4: `ಪ್ರಮಾಣ`,
+        scopeH: `ನಿರ್ವಹಣಾ ಕೆಲಸದ ವ್ಯಾಪ್ತಿ:`,
+        clauses: [
+          `<b>ನಿಯಮಿತ ಸೇವೆ:</b> ಒಪ್ಪಂದದ ಅವಧಿಯಲ್ಲಿ ಉಪಕರಣಗಳು ಸುಗಮವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸಲು <b>${d.visits}</b> ಮಾಡಲಾಗುವುದು.`,
+          `<b>ದುರಸ್ತಿ ಬೆಂಬಲ:</b> ತಾಂತ್ರಿಕ ದೋಷ ಕಂಡುಬಂದಲ್ಲಿ ದೂರು ನೀಡಿದ <b>${d.resp}</b> ಒಳಗೆ ಸರಿಪಡಿಸಲಾಗುವುದು.`,
+          `<b>ಬಿಡಿಭಾಗಗಳ ನಿಯಮ:</b> ಈ ಒಪ್ಪಂದವು <b>${d.amcType}</b> ಅಡಿಯಲ್ಲಿ ಬರುತ್ತದೆ. ಭೌತಿಕ ಹಾನಿ ಅಥವಾ ವೋಲ್ಟೇಜ್ ಹಾನಿಗೆ ಪ್ರತ್ಯೇಕ ಶುಲ್ಕ ಅನ್ವಯಿಸುತ್ತದೆ.`,
+          `<b>ಪಾವತಿ ನಿಯಮ:</b> ವಾರ್ಷಿಕ AMC ಶುಲ್ಕ <b>₹${d.fee}</b> ಅನ್ನು ಒಪ್ಪಂದದ ಸಮಯದಲ್ಲಿ ಮುಂಗಡವಾಗಿ ಪಾವತಿಸಬೇಕು.`,
+          `<b>ಅವಧಿ:</b> ಈ ಒಪ್ಪಂದವು <b>${d.start}</b> ರಿಂದ <b>${d.end}</b> ರವರೆಗೆ ಜಾರಿಯಲ್ಲಿರುತ್ತದೆ.`
+        ],
+        feeLbl: `ಒಟ್ಟು ವಾರ್ಷಿಕ AMC ಶುಲ್ಕ:`,
+        sig1: `ಸೇವಾ ಪೂರೈಕೆದಾರರ ಸಹಿ<br>(${d.comp})`, sig2: `ಗ್ರಾಹಕರ ಸಹಿ ಮತ್ತು ಮುದ್ರೆ<br>(${d.client})`
+      },
+      ml: {
+        title: `വാർഷിക അറ്റകുറ്റപ്പണി കരാർ (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `സേവന ദാതാവ് (ഒന്നാം കക്ഷി)`, p2: `ഉപഭോക്താവ് (രണ്ടാം കക്ഷി)`,
+        cNo: `കരാർ നമ്പർ`, period: `കാലയളവ്`, type: `തരം`,
+        th1: `നമ്പർ`, th2: `ഉപകരണത്തിന്റെ വിവരങ്ങൾ`, th3: `മോഡൽ`, th4: `എണ്ണം`,
+        scopeH: `അറ്റകുറ്റപ്പണി വിശദാംശങ്ങൾ:`,
+        clauses: [
+          `<b>പതിവ് സേവനം:</b> കരാർ കാലയളവിൽ ഉപകരണങ്ങൾ കൃത്യമായി പ്രവർത്തിക്കാൻ <b>${d.visits}</b> നടത്തുന്നതാണ്.`,
+          `<b>അടിയന്തര അറ്റകുറ്റപ്പണി:</b> സാങ്കേതിക തകരാർ സംഭവിച്ചാൽ പരാതി ലഭിച്ച് <b>${d.resp}</b>-നുള്ളിൽ പരിഹരിക്കുന്നതാണ്.`,
+          `<b>സ്പെയർ പാർട്സ് നയം:</b> ഈ കരാർ <b>${d.amcType}</b> പ്രകാരമാണ്. ഭൗതിക നാശനഷ്ടങ്ങൾക്കോ വോൾട്ടേജ് തകരാറുകൾക്കോ പ്രത്യേകം തുക നൽകേണ്ടതാണ്.`,
+          `<b>പേയ്‌മെന്റ് വ്യവസ്ഥ:</b> വാർഷിക AMC തുകയായ <b>₹${d.fee}</b> കരാർ ഒപ്പിടുമ്പോൾ മുൻകൂറായി നൽകേണ്ടതാണ്.`,
+          `<b>കാലാവധി:</b> ഈ കരാർ <b>${d.start}</b> മുതൽ <b>${d.end}</b> വരെ പ്രാബല്യത്തിൽ ഉണ്ടായിരിക്കും.`
+        ],
+        feeLbl: `ആകെ വാർഷിക AMC തുക:`,
+        sig1: `സേവന ദാതാവിന്റെ ഒപ്പ്<br>(${d.comp})`, sig2: `ഉപഭോക്താവിന്റെ ഒപ്പ്<br>(${d.client})`
+      },
+      pa: {
+        title: `ਸਾਲਾਨਾ ਰੱਖ-ਰਖਾਅ ਇਕਰਾਰਨਾਮਾ (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `ਸੇਵਾ ਪ੍ਰਦਾਤਾ (ਪਹਿਲੀ ਧਿਰ)`, p2: `ਗਾਹਕ / ਸੰਸਥਾ (ਦੂਜੀ ਧਿਰ)`,
+        cNo: `ਇਕਰਾਰਨਾਮਾ ਨੰ.`, period: `ਮਿਆਦ`, type: `ਕਿਸਮ`,
+        th1: `ਨੰ.`, th2: `ਉਪਕਰਨ / ਸਿਸਟਮ ਵੇਰਵਾ`, th3: `ਮਾਡਲ`, th4: `ਗਿਣਤੀ`,
+        scopeH: `ਕੰਮ ਦਾ ਵੇਰਵਾ (Scope of Work):`,
+        clauses: [
+          `<b>ਨਿਯਮਤ ਸਰਵਿਸ:</b> ਇਕਰਾਰਨਾਮੇ ਦੌਰਾਨ ਸਿਸਟਮ ਨੂੰ ਸਹੀ ਰੱਖਣ ਲਈ <b>${d.visits}</b> ਕੀਤੀਆਂ ਜਾਣਗੀਆਂ।`,
+          `<b>ਬ੍ਰੇਕਡਾਊਨ ਸਪੋਰਟ:</b> ਕਿਸੇ ਵੀ ਤਕਨੀਕੀ ਖਰਾਬੀ ਦੀ ਸੂਰਤ ਵਿੱਚ <b>${d.resp}</b> ਦੇ ਅੰਦਰ ਸਰਵਿਸ ਦਿੱਤੀ ਜਾਵੇਗੀ।`,
+          `<b>ਸਪੇਅਰ ਪਾਰਟਸ ਨੀਤੀ:</b> ਇਹ ਇਕਰਾਰਨਾਮਾ <b>${d.amcType}</b> ਅਧੀਨ ਹੈ। ਟੁੱਟ-ਭੱਜ ਜਾਂ ਹਾਈ-ਵੋਲਟੇਜ ਕਾਰਨ ਹੋਏ ਨੁਕਸਾਨ ਦਾ ਖਰਚਾ ਵੱਖਰਾ ਹੋਵੇਗਾ।`,
+          `<b>ਭੁਗਤਾਨ ਸ਼ਰਤਾਂ:</b> ਸਾਲਾਨਾ AMC ਫੀਸ <b>₹${d.fee}</b> ਇਕਰਾਰਨਾਮੇ ਵੇਲੇ ਐਡਵਾਂਸ ਅਦਾ ਕਰਨੀ ਹੋਵੇਗੀ।`,
+          `<b>ਮਿਆਦ:</b> ਇਹ ਇਕਰਾਰਨਾਮਾ <b>${d.start}</b> ਤੋਂ <b>${d.end}</b> ਤੱਕ ਲਾਗੂ ਰਹੇਗਾ।`
+        ],
+        feeLbl: `ਕੁੱਲ ਸਾਲਾਨਾ AMC ਫੀਸ:`,
+        sig1: `ਸੇਵਾ ਪ੍ਰਦਾਤਾ ਦੇ ਦਸਤਖਤ<br>(${d.comp})`, sig2: `ਗਾਹਕ ਦੇ ਦਸਤਖਤ ਅਤੇ ਮੋਹਰ<br>(${d.client})`
+      },
+      or: {
+        title: `ବାର୍ଷିକ ରକ୍ଷଣାବେକ୍ଷଣ ଚୁକ୍ତିନାମା (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `ସେବା ପ୍ରଦାନକାରୀ (ପ୍ରଥମ ପକ୍ଷ)`, p2: `ଗ୍ରାହକ / ସଂସ୍ଥା (ଦ୍ୱିତୀୟ ପକ୍ଷ)`,
+        cNo: `ଚୁକ୍ତି ନଂ`, period: `ସମୟସୀମା`, type: `ପ୍ରକାର`,
+        th1: `କ୍ରମ`, th2: `ଉପକରଣ / ସିଷ୍ଟମ ବିବରଣୀ`, th3: `ମଡେଲ୍`, th4: `ପରିମାଣ`,
+        scopeH: `କାର୍ଯ୍ୟର ବିବରଣୀ (Scope of Work):`,
+        clauses: [
+          `<b>ନିୟମିତ ସର୍ଭିସ୍:</b> ଚୁକ୍ତି ସମୟରେ ସିଷ୍ଟମ ସଠିକ୍ ଭାବରେ ଚାଲିବା ପାଇଁ <b>${d.visits}</b> କରାଯିବ।`,
+          `<b>ବ୍ରେକଡାଉନ୍ ସପୋର୍ଟ:</b> କୌଣସି ଯାନ୍ତ୍ରିକ ତ୍ରୁଟି ହେଲେ ଅଭିଯୋଗ ପାଇବାର <b>${d.resp}</b> ମଧ୍ୟରେ ମରାମତି କରାଯିବ।`,
+          `<b>ସ୍ପେୟାର ପାର୍ଟସ୍ ନୀତି:</b> ଏହି ଚୁକ୍ତି <b>${d.amcType}</b> ଅନ୍ତର୍ଭୁକ୍ତ। ଭୌତିକ କ୍ଷତି କିମ୍ବା ହାଇ-ଭୋଲଟେଜ୍ ଜନିତ କ୍ଷତି ପାଇଁ ଅଲଗା ଦେୟ ଲାଗିବ।`,
+          `<b>ଦେୟ ନିୟମ:</b> ବାର୍ଷିକ AMC ଦେୟ <b>₹${d.fee}</b> ଚୁକ୍ତି ସମୟରେ ଅଗ୍ରିମ ପ୍ରଦାନ କରିବାକୁ ହେବ।`,
+          `<b>ବୈଧତା:</b> ଏହି ଚୁକ୍ତି <b>${d.start}</b> ଠାରୁ <b>${d.end}</b> ପର୍ଯ୍ୟନ୍ତ ବଳବତ୍ତର ରହିବ।`
+        ],
+        feeLbl: `ମୋଟ ବାର୍ଷିକ AMC ଦେୟ:`,
+        sig1: `ସେବା ପ୍ରଦାନକାରୀଙ୍କ ସ୍ୱାକ୍ଷର<br>(${d.comp})`, sig2: `ଗ୍ରାହକଙ୍କ ସ୍ୱାକ୍ଷର ଓ ମୋହର<br>(${d.client})`
+      },
+      ur: {
+        title: `سالانہ دیکھ بھال کا معاہدہ (ANNUAL MAINTENANCE CONTRACT - AMC)`,
+        p1: `سروس فراہم کنندہ (فریق اول)`, p2: `کلائنٹ / کسٹمر (فریق دوم)`,
+        cNo: `معاہدہ نمبر`, period: `مدت`, type: `قسم`,
+        th1: `نمبر`, th2: `آلات / سسٹم کی تفصیل`, th3: `ماڈل`, th4: `تعداد`,
+        scopeH: `کام کی تفصیلات (Scope of Work):`,
+        clauses: [
+          `<b>باقاعدہ سروس:</b> معاہدے کی مدت کے دوران سسٹم کو رواں رکھنے کے لیے <b>${d.visits}</b> کی جائیں گی۔`,
+          `<b>بریک ڈاؤن سپورٹ:</b> کسی بھی تکنیکی خرابی کی صورت میں اطلاع ملنے کے <b>${d.resp}</b> کے اندر مرمت کی جائے گی۔`,
+          `<b>اسپیئر پارٹس پالیسی:</b> یہ معاہدہ <b>${d.amcType}</b> کے تحت ہے۔ جسمانی نقصان یا ہائی وولٹیج سے ہونے والے نقصان کے اخراجات الگ سے ادا کیے جائیں گے۔`,
+          `<b>ادائیگی کی شرائط:</b> سالانہ AMC فیس <b>₹${d.fee}</b> معاہدہ کرتے وقت پیشگی ادا کرنی ہوگی۔`,
+          `<b>مدت:</b> یہ معاہدہ <b>${d.start}</b> سے <b>${d.end}</b> تک نافذ العمل رہے گا۔`
+        ],
+        feeLbl: `کل سالانہ AMC فیس:`,
+        sig1: `دستخط سروس فراہم کنندہ<br>(${d.comp})`, sig2: `دستخط کلائنٹ مع مہر<br>(${d.client})`
+      }
+    };
+    return map[lang] || map.en;
+  }
+
+  function renderAMC() {
+    const lang = document.getElementById('in_lang').value;
+    const sheet = document.getElementById('a4DocSheet');
+    sheet.className = lang === 'ur' ? 'urdu-rtl' : '';
+
+    const comp = document.getElementById('in_comp').value.trim() || 'Service Provider Name';
+    const compPh = document.getElementById('in_comp_ph').value.trim() || '-';
+    const compAddr = document.getElementById('in_comp_addr').value.trim() || 'Provider Address';
+    const compGst = document.getElementById('in_comp_gst').value.trim();
+
+    const client = document.getElementById('in_client').value.trim() || 'Client / Society Name';
+    const clientPh = document.getElementById('in_client_ph').value.trim() || '-';
+    const clientAddr = document.getElementById('in_client_addr').value.trim() || 'Client Site Address';
+
+    const docNo = document.getElementById('in_doc_no').value.trim() || 'AMC-001';
+    const start = document.getElementById('in_start').value || '-';
+    const end = document.getElementById('in_end').value || '-';
+    const amcType = document.getElementById('in_amc_type').value;
+    const visits = document.getElementById('in_visits').value;
+    const resp = document.getElementById('in_resp').value.trim() || 'Within 24 Hours';
+    const fee = (parseFloat(document.getElementById('in_fee').value) || 0).toLocaleString('en-IN');
+    const scope = document.getElementById('in_scope').value.trim();
+
+    const L = getLangText(lang, { comp, client, start, end, amcType, visits, resp, fee });
+
+    const rowsHtml = equipmentList.map((it, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td><b>${it.name || '-'}</b></td>
+        <td>${it.model || '-'}</td>
+        <td>${it.qty || '-'}</td>
+      </tr>
+    `).join('');
+
+    document.getElementById('amcPreviewContent').innerHTML = `
+      <div class="amc-box">
+        <div class="amc-top-banner">
+          <div class="amc-provider">
+            <h2>${comp}</h2>
+            <p>${compAddr} • 📞 ${compPh}</p>
+            ${compGst ? `<p><b>GSTIN / Reg:</b> ${compGst}</p>` : ''}
+          </div>
+          <div class="amc-tag">${L.cNo}: ${docNo}</div>
+        </div>
+
+        <div class="amc-doc-title">${L.title}</div>
+
+        <div class="amc-parties">
+          <div class="party-card">
+            <h4>${L.p1}</h4>
+            <div><b>${comp}</b></div>
+            <div>${compAddr}</div>
+            <div>Ph: ${compPh}</div>
+          </div>
+          <div class="party-card">
+            <h4>${L.p2}</h4>
+            <div><b>${client}</b></div>
+            <div>${clientAddr}</div>
+            <div>Ph: ${clientPh}</div>
+          </div>
+        </div>
+
+        <div class="amc-meta-strip">
+          <span>📅 ${L.period}: ${start} to ${end}</span>
+          <span>🛡️ ${L.type}: ${amcType}</span>
+        </div>
+
+        <table class="amc-table">
+          <thead>
+            <tr>
+              <th style="width:36px;">${L.th1}</th>
+              <th>${L.th2}</th>
+              <th>${L.th3}</th>
+              <th style="width:75px;">${L.th4}</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+
+        ${scope ? `<div style="font-size:10.8px; background:#f8fafc; border-left:3px solid #0284c7; padding:6px 10px; margin-bottom:8px;"><b>${L.scopeH}</b> ${scope}</div>` : ''}
+
+        <ol class="amc-clauses">
+          ${L.clauses.map(c => `<li>${c}</li>`).join('')}
+        </ol>
+
+        <div class="amc-fee-box">
+          <span>${L.feeLbl}</span>
+          <span>₹${fee} /-</span>
+        </div>
+
+        <div class="amc-sig-row">
+          <div class="sig-line">${L.sig1}</div>
+          <div class="sig-line">${L.sig2}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function downloadA4PDF() {
+    const source = document.getElementById('a4DocSheet');
+    const clone = source.cloneNode(true);
+    clone.style.cssText = 'width: 680px; max-width: 680px; margin: 0; padding: 14px; background: #ffffff; color: #0f172a; border: none; box-shadow: none; box-sizing: border-box;';
+
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position: absolute; top: 0; left: 0; width: 680px; background: #ffffff; z-index: 999999; margin: 0; padding: 0;';
+    wrap.appendChild(clone);
+    document.body.appendChild(wrap);
+
+    const fileNo = document.getElementById('in_doc_no').value.trim() || 'Contract';
+    html2pdf().set({
+      margin: [8, 8, 8, 8],
+      filename: `AMC_Contract_${fileNo}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, x: 0, y: 0, width: 680, windowWidth: 680 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from(clone).save().then(() => wrap.remove()).catch(() => wrap.remove());
+  }
+
+  function printDocDirect() {
+    const w = window.open('', '_blank', 'width=850,height=950');
+    w.document.write(`<!DOCTYPE html><html><head><title>Print AMC Contract</title>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Gurmukhi:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Sans+Malayalam:wght@400;600;700&family=Noto+Sans+Oriya:wght@400;600;700&family=Noto+Sans+Tamil:wght@400;600;700&family=Noto+Sans+Telugu:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+      <style>
+      *{box-sizing:border-box;font-family:-apple-system,"Noto Sans Devanagari","Noto Sans Gujarati","Noto Sans Bengali","Noto Sans Tamil","Noto Sans Telugu","Noto Sans Kannada","Noto Sans Malayalam","Noto Sans Gurmukhi","Noto Sans Oriya",sans-serif}
+      body{margin:0;padding:8mm}
+      .urdu-rtl{font-family:'Noto Nastaliq Urdu',serif!important;direction:rtl;text-align:right;line-height:2.1!important}
+      .amc-box{border:2px solid #0f172a;padding:16px 18px}
+      .amc-top-banner{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0f172a;padding-bottom:8px;margin-bottom:10px}
+      .amc-provider h2{margin:0;font-size:16px;font-weight:900}.amc-provider p{margin:2px 0 0;font-size:10px;color:#475569}
+      .amc-tag{background:#0f172a;color:#fff;padding:4px 9px;font-size:10px;font-weight:800;border-radius:4px}
+      .amc-doc-title{text-align:center;background:#f1f5f9;border:1px solid #cbd5e1;padding:5px;font-size:13.5px;font-weight:900;margin-bottom:8px}
+      .amc-parties{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;font-size:10.5px}
+      .party-card{border:1px solid #cbd5e1;padding:7px 9px;background:#f8fafc}
+      .party-card h4{margin:0 0 3px;font-size:10px;color:#0369a1}
+      .amc-meta-strip{display:flex;justify-content:space-between;border:1px solid #0f172a;padding:5px 9px;font-size:10.5px;font-weight:700;margin-bottom:8px;background:#fffbeb}
+      .amc-table{width:100%;border-collapse:collapse;margin-bottom:8px;font-size:10.5px}
+      .amc-table th{background:#0f172a;color:#fff;padding:4px 7px;text-align:left}
+      .amc-table td{border:1px solid #cbd5e1;padding:4px 7px}
+      .amc-clauses{margin:6px 0 10px 18px;padding:0;font-size:10.5px;line-height:1.5}
+      .amc-clauses li{margin-bottom:3px;page-break-inside:avoid}
+      .amc-fee-box{border:1.5px solid #16a34a;background:#f0fdf4;padding:7px 10px;font-size:11px;font-weight:800;color:#166534;display:flex;justify-content:space-between;margin-bottom:12px}
+      .amc-sig-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px;font-size:10.5px;page-break-inside:avoid}
+      .sig-line{border-top:1.5px solid #0f172a;padding-top:4px;text-align:center;font-weight:800}
+    </style></head><body class="${document.getElementById('a4DocSheet').className}">${document.getElementById('a4DocSheet').innerHTML}</body></html>`);
+    w.document.close(); w.focus(); setTimeout(() => { w.print(); w.close(); }, 500);
+  }
+
+  function shareWhatsApp() {
+    const client = document.getElementById('in_client').value.trim() || 'Client';
+    const docNo = document.getElementById('in_doc_no').value.trim();
+    const fee = (parseFloat(document.getElementById('in_fee').value) || 0).toLocaleString('en-IN');
+    const ph = document.getElementById('in_client_ph').value.trim().replace(/[^0-9]/g, '');
+    const msg = `*🛡️ ANNUAL MAINTENANCE CONTRACT (${docNo})*\n*Client:* ${client}\n*Period:* ${document.getElementById('in_start').value} to ${document.getElementById('in_end').value}\n*Annual Fee:* ₹${fee}\n\n_Generated via KaamKaj Bills._`;
+    window.open(ph ? `https://wa.me/91${ph}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  window.onload = () => {
+    const today = new Date();
+    const nextYear = new Date(today);
+    nextYear.setFullYear(today.getFullYear() + 1);
+    nextYear.setDate(today.getDate() - 1);
+
+    document.getElementById('in_start').value = today.toISOString().split('T')[0];
+    document.getElementById('in_end').value = nextYear.toISOString().split('T')[0];
+    document.getElementById('in_doc_no').value = 'AMC-' + Math.floor(10000 + Math.random() * 89999);
+    applyPreset('CCTV', document.querySelector('.preset-chip'));
+  };
+</script>
+</body>
+</html>
