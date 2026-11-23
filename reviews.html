@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Reviews & Feedback - KaamKaj Bills</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --star: #f59e0b;
+    }
+    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); }
+    header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #fff; padding: 20px; text-align: center;
+    }
+    header a { color: #dbeafe; text-decoration: none; font-size: 14px; display: inline-block; margin-bottom: 8px; }
+    header h1 { margin: 0; font-size: 26px; }
+    header p { margin: 6px 0 0; opacity: 0.9; font-size: 15px; }
+    .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+    .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
+    @media(max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card); border-radius: 12px; padding: 22px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+    }
+    .card h2 { margin-top: 0; font-size: 20px; color: #0f172a; }
+    label { display: block; font-weight: 600; margin: 14px 0 6px; font-size: 14px; }
+    input, select, textarea {
+      width: 100%; padding: 11px 12px; border: 1.5px solid #cbd5e1;
+      border-radius: 8px; font-size: 15px; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+
+    .star-rating { display: flex; gap: 8px; font-size: 32px; cursor: pointer; user-select: none; }
+    .star-rating span { color: #cbd5e1; transition: transform 0.15s, color 0.15s; }
+    .star-rating span.active, .star-rating span:hover { color: var(--star); transform: scale(1.1); }
+
+    button.btn {
+      width: 100%; margin-top: 18px; padding: 13px; background: var(--primary);
+      color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600;
+      cursor: pointer; transition: 0.2s;
+    }
+    button.btn:hover { background: var(--primary-dark); }
+    button.btn:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .review-item {
+      background: #fff; border-radius: 10px; padding: 16px; margin-bottom: 14px;
+      border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .rev-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .rev-name { font-weight: 700; font-size: 16px; color: #0f172a; }
+    .rev-tool { background: #eff6ff; color: #1d4ed8; font-size: 12px; padding: 3px 8px; border-radius: 20px; font-weight: 600; }
+    .rev-stars { color: var(--star); font-size: 18px; margin: 6px 0; }
+    .rev-text { margin: 6px 0; line-height: 1.5; font-size: 15px; color: #334155; }
+    .rev-date { font-size: 12px; color: var(--muted); }
+
+    .admin-reply-box {
+      margin-top: 12px; padding: 10px 14px; background: #f1f5f9;
+      border-left: 4px solid var(--primary); border-radius: 6px; font-size: 14px;
+    }
+    .admin-reply-box strong { color: var(--primary-dark); display: block; margin-bottom: 3px; }
+    .msg { margin-top: 12px; padding: 10px; border-radius: 6px; font-size: 14px; display: none; }
+    .msg.ok { display: block; background: #dcfce7; color: #166534; }
+    .msg.err { display: block; background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html">← Back to KaamKaj Bills Home</a>
+  <h1>User Reviews & Feedback</h1>
+  <p>आपका अनुभव हमारे लिए महत्वपूर्ण है — अपनी रेटिंग और सुझाव साझा करें</p>
+</header>
+
+<div class="container">
+  <div class="grid">
+    <div class="card">
+      <h2>अपना रिव्यू दें (Write a Review)</h2>
+      <form id="reviewForm">
+        <label>आपका नाम (Your Name) *</label>
+        <input type="text" id="revName" placeholder="उदा. राजेश शर्मा" required />
+
+        <label>आपने कौन सी सर्विस/टूल उपयोग किया?</label>
+        <select id="revTool">
+          <option value="Invoice / Bill Generator">Invoice / Bill Generator</option>
+          <option value="Quotation Maker">Quotation Maker</option>
+          <option value="Rent Receipt Generator">Rent Receipt Generator</option>
+          <option value="Salary Slip Maker">Salary Slip Maker</option>
+          <option value="ID Card / Certificate Maker">ID Card / Certificate Maker</option>
+          <option value="QR / Barcode / Image Tools">QR / Barcode / Image Tools</option>
+          <option value="Custom Website / Page Service">Custom Website / Page Service</option>
+          <option value="Other KaamKaj Tool">Other KaamKaj Tool</option>
+        </select>
+
+        <label>रेटिंग चुनें (1 से 5 स्टार) *</label>
+        <div class="star-rating" id="starContainer">
+          <span data-val="1" class="active">★</span>
+          <span data-val="2" class="active">★</span>
+          <span data-val="3" class="active">★</span>
+          <span data-val="4" class="active">★</span>
+          <span data-val="5" class="active">★</span>
+        </div>
+        <input type="hidden" id="revRating" value="5" />
+
+        <label>आपका फीडबैक (Feedback) *</label>
+        <textarea id="revFeedback" rows="4" placeholder="हमारी सर्विस या टूल्स के बारे में अपने विचार लिखें..." required></textarea>
+
+        <button type="submit" class="btn" id="submitBtn">रिव्यू सबमिट करें</button>
+        <div id="formMsg" class="msg"></div>
+      </form>
+    </div>
+
+    <div>
+      <h2 style="margin-top:0;">Verified User Reviews (<span id="revCount">0</span>)</h2>
+      <div id="reviewsList">
+        <p style="color:#64748b;">रिव्यू लोड हो रहे हैं...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXEhnFRIK4izUsnz2LqghUSm0ocC-r14cFFaFIsAd3EHuRZeqKqE-S9AACsM7ZJtDk/exec";
+
+  const stars = document.querySelectorAll("#starContainer span");
+  const ratingInput = document.getElementById("revRating");
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      const val = Number(star.getAttribute("data-val"));
+      ratingInput.value = val;
+      stars.forEach(s => {
+        s.classList.toggle("active", Number(s.getAttribute("data-val")) <= val);
+      });
+    });
+  });
+
+  async function loadReviews() {
+    const container = document.getElementById("reviewsList");
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=getPublicReviews`);
+      const data = await res.json();
+      if (data.status === "success") {
+        document.getElementById("revCount").textContent = data.reviews.length;
+        if (data.reviews.length === 0) {
+          container.innerHTML = `<div class="review-item">अभी कोई पब्लिश्ड रिव्यू नहीं है। पहले रिव्यू देने वाले बनें!</div>`;
+          return;
+        }
+        container.innerHTML = data.reviews.map(r => {
+          const starStr = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+          const replyHtml = (r.showReply && r.adminReply.trim() !== "")
+            ? `<div class="admin-reply-box"><strong>Response from KaamKaj Bills:</strong>${escapeHtml(r.adminReply)}</div>`
+            : "";
+          return `
+            <div class="review-item">
+              <div class="rev-top">
+                <span class="rev-name">${escapeHtml(r.name)}</span>
+                <span class="rev-tool">${escapeHtml(r.tool)}</span>
+              </div>
+              <div class="rev-stars">${starStr}</div>
+              <div class="rev-text">${escapeHtml(r.feedback)}</div>
+              <div class="rev-date">${escapeHtml(r.date)}</div>
+              ${replyHtml}
+            </div>
+          `;
+        }).join("");
+      }
+    } catch (err) {
+      container.innerHTML = `<p style="color:#dc2626;">रिव्यू लोड करने में समस्या आई। कृपया पेज रिफ्रेश करें।</p>`;
+    }
+  }
+
+  document.getElementById("reviewForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("submitBtn");
+    const msg = document.getElementById("formMsg");
+    btn.disabled = true;
+    btn.textContent = "सबमिट हो रहा है...";
+    msg.className = "msg";
+
+    const payload = {
+      action: "submitReview",
+      name: document.getElementById("revName").value.trim(),
+      tool: document.getElementById("revTool").value,
+      rating: document.getElementById("revRating").value,
+      feedback: document.getElementById("revFeedback").value.trim()
+    };
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.status === "success") {
+        msg.textContent = "धन्यवाद! आपका रिव्यू सबमिट हो गया है। एडमिन अप्रूवल के बाद यह यहां दिखाई देगा।";
+        msg.className = "msg ok";
+        document.getElementById("reviewForm").reset();
+        ratingInput.value = 5;
+        stars.forEach(s => s.classList.add("active"));
+      } else {
+        throw new Error();
+      }
+    } catch (err) {
+      msg.textContent = "सबमिट नहीं हो पाया। कृपया इंटरनेट जांचें और पुनः प्रयास करें।";
+      msg.className = "msg err";
+    }
+    btn.disabled = false;
+    btn.textContent = "रिव्यू सबमिट करें";
+  });
+
+  function escapeHtml(str) {
+    return String(str || "").replace(/[&<>"']/g, m => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+
+  loadReviews();
+</script>
+</body>
+</html>
