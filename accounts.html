@@ -101,6 +101,19 @@
     .switch-label input { width: 18px; height: 18px; margin: 0; accent-color: #16a34a; cursor: pointer; }
     .action-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 
+    /* Running Updates Manager Styling */
+    .upd-add-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+    .upd-add-row input { flex: 1 1 280px; margin: 0; }
+    .upd-item {
+      display: flex; justify-content: space-between; align-items: center; gap: 12px;
+      padding: 12px 14px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .upd-tag {
+      background: #fef3c7; color: #92400e; font-size: 11.5px; font-weight: 800;
+      padding: 3px 9px; border-radius: 999px; border: 1px solid #fcd34d; margin-right: 8px;
+    }
+
     /* Floating Toast Notification */
     .toast {
       position: fixed; bottom: 24px; right: 24px; z-index: 999;
@@ -138,7 +151,7 @@
     <div class="topbar">
       <div>
         <strong style="font-size:18px;">KaamKaj Bills — Account Panel</strong>
-        <div style="font-size:12.5px; color:#cbd5e1;">Reviews, Custom Page Requests & Security</div>
+        <div style="font-size:12.5px; color:#cbd5e1;">Live Ticker Updates, Reviews, Custom Page Requests & Security</div>
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <a href="index.html" style="text-decoration:none;"><button type="button" style="background:rgba(255,255,255,0.15); color:#fff;">🏠 Home</button></a>
@@ -149,14 +162,35 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('reviewsTab', this)">Client Reviews (<span id="countRev">0</span>)</button>
+      <button class="tab-btn active" onclick="switchTab('updatesTab', this)">🆕 Running Updates (<span id="countUpd">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('reviewsTab', this)">Client Reviews (<span id="countRev">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('requestsTab', this)">Custom Page Requests (<span id="countReq">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('securityTab', this)">Change Password</button>
     </div>
 
-    <div id="reviewsTab"></div>
+    <!-- Tab 1: Running Updates Manager -->
+    <div id="updatesTab">
+      <div class="card">
+        <h3 style="margin-top:0; margin-bottom:6px;">🆕 होमपेज रनिंग अपडेट मैनेजर (Left-to-Right Ticker)</h3>
+        <p style="color:#64748b; font-size:13.5px; margin-top:0;">यहाँ जो भी नए कार्ड का नाम या अपडेट जोड़ेंगे, वह सीधे <strong>index.html</strong> पर <strong>"न्यू अपडेट"</strong> बैज के साथ रनिंग मोड में चलेगा। पुराना होने पर आप उसे यहाँ से डिलीट कर सकते हैं।</p>
+        <div class="upd-add-row">
+          <input type="text" id="newUpdateInput" placeholder="नया अपडेट या कार्ड का मुख्य नाम लिखें... (जैसे: Rent Agreement & Police Verification)" onkeydown="if(event.key==='Enter') addNewUpdate(document.getElementById('btnAddUpd'))" />
+          <button type="button" id="btnAddUpd" class="btn-approve" onclick="addNewUpdate(this)">➕ Add Update</button>
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="margin-top:0; margin-bottom:12px;">लाइव चल रहे अपडेट्स (Active Updates List)</h4>
+        <div id="updatesListContainer"></div>
+      </div>
+    </div>
+
+    <!-- Tab 2: Client Reviews -->
+    <div id="reviewsTab" style="display:none;"></div>
+
+    <!-- Tab 3: Custom Page Requests -->
     <div id="requestsTab" style="display:none;"></div>
 
+    <!-- Tab 4: Security / Change Password -->
     <div id="securityTab" style="display:none;">
       <div class="card" style="max-width:450px;">
         <h3 style="margin-top:0;">एडमिन पासवर्ड बदलें (Change Password)</h3>
@@ -177,6 +211,7 @@
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXEhnFRIK4izUsnz2LqghUSm0ocC-r14cFFaFIsAd3EHuRZeqKqE-S9AACsM7ZJtDk/exec";
   let SESSION_PASSWORD = "";
+  let CURRENT_UPDATES = [];
 
   function showToast(text) {
     const t = document.getElementById("toast");
@@ -186,7 +221,6 @@
     showToast.timer = setTimeout(() => t.classList.remove("show"), 2600);
   }
 
-  // Helper to animate any button during API call
   async function runWithFeedback(btn, loadingText, doneToastText, asyncTask) {
     const oldHtml = btn ? btn.innerHTML : "";
     if (btn) {
@@ -201,6 +235,13 @@
       }
       showToast(doneToastText);
       await fetchDashboardData();
+      if (btn) {
+        setTimeout(() => {
+          btn.classList.remove("btn-done");
+          btn.innerHTML = oldHtml;
+          btn.disabled = false;
+        }, 900);
+      }
     } catch (e) {
       showToast("⚠️ नेटवर्क समस्या! पुनः प्रयास करें।");
       if (btn) {
@@ -236,9 +277,6 @@
 
   async function manualRefresh(btn) {
     await runWithFeedback(btn, "Refreshing...", "✓ डेटा रिफ्रेश हो गया!", async () => {});
-    btn.classList.remove("btn-done");
-    btn.innerHTML = "↻ Refresh";
-    btn.disabled = false;
   }
 
   async function fetchDashboardData() {
@@ -250,12 +288,68 @@
       const data = await res.json();
       if (data.status !== "success") return false;
 
-      renderReviews(data.reviews);
-      renderRequests(data.requests);
+      CURRENT_UPDATES = Array.isArray(data.updates) ? data.updates : [];
+      renderUpdatesList();
+      renderReviews(data.reviews || []);
+      renderRequests(data.requests || []);
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  function renderUpdatesList() {
+    document.getElementById("countUpd").textContent = CURRENT_UPDATES.length;
+    const box = document.getElementById("updatesListContainer");
+    if (CURRENT_UPDATES.length === 0) {
+      box.innerHTML = `<div style="color:#64748b; font-size:14px; padding:10px 0;">अभी कोई लाइव अपडेट नहीं है (होमपेज पर पट्टी छिपी रहेगी)। ऊपर बॉक्स से नया अपडेट जोड़ें।</div>`;
+      return;
+    }
+    box.innerHTML = CURRENT_UPDATES.map((text, idx) => `
+      <div class="upd-item">
+        <div style="font-size:14.5px; font-weight:700; color:#0f172a;">
+          <span class="upd-tag">🆕 न्यू अपडेट</span> ${esc(text)}
+        </div>
+        <button type="button" class="btn-del" onclick="deleteUpdateItem(${idx}, this)">🗑️ Delete</button>
+      </div>
+    `).join("");
+  }
+
+  async function addNewUpdate(btn) {
+    const input = document.getElementById("newUpdateInput");
+    const val = input.value.trim();
+    if (!val) {
+      showToast("⚠️ कृपया अपडेट का नाम लिखें!");
+      input.focus();
+      return;
+    }
+    const updatedArray = [val, ...CURRENT_UPDATES];
+    await runWithFeedback(btn, "Adding...", "✓ नया अपडेट जोड़ दिया गया!", async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "saveUpdates",
+          password: SESSION_PASSWORD,
+          updates: updatedArray
+        })
+      });
+      input.value = "";
+    });
+  }
+
+  async function deleteUpdateItem(index, btn) {
+    if (!confirm("क्या आप इस पुराने अपडेट को हटाना चाहते हैं?")) return;
+    const updatedArray = CURRENT_UPDATES.filter((_, i) => i !== index);
+    await runWithFeedback(btn, "Deleting...", "✓ पुराना अपडेट हटा दिया गया!", async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "saveUpdates",
+          password: SESSION_PASSWORD,
+          updates: updatedArray
+        })
+      });
+    });
   }
 
   function renderReviews(reviews) {
@@ -418,7 +512,7 @@
   }
 
   function switchTab(tabId, btn) {
-    ["reviewsTab", "requestsTab", "securityTab"].forEach(id => {
+    ["updatesTab", "reviewsTab", "requestsTab", "securityTab"].forEach(id => {
       document.getElementById(id).style.display = (id === tabId) ? "block" : "none";
     });
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
