@@ -6,122 +6,188 @@
   <title>Client Reviews & Feedback - KaamKaj Bills</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --bg: #f8fafc;
-      --card: #ffffff;
-      --text: #1e293b;
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg: #f3f7fc;
+      --card: rgba(255, 255, 255, 0.9);
+      --text: #0f172a;
       --muted: #64748b;
       --star: #f59e0b;
     }
-    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { margin: 0; background: var(--bg); color: var(--text); }
-    header {
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-      color: #fff; padding: 20px; text-align: center;
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+    body { margin: 0; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; position: relative; }
+
+    /* Animated Floating Background Orbs (Matching index.html) */
+    .floating-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; opacity: 0.55; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(55px); animation: floatOrb 16s infinite alternate ease-in-out; }
+    .orb-1 { width: 320px; height: 320px; background: #38bdf8; top: 5%; left: -90px; }
+    .orb-2 { width: 350px; height: 350px; background: #fbbf24; top: 28%; right: -110px; animation-delay: -4s; }
+    .orb-3 { width: 360px; height: 360px; background: #a78bfa; bottom: 10%; left: 12%; animation-delay: -8s; }
+    .orb-4 { width: 300px; height: 300px; background: #34d399; bottom: 4%; right: 8%; animation-delay: -2s; }
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -30px) scale(1.12); }
     }
-    header a { color: #dbeafe; text-decoration: none; font-size: 14px; display: inline-block; margin-bottom: 8px; }
-    header h1 { margin: 0; font-size: 26px; }
-    header p { margin: 6px 0 0; opacity: 0.9; font-size: 15px; }
-    .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-    .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; }
+
+    .page-shell { position: relative; z-index: 1; }
+
+    header {
+      background: linear-gradient(135deg, #0b172b 0%, #183b79 55%, #0369a1 100%);
+      color: #fff; padding: 20px 18px 28px; text-align: center;
+      border-bottom: 3px solid #f59e0b; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
+    }
+    .top-bar { max-width: 960px; margin: 0 auto 12px; display: flex; justify-content: flex-start; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255, 255, 255, 0.14); color: #ffffff;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      padding: 9px 18px; border-radius: 50px; text-decoration: none;
+      font-size: 14px; font-weight: 700; backdrop-filter: blur(8px);
+      transition: all 0.22s ease;
+    }
+    .back-btn:hover {
+      background: #f59e0b; color: #0f172a; border-color: #f59e0b;
+      transform: translateX(-4px); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+    }
+    header h1 { margin: 0; font-size: clamp(22px, 3vw, 28px); font-weight: 900; }
+    header p { margin: 6px 0 0; opacity: 0.9; font-size: 14.5px; color: #e2e8f0; }
+
+    .container { max-width: 960px; margin: 26px auto; padding: 0 16px 50px; }
+    .grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 24px; align-items: start; }
     @media(max-width: 768px) { .grid { grid-template-columns: 1fr; } }
 
     .card {
-      background: var(--card); border-radius: 12px; padding: 22px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+      background: var(--card); backdrop-filter: blur(14px);
+      border-radius: 16px; padding: 24px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      border: 1px solid rgba(148, 163, 184, 0.3);
     }
-    .card h2 { margin-top: 0; font-size: 20px; color: #0f172a; }
-    label { display: block; font-weight: 600; margin: 14px 0 6px; font-size: 14px; }
+    .card h2 { margin-top: 0; font-size: 20px; color: #0f172a; font-weight: 850; }
+    label { display: block; font-weight: 700; margin: 14px 0 6px; font-size: 13.5px; color: #334155; }
     input, select, textarea {
-      width: 100%; padding: 11px 12px; border: 1.5px solid #cbd5e1;
-      border-radius: 8px; font-size: 15px; outline: none;
+      width: 100%; padding: 11px 13px; border: 1.5px solid #cbd5e1;
+      border-radius: 10px; font-size: 14.5px; outline: none; background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14); }
 
-    .star-rating { display: flex; gap: 8px; font-size: 32px; cursor: pointer; user-select: none; }
-    .star-rating span { color: #cbd5e1; transition: transform 0.15s, color 0.15s; }
-    .star-rating span.active, .star-rating span:hover { color: var(--star); transform: scale(1.1); }
+    .star-rating { display: flex; gap: 8px; font-size: 34px; cursor: pointer; user-select: none; }
+    .star-rating span { color: #cbd5e1; transition: transform 0.18s, color 0.18s; }
+    .star-rating span.active, .star-rating span:hover { color: var(--star); transform: scale(1.15); }
 
+    /* Interactive Button with Click & Success Animation */
     button.btn {
-      width: 100%; margin-top: 18px; padding: 13px; background: var(--primary);
-      color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600;
-      cursor: pointer; transition: 0.2s;
+      width: 100%; margin-top: 18px; padding: 13px; background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #fff; border: none; border-radius: 10px; font-size: 15.5px; font-weight: 800;
+      cursor: pointer; transition: all 0.22s ease; display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.25);
     }
-    button.btn:hover { background: var(--primary-dark); }
-    button.btn:disabled { background: #94a3b8; cursor: not-allowed; }
+    button.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35); }
+    button.btn:active { transform: scale(0.97); }
+    button.btn:disabled { opacity: 0.75; cursor: not-allowed; transform: none; }
+    button.btn.success-pulse {
+      background: linear-gradient(135deg, #16a34a, #15803d) !important;
+      animation: btnPop 0.4s ease;
+    }
+    @keyframes btnPop {
+      0% { transform: scale(0.96); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    .spinner {
+      width: 16px; height: 16px; border: 2.5px solid rgba(255,255,255,0.4);
+      border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .review-item {
-      background: #fff; border-radius: 10px; padding: 16px; margin-bottom: 14px;
-      border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      background: var(--card); backdrop-filter: blur(12px);
+      border-radius: 14px; padding: 18px; margin-bottom: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+      transition: transform 0.2s;
     }
+    .review-item:hover { transform: translateY(-2px); }
     .rev-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-    .rev-name { font-weight: 700; font-size: 16px; color: #0f172a; }
-    .rev-tool { background: #eff6ff; color: #1d4ed8; font-size: 12px; padding: 3px 8px; border-radius: 20px; font-weight: 600; }
+    .rev-name { font-weight: 800; font-size: 16px; color: #0f172a; }
+    .rev-tool { background: #e0f2fe; color: #0369a1; font-size: 11.5px; padding: 4px 10px; border-radius: 20px; font-weight: 700; }
     .rev-stars { color: var(--star); font-size: 18px; margin: 6px 0; }
-    .rev-text { margin: 6px 0; line-height: 1.5; font-size: 15px; color: #334155; }
+    .rev-text { margin: 6px 0; line-height: 1.55; font-size: 14.5px; color: #334155; }
     .rev-date { font-size: 12px; color: var(--muted); }
 
     .admin-reply-box {
-      margin-top: 12px; padding: 10px 14px; background: #f1f5f9;
-      border-left: 4px solid var(--primary); border-radius: 6px; font-size: 14px;
+      margin-top: 12px; padding: 11px 14px; background: #f1f5f9;
+      border-left: 4px solid var(--primary); border-radius: 8px; font-size: 14px;
     }
     .admin-reply-box strong { color: var(--primary-dark); display: block; margin-bottom: 3px; }
-    .msg { margin-top: 12px; padding: 10px; border-radius: 6px; font-size: 14px; display: none; }
-    .msg.ok { display: block; background: #dcfce7; color: #166534; }
-    .msg.err { display: block; background: #fee2e2; color: #991b1b; }
+    .msg { margin-top: 14px; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; display: none; animation: fadeIn 0.3s ease; }
+    .msg.ok { display: block; background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .msg.err { display: block; background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html">← Back to KaamKaj Bills Home</a>
-  <h1>User Reviews & Feedback</h1>
-  <p>आपका अनुभव हमारे लिए महत्वपूर्ण है — अपनी रेटिंग और सुझाव साझा करें</p>
-</header>
+<div class="floating-bg" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+</div>
 
-<div class="container">
-  <div class="grid">
-    <div class="card">
-      <h2>अपना रिव्यू दें (Write a Review)</h2>
-      <form id="reviewForm">
-        <label>आपका नाम (Your Name) *</label>
-        <input type="text" id="revName" placeholder="उदा. राजेश शर्मा" required />
-
-        <label>आपने कौन सी सर्विस/टूल उपयोग किया?</label>
-        <select id="revTool">
-          <option value="Invoice / Bill Generator">Invoice / Bill Generator</option>
-          <option value="Quotation Maker">Quotation Maker</option>
-          <option value="Rent Receipt Generator">Rent Receipt Generator</option>
-          <option value="Salary Slip Maker">Salary Slip Maker</option>
-          <option value="ID Card / Certificate Maker">ID Card / Certificate Maker</option>
-          <option value="QR / Barcode / Image Tools">QR / Barcode / Image Tools</option>
-          <option value="Custom Website / Page Service">Custom Website / Page Service</option>
-          <option value="Other KaamKaj Tool">Other KaamKaj Tool</option>
-        </select>
-
-        <label>रेटिंग चुनें (1 से 5 स्टार) *</label>
-        <div class="star-rating" id="starContainer">
-          <span data-val="1" class="active">★</span>
-          <span data-val="2" class="active">★</span>
-          <span data-val="3" class="active">★</span>
-          <span data-val="4" class="active">★</span>
-          <span data-val="5" class="active">★</span>
-        </div>
-        <input type="hidden" id="revRating" value="5" />
-
-        <label>आपका फीडबैक (Feedback) *</label>
-        <textarea id="revFeedback" rows="4" placeholder="हमारी सर्विस या टूल्स के बारे में अपने विचार लिखें..." required></textarea>
-
-        <button type="submit" class="btn" id="submitBtn">रिव्यू सबमिट करें</button>
-        <div id="formMsg" class="msg"></div>
-      </form>
+<div class="page-shell">
+  <header>
+    <div class="top-bar">
+      <a href="index.html" class="back-btn">← Back to Home (मुख्य पेज पर जाएं)</a>
     </div>
+    <h1>User Reviews & Feedback</h1>
+    <p>आपका अनुभव हमारे लिए महत्वपूर्ण है — अपनी रेटिंग और सुझाव साझा करें</p>
+  </header>
 
-    <div>
-      <h2 style="margin-top:0;">Verified User Reviews (<span id="revCount">0</span>)</h2>
-      <div id="reviewsList">
-        <p style="color:#64748b;">रिव्यू लोड हो रहे हैं...</p>
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <h2>अपना रिव्यू दें (Write a Review)</h2>
+        <form id="reviewForm">
+          <label>आपका नाम (Your Name) *</label>
+          <input type="text" id="revName" placeholder="उदा. राजेश शर्मा" required />
+
+          <label>आपने कौन सी सर्विस/टूल उपयोग किया?</label>
+          <select id="revTool">
+            <option value="Invoice / Bill Generator">Invoice / Bill Generator</option>
+            <option value="Quotation Maker">Quotation Maker</option>
+            <option value="Rent Receipt Generator">Rent Receipt Generator</option>
+            <option value="Salary Slip Maker">Salary Slip Maker</option>
+            <option value="ID Card / Certificate Maker">ID Card / Certificate Maker</option>
+            <option value="QR / Barcode / Image Tools">QR / Barcode / Image Tools</option>
+            <option value="Custom Website / Page Service">Custom Website / Page Service</option>
+            <option value="Other KaamKaj Tool">Other KaamKaj Tool</option>
+          </select>
+
+          <label>रेटिंग चुनें (1 से 5 स्टार) *</label>
+          <div class="star-rating" id="starContainer">
+            <span data-val="1" class="active">★</span>
+            <span data-val="2" class="active">★</span>
+            <span data-val="3" class="active">★</span>
+            <span data-val="4" class="active">★</span>
+            <span data-val="5" class="active">★</span>
+          </div>
+          <input type="hidden" id="revRating" value="5" />
+
+          <label>आपका फीडबैक (Feedback) *</label>
+          <textarea id="revFeedback" rows="4" placeholder="हमारी सर्विस या टूल्स के बारे में अपने विचार लिखें..." required></textarea>
+
+          <button type="submit" class="btn" id="submitBtn">रिव्यू सबमिट करें</button>
+          <div id="formMsg" class="msg"></div>
+        </form>
+      </div>
+
+      <div>
+        <h2 style="margin-top:0; font-size:20px;">Verified User Reviews (<span id="revCount">0</span>)</h2>
+        <div id="reviewsList">
+          <div class="review-item" style="color:#64748b;">रिव्यू लोड हो रहे हैं...</div>
+        </div>
       </div>
     </div>
   </div>
@@ -173,7 +239,7 @@
         }).join("");
       }
     } catch (err) {
-      container.innerHTML = `<p style="color:#dc2626;">रिव्यू लोड करने में समस्या आई। कृपया पेज रिफ्रेश करें।</p>`;
+      container.innerHTML = `<div class="review-item" style="color:#dc2626;">रिव्यू लोड करने में समस्या आई। कृपया पेज रिफ्रेश करें।</div>`;
     }
   }
 
@@ -182,7 +248,7 @@
     const btn = document.getElementById("submitBtn");
     const msg = document.getElementById("formMsg");
     btn.disabled = true;
-    btn.textContent = "सबमिट हो रहा है...";
+    btn.innerHTML = `<span class="spinner"></span> सबमिट हो रहा है...`;
     msg.className = "msg";
 
     const payload = {
@@ -200,20 +266,28 @@
       });
       const data = await res.json();
       if (data.status === "success") {
+        btn.classList.add("success-pulse");
+        btn.innerHTML = `✓ सफलतापूर्वक सबमिट हो गया!`;
         msg.textContent = "धन्यवाद! आपका रिव्यू सबमिट हो गया है। एडमिन अप्रूवल के बाद यह यहां दिखाई देगा।";
         msg.className = "msg ok";
         document.getElementById("reviewForm").reset();
         ratingInput.value = 5;
         stars.forEach(s => s.classList.add("active"));
+        setTimeout(() => {
+          btn.classList.remove("success-pulse");
+          btn.innerHTML = `रिव्यू सबमिट करें`;
+          btn.disabled = false;
+        }, 2500);
+        return;
       } else {
         throw new Error();
       }
     } catch (err) {
       msg.textContent = "सबमिट नहीं हो पाया। कृपया इंटरनेट जांचें और पुनः प्रयास करें।";
       msg.className = "msg err";
+      btn.disabled = false;
+      btn.innerHTML = `रिव्यू सबमिट करें`;
     }
-    btn.disabled = false;
-    btn.textContent = "रिव्यू सबमिट करें";
   });
 
   function escapeHtml(str) {
