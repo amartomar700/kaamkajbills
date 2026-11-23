@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Image to PDF & Document Compressor (100KB / 200KB Govt Presets) | KaamKaj Bills</title>
+  <meta name="description" content="Convert images to PDF or compress JPG/PNG/PDF documents under 50KB, 100KB, 200KB, and 500KB for Indian govt forms (UPSC, SSC, Passport, Pan, Aadhaar). 100% browser-based & private - KaamKaj Bills." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-soft: #e0f2fe;
+      --emerald: #059669;
+      --emerald-soft: #d1fae5;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --ink: #0f172a;
+      --ink-muted: #475569;
+      --border: #cbd5e1;
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --danger: #dc2626;
+      --danger-soft: #fee2e2;
+      --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+    }
+
+    [data-theme="dark"] {
+      --primary: #38bdf8;
+      --primary-dark: #0ea5e9;
+      --primary-soft: rgba(56, 189, 248, 0.15);
+      --emerald: #34d399;
+      --emerald-soft: rgba(16, 185, 129, 0.15);
+      --amber: #fbbf24;
+      --amber-soft: rgba(245, 158, 11, 0.15);
+      --ink: #f1f5f9;
+      --ink-muted: #94a3b8;
+      --border: #334155;
+      --bg: #0b1120;
+      --surface: #1e293b;
+      --surface-alt: #0f172a;
+      --danger: #f87171;
+      --danger-soft: rgba(248, 113, 113, 0.15);
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    /* Sticky Top Navbar */
+    .top-nav {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px solid #10b981;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+    }
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-home {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      text-decoration: none;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: 0.2s;
+    }
+    .btn-home:hover {
+      background: #0284c7;
+      border-color: #0284c7;
+    }
+    .nav-title {
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .privacy-pill {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .btn-theme, .lang-select {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .lang-select option {
+      color: #0f172a;
+      background: #fff;
+    }
+
+    /* Main Workspace */
+    .kb-wrapper {
+      max-width: 1240px;
+      margin: 20px auto;
+      padding: 0 16px 48px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .sec-badge {
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 16px 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      border-left: 4px solid var(--primary);
+    }
+    .sec-badge:first-child { margin-top: 0; }
+
+    /* Mode Switcher */
+    .mode-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--surface-alt);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .mode-btn {
+      border: none;
+      background: transparent;
+      padding: 11px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .mode-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
+    /* Dropzone */
+    .dropzone {
+      border: 2px dashed var(--primary);
+      background: var(--primary-soft);
+      border-radius: 14px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .dropzone:hover, .dropzone.dragover {
+      transform: translateY(-1px);
+      background: var(--surface-alt);
+    }
+    .dropzone-icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+    .dropzone h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .dropzone p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--ink-muted);
+    }
+    #fileInput { display: none; }
+
+    /* File Queue List */
+    .file-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .file-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: #fff;
+      flex-shrink: 0;
+    }
+    .file-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .file-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .file-meta {
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+    .file-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .icon-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--ink);
+      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .icon-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .icon-btn.del:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-soft); }
+
+    /* Preset Chips */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .preset-btn {
+      padding: 10px 8px;
+      border: 1.5px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--ink);
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.18s;
+    }
+    .preset-btn b {
+      display: block;
+      font-size: 13px;
+      color: var(--primary);
+    }
+    .preset-btn span {
+      display: block;
+      font-size: 10.5px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+    .preset-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 3px 10px rgba(2, 132, 199, 0.16);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    input[type="number"], input[type="text"], select {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--surface-alt);
+      color: var(--ink);
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--primary);
+      background: var(--surface);
+    }
+
+    /* Filter Chips */
+    .filter-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .filter-btn {
+      padding: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--ink);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .filter-btn.active {
+      background: var(--ink);
+      color: var(--surface);
+      border-color: var(--ink);
+    }
+
+    /* Action Buttons */
+    .btn-primary-main {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.28);
+      transition: 0.2s;
+      margin-top: 6px;
+    }
+    .btn-primary-main:hover { opacity: 0.94; transform: translateY(-1px); }
+    .btn-primary-main:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    /* Right Output & Preview Card */
+    .sticky-panel {
+      position: sticky;
+      top: 74px;
+    }
+    .stats-box {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .stat-tile {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+    .stat-tile small {
+      display: block;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+    }
+    .stat-tile b {
+      display: block;
+      font-size: 15px;
+      font-weight: 800;
+      margin-top: 3px;
+      color: var(--ink);
+    }
+    .stat-tile.good b { color: var(--emerald); }
+    .stat-tile.warn b { color: var(--amber); }
+
+    .preview-stage {
+      background: var(--surface-alt);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      min-height: 300px;
+      max-height: 440px;
+      overflow: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .preview-page {
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 6px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      max-width: 100%;
+      text-align: center;
+    }
+    .preview-page img {
+      max-width: 100%;
+      max-height: 320px;
+      display: block;
+      margin: 0 auto;
+    }
+    .preview-caption {
+      font-size: 11px;
+      color: #475569;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    .download-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-dl {
+      flex: 1;
+      min-width: 140px;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #059669, #047857);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(5, 150, 105, 0.28);
+    }
+    .btn-dl.disabled {
+      pointer-events: none;
+      opacity: 0.45;
+    }
+    .btn-clear {
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--ink);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-clear:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .privacy-note {
+      margin-top: 14px;
+      padding: 10px 12px;
+      background: var(--emerald-soft);
+      border-left: 4px solid var(--emerald);
+      border-radius: 8px;
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    .status-banner {
+      display: none;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .status-banner.ok {
+      display: block;
+      background: var(--emerald-soft);
+      color: var(--emerald);
+      border: 1px solid var(--emerald);
+    }
+    .status-banner.err {
+      display: block;
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    @media (max-width: 900px) {
+      .kb-wrapper { grid-template-columns: 1fr; }
+      .sticky-panel { position: static; }
+    }
+    @media (max-width: 520px) {
+      .preset-grid { grid-template-columns: repeat(2, 1fr); }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-nav">
+    <div class="nav-left">
+      <a href="index.html" class="btn-home">← Home</a>
+      <div class="nav-title">
+        <span id="txtTitle">Image to PDF &amp; Doc Compressor</span>
+        <span class="privacy-pill" id="txtPrivacyBadge">🔒 100% Offline / Browser-Only</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <select class="lang-select" id="langSelect" onchange="setLanguage(this.value)" aria-label="Language">
+        <option value="hi">हिन्दी + English</option>
+        <option value="en">English Only</option>
+      </select>
+      <button class="btn-theme" onclick="toggleTheme()" id="themeBtn" title="Toggle Dark Mode">🌓 Theme</button>
+    </div>
+  </header>
+
+  <main class="kb-wrapper">
+    <!-- Left Controls -->
+    <section class="card">
+      <div class="sec-badge" id="secMode">1. Output Mode Chunein</div>
+      <div class="mode-bar">
+        <button type="button" class="mode-btn active" id="modePdfBtn" onclick="setOutputMode('pdf')">📄 Multi-Image / PDF → Compressed PDF</button>
+        <button type="button" class="mode-btn" id="modeImgBtn" onclick="setOutputMode('jpg')">🖼️ Single Photo / Sign → Compressed JPG</button>
+      </div>
+
+      <div class="sec-badge" id="secUpload">2. Files Upload Karein (Images ya PDF)</div>
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+        <div class="dropzone-icon">📂</div>
+        <h3 id="dzTitle">Photos (JPG/PNG/WEBP) ya PDF yahan drop karein ya click karein</h3>
+        <p id="dzSub">Aadhaar, PAN, Marksheet, Photo, Signature — multiple pages ek hi PDF mein jod sakte hain</p>
+        <input type="file" id="fileInput" accept="image/*,application/pdf" multiple />
+      </div>
+
+      <div class="file-list" id="fileList"></div>
+
+      <div class="sec-badge" id="secPreset">3. Govt Form Size Preset (Target KB)</div>
+      <div class="preset-grid">
+        <button type="button" class="preset-btn" data-kb="20" onclick="selectPreset(20, this)">
+          <b>Under 20 KB</b>
+          <span>Signature / Thumb</span>
+        </button>
+        <button type="button" class="preset-btn" data-kb="50" onclick="selectPreset(50, this)">
+          <b>Under 50 KB</b>
+          <span>SSC / UPSC Photo</span>
+        </button>
+        <button type="button" class="preset-btn active" data-kb="100" onclick="selectPreset(100, this)">
+          <b>Under 100 KB</b>
+          <span>PAN / Passport / Form</span>
+        </button>
+        <button type="button" class="preset-btn" data-kb="200" onclick="selectPreset(200, this)">
+          <b>Under 200 KB</b>
+          <span>Aadhaar / Marksheet</span>
+        </button>
+        <button type="button" class="preset-btn" data-kb="500" onclick="selectPreset(500, this)">
+          <b>Under 500 KB</b>
+          <span>Multi-Page Govt PDF</span>
+        </button>
+        <button type="button" class="preset-btn" data-kb="1024" onclick="selectPreset(1024, this)">
+          <b>Under 1 MB</b>
+          <span>High-Res Document</span>
+        </button>
+      </div>
+
+      <div class="grid-3">
+        <div class="field">
+          <label id="lblTargetKb">Custom Target (KB)</label>
+          <input type="number" id="targetKb" value="100" min="10" max="10240" oninput="clearActivePreset()" />
+        </div>
+        <div class="field" id="pageSizeField">
+          <label id="lblPageSize">PDF Page Size</label>
+          <select id="pageSize">
+            <option value="a4" selected>A4 Standard (Auto-Fit)</option>
+            <option value="fit">Fit to Image Size</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="lblFileName">Output File Name</label>
+          <input type="text" id="outFileName" value="kaamkaj-compressed-doc" />
+        </div>
+      </div>
+
+      <div class="sec-badge" id="secFilter">4. Document Scan &amp; Orientation</div>
+      <div class="filter-bar">
+        <button type="button" class="filter-btn active" data-filter="none" onclick="setFilter('none', this)">🎨 Original Color</button>
+        <button type="button" class="filter-btn" data-filter="grayscale" onclick="setFilter('grayscale', this)">🖨️ B&amp;W Grayscale</button>
+        <button type="button" class="filter-btn" data-filter="docscan" onclick="setFilter('docscan', this)">✨ Crisp Doc Scan</button>
+      </div>
+
+      <button type="button" class="btn-primary-main" id="compressBtn" onclick="processCompression()" disabled>
+        ⚡ Compress &amp; Generate File
+      </button>
+      <div class="status-banner" id="statusBanner"></div>
+    </section>
+
+    <!-- Right Output & Live Preview -->
+    <aside class="card sticky-panel">
+      <div class="sec-badge" id="secPreview">Live Preview &amp; Size Check</div>
+
+      <div class="stats-box">
+        <div class="stat-tile">
+          <small id="lblOrigSize">Original Size</small>
+          <b id="valOrigSize">0 KB</b>
+        </div>
+        <div class="stat-tile good">
+          <small id="lblFinalSize">Final Size</small>
+          <b id="valFinalSize">—</b>
+        </div>
+        <div class="stat-tile warn">
+          <small id="lblSaved">Saved / Target</small>
+          <b id="valSaved">—</b>
+        </div>
+      </div>
+
+      <div class="preview-stage" id="previewStage">
+        <div style="text-align:center; color:var(--ink-muted); padding:20px;">
+          <div style="font-size:34px; margin-bottom:8px;">📑</div>
+          <div style="font-size:13px; font-weight:700;" id="emptyPreviewTxt">Files upload karke "Compress &amp; Generate File" dabayein</div>
+        </div>
+      </div>
+
+      <div class="download-bar">
+        <a id="downloadLink" class="btn-dl disabled" download="document.pdf">⬇️ Download Ready File</a>
+        <button type="button" class="btn-clear" onclick="resetAll()">🗑️ Reset</button>
+      </div>
+
+      <div class="privacy-note" id="privacyNote">
+        <b>Zero-Server Privacy Guarantee:</b> Aapki koi bhi file (Aadhaar, PAN, Photo, Marksheet) kisi server par upload nahi hoti. Saara compression aapke phone/PC browser ke andar hi hota hai.
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    let uploadedPages = []; // { id, name, origBytes, dataUrl, width, height, rotation }
+    let outputMode = 'pdf'; // 'pdf' or 'jpg'
+    let activeFilter = 'none'; // 'none', 'grayscale', 'docscan'
+    let generatedBlobUrl = null;
+
+    const I18N = {
+      hi: {
+        title: 'Image to PDF & Doc Compressor',
+        privacyBadge: '🔒 100% Offline / Browser-Only',
+        secMode: '1. Output Mode Chunein',
+        secUpload: '2. Files Upload Karein (Images ya PDF)',
+        dzTitle: 'Photos (JPG/PNG/WEBP) ya PDF yahan drop karein ya click karein',
+        dzSub: 'Aadhaar, PAN, Marksheet, Photo, Signature — multiple pages ek hi PDF mein jod sakte hain',
+        secPreset: '3. Govt Form Size Preset (Target KB)',
+        lblTargetKb: 'Custom Target (KB)',
+        lblPageSize: 'PDF Page Size',
+        lblFileName: 'Output File Name',
+        secFilter: '4. Document Scan & Orientation',
+        compressBtn: '⚡ Compress & Generate File',
+        secPreview: 'Live Preview & Size Check',
+        lblOrigSize: 'Original Size',
+        lblFinalSize: 'Final Size',
+        lblSaved: 'Saved / Target',
+        emptyPreview: 'Files upload karke "Compress & Generate File" dabayein',
+        dlBtn: '⬇️ Download Ready File',
+        privacyNote: '<b>Zero-Server Privacy Guarantee:</b> Aapki koi bhi file (Aadhaar, PAN, Photo, Marksheet) kisi server par upload nahi hoti. Saara compression aapke phone/PC browser ke andar hi hota hai.'
+      },
+      en: {
+        title: 'Image to PDF & Document Compressor',
+        privacyBadge: '🔒 100% Offline / Browser-Only',
+        secMode: '1. Choose Output Mode',
+        secUpload: '2. Upload Files (Images or PDF)',
+        dzTitle: 'Drop JPG, PNG, WEBP images or PDF here, or click to browse',
+        dzSub: 'Combine multiple pages into one compressed PDF or shrink photo/signature under target KB',
+        secPreset: '3. Govt Form Size Preset (Target KB)',
+        lblTargetKb: 'Custom Target (KB)',
+        lblPageSize: 'PDF Page Size',
+        lblFileName: 'Output File Name',
+        secFilter: '4. Scan Filter & Page Controls',
+        compressBtn: '⚡ Compress & Generate File',
+        secPreview: 'Live Preview & Size Verification',
+        lblOrigSize: 'Original Size',
+        lblFinalSize: 'Final Size',
+        lblSaved: 'Saved / Status',
+        emptyPreview: 'Upload files and click "Compress & Generate File"',
+        dlBtn: '⬇️ Download Compressed File',
+        privacyNote: '<b>Zero-Server Privacy Guarantee:</b> Your documents never leave your device. All image resizing and PDF generation run 100% locally inside your browser.'
+      }
+    };
+
+    function setLanguage(lang) {
+      const t = I18N[lang] || I18N.hi;
+      document.getElementById('txtTitle').textContent = t.title;
+      document.getElementById('txtPrivacyBadge').textContent = t.privacyBadge;
+      document.getElementById('secMode').textContent = t.secMode;
+      document.getElementById('secUpload').textContent = t.secUpload;
+      document.getElementById('dzTitle').textContent = t.dzTitle;
+      document.getElementById('dzSub').textContent = t.dzSub;
+      document.getElementById('secPreset').textContent = t.secPreset;
+      document.getElementById('lblTargetKb').textContent = t.lblTargetKb;
+      document.getElementById('lblPageSize').textContent = t.lblPageSize;
+      document.getElementById('lblFileName').textContent = t.lblFileName;
+      document.getElementById('secFilter').textContent = t.secFilter;
+      document.getElementById('compressBtn').textContent = t.compressBtn;
+      document.getElementById('secPreview').textContent = t.secPreview;
+      document.getElementById('lblOrigSize').textContent = t.lblOrigSize;
+      document.getElementById('lblFinalSize').textContent = t.lblFinalSize;
+      document.getElementById('lblSaved').textContent = t.lblSaved;
+      const emp = document.getElementById('emptyPreviewTxt');
+      if (emp) emp.textContent = t.emptyPreview;
+      document.getElementById('downloadLink').textContent = t.dlBtn;
+      document.getElementById('privacyNote').innerHTML = t.privacyNote;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+    }
+
+    function setOutputMode(mode) {
+      outputMode = mode;
+      document.getElementById('modePdfBtn').classList.toggle('active', mode === 'pdf');
+      document.getElementById('modeImgBtn').classList.toggle('active', mode === 'jpg');
+      document.getElementById('pageSizeField').style.display = mode === 'pdf' ? 'flex' : 'none';
+      if (mode === 'jpg' && parseInt(document.getElementById('targetKb').value, 10) > 100) {
+        selectPreset(50, document.querySelector('.preset-btn[data-kb="50"]'));
+      }
+      renderFileList();
+    }
+
+    function selectPreset(kb, btnEl) {
+      document.getElementById('targetKb').value = kb;
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function clearActivePreset() {
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    }
+
+    function setFilter(filter, btnEl) {
+      activeFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    }
+
+    // Drag & Drop Handlers
+    const dz = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+
+    ['dragenter', 'dragover'].forEach(evt => {
+      dz.addEventListener(evt, e => {
+        e.preventDefault();
+        dz.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      dz.addEventListener(evt, e => {
+        e.preventDefault();
+        dz.classList.remove('dragover');
+      });
+    });
+    dz.addEventListener('drop', e => {
+      if (e.dataTransfer.files && e.dataTransfer.files.length) {
+        handleFiles(e.dataTransfer.files);
+      }
+    });
+    fileInput.addEventListener('change', e => {
+      if (e.target.files && e.target.files.length) {
+        handleFiles(e.target.files);
+        fileInput.value = '';
+      }
+    });
+
+    async function handleFiles(fileListObj) {
+      showStatus('', '');
+      const files = Array.from(fileListObj);
+      for (const file of files) {
+        if (file.type === 'application/pdf') {
+          await extractPdfPages(file);
+        } else if (file.type.startsWith('image/')) {
+          await loadImageFile(file);
+        }
+      }
+      renderFileList();
+    }
+
+    function loadImageFile(file) {
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            uploadedPages.push({
+              id: 'pg_' + Math.random().toString(36).slice(2, 9),
+              name: file.name,
+              origBytes: file.size,
+              dataUrl: e.target.result,
+              width: img.width,
+              height: img.height,
+              rotation: 0
+            });
+            resolve();
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function extractPdfPages(file) {
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const perPageBytes = Math.round(file.size / pdf.numPages);
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+          const page = await pdf.getPage(pageNum);
+          const viewport = page.getViewport({ scale: 2.0 });
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+          uploadedPages.push({
+            id: 'pg_' + Math.random().toString(36).slice(2, 9),
+            name: `${file.name} (Page ${pageNum})`,
+            origBytes: perPageBytes,
+            dataUrl,
+            width: canvas.width,
+            height: canvas.height,
+            rotation: 0
+          });
+        }
+      } catch (err) {
+        showStatus('PDF read karne mein dikkat aayi. Kripya valid PDF ya image file upload karein.', 'err');
+      }
+    }
+
+    function renderFileList() {
+      const listEl = document.getElementById('fileList');
+      listEl.innerHTML = '';
+      let totalOrig = 0;
+
+      uploadedPages.forEach((item, idx) => {
+        totalOrig += item.origBytes;
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = `
+          <img src="${item.dataUrl}" class="file-thumb" style="transform: rotate(${item.rotation}deg);" alt="Page ${idx + 1}" />
+          <div class="file-info">
+            <div class="file-name">${idx + 1}. ${escapeHtml(item.name)}</div>
+            <div class="file-meta">${item.width}×${item.height}px • ~${formatBytes(item.origBytes)} ${outputMode === 'jpg' && idx > 0 ? '(Ignored in Single JPG mode)' : ''}</div>
+          </div>
+          <div class="file-actions">
+            <button type="button" class="icon-btn" title="Rotate 90°" onclick="rotatePage(${idx})">↻</button>
+            <button type="button" class="icon-btn" title="Move Up" onclick="movePage(${idx}, -1)" ${idx === 0 ? 'disabled' : ''}>↑</button>
+            <button type="button" class="icon-btn" title="Move Down" onclick="movePage(${idx}, 1)" ${idx === uploadedPages.length - 1 ? 'disabled' : ''}>↓</button>
+            <button type="button" class="icon-btn del" title="Remove" onclick="removePage(${idx})">✕</button>
+          </div>
+        `;
+        listEl.appendChild(div);
+      });
+
+      document.getElementById('valOrigSize').textContent = formatBytes(totalOrig);
+      document.getElementById('compressBtn').disabled = uploadedPages.length === 0;
+    }
+
+    function rotatePage(idx) {
+      uploadedPages[idx].rotation = (uploadedPages[idx].rotation + 90) % 360;
+      renderFileList();
+    }
+
+    function movePage(idx, dir) {
+      const target = idx + dir;
+      if (target < 0 || target >= uploadedPages.length) return;
+      const temp = uploadedPages[idx];
+      uploadedPages[idx] = uploadedPages[target];
+      uploadedPages[target] = temp;
+      renderFileList();
+    }
+
+    function removePage(idx) {
+      uploadedPages.splice(idx, 1);
+      renderFileList();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+
+    function renderProcessedCanvas(pageObj, scaleFactor, filterMode) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const rot = pageObj.rotation || 0;
+          const swap = rot === 90 || rot === 270;
+          const rawW = swap ? img.height : img.width;
+          const rawH = swap ? img.width : img.height;
+
+          const targetW = Math.max(120, Math.round(rawW * scaleFactor));
+          const targetH = Math.max(120, Math.round(rawH * scaleFactor));
+
+          const canvas = document.createElement('canvas');
+          canvas.width = targetW;
+          canvas.height = targetH;
+          const ctx = canvas.getContext('2d');
+
+          // White background for transparent PNGs
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, targetW, targetH);
+
+          ctx.save();
+          ctx.translate(targetW / 2, targetH / 2);
+          ctx.rotate((rot * Math.PI) / 180);
+          const drawW = swap ? targetH : targetW;
+          const drawH = swap ? targetW : targetH;
+          ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
+          ctx.restore();
+
+          if (filterMode === 'grayscale' || filterMode === 'docscan') {
+            const imgData = ctx.getImageData(0, 0, targetW, targetH);
+            const d = imgData.data;
+            for (let i = 0; i < d.length; i += 4) {
+              let gray = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+              if (filterMode === 'docscan') {
+                // High-contrast clean document boost
+                gray = ((gray - 128) * 1.45) + 138;
+                if (gray > 235) gray = 255;
+                if (gray < 25) gray = 0;
+              }
+              gray = Math.max(0, Math.min(255, gray));
+              d[i] = d[i + 1] = d[i + 2] = gray;
+            }
+            ctx.putImageData(imgData, 0, 0);
+          }
+
+          resolve(canvas);
+        };
+        img.src = pageObj.dataUrl;
+      });
+    }
+
+    async function buildPdfBlob(pages, scaleFactor, jpegQuality, pageSizeMode) {
+      const { jsPDF } = window.jspdf;
+      let doc = null;
+      const previewUrls = [];
+
+      for (let i = 0; i < pages.length; i++) {
+        const canvas = await renderProcessedCanvas(pages[i], scaleFactor, activeFilter);
+        const imgData = canvas.toDataURL('image/jpeg', jpegQuality);
+        previewUrls.push(imgData);
+
+        const pxToMm = 0.264583;
+        const imgWmm = canvas.width * pxToMm;
+        const imgHmm = canvas.height * pxToMm;
+
+        if (pageSizeMode === 'fit') {
+          const orientation = imgWmm > imgHmm ? 'l' : 'p';
+          if (i === 0) {
+            doc = new jsPDF({ orientation, unit: 'mm', format: [imgWmm, imgHmm], compress: true });
+          } else {
+            doc.addPage([imgWmm, imgHmm], orientation);
+          }
+          doc.addImage(imgData, 'JPEG', 0, 0, imgWmm, imgHmm, undefined, 'FAST');
+        } else {
+          // A4 Auto-Fit with 6mm margin
+          if (i === 0) {
+            doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4', compress: true });
+          } else {
+            doc.addPage('a4', 'p');
+          }
+          const pageW = 210;
+          const pageH = 297;
+          const margin = 6;
+          const maxW = pageW - margin * 2;
+          const maxH = pageH - margin * 2;
+          const ratio = Math.min(maxW / imgWmm, maxH / imgHmm);
+          const finalW = imgWmm * ratio;
+          const finalH = imgHmm * ratio;
+          const x = (pageW - finalW) / 2;
+          const y = (pageH - finalH) / 2;
+          doc.addImage(imgData, 'JPEG', x, y, finalW, finalH, undefined, 'FAST');
+        }
+      }
+
+      const blob = doc.output('blob');
+      return { blob, previewUrls };
+    }
+
+    async function buildJpgBlob(pageObj, scaleFactor, jpegQuality) {
+      const canvas = await renderProcessedCanvas(pageObj, scaleFactor, activeFilter);
+      const dataUrl = canvas.toDataURL('image/jpeg', jpegQuality);
+      const res = await fetch(dataUrl);
+      const blob = await res.blob();
+      return { blob, previewUrls: [dataUrl] };
+    }
+
+    async function processCompression() {
+      if (!uploadedPages.length) return;
+      const btn = document.getElementById('compressBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Compressing... Please wait';
+      showStatus('', '');
+
+      const targetKb = Math.max(10, parseFloat(document.getElementById('targetKb').value) || 100);
+      const targetBytes = targetKb * 1024;
+      const pageSizeMode = document.getElementById('pageSize').value;
+      const baseName = (document.getElementById('outFileName').value || 'kaamkaj-doc').trim().replace(/[^a-zA-Z0-9-_]/g, '_');
+
+      // Initial resolution cap so 4000px phone photos compress cleanly
+      const maxDim = Math.max(...uploadedPages.map(p => Math.max(p.width, p.height)));
+      let initialScale = maxDim > 1800 ? 1800 / maxDim : 1.0;
+
+      // Iterative search across scale + quality steps to hit <= targetBytes
+      const attempts = [
+        { s: initialScale, q: 0.85 },
+        { s: initialScale, q: 0.70 },
+        { s: initialScale * 0.85, q: 0.60 },
+        { s: initialScale * 0.72, q: 0.50 },
+        { s: initialScale * 0.60, q: 0.42 },
+        { s: initialScale * 0.48, q: 0.35 },
+        { s: initialScale * 0.38, q: 0.28 },
+        { s: initialScale * 0.28, q: 0.22 },
+        { s: initialScale * 0.20, q: 0.18 }
+      ];
+
+      let bestResult = null;
+
+      try {
+        for (let i = 0; i < attempts.length; i++) {
+          const { s, q } = attempts[i];
+          const res = outputMode === 'pdf'
+            ? await buildPdfBlob(uploadedPages, s, q, pageSizeMode)
+            : await buildJpgBlob(uploadedPages[0], s, q);
+
+          bestResult = res;
+          if (res.blob.size <= targetBytes) {
+            break;
+          }
+        }
+
+        if (generatedBlobUrl) URL.revokeObjectURL(generatedBlobUrl);
+        generatedBlobUrl = URL.createObjectURL(bestResult.blob);
+
+        const ext = outputMode === 'pdf' ? 'pdf' : 'jpg';
+        const finalFileName = `${baseName}_${Math.round(bestResult.blob.size / 1024)}KB.${ext}`;
+
+        const dlLink = document.getElementById('downloadLink');
+        dlLink.href = generatedBlobUrl;
+        dlLink.download = finalFileName;
+        dlLink.classList.remove('disabled');
+
+        // Update Stats
+        const origBytes = outputMode === 'pdf'
+          ? uploadedPages.reduce((sum, p) => sum + p.origBytes, 0)
+          : uploadedPages[0].origBytes;
+
+        document.getElementById('valFinalSize').textContent = formatBytes(bestResult.blob.size);
+        const pctSaved = origBytes > 0 ? Math.max(0, Math.round(((origBytes - bestResult.blob.size) / origBytes) * 100)) : 0;
+        document.getElementById('valSaved').textContent = `${pctSaved}% Saved`;
+
+        // Render Preview Pages
+        const stage = document.getElementById('previewStage');
+        stage.innerHTML = '';
+        bestResult.previewUrls.forEach((url, idx) => {
+          const wrap = document.createElement('div');
+          wrap.className = 'preview-page';
+          wrap.innerHTML = `
+            <img src="${url}" alt="Compressed Page ${idx + 1}" />
+            <div class="preview-caption">Page ${idx + 1} of ${bestResult.previewUrls.length}</div>
+          `;
+          stage.appendChild(wrap);
+        });
+
+        if (bestResult.blob.size <= targetBytes) {
+          showStatus(`✅ Success! File size ${formatBytes(bestResult.blob.size)} hai (Target ${targetKb} KB ke andar).`, 'ok');
+        } else {
+          showStatus(`⚠️ Maximum compression ke baad size ${formatBytes(bestResult.blob.size)} hua hai. Kam pages ya bada target KB try karein.`, 'err');
+        }
+      } catch (e) {
+        console.error(e);
+        showStatus('❌ Compression mein error aaya. Dobara try karein.', 'err');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '⚡ Compress & Generate File';
+      }
+    }
+
+    function showStatus(msg, type) {
+      const el = document.getElementById('statusBanner');
+      if (!msg) {
+        el.className = 'status-banner';
+        el.textContent = '';
+        return;
+      }
+      el.className = 'status-banner ' + type;
+      el.textContent = msg;
+    }
+
+    function resetAll() {
+      uploadedPages = [];
+      if (generatedBlobUrl) {
+        URL.revokeObjectURL(generatedBlobUrl);
+        generatedBlobUrl = null;
+      }
+      renderFileList();
+      document.getElementById('valOrigSize').textContent = '0 KB';
+      document.getElementById('valFinalSize').textContent = '—';
+      document.getElementById('valSaved').textContent = '—';
+      document.getElementById('downloadLink').classList.add('disabled');
+      document.getElementById('previewStage').innerHTML = `
+        <div style="text-align:center; color:var(--ink-muted); padding:20px;">
+          <div style="font-size:34px; margin-bottom:8px;">📑</div>
+          <div style="font-size:13px; font-weight:700;" id="emptyPreviewTxt">Files upload karke "Compress &amp; Generate File" dabayein</div>
+        </div>
+      `;
+      showStatus('', '');
+    }
+  </script>
+</body>
+</html>
