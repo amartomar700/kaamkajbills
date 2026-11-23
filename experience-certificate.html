@@ -88,17 +88,36 @@
     align-items: center;
     gap: 8px;
   }
+
+  /* Opposite Contrast Language Select: Dark in Light Mode, Light in Dark Mode */
   .lang-select {
-    background: #1e293b;
-    color: #fff;
-    border: 1px solid #475569;
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border: 1.5px solid #475569 !important;
     padding: 6px 10px;
     border-radius: 6px;
     font-size: 12.5px;
     font-weight: 700;
     cursor: pointer;
     width: auto;
+    color-scheme: dark;
   }
+  .lang-select option {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+  }
+
+  [data-theme="dark"] .lang-select {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1.5px solid #cbd5e1 !important;
+    color-scheme: light;
+  }
+  [data-theme="dark"] .lang-select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
   .theme-btn {
     background: #1e293b;
     color: #fbbf24;
@@ -139,7 +158,9 @@
   .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
   label { font-size: 11px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.4px; }
 
-  input, select, textarea {
+  .control-box input,
+  .control-box select,
+  .control-box textarea {
     width: 100%;
     padding: 9px 11px;
     border: 1.5px solid var(--border);
@@ -150,8 +171,10 @@
     background: var(--input-bg);
     transition: all 0.2s;
   }
-  textarea { resize: vertical; min-height: 76px; }
-  input:focus, select:focus, textarea:focus {
+  .control-box textarea { resize: vertical; min-height: 76px; }
+  .control-box input:focus,
+  .control-box select:focus,
+  .control-box textarea:focus {
     border-color: var(--primary);
     background: var(--card-bg);
     box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
