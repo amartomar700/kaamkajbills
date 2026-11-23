@@ -5,100 +5,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Account - KaamKaj Bills</title>
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { margin: 0; background: #f1f5f9; color: #1e293b; }
-    .login-wrap {
-      max-width: 400px; margin: 90px auto; background: #fff; padding: 30px;
-      border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center;
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif; }
+    body { margin: 0; background: #f3f7fc; color: #0f172a; min-height: 100vh; overflow-x: hidden; position: relative; }
+
+    /* Animated Floating Background Orbs */
+    .floating-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; opacity: 0.5; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(55px); animation: floatOrb 16s infinite alternate ease-in-out; }
+    .orb-1 { width: 320px; height: 320px; background: #38bdf8; top: 5%; left: -90px; }
+    .orb-2 { width: 350px; height: 350px; background: #fbbf24; top: 28%; right: -110px; animation-delay: -4s; }
+    .orb-3 { width: 360px; height: 360px; background: #a78bfa; bottom: 10%; left: 12%; animation-delay: -8s; }
+    .orb-4 { width: 300px; height: 300px; background: #34d399; bottom: 4%; right: 8%; animation-delay: -2s; }
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -30px) scale(1.12); }
     }
-    .login-wrap h2 { margin-top: 0; color: #0f172a; }
+
+    .page-shell { position: relative; z-index: 1; padding: 16px; }
+
+    .login-wrap {
+      max-width: 410px; margin: 70px auto; background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px); padding: 30px; border-radius: 16px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.1); border: 1px solid rgba(148, 163, 184, 0.3);
+      text-align: center;
+    }
+    .login-wrap h2 { margin-top: 8px; color: #0f172a; }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+      color: #0284c7; font-weight: 700; font-size: 13.5px; margin-bottom: 10px;
+      padding: 6px 14px; border-radius: 20px; background: #e0f2fe; transition: 0.2s;
+    }
+    .back-link:hover { background: #0284c7; color: #fff; }
+
     input, textarea, select {
       width: 100%; padding: 12px; margin: 10px 0; border: 1.5px solid #cbd5e1;
-      border-radius: 8px; font-size: 15px;
+      border-radius: 10px; font-size: 14.5px; outline: none; background: #fff;
     }
+    input:focus, textarea:focus { border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14); }
+
     button {
-      padding: 10px 16px; border: none; border-radius: 8px; font-size: 14px;
-      font-weight: 600; cursor: pointer; transition: 0.2s;
+      padding: 10px 16px; border: none; border-radius: 9px; font-size: 13.5px;
+      font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     }
-    .btn-primary { background: #2563eb; color: #fff; width: 100%; padding: 12px; font-size: 16px; }
-    .btn-primary:hover { background: #1d4ed8; }
+    button:hover { transform: translateY(-1px); filter: brightness(1.06); }
+    button:active { transform: scale(0.95); }
+    button:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    .btn-primary { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; width: 100%; padding: 12px; font-size: 15.5px; }
     .btn-approve { background: #16a34a; color: #fff; }
     .btn-hide { background: #d97706; color: #fff; }
     .btn-del { background: #dc2626; color: #fff; }
     .btn-save { background: #0284c7; color: #fff; }
 
-    .dashboard { display: none; max-width: 1050px; margin: 0 auto; padding: 20px 16px; }
+    /* Done / Success Animation State */
+    .btn-done {
+      background: #15803d !important; color: #fff !important;
+      animation: popDone 0.35s ease;
+    }
+    @keyframes popDone {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .spinner {
+      width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .dashboard { display: none; max-width: 1050px; margin: 0 auto; padding-bottom: 50px; }
     .topbar {
-      background: #0f172a; color: #fff; padding: 16px 20px; border-radius: 10px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+      background: linear-gradient(135deg, #0b172b, #183b79); color: #fff; padding: 16px 20px;
+      border-radius: 14px; border-bottom: 3px solid #f59e0b;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15);
     }
     .tabs { display: flex; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
-    .tab-btn { background: #e2e8f0; color: #334155; padding: 10px 18px; }
-    .tab-btn.active { background: #2563eb; color: #fff; }
+    .tab-btn { background: rgba(255, 255, 255, 0.85); color: #334155; padding: 10px 18px; border: 1px solid #cbd5e1; }
+    .tab-btn.active { background: #0284c7; color: #fff; border-color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); }
 
     .card {
-      background: #fff; padding: 18px; border-radius: 10px; margin-bottom: 16px;
-      border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px);
+      padding: 20px; border-radius: 14px; margin-bottom: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.3); box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
     }
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+    .badge { padding: 4px 11px; border-radius: 20px; font-size: 12px; font-weight: 800; }
     .badge.Pending, .badge.New { background: #fef3c7; color: #92400e; }
     .badge.Approved, .badge.Completed { background: #dcfce7; color: #166534; }
     .badge.Hidden { background: #e2e8f0; color: #475569; }
 
-    .reply-box { background: #f8fafc; padding: 12px; border-radius: 8px; margin-top: 12px; border: 1px solid #e2e8f0; }
+    .reply-box { background: #f8fafc; padding: 14px; border-radius: 10px; margin-top: 12px; border: 1px solid #e2e8f0; }
     .reply-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-    .switch-label { display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; font-size: 14px; }
-    .switch-label input { width: 18px; height: 18px; margin: 0; }
-    .action-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    .switch-label { display: flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; font-size: 13.5px; color: #1e293b; }
+    .switch-label input { width: 18px; height: 18px; margin: 0; accent-color: #16a34a; cursor: pointer; }
+    .action-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+    /* Floating Toast Notification */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      background: #0f172a; color: #fff; padding: 13px 20px; border-radius: 12px;
+      font-size: 14px; font-weight: 700; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
+      border-left: 4px solid #22c55e;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
   </style>
 </head>
 <body>
 
-<div class="login-wrap" id="loginBox">
-  <h2>KaamKaj Bills Admin</h2>
-  <p style="color:#64748b; font-size:14px;">आगे बढ़ने के लिए एडमिन पासवर्ड दर्ज करें</p>
-  <input type="password" id="adminPass" placeholder="Enter Password" />
-  <button class="btn-primary" id="loginBtn" onclick="loginAdmin()">Login</button>
-  <p id="loginErr" style="color:#dc2626; font-size:14px; margin-top:10px;"></p>
+<div class="floating-bg" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
 </div>
 
-<div class="dashboard" id="dashboard">
-  <div class="topbar">
-    <div>
-      <strong style="font-size:18px;">KaamKaj Bills — Account Panel</strong>
-      <div style="font-size:13px; color:#94a3b8;">Reviews, Custom Page Requests & Security</div>
-    </div>
-    <div style="display:flex; gap:10px;">
-      <button onclick="fetchDashboardData()" style="background:#334155; color:#fff;">↻ Refresh</button>
-      <button onclick="logout()" style="background:#dc2626; color:#fff;">Logout</button>
-    </div>
+<div class="page-shell">
+  <!-- Login Screen -->
+  <div class="login-wrap" id="loginBox">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <h2>KaamKaj Bills Admin</h2>
+    <p style="color:#64748b; font-size:14px;">आगे बढ़ने के लिए एडमिन पासवर्ड दर्ज करें</p>
+    <input type="password" id="adminPass" placeholder="Enter Password" onkeydown="if(event.key==='Enter') loginAdmin()" />
+    <button class="btn-primary" id="loginBtn" onclick="loginAdmin()">Login</button>
+    <p id="loginErr" style="color:#dc2626; font-size:14px; font-weight:600; margin-top:10px;"></p>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('reviewsTab', this)">Client Reviews (<span id="countRev">0</span>)</button>
-    <button class="tab-btn" onclick="switchTab('requestsTab', this)">Custom Page Requests (<span id="countReq">0</span>)</button>
-    <button class="tab-btn" onclick="switchTab('securityTab', this)">Change Password</button>
-  </div>
+  <!-- Admin Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <div class="topbar">
+      <div>
+        <strong style="font-size:18px;">KaamKaj Bills — Account Panel</strong>
+        <div style="font-size:12.5px; color:#cbd5e1;">Reviews, Custom Page Requests & Security</div>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a href="index.html" style="text-decoration:none;"><button type="button" style="background:rgba(255,255,255,0.15); color:#fff;">🏠 Home</button></a>
+        <a href="reviews.html" style="text-decoration:none;"><button type="button" style="background:rgba(255,255,255,0.15); color:#fff;">⭐ Reviews Page</button></a>
+        <button id="refreshBtn" onclick="manualRefresh(this)" style="background:#0284c7; color:#fff;">↻ Refresh</button>
+        <button onclick="logout()" style="background:#dc2626; color:#fff;">Logout</button>
+      </div>
+    </div>
 
-  <div id="reviewsTab"></div>
-  <div id="requestsTab" style="display:none;"></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('reviewsTab', this)">Client Reviews (<span id="countRev">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('requestsTab', this)">Custom Page Requests (<span id="countReq">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('securityTab', this)">Change Password</button>
+    </div>
 
-  <div id="securityTab" style="display:none;">
-    <div class="card" style="max-width:450px;">
-      <h3 style="margin-top:0;">एडमिन पासवर्ड बदलें (Change Password)</h3>
-      <label>नया पासवर्ड (New Password):</label>
-      <input type="password" id="newPassInput" placeholder="नया पासवर्ड लिखें" />
-      <label>पासवर्ड कन्फर्म करें (Confirm Password):</label>
-      <input type="password" id="confirmPassInput" placeholder="दोबारा नया पासवर्ड लिखें" />
-      <button class="btn-primary" onclick="changeAdminPassword()">पासवर्ड अपडेट करें</button>
-      <p id="passMsg" style="font-size:14px; margin-top:10px;"></p>
+    <div id="reviewsTab"></div>
+    <div id="requestsTab" style="display:none;"></div>
+
+    <div id="securityTab" style="display:none;">
+      <div class="card" style="max-width:450px;">
+        <h3 style="margin-top:0;">एडमिन पासवर्ड बदलें (Change Password)</h3>
+        <label style="font-size:13.5px; font-weight:700;">नया पासवर्ड (New Password):</label>
+        <input type="password" id="newPassInput" placeholder="नया पासवर्ड लिखें" />
+        <label style="font-size:13.5px; font-weight:700;">पासवर्ड कन्फर्म करें (Confirm Password):</label>
+        <input type="password" id="confirmPassInput" placeholder="दोबारा नया पासवर्ड लिखें" />
+        <button class="btn-primary" id="changePassBtn" onclick="changeAdminPassword(this)">पासवर्ड अपडेट करें</button>
+        <p id="passMsg" style="font-size:14px; font-weight:600; margin-top:10px;"></p>
+      </div>
     </div>
   </div>
 </div>
+
+<!-- Toast Feedback Banner -->
+<div id="toast" class="toast">✓ अपडेट हो गया!</div>
 
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzXEhnFRIK4izUsnz2LqghUSm0ocC-r14cFFaFIsAd3EHuRZeqKqE-S9AACsM7ZJtDk/exec";
   let SESSION_PASSWORD = "";
+
+  function showToast(text) {
+    const t = document.getElementById("toast");
+    t.textContent = text;
+    t.classList.add("show");
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(() => t.classList.remove("show"), 2600);
+  }
+
+  // Helper to animate any button during API call
+  async function runWithFeedback(btn, loadingText, doneToastText, asyncTask) {
+    const oldHtml = btn ? btn.innerHTML : "";
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span> ${loadingText}`;
+    }
+    try {
+      await asyncTask();
+      if (btn) {
+        btn.classList.add("btn-done");
+        btn.innerHTML = `✓ हो गया!`;
+      }
+      showToast(doneToastText);
+      await fetchDashboardData();
+    } catch (e) {
+      showToast("⚠️ नेटवर्क समस्या! पुनः प्रयास करें।");
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = oldHtml;
+      }
+    }
+  }
 
   async function loginAdmin() {
     const pass = document.getElementById("adminPass").value;
@@ -106,18 +216,29 @@
     const btn = document.getElementById("loginBtn");
     if (!pass) { err.textContent = "कृपया पासवर्ड डालें।"; return; }
 
-    btn.disabled = true; btn.textContent = "Checking..."; err.textContent = "";
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> लॉगिन हो रहा है...`;
+    err.textContent = "";
     SESSION_PASSWORD = pass;
     const ok = await fetchDashboardData();
-    btn.disabled = false; btn.textContent = "Login";
+    btn.disabled = false;
+    btn.textContent = "Login";
 
     if (ok) {
       document.getElementById("loginBox").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
+      showToast("✓ सफलतापूर्वक लॉगिन हो गया!");
     } else {
       SESSION_PASSWORD = "";
       err.textContent = "गलत पासवर्ड! कृपया सही पासवर्ड डालें।";
     }
+  }
+
+  async function manualRefresh(btn) {
+    await runWithFeedback(btn, "Refreshing...", "✓ डेटा रिफ्रेश हो गया!", async () => {});
+    btn.classList.remove("btn-done");
+    btn.innerHTML = "↻ Refresh";
+    btn.disabled = false;
   }
 
   async function fetchDashboardData() {
@@ -133,7 +254,6 @@
       renderRequests(data.requests);
       return true;
     } catch (e) {
-      alert("Server connection error!");
       return false;
     }
   }
@@ -149,29 +269,29 @@
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div>
-            <strong>${esc(r.name)}</strong> • <span style="color:#2563eb; font-size:13px;">${esc(r.tool)}</span>
-            <div style="color:#f59e0b; font-size:16px;">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)} <small style="color:#64748b;">(${esc(r.date)})</small></div>
+            <strong style="font-size:16px;">${esc(r.name)}</strong> • <span style="color:#0284c7; font-size:13px; font-weight:700;">${esc(r.tool)}</span>
+            <div style="color:#f59e0b; font-size:17px;">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)} <small style="color:#64748b;">(${esc(r.date)})</small></div>
           </div>
           <span class="badge ${esc(r.status)}">${esc(r.status)}</span>
         </div>
-        <p style="margin:10px 0; font-size:15px;">${esc(r.feedback)}</p>
+        <p style="margin:10px 0; font-size:15px; line-height:1.5;">${esc(r.feedback)}</p>
 
         <div class="reply-box">
-          <label style="font-size:13px; font-weight:600;">आपका रिप्लाई (Admin Reply):</label>
+          <label style="font-size:13px; font-weight:700;">आपका रिप्लाई (Admin Reply):</label>
           <textarea id="reply_${r.id}" rows="2" placeholder="यूजर के फीडबैक का जवाब यहां लिखें...">${esc(r.adminReply)}</textarea>
           <div class="reply-controls">
             <label class="switch-label">
-              <input type="checkbox" id="showReply_${r.id}" ${r.showReply ? "checked" : ""} onchange="saveReply('${r.id}')" />
+              <input type="checkbox" id="showReply_${r.id}" ${r.showReply ? "checked" : ""} onchange="saveReply('${r.id}', document.getElementById('saveBtn_${r.id}'))" />
               Show Reply on Public Page (ON / OFF)
             </label>
-            <button class="btn-save" onclick="saveReply('${r.id}')">Save Reply</button>
+            <button id="saveBtn_${r.id}" class="btn-save" onclick="saveReply('${r.id}', this)">Save Reply</button>
           </div>
         </div>
 
         <div class="action-row">
-          <button class="btn-approve" onclick="updateRevStatus('${r.id}', 'Approved')">✓ Approve & Publish</button>
-          <button class="btn-hide" onclick="updateRevStatus('${r.id}', 'Hidden')">Hide</button>
-          <button class="btn-del" onclick="deleteReview('${r.id}')">Delete</button>
+          <button class="btn-approve" onclick="updateRevStatus('${r.id}', 'Approved', this)">✓ Approve & Publish</button>
+          <button class="btn-hide" onclick="updateRevStatus('${r.id}', 'Hidden', this)">Hide</button>
+          <button class="btn-del" onclick="deleteReview('${r.id}', this)">Delete</button>
         </div>
       </div>
     `).join("");
@@ -188,96 +308,107 @@
       <div class="card">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
           <div>
-            <strong>${esc(req.name)}</strong> (<span style="color:#2563eb;">${esc(req.email)}</span>)
+            <strong style="font-size:16px;">${esc(req.name)}</strong> (<span style="color:#0284c7; font-weight:700;">${esc(req.email)}</span>)
             <div style="font-size:12px; color:#64748b;">${esc(req.date)}</div>
           </div>
           <span class="badge ${esc(req.status)}">${esc(req.status)}</span>
         </div>
-        <p style="margin:10px 0; background:#f8fafc; padding:10px; border-radius:6px;">${esc(req.details)}</p>
+        <p style="margin:10px 0; background:#f8fafc; padding:12px; border-radius:8px; border:1px solid #e2e8f0;">${esc(req.details)}</p>
         <div class="action-row">
-          <button class="btn-approve" onclick="updateReqStatus('${req.id}', 'Completed')">Mark Completed</button>
-          <button class="btn-hide" onclick="updateReqStatus('${req.id}', 'New')">Mark New</button>
-          <button class="btn-del" onclick="deleteRequest('${req.id}')">Delete</button>
+          <button class="btn-approve" onclick="updateReqStatus('${req.id}', 'Completed', this)">✓ Mark Completed</button>
+          <button class="btn-hide" onclick="updateReqStatus('${req.id}', 'New', this)">Mark New</button>
+          <button class="btn-del" onclick="deleteRequest('${req.id}', this)">Delete</button>
         </div>
       </div>
     `).join("");
   }
 
-  async function saveReply(id) {
+  async function saveReply(id, btn) {
     const replyText = document.getElementById(`reply_${id}`).value;
     const showFlag = document.getElementById(`showReply_${id}`).checked;
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "updateReview", password: SESSION_PASSWORD,
-        id: id, adminReply: replyText, showReply: showFlag
-      })
+    await runWithFeedback(btn, "Saving...", `✓ रिप्लाई सेव हो गया (${showFlag ? "ON" : "OFF"})!`, async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "updateReview", password: SESSION_PASSWORD,
+          id: id, adminReply: replyText, showReply: showFlag
+        })
+      });
     });
-    fetchDashboardData();
   }
 
-  async function updateRevStatus(id, status) {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "updateReview", password: SESSION_PASSWORD,
-        id: id, newStatus: status
-      })
+  async function updateRevStatus(id, status, btn) {
+    await runWithFeedback(btn, "Updating...", `✓ स्टेटस "${status}" कर दिया गया!`, async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "updateReview", password: SESSION_PASSWORD,
+          id: id, newStatus: status
+        })
+      });
     });
-    fetchDashboardData();
   }
 
-  async function deleteReview(id) {
+  async function deleteReview(id, btn) {
     if (!confirm("क्या आप वाकई इस रिव्यू को डिलीट करना चाहते हैं?")) return;
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "updateReview", password: SESSION_PASSWORD,
-        id: id, subAction: "delete"
-      })
+    await runWithFeedback(btn, "Deleting...", "✓ रिव्यू डिलीट कर दिया गया!", async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "updateReview", password: SESSION_PASSWORD,
+          id: id, subAction: "delete"
+        })
+      });
     });
-    fetchDashboardData();
   }
 
-  async function updateReqStatus(id, status) {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "updateRequest", password: SESSION_PASSWORD,
-        id: id, newStatus: status
-      })
+  async function updateReqStatus(id, status, btn) {
+    await runWithFeedback(btn, "Updating...", `✓ रिक्वेस्ट "${status}" मार्क हो गई!`, async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "updateRequest", password: SESSION_PASSWORD,
+          id: id, newStatus: status
+        })
+      });
     });
-    fetchDashboardData();
   }
 
-  async function deleteRequest(id) {
+  async function deleteRequest(id, btn) {
     if (!confirm("क्या आप वाकई इस रिक्वेस्ट को डिलीट करना चाहते हैं?")) return;
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "updateRequest", password: SESSION_PASSWORD,
-        id: id, subAction: "delete"
-      })
+    await runWithFeedback(btn, "Deleting...", "✓ रिक्वेस्ट डिलीट हो गई!", async () => {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "updateRequest", password: SESSION_PASSWORD,
+          id: id, subAction: "delete"
+        })
+      });
     });
-    fetchDashboardData();
   }
 
-  async function changeAdminPassword() {
+  async function changeAdminPassword(btn) {
     const p1 = document.getElementById("newPassInput").value.trim();
     const p2 = document.getElementById("confirmPassInput").value.trim();
     const msg = document.getElementById("passMsg");
     if (p1.length < 4) { msg.style.color = "#dc2626"; msg.textContent = "कम से कम 4 अक्षर का पासवर्ड रखें।"; return; }
     if (p1 !== p2) { msg.style.color = "#dc2626"; msg.textContent = "दोनों पासवर्ड मेल नहीं खा रहे हैं!"; return; }
 
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> अपडेट हो रहा है...`;
     const res = await fetch(SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify({ action: "changePassword", password: SESSION_PASSWORD, newPassword: p1 })
     });
     const data = await res.json();
+    btn.disabled = false;
+    btn.textContent = "पासवर्ड अपडेट करें";
+
     if (data.status === "success") {
       SESSION_PASSWORD = p1;
       msg.style.color = "#16a34a";
       msg.textContent = data.message;
+      showToast("✓ नया पासवर्ड सेव हो गया!");
       document.getElementById("newPassInput").value = "";
       document.getElementById("confirmPassInput").value = "";
     } else {
