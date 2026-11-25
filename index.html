@@ -115,6 +115,103 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .hero:before,.hero:after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(32px);pointer-events:none}
 .hero:before{width:280px;height:280px;background:rgba(56,189,248,.35);top:-115px;left:8%}
 .hero:after{width:300px;height:300px;background:rgba(245,158,11,.3);right:5%;bottom:-170px}
+
+/* Hero Left & Right Ad Slots with Bold Lighting Glow & Continuous Attention Pulse */
+.hero-ads-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr) 230px;
+  gap: 20px;
+  align-items: stretch;
+  max-width: 1460px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-ad-box {
+  border: 2px solid #38bdf8;
+  border-radius: 16px;
+  background: rgba(8, 20, 40, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px 14px;
+  min-height: 250px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  animation: heroAdBorderGlow 2.2s infinite alternate ease-in-out;
+  transition: transform 0.25s ease;
+}
+.hero-ad-box:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+.hero-ad-box.hidden {
+  display: none !important;
+}
+.hero-ad-glow-title {
+  font-size: 19px;
+  font-weight: 950;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  line-height: 1.35;
+  text-shadow: 0 0 8px #38bdf8, 0 0 18px #0284c7, 0 0 30px #fbbf24;
+  animation: heroAdShowHidePulse 1.65s infinite alternate ease-in-out;
+}
+.hero-ad-badge {
+  margin-top: 12px;
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.3px;
+  box-shadow: 0 0 14px rgba(245, 158, 11, 0.85);
+  animation: heroAdShowHidePulse 1.65s infinite alternate ease-in-out;
+}
+.hero-ad-box img.ad-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+}
+@keyframes heroAdBorderGlow {
+  0% {
+    border-color: #38bdf8;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.55), inset 0 0 10px rgba(56, 189, 248, 0.25);
+  }
+  100% {
+    border-color: #fbbf24;
+    box-shadow: 0 0 26px rgba(251, 191, 36, 0.95), 0 0 40px rgba(56, 189, 248, 0.55), inset 0 0 16px rgba(251, 191, 36, 0.35);
+  }
+}
+@keyframes heroAdShowHidePulse {
+  0% {
+    opacity: 0.22;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+@media (max-width: 1100px) {
+  .hero-ads-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .hero-ad-box {
+    min-height: 92px;
+    padding: 12px;
+  }
+}
+
 .hero-inner{max-width:960px;margin:auto;position:relative}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border:1px solid rgba(251,191,36,.65);border-radius:50px;background:rgba(245,158,11,.14);color:#fde68a;font-size:12px;font-weight:800;letter-spacing:.15px;margin-bottom:16px}
 .hero h2{margin:0 auto 12px;max-width:890px;font-size:clamp(24px,3.2vw,38px);line-height:1.27;letter-spacing:-.6px;font-weight:900}
@@ -313,12 +410,22 @@ footer p{margin:6px 0}footer strong{color:#e2e8f0}footer a{color:#fbbf24;text-de
 </nav>
 
 <section class="hero" aria-labelledby="heroTitle">
-  <div class="hero-inner">
+  <div class="hero-ads-layout">
+    <a id="leftAdSlot" href="contact.html?subject=Ad-Booking-Left" class="hero-ad-box" aria-label="Book Left Ad Space">
+      <div class="hero-ad-glow-title">Book Your AD Here</div>
+      <span class="hero-ad-badge">⚡ Prime Left Spot</span>
+    </a>
+    <div class="hero-inner">
     <div class="hero-badge" data-i18n="heroBadge">⚡ No Login • Instant A4 PDF & Direct Print • 100% Free</div>
     <h2 id="heroTitle" data-i18n="heroTitle">हर व्यापार और काम-काज के लिए आसान बिल, रसीद और डॉक्यूमेंट टूल्स</h2>
     <p data-i18n="heroDesc">कोटेशन, टैक्स इनवॉइस, किराया रसीद, सैलरी स्लिप, बैंक एप्लीकेशन लेटर, ID कार्ड, पासपोर्ट फोटो शीट और रिज्यूमे—सब कुछ सेकंडों में बनाएं।</p>
     <div class="search-box"><input type="search" id="searchInput" placeholder="टूल खोजें... जैसे: Bank Transfer, Invoice, Rent, ID Card, Resume, Salon, Tailor..." data-i18n-placeholder="search" oninput="filterTools()" autocomplete="off" aria-label="Search tools"><span class="search-icon" aria-hidden="true">⌕</span></div>
     <div class="hero-stats"><span class="hero-stat" data-i18n="statTools">26 उपयोगी टूल्स</span><span class="hero-stat" data-i18n="statLanguages">12 भारतीय भाषाएँ</span><span class="hero-stat" data-i18n="statFree">मुफ़्त • बिना लॉगिन</span></div>
+  </div>
+    <a id="rightAdSlot" href="contact.html?subject=Ad-Booking-Right" class="hero-ad-box" aria-label="Book Right Ad Space">
+      <div class="hero-ad-glow-title">Book Your AD Here</div>
+      <span class="hero-ad-badge">⚡ Prime Right Spot</span>
+    </a>
   </div>
 </section>
 
@@ -400,6 +507,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXEhnFRIK4izUsnz2Lq
 
 // Tool directory content intentionally stays in the supplied Hindi + English wording.
 const TOOLS_DATA = [
+  { file: 'business-card.html', cat: 'ID_PHOTO', icon: '🪪', hi: 'बिजनेस कार्ड मेकर (250+ टेम्पलेट व Front/Back)', en: 'Business Card Maker (250+ Templates, QR & A4 PDF)', desc: '250+ डिज़ाइन टेम्पलेट, Front & Back साइड, सोशल मीडिया हैंडल, QR कोड और A4 प्रिंट PDF के साथ विजिटिंग कार्ड बनाएं।', keys: 'business card visiting card maker front back qr code social media 250 templates' },
  { file: 'amc-contract.html', cat: 'BILLING', icon: '🛡️', hi: 'वार्षिक रखरखाव अनुबंध (AMC Contract - 12 भाषाएँ)', en: 'All-in-One AMC & Service Contract Generator', desc: 'CCTV, Electrical, Solar, AC, Fire Alarm और IT नेटवर्क के लिए 12 भारतीय भाषाओं में वार्षिक AMC एग्रीमेंट व PDF बनाएं।', keys: 'amc annual maintenance contract cctv solar electrical ac service agreement' },
   { file: 'rent-agreement-verification.html', cat: 'SLIPS', icon: '📜', hi: 'मकान / दुकान किरायानामा व पुलिस वेरिफिकेशन', en: 'Rent Agreement Deed & Tenant Police Verification', desc: '12 भारतीय भाषाओं में 11 महीने का मकान/दुकान किरायानामा (Rent Agreement) और किरायेदार पुलिस वेरिफिकेशन फॉर्म बनाएं।', keys: 'rent agreement police verification tenant landlord kirayanama lease house shop 11 months' },
   { file: 'citizen-legal-docs.html', cat: 'CAREER', icon: '⚖️', hi: 'नागरिक व कानूनी दस्तावेज़ जनरेटर (5-in-1)', en: 'Vehicle Sale, Affidavit, Experience, Bilty & Medical', desc: 'वाहन बिक्री अनुबंध, स्व-घोषणा शपथ पत्र, अनुभव प्रमाण पत्र, ट्रांसपोर्ट बिल्टी और मेडिकल फिटनेस सर्टिफिकेट बनाएं।', keys: 'vehicle sale deed affidavit self declaration experience letter transport bilty medical fitness certificate legal' },
@@ -631,8 +739,52 @@ try{
   setTheme(savedTheme==='dark'?'dark':'light');
   applyLanguage(I18N[savedLang]?savedLang:'hi');
 }catch(e){setTheme('light');applyLanguage('hi');}
+
+function renderSingleHeroAd(slotId, ad, defaultBadge, defaultLink){
+  const el = $(slotId);
+  if(!el || !ad) return;
+  if(ad.active === false || String(ad.active).toUpperCase() === 'OFF'){
+    el.classList.add('hidden');
+    return;
+  }
+  el.classList.remove('hidden');
+  el.href = ad.link ? ad.link : defaultLink;
+  if(ad.link){ el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+  else { el.removeAttribute('target'); el.removeAttribute('rel'); }
+
+  el.replaceChildren();
+  if(ad.imageUrl){
+    const img = document.createElement('img');
+    img.src = ad.imageUrl;
+    img.className = 'ad-banner-img';
+    img.alt = ad.title || 'Advertisement';
+    img.loading = 'lazy';
+    el.appendChild(img);
+  } else {
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'hero-ad-glow-title';
+    titleDiv.textContent = ad.title || 'Book Your AD Here';
+    const badgeSpan = document.createElement('span');
+    badgeSpan.className = 'hero-ad-badge';
+    badgeSpan.textContent = ad.subtitle || defaultBadge;
+    el.append(titleDiv, badgeSpan);
+  }
+}
+
+async function loadHeroAds(){
+  try{
+    const res = await fetch(`${SCRIPT_URL}?action=getAds`);
+    const data = await res.json();
+    if(data){
+      renderSingleHeroAd('leftAdSlot', data.left, '⚡ Prime Left Spot', 'contact.html?subject=Ad-Booking-Left');
+      renderSingleHeroAd('rightAdSlot', data.right, '⚡ Prime Right Spot', 'contact.html?subject=Ad-Booking-Right');
+    }
+  }catch(e){}
+}
+
 renderUpdateTicker();
 loadLiveUpdates();
+loadHeroAds();
 renderTools();
 </script>
 </body>
