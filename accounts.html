@@ -37,8 +37,8 @@
     .back-link:hover { background: #0284c7; color: #fff; }
 
     input, textarea, select {
-      width: 100%; padding: 12px; margin: 10px 0; border: 1.5px solid #cbd5e1;
-      border-radius: 10px; font-size: 14.5px; outline: none; background: #fff;
+      width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #cbd5e1;
+      border-radius: 10px; font-size: 14px; outline: none; background: #fff;
     }
     input:focus, textarea:focus { border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.14); }
 
@@ -74,7 +74,7 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .dashboard { display: none; max-width: 1050px; margin: 0 auto; padding-bottom: 50px; }
+    .dashboard { display: none; max-width: 1100px; margin: 0 auto; padding-bottom: 50px; }
     .topbar {
       background: linear-gradient(135deg, #0b172b, #183b79); color: #fff; padding: 16px 20px;
       border-radius: 14px; border-bottom: 3px solid #f59e0b;
@@ -86,7 +86,7 @@
     .tab-btn.active { background: #0284c7; color: #fff; border-color: #0284c7; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); }
 
     .card {
-      background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px);
       padding: 20px; border-radius: 14px; margin-bottom: 16px;
       border: 1px solid rgba(148, 163, 184, 0.3); box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
     }
@@ -113,6 +113,38 @@
       background: #fef3c7; color: #92400e; font-size: 11.5px; font-weight: 800;
       padding: 3px 9px; border-radius: 999px; border: 1px solid #fcd34d; margin-right: 8px;
     }
+
+    /* Hero Ad Manager Grid */
+    .ads-admin-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 14px;
+    }
+    @media (max-width: 780px) { .ads-admin-grid { grid-template-columns: 1fr; } }
+
+    .ad-slot-editor {
+      background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 12px; padding: 16px;
+    }
+    .ad-slot-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0;
+    }
+    .ad-field-label { display: block; font-size: 12.5px; font-weight: 800; color: #334155; margin-top: 6px; }
+    .ad-preview-box {
+      margin-top: 10px; border: 2px dashed #38bdf8; border-radius: 12px;
+      background: linear-gradient(128deg, #0b172b 0%, #183b79 60%, #0369a1 100%);
+      min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 12px; text-align: center; color: #fff; overflow: hidden; position: relative;
+    }
+    .ad-preview-box img {
+      max-width: 100%; max-height: 190px; border-radius: 8px; object-fit: cover; display: block;
+    }
+    .ad-prev-glow {
+      font-size: 17px; font-weight: 900; text-shadow: 0 0 8px #38bdf8, 0 0 18px #fbbf24;
+    }
+    .ad-prev-badge {
+      margin-top: 8px; background: linear-gradient(135deg, #f59e0b, #ef4444);
+      padding: 4px 11px; border-radius: 999px; font-size: 11px; font-weight: 800;
+    }
+    .img-tools-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
 
     /* Floating Toast Notification */
     .toast {
@@ -151,7 +183,7 @@
     <div class="topbar">
       <div>
         <strong style="font-size:18px;">KaamKaj Bills — Account Panel</strong>
-        <div style="font-size:12.5px; color:#cbd5e1;">Live Ticker Updates, Reviews, Custom Page Requests & Security</div>
+        <div style="font-size:12.5px; color:#cbd5e1;">Homepage Ads, Live Updates, Reviews, Custom Requests & Security</div>
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap;">
         <a href="index.html" style="text-decoration:none;"><button type="button" style="background:rgba(255,255,255,0.15); color:#fff;">🏠 Home</button></a>
@@ -162,14 +194,95 @@
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('updatesTab', this)">🆕 Running Updates (<span id="countUpd">0</span>)</button>
+      <button class="tab-btn active" onclick="switchTab('adsTab', this)">📢 Homepage Ads (Left & Right)</button>
+      <button class="tab-btn" onclick="switchTab('updatesTab', this)">🆕 Running Updates (<span id="countUpd">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('reviewsTab', this)">Client Reviews (<span id="countRev">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('requestsTab', this)">Custom Page Requests (<span id="countReq">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('securityTab', this)">Change Password</button>
     </div>
 
+    <!-- Tab 0: Homepage Left & Right Ad Slots Manager -->
+    <div id="adsTab">
+      <div class="card">
+        <h3 style="margin-top:0; margin-bottom:6px;">📢 होमपेज Ad Booking मैनेजर (Left & Right Hero Boxes)</h3>
+        <p style="color:#64748b; font-size:13.5px; margin-top:0;">
+          यहाँ से आप <strong>index.html</strong> के दोनों तरफ दिखने वाले विज्ञापन (Ad) बॉक्स को कंट्रोल कर सकते हैं। आप सीधे अपने कंप्यूटर/मोबाइल से <strong>Ad Image Upload</strong> कर सकते हैं (यह ऑटो-कम्प्रेस होकर सेव होगी), या बिना इमेज के <strong>Glowing Text</strong> दिखा सकते हैं।
+        </p>
+
+        <div class="ads-admin-grid">
+          <!-- LEFT AD BOX -->
+          <div class="ad-slot-editor">
+            <div class="ad-slot-header">
+              <strong style="font-size:16px; color:#0369a1;">⬅️ Left Side Ad Slot</strong>
+              <label class="switch-label">
+                <input type="checkbox" id="adm_left_active" checked onchange="renderAdPreview('left')" />
+                Show ON / OFF
+              </label>
+            </div>
+
+            <label class="ad-field-label">Upload Ad Image (PC / Phone से चुनें):</label>
+            <input type="file" id="adm_left_file" accept="image/*" onchange="handleAdImageUpload(event, 'left')" style="padding:8px;" />
+
+            <label class="ad-field-label">या Image URL / Base64 Data:</label>
+            <div class="img-tools-row">
+              <input type="text" id="adm_left_img" placeholder="Image upload करें या URL पेस्ट करें..." oninput="renderAdPreview('left')" style="flex:1; margin:4px 0;" />
+              <button type="button" class="btn-del" style="padding:8px 10px; font-size:12px;" onclick="clearAdImage('left')">✖ Clear Image</button>
+            </div>
+
+            <label class="ad-field-label">Glowing Text (जब Image न हो तब दिखेगा):</label>
+            <input type="text" id="adm_left_title" value="Book Your AD Here" placeholder="e.g. Book Your AD Here" oninput="renderAdPreview('left')" />
+
+            <label class="ad-field-label">Sub Badge Text:</label>
+            <input type="text" id="adm_left_sub" value="⚡ Prime Left Spot" placeholder="e.g. Call / WhatsApp Now" oninput="renderAdPreview('left')" />
+
+            <label class="ad-field-label">Click Link (क्लिक करने पर कहाँ खुले):</label>
+            <input type="text" id="adm_left_link" placeholder="e.g. https://wa.me/91... या contact.html?subject=Ad-Booking-Left" />
+
+            <div class="ad-preview-box" id="preview_left_box"></div>
+          </div>
+
+          <!-- RIGHT AD BOX -->
+          <div class="ad-slot-editor">
+            <div class="ad-slot-header">
+              <strong style="font-size:16px; color:#0369a1;">➡️ Right Side Ad Slot</strong>
+              <label class="switch-label">
+                <input type="checkbox" id="adm_right_active" checked onchange="renderAdPreview('right')" />
+                Show ON / OFF
+              </label>
+            </div>
+
+            <label class="ad-field-label">Upload Ad Image (PC / Phone से चुनें):</label>
+            <input type="file" id="adm_right_file" accept="image/*" onchange="handleAdImageUpload(event, 'right')" style="padding:8px;" />
+
+            <label class="ad-field-label">या Image URL / Base64 Data:</label>
+            <div class="img-tools-row">
+              <input type="text" id="adm_right_img" placeholder="Image upload करें या URL पेस्ट करें..." oninput="renderAdPreview('right')" style="flex:1; margin:4px 0;" />
+              <button type="button" class="btn-del" style="padding:8px 10px; font-size:12px;" onclick="clearAdImage('right')">✖ Clear Image</button>
+            </div>
+
+            <label class="ad-field-label">Glowing Text (जब Image न हो तब दिखेगा):</label>
+            <input type="text" id="adm_right_title" value="Book Your AD Here" placeholder="e.g. Book Your AD Here" oninput="renderAdPreview('right')" />
+
+            <label class="ad-field-label">Sub Badge Text:</label>
+            <input type="text" id="adm_right_sub" value="⚡ Prime Right Spot" placeholder="e.g. Special Business Offer" oninput="renderAdPreview('right')" />
+
+            <label class="ad-field-label">Click Link (क्लिक करने पर कहाँ खुले):</label>
+            <input type="text" id="adm_right_link" placeholder="e.g. https://... या contact.html?subject=Ad-Booking-Right" />
+
+            <div class="ad-preview-box" id="preview_right_box"></div>
+          </div>
+        </div>
+
+        <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" id="btnSaveAds" class="btn-approve" style="padding:12px 22px; font-size:15px;" onclick="saveHeroAds(this)">
+            💾 Save & Publish Ads on Homepage
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Tab 1: Running Updates Manager -->
-    <div id="updatesTab">
+    <div id="updatesTab" style="display:none;">
       <div class="card">
         <h3 style="margin-top:0; margin-bottom:6px;">🆕 होमपेज रनिंग अपडेट मैनेजर (Left-to-Right Ticker)</h3>
         <p style="color:#64748b; font-size:13.5px; margin-top:0;">यहाँ जो भी नए कार्ड का नाम या अपडेट जोड़ेंगे, वह सीधे <strong>index.html</strong> पर <strong>"न्यू अपडेट"</strong> बैज के साथ रनिंग मोड में चलेगा। पुराना होने पर आप उसे यहाँ से डिलीट कर सकते हैं।</p>
@@ -292,12 +405,129 @@
       renderUpdatesList();
       renderReviews(data.reviews || []);
       renderRequests(data.requests || []);
+      await fetchCurrentAds();
       return true;
     } catch (e) {
       return false;
     }
   }
 
+  // ==================== HERO ADS MANAGER LOGIC ====================
+  async function fetchCurrentAds() {
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=getAds`);
+      const data = await res.json();
+      if (data && data.left) populateAdForm("left", data.left);
+      if (data && data.right) populateAdForm("right", data.right);
+    } catch (e) {
+      renderAdPreview("left");
+      renderAdPreview("right");
+    }
+  }
+
+  function populateAdForm(side, ad) {
+    const isOff = ad.active === false || String(ad.active).toUpperCase() === "OFF";
+    document.getElementById(`adm_${side}_active`).checked = !isOff;
+    document.getElementById(`adm_${side}_img`).value = ad.imageUrl || "";
+    document.getElementById(`adm_${side}_title`).value = ad.title || "Book Your AD Here";
+    document.getElementById(`adm_${side}_sub`).value = ad.subtitle || (side === "left" ? "⚡ Prime Left Spot" : "⚡ Prime Right Spot");
+    document.getElementById(`adm_${side}_link`).value = ad.link || "";
+    renderAdPreview(side);
+  }
+
+  // Auto-compress uploaded image so it fits cleanly inside Google Sheets cell (< 45,000 chars)
+  function handleAdImageUpload(event, side) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement("canvas");
+        const MAX_W = 460;
+        const scale = img.width > MAX_W ? MAX_W / img.width : 1;
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Export compressed WebP/JPEG data URL
+        let dataUrl = canvas.toDataURL("image/webp", 0.78);
+        if (dataUrl.length > 42000) {
+          dataUrl = canvas.toDataURL("image/jpeg", 0.65);
+        }
+        document.getElementById(`adm_${side}_img`).value = dataUrl;
+        renderAdPreview(side);
+        showToast("✓ इमेज लोड और ऑप्टिमाइज़ हो गई! अब Save बटन दबाएं।");
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function clearAdImage(side) {
+    document.getElementById(`adm_${side}_img`).value = "";
+    const fileInput = document.getElementById(`adm_${side}_file`);
+    if (fileInput) fileInput.value = "";
+    renderAdPreview(side);
+  }
+
+  function renderAdPreview(side) {
+    const active = document.getElementById(`adm_${side}_active`).checked;
+    const imgUrl = document.getElementById(`adm_${side}_img`).value.trim();
+    const title = document.getElementById(`adm_${side}_title`).value.trim() || "Book Your AD Here";
+    const sub = document.getElementById(`adm_${side}_sub`).value.trim() || "⚡ Prime Spot";
+    const box = document.getElementById(`preview_${side}_box`);
+
+    if (!active) {
+      box.innerHTML = `<div style="color:#fca5a5; font-weight:800;">🚫 यह Ad Slot अभी OFF (Hidden) है</div>`;
+      return;
+    }
+    if (imgUrl) {
+      box.innerHTML = `<img src="${esc(imgUrl)}" alt="Ad Preview">`;
+    } else {
+      box.innerHTML = `
+        <div class="ad-prev-glow">${esc(title)}</div>
+        <span class="ad-prev-badge">${esc(sub)}</span>
+      `;
+    }
+  }
+
+  async function saveHeroAds(btn) {
+    const payload = {
+      action: "saveAds",
+      password: SESSION_PASSWORD,
+      left: {
+        active: document.getElementById("adm_left_active").checked ? "ON" : "OFF",
+        imageUrl: document.getElementById("adm_left_img").value.trim(),
+        title: document.getElementById("adm_left_title").value.trim(),
+        subtitle: document.getElementById("adm_left_sub").value.trim(),
+        link: document.getElementById("adm_left_link").value.trim()
+      },
+      right: {
+        active: document.getElementById("adm_right_active").checked ? "ON" : "OFF",
+        imageUrl: document.getElementById("adm_right_img").value.trim(),
+        title: document.getElementById("adm_right_title").value.trim(),
+        subtitle: document.getElementById("adm_right_sub").value.trim(),
+        link: document.getElementById("adm_right_link").value.trim()
+      }
+    };
+
+    await runWithFeedback(btn, "Publishing Ads...", "✓ दोनों Ads होमपेज पर लाइव सेव हो गए!", async () => {
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.status && data.status !== "success" && data.status !== "ok") {
+        throw new Error(data.message || "Save failed");
+      }
+    });
+  }
+
+  // ==================== RUNNING UPDATES LOGIC ====================
   function renderUpdatesList() {
     document.getElementById("countUpd").textContent = CURRENT_UPDATES.length;
     const box = document.getElementById("updatesListContainer");
@@ -352,6 +582,7 @@
     });
   }
 
+  // ==================== REVIEWS & REQUESTS LOGIC ====================
   function renderReviews(reviews) {
     document.getElementById("countRev").textContent = reviews.length;
     const box = document.getElementById("reviewsTab");
@@ -512,7 +743,7 @@
   }
 
   function switchTab(tabId, btn) {
-    ["updatesTab", "reviewsTab", "requestsTab", "securityTab"].forEach(id => {
+    ["adsTab", "updatesTab", "reviewsTab", "requestsTab", "securityTab"].forEach(id => {
       document.getElementById(id).style.display = (id === tabId) ? "block" : "none";
     });
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -531,6 +762,9 @@
       '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
     }[m]));
   }
+
+  renderAdPreview("left");
+  renderAdPreview("right");
 </script>
 </body>
 </html>
