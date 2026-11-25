@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Card Maker (Front & Back + 250 Templates) — KaamKaj Bills</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f1f5f9;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
+
+    /* Navbar */
+    .topbar {
+      background: #0f172a; color: #fff; padding: 12px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    }
+    .topbar a { color: #93c5fd; text-decoration: none; font-weight: 600; font-size: 14px; }
+    .topbar h1 { font-size: 16px; font-weight: 700; }
+    .badge { background: #16a34a; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+
+    /* Main Grid */
+    .container {
+      max-width: 1340px; margin: 20px auto; padding: 0 16px;
+      display: grid; grid-template-columns: 440px 1fr; gap: 22px; align-items: start;
+    }
+    @media (max-width: 980px) { .container { grid-template-columns: 1fr; } }
+
+    .panel {
+      background: var(--panel); border-radius: 12px; padding: 18px;
+      border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(15,23,42,0.05);
+    }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 5px; margin-bottom: 14px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+    .tab-btn {
+      flex: 1; padding: 8px 4px; border: none; border-radius: 7px; font-size: 11.5px;
+      font-weight: 700; cursor: pointer; background: #f1f5f9; color: #475569; transition: 0.2s;
+    }
+    .tab-btn.active { background: var(--accent); color: #fff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Form Controls */
+    .section-title { font-size: 12px; font-weight: 700; color: var(--primary); margin: 12px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 4px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { margin-bottom: 10px; }
+    .field label { display: block; font-size: 11.5px; font-weight: 600; color: #334155; margin-bottom: 4px; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px;
+      font-size: 13px; color: var(--text); background: #fff;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #f8fafc; padding: 8px 12px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px;
+      font-size: 12.5px; font-weight: 600;
+    }
+
+    /* Template Gallery */
+    .tpl-toolbar { display: flex; gap: 8px; margin-bottom: 10px; }
+    .tpl-toolbar input { flex: 1; padding: 7px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 12.5px; }
+    .tpl-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      max-height: 280px; overflow-y: auto; padding: 4px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+    }
+    .tpl-item {
+      aspect-ratio: 1.75 / 1; border-radius: 6px; overflow: hidden; cursor: pointer;
+      border: 2px solid transparent; position: relative; background: #e2e8f0; transition: 0.15s;
+    }
+    .tpl-item:hover { transform: scale(1.03); }
+    .tpl-item.selected { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.3); }
+    .tpl-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tpl-item span {
+      position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.62);
+      color: #fff; font-size: 9px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* Swatches */
+    .swatches { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+    .swatch {
+      width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cbd5e1; cursor: pointer;
+    }
+
+    /* Preview Area */
+    .preview-panel { position: sticky; top: 68px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .btn {
+      padding: 9px 14px; border: none; border-radius: 8px; font-size: 12.5px; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s;
+    }
+    .btn-primary { background: #2563eb; color: #fff; }
+    .btn-pdf { background: #dc2626; color: #fff; }
+    .btn-dark { background: #0f172a; color: #fff; }
+    .btn-outline { background: #fff; color: #0f172a; border: 1px solid #cbd5e1; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* Business Card Canvas (Standard 3.5 x 2 inch ratio => 525 x 300 px) */
+    .cards-stage {
+      display: flex; flex-direction: column; align-items: center; gap: 22px;
+      padding: 18px; background: #e2e8f0; border-radius: 12px; overflow-x: auto;
+    }
+    .card-wrapper-label { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; text-align: center; }
+    .bcard {
+      width: 525px; height: 300px; border-radius: 10px; position: relative; overflow: hidden;
+      background-color: #ffffff; background-size: cover; background-position: center;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18); padding: 22px 26px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      color: #0f172a; transition: all 0.2s ease;
+    }
+    .bcard-overlay {
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    }
+    .bcard-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+
+    /* Front Card Elements */
+    .front-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .brand-block { display: flex; align-items: center; gap: 10px; }
+    .card-logo { height: 42px; width: auto; max-width: 110px; object-fit: contain; border-radius: 4px; }
+    .company-name { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; line-height: 1.15; }
+    .company-tagline { font-size: 10.5px; opacity: 0.85; margin-top: 2px; }
+    .gst-tag { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: rgba(128,128,128,0.16); }
+
+    .person-block { margin: 6px 0; }
+    .person-name { font-size: 21px; font-weight: 800; line-height: 1.15; }
+    .person-role { font-size: 12px; font-weight: 600; opacity: 0.9; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.6px; }
+
+    .front-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
+    .contact-list { font-size: 11px; line-height: 1.55; flex: 1; }
+    .contact-item { display: flex; align-items: center; gap: 6px; }
+    .social-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 5px; font-size: 10px; font-weight: 600; opacity: 0.92; }
+    .qr-box {
+      background: #fff; padding: 5px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    /* Back Card Elements */
+    .back-center {
+      height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 8px;
+    }
+    .back-logo { height: 64px; max-width: 180px; object-fit: contain; }
+    .back-company { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; }
+    .back-tagline { font-size: 12px; opacity: 0.88; max-width: 85%; }
+    .back-services {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; text-align: left;
+      width: 92%; margin-top: 6px; font-size: 11.5px; font-weight: 600;
+    }
+    .back-qr-wrap { background: #fff; padding: 8px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.18); }
+
+    /* Font families */
+    .font-inter, .font-inter * { font-family: 'Inter', sans-serif; }
+    .font-poppins, .font-poppins * { font-family: 'Poppins', sans-serif; }
+    .font-playfair .company-name, .font-playfair .person-name, .font-playfair .back-company { font-family: 'Playfair Display', serif; }
+
+    /* Hidden A4 Print Sheet Source */
+    #a4DocSheet {
+      position: fixed; left: -9999px; top: 0; width: 680px; background: #fff; padding: 20px;
+    }
+    .a4-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    .a4-card-slot {
+      border: 1px dashed #94a3b8; padding: 2px; display: flex; justify-content: center; align-items: center;
+      break-inside: avoid; page-break-inside: avoid;
+    }
+    .a4-card-slot img { width: 100%; height: auto; display: block; }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <a href="index.html">← All Tools</a>
+    <h1>🪪 Business Card Maker</h1>
+    <span class="badge" id="tplCountBadge">Loading Templates...</span>
+  </header>
+
+  <main class="container">
+    <!-- Left Editor Panel -->
+    <section class="panel">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tab-front', this)">1. Front Info</button>
+        <button class="tab-btn" onclick="switchTab('tab-social', this)">2. Social & QR</button>
+        <button class="tab-btn" onclick="switchTab('tab-back', this)">3. Back Side</button>
+        <button class="tab-btn" onclick="switchTab('tab-design', this)">4. Templates</button>
+      </div>
+
+      <!-- TAB 1: FRONT INFO -->
+      <div id="tab-front" class="tab-content active">
+        <div class="section-title">Personal Details</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="in_name" value="Rahul Sharma" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>Designation / Role</label>
+            <input type="text" id="in_role" value="Founder & Managing Director" oninput="updateCard()">
+          </div>
+        </div>
+
+        <div class="section-title">Company & Branding</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Company / Shop Name</label>
+            <input type="text" id="in_company" value="Apex Tech Solutions" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>Tagline / Slogan</label>
+            <input type="text" id="in_tagline" value="Smart Business & IT Services" oninput="updateCard()">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>Upload Company Logo</label>
+            <input type="file" id="in_logo" accept="image/*" onchange="handleLogoUpload(event)">
+          </div>
+          <div class="field">
+            <label>Logo Height (<span id="logoSizeVal">42</span>px)</label>
+            <input type="range" id="in_logo_size" min="24" max="75" value="42" oninput="updateCard()">
+          </div>
+        </div>
+
+        <div class="section-title">Contact Information</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Primary Mobile / WhatsApp</label>
+            <input type="text" id="in_phone1" value="+91 98765 43210" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>Secondary Phone (Optional)</label>
+            <input type="text" id="in_phone2" placeholder="+91 91234 56789" oninput="updateCard()">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="in_email" value="info@apextech.in" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>Website URL</label>
+            <input type="text" id="in_web" value="www.apextech.in" oninput="updateCard()">
+          </div>
+        </div>
+        <div class="field">
+          <label>Office / Shop Address</label>
+          <input type="text" id="in_address" value="Shop 12, MG Road, Commercial Complex, Pune - 411001" oninput="updateCard()">
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>GSTIN / Reg. No. (Optional)</label>
+            <input type="text" id="in_gst" placeholder="27AABCU9603R1ZM" oninput="updateCard()">
+          </div>
+          <div class="field" style="display:flex;align-items:flex-end;">
+            <label class="toggle-row" style="width:100%;margin:0;">
+              <span>Show GSTIN</span>
+              <input type="checkbox" id="chk_gst" onchange="updateCard()">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: SOCIAL MEDIA & QR -->
+      <div id="tab-social" class="tab-content">
+        <div class="section-title">Social Media Handles</div>
+        <div class="toggle-row">
+          <span>Show Social Media Bar on Front</span>
+          <input type="checkbox" id="chk_social" checked onchange="updateCard()">
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Instagram Username</label>
+            <input type="text" id="in_insta" value="@apextech.in" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>Facebook Page / Handle</label>
+            <input type="text" id="in_fb" value="fb.com/apextech" oninput="updateCard()">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>YouTube / LinkedIn</label>
+            <input type="text" id="in_yt" placeholder="youtube.com/@apextech" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>WhatsApp Direct Text</label>
+            <input type="text" id="in_wa_handle" placeholder="wa.me/919876543210" oninput="updateCard()">
+          </div>
+        </div>
+
+        <div class="section-title">Live QR Code Settings</div>
+        <div class="toggle-row">
+          <span>Show QR Code on Front Card</span>
+          <input type="checkbox" id="chk_qr" checked onchange="updateCard()">
+        </div>
+        <div class="field">
+          <label>QR Code Link (Website / WhatsApp / UPI / Google Maps)</label>
+          <input type="text" id="in_qr_data" value="https://www.apextech.in" oninput="updateCard()">
+        </div>
+      </div>
+
+      <!-- TAB 3: BACK SIDE DESIGN -->
+      <div id="tab-back" class="tab-content">
+        <div class="toggle-row">
+          <span>Enable Back Side Card</span>
+          <input type="checkbox" id="chk_back" checked onchange="updateCard()">
+        </div>
+
+        <div class="field">
+          <label>Back Side Layout Style</label>
+          <select id="in_back_mode" onchange="updateCard()">
+            <option value="brand">1. Brand Logo + Company Name + Tagline</option>
+            <option value="services">2. Company Name + Services / Products List</option>
+            <option value="qr">3. Large Scan QR Code + Website / Payment Callout</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Services / Highlights (Comma separated — for Mode 2)</label>
+          <textarea id="in_services" rows="3" oninput="updateCard()">Web Development, Digital Marketing, IT Consulting, Cloud Setup, Annual Maintenance, Custom Software</textarea>
+        </div>
+
+        <div class="field">
+          <label>Back QR Caption (for Mode 3)</label>
+          <input type="text" id="in_back_qr_label" value="Scan to Visit Website & Save Contact" oninput="updateCard()">
+        </div>
+
+        <div class="field">
+          <label>Back Background Target</label>
+          <select id="in_tpl_target">
+            <option value="front">Apply Selected Template to Front</option>
+            <option value="back">Apply Selected Template to Back</option>
+            <option value="both">Apply Selected Template to Both Sides</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TAB 4: 250+ TEMPLATES & ALIGNMENT -->
+      <div id="tab-design" class="tab-content">
+        <div class="section-title">Select Template (GitHub Gallery + Presets)</div>
+        <div class="field">
+          <label>Apply Template To:</label>
+          <select id="tpl_apply_mode">
+            <option value="both">Both Front & Back</option>
+            <option value="front">Front Side Only</option>
+            <option value="back">Back Side Only</option>
+          </select>
+        </div>
+        <div class="tpl-toolbar">
+          <input type="text" id="tplSearch" placeholder="Search template name (e.g., bc, card)..." oninput="filterTemplates()">
+        </div>
+        <div class="tpl-grid" id="tplGrid"></div>
+
+        <div class="field" style="margin-top:10px;">
+          <label>Or Upload Custom Background Image</label>
+          <input type="file" accept="image/*" onchange="handleCustomBg(event)">
+        </div>
+
+        <div class="section-title">Text Color, Font & Alignment</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Text Color Presets</label>
+            <div class="swatches">
+              <div class="swatch" style="background:#0f172a;" onclick="setTextColor('#0f172a')" title="Dark Navy"></div>
+              <div class="swatch" style="background:#ffffff;" onclick="setTextColor('#ffffff')" title="Pure White"></div>
+              <div class="swatch" style="background:#facc15;" onclick="setTextColor('#facc15')" title="Gold"></div>
+              <div class="swatch" style="background:#1e40af;" onclick="setTextColor('#1e40af')" title="Royal Blue"></div>
+              <input type="color" id="in_text_color" value="#0f172a" onchange="setTextColor(this.value)" style="width:32px;height:28px;padding:0;border:none;">
+            </div>
+          </div>
+          <div class="field">
+            <label>Font Style</label>
+            <select id="in_font" onchange="updateCard()">
+              <option value="font-inter">Modern Sans (Inter)</option>
+              <option value="font-poppins">Clean Geometric (Poppins)</option>
+              <option value="font-playfair">Classic Serif (Playfair)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>Text Alignment</label>
+            <select id="in_align" onchange="updateCard()">
+              <option value="left">Left Aligned</option>
+              <option value="center">Center Aligned</option>
+              <option value="right">Right Aligned</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Background Tint Overlay (<span id="tintVal">0</span>%)</label>
+            <input type="range" id="in_tint" min="0" max="75" value="0" oninput="updateCard()">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>Left/Right Padding (<span id="padXVal">26</span>px)</label>
+            <input type="range" id="in_pad_x" min="14" max="70" value="26" oninput="updateCard()">
+          </div>
+          <div class="field">
+            <label>Top/Bottom Padding (<span id="padYVal">22</span>px)</label>
+            <input type="range" id="in_pad_y" min="12" max="55" value="22" oninput="updateCard()">
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:8px;">
+        <button class="btn btn-outline" style="flex:1;justify-content:center;" onclick="saveProfile()">💾 Save Profile</button>
+        <button class="btn btn-outline" style="justify-content:center;" onclick="resetProfile()">↺ Reset</button>
+      </div>
+    </section>
+
+    <!-- Right Live Preview & Export Panel -->
+    <section class="panel preview-panel">
+      <div class="actions">
+        <button class="btn btn-primary" onclick="downloadCardPNG('frontCard', 'Front')">⬇ Front PNG</button>
+        <button class="btn btn-dark" id="btnDownBack" onclick="downloadCardPNG('backCard', 'Back')">⬇ Back PNG</button>
+        <button class="btn btn-pdf" onclick="downloadA4PDF()">📄 Download A4 Print PDF (10 Cards)</button>
+      </div>
+
+      <div class="cards-stage">
+        <!-- FRONT CARD -->
+        <div>
+          <div class="card-wrapper-label">Front Side Preview (3.5" × 2")</div>
+          <div id="frontCard" class="bcard font-inter">
+            <div class="bcard-overlay" id="frontOverlay"></div>
+            <div class="bcard-inner" id="frontInner">
+              <div class="front-top" id="frontTopRow">
+                <div class="brand-block">
+                  <img id="prevLogo" class="card-logo" style="display:none;" alt="Logo">
+                  <div>
+                    <div class="company-name" id="prevCompany">Apex Tech Solutions</div>
+                    <div class="company-tagline" id="prevTagline">Smart Business & IT Services</div>
+                  </div>
+                </div>
+                <div class="gst-tag" id="prevGst" style="display:none;"></div>
+              </div>
+
+              <div class="person-block" id="frontPersonBlock">
+                <div class="person-name" id="prevName">Rahul Sharma</div>
+                <div class="person-role" id="prevRole">Founder & Managing Director</div>
+              </div>
+
+              <div class="front-bottom" id="frontBottomRow">
+                <div class="contact-list">
+                  <div class="contact-item" id="prevPhoneRow">📞 <span id="prevPhones">+91 98765 43210</span></div>
+                  <div class="contact-item" id="prevEmailRow">✉️ <span id="prevEmail">info@apextech.in</span></div>
+                  <div class="contact-item" id="prevWebRow">🌐 <span id="prevWeb">www.apextech.in</span></div>
+                  <div class="contact-item" id="prevAddrRow">📍 <span id="prevAddress">Shop 12, MG Road, Commercial Complex, Pune - 411001</span></div>
+                  <div class="social-row" id="prevSocialRow"></div>
+                </div>
+                <div class="qr-box" id="frontQrBox">
+                  <div id="frontQr"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BACK CARD -->
+        <div id="backCardWrapper">
+          <div class="card-wrapper-label">Back Side Preview (3.5" × 2")</div>
+          <div id="backCard" class="bcard font-inter" style="background: linear-gradient(135deg, #0f172a, #1e3a8a); color: #ffffff;">
+            <div class="bcard-overlay" id="backOverlay"></div>
+            <div class="bcard-inner">
+              <div class="back-center" id="backContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Hidden A4 Export Container (Populated dynamically before html2pdf capture) -->
+  <div id="a4DocSheet">
+    <div id="slipsContainer" class="a4-grid"></div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const STORAGE_KEY = 'kaamkaj_bcard_profile_v1';
+
+    let state = {
+      frontBg: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
+      frontBgIsImage: false,
+      backBg: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)',
+      backBgIsImage: false,
+      textColor: '#0f172a',
+      logoDataUrl: ''
+    };
+
+    const BUILTIN_TEMPLATES = [
+      { name: 'Clean White', type: 'css', value: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)', text: '#0f172a' },
+      { name: 'Royal Navy', type: 'css', value: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)', text: '#ffffff' },
+      { name: 'Corporate Gold', type: 'css', value: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)', text: '#facc15' },
+      { name: 'Emerald Pro', type: 'css', value: 'linear-gradient(135deg, #064e3b 0%, #047857 100%)', text: '#ffffff' },
+      { name: 'Warm Cream', type: 'css', value: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)', text: '#1e293b' },
+      { name: 'Crimson Bold', type: 'css', value: 'linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%)', text: '#ffffff' }
+    ];
+
+    let allTemplates = [...BUILTIN_TEMPLATES];
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      $(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    async function loadGitHubTemplates() {
+      try {
+        const res = await fetch('https://api.github.com/repos/amartomar700/kaamkajbills/contents/card-templates');
+        if (!res.ok) throw new Error('Repo fetch failed');
+        const files = await res.json();
+        const imgFiles = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
+        imgFiles.forEach(f => {
+          allTemplates.push({
+            name: f.name.replace(/\.[^/.]+$/, ''),
+            type: 'img',
+            value: f.download_url,
+            text: '#0f172a'
+          });
+        });
+        $('tplCountBadge').textContent = `${allTemplates.length} Templates Ready`;
+      } catch (e) {
+        $('tplCountBadge').textContent = `${allTemplates.length} Built-in Templates`;
+      }
+      renderTemplates(allTemplates);
+    }
+
+    function renderTemplates(list) {
+      const grid = $('tplGrid');
+      grid.innerHTML = '';
+      list.forEach(tpl => {
+        const div = document.createElement('div');
+        div.className = 'tpl-item';
+        if (tpl.type === 'img') {
+          div.innerHTML = `<img src="${tpl.value}" loading="lazy" alt="${tpl.name}"><span>${tpl.name}</span>`;
+        } else {
+          div.style.background = tpl.value;
+          div.innerHTML = `<span>${tpl.name}</span>`;
+        }
+        div.onclick = () => applyTemplate(tpl);
+        grid.appendChild(div);
+      });
+    }
+
+    function filterTemplates() {
+      const q = $('tplSearch').value.toLowerCase().trim();
+      const filtered = allTemplates.filter(t => t.name.toLowerCase().includes(q));
+      renderTemplates(filtered);
+    }
+
+    function applyTemplate(tpl) {
+      const mode = $('tpl_apply_mode').value;
+      if (mode === 'front' || mode === 'both') {
+        state.frontBg = tpl.value;
+        state.frontBgIsImage = tpl.type === 'img';
+      }
+      if (mode === 'back' || mode === 'both') {
+        state.backBg = tpl.value;
+        state.backBgIsImage = tpl.type === 'img';
+      }
+      if (tpl.type === 'css') {
+        state.textColor = tpl.text;
+        $('in_text_color').value = tpl.text;
+      }
+      updateCard();
+    }
+
+    function handleCustomBg(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        applyTemplate({ name: 'Custom', type: 'img', value: ev.target.result });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleLogoUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        state.logoDataUrl = ev.target.result;
+        updateCard();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setTextColor(hex) {
+      state.textColor = hex;
+      $('in_text_color').value = hex;
+      updateCard();
+    }
+
+    function renderQR(containerId, text, size) {
+      const el = $(containerId);
+      el.innerHTML = '';
+      if (!text.trim()) return;
+      new QRCode(el, {
+        text: text.trim(),
+        width: size,
+        height: size,
+        colorDark: '#0f172a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+
+    function updateCard() {
+      const name = $('in_name').value;
+      const role = $('in_role').value;
+      const company = $('in_company').value;
+      const tagline = $('in_tagline').value;
+      const logoSize = $('in_logo_size').value;
+      $('logoSizeVal').textContent = logoSize;
+
+      const p1 = $('in_phone1').value.trim();
+      const p2 = $('in_phone2').value.trim();
+      const email = $('in_email').value.trim();
+      const web = $('in_web').value.trim();
+      const addr = $('in_address').value.trim();
+      const gst = $('in_gst').value.trim();
+      const showGst = $('chk_gst').checked;
+
+      // Front text updates
+      $('prevName').textContent = name;
+      $('prevRole').textContent = role;
+      $('prevCompany').textContent = company;
+      $('prevTagline').textContent = tagline;
+
+      const logoEl = $('prevLogo');
+      if (state.logoDataUrl) {
+        logoEl.src = state.logoDataUrl;
+        logoEl.style.display = 'block';
+        logoEl.style.height = logoSize + 'px';
+      } else {
+        logoEl.style.display = 'none';
+      }
+
+      const gstEl = $('prevGst');
+      if (showGst && gst) {
+        gstEl.style.display = 'block';
+        gstEl.textContent = 'GSTIN: ' + gst;
+      } else {
+        gstEl.style.display = 'none';
+      }
+
+      $('prevPhoneRow').style.display = (p1 || p2) ? 'flex' : 'none';
+      $('prevPhones').textContent = [p1, p2].filter(Boolean).join(' | ');
+      $('prevEmailRow').style.display = email ? 'flex' : 'none';
+      $('prevEmail').textContent = email;
+      $('prevWebRow').style.display = web ? 'flex' : 'none';
+      $('prevWeb').textContent = web;
+      $('prevAddrRow').style.display = addr ? 'flex' : 'none';
+      $('prevAddress').textContent = addr;
+
+      // Social Media Row
+      const socialRow = $('prevSocialRow');
+      if ($('chk_social').checked) {
+        const socials = [];
+        if ($('in_insta').value.trim()) socials.push('📸 ' + $('in_insta').value.trim());
+        if ($('in_fb').value.trim()) socials.push('📘 ' + $('in_fb').value.trim());
+        if ($('in_yt').value.trim()) socials.push('▶️ ' + $('in_yt').value.trim());
+        if ($('in_wa_handle').value.trim()) socials.push('💬 ' + $('in_wa_handle').value.trim());
+        socialRow.innerHTML = socials.map(s => `<span>${s}</span>`).join('');
+        socialRow.style.display = socials.length ? 'flex' : 'none';
+      } else {
+        socialRow.style.display = 'none';
+      }
+
+      // Front QR
+      const showQr = $('chk_qr').checked;
+      const qrData = $('in_qr_data').value;
+      $('frontQrBox').style.display = (showQr && qrData.trim()) ? 'flex' : 'none';
+      if (showQr && qrData.trim()) {
+        renderQR('frontQr', qrData, 58);
+      }
+
+      // Styling, Font, Alignment, Tint, Padding
+      const fontClass = $('in_font').value;
+      const align = $('in_align').value;
+      const tint = $('in_tint').value;
+      const padX = $('in_pad_x').value;
+      const padY = $('in_pad_y').value;
+      $('tintVal').textContent = tint;
+      $('padXVal').textContent = padX;
+      $('padYVal').textContent = padY;
+
+      const frontCard = $('frontCard');
+      frontCard.className = `bcard ${fontClass}`;
+      frontCard.style.color = state.textColor;
+      frontCard.style.padding = `${padY}px ${padX}px`;
+      frontCard.style.textAlign = align;
+      if (state.frontBgIsImage) {
+        frontCard.style.backgroundImage = `url("${state.frontBg}")`;
+      } else {
+        frontCard.style.backgroundImage = state.frontBg;
+      }
+
+      const tintColor = state.textColor === '#ffffff' ? `rgba(0,0,0,${tint/100})` : `rgba(255,255,255,${tint/100})`;
+      $('frontOverlay').style.background = tintColor;
+
+      // Alignment adjustments for flex containers
+      const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
+      $('frontTopRow').style.justifyContent = align === 'center' ? 'center' : 'space-between';
+      $('frontPersonBlock').style.textAlign = align;
+      document.querySelectorAll('.contact-item').forEach(el => el.style.justifyContent = justifyMap[align]);
+      socialRow.style.justifyContent = justifyMap[align];
+
+      // Back Card Rendering
+      const backEnabled = $('chk_back').checked;
+      $('backCardWrapper').style.display = backEnabled ? 'block' : 'none';
+      $('btnDownBack').style.display = backEnabled ? 'inline-flex' : 'none';
+
+      const backCard = $('backCard');
+      backCard.className = `bcard ${fontClass}`;
+      backCard.style.padding = `${padY}px ${padX}px`;
+      if (state.backBgIsImage) {
+        backCard.style.backgroundImage = `url("${state.backBg}")`;
+        backCard.style.color = state.textColor;
+        $('backOverlay').style.background = tintColor;
+      } else {
+        backCard.style.backgroundImage = state.backBg;
+        backCard.style.color = state.backBg.includes('#0f172a') ? '#ffffff' : state.textColor;
+        $('backOverlay').style.background = 'transparent';
+      }
+
+      const backMode = $('in_back_mode').value;
+      const backContent = $('backContent');
+      if (backMode === 'brand') {
+        backContent.innerHTML = `
+          ${state.logoDataUrl ? `<img src="${state.logoDataUrl}" class="back-logo" alt="Logo">` : ''}
+          <div class="back-company">${company}</div>
+          <div class="back-tagline">${tagline}</div>
+          ${web ? `<div style="font-size:11px;font-weight:600;margin-top:4px;opacity:0.9;">🌐 ${web}</div>` : ''}
+        `;
+      } else if (backMode === 'services') {
+        const items = $('in_services').value.split(',').map(s => s.trim()).filter(Boolean);
+        backContent.innerHTML = `
+          <div class="back-company" style="font-size:18px;">${company}</div>
+          <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:1px;opacity:0.8;">Our Core Services</div>
+          <div class="back-services">
+            ${items.map(item => `<div>✓ ${item}</div>`).join('')}
+          </div>
+          ${p1 ? `<div style="font-size:11px;font-weight:700;margin-top:8px;">📞 ${p1} ${web ? ' • ' + web : ''}</div>` : ''}
+        `;
+      } else if (backMode === 'qr') {
+        backContent.innerHTML = `
+          <div class="back-qr-wrap"><div id="backQr"></div></div>
+          <div style="font-size:12px;font-weight:700;margin-top:4px;">${$('in_back_qr_label').value}</div>
+          <div style="font-size:11px;opacity:0.88;">${company} ${web ? '• ' + web : ''}</div>
+        `;
+        if (qrData.trim()) {
+          renderQR('backQr', qrData, 95);
+        }
+      }
+    }
+
+    async function downloadCardPNG(elementId, sideLabel) {
+      const el = $(elementId);
+      const canvas = await html2canvas(el, { scale: 3, useCORS: true, backgroundColor: null });
+      const link = document.createElement('a');
+      const safeName = ($('in_company').value.trim() || 'BusinessCard').replace(/[^a-zA-Z0-9-_]/g, '_');
+      link.download = `${safeName}_${sideLabel}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Proven Visible-Overlay + Relative-Staging A4 PDF Export Pattern
+    async function downloadA4PDF() {
+      const btn = document.querySelector('.actions .btn-pdf');
+      const originalButtonText = btn ? btn.textContent : '';
+      const source = $('a4DocSheet');
+      const container = $('slipsContainer');
+
+      if (typeof html2pdf === 'undefined') {
+        alert('PDF library is unavailable. Please check your internet connection and try again.');
+        return;
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = '⏳ Generating A4 PDF...';
+      }
+
+      try {
+        // Capture high-res snapshots of Front (and Back if enabled) to tile 10 cards on A4
+        const frontCanvas = await html2canvas($('frontCard'), { scale: 3, useCORS: true });
+        const frontImg = frontCanvas.toDataURL('image/png');
+        const backEnabled = $('chk_back').checked;
+        let backImg = '';
+        if (backEnabled) {
+          const backCanvas = await html2canvas($('backCard'), { scale: 3, useCORS: true });
+          backImg = backCanvas.toDataURL('image/png');
+        }
+
+        let slotsHtml = '';
+        for (let i = 0; i < 10; i++) {
+          const imgSrc = (backEnabled && i >= 5) ? backImg : frontImg;
+          slotsHtml += `<div class="a4-card-slot"><img src="${imgSrc}" alt="Card ${i+1}"></div>`;
+        }
+        container.innerHTML = slotsHtml;
+
+        const PDF_WIDTH = 680;
+        const clone = source.cloneNode(true);
+        clone.removeAttribute('id');
+        clone.dir = document.documentElement.dir || 'ltr';
+        const copiedContainer = clone.querySelector('#slipsContainer');
+        if (copiedContainer) copiedContainer.removeAttribute('id');
+
+        clone.style.cssText = [
+          `width:${PDF_WIDTH}px`,
+          `max-width:${PDF_WIDTH}px`,
+          `min-width:${PDF_WIDTH}px`,
+          'margin:0',
+          'padding:18px 20px',
+          'background:#ffffff',
+          'color:#0f172a',
+          'border:1px solid #cbd5e1',
+          'box-shadow:none',
+          'box-sizing:border-box',
+          'overflow:visible'
+        ].join(';');
+
+        const exportStyle = document.createElement('style');
+        exportStyle.textContent = `
+          .pdf-export-sheet, .pdf-export-sheet * { box-sizing:border-box !important; }
+          .pdf-export-sheet .a4-grid { display:grid !important; grid-template-columns:repeat(2, 1fr) !important; gap:10px !important; width:100% !important; }
+          .pdf-export-sheet .a4-card-slot { border:1px dashed #94a3b8 !important; padding:2px !important; break-inside:avoid !important; page-break-inside:avoid !important; }
+          .pdf-export-sheet .a4-card-slot img { width:100% !important; height:auto !important; display:block !important; }
+        `;
+        clone.classList.add('pdf-export-sheet');
+
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#ffffff;z-index:999999;overflow:auto;margin:0;padding:0;';
+
+        const staging = document.createElement('div');
+        staging.style.cssText = `position:relative;top:0;left:0;width:${PDF_WIDTH}px;min-width:${PDF_WIDTH}px;margin:0;padding:0;background:#ffffff;color:#0f172a;`;
+        staging.appendChild(clone);
+        overlay.appendChild(staging);
+        document.head.appendChild(exportStyle);
+        document.body.appendChild(overlay);
+
+        const safeCompany = ($('in_company').value.trim() || 'BusinessCard').replace(/[^a-zA-Z0-9-_]/g, '_');
+        const filename = `BusinessCards_A4_${safeCompany}.pdf`;
+
+        await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 150)));
+
+        await html2pdf().set({
+          margin: [10, 12, 12, 12],
+          filename,
+          image: { type: 'png', quality: 1.0 },
+          html2canvas: {
+            scale: 3,
+            useCORS: true,
+            letterRendering: true,
+            scrollX: 0,
+            scrollY: 0,
+            x: 0,
+            y: 0,
+            width: PDF_WIDTH,
+            windowWidth: PDF_WIDTH,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true }
+        }).from(staging).save();
+
+        overlay.remove();
+        exportStyle.remove();
+      } catch (error) {
+        console.error('Business Card A4 PDF export failed:', error);
+        alert('PDF generate नहीं हो पाया। कृपया दोबारा प्रयास करें।');
+        document.querySelectorAll('div[style*="z-index:999999"]').forEach(el => el.remove());
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = originalButtonText || '📄 Download A4 Print PDF (10 Cards)';
+        }
+      }
+    }
+
+    function saveProfile() {
+      const fields = ['in_name','in_role','in_company','in_tagline','in_phone1','in_phone2','in_email','in_web','in_address','in_gst','in_insta','in_fb','in_yt','in_wa_handle','in_qr_data','in_services','in_back_qr_label'];
+      const data = { state };
+      fields.forEach(id => data[id] = $(id).value);
+      data.chk_gst = $('chk_gst').checked;
+      data.chk_social = $('chk_social').checked;
+      data.chk_qr = $('chk_qr').checked;
+      data.chk_back = $('chk_back').checked;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      alert('Business card profile saved in browser!');
+    }
+
+    function loadProfile() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        if (data.state) state = { ...state, ...data.state };
+        Object.keys(data).forEach(k => {
+          if ($(k) && typeof data[k] === 'string') $(k).value = data[k];
+          if ($(k) && typeof data[k] === 'boolean') $(k).checked = data[k];
+        });
+      } catch (e) {}
+    }
+
+    function resetProfile() {
+      if (!confirm('Reset saved business card profile?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProfile();
+      loadGitHubTemplates();
+      updateCard();
+    });
+  </script>
+</body>
+</html>
