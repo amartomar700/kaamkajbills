@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Business Card Maker (Front & Back + 250 Templates) — KaamKaj Bills</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <title>Business Card Maker (250+ Clean Editable Styles) — KaamKaj Bills</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -21,7 +21,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
 
-    /* Navbar */
+    /* Top Navbar */
     .topbar {
       background: #0f172a; color: #fff; padding: 12px 20px;
       display: flex; justify-content: space-between; align-items: center;
@@ -29,12 +29,12 @@
     }
     .topbar a { color: #93c5fd; text-decoration: none; font-weight: 600; font-size: 14px; }
     .topbar h1 { font-size: 16px; font-weight: 700; }
-    .badge { background: #16a34a; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+    .badge { background: #16a34a; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
 
     /* Main Grid */
     .container {
-      max-width: 1340px; margin: 20px auto; padding: 0 16px;
-      display: grid; grid-template-columns: 440px 1fr; gap: 22px; align-items: start;
+      max-width: 1360px; margin: 20px auto; padding: 0 16px;
+      display: grid; grid-template-columns: 450px 1fr; gap: 22px; align-items: start;
     }
     @media (max-width: 980px) { .container { grid-template-columns: 1fr; } }
 
@@ -54,8 +54,9 @@
     .tab-content.active { display: block; }
 
     /* Form Controls */
-    .section-title { font-size: 12px; font-weight: 700; color: var(--primary); margin: 12px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 4px; }
+    .section-title { font-size: 11.5px; font-weight: 800; color: var(--primary); margin: 12px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 4px; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
     .field { margin-bottom: 10px; }
     .field label { display: block; font-size: 11.5px; font-weight: 600; color: #334155; margin-bottom: 4px; }
     .field input, .field select, .field textarea {
@@ -69,32 +70,40 @@
       font-size: 12.5px; font-weight: 600;
     }
 
-    /* Template Gallery */
-    .tpl-toolbar { display: flex; gap: 8px; margin-bottom: 10px; }
-    .tpl-toolbar input { flex: 1; padding: 7px 10px; border: 1px solid var(--border); border-radius: 7px; font-size: 12.5px; }
+    /* Clean Vector Template Gallery */
+    .cat-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+    .cat-chip {
+      padding: 4px 9px; border-radius: 99px; border: 1px solid #cbd5e1; background: #f8fafc;
+      font-size: 11px; font-weight: 700; cursor: pointer; color: #334155;
+    }
+    .cat-chip.active { background: #1e3a8a; color: #fff; border-color: #1e3a8a; }
     .tpl-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-      max-height: 280px; overflow-y: auto; padding: 4px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
+      max-height: 270px; overflow-y: auto; padding: 6px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;
     }
     .tpl-item {
       aspect-ratio: 1.75 / 1; border-radius: 6px; overflow: hidden; cursor: pointer;
-      border: 2px solid transparent; position: relative; background: #e2e8f0; transition: 0.15s;
+      border: 2px solid #cbd5e1; position: relative; background: #fff; transition: 0.15s;
     }
-    .tpl-item:hover { transform: scale(1.03); }
-    .tpl-item.selected { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.3); }
-    .tpl-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tpl-item:hover { transform: scale(1.03); border-color: #2563eb; }
+    .tpl-item.selected { border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.35); }
+    .tpl-item svg { width: 100%; height: 100%; display: block; }
     .tpl-item span {
-      position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.62);
-      color: #fff; font-size: 9px; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      position: absolute; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,0.76);
+      color: #fff; font-size: 9px; font-weight: 600; padding: 2px 4px; text-align: center;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* Swatches */
-    .swatches { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
-    .swatch {
-      width: 26px; height: 26px; border-radius: 50%; border: 2px solid #cbd5e1; cursor: pointer;
+    /* Color Theme Presets */
+    .theme-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px;
+      border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; font-size: 10.5px; font-weight: 700; cursor: pointer;
     }
+    .theme-pill:hover { border-color: #2563eb; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,0.2); }
 
-    /* Preview Area */
+    /* Preview Panel */
     .preview-panel { position: sticky; top: 68px; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
     .btn {
@@ -115,13 +124,13 @@
     .card-wrapper-label { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; text-align: center; }
     .bcard {
       width: 525px; height: 300px; border-radius: 10px; position: relative; overflow: hidden;
-      background-color: #ffffff; background-size: cover; background-position: center;
+      background-color: #ffffff;
       box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18); padding: 22px 26px;
       display: flex; flex-direction: column; justify-content: space-between;
       color: #0f172a; transition: all 0.2s ease;
     }
-    .bcard-overlay {
-      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    .bcard-svg-bg {
+      position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;
     }
     .bcard-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
 
@@ -131,11 +140,11 @@
     .card-logo { height: 42px; width: auto; max-width: 110px; object-fit: contain; border-radius: 4px; }
     .company-name { font-size: 17px; font-weight: 800; letter-spacing: 0.3px; line-height: 1.15; }
     .company-tagline { font-size: 10.5px; opacity: 0.85; margin-top: 2px; }
-    .gst-tag { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: rgba(128,128,128,0.16); }
+    .gst-tag { font-size: 9.5px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: rgba(128,128,128,0.18); }
 
     .person-block { margin: 6px 0; }
     .person-name { font-size: 21px; font-weight: 800; line-height: 1.15; }
-    .person-role { font-size: 12px; font-weight: 600; opacity: 0.9; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .person-role { font-size: 11.5px; font-weight: 700; opacity: 0.9; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.6px; }
 
     .front-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; }
     .contact-list { font-size: 11px; line-height: 1.55; flex: 1; }
@@ -183,21 +192,86 @@
   <header class="topbar">
     <a href="index.html">← All Tools</a>
     <h1>🪪 Business Card Maker</h1>
-    <span class="badge" id="tplCountBadge">Loading Templates...</span>
+    <span class="badge">250+ Clean Editable Styles</span>
   </header>
 
   <main class="container">
     <!-- Left Editor Panel -->
     <section class="panel">
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('tab-front', this)">1. Front Info</button>
-        <button class="tab-btn" onclick="switchTab('tab-social', this)">2. Social & QR</button>
-        <button class="tab-btn" onclick="switchTab('tab-back', this)">3. Back Side</button>
-        <button class="tab-btn" onclick="switchTab('tab-design', this)">4. Templates</button>
+        <button class="tab-btn active" onclick="switchTab('tab-design', this)">1. Designs</button>
+        <button class="tab-btn" onclick="switchTab('tab-front', this)">2. Front Info</button>
+        <button class="tab-btn" onclick="switchTab('tab-social', this)">3. Social & QR</button>
+        <button class="tab-btn" onclick="switchTab('tab-back', this)">4. Back Side</button>
       </div>
 
-      <!-- TAB 1: FRONT INFO -->
-      <div id="tab-front" class="tab-content active">
+      <!-- TAB 1: CLEAN VECTOR TEMPLATES + COLOR PALETTES -->
+      <div id="tab-design" class="tab-content active">
+        <div class="section-title">1. Choose Clean Layout Style (Zero Dummy Text)</div>
+        <div class="grid-2" style="margin-bottom:8px;">
+          <div class="field" style="margin:0;">
+            <label>Apply Design To:</label>
+            <select id="tpl_apply_mode">
+              <option value="both">Both Front & Back</option>
+              <option value="front">Front Side Only</option>
+              <option value="back">Back Side Only</option>
+            </select>
+          </div>
+          <div class="field" style="margin:0;">
+            <label>Font Style:</label>
+            <select id="in_font" onchange="updateCard()">
+              <option value="font-inter">Modern Sans (Inter)</option>
+              <option value="font-poppins">Clean Geometric (Poppins)</option>
+              <option value="font-playfair">Classic Serif (Playfair)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="cat-chips" id="catChips">
+          <button class="cat-chip active" onclick="setTplCat('ALL', this)">All (25)</button>
+          <button class="cat-chip" onclick="setTplCat('CORPORATE', this)">Corporate</button>
+          <button class="cat-chip" onclick="setTplCat('GEOMETRIC', this)">Geometric</button>
+          <button class="cat-chip" onclick="setTplCat('WAVES', this)">Curves & Waves</button>
+          <button class="cat-chip" onclick="setTplCat('MINIMAL', this)">Minimal & Frame</button>
+        </div>
+        <div class="tpl-grid" id="tplGrid"></div>
+
+        <div class="section-title">2. Color Theme Combinations (25 × 10 = 250+ Styles)</div>
+        <div class="theme-pills" id="paletteList"></div>
+
+        <div class="grid-3">
+          <div class="field">
+            <label>Primary Color</label>
+            <input type="color" id="col_primary" value="#1e3a8a" oninput="onCustomColorChange()" style="height:34px;padding:2px;">
+          </div>
+          <div class="field">
+            <label>Accent Color</label>
+            <input type="color" id="col_accent" value="#f59e0b" oninput="onCustomColorChange()" style="height:34px;padding:2px;">
+          </div>
+          <div class="field">
+            <label>Card Base</label>
+            <input type="color" id="col_bg" value="#ffffff" oninput="onCustomColorChange()" style="height:34px;padding:2px;">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label>Text Color</label>
+            <input type="color" id="col_text" value="#0f172a" oninput="onCustomColorChange()" style="height:34px;padding:2px;">
+          </div>
+          <div class="field">
+            <label>Text Alignment</label>
+            <select id="in_align" onchange="updateCard()">
+              <option value="left">Left Aligned</option>
+              <option value="center">Center Aligned</option>
+              <option value="right">Right Aligned</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: FRONT INFO -->
+      <div id="tab-front" class="tab-content">
         <div class="section-title">Personal Details</div>
         <div class="grid-2">
           <div class="field">
@@ -272,7 +346,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: SOCIAL MEDIA & QR -->
+      <!-- TAB 3: SOCIAL MEDIA & QR -->
       <div id="tab-social" class="tab-content">
         <div class="section-title">Social Media Handles</div>
         <div class="toggle-row">
@@ -311,7 +385,7 @@
         </div>
       </div>
 
-      <!-- TAB 3: BACK SIDE DESIGN -->
+      <!-- TAB 4: BACK SIDE DESIGN -->
       <div id="tab-back" class="tab-content">
         <div class="toggle-row">
           <span>Enable Back Side Card</span>
@@ -336,85 +410,6 @@
           <label>Back QR Caption (for Mode 3)</label>
           <input type="text" id="in_back_qr_label" value="Scan to Visit Website & Save Contact" oninput="updateCard()">
         </div>
-
-        <div class="field">
-          <label>Back Background Target</label>
-          <select id="in_tpl_target">
-            <option value="front">Apply Selected Template to Front</option>
-            <option value="back">Apply Selected Template to Back</option>
-            <option value="both">Apply Selected Template to Both Sides</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- TAB 4: 250+ TEMPLATES & ALIGNMENT -->
-      <div id="tab-design" class="tab-content">
-        <div class="section-title">Select Template (GitHub Gallery + Presets)</div>
-        <div class="field">
-          <label>Apply Template To:</label>
-          <select id="tpl_apply_mode">
-            <option value="both">Both Front & Back</option>
-            <option value="front">Front Side Only</option>
-            <option value="back">Back Side Only</option>
-          </select>
-        </div>
-        <div class="tpl-toolbar">
-          <input type="text" id="tplSearch" placeholder="Search template name (e.g., bc, card)..." oninput="filterTemplates()">
-        </div>
-        <div class="tpl-grid" id="tplGrid"></div>
-
-        <div class="field" style="margin-top:10px;">
-          <label>Or Upload Custom Background Image</label>
-          <input type="file" accept="image/*" onchange="handleCustomBg(event)">
-        </div>
-
-        <div class="section-title">Text Color, Font & Alignment</div>
-        <div class="grid-2">
-          <div class="field">
-            <label>Text Color Presets</label>
-            <div class="swatches">
-              <div class="swatch" style="background:#0f172a;" onclick="setTextColor('#0f172a')" title="Dark Navy"></div>
-              <div class="swatch" style="background:#ffffff;" onclick="setTextColor('#ffffff')" title="Pure White"></div>
-              <div class="swatch" style="background:#facc15;" onclick="setTextColor('#facc15')" title="Gold"></div>
-              <div class="swatch" style="background:#1e40af;" onclick="setTextColor('#1e40af')" title="Royal Blue"></div>
-              <input type="color" id="in_text_color" value="#0f172a" onchange="setTextColor(this.value)" style="width:32px;height:28px;padding:0;border:none;">
-            </div>
-          </div>
-          <div class="field">
-            <label>Font Style</label>
-            <select id="in_font" onchange="updateCard()">
-              <option value="font-inter">Modern Sans (Inter)</option>
-              <option value="font-poppins">Clean Geometric (Poppins)</option>
-              <option value="font-playfair">Classic Serif (Playfair)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label>Text Alignment</label>
-            <select id="in_align" onchange="updateCard()">
-              <option value="left">Left Aligned</option>
-              <option value="center">Center Aligned</option>
-              <option value="right">Right Aligned</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Background Tint Overlay (<span id="tintVal">0</span>%)</label>
-            <input type="range" id="in_tint" min="0" max="75" value="0" oninput="updateCard()">
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="field">
-            <label>Left/Right Padding (<span id="padXVal">26</span>px)</label>
-            <input type="range" id="in_pad_x" min="14" max="70" value="26" oninput="updateCard()">
-          </div>
-          <div class="field">
-            <label>Top/Bottom Padding (<span id="padYVal">22</span>px)</label>
-            <input type="range" id="in_pad_y" min="12" max="55" value="22" oninput="updateCard()">
-          </div>
-        </div>
       </div>
 
       <div style="margin-top:14px; display:flex; gap:8px;">
@@ -436,8 +431,8 @@
         <div>
           <div class="card-wrapper-label">Front Side Preview (3.5" × 2")</div>
           <div id="frontCard" class="bcard font-inter">
-            <div class="bcard-overlay" id="frontOverlay"></div>
-            <div class="bcard-inner" id="frontInner">
+            <div class="bcard-svg-bg" id="frontSvgBg"></div>
+            <div class="bcard-inner">
               <div class="front-top" id="frontTopRow">
                 <div class="brand-block">
                   <img id="prevLogo" class="card-logo" style="display:none;" alt="Logo">
@@ -473,8 +468,8 @@
         <!-- BACK CARD -->
         <div id="backCardWrapper">
           <div class="card-wrapper-label">Back Side Preview (3.5" × 2")</div>
-          <div id="backCard" class="bcard font-inter" style="background: linear-gradient(135deg, #0f172a, #1e3a8a); color: #ffffff;">
-            <div class="bcard-overlay" id="backOverlay"></div>
+          <div id="backCard" class="bcard font-inter">
+            <div class="bcard-svg-bg" id="backSvgBg"></div>
             <div class="bcard-inner">
               <div class="back-center" id="backContent"></div>
             </div>
@@ -491,27 +486,60 @@
 
   <script>
     const $ = (id) => document.getElementById(id);
-    const STORAGE_KEY = 'kaamkaj_bcard_profile_v1';
+    const STORAGE_KEY = 'kaamkaj_bcard_clean_v2';
+
+    const COLOR_PALETTES = [
+      { name: 'Royal Navy & Gold', p: '#1e3a8a', a: '#f59e0b', bg: '#ffffff', t: '#0f172a' },
+      { name: 'Midnight Dark Gold', p: '#f59e0b', a: '#38bdf8', bg: '#0f172a', t: '#ffffff' },
+      { name: 'Emerald & Mint', p: '#065f46', a: '#10b981', bg: '#ffffff', t: '#064e3b' },
+      { name: 'Crimson & Charcoal', p: '#b91c1c', a: '#1e293b', bg: '#ffffff', t: '#0f172a' },
+      { name: 'Obsidian & Rose Gold', p: '#e11d48', a: '#fb7185', bg: '#18181b', t: '#ffffff' },
+      { name: 'Teal & Amber', p: '#0f766e', a: '#f59e0b', bg: '#f8fafc', t: '#0f172a' },
+      { name: 'Indigo & Violet', p: '#4338ca', a: '#8b5cf6', bg: '#ffffff', t: '#1e1b4b' },
+      { name: 'Warm Cream & Bronze', p: '#92400e', a: '#d97706', bg: '#fffbeb', t: '#451a03' },
+      { name: 'Slate & Electric Blue', p: '#0284c7', a: '#38bdf8', bg: '#0f172a', t: '#f8fafc' },
+      { name: 'Saffron & Deep Blue', p: '#ea580c', a: '#1d4ed8', bg: '#ffffff', t: '#0f172a' }
+    ];
+
+    // 25 Clean Text-Free SVG Geometric/Corporate Card Layouts (Inspired by Modern Visiting Card Templates)
+    const VECTOR_LAYOUTS = [
+      { id: 'diag-right', name: 'Diagonal Right', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="365,0 525,0 525,300 285,300" fill="${p}"/><polygon points="345,0 368,0 288,300 265,300" fill="${a}"/></svg>` },
+      { id: 'diag-left', name: 'Diagonal Ribbon', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="0,0 140,0 60,300 0,300" fill="${p}"/><polygon points="140,0 156,0 76,300 60,300" fill="${a}"/></svg>` },
+      { id: 'top-wave', name: 'Smooth Top Wave', cat: 'WAVES', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><path d="M0,0 L525,0 L525,78 Q380,125 240,85 T0,98 Z" fill="${p}" opacity="0.14"/><path d="M0,0 L525,0 L525,14 Q260,34 0,14 Z" fill="${a}"/></svg>` },
+      { id: 'bottom-wave', name: 'Bottom Flow Wave', cat: 'WAVES', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><path d="M0,220 Q160,175 330,225 T525,205 L525,300 L0,300 Z" fill="${p}" opacity="0.13"/><path d="M0,286 Q262,268 525,286 L525,300 L0,300 Z" fill="${a}"/></svg>` },
+      { id: 'corner-chev', name: 'Corner Chevron', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="410,0 525,0 525,115" fill="${p}"/><polygon points="385,0 410,0 525,115 525,140" fill="${a}"/><polygon points="0,235 0,300 65,300" fill="${p}"/></svg>` },
+      { id: 'left-bar', name: 'Executive Left Bar', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><rect x="0" y="0" width="16" height="300" fill="${p}"/><rect x="16" y="0" width="5" height="300" fill="${a}"/></svg>` },
+      { id: 'right-panel', name: 'Split Accent Panel', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><rect x="385" y="0" width="140" height="300" fill="${p}" opacity="0.12"/><rect x="381" y="0" width="4" height="300" fill="${a}"/></svg>` },
+      { id: 'gold-frame', name: 'Luxury Inner Frame', cat: 'MINIMAL', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><rect x="10" y="10" width="505" height="280" rx="6" fill="none" stroke="${a}" stroke-width="2"/><rect x="15" y="15" width="495" height="270" rx="4" fill="none" stroke="${p}" stroke-width="0.8" opacity="0.5"/></svg>` },
+      { id: 'top-bottom-stripe', name: 'Dual Header Footer', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><rect x="0" y="0" width="525" height="10" fill="${p}"/><rect x="0" y="290" width="525" height="10" fill="${a}"/></svg>` },
+      { id: 'hex-corner', name: 'Tech Polygon Corner', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="445,0 525,0 525,150 475,180 415,90" fill="${p}" opacity="0.18"/><polygon points="475,0 525,0 525,95" fill="${a}"/></svg>` },
+      { id: 'circle-orb', name: 'Modern Circle Glow', cat: 'WAVES', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><circle cx="485" cy="40" r="115" fill="${p}" opacity="0.14"/><circle cx="495" cy="265" r="85" fill="${a}" opacity="0.22"/></svg>` },
+      { id: 'slash-duo', name: 'Dynamic Twin Slash', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="430,0 465,0 395,300 360,300" fill="${p}" opacity="0.18"/><polygon points="475,0 495,0 425,300 405,300" fill="${a}"/></svg>` },
+      { id: 'arc-right', name: 'Curved Right Arc', cat: 'WAVES', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><path d="M415,0 C355,95 355,205 415,300 L525,300 L525,0 Z" fill="${p}" opacity="0.14"/><path d="M425,0 C365,95 365,205 425,300 L433,300 C373,205 373,95 433,0 Z" fill="${a}"/></svg>` },
+      { id: 'minimal-clean', name: 'Pure Minimalist', cat: 'MINIMAL', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><rect x="26" y="138" width="54" height="3.5" rx="2" fill="${a}"/></svg>` },
+      { id: 'corner-brackets', name: 'Architect Brackets', cat: 'MINIMAL', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><path d="M14,48 L14,14 L48,14 M477,14 L511,14 L511,48 M511,252 L511,286 L477,286 M48,286 L14,286 L14,252" fill="none" stroke="${a}" stroke-width="3"/></svg>` },
+      { id: 'pyramid-bottom', name: 'V-Peak Accent', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="0,300 262,258 525,300" fill="${p}"/><polygon points="0,300 262,250 525,300 525,292 262,242 0,292" fill="${a}"/></svg>` },
+      { id: 'step-blocks', name: 'Corporate Step Blocks', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><rect x="0" y="0" width="175" height="7" fill="${p}"/><rect x="175" y="0" width="175" height="7" fill="${a}"/><rect x="350" y="0" width="175" height="7" fill="${p}" opacity="0.5"/></svg>` },
+      { id: 'grid-dots', name: 'Tech Dot Matrix', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><defs><pattern id="dots" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.5" fill="${p}" opacity="0.22"/></pattern></defs><rect x="370" y="15" width="140" height="120" fill="url(#dots)"/><rect x="0" y="292" width="525" height="8" fill="${a}"/></svg>` },
+      { id: 'ribbon-fold', name: 'Folded Ribbon Top', cat: 'WAVES', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="0,0 320,0 280,36 0,36" fill="${p}" opacity="0.16"/><polygon points="0,0 240,0 220,14 0,14" fill="${a}"/></svg>` },
+      { id: 'diamond-accent', name: 'Diamond Edge', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="525,75 450,150 525,225" fill="${p}" opacity="0.18"/><polygon points="525,105 480,150 525,195" fill="${a}"/></svg>` },
+      { id: 'soft-wave-left', name: 'Vertical Side Wave', cat: 'WAVES', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><path d="M0,0 L42,0 C75,90 15,210 48,300 L0,300 Z" fill="${p}"/><path d="M42,0 L49,0 C82,90 22,210 55,300 L48,300 C15,210 75,90 42,0 Z" fill="${a}"/></svg>` },
+      { id: 'dual-corner', name: 'Twin Corner Triangles', cat: 'GEOMETRIC', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><polygon points="0,0 95,0 0,95" fill="${p}"/><polygon points="525,300 430,300 525,205" fill="${a}"/></svg>` },
+      { id: 'card-notch', name: 'Modern Badge Notch', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><path d="M180,0 L345,0 L325,16 L200,16 Z" fill="${a}"/><rect x="0" y="294" width="525" height="6" fill="${p}"/></svg>` },
+      { id: 'horizon-line', name: 'Horizon Split Line', cat: 'MINIMAL', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><rect width="525" height="300" fill="${bg}"/><line x1="26" y1="196" x2="499" y2="196" stroke="${p}" stroke-width="1.5" opacity="0.35"/><line x1="26" y1="196" x2="120" y2="196" stroke="${a}" stroke-width="3.5"/></svg>` },
+      { id: 'full-gradient', name: 'Executive Gradient', cat: 'CORPORATE', svg: (p,a,bg) => `<svg viewBox="0 0 525 300" preserveAspectRatio="none"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${bg}"/><stop offset="100%" stop-color="${p}" stop-opacity="0.22"/></linearGradient></defs><rect width="525" height="300" fill="url(#g1)"/><rect x="0" y="292" width="525" height="8" fill="${a}"/></svg>` }
+    ];
 
     let state = {
-      frontBg: 'linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)',
-      frontBgIsImage: false,
-      backBg: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)',
-      backBgIsImage: false,
+      frontLayoutId: 'diag-right',
+      backLayoutId: 'gold-frame',
+      primary: '#1e3a8a',
+      accent: '#f59e0b',
+      bg: '#ffffff',
       textColor: '#0f172a',
       logoDataUrl: ''
     };
-
-    const BUILTIN_TEMPLATES = [
-      { name: 'Clean White', type: 'css', value: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)', text: '#0f172a' },
-      { name: 'Royal Navy', type: 'css', value: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)', text: '#ffffff' },
-      { name: 'Corporate Gold', type: 'css', value: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)', text: '#facc15' },
-      { name: 'Emerald Pro', type: 'css', value: 'linear-gradient(135deg, #064e3b 0%, #047857 100%)', text: '#ffffff' },
-      { name: 'Warm Cream', type: 'css', value: 'linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)', text: '#1e293b' },
-      { name: 'Crimson Bold', type: 'css', value: 'linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%)', text: '#ffffff' }
-    ];
-
-    let allTemplates = [...BUILTIN_TEMPLATES];
+    let activeCat = 'ALL';
 
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -520,75 +548,63 @@
       btn.classList.add('active');
     }
 
-    async function loadGitHubTemplates() {
-      try {
-        const res = await fetch('https://api.github.com/repos/amartomar700/kaamkajbills/contents/card-templates');
-        if (!res.ok) throw new Error('Repo fetch failed');
-        const files = await res.json();
-        const imgFiles = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
-        imgFiles.forEach(f => {
-          allTemplates.push({
-            name: f.name.replace(/\.[^/.]+$/, ''),
-            type: 'img',
-            value: f.download_url,
-            text: '#0f172a'
-          });
-        });
-        $('tplCountBadge').textContent = `${allTemplates.length} Templates Ready`;
-      } catch (e) {
-        $('tplCountBadge').textContent = `${allTemplates.length} Built-in Templates`;
-      }
-      renderTemplates(allTemplates);
+    function setTplCat(cat, btn) {
+      activeCat = cat;
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderTemplateGallery();
     }
 
-    function renderTemplates(list) {
-      const grid = $('tplGrid');
-      grid.innerHTML = '';
-      list.forEach(tpl => {
-        const div = document.createElement('div');
-        div.className = 'tpl-item';
-        if (tpl.type === 'img') {
-          div.innerHTML = `<img src="${tpl.value}" loading="lazy" alt="${tpl.name}"><span>${tpl.name}</span>`;
-        } else {
-          div.style.background = tpl.value;
-          div.innerHTML = `<span>${tpl.name}</span>`;
-        }
-        div.onclick = () => applyTemplate(tpl);
-        grid.appendChild(div);
+    function renderPalettes() {
+      const box = $('paletteList');
+      box.innerHTML = '';
+      COLOR_PALETTES.forEach(pal => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'theme-pill';
+        btn.innerHTML = `<span class="dot" style="background:${pal.bg}"></span><span class="dot" style="background:${pal.p}"></span><span class="dot" style="background:${pal.a}"></span>${pal.name}`;
+        btn.onclick = () => {
+          state.primary = pal.p;
+          state.accent = pal.a;
+          state.bg = pal.bg;
+          state.textColor = pal.t;
+          $('col_primary').value = pal.p;
+          $('col_accent').value = pal.a;
+          $('col_bg').value = pal.bg;
+          $('col_text').value = pal.t;
+          renderTemplateGallery();
+          updateCard();
+        };
+        box.appendChild(btn);
       });
     }
 
-    function filterTemplates() {
-      const q = $('tplSearch').value.toLowerCase().trim();
-      const filtered = allTemplates.filter(t => t.name.toLowerCase().includes(q));
-      renderTemplates(filtered);
-    }
-
-    function applyTemplate(tpl) {
-      const mode = $('tpl_apply_mode').value;
-      if (mode === 'front' || mode === 'both') {
-        state.frontBg = tpl.value;
-        state.frontBgIsImage = tpl.type === 'img';
-      }
-      if (mode === 'back' || mode === 'both') {
-        state.backBg = tpl.value;
-        state.backBgIsImage = tpl.type === 'img';
-      }
-      if (tpl.type === 'css') {
-        state.textColor = tpl.text;
-        $('in_text_color').value = tpl.text;
-      }
+    function onCustomColorChange() {
+      state.primary = $('col_primary').value;
+      state.accent = $('col_accent').value;
+      state.bg = $('col_bg').value;
+      state.textColor = $('col_text').value;
+      renderTemplateGallery();
       updateCard();
     }
 
-    function handleCustomBg(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        applyTemplate({ name: 'Custom', type: 'img', value: ev.target.result });
-      };
-      reader.readAsDataURL(file);
+    function renderTemplateGallery() {
+      const grid = $('tplGrid');
+      grid.innerHTML = '';
+      const filtered = VECTOR_LAYOUTS.filter(l => activeCat === 'ALL' || l.cat === activeCat);
+      filtered.forEach(layout => {
+        const div = document.createElement('div');
+        div.className = 'tpl-item' + (state.frontLayoutId === layout.id ? ' selected' : '');
+        div.innerHTML = `${layout.svg(state.primary, state.accent, state.bg)}<span>${layout.name}</span>`;
+        div.onclick = () => {
+          const mode = $('tpl_apply_mode').value;
+          if (mode === 'front' || mode === 'both') state.frontLayoutId = layout.id;
+          if (mode === 'back' || mode === 'both') state.backLayoutId = layout.id;
+          renderTemplateGallery();
+          updateCard();
+        };
+        grid.appendChild(div);
+      });
     }
 
     function handleLogoUpload(e) {
@@ -600,12 +616,6 @@
         updateCard();
       };
       reader.readAsDataURL(file);
-    }
-
-    function setTextColor(hex) {
-      state.textColor = hex;
-      $('in_text_color').value = hex;
-      updateCard();
     }
 
     function renderQR(containerId, text, size) {
@@ -638,9 +648,16 @@
       const gst = $('in_gst').value.trim();
       const showGst = $('chk_gst').checked;
 
+      // Apply Vector SVG Backgrounds (100% Clean, Zero Dummy Text)
+      const fLayout = VECTOR_LAYOUTS.find(l => l.id === state.frontLayoutId) || VECTOR_LAYOUTS[0];
+      const bLayout = VECTOR_LAYOUTS.find(l => l.id === state.backLayoutId) || VECTOR_LAYOUTS[7];
+      $('frontSvgBg').innerHTML = fLayout.svg(state.primary, state.accent, state.bg);
+      $('backSvgBg').innerHTML = bLayout.svg(state.primary, state.accent, state.bg);
+
       // Front text updates
       $('prevName').textContent = name;
       $('prevRole').textContent = role;
+      $('prevRole').style.color = state.accent;
       $('prevCompany').textContent = company;
       $('prevTagline').textContent = tagline;
 
@@ -692,31 +709,14 @@
         renderQR('frontQr', qrData, 58);
       }
 
-      // Styling, Font, Alignment, Tint, Padding
+      // Font & Alignment
       const fontClass = $('in_font').value;
       const align = $('in_align').value;
-      const tint = $('in_tint').value;
-      const padX = $('in_pad_x').value;
-      const padY = $('in_pad_y').value;
-      $('tintVal').textContent = tint;
-      $('padXVal').textContent = padX;
-      $('padYVal').textContent = padY;
-
       const frontCard = $('frontCard');
       frontCard.className = `bcard ${fontClass}`;
       frontCard.style.color = state.textColor;
-      frontCard.style.padding = `${padY}px ${padX}px`;
       frontCard.style.textAlign = align;
-      if (state.frontBgIsImage) {
-        frontCard.style.backgroundImage = `url("${state.frontBg}")`;
-      } else {
-        frontCard.style.backgroundImage = state.frontBg;
-      }
 
-      const tintColor = state.textColor === '#ffffff' ? `rgba(0,0,0,${tint/100})` : `rgba(255,255,255,${tint/100})`;
-      $('frontOverlay').style.background = tintColor;
-
-      // Alignment adjustments for flex containers
       const justifyMap = { left: 'flex-start', center: 'center', right: 'flex-end' };
       $('frontTopRow').style.justifyContent = align === 'center' ? 'center' : 'space-between';
       $('frontPersonBlock').style.textAlign = align;
@@ -730,16 +730,7 @@
 
       const backCard = $('backCard');
       backCard.className = `bcard ${fontClass}`;
-      backCard.style.padding = `${padY}px ${padX}px`;
-      if (state.backBgIsImage) {
-        backCard.style.backgroundImage = `url("${state.backBg}")`;
-        backCard.style.color = state.textColor;
-        $('backOverlay').style.background = tintColor;
-      } else {
-        backCard.style.backgroundImage = state.backBg;
-        backCard.style.color = state.backBg.includes('#0f172a') ? '#ffffff' : state.textColor;
-        $('backOverlay').style.background = 'transparent';
-      }
+      backCard.style.color = state.textColor;
 
       const backMode = $('in_back_mode').value;
       const backContent = $('backContent');
@@ -747,14 +738,14 @@
         backContent.innerHTML = `
           ${state.logoDataUrl ? `<img src="${state.logoDataUrl}" class="back-logo" alt="Logo">` : ''}
           <div class="back-company">${company}</div>
-          <div class="back-tagline">${tagline}</div>
+          <div class="back-tagline" style="color:${state.accent};font-weight:700;">${tagline}</div>
           ${web ? `<div style="font-size:11px;font-weight:600;margin-top:4px;opacity:0.9;">🌐 ${web}</div>` : ''}
         `;
       } else if (backMode === 'services') {
         const items = $('in_services').value.split(',').map(s => s.trim()).filter(Boolean);
         backContent.innerHTML = `
           <div class="back-company" style="font-size:18px;">${company}</div>
-          <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:1px;opacity:0.8;">Our Core Services</div>
+          <div style="font-size:10.5px;text-transform:uppercase;letter-spacing:1px;color:${state.accent};font-weight:800;">Our Core Services</div>
           <div class="back-services">
             ${items.map(item => `<div>✓ ${item}</div>`).join('')}
           </div>
@@ -800,7 +791,6 @@
       }
 
       try {
-        // Capture high-res snapshots of Front (and Back if enabled) to tile 10 cards on A4
         const frontCanvas = await html2canvas($('frontCard'), { scale: 3, useCORS: true });
         const frontImg = frontCanvas.toDataURL('image/png');
         const backEnabled = $('chk_back').checked;
@@ -912,7 +902,13 @@
       if (!raw) return;
       try {
         const data = JSON.parse(raw);
-        if (data.state) state = { ...state, ...data.state };
+        if (data.state) {
+          state = { ...state, ...data.state };
+          $('col_primary').value = state.primary;
+          $('col_accent').value = state.accent;
+          $('col_bg').value = state.bg;
+          $('col_text').value = state.textColor;
+        }
         Object.keys(data).forEach(k => {
           if ($(k) && typeof data[k] === 'string') $(k).value = data[k];
           if ($(k) && typeof data[k] === 'boolean') $(k).checked = data[k];
@@ -928,7 +924,8 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       loadProfile();
-      loadGitHubTemplates();
+      renderPalettes();
+      renderTemplateGallery();
       updateCard();
     });
   </script>
